@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "593398023204",
+    "firebase_url": "https://cubook-dev.firebaseio.com",
+    "project_id": "cubook-dev",
+    "storage_bucket": "cubook-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593398023204:android:bb49beecb3e445b68b04b1",
+        "android_client_info": {
+          "package_name": "app.kotakota.cubook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593398023204-bvgjmamuapnnfij11cmrqk43hsh1djel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGSD9SDkTRvts_tjBhT1mn6FVGVk3qW4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593398023204-bvgjmamuapnnfij11cmrqk43hsh1djel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
