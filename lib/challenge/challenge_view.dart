@@ -72,7 +72,6 @@ class ChallengeView extends StatelessWidget {
               Hero(
                 tag: 'card_challenge',
                 child: Container(
-                  height: 56,
                   color: Colors.green[900],
                   child: Align(
                     alignment: Alignment.bottomLeft,
@@ -106,7 +105,6 @@ class ChallengeView extends StatelessWidget {
                         return Padding(
                             padding: EdgeInsets.all(5),
                             child: Container(
-                              height: 120,
                               child: Card(
                                   child: InkWell(
                                     onTap: () {

@@ -4,6 +4,7 @@ import 'package:cubook/home/home_view.dart';
 import 'package:cubook/login/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: new HomePage(),
       theme: new ThemeData(
+          fontFamily: 'NotoSansJP',
           brightness: Brightness.light,
           primaryColor: Colors.orange,
           accentColor: Colors.orange),
