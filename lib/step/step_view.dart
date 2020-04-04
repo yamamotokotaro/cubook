@@ -108,11 +108,11 @@ class StepView extends StatelessWidget {
               var list_percentage = new List.generate(list_title.length, (index) => 0.0);
               if (!model.isGet) {
                 model.getSnapshot();
-              } else if(model.userSnapshot != null){
-                final Map map = new Map<String, dynamic>.from(model.userSnapshot['challenge']);
+              } else if(model.userSnapshot['step']!= null){
+                final Map map = new Map<String, dynamic>.from(model.userSnapshot['step']);
                 for(int i=0; i<list_title.length; i++) {
                   if (map.containsKey(i.toString())){
-                    list_percentage[i] = (model.userSnapshot['challenge'][i.toString()] / 3.0);
+                    list_percentage[i] = (model.userSnapshot['step'][i.toString()] / 3.0);
                   }
                 }
                 for (int i = 0; i < list_percentage.length; i++) {
@@ -133,7 +133,7 @@ class StepView extends StatelessWidget {
                             child: InkWell(
                               onTap: () {
                                 Navigator.of(context).push(MyPageRoute(
-                                    page: _ModalPage(), dismissible: true));
+                                    page: _ModalPage(index), dismissible: true));
                               },
                               child: Row(
                                 children: <Widget>[
@@ -243,17 +243,25 @@ class _ModalPage extends StatelessWidget {
   PageController controller =
   PageController(initialPage: 0, viewportFraction: 0.8);
   int currentPage = 0;
+  int numberPushed;
   bool test = false;
   List<Widget> pages = <Widget>[
     StepDetailView(),
-    StepSignView(),
-    StepAddView()
+    /*StepSignView(),*/
+//    StepAddView()
   ];
+
+  _ModalPage (int number){
+    numberPushed = number;
+    for(int i=0; i<3; i++){
+      pages.add(StepAddView(i));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => StepDetailModel(),
+        create: (context) => StepDetailModel(numberPushed, 3),
         child: Container(
             height: MediaQuery
                 .of(context)
