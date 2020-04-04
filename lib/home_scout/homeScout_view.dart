@@ -3,6 +3,7 @@ import 'package:cubook/challenge/challenge_view.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
 import 'package:cubook/step/step_view.dart';
+import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,6 @@ class HomeScoutView extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(right: 5, top: 4),
                 child: Icon(
-                  //ああああ
                   Icons.book,
                   color: Theme.of(context).accentColor,
                   size: 32,
@@ -64,7 +64,7 @@ class HomeScoutView extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return StepHomeView();
+                          return TaskView('usagi');
                         }));
                       },
                       child: Align(
@@ -121,7 +121,7 @@ class HomeScoutView extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return ChallengeView();
+                          return TaskView('challenge');
                         }));
                       },
                       child: Align(

@@ -2,81 +2,44 @@ import 'package:cubook/home/home_model.dart';
 import 'package:cubook/step/step_model.dart';
 import 'package:cubook/step_detail/stepDetail_model.dart';
 import 'package:cubook/step_detail/stepDetail_view.dart';
+import 'package:cubook/task/task.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class StepHomeView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<StepModel>(
-      create: (_) => StepModel(),
-      child: StepView(),
-    );
+class TaskView extends StatelessWidget {
+
+  var task = new Task();
+  Color themeColor;
+  String type;
+  String title = '';
+
+  TaskView(String _type){
+    if(_type == 'usagi'){
+      themeColor = Colors.orange;
+      title = 'ウサギのカブブック';
+    } else if(_type == 'sika') {
+      themeColor = Colors.green;
+      title = 'シカのカブブック';
+    } else if(_type == 'kuma'){
+      themeColor = Colors.blue;
+      title = 'クマのカブブック';
+    } else if(_type == 'challenge'){
+      themeColor = Colors.green[900];
+      title = 'チャレンジ章';
+    }
+    type = _type;
   }
-}
-
-class StepView extends StatelessWidget {
-  var list_number = [
-    '1',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    '14'
-  ];
-  var list_title = [
-    '笑顔１',
-    '笑顔２',
-    '運動',
-    '安全',
-    '清潔',
-    '計測',
-    'なわ結び',
-    '工作',
-    '表現',
-    '観察',
-    '野外活動',
-    '役に立つ',
-    '日本国旗',
-    '世界の国々'
-  ];
-
-  /*var list_percentage = [
-    1.0,
-    1.0,
-    0.8,
-    0.3,
-    0.6,
-    0.1,
-    0.0,
-    0.4,
-    0.0,
-    0.66,
-    1.0,
-    0.2,
-    0.0,
-    0.4
-  ];*/
 
   @override
   Widget build(BuildContext context) {
-    var list_isCompleted =
-        new List.generate(list_title.length, (index) => false);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: themeColor,
         elevation: 5,
         iconTheme: IconThemeData(color: Colors.white),
-        title: const Text(
-          'うさぎのカブブック',
+        title: Text(
+          title,
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -90,20 +53,24 @@ class StepView extends StatelessWidget {
                   Padding(
                       padding: EdgeInsets.only(top: 20, bottom: 10),
                       child:
-                          Consumer<StepModel>(builder: (context, model, child) {
+                      Consumer<StepModel>(builder: (context, model, child) {
+                        print(task.getAllMap(type));
                         if (!model.isGet) {
                           model.getSnapshot();
                         }
                         if (model.userSnapshot != null) {
+                          var map_task = task.getAllMap(type);
+                          var list_isCompleted =
+                          new List.generate(map_task.length, (index) => false);
                           var list_percentage = new List.generate(
-                              list_title.length, (index) => 0.0);
+                              map_task.length, (index) => 0.0);
                           final Map map = new Map<String, dynamic>.from(
                               model.userSnapshot['step']);
-                          for (int i = 0; i < list_title.length; i++) {
+                          for (int i = 0; i < map_task.length; i++) {
                             if (map.containsKey(i.toString())) {
                               list_percentage[i] = (model.userSnapshot['step']
-                                      [i.toString()] /
-                                  3.0);
+                              [i.toString()] /
+                                  map_task[i]['hasItem']);
                             }
                           }
                           for (int i = 0; i < list_percentage.length; i++) {
@@ -113,7 +80,7 @@ class StepView extends StatelessWidget {
                           }
                           return ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: list_title.length,
+                              itemCount: map_task.length,
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
                                 return Padding(
@@ -135,9 +102,9 @@ class StepView extends StatelessWidget {
                                                           topLeft: const Radius
                                                               .circular(5),
                                                           bottomLeft:
-                                                              const Radius
-                                                                  .circular(5)),
-                                                      color: Colors.orange),
+                                                          const Radius
+                                                              .circular(5)),
+                                                      color: themeColor),
                                                   height: 120,
                                                   child: ConstrainedBox(
                                                     constraints: BoxConstraints(
@@ -145,90 +112,93 @@ class StepView extends StatelessWidget {
                                                     child: Center(
                                                       child: Padding(
                                                         padding:
-                                                            EdgeInsets.all(20),
+                                                        EdgeInsets.all(20),
                                                         child: Text(
-                                                          list_number[index],
+                                                          map_task[index]['number'],
                                                           style: TextStyle(
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
+                                                              FontWeight
+                                                                  .bold,
                                                               fontSize: 30,
                                                               color:
-                                                                  Colors.white),
+                                                              Colors.white),
                                                         ),
                                                       ),
                                                     ),
                                                   )),
                                               Padding(
                                                   padding:
-                                                      EdgeInsets.only(left: 10),
+                                                  EdgeInsets.only(left: 10),
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    CrossAxisAlignment
+                                                        .start,
                                                     children: <Widget>[
                                                       Padding(
                                                           padding:
-                                                              EdgeInsets.only(
-                                                                  top: 10),
+                                                          EdgeInsets.only(
+                                                              top: 10),
                                                           child: Align(
                                                               alignment: Alignment
                                                                   .centerLeft,
                                                               child: Text(
-                                                                list_title[
-                                                                    index],
+                                                                map_task[
+                                                                index]['title'],
                                                                 style: TextStyle(
                                                                     fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
+                                                                    FontWeight
+                                                                        .bold,
                                                                     fontSize:
-                                                                        25),
+                                                                    25),
                                                               ))),
                                                       list_isCompleted[index]
                                                           ? Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      top: 20),
-                                                              child: Align(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .bottomLeft,
-                                                                  child: Text(
-                                                                    'かんしゅう🎉',
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .normal,
-                                                                        fontSize:
-                                                                            20),
-                                                                  )),
-                                                            )
+                                                        padding: EdgeInsets
+                                                            .only(
+                                                            top: 20),
+                                                        child: Align(
+                                                            alignment:
+                                                            Alignment
+                                                                .bottomLeft,
+                                                            child: Text(
+                                                              'かんしゅう🎉',
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                                  fontSize:
+                                                                  20),
+                                                            )),
+                                                      )
                                                           : Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      top: 10),
-                                                              child: Align(
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child: Row(
-                                                                  children: <
-                                                                      Widget>[
-                                                                    Text('達成度'),
-                                                                    Padding(
-                                                                        padding:
-                                                                            EdgeInsets.all(
-                                                                                10),
-                                                                        child:
-                                                                            CircularProgressIndicator(
-                                                                          backgroundColor:
-                                                                              Colors.grey[300],
-                                                                          value:
-                                                                              list_percentage[index],
-                                                                        ))
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            )
+                                                        padding: EdgeInsets
+                                                            .only(
+                                                            top: 10),
+                                                        child: Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Row(
+                                                            children: <
+                                                                Widget>[
+                                                              Text('達成度'),
+                                                              Padding(
+                                                                  padding:
+                                                                  EdgeInsets.all(
+                                                                      10),
+                                                                  child:
+                                                                  CircularProgressIndicator(
+                                                                    backgroundColor:
+                                                                    Colors.grey[300],
+                                                                    valueColor:
+                                                                    new AlwaysStoppedAnimation<
+                                                                        Color>(themeColor),
+                                                                    value:
+                                                                    list_percentage[index],
+                                                                  ))
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )
                                                     ],
                                                   )),
                                             ],
@@ -255,7 +225,7 @@ class StepView extends StatelessWidget {
 
 class _ModalPage extends StatelessWidget {
   PageController controller =
-      PageController(initialPage: 0, viewportFraction: 0.8);
+  PageController(initialPage: 0, viewportFraction: 0.8);
   int currentPage = 0;
   int numberPushed;
   bool test = false;

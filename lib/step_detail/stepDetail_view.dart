@@ -64,12 +64,13 @@ class StepDetailView extends StatelessWidget {
                     child: InkWell(
                         child: Selector<StepDetailModel, DocumentSnapshot>(
                       selector: (context, model) => model.stepSnapshot,
-                      builder: (context, snapshot, child) => Column(
+                      builder: (context, snapshot, child) =>
+                          snapshot != null ?
+                          Column(
                         children: <Widget>[
                           SingleChildScrollView(
                               child: Column(children: <Widget>[
                             Container(
-                              width: MediaQuery.of(context).size.width,
                               color: Colors.orange,
                               child: Padding(
                                 padding: EdgeInsets.only(top: 40, bottom: 20),
@@ -159,7 +160,8 @@ class StepDetailView extends StatelessWidget {
                                 ])),
                           ]))
                         ],
-                      ),
+                      ) :
+                            Container()
                     )),
                   )),
               Align(
@@ -178,80 +180,6 @@ class StepDetailView extends StatelessWidget {
                             size: 40,
                             color: Colors.orange,
                           )),
-                    ),
-                  ))
-            ])));
-  }
-}
-
-class StepSignView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: 280,
-        child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: Stack(children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.only(top: 30),
-                  child: Card(
-                    elevation: 2,
-                    child: InkWell(
-                      child: Column(
-                        children: <Widget>[
-                          SingleChildScrollView(
-                              child: Column(children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              color: Colors.orange,
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 40, bottom: 20),
-                                child: Center(
-                                  child: Text(
-                                    'サイン済み',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                '2020/4/5 山本',
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.none),
-                              ),
-                            ),
-                          ]))
-                        ],
-                      ),
-                    ),
-                  )),
-              Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    height: 70,
-                    width: 70,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(35.0)),
-                      elevation: 7,
-                      child: Center(
-                        child: Text(
-                          '1',
-                          style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orange),
-                        ),
-                      ),
                     ),
                   ))
             ])));
@@ -279,14 +207,15 @@ class StepAddView extends StatelessWidget {
                   child: Card(
                     elevation: 2,
                     child: InkWell(
-                      child: SingleChildScrollView(
-                        child: Column(
+                      child: /*SingleChildScrollView(
+                        child: */Column(
                           children: <Widget>[
                             Consumer<StepDetailModel>(
                                 builder: (context, model, _) {
                               if (!model.isGet) {
                                 model.getSnapshot();
                               }
+                              if (model.stepSnapshot != null){
                               if (model.stepSnapshot['signed']
                                       [index_page.toString()] ==
                                   null) {
@@ -308,7 +237,11 @@ class StepAddView extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  Column(
+                                  Container(
+                                    height: 485,
+                                      child:
+                                  SingleChildScrollView(
+                                      child: Column(
                                     children: <Widget>[
                                       Padding(
                                           padding: EdgeInsets.only(
@@ -714,7 +647,7 @@ class StepAddView extends StatelessWidget {
                                         ),
                                       ),
                                     ],
-                                  )
+                                  )))
                                 ]);
                               } else {
                                 return Column(children: <Widget>[
@@ -748,10 +681,12 @@ class StepAddView extends StatelessWidget {
                                   ),
                                 ]);
                               }
-                            })
+                            } else {
+                                return Container();
+                              }})
                           ],
                         ),
-                      ),
+//                      ),
                     ),
                   ))),
           Align(

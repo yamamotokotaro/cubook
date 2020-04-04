@@ -5,6 +5,7 @@ import 'package:cubook/home/home_view.dart';
 import 'package:cubook/home/home_view_new.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/login/login_view.dart';
+import 'package:cubook/step/step_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,6 +38,7 @@ class MyApp2 extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => HomeModel()),
         ChangeNotifierProvider(create: (context) => ListEffortModel()),
+        ChangeNotifierProvider(create: (context) => StepModel()),
       ],
         child: MaterialApp(
       home: HomeViewNew(),
