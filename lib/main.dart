@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp2());
 
-class MyApp extends StatelessWidget {
+/*class MyApp extends StatelessWidget {
   final boyColor = Colors.orange;
 
   @override
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.orange),
     );
   }
-}
+}*/
 
 class MyApp2 extends StatelessWidget {
   final boyColor = Colors.orange;
@@ -51,7 +51,7 @@ class MyApp2 extends StatelessWidget {
   }
 }
 
-class HomePage extends StatefulWidget {
+/*class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -98,4 +98,4 @@ class HomePageState extends State<HomePage> {
       });
     });
   }
-}
+}*/

@@ -31,6 +31,9 @@ dependencies:
   google_fonts: ^0.3.10
   image_picker: ^0.6.4
   pedantic_mono: ^1.8.0
+  intl: ^0.16.1
+  firebase_storage: ^3.1.5
+  video_player: ^0.10.8+1
 
 dev_dependencies:
   flutter_test:

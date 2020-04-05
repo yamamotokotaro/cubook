@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/challenge/challenge_view.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
 import 'package:cubook/step/step_view.dart';
+import 'package:cubook/task/task.dart';
 import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +11,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class HomeScoutView extends StatelessWidget {
+
+  var task = new Task();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -99,9 +102,9 @@ class HomeScoutView extends StatelessWidget {
                                                   valueColor:
                                                       new AlwaysStoppedAnimation<
                                                           Color>(Colors.white),
-                                                  value: snapshot['challenge']
+                                                  value: snapshot['step']
                                                           .length /
-                                                      14)
+                                                      task.getAllMap('usagi').length)
                                               : Container()))
                             ]),
                       ),
@@ -145,12 +148,21 @@ class HomeScoutView extends StatelessWidget {
                                   )),
                               Padding(
                                   padding: EdgeInsets.all(20),
-                                  child: LinearProgressIndicator(
-                                      backgroundColor: Color(0xFF388E3C),
-                                      valueColor:
-                                          new AlwaysStoppedAnimation<Color>(
-                                              Colors.white),
-                                      value: 0.4)),
+                                  child: Selector<HomeModel, DocumentSnapshot>(
+                                      selector: (context, model) =>
+                                      model.userSnapshot,
+                                      builder: (context, snapshot, child) =>
+                                      snapshot != null
+                                          ? LinearProgressIndicator(
+                                          backgroundColor:
+                                          Colors.green[700],
+                                          valueColor:
+                                          new AlwaysStoppedAnimation<
+                                              Color>(Colors.white),
+                                          value: snapshot['challenge']
+                                              .length /
+                                              task.getAllMap('challenge').length)
+                                          : Container())),
                             ]),
                       ),
                     ),

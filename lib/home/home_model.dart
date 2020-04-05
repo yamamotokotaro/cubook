@@ -31,6 +31,7 @@ class HomeModel extends ChangeNotifier {
           position = 'scout'/*tokenMap['position']*/;
           if(position == 'scout'){
             toShow = HomeScoutView();
+            getSnapshot();
           } else if(position == 'leader'){
             toShow = HomeLeaderView();
           } else {
@@ -53,15 +54,11 @@ class HomeModel extends ChangeNotifier {
     _listener = _auth.onAuthStateChanged.listen((FirebaseUser user) {
       currentUser = user;
       Firestore.instance
-          .collection('users')
+          .collection('user')
           .where('uid', isEqualTo: currentUser.uid)
           .snapshots()
           .listen((data) {
         userSnapshot = data.documents[0];
-        notifyListeners();
-      });
-      Firestore.instance.collection('efforts').snapshots().listen((data) {
-        effortSnapshot = data;
         notifyListeners();
       });
       isGet = true;

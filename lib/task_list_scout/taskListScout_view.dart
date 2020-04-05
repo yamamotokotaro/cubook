@@ -1,8 +1,9 @@
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/step/step_model.dart';
 import 'package:cubook/step_detail/stepDetail_model.dart';
-import 'package:cubook/step_detail/stepDetail_view.dart';
 import 'package:cubook/task/task.dart';
+import 'package:cubook/task_detail_scout/taskDetailScout_model.dart';
+import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,21 +13,26 @@ class TaskView extends StatelessWidget {
   var task = new Task();
   Color themeColor;
   String type;
+  String typeFireStore;
   String title = '';
 
   TaskView(String _type){
     if(_type == 'usagi'){
       themeColor = Colors.orange;
       title = 'ウサギのカブブック';
+      typeFireStore = 'step';
     } else if(_type == 'sika') {
       themeColor = Colors.green;
       title = 'シカのカブブック';
+      typeFireStore = 'step';
     } else if(_type == 'kuma'){
       themeColor = Colors.blue;
       title = 'クマのカブブック';
+      typeFireStore = 'step';
     } else if(_type == 'challenge'){
       themeColor = Colors.green[900];
       title = 'チャレンジ章';
+      typeFireStore = 'challenge';
     }
     type = _type;
   }
@@ -65,12 +71,12 @@ class TaskView extends StatelessWidget {
                           var list_percentage = new List.generate(
                               map_task.length, (index) => 0.0);
                           final Map map = new Map<String, dynamic>.from(
-                              model.userSnapshot['step']);
+                              model.userSnapshot[typeFireStore]);
                           for (int i = 0; i < map_task.length; i++) {
                             if (map.containsKey(i.toString())) {
-                              list_percentage[i] = (model.userSnapshot['step']
+                              list_percentage[i] = (model.userSnapshot[typeFireStore]
                               [i.toString()] /
-                                  map_task[i]['hasItem']);
+                                  map_task[i]['hasItem'].toDouble());
                             }
                           }
                           for (int i = 0; i < list_percentage.length; i++) {
@@ -91,7 +97,7 @@ class TaskView extends StatelessWidget {
                                           onTap: () {
                                             Navigator.of(context).push(
                                                 MyPageRoute(
-                                                    page: _ModalPage(index),
+                                                    page: _ModalPage(index, type, typeFireStore),
                                                     dismissible: true));
                                           },
                                           child: Row(
@@ -224,21 +230,26 @@ class TaskView extends StatelessWidget {
 }
 
 class _ModalPage extends StatelessWidget {
+  var task = new Task();
   PageController controller =
   PageController(initialPage: 0, viewportFraction: 0.8);
   int currentPage = 0;
   int numberPushed;
+  String type;
+  String typeFirestore;
   bool test = false;
   List<Widget> pages = <Widget>[
-    StepDetailView(),
     /*StepSignView(),*/
 //    StepAddView()
   ];
 
-  _ModalPage(int number) {
+  _ModalPage(int number, String _type, String _typeFS) {
     numberPushed = number;
-    for (int i = 0; i < 3; i++) {
-      pages.add(StepAddView(i));
+    type = _type;
+    typeFirestore = _typeFS;
+    pages.add(TaskScoutDetailView(type, number),);
+    for (int i = 0; i < task.getPartMap(type, number)['hasItem']; i++) {
+      pages.add(TaskScoutAddView(i, type));
     }
   }
 
@@ -252,7 +263,7 @@ class _ModalPage extends StatelessWidget {
       setHeight = height-60;
     }
     return ChangeNotifierProvider(
-        create: (context) => StepDetailModel(numberPushed, 3),
+        create: (context) => TaskDetailScoutModel(numberPushed, task.getPartMap(type, numberPushed)['hasItem'], typeFirestore),
         child: Container(
             height: setHeight,
             child: PageView(

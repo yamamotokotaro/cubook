@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/challenge/challenge_view.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/step/step_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -186,11 +185,6 @@ class HomeView extends StatelessWidget {
                                 color: challengeColor,
                                 child: InkWell(
                                   onTap: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) {
-                                              return ChallengeView();
-                                            }));
                                   },
                                   child: Align(
                                     alignment: Alignment.bottomLeft,

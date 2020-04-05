@@ -18,7 +18,7 @@ class StepModel extends ChangeNotifier{
 
     _listener = _auth.onAuthStateChanged.listen((FirebaseUser user) {
       currentUser = user;
-      Firestore.instance.collection('users').where('uid', isEqualTo: currentUser.uid).snapshots().listen((data) {
+      Firestore.instance.collection('user').where('uid', isEqualTo: currentUser.uid).snapshots().listen((data) {
         userSnapshot = data.documents[0];
         notifyListeners();
       });
