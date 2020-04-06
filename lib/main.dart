@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/home_view.dart';
 import 'package:cubook/home/home_view_new.dart';
@@ -41,7 +42,7 @@ class MyApp2 extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => StepModel()),
       ],
         child: MaterialApp(
-      home: HomeViewNew(),
+      home: HomeController(),
       theme: new ThemeData(
           fontFamily: 'NotoSansJP',
           brightness: Brightness.light,

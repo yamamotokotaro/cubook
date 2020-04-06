@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('ログイン'),),
-        body:
-        Padding(
+    return Padding(
           padding: EdgeInsets.all(10),
           child: Container(
             child: Card(
@@ -36,7 +33,6 @@ class LoginView extends StatelessWidget {
               ),
             ),
           ),
-        ),
     );
   }
 }

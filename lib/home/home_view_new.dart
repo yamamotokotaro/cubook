@@ -11,10 +11,7 @@ import 'package:provider/provider.dart';
 class HomeViewNew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-            child: SingleChildScrollView(
-                child: Column(
+    return Column(
       children: <Widget>[
         Selector<HomeModel, String>(
           selector: (context, model) => model.username,
@@ -30,10 +27,13 @@ class HomeViewNew extends StatelessWidget {
             ),
           ),
         ),
+        Consumer<HomeModel>(builder: (context, model, child) {
+          return RaisedButton(child: Text('ログアウト'),onPressed:() {model.logout();});
+        }),
         Consumer<HomeModel>(
           builder: (context, model, child) {
             if (model.currentUser == null) {
-              model.login();
+              //model.login();
               return Center(
                 child: CircularProgressIndicator(),
               );
@@ -44,6 +44,6 @@ class HomeViewNew extends StatelessWidget {
         ),
         listEffort()
       ],
-    ))));
+    );
   }
 }
