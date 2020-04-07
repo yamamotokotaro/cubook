@@ -6,7 +6,7 @@ import 'package:cubook/home/home_view_new.dart';
 import 'package:cubook/home_leader/homeLeader_view.dart';
 import 'package:cubook/home_scout/homeScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:firebase_auth_ui/firebase_auth_ui.dart';
+import 'package:firebase_auth_ui/firebase_auth_ui.dart' show FirebaseAuthUi;
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -20,20 +20,27 @@ class HomeModel extends ChangeNotifier {
   StreamSubscription<FirebaseUser> _listener;
   bool isGet = false;
   bool isLoaded = false;
+  bool isLoading_join = false;
   String position;
+  String mes_join = '';
   Widget toShow;
   String username = '';
+  String usercall = '';
   String joinCode = '';
   Map<dynamic,dynamic> tokenMap;
 
   void login() async {
-    FirebaseAuth.instance.currentUser().then((user) {
+    isLoaded = false;
+    userSnapshot = null;
+    currentUser = null;
+    /*FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
         currentUser = user;
         user.getIdToken().then((token) {
           tokenMap = token.claims;
-          username = tokenMap['name'];
           if(tokenMap['group'] != null) {
+            username = tokenMap['name'] + tokenMap['call'];
+            usercall = tokenMap['call'];
             position = tokenMap['position'];
             if (position == 'scout') {
               toShow = HomeScoutView();
@@ -52,12 +59,65 @@ class HomeModel extends ChangeNotifier {
         isLoaded = true;
         notifyListeners();
       }
+    });*/
+    FirebaseAuth.instance.currentUser().then((user) {
+      if (user != null) {
+        currentUser = user;
+        /*user.getIdToken().then((token) {
+          tokenMap = token.claims;
+          if(tokenMap['group'] != null) {
+            username = tokenMap['name'] + tokenMap['call'];
+            usercall = tokenMap['call'];
+            position = tokenMap['position'];
+            if (position == 'scout') {
+              toShow = HomeScoutView();
+              getSnapshot();
+            } else if (position == 'leader') {
+              toShow = HomeLeaderView();
+            } else {
+              toShow = Center(child: Text('エラーが発生しました'),);
+            }
+          } else {
+          }
+          isLoaded = true;
+          notifyListeners();
+        });*/
+        Firestore.instance
+            .collection('user')
+            .where('uid', isEqualTo: currentUser.uid)
+            .snapshots()
+            .listen((data) {
+          if(data.documents.length != 0) {
+            userSnapshot =  data.documents[0];
+            username = userSnapshot['name'] + userSnapshot['call'];
+            usercall = userSnapshot['call'];
+            position = userSnapshot['position'];
+            if (position == 'scout') {
+              toShow = HomeScoutView();
+              getSnapshot();
+            } else if (position == 'leader') {
+              toShow = HomeLeaderView();
+            } else {
+              toShow = Center(child: Text('エラーが発生しました'),);
+            }
+            isLoaded = true;
+            notifyListeners();
+          } else {
+            isLoaded = true;
+          }
+        });
+      } else {
+        isLoaded = true;
+      }
+      notifyListeners();
     });
   }
 
   void logout() async {
-    final result = await FirebaseAuth.instance.signOut();
+    final result = await FirebaseAuthUi.instance().logout();
+    currentUser = null;
     notifyListeners();
+    login();
   }
 
   void getUserSnapshot() async {
@@ -91,6 +151,8 @@ class HomeModel extends ChangeNotifier {
   }
 
   void joinRequest() async {
+    isLoading_join = true;
+    notifyListeners();
     currentUser = await _auth.currentUser();
     currentUser?.getIdToken(refresh: true);
 
@@ -103,13 +165,22 @@ class HomeModel extends ChangeNotifier {
           String body = json.encode({'idToken': token.token, 'joinCode': joinCode});
 
           http.Response resp = await http.post(url, headers: headers, body: body);
-          if (resp.statusCode != 200) {
             print(resp.body);
-            print(currentUser.getIdToken());
-          }
           print(token.claims);
           Map<dynamic,dynamic> tokenMap = token.claims;
           print(tokenMap['sub']);
+          isLoading_join = false;
+          if(resp.body == 'success'){
+            mes_join = '';
+            Timer _timer;
+            login();
+          } else if(resp.body == 'No such document!' || resp.body == 'not found'){
+            isLoading_join = false;
+            mes_join = 'コードが見つかりませんでした';
+          } else {
+            isLoading_join = false;
+            mes_join = 'エラーが発生しました';
+          }
           notifyListeners();
         });
       }

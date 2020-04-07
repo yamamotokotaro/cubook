@@ -11,7 +11,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class HomeScoutView extends StatelessWidget {
-
   var task = new Task();
 
   @override
@@ -92,19 +91,26 @@ class HomeScoutView extends StatelessWidget {
                               Padding(
                                   padding: EdgeInsets.all(20),
                                   child: Selector<HomeModel, DocumentSnapshot>(
-                                      selector: (context, model) =>
-                                          model.userSnapshot,
-                                      builder: (context, snapshot, child) =>
-                                          snapshot != null
-                                              ? LinearProgressIndicator(
-                                                  backgroundColor:
-                                                      Colors.orangeAccent,
-                                                  valueColor:
-                                                      new AlwaysStoppedAnimation<
-                                                          Color>(Colors.white),
-                                                  value: snapshot['step']
-                                                          .length /
-                                                      task.getAllMap('usagi').length)
+                                      selector: (context, model) => model
+                                          .userSnapshot,
+                                      builder:
+                                          (context, snapshot, child) => snapshot !=
+                                                  null
+                                              ? snapshot['step'] != null
+                                                  ? LinearProgressIndicator(
+                                                      backgroundColor:
+                                                          Colors.orangeAccent,
+                                                      valueColor:
+                                                          new AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Colors.white),
+                                                      value: snapshot['step']
+                                                              .length /
+                                                          task
+                                                              .getAllMap(
+                                                                  'usagi')
+                                                              .length)
+                                                  : Container()
                                               : Container()))
                             ]),
                       ),
@@ -150,19 +156,22 @@ class HomeScoutView extends StatelessWidget {
                                   padding: EdgeInsets.all(20),
                                   child: Selector<HomeModel, DocumentSnapshot>(
                                       selector: (context, model) =>
-                                      model.userSnapshot,
+                                          model.userSnapshot,
                                       builder: (context, snapshot, child) =>
-                                      snapshot != null
-                                          ? LinearProgressIndicator(
-                                          backgroundColor:
-                                          Colors.green[700],
-                                          valueColor:
-                                          new AlwaysStoppedAnimation<
-                                              Color>(Colors.white),
-                                          value: snapshot['challenge']
-                                              .length /
-                                              task.getAllMap('challenge').length)
-                                          : Container())),
+                                          snapshot['challenge'] != null
+                                              ? LinearProgressIndicator(
+                                                  backgroundColor:
+                                                      Colors.green[700],
+                                                  valueColor:
+                                                      new AlwaysStoppedAnimation<
+                                                          Color>(Colors.white),
+                                                  value: snapshot['challenge']
+                                                          .length /
+                                                      task
+                                                          .getAllMap(
+                                                              'challenge')
+                                                          .length)
+                                              : Container())),
                             ]),
                       ),
                     ),

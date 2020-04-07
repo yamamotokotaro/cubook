@@ -16,8 +16,12 @@ class HomeController extends StatelessWidget {
             builder: (context, model, child) {
               if(model.isLoaded){
                 if(model.currentUser !=null){
-                  if(model.tokenMap['group'] != null) {
-                    return HomeViewNew();
+                  if(model.userSnapshot != null) {
+                    if (model.userSnapshot['group'] != null) {
+                      return HomeViewNew();
+                    } else {
+                      return JoinGroup();
+                    }
                   } else {
                     return JoinGroup();
                   }

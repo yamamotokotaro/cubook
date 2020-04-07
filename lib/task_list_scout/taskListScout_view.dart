@@ -70,13 +70,16 @@ class TaskView extends StatelessWidget {
                           new List.generate(map_task.length, (index) => false);
                           var list_percentage = new List.generate(
                               map_task.length, (index) => 0.0);
-                          final Map map = new Map<String, dynamic>.from(
-                              model.userSnapshot[typeFireStore]);
-                          for (int i = 0; i < map_task.length; i++) {
-                            if (map.containsKey(i.toString())) {
-                              list_percentage[i] = (model.userSnapshot[typeFireStore]
-                              [i.toString()] /
-                                  map_task[i]['hasItem'].toDouble());
+                          if(model.userSnapshot[typeFireStore] != null) {
+                            final Map map = new Map<String, dynamic>.from(
+                                model.userSnapshot[typeFireStore]);
+                            for (int i = 0; i < map_task.length; i++) {
+                              if (map.containsKey(i.toString())) {
+                                list_percentage[i] =
+                                (model.userSnapshot[typeFireStore]
+                                [i.toString()] /
+                                    map_task[i]['hasItem'].toDouble());
+                              }
                             }
                           }
                           for (int i = 0; i < list_percentage.length; i++) {

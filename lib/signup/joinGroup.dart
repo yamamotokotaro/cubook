@@ -14,7 +14,7 @@ class JoinGroup extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.only(top: 30),
               child: Text(
                 '登録コードを入力してください',
                 style: TextStyle(
@@ -23,6 +23,17 @@ class JoinGroup extends StatelessWidget {
                     color: Colors.black),
               ),
             ),
+            model.mes_join != ''?
+            Padding(
+              padding: EdgeInsets.only(top: 30),
+              child: Text(
+                model.mes_join,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red),
+              ),
+            ): Container(),
             Padding(
               padding: EdgeInsets.all(20),
               child: TextField(
@@ -34,6 +45,8 @@ class JoinGroup extends StatelessWidget {
                 onChanged: (text) {model.joinCode = text;},
               ),
             ),
+            model.isLoading_join?
+                CircularProgressIndicator() : 
             RaisedButton(
               onPressed: () {
                 model.joinRequest();
