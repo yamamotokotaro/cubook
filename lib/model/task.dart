@@ -101,18 +101,40 @@ class Task {
   }*/
 
   List<Map<String, dynamic>> getAllMap(String type){
-    if(type == 'usagi') {
-      return usagi;
-    } else if (type == 'challenge') {
-      return challnege;
+    List<Map<String, dynamic>> list_info;
+    switch (type) {
+      case 'usagi':
+        list_info = usagi;
+        break;
+      case 'sika':
+        list_info = sika;
+        break;
+      case 'kuma':
+        list_info = kuma;
+        break;
+      case 'challenge':
+        list_info = challnege;
+        break;
     }
+    return list_info;
   }
 
   Map<String, dynamic> getPartMap(String type, int number){
-    if(type == 'usagi') {
-      return usagi[number];
-    } else if (type == 'challenge') {
-      return challnege[number];
+    Map<String, dynamic> map_info;
+    switch (type) {
+      case 'usagi':
+        map_info = usagi[number];
+        break;
+      case 'sika':
+        map_info = sika[number];
+        break;
+      case 'kuma':
+        map_info = kuma[number];
+        break;
+      case 'challenge':
+        map_info = challnege[number];
+        break;
     }
+    return map_info;
   }
 }

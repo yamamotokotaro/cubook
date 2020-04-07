@@ -26,6 +26,7 @@ class HomeModel extends ChangeNotifier {
   Widget toShow;
   String username = '';
   String usercall = '';
+  String age = '';
   String joinCode = '';
   Map<dynamic,dynamic> tokenMap;
 
@@ -33,55 +34,9 @@ class HomeModel extends ChangeNotifier {
     isLoaded = false;
     userSnapshot = null;
     currentUser = null;
-    /*FirebaseAuth.instance.currentUser().then((user) {
-      if (user != null) {
-        currentUser = user;
-        user.getIdToken().then((token) {
-          tokenMap = token.claims;
-          if(tokenMap['group'] != null) {
-            username = tokenMap['name'] + tokenMap['call'];
-            usercall = tokenMap['call'];
-            position = tokenMap['position'];
-            if (position == 'scout') {
-              toShow = HomeScoutView();
-              getSnapshot();
-            } else if (position == 'leader') {
-              toShow = HomeLeaderView();
-            } else {
-              toShow = Center(child: Text('エラーが発生しました'),);
-            }
-          } else {
-          }
-          isLoaded = true;
-          notifyListeners();
-        });
-      } else {
-        isLoaded = true;
-        notifyListeners();
-      }
-    });*/
     FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
         currentUser = user;
-        /*user.getIdToken().then((token) {
-          tokenMap = token.claims;
-          if(tokenMap['group'] != null) {
-            username = tokenMap['name'] + tokenMap['call'];
-            usercall = tokenMap['call'];
-            position = tokenMap['position'];
-            if (position == 'scout') {
-              toShow = HomeScoutView();
-              getSnapshot();
-            } else if (position == 'leader') {
-              toShow = HomeLeaderView();
-            } else {
-              toShow = Center(child: Text('エラーが発生しました'),);
-            }
-          } else {
-          }
-          isLoaded = true;
-          notifyListeners();
-        });*/
         Firestore.instance
             .collection('user')
             .where('uid', isEqualTo: currentUser.uid)
@@ -92,6 +47,7 @@ class HomeModel extends ChangeNotifier {
             username = userSnapshot['name'] + userSnapshot['call'];
             usercall = userSnapshot['call'];
             position = userSnapshot['position'];
+            age = userSnapshot['age'];
             if (position == 'scout') {
               toShow = HomeScoutView();
               getSnapshot();
@@ -185,18 +141,5 @@ class HomeModel extends ChangeNotifier {
         });
       }
     });
-
-    /*_listener = _auth.onAuthStateChanged.listen((FirebaseUser user) async {
-      String url =
-          "https://asia-northeast1-cubook-dev.cloudfunctions.net/joinGroup";
-      Map<String, String> headers = {'content-type': 'application/json'};
-      String body = json.encode({'idToken': currentUser.getIdToken(), 'joinCode': joinCode});
-
-      http.Response resp = await http.post(url, headers: headers, body: body);
-      if (resp.statusCode != 200) {
-        print(resp.body);
-        print(currentUser.getIdToken());
-      }
-    });*/
   }
 }

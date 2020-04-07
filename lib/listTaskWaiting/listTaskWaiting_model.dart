@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 
 class ListTaskWaitingModel extends ChangeNotifier {
   QuerySnapshot taskSnapshot;
+  bool isGet = false;
   bool isLoaded = false;
 
   Future getTaskSnapshot() async {
-    isLoaded = true;
+    isLoaded = false;
+    notifyListeners();
     Firestore.instance.collection('task').snapshots().listen((data) {
       taskSnapshot = data;
       notifyListeners();
     });
+    isGet = true;
+    isLoaded = true;
     notifyListeners();
   }
 }

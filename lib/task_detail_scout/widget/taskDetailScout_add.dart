@@ -47,7 +47,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
           ),
         ),
         Container(
-            height: 485,
+            height: MediaQuery.of(context).size.height-328,
             child: SingleChildScrollView(
                 child: Column(
               children: <Widget>[

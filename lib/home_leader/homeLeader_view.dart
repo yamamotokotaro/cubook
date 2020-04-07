@@ -1,4 +1,5 @@
 import 'package:cubook/home_leader/homeLeader_model.dart';
+import 'package:cubook/listTaskWaiting/listTaskWaiting_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,12 @@ class HomeLeaderView extends StatelessWidget {
                     elevation: 8,
                     color: Colors.blue[900],
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (BuildContext context) {
+                              return ListTaskWaitingView();
+                            }));
+                      },
                       child: Padding(
                         padding: EdgeInsets.all(15),
                         child: Row(

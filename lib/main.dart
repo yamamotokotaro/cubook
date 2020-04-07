@@ -2,6 +2,7 @@ import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
+import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,14 +36,15 @@ class MyApp2 extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ListEffortModel()),
         ChangeNotifierProvider(create: (context) => HomeLeaderModel()),
         ChangeNotifierProvider(create: (context) => TaskListScoutModel()),
+        ChangeNotifierProvider(create: (context) => ListTaskWaitingModel()),
       ],
         child: MaterialApp(
       home: HomeController(),
       theme: new ThemeData(
           fontFamily: 'NotoSansJP',
           brightness: Brightness.light,
-          primaryColor: Colors.orange,
-          accentColor: Colors.orange),
+          primaryColor: Colors.blue[900],
+          accentColor: Colors.blue[900]),
     ));
   }
 }

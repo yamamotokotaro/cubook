@@ -1,4 +1,5 @@
-import 'package:cubook/task/task.dart';
+import 'package:cubook/model/task.dart';
+import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_model.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
@@ -9,27 +10,18 @@ import 'package:provider/provider.dart';
 class TaskView extends StatelessWidget {
 
   var task = new Task();
+  var theme = new ThemeInfo();
   Color themeColor;
   String type;
   String typeFireStore;
   String title = '';
 
   TaskView(String _type){
+    themeColor = theme.getThemeColor(_type);
+    title = theme.getTitle(_type);
     if(_type == 'usagi'){
-      themeColor = Colors.orange;
-      title = 'ウサギのカブブック';
-      typeFireStore = 'step';
-    } else if(_type == 'sika') {
-      themeColor = Colors.green;
-      title = 'シカのカブブック';
-      typeFireStore = 'step';
-    } else if(_type == 'kuma'){
-      themeColor = Colors.blue;
-      title = 'クマのカブブック';
       typeFireStore = 'step';
     } else if(_type == 'challenge'){
-      themeColor = Colors.green[900];
-      title = 'チャレンジ章';
       typeFireStore = 'challenge';
     }
     type = _type;
@@ -58,7 +50,6 @@ class TaskView extends StatelessWidget {
                       padding: EdgeInsets.only(top: 20, bottom: 10),
                       child:
                       Consumer<TaskListScoutModel>(builder: (context, model, child) {
-                        print(task.getAllMap(type));
                         if (!model.isGet) {
                           model.getSnapshot();
                         }
@@ -264,7 +255,7 @@ class _ModalPage extends StatelessWidget {
       setHeight = height-60;
     }
     return ChangeNotifierProvider(
-        create: (context) => TaskDetailScoutModel(numberPushed, task.getPartMap(type, numberPushed)['hasItem'], typeFirestore),
+        create: (context) => TaskDetailScoutModel(numberPushed, task.getPartMap(type, numberPushed)['hasItem'], type),
         child: Container(
             height: setHeight,
             child: PageView(
