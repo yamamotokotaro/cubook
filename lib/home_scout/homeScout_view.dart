@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/home_model.dart';
-import 'package:cubook/home_leader/homeLeader_model.dart';
-import 'package:cubook/step/step_view.dart';
 import 'package:cubook/task/task.dart';
 import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class HomeScoutView extends StatelessWidget {

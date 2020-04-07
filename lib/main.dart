@@ -1,15 +1,9 @@
-import 'dart:async';
-
 import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
-import 'package:cubook/home/home_view.dart';
-import 'package:cubook/home/home_view_new.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
-import 'package:cubook/login/login_view.dart';
-import 'package:cubook/step/step_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cubook/home_leader/homeLeader_model.dart';
+import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp2());
@@ -39,7 +33,8 @@ class MyApp2 extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => HomeModel()),
         ChangeNotifierProvider(create: (context) => ListEffortModel()),
-        ChangeNotifierProvider(create: (context) => StepModel()),
+        ChangeNotifierProvider(create: (context) => HomeLeaderModel()),
+        ChangeNotifierProvider(create: (context) => TaskListScoutModel()),
       ],
         child: MaterialApp(
       home: HomeController(),

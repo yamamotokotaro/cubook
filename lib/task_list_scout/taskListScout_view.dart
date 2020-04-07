@@ -1,9 +1,7 @@
-import 'package:cubook/home/home_model.dart';
-import 'package:cubook/step/step_model.dart';
-import 'package:cubook/step_detail/stepDetail_model.dart';
 import 'package:cubook/task/task.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_model.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
+import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +57,7 @@ class TaskView extends StatelessWidget {
                   Padding(
                       padding: EdgeInsets.only(top: 20, bottom: 10),
                       child:
-                      Consumer<StepModel>(builder: (context, model, child) {
+                      Consumer<TaskListScoutModel>(builder: (context, model, child) {
                         print(task.getAllMap(type));
                         if (!model.isGet) {
                           model.getSnapshot();

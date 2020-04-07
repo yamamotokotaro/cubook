@@ -35,6 +35,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   var list_toSend = new List();
   var count_toSend = new List();
   var isLoading = new List();
+  Map<dynamic, dynamic> tokenMap;
   String type;
 
   TaskDetailScoutModel(int number, int quant, String _type) {
@@ -109,20 +110,30 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   void onTapSend(int number) async {
-    if (checkParent) {
+    if (checkParent && map_attach[number].length != 0) {
       isLoading[number] = true;
       notifyListeners();
-      Map<int, dynamic> MapDatas = map_attach[number];
-      list_toSend[number] =
-          new List<dynamic>.generate(MapDatas.length, (index) => null);
-      count_toSend[number] = MapDatas.length;
-      for (int i = 0; i < MapDatas.length; i++) {
-        if (MapDatas[i] is String) {
-          textSend(i, MapDatas[i], number);
-        } else if (MapDatas[i] is File) {
-          fileSend(i, MapDatas[i], number);
+
+      FirebaseAuth.instance.currentUser().then((user) {
+        if (user != null) {
+          currentUser = user;
+          user.getIdToken().then((token) {
+            tokenMap = token.claims;
+            print(tokenMap);
+            Map<int, dynamic> MapDatas = map_attach[number];
+            list_toSend[number] =
+                new List<dynamic>.generate(MapDatas.length, (index) => null);
+            count_toSend[number] = MapDatas.length;
+            for (int i = 0; i < MapDatas.length; i++) {
+              if (MapDatas[i] is String) {
+                textSend(i, MapDatas[i], number);
+              } else if (MapDatas[i] is File) {
+                fileSend(i, MapDatas[i], number);
+              }
+            }
+          });
         }
-      }
+      });
     }
   }
 
@@ -134,16 +145,16 @@ class TaskDetailScoutModel extends ChangeNotifier {
 
   Future<dynamic> fileSend(int index, File file, int number) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
-    String subDirectoryName = 'test/daitest';
+    String subDirectoryName = tokenMap['group'] + '/' + currentUser.uid;
     final StorageReference ref =
         FirebaseStorage().ref().child(subDirectoryName).child('${timestamp}');
-    final StorageUploadTask uploadTask =
-        ref.putFile(file);
+    final StorageUploadTask uploadTask = ref.putFile(file);
     StorageTaskSnapshot snapshot = await uploadTask.onComplete;
     if (snapshot.error == null) {
-      String url = await snapshot.ref.getDownloadURL();
+      //String url = await snapshot.ref.getDownloadURL();
+      String path = await snapshot.ref.getPath();
       Map<String, dynamic> data = Map<String, dynamic>();
-      data.putIfAbsent('body', () => url);
+      data.putIfAbsent('body', () => path);
       firestoreController(data, number, index);
     } else {
       //return 'Something goes wrong';
@@ -175,16 +186,20 @@ class TaskDetailScoutModel extends ChangeNotifier {
     data["type"] = type;
     data['number'] = numberPushed;
     data['data'] = list;
+    data['name'] = tokenMap['name'];
     isAdded[number] = true;
     documentReference = await Firestore.instance.collection('task').add(data);
     documentID = documentReference.documentID;
     Map<String, dynamic> data_signed = Map<String, dynamic>();
-    if(isExit){
+    if (isExit) {
       Map<String, dynamic> data_toAdd = Map<String, dynamic>();
       data_toAdd = stepSnapshot['signed'];
-      data_toAdd[number.toString()] = {'phaze':'wait', 'data': list};
+      data_toAdd[number.toString()] = {'phaze': 'wait', 'data': list};
       data_signed['signed'] = data_toAdd;
-      Firestore.instance.collection(type).document(documentID_exit).updateData(data_signed);
+      Firestore.instance
+          .collection(type)
+          .document(documentID_exit)
+          .updateData(data_signed);
     } else {
       Map<String, dynamic> data_toAdd = Map<String, dynamic>();
       data_toAdd['phaze'] = 'wait';
@@ -192,9 +207,9 @@ class TaskDetailScoutModel extends ChangeNotifier {
       data_signed['uid'] = user.uid;
       data_signed['start'] = Timestamp.now();
       data_signed['number'] = numberPushed;
-      data_signed['signed'] = {number.toString() : data_toAdd};
+      data_signed['signed'] = {number.toString(): data_toAdd};
       DocumentReference documentReference_add =
-      await Firestore.instance.collection(type).add(data_signed);
+          await Firestore.instance.collection(type).add(data_signed);
       documentID_exit = documentReference_add.documentID;
     }
   }

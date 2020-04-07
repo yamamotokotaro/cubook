@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/step_detail/stepDetail_model.dart';
 import 'package:cubook/task/task.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_model.dart';
 import 'package:cubook/task_detail_scout/widget/taskDetailScout_add.dart';

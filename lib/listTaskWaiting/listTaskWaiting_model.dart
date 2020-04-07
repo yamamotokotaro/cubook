@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class HomeLeaderModel extends ChangeNotifier {
+class ListTaskWaitingModel extends ChangeNotifier {
   QuerySnapshot taskSnapshot;
   bool isLoaded = false;
 
