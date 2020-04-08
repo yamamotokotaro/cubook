@@ -69,7 +69,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
       currentUser = user;
       Firestore.instance
           .collection(type)
-          .where('number', isEqualTo: numberPushed)
+          .where('page', isEqualTo: numberPushed)
           .where('uid', isEqualTo: currentUser.uid)
           .snapshots()
           .listen((data) {
@@ -98,7 +98,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
       currentUser = user;
       Firestore.instance
           .collection('steps')
-          .where('number', isEqualTo: 0)
+          .where('page', isEqualTo: 0)
           .snapshots()
           .listen((data) {
         stepSnapshot = data.documents[0];
@@ -184,9 +184,13 @@ class TaskDetailScoutModel extends ChangeNotifier {
     data["uid"] = user.uid;
     data["date"] = Timestamp.now();
     data["type"] = type;
-    data['number'] = numberPushed;
+    data['page'] = numberPushed;
+    data['number'] = number;
     data['data'] = list;
-    data['name'] = tokenMap['name'];
+    data['family'] = tokenMap['family'];
+    data['first'] = tokenMap['first'];
+    data['call'] = tokenMap['call'];
+    data['group'] = tokenMap['group'];
     isAdded[number] = true;
     documentReference = await Firestore.instance.collection('task').add(data);
     documentID = documentReference.documentID;
@@ -204,9 +208,9 @@ class TaskDetailScoutModel extends ChangeNotifier {
       Map<String, dynamic> data_toAdd = Map<String, dynamic>();
       data_toAdd['phaze'] = 'wait';
       data_toAdd['data'] = list;
+      data_signed['page'] = numberPushed;
       data_signed['uid'] = user.uid;
       data_signed['start'] = Timestamp.now();
-      data_signed['number'] = numberPushed;
       data_signed['signed'] = {number.toString(): data_toAdd};
       DocumentReference documentReference_add =
           await Firestore.instance.collection(type).add(data_signed);

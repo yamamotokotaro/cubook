@@ -64,7 +64,7 @@ class HomeScoutView extends StatelessWidget {
                       color: theme.getThemeColor(model.age),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
+                          Navigator.push(context, MaterialPageRoute<TaskView>(
                               builder: (BuildContext context) {
                             return TaskView(model.age);
                           }));
@@ -120,7 +120,7 @@ class HomeScoutView extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
+                            MaterialPageRoute<TaskView>(builder: (BuildContext context) {
                           return TaskView('challenge');
                         }));
                       },

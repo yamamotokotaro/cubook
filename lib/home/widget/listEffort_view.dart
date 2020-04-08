@@ -38,8 +38,9 @@ class listEffort extends StatelessWidget {
             model.getSnapshot();
           }
 
-          if(model.effortSnapshot != null) {
-            List<DocumentSnapshot> listSnapshot = model.effortSnapshot.documents;
+          if (model.effortSnapshot != null) {
+            List<DocumentSnapshot> listSnapshot =
+                model.effortSnapshot.documents;
             return Padding(
               padding: EdgeInsets.all(0),
               child: ListView.builder(
@@ -49,7 +50,9 @@ class listEffort extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     DocumentSnapshot documentSnapshot = listSnapshot[index];
                     String body = documentSnapshot['family'] +
+                        documentSnapshot['first'] +
                         documentSnapshot['call'] +
+                        'が' +
                         documentSnapshot['body'];
                     int congrats = documentSnapshot['congrats'];
                     String documentID = documentSnapshot.documentID;
@@ -66,7 +69,6 @@ class listEffort extends StatelessWidget {
                     return Padding(
                       padding: EdgeInsets.all(10),
                       child: Container(
-                        height: 220,
                         child: Card(
                           child: Column(
                             children: <Widget>[
@@ -74,14 +76,18 @@ class listEffort extends StatelessWidget {
                                 height: 120,
                                 color: color,
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Text(
-                                  body,
-                                  style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                  child: Text(
+                                    body,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.none),
+                                  ),
                                 ),
                               ),
                               FlatButton.icon(
@@ -98,7 +104,9 @@ class listEffort extends StatelessWidget {
                   }),
             );
           } else {
-            return Center(child: CircularProgressIndicator(),);
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           }
         })
       ],

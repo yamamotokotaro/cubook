@@ -9,7 +9,7 @@ class ListTaskWaitingModel extends ChangeNotifier {
   Future getTaskSnapshot() async {
     isLoaded = false;
     notifyListeners();
-    Firestore.instance.collection('task').snapshots().listen((data) {
+    Firestore.instance.collection('task').orderBy('date', descending: false).snapshots().listen((data) {
       taskSnapshot = data;
       notifyListeners();
     });

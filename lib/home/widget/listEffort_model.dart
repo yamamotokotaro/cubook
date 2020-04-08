@@ -8,7 +8,7 @@ class ListEffortModel extends ChangeNotifier {
 
   void getSnapshot() async {
     FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance.collection('efforts').snapshots().listen((data) {
+      Firestore.instance.collection('effort').orderBy('time', descending: false).snapshots().listen((data) {
         effortSnapshot = data;
         isGet = true;
         notifyListeners();
@@ -18,7 +18,7 @@ class ListEffortModel extends ChangeNotifier {
 
   void increaseCount(String documentID) async {
     Firestore.instance
-        .collection('efforts')
+        .collection('effort')
         .document(documentID)
         .updateData(<String, dynamic>{'congrats': FieldValue.increment(1)});
   }

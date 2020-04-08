@@ -1,3 +1,4 @@
+import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
@@ -37,6 +38,7 @@ class MyApp2 extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => HomeLeaderModel()),
         ChangeNotifierProvider(create: (context) => TaskListScoutModel()),
         ChangeNotifierProvider(create: (context) => ListTaskWaitingModel()),
+        ChangeNotifierProvider(create: (context) => DetailTaskWaitingModel()),
       ],
         child: MaterialApp(
       home: HomeController(),

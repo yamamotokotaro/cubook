@@ -23,7 +23,7 @@ class HomeLeaderView extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
+                            MaterialPageRoute<ListTaskWaitingView>(builder: (BuildContext context) {
                               return ListTaskWaitingView();
                             }));
                       },
