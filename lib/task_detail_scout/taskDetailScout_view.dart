@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-class MyPageRoute extends TransitionRoute {
+class MyPageRoute extends TransitionRoute<dynamic> {
   MyPageRoute({
     @required this.page,
     @required this.dismissible,

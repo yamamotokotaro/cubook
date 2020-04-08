@@ -18,19 +18,6 @@ class HomeScoutView extends StatelessWidget {
         child: SingleChildScrollView(
             child: Column(
       children: <Widget>[
-        /*Padding(
-          padding: EdgeInsets.all(10),
-          child: Container(
-            child: Card(
-              child: FlatButton(
-                onPressed: () {
-                  logout();
-                },
-                child: Text('ログアウト'),
-              ),
-            ),
-          ),
-        ),*/
         Center(
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,8 +106,8 @@ class HomeScoutView extends StatelessWidget {
                     color: Colors.green[900],
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute<TaskView>(builder: (BuildContext context) {
+                        Navigator.push(context, MaterialPageRoute<TaskView>(
+                            builder: (BuildContext context) {
                           return TaskView('challenge');
                         }));
                       },

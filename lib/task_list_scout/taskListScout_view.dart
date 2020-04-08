@@ -87,7 +87,7 @@ class TaskView extends StatelessWidget {
                                       child: Card(
                                         child: InkWell(
                                           onTap: () {
-                                            Navigator.of(context).push(
+                                            Navigator.of(context).push<dynamic>(
                                                 MyPageRoute(
                                                     page: _ModalPage(index, type, typeFireStore),
                                                     dismissible: true));

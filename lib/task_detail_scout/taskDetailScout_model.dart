@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 
 class TaskDetailScoutModel extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  var list_isSelected = new List();
+  var list_isSelected = new List<bool>();
   String documentID;
   bool checkParent = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -28,13 +28,13 @@ class TaskDetailScoutModel extends ChangeNotifier {
   bool isLoaded = false;
   bool isExit = false;
 
-  var list_snapshot = new List();
-  var list_attach = new List();
-  var map_attach = new List();
-  var isAdded = new List();
-  var list_toSend = new List();
-  var count_toSend = new List();
-  var isLoading = new List();
+  var list_snapshot = new List<bool>();
+  var list_attach = new List<dynamic>();
+  var map_attach = new List<dynamic>();
+  var isAdded = new List<dynamic>();
+  var list_toSend = new List<dynamic>();
+  var count_toSend = new List<dynamic>();
+  var isLoading = new List<dynamic>();
   Map<dynamic, dynamic> tokenMap;
   String type;
 
@@ -48,7 +48,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     currentUser = await _auth.currentUser();
     currentUser?.getIdToken(refresh: true);
 
-    list_snapshot = new List.generate(numberPushed, (index) => false);
+    list_snapshot = new List<bool>.generate(numberPushed, (index) => false);
 
     list_attach =
         new List<dynamic>.generate(quant, (index) => new List<dynamic>());
@@ -92,7 +92,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     currentUser = await _auth.currentUser();
     currentUser?.getIdToken(refresh: true);
 
-    list_snapshot = new List.generate(numberPushed, (index) => false);
+    list_snapshot = new List<bool>.generate(numberPushed, (index) => false);
 
     _listener = _auth.onAuthStateChanged.listen((FirebaseUser user) {
       currentUser = user;

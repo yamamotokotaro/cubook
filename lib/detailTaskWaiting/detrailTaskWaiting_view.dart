@@ -66,7 +66,8 @@ class DetailTaskWaitingView extends StatelessWidget {
                                             ' ' +
                                             map_task['title'] +
                                             ' (' +
-                                            (snapshot['number'] + 1).toString() +
+                                            (snapshot['number'] + 1)
+                                                .toString() +
                                             ')',
                                         style: TextStyle(
                                             fontWeight: FontWeight.normal,

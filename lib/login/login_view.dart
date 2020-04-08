@@ -26,12 +26,35 @@ class LoginView extends StatelessWidget {
                   ),
                 ),
                 Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Center(
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(right: 5, top: 4),
+                            child: Icon(
+                              Icons.people,
+                              color: Theme.of(context).accentColor,
+                              size: 28,
+                            ),
+                          ),
+                          Text(
+                            '登録済み・登録コードをお持ちの方',
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.none),
+                          ),
+                        ]))),
+                Padding(
                   padding: EdgeInsets.all(10),
                   child: Container(
-                    child: Card(
                       child: Consumer<HomeModel>(
                         builder: (context, model, child) {
-                          return FlatButton(
+                          return RaisedButton(
+                            color: Theme.of(context).accentColor,
                             onPressed: () {
                               FirebaseAuthUi.instance()
                                   .launchAuth(
@@ -46,15 +69,48 @@ class LoginView extends StatelessWidget {
                                         "https://my-privacy-policy", // Optional,
                                   )
                                   .then((firebaseUser) => model.login())
-                                  .catchError((error) => print("Error $error"));
+                                  .catchError(
+                                      (String error) => print('Error $error'));
                             },
-                            child: Text('ログイン'),
+                            child: Padding(padding: EdgeInsets.all(5),child: Text('ログイン', style: TextStyle(color: Colors.white, fontSize: 20),)),
                           );
                         },
                       ),
-                    ),
                   ),
-                )
+                ),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Center(
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(right: 5, top: 4),
+                                child: Icon(
+                                  Icons.help,
+                                  color: Theme.of(context).accentColor,
+                                  size: 28,
+                                ),
+                              ),
+                              Text(
+                                '上記に当てはまらない方',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.none),
+                              ),
+                            ]))),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Center(
+                        child: Text(
+                          '正式配信開始までお待ちください',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black),
+                        ),)),
               ],
             )));
   }
