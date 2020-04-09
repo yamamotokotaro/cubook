@@ -59,13 +59,13 @@ class TaskView extends StatelessWidget {
                           new List.generate(map_task.length, (index) => false);
                           var list_percentage = new List.generate(
                               map_task.length, (index) => 0.0);
-                          if(model.userSnapshot[typeFireStore] != null) {
+                          if(model.userSnapshot[type] != null) {
                             final Map map = new Map<String, dynamic>.from(
-                                model.userSnapshot[typeFireStore]);
+                                model.userSnapshot[type]);
                             for (int i = 0; i < map_task.length; i++) {
                               if (map.containsKey(i.toString())) {
                                 list_percentage[i] =
-                                (model.userSnapshot[typeFireStore]
+                                (model.userSnapshot[type]
                                 [i.toString()] /
                                     map_task[i]['hasItem'].toDouble());
                               }
@@ -223,8 +223,6 @@ class TaskView extends StatelessWidget {
 
 class _ModalPage extends StatelessWidget {
   var task = new Task();
-  PageController controller =
-  PageController(initialPage: 0, viewportFraction: 0.8);
   int currentPage = 0;
   int numberPushed;
   String type;
@@ -248,12 +246,22 @@ class _ModalPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     double setHeight;
+    double setFraction;
     if(height > 700.0){
       setHeight = height-200;
     } else {
-      setHeight = height-60;
+      setHeight = height-90;
     }
+    if(width > 1000.0){
+      setFraction = 0.6;
+    } else {
+      setFraction = 0.8;
+    }
+    PageController controller =
+    PageController(initialPage: 0, viewportFraction: setFraction);
+
     return ChangeNotifierProvider(
         create: (context) => TaskDetailScoutModel(numberPushed, task.getPartMap(type, numberPushed)['hasItem'], type),
         child: Container(

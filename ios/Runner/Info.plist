@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>取り組み内容を説明するためのアップロードする画像や動画を撮影するために必要となります</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>取り組み内容を説明するためのアップロードする画像や動画を選択するために必要となります</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -42,18 +46,18 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSAppTransportSecurity</key>
-    <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
-    </dict>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>CFBundleURLTypes</key>
-    	<array>
-    		<dict>
-    			<key>CFBundleURLSchemes</key>
-    			<array>
-    				<string>com.googleusercontent.apps.593398023204-pbdaaf520ekpvk3gogibq8h264dhvf7e</string>
-    			</array>
-    		</dict>
-    	</array>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.593398023204-pbdaaf520ekpvk3gogibq8h264dhvf7e</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

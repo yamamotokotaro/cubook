@@ -35,6 +35,8 @@ dependencies:
   firebase_storage: ^3.1.5
   video_player: ^0.10.8+1
   chewie: ^0.9.10
+  url_launcher: ^5.4.2
+  flutter_launcher_icons: ^0.7.4
 
 dev_dependencies:
   flutter_test:
@@ -44,13 +46,19 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+
+flutter_icons:
+  image_path: "assets/images/icon.png"
+  android: true
+  ios: true
+
 flutter:
 
   fonts:
     - family: NotoSansJP
       fonts:
-        - asset: fonts/NotoSansJP-Regular.otf
-        - asset: fonts/NotoSansJP-Bold.otf
+        - asset: assets/fonts/NotoSansJP-Regular.otf
+        - asset: assets/fonts/NotoSansJP-Bold.otf
           weight: 700
 
   # The following line ensures that the Material Icons font is

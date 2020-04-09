@@ -14,9 +14,7 @@ class HomeScoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: SingleChildScrollView(
-            child: Column(
+    return Column(
       children: <Widget>[
         Center(
             child: Row(
@@ -77,17 +75,17 @@ class HomeScoutView extends StatelessWidget {
                                           ))),
                                   Padding(
                                       padding: EdgeInsets.all(20),
-                                      child: model.userSnapshot['step'] != null
+                                      child: model.userSnapshot[model.age] != null
                                           ? LinearProgressIndicator(
                                               backgroundColor:
-                                                  Colors.orangeAccent,
+                                                  theme.getIndicatorColor(model.age),
                                               valueColor:
                                                   new AlwaysStoppedAnimation<
                                                       Color>(Colors.white),
-                                              value: model.userSnapshot['step']
+                                              value: model.userSnapshot[model.age]
                                                       .length /
                                                   task
-                                                      .getAllMap('usagi')
+                                                      .getAllMap(model.age)
                                                       .length)
                                           : Container())
                                 ])),
@@ -156,7 +154,7 @@ class HomeScoutView extends StatelessWidget {
                   ),
                 ))),
       ],
-    )));
+    );
   }
 
   void logout() async {

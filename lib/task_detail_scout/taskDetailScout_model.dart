@@ -212,6 +212,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
       data_signed['uid'] = user.uid;
       data_signed['start'] = Timestamp.now();
       data_signed['signed'] = {number.toString(): data_toAdd};
+      data_signed['group'] = tokenMap['group'];
       DocumentReference documentReference_add =
           await Firestore.instance.collection(type).add(data_signed);
       documentID_exit = documentReference_add.documentID;

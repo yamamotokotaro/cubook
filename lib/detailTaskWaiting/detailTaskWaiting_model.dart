@@ -112,7 +112,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
           .document(snapshot.documentID)
           .updateData(mapSend);
 
-      if(map[page.toString()] == task.getPartMap(type, page)['hasItem']){
+      if (map[page.toString()] == task.getPartMap(type, page)['hasItem']) {
         onFinish();
       }
     });
@@ -138,14 +138,13 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         map[number.toString()]['time'] = Timestamp.now();
         Map<String, dynamic> mapSend = Map<String, dynamic>();
         mapSend['signed'] = map;
-        if(map.length == task.getPartMap(type, page)['hasItem']){
+        if (map.length == task.getPartMap(type, page)['hasItem']) {
           mapSend['end'] = Timestamp.now();
         }
         Firestore.instance
             .collection(type)
             .document(snapshot.documentID)
             .updateData(mapSend);
-
       });
     });
   }
@@ -176,17 +175,15 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     map['group'] = snapshot['group'];
     map['time'] = Timestamp.now();
     Firestore.instance.collection('effort').add(map);
-    Firestore.instance.collection(type).where('uid', isEqualTo: uid_get).getDocuments();
+    Firestore.instance
+        .collection(type)
+        .where('uid', isEqualTo: uid_get)
+        .getDocuments();
   }
 
   Future<void> addEffort() async {
     var task = new Task();
     var theme = new ThemeInfo();
-    /*Firestore.instance
-        .collection('user')
-        .where('uid', isEqualTo: uid_get)
-        .snapshots()
-        .listen((data) {*/
     QuerySnapshot data = await Firestore.instance
         .collection('user')
         .where('uid', isEqualTo: uid_get)
@@ -212,8 +209,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     map['type'] = type;
     map['group'] = snapshot['group'];
     map['time'] = Timestamp.now();
-    //Firestore.instance.collection('effort').add(map);
-//    });
   }
 
   void deleteTask() {

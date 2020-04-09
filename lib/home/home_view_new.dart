@@ -33,7 +33,7 @@ class HomeViewNew extends StatelessWidget {
         Consumer<HomeModel>(
           builder: (context, model, child) {
             if (model.currentUser == null) {
-              //model.login();
+              model.login();
               return Center(
                 child: CircularProgressIndicator(),
               );

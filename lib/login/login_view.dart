@@ -64,9 +64,9 @@ class LoginView extends StatelessWidget {
                                       AuthProvider.google(),
                                       // Login with Google
                                     ],
-                                    tosUrl: "https://my-terms-url", // Optional
+                                    tosUrl: "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md", // Optional
                                     privacyPolicyUrl:
-                                        "https://my-privacy-policy", // Optional,
+                                        "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md", // Optional,
                                   )
                                   .then((firebaseUser) => model.login())
                                   .catchError(
