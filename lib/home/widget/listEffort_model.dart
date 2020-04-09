@@ -8,10 +8,13 @@ class ListEffortModel extends ChangeNotifier {
 
   void getSnapshot() async {
     FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance.collection('effort').orderBy('time', descending: false).snapshots().listen((data) {
-        effortSnapshot = data;
-        isGet = true;
-        notifyListeners();
+      user.getIdToken().then((token) async {
+        Firestore.instance.collection('effort').where('group', isEqualTo: token.claims['group']).orderBy(
+            'time', descending: false).snapshots().listen((data) {
+          effortSnapshot = data;
+          isGet = true;
+          notifyListeners();
+        });
       });
     });
   }
