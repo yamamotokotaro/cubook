@@ -1,16 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeLeaderModel extends ChangeNotifier {
   QuerySnapshot taskSnapshot;
   bool isLoaded = false;
 
-  Future getTaskSnapshot() async {
+  Future<void> getTaskSnapshot() async {
     isLoaded = true;
-    Firestore.instance.collection('task').snapshots().listen((data) {
-      taskSnapshot = data;
-      notifyListeners();
+    FirebaseAuth.instance.currentUser().then((user) {
+      if (user != null) {
+        user.getIdToken().then((token) async {
+          Firestore.instance.collection('task').where('group', isEqualTo: token.claims['group']).snapshots().listen((data) {
+            taskSnapshot = data;
+            notifyListeners();
+          });
+          notifyListeners();
+        });
+      }
     });
-    notifyListeners();
   }
 }

@@ -63,7 +63,7 @@ class HomeLeaderView extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
       }),
-      Padding(
+      /*Padding(
         padding: EdgeInsets.only(top: 5, left: 10, right: 10),
         child: Container(
             child: Card(
@@ -130,7 +130,7 @@ class HomeLeaderView extends StatelessWidget {
             ),
           ),
         )),
-      ),
+      ),*/
     ]);
   }
 }

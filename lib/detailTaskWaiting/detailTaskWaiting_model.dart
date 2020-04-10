@@ -22,6 +22,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   bool isLoading = false;
   bool taskFinished = false;
   List<dynamic> body = List<dynamic>();
+  Map<dynamic, dynamic> tokenMap;
 
   Future<void> getTaskSnapshot(String _documentID) async {
     documentID = _documentID;
@@ -78,12 +79,16 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       notifyListeners();
       FirebaseAuth.instance.currentUser().then((user) async {
         currentUser = user;
-        await updateUserInfo();
-        await updateDocumentInfo();
-        await addEffort();
-        await deleteTask();
+        currentUser.getIdToken().then((token) async {
+          print(token.claims);
+          tokenMap = token.claims;
+          await updateUserInfo();
+          await updateDocumentInfo();
+          await addEffort();
+          await deleteTask();
+        });
+        isLoading = false;
       });
-      isLoading = false;
     }
   }
 
@@ -92,6 +97,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     Firestore.instance
         .collection('user')
         .where('uid', isEqualTo: uid_get)
+        .where('group', isEqualTo: tokenMap['group'])
         .getDocuments()
         .then((data) {
       DocumentSnapshot snapshot = data.documents[0];
@@ -120,32 +126,31 @@ class DetailTaskWaitingModel extends ChangeNotifier {
 
   Future<void> updateDocumentInfo() async {
     var task = new Task();
-    currentUser.getIdToken().then((token) async {
+    Firestore.instance
+        .collection(type)
+        .where('uid', isEqualTo: uid_get)
+        .where('page', isEqualTo: page)
+        .where('group', isEqualTo: tokenMap['group'])
+        .getDocuments()
+        .then((data) {
+      DocumentSnapshot snapshot = data.documents[0];
+      Map<String, dynamic> map = Map<String, dynamic>();
+      map = snapshot['signed'];
+      map[number.toString()] = new Map<String, dynamic>();
+      map[number.toString()]['phaze'] = 'signed';
+      map[number.toString()]['family'] = tokenMap['family'];
+      map[number.toString()]['uid'] = currentUser.uid;
+      map[number.toString()]['feedback'] = feedback;
+      map[number.toString()]['time'] = Timestamp.now();
+      Map<String, dynamic> mapSend = Map<String, dynamic>();
+      mapSend['signed'] = map;
+      if (map.length == task.getPartMap(type, page)['hasItem']) {
+        mapSend['end'] = Timestamp.now();
+      }
       Firestore.instance
           .collection(type)
-          .where('uid', isEqualTo: uid_get)
-          .where('page', isEqualTo: page)
-          .getDocuments()
-          .then((data) {
-        DocumentSnapshot snapshot = data.documents[0];
-        Map<String, dynamic> map = Map<String, dynamic>();
-        map = snapshot['signed'];
-        map[number.toString()] = new Map<String, dynamic>();
-        map[number.toString()]['phaze'] = 'signed';
-        map[number.toString()]['family'] = token.claims['family'];
-        map[number.toString()]['uid'] = currentUser.uid;
-        map[number.toString()]['feedback'] = feedback;
-        map[number.toString()]['time'] = Timestamp.now();
-        Map<String, dynamic> mapSend = Map<String, dynamic>();
-        mapSend['signed'] = map;
-        if (map.length == task.getPartMap(type, page)['hasItem']) {
-          mapSend['end'] = Timestamp.now();
-        }
-        Firestore.instance
-            .collection(type)
-            .document(snapshot.documentID)
-            .updateData(mapSend);
-      });
+          .document(snapshot.documentID)
+          .updateData(mapSend);
     });
   }
 
@@ -155,6 +160,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     QuerySnapshot data = await Firestore.instance
         .collection('user')
         .where('uid', isEqualTo: uid_get)
+        .where('group', isEqualTo: tokenMap['group'])
         .getDocuments();
     DocumentSnapshot snapshot = data.documents[0];
     Map<String, dynamic> map = Map<String, dynamic>();
@@ -178,6 +184,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     Firestore.instance
         .collection(type)
         .where('uid', isEqualTo: uid_get)
+        .where('group', isEqualTo: tokenMap['group'])
         .getDocuments();
   }
 
@@ -187,6 +194,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     QuerySnapshot data = await Firestore.instance
         .collection('user')
         .where('uid', isEqualTo: uid_get)
+        .where('group', isEqualTo: tokenMap['group'])
         .getDocuments();
     DocumentSnapshot snapshot = data.documents[0];
     Map<String, dynamic> map = Map<String, dynamic>();

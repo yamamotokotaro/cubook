@@ -224,7 +224,8 @@ class DetailTaskWaitingView extends StatelessWidget {
                             ),
                           )
                         : Container(
-                            child: Container(
+                            child: Padding(
+                              padding: EdgeInsets.all(5),
                               child: Center(
                                 child: CircularProgressIndicator(),
                               ),
@@ -241,7 +242,7 @@ class DetailTaskWaitingView extends StatelessWidget {
               }
             } else {
               return Center(
-                child: CircularProgressIndicator(),
+                child: Padding(padding: EdgeInsets.all(5),child:CircularProgressIndicator()),
               );
             }
           })),

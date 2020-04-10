@@ -17,7 +17,7 @@ class listEffort extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(right: 5, top: 4),
+                padding: const EdgeInsets.only(right: 5, top: 4),
                 child: Icon(
                   //ああああ
                   Icons.assignment,
@@ -33,29 +33,29 @@ class listEffort extends StatelessWidget {
                     decoration: TextDecoration.none),
               ),
             ])),
-        Consumer<ListEffortModel>(builder: (context, model, child) {
+        Consumer<ListEffortModel>(builder: (BuildContext context, ListEffortModel model, Widget child) {
           if (!model.isGet) {
             model.getSnapshot();
           }
 
           if (model.effortSnapshot != null) {
-            List<DocumentSnapshot> listSnapshot =
+            final List<DocumentSnapshot> listSnapshot =
                 model.effortSnapshot.documents;
             return Padding(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: ListView.builder(
                   itemCount: listSnapshot.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     DocumentSnapshot documentSnapshot = listSnapshot[index];
-                    String body = documentSnapshot['family'] +
+                    final String body = documentSnapshot['family'] +
                         documentSnapshot['first'] +
                         documentSnapshot['call'] +
                         'が' +
                         documentSnapshot['body'];
-                    int congrats = documentSnapshot['congrats'];
-                    String documentID = documentSnapshot.documentID;
+                    final int congrats = documentSnapshot['congrats'];
+                    final String documentID = documentSnapshot.documentID;
                     Color color;
                     if (documentSnapshot['type'] == 'usagi') {
                       color = Colors.orange;
@@ -67,7 +67,7 @@ class listEffort extends StatelessWidget {
                       color = Colors.green[900];
                     }
                     return Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Container(
                         child: Card(
                           child: Column(
@@ -79,7 +79,7 @@ class listEffort extends StatelessWidget {
                               Align(
                                 alignment: Alignment.center,
                                 child: Padding(
-                                  padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                                   child: Text(
                                     body,
                                     textAlign: TextAlign.center,
@@ -104,7 +104,7 @@ class listEffort extends StatelessWidget {
                   }),
             );
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }

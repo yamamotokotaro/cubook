@@ -70,7 +70,7 @@ class LoginView extends StatelessWidget {
                                   )
                                   .then((firebaseUser) => model.login())
                                   .catchError(
-                                      (String error) => print('Error $error'));
+                                      (dynamic error) => print('Error $error'));
                             },
                             child: Padding(padding: EdgeInsets.all(5),child: Text('ログイン', style: TextStyle(color: Colors.white, fontSize: 20),)),
                           );

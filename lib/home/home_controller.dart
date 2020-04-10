@@ -14,7 +14,8 @@ class HomeController extends StatelessWidget {
         body: AnnotatedRegion<SystemUiOverlayStyle>(
             value: SystemUiOverlayStyle.dark,
             child: SafeArea(
-                child: Center(
+                child: Align(
+                    alignment: Alignment.topCenter,
                     child: ConstrainedBox(
                         constraints: BoxConstraints(maxWidth: 800),
                         child: SingleChildScrollView(child: Consumer<HomeModel>(
@@ -41,6 +42,6 @@ class HomeController extends StatelessWidget {
                                   child: CircularProgressIndicator(),
                                 ));
                           }
-                        }))) ))));
+                        })))))));
   }
 }

@@ -135,7 +135,7 @@ class HomeModel extends ChangeNotifier {
           user.getIdToken().then((token) async {
             print(token.claims);
             String url =
-                "https://asia-northeast1-cubook-dev.cloudfunctions.net/joinGroup";
+                "https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup";
             Map<String, String> headers = {'content-type': 'application/json'};
             String body =
                 json.encode({'idToken': token.token, 'joinCode': joinCode});

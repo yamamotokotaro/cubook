@@ -13,10 +13,26 @@ class HomeViewNew extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        Row(
+          children: [
+            Spacer(),
+            Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                    padding: EdgeInsets.only(top: 10, right: 10),
+                    child: Consumer<HomeModel>(builder: (context, model, child) {
+                      return FlatButton(
+                          child: Text('ログアウト'),
+                          onPressed: () {
+                            model.logout();
+                          });
+                    }))),
+          ],
+        ),
         Selector<HomeModel, String>(
           selector: (context, model) => model.username,
           builder: (context, name, child) => Padding(
-            padding: EdgeInsets.all(40),
+            padding: EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
             child: Text(
               name + '、こんにちは😀',
               style: GoogleFonts.notoSans(
@@ -27,9 +43,6 @@ class HomeViewNew extends StatelessWidget {
             ),
           ),
         ),
-        Consumer<HomeModel>(builder: (context, model, child) {
-          return RaisedButton(child: Text('ログアウト'),onPressed:() {model.logout();});
-        }),
         Consumer<HomeModel>(
           builder: (context, model, child) {
             if (model.currentUser == null) {
