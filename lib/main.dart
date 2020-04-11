@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           home: HomeController(),
+          debugShowCheckedModeBanner: false,
           theme: new ThemeData(
               fontFamily: 'NotoSansJP',
               brightness: Brightness.light,

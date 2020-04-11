@@ -84,7 +84,7 @@ class JoinGroup extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 10),
           child: model.isLoading_join
-              ? CircularProgressIndicator()
+              ? Padding(padding: EdgeInsets.all(10),child:CircularProgressIndicator())
               : RaisedButton(
                   color: Theme.of(context).accentColor,
                   onPressed: () {

@@ -2,15 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/home/home_view_new.dart';
 import 'package:cubook/home_leader/homeLeader_view.dart';
 import 'package:cubook/home_scout/homeScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart' show FirebaseAuthUi;
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart' show SystemChrome;
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeModel extends ChangeNotifier {

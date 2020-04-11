@@ -374,7 +374,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         color: Colors.white),
                   ),
                 ),
-                FlatButton.icon(
+                /*FlatButton.icon(
                   onPressed: () {
                     model.onPressAdd_new(index_page, 'video');
                   },
@@ -391,7 +391,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
-                ),
+                ),*/
                 Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Row(

@@ -48,7 +48,7 @@ class HomeViewNew extends StatelessWidget {
             if (model.currentUser == null) {
               model.login();
               return Center(
-                child: CircularProgressIndicator(),
+                child: Padding(padding: EdgeInsets.all(5),child:CircularProgressIndicator()),
               );
             } else {
               return model.toShow;

@@ -105,7 +105,7 @@ class listEffort extends StatelessWidget {
             );
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: Padding(padding: EdgeInsets.all(5),child:CircularProgressIndicator()),
             );
           }
         })

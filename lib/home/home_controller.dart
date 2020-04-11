@@ -39,7 +39,7 @@ class HomeController extends StatelessWidget {
                             return Padding(
                                 padding: EdgeInsets.all(20),
                                 child: Center(
-                                  child: CircularProgressIndicator(),
+                                  child: Padding(padding: EdgeInsets.all(10),child:CircularProgressIndicator())
                                 ));
                           }
                         })))))));
