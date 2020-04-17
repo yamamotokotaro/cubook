@@ -6,7 +6,7 @@ class HomeLeaderModel extends ChangeNotifier {
   QuerySnapshot taskSnapshot;
   bool isLoaded = false;
 
-  Future<void> getTaskSnapshot() async {
+  Future<void> getTaskSnapshot2() async {
     isLoaded = true;
     FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
@@ -15,9 +15,19 @@ class HomeLeaderModel extends ChangeNotifier {
             taskSnapshot = data;
             notifyListeners();
           });
-          notifyListeners();
         });
       }
     });
   }
+}
+
+Stream<QuerySnapshot> getTaskSnapshot() {
+  FirebaseAuth.instance.currentUser().then((user) {
+    if (user != null) {
+      user.getIdToken().then((token) {
+        return Firestore.instance.collection('task').where('group', isEqualTo: 'EmtNIn1Lm5QJgjIvhI9w'/*token.claims['group']*/).snapshots();
+      });
+    } else {
+    }
+  });
 }

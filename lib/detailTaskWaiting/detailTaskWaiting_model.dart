@@ -64,10 +64,10 @@ class DetailTaskWaitingModel extends ChangeNotifier {
           }
         }
         isLoaded = true;
-        notifyListeners();
       }
       isGet = true;
       isLoaded = true;
+      notifyListeners();
     });
   }
 

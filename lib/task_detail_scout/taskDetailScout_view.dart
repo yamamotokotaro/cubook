@@ -404,6 +404,18 @@ class TaskScoutAddView extends StatelessWidget {
                                             decoration: TextDecoration.none),
                                       ),
                                     ),
+                                    Padding(
+                                      padding: EdgeInsets.all(5),
+                                      child: Text(
+                                        model.stepSnapshot['signed']
+                                        [index_page.toString()]
+                                        ['feedback'],
+                                        style: TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.bold,
+                                            decoration: TextDecoration.none),
+                                      ),
+                                    )
                                   ]);
                                 } else if(model.stepSnapshot['signed']
                                 [index_page.toString()]['phaze'] == 'wait'){

@@ -226,8 +226,7 @@ class DetailTaskWaitingView extends StatelessWidget {
                         : Container(
                             child: Padding(
                               padding: EdgeInsets.all(5),
-                              child: Center(
-                              ),
+                              child: Center(),
                             ),
                           ),
                   ],
@@ -235,13 +234,23 @@ class DetailTaskWaitingView extends StatelessWidget {
               } else {
                 return Container(
                   child: Center(
-                    child: Text('タスクが完了しました'),
-                  ),
+                      child: Padding(
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      'タスクが完了しました',
+                      style: TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.none),
+                    ),
+                  )),
                 );
               }
             } else {
               return Center(
-                child: Padding(padding: EdgeInsets.all(5),child:CircularProgressIndicator()),
+                child: Padding(
+                    padding: EdgeInsets.all(5),
+                    child: CircularProgressIndicator()),
               );
             }
           })),

@@ -13,7 +13,7 @@ class ListEffortModel extends ChangeNotifier {
           Firestore.instance
               .collection('effort')
               .where('group', isEqualTo: token.claims['group'])
-              .orderBy('time', descending: false)
+              .orderBy('time', descending: true)
               .snapshots()
               .listen((data) {
             effortSnapshot = data;
