@@ -27,12 +27,14 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   Future<void> getTaskSnapshot(String _documentID) async {
     documentID = _documentID;
     isLoaded = false;
+    print('j');
     Firestore.instance
         .collection('task')
         .document(documentID)
         .snapshots()
         .listen((data) async {
       taskSnapshot = data;
+      print(data.data);
       if (taskSnapshot.data == null) {
         taskFinished = true;
       } else {
@@ -61,12 +63,12 @@ class DetailTaskWaitingModel extends ChangeNotifier {
             body.add(chewieController);
           }
         }
+        isLoaded = true;
+        notifyListeners();
       }
       isGet = true;
       isLoaded = true;
-      notifyListeners();
     });
-    notifyListeners();
   }
 
   void onTextChanged(String text) async {

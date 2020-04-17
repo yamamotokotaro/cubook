@@ -227,7 +227,6 @@ class DetailTaskWaitingView extends StatelessWidget {
                             child: Padding(
                               padding: EdgeInsets.all(5),
                               child: Center(
-                                child: CircularProgressIndicator(),
                               ),
                             ),
                           ),
