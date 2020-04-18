@@ -64,7 +64,7 @@ class ListTaskWaitingView extends StatelessWidget {
                                         Material(
                                           type: MaterialType.transparency,
                                           child: Text(
-                                            snapshot['family'],
+                                            snapshot['family'] + snapshot['first'],
                                             style: TextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 25,

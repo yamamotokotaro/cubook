@@ -138,7 +138,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       DocumentSnapshot snapshot = data.documents[0];
       Map<String, dynamic> map = Map<String, dynamic>();
       map = snapshot['signed'];
-      map[number.toString()] = new Map<String, dynamic>();
       map[number.toString()]['phaze'] = 'signed';
       map[number.toString()]['family'] = tokenMap['family'];
       map[number.toString()]['uid'] = currentUser.uid;
