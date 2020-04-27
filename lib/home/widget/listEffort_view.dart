@@ -73,7 +73,7 @@ class listEffort extends StatelessWidget {
                           child: Column(
                             children: <Widget>[
                               Container(
-                                height: 120,
+                                height: 90,
                                 color: color,
                               ),
                               Align(

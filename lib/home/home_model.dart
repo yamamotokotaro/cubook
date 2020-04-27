@@ -22,12 +22,10 @@ class HomeModel extends ChangeNotifier {
   bool isLoading_join = false;
   bool isConsent = false;
   String position;
-  String mes_join = '';
   Widget toShow;
   String username = '';
   String usercall = '';
   String age = '';
-  String joinCode = '';
   Map<dynamic, dynamic> tokenMap;
 
   void login() async {
@@ -106,60 +104,5 @@ class HomeModel extends ChangeNotifier {
         .updateData(<String, dynamic>{'congrats': FieldValue.increment(1)});
   }
 
-  void launchTermURL() async {
-    const url = 'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
-  void onPressedCheckConsent(bool e) {
-    isConsent = e;
-    notifyListeners();
-  }
-
-  void joinRequest() async {
-    if (isConsent && joinCode != '') {
-      isLoading_join = true;
-      notifyListeners();
-      currentUser = await _auth.currentUser();
-      currentUser?.getIdToken(refresh: true);
-
-      FirebaseAuth.instance.currentUser().then((user) {
-        if (user != null) {
-          user.getIdToken().then((token) async {
-            print(token.claims);
-            String url =
-                "https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup";
-            Map<String, String> headers = {'content-type': 'application/json'};
-            String body =
-                json.encode({'idToken': token.token, 'joinCode': joinCode});
-
-            http.Response resp =
-                await http.post(url, headers: headers, body: body);
-            print(resp.body);
-            print(token.claims);
-            Map<dynamic, dynamic> tokenMap = token.claims;
-            print(tokenMap['sub']);
-            isLoading_join = false;
-            if (resp.body == 'success') {
-              mes_join = '';
-              Timer _timer;
-              login();
-            } else if (resp.body == 'No such document!' ||
-                resp.body == 'not found') {
-              isLoading_join = false;
-              mes_join = 'コードが見つかりませんでした';
-            } else {
-              isLoading_join = false;
-              mes_join = 'エラーが発生しました';
-            }
-            notifyListeners();
-          });
-        }
-      });
-    }
-  }
 }

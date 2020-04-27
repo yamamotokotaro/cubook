@@ -1,21 +1,22 @@
-import 'package:cubook/home/home_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class JoinGroup extends StatelessWidget {
+import '../signup_model.dart';
+
+class CreateGroupView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
         child: GestureDetector(onTap: () {
       FocusScope.of(context).unfocus();
-    }, child: Consumer<HomeModel>(builder: (context, model, child) {
+    }, child: Consumer<SignupModel>(builder: (context, model, child) {
       return Center(
           child: Column(children: <Widget>[
         Padding(
           padding: EdgeInsets.only(top: 30),
           child: Text(
-            '登録コードを入力してください',
+            '以下の項目を入力してください',
             style: TextStyle(
                 fontSize: 23, fontWeight: FontWeight.bold, color: Colors.black),
           ),
@@ -35,13 +36,44 @@ class JoinGroup extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(10),
           child: TextField(
+            controller: model.groupController,
             enabled: true,
             // 入力数
             keyboardType: TextInputType.multiline,
             maxLines: null,
             maxLengthEnforced: false,
-            decoration: InputDecoration(
-              labelText: "登録コード"),
+            decoration:
+                InputDecoration(labelText: "グループの名前", hintText: '例）杉並〇〇団'),
+            onChanged: (text) {
+              model.joinCode = text;
+            },
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: TextField(
+            controller: model.familyController,
+            enabled: true,
+            // 入力数
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+            maxLengthEnforced: false,
+            decoration: InputDecoration(labelText: "あなたの名字"),
+            onChanged: (text) {
+              model.joinCode = text;
+            },
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: TextField(
+            controller: model.firstController,
+            enabled: true,
+            // 入力数
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+            maxLengthEnforced: false,
+            decoration: InputDecoration(labelText: "あなたの名前"),
             onChanged: (text) {
               model.joinCode = text;
             },
@@ -84,11 +116,13 @@ class JoinGroup extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 10),
           child: model.isLoading_join
-              ? Padding(padding: EdgeInsets.all(10),child:CircularProgressIndicator())
+              ? Padding(
+                  padding: EdgeInsets.all(10),
+                  child: CircularProgressIndicator())
               : RaisedButton(
                   color: Theme.of(context).accentColor,
                   onPressed: () {
-                    model.joinRequest();
+                    model.createRequest();
                   },
                   child: Text(
                     '登録',

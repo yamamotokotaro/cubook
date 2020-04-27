@@ -1,7 +1,9 @@
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/home_view_new.dart';
 import 'package:cubook/login/login_view.dart';
-import 'package:cubook/signup/joinGroup.dart';
+import 'package:cubook/signup/create/createGroup_view.dart';
+import 'package:cubook/signup/join/joinGroup_view.dart';
+import 'package:cubook/signup/signup_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,7 +31,7 @@ class HomeController extends StatelessWidget {
                                   return JoinGroup();
                                 }
                               } else {
-                                return JoinGroup();
+                                return SignupView();
                               }
                             } else {
                               return LoginView();

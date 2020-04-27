@@ -3,7 +3,9 @@ import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
+import 'package:cubook/invite/invite_model.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
+import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => TaskListScoutModel()),
           ChangeNotifierProvider(create: (context) => ListTaskWaitingModel()),
           ChangeNotifierProvider(create: (context) => DetailTaskWaitingModel()),
+          ChangeNotifierProvider(create: (context) => SignupModel()),
+          ChangeNotifierProvider(create: (context) => InviteModel()),
         ],
         child: MaterialApp(
           home: HomeController(),

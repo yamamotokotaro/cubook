@@ -51,31 +51,39 @@ class LoginView extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(10),
                   child: Container(
-                      child: Consumer<HomeModel>(
-                        builder: (context, model, child) {
-                          return RaisedButton(
-                            color: Theme.of(context).accentColor,
-                            onPressed: () {
-                              FirebaseAuthUi.instance()
-                                  .launchAuth(
-                                    [
-                                      AuthProvider.email(),
-                                      // Login/Sign up with Email and password
-                                      AuthProvider.google(),
-                                      // Login with Google
-                                    ],
-                                    tosUrl: "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md", // Optional
-                                    privacyPolicyUrl:
-                                        "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md", // Optional,
-                                  )
-                                  .then((firebaseUser) => model.login())
-                                  .catchError(
-                                      (dynamic error) => print('Error $error'));
-                            },
-                            child: Padding(padding: EdgeInsets.all(5),child: Text('ログイン', style: TextStyle(color: Colors.white, fontSize: 20),)),
-                          );
-                        },
-                      ),
+                    child: Consumer<HomeModel>(
+                      builder: (context, model, child) {
+                        return RaisedButton(
+                          color: Theme.of(context).accentColor,
+                          onPressed: () {
+                            FirebaseAuthUi.instance()
+                                .launchAuth(
+                                  [
+                                    AuthProvider.email(),
+                                    // Login/Sign up with Email and password
+                                    AuthProvider.google(),
+                                    // Login with Google
+                                  ],
+                                  tosUrl:
+                                      "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md",
+                                  // Optional
+                                  privacyPolicyUrl:
+                                      "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md", // Optional,
+                                )
+                                .then((firebaseUser) => model.login())
+                                .catchError(
+                                    (dynamic error) => print('Error $error'));
+                          },
+                          child: Padding(
+                              padding: EdgeInsets.all(5),
+                              child: Text(
+                                'ログイン',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              )),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Padding(
@@ -85,32 +93,33 @@ class LoginView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(right: 5, top: 4),
-                                child: Icon(
-                                  Icons.help,
-                                  color: Theme.of(context).accentColor,
-                                  size: 28,
-                                ),
-                              ),
-                              Text(
-                                '上記に当てはまらない方',
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.none),
-                              ),
-                            ]))),
+                          Padding(
+                            padding: EdgeInsets.only(right: 5, top: 4),
+                            child: Icon(
+                              Icons.group_add,
+                              color: Theme.of(context).accentColor,
+                              size: 28,
+                            ),
+                          ),
+                          Text(
+                            '隊として初めて利用する',
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.none),
+                          ),
+                        ]))),
                 Padding(
                     padding: EdgeInsets.all(10),
                     child: Center(
-                        child: Text(
-                          '正式配信開始までお待ちください',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black),
-                        ),)),
+                      child: Text(
+                        '正式配信開始までお待ちください',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black),
+                      ),
+                    )),
               ],
             )));
   }
