@@ -8,7 +8,7 @@ class ListEffortModel extends ChangeNotifier {
 
   void getSnapshot() async {
     FirebaseAuth.instance.currentUser().then((user) {
-      user.getIdToken().then((token) async {
+      user.getIdToken(refresh: true).then((token) async {
         print(token.claims);
         if (token.claims['group'] != null) {
           Firestore.instance

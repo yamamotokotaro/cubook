@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 class SignupModel with ChangeNotifier {
-  var isSelect_type = new List.generate(2, (index) => false);
+  List<bool> isSelect_type = [true,false];
   bool isLoading_join = false;
   bool isConsent = false;
   String joinCode = '';
@@ -24,10 +24,10 @@ class SignupModel with ChangeNotifier {
 
       FirebaseAuth.instance.currentUser().then((user) {
         if (user != null) {
-          user.getIdToken().then((token) async {
+          user.getIdToken(refresh: true).then((token) async {
             print(token.claims);
             String url =
-                "https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup";
+                "https://asia-northeast1-cubook-dev.cloudfunctions.net/joinGroup";
             Map<String, String> headers = {'content-type': 'application/json'};
             String body =
             json.encode({'idToken': token.token, 'joinCode': joinCode});

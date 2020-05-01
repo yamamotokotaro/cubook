@@ -10,7 +10,7 @@ class HomeLeaderModel extends ChangeNotifier {
     isLoaded = true;
     FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
-        user.getIdToken().then((token) async {
+        user.getIdToken(refresh: true).then((token) async {
           Firestore.instance.collection('task').where('group', isEqualTo: token.claims['group']).snapshots().listen((data) {
             taskSnapshot = data;
             notifyListeners();
@@ -25,7 +25,7 @@ Stream<QuerySnapshot> getTaskSnapshot() {
   FirebaseAuth.instance.currentUser().then((user) {
     if (user != null) {
       user.getIdToken().then((token) {
-        return Firestore.instance.collection('task').where('group', isEqualTo: 'EmtNIn1Lm5QJgjIvhI9w'/*token.claims['group']*/).snapshots();
+        return Firestore.instance.collection('task').where('group', isEqualTo: token.claims['group']).snapshots();
       });
     } else {
     }

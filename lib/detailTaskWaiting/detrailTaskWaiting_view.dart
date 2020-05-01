@@ -199,6 +199,7 @@ class DetailTaskWaitingView extends StatelessWidget {
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         maxLengthEnforced: false,
+                        decoration: InputDecoration(labelText: "フィードバックを入力"),
                         onChanged: (text) {
                           model.onTextChanged(text);
                         },
