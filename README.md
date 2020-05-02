@@ -2,7 +2,7 @@
 
 The goal of this project is to reduce the time it takes to review a Scout's progress as much as possible, which in turn reduces the burden on leaders to provide more accurate feedback.
 
-![Screenshot](https://user-images.githubusercontent.com/25360586/80860625-eb180800-8ca3-11ea-81dc-eaef2b7f55b7.png)
+![Screenshot](https://user-images.githubusercontent.com/25360586/80860683-3f22ec80-8ca4-11ea-87d9-b4cf2ccdc434.png)
 
 ## Environmental construction
 
