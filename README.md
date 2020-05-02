@@ -25,4 +25,4 @@ https://sites.google.com/view/cubookinfo/)
 
 ## Licence
 
-This software is released under the [MIT License]().
+This software is released under the [MIT License](https://github.com/yamamotokotaro/cubook/blob/master/LICENSE).
