@@ -344,7 +344,7 @@ class TaskScoutAddView extends StatelessWidget {
           Padding(
               padding: EdgeInsets.only(top: 30),
               child: Container(
-                  height: 900,
+                  height: 1500,
                   child: Card(
                     elevation: 2,
                     child: InkWell(
