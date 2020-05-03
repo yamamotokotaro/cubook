@@ -5,9 +5,13 @@ import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
 import 'package:cubook/invite/invite_model.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
+import 'package:cubook/list_scout/listScout_model.dart';
+import 'package:cubook/select_book/selectBook_model.dart';
 import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
+import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
@@ -27,6 +31,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => DetailTaskWaitingModel()),
           ChangeNotifierProvider(create: (context) => SignupModel()),
           ChangeNotifierProvider(create: (context) => InviteModel()),
+          ChangeNotifierProvider(create: (context) => ListScoutModel()),
+          ChangeNotifierProvider(create: (context) => SelectBookModel()),
+          ChangeNotifierProvider(create: (context) => TaskListScoutConfirmModel()),
         ],
         child: MaterialApp(
           home: HomeController(),
@@ -36,6 +43,14 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.light,
               primaryColor: Colors.blue[900],
               accentColor: Colors.blue[900]),
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale("en"),
+            const Locale("ja"),
+          ],
         ));
   }
 }

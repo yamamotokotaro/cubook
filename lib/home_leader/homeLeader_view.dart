@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
 import 'package:cubook/invite/invite_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_view.dart';
+import 'package:cubook/list_scout/listScout_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -70,7 +71,46 @@ class HomeLeaderView extends StatelessWidget {
         }
       }),
       Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
+        child: Container(
+            child: Card(
+              color: Colors.white,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute<ListScoutView>(
+                          builder: (BuildContext context) {
+                            return ListScoutView();
+                          }));},
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.book,
+                          color: Colors.blue[900],
+                          size: 35,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Material(
+                              type: MaterialType.transparency,
+                              child: Text(
+                                ' カブブックを確認',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 30,
+                                    color: Colors.black),
+                              ),
+                            )),
+                      ]),
+                ),
+              ),
+            )),
+      ),
+      Padding(
+        padding: EdgeInsets.only(top: 5, left: 10, right: 5, bottom: 20),
         child: Container(
             child: Card(
           color: Colors.white,
