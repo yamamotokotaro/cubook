@@ -14,7 +14,7 @@ class TaskListScoutConfirmModel extends ChangeNotifier{
     FirebaseAuth.instance.currentUser().then((user) {
       currentUser = user;
       user.getIdToken().then((token) async {
-        Firestore.instance.collection('user').where('group', isEqualTo: token.claims['group']).where('uid', isEqualTo: uid).getDocuments().then((data) {
+        Firestore.instance.collection('user').where('group', isEqualTo: token.claims['group']).where('uid', isEqualTo: uid).snapshots().listen((data) {
           userSnapshot = data.documents[0];
           notifyListeners();
         });

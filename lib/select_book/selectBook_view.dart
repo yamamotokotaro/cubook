@@ -208,7 +208,9 @@ class SelectBookView extends StatelessWidget {
                                                           null
                                                           ? LinearProgressIndicator(
                                                           backgroundColor:
-                                                          Colors.green[700],
+                                                          theme
+                                                              .getIndicatorColor(
+                                                              'sika'),
                                                           valueColor:
                                                           new AlwaysStoppedAnimation<
                                                               Color>(
@@ -294,7 +296,9 @@ class SelectBookView extends StatelessWidget {
                                                           null
                                                           ? LinearProgressIndicator(
                                                           backgroundColor:
-                                                          Colors.green[700],
+                                                          theme
+                                                              .getIndicatorColor(
+                                                              'kuma'),
                                                           valueColor:
                                                           new AlwaysStoppedAnimation<
                                                               Color>(
@@ -380,7 +384,9 @@ class SelectBookView extends StatelessWidget {
                                                           null
                                                           ? LinearProgressIndicator(
                                                           backgroundColor:
-                                                          Colors.green[700],
+                                                          theme
+                                                              .getIndicatorColor(
+                                                              'challenge'),
                                                           valueColor:
                                                           new AlwaysStoppedAnimation<
                                                               Color>(

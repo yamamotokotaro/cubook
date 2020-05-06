@@ -97,7 +97,7 @@ class HomeLeaderView extends StatelessWidget {
                             child: Material(
                               type: MaterialType.transparency,
                               child: Text(
-                                ' カブブックを確認',
+                                ' カブブック確認',
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 30,

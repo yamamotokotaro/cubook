@@ -64,8 +64,9 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Checkbox(
+                            onChanged: model.onPressCheckbox,
                             activeColor: themeColor,
-                            value: model.checkParent,
+                            value: model.checkPost,
                           ),
                           Text('みんなの取り組みに追加しない')
                         ],
@@ -74,6 +75,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                     !model.isLoading[index_page]
                         ? RaisedButton.icon(
                       onPressed: () {
+                        model.onTapSend(index_page);
                       },
                       icon: Icon(
                         Icons.edit,

@@ -131,7 +131,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                       TextDecoration.none),
                                             ),
                                           ),
-                                          Padding(
+                                          /*Padding(
                                             padding: EdgeInsets.all(10),
                                             child: FlatButton(
                                               child: Text(
@@ -147,6 +147,19 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                         TextDecoration.none),
                                               ),
                                               onPressed: () {},
+                                            ),
+                                          ),*/
+                                          Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Text(
+                                              DateFormat('yyyy/MM/dd').format(
+                                                  model.stepSnapshot['start']
+                                                      .toDate()),
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration:
+                                                  TextDecoration.none),
                                             ),
                                           ),
                                         ],
@@ -168,7 +181,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                       TextDecoration.none),
                                             ),
                                           ),
-                                          Padding(
+                                          /*Padding(
                                             padding: EdgeInsets.all(10),
                                             child: FlatButton(
                                               child: Text(
@@ -183,6 +196,19 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                               ),
                                               onPressed: () {},
                                             ),
+                                          ),*/
+                                          Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Text(
+                                                DateFormat('yyyy/MM/dd').format(
+                                                    model.stepSnapshot['end']
+                                                        .toDate()),
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                    TextDecoration.none),
+                                              ),
                                           ),
                                         ],
                                       ),
@@ -333,6 +359,37 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                       ),
                                     ),
                                     Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        DateFormat('yyyy/MM/dd')
+                                            .format(model
+                                            .stepSnapshot['signed']
+                                        [index_page.toString()]
+                                        ['time']
+                                            .toDate())
+                                            .toString() +
+                                            model.stepSnapshot['signed']
+                                            [index_page.toString()]
+                                            ['family'],
+                                        style: TextStyle(
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.bold,
+                                            decoration: TextDecoration.none),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(5),
+                                      child: Text(
+                                        model.stepSnapshot['signed']
+                                        [index_page.toString()]
+                                        ['feedback'],
+                                        style: TextStyle(
+                                            fontSize: 18.0,
+                                            fontWeight: FontWeight.bold,
+                                            decoration: TextDecoration.none),
+                                      ),
+                                    ),
+                                    /*Padding(
                                       padding: EdgeInsets.only(top: 5),
                                       child: FlatButton(
                                         child: Text(
@@ -382,7 +439,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                         decoration: InputDecoration(
                                             labelText: "フィードバック"),
                                       ),
-                                    ),
+                                    ),*/
                                   ]);
                                 } else if (model.stepSnapshot['signed']
                                         [index_page.toString()]['phaze'] ==

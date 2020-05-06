@@ -11,7 +11,7 @@ class ThemeInfo {
     Colors.orange[300],
     Colors.green[300],
     Colors.blue[300],
-    Colors.green[900]
+    Colors.green[700]
   ];
 
   List<String> titles = [
