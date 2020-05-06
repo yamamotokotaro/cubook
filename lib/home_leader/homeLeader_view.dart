@@ -70,6 +70,45 @@ class HomeLeaderView extends StatelessWidget {
           );
         }
       }),
+      /*Padding(
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10),
+        child: Container(
+            child: Card(
+          color: Colors.white,
+          child: InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute<ListTaskWaitingView>(
+                      builder: (BuildContext context) {
+                        return ListTaskWaitingView();
+                      }));},
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.edit,
+                      color: Colors.blue[900],
+                      size: 35,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: Text(
+                            '個別にサイン',
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 30,
+                                color: Colors.black),
+                          ),
+                        )),
+                  ]),
+            ),
+          ),
+        )),
+      ),*/
       Padding(
         padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
         child: Container(
@@ -148,6 +187,40 @@ class HomeLeaderView extends StatelessWidget {
           ),
         )),
       ),
+      /*Padding(
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
+        child: Container(
+            child: Card(
+          color: Colors.white,
+          child: InkWell(
+            onTap: () {},
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.edit,
+                      color: Colors.blue[900],
+                      size: 35,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: Text(
+                            '一括サイン',
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 30,
+                                color: Colors.black),
+                          ),
+                        )),
+                  ]),
+            ),
+          ),
+        )),
+      ),*/
     ]);
   }
 }
@@ -159,8 +232,8 @@ class HomeLeaderView2 extends StatelessWidget {
       StreamBuilder<QuerySnapshot>(
           stream: getTaskSnapshot(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            /*if (snapshot.hasData) {
-              if (snapshot.data.documents.length != 0) {*/
+            if (snapshot.hasData) {
+              if (snapshot.data.documents.length != 0) {
                 return Padding(
                   padding: EdgeInsets.all(10),
                   child: Container(
@@ -204,7 +277,7 @@ class HomeLeaderView2 extends StatelessWidget {
                     ),
                   )),
                 );
-              /*} else {
+              } else {
                 return Container();
               }
             } else {
@@ -213,7 +286,7 @@ class HomeLeaderView2 extends StatelessWidget {
                     padding: EdgeInsets.all(5),
                     child: CircularProgressIndicator()),
               );
-            }*/
+            }
           }),
       Padding(
         padding: EdgeInsets.only(top: 5, left: 10, right: 10),
@@ -249,6 +322,40 @@ class HomeLeaderView2 extends StatelessWidget {
           ),
         )),
       ),
+      /*Padding(
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
+        child: Container(
+            child: Card(
+          color: Colors.white,
+          child: InkWell(
+            onTap: () {},
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.edit,
+                      color: Colors.blue[900],
+                      size: 35,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: Text(
+                            '一括サイン',
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 30,
+                                color: Colors.black),
+                          ),
+                        )),
+                  ]),
+            ),
+          ),
+        )),
+      ),*/
     ]);
   }
 }

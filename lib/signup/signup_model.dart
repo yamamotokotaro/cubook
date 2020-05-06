@@ -27,7 +27,7 @@ class SignupModel with ChangeNotifier {
           user.getIdToken(refresh: true).then((token) async {
             print(token.claims);
             String url =
-                "https://asia-northeast1-cubook-dev.cloudfunctions.net/joinGroup";
+                "https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup";
             Map<String, String> headers = {'content-type': 'application/json'};
             String body =
             json.encode({'idToken': token.token, 'joinCode': joinCode});
@@ -67,7 +67,7 @@ class SignupModel with ChangeNotifier {
           user.getIdToken().then((token) async {
             print(token.claims);
             String url =
-                "https://asia-northeast1-cubook-dev.cloudfunctions.net/createGroup";
+                "https://asia-northeast1-cubook-3c960.cloudfunctions.net/createGroup";
             Map<String, String> headers = {'content-type': 'application/json'};
             String body =
             json.encode({'idToken': token.token, 'groupName': groupController.text, 'family': familyController.text, 'first': firstController.text});
