@@ -33,7 +33,8 @@ class listEffort extends StatelessWidget {
                     decoration: TextDecoration.none),
               ),
             ])),
-        Consumer<ListEffortModel>(builder: (BuildContext context, ListEffortModel model, Widget child) {
+        Consumer<ListEffortModel>(builder:
+            (BuildContext context, ListEffortModel model, Widget child) {
           if (!model.isGet) {
             model.getSnapshot();
           }
@@ -41,71 +42,108 @@ class listEffort extends StatelessWidget {
           if (model.effortSnapshot != null) {
             final List<DocumentSnapshot> listSnapshot =
                 model.effortSnapshot.documents;
-            return Padding(
-              padding: const EdgeInsets.all(0),
-              child: ListView.builder(
-                  itemCount: listSnapshot.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    DocumentSnapshot documentSnapshot = listSnapshot[index];
-                    final String body = documentSnapshot['family'] +
-                        documentSnapshot['first'] +
-                        documentSnapshot['call'] +
-                        'が' +
-                        documentSnapshot['body'];
-                    final int congrats = documentSnapshot['congrats'];
-                    final String documentID = documentSnapshot.documentID;
-                    Color color;
-                    if (documentSnapshot['type'] == 'usagi') {
-                      color = Colors.orange;
-                    } else if (documentSnapshot['type'] == 'sika') {
-                      color = Colors.green;
-                    } else if (documentSnapshot['type'] == 'kuma') {
-                      color = Colors.blue;
-                    } else if (documentSnapshot['type'] == 'challenge') {
-                      color = Colors.green[900];
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Container(
-                        child: Card(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                height: 90,
-                                color: color,
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                                  child: Text(
-                                    body,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                        decoration: TextDecoration.none),
+            if (listSnapshot.length != 0) {
+              return Padding(
+                padding: const EdgeInsets.all(0),
+                child: ListView.builder(
+                    itemCount: listSnapshot.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      DocumentSnapshot documentSnapshot = listSnapshot[index];
+                      final String body = documentSnapshot['family'] +
+                          documentSnapshot['first'] +
+                          documentSnapshot['call'] +
+                          'が' +
+                          documentSnapshot['body'];
+                      final int congrats = documentSnapshot['congrats'];
+                      final String documentID = documentSnapshot.documentID;
+                      Color color;
+                      if (documentSnapshot['type'] == 'usagi') {
+                        color = Colors.orange;
+                      } else if (documentSnapshot['type'] == 'sika') {
+                        color = Colors.green;
+                      } else if (documentSnapshot['type'] == 'kuma') {
+                        color = Colors.blue;
+                      } else if (documentSnapshot['type'] == 'challenge') {
+                        color = Colors.green[900];
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Container(
+                          child: Card(
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 90,
+                                  color: color,
+                                ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 10, left: 10, right: 10),
+                                    child: Text(
+                                      body,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold,
+                                          decoration: TextDecoration.none),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              FlatButton.icon(
-                                  onPressed: () {
-                                    model.increaseCount(documentID);
-                                  },
-                                  icon: Icon(Icons.favorite_border),
-                                  label: Text('おめでとう！' + congrats.toString()))
-                            ],
+                                FlatButton.icon(
+                                    onPressed: () {
+                                      model.increaseCount(documentID);
+                                    },
+                                    icon: Icon(Icons.favorite_border),
+                                    label: Text('おめでとう！' + congrats.toString()))
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  }),
-            );
+                      );
+                    }),
+              );
+            } else {
+              return Padding(
+                padding: EdgeInsets.only(top: 5, left: 10, right: 10),
+                child: Container(
+                    child: InkWell(
+                  onTap: () {},
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.bubble_chart,
+                            color: Colors.blue[900],
+                            size: 35,
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Material(
+                                type: MaterialType.transparency,
+                                child: Text(
+                                  'まだありません',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                      color: Colors.black),
+                                ),
+                              )),
+                        ]),
+                  ),
+                )),
+              );
+            }
           } else {
             return const Center(
-              child: Padding(padding: EdgeInsets.all(5),child:CircularProgressIndicator()),
+              child: Padding(
+                  padding: EdgeInsets.all(5),
+                  child: CircularProgressIndicator()),
             );
           }
         })
