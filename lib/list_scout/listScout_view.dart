@@ -32,54 +32,92 @@ class ListScoutView extends StatelessWidget {
                           model.getSnapshot();
                         }
                         if (model.userSnapshot != null) {
-                          return ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: model.userSnapshot.documents.length,
-                              shrinkWrap: true,
-                              itemBuilder: (BuildContext context, int index) {
-                                DocumentSnapshot snapshot =
-                                    model.userSnapshot.documents[index];
-                                return Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: Container(
-                                      child: Card(
-                                        child: InkWell(
-                                          onTap: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute<SelectBookView>(
-                                                    builder: (BuildContext context) {
-                                                      return SelectBookView(snapshot['uid']);
-                                                    }));
+                          if(model.userSnapshot.documents.length != 0) {
+                            return ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: model.userSnapshot.documents.length,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  DocumentSnapshot snapshot =
+                                  model.userSnapshot.documents[index];
+                                  return Padding(
+                                      padding: EdgeInsets.all(5),
+                                      child: Container(
+                                        child: Card(
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.push(context,
+                                                  MaterialPageRoute<
+                                                      SelectBookView>(
+                                                      builder: (
+                                                          BuildContext context) {
+                                                        return SelectBookView(
+                                                            snapshot['uid']);
+                                                      }));
                                             },
-                                          child: Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Row(
-                                              children: <Widget>[
-                                                Container(
-                                                  width: 40,
-                                                  height: 40,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          theme.getThemeColor(
-                                                              snapshot['age']),
-                                                      shape: BoxShape.circle),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(left: 10),
-                                                    child: Text(
-                                                  snapshot['name'],
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 25),
-                                                ))
-                                              ],
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                    width: 40,
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                        theme.getThemeColor(
+                                                            snapshot['age']),
+                                                        shape: BoxShape.circle),
+                                                  ),
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 10),
+                                                      child: Text(
+                                                        snapshot['name'],
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                            FontWeight.bold,
+                                                            fontSize: 25),
+                                                      ))
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ));
-                              });
+                                      ));
+                                });
+                          } else {
+                            return Padding(
+                              padding: EdgeInsets.only(top: 5, left: 10, right: 10),
+                              child: Container(
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.bubble_chart,
+                                              color: Colors.blue[900],
+                                              size: 35,
+                                            ),
+                                            Padding(
+                                                padding: EdgeInsets.only(left: 10),
+                                                child: Material(
+                                                  type: MaterialType.transparency,
+                                                  child: Text(
+                                                    'スカウトを招待しよう',
+                                                    style: TextStyle(
+                                                        fontWeight: FontWeight.normal,
+                                                        fontSize: 20,
+                                                        color: Colors.black),
+                                                  ),
+                                                )),
+                                          ]),
+                                    ),
+                                  )),
+                            );
+                          }
                         } else {
                           return Center(
                             child: CircularProgressIndicator(),

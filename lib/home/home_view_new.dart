@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeViewNew extends StatelessWidget {
   @override
@@ -18,15 +19,30 @@ class HomeViewNew extends StatelessWidget {
             Spacer(),
             Align(
                 alignment: Alignment.bottomRight,
-                child: Padding(
+                child: Row(children: [
+                  Padding(
                     padding: EdgeInsets.only(top: 10, right: 10),
                     child: Consumer<HomeModel>(builder: (context, model, child) {
-                      return FlatButton(
-                          child: Text('ログアウト'),
+                      return FlatButton.icon(
+                          icon: Icon(Icons.help),
+                          label: Text('ヘルプ'),
+                          onPressed: () {
+                            launchURL();
+                          });
+                    }),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, right: 10),
+                    child: Consumer<HomeModel>(builder: (context, model, child) {
+                      return FlatButton.icon(
+                        icon: Icon(Icons.exit_to_app),
+                          label: Text('ログアウト'),
                           onPressed: () {
                             model.logout();
                           });
-                    }))),
+                    }),
+                  ),
+                ])),
           ],
         ),
         Selector<HomeModel, String>(
@@ -48,7 +64,9 @@ class HomeViewNew extends StatelessWidget {
             if (model.currentUser == null) {
               model.login();
               return Center(
-                child: Padding(padding: EdgeInsets.all(5),child:CircularProgressIndicator()),
+                child: Padding(
+                    padding: EdgeInsets.all(5),
+                    child: CircularProgressIndicator()),
               );
             } else {
               return model.toShow;
@@ -58,5 +76,14 @@ class HomeViewNew extends StatelessWidget {
         listEffort()
       ],
     );
+  }
+}
+
+void launchURL() async {
+  const url = 'https://sites.google.com/view/cubookinfo/qa';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }
