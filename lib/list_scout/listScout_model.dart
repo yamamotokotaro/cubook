@@ -11,7 +11,7 @@ class ListScoutModel extends ChangeNotifier{
     FirebaseAuth.instance.currentUser().then((user) {
       currentUser = user;
       user.getIdToken().then((token) async {
-        Firestore.instance.collection('user').where('group', isEqualTo: token.claims['group']).getDocuments().then((data) {
+        Firestore.instance.collection('user').where('group', isEqualTo: token.claims['group']).where('position', isEqualTo: 'scout').getDocuments().then((data) {
           userSnapshot = data;
           notifyListeners();
         });
