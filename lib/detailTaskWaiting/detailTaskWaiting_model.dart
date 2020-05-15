@@ -24,6 +24,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   List<dynamic> body = List<dynamic>();
   Map<dynamic, dynamic> tokenMap;
   List<dynamic> dataMap;
+  bool EmptyError = false;
 
   Future<void> getTaskSnapshot(String _documentID) async {
     documentID = _documentID;
@@ -93,6 +94,29 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         });
         isLoading = false;
       });
+    } else {
+      EmptyError = true;
+      notifyListeners();
+    }
+  }
+
+  void onTapReject() async {
+    if (feedback != '') {
+      isLoading = true;
+      notifyListeners();
+      FirebaseAuth.instance.currentUser().then((user) async {
+        currentUser = user;
+        currentUser.getIdToken().then((token) async {
+          print(token.claims);
+          tokenMap = token.claims;
+          await updateDocumentInfo_reject();
+          await deleteTask();
+        });
+        isLoading = false;
+      });
+    } else {
+      EmptyError = true;
+      notifyListeners();
     }
   }
 
@@ -145,6 +169,32 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       map[number.toString()]['uid'] = currentUser.uid;
       map[number.toString()]['feedback'] = feedback;
       map[number.toString()]['time'] = Timestamp.now();
+      Map<String, dynamic> mapSend = Map<String, dynamic>();
+      mapSend['signed'] = map;
+      if (map.length == task.getPartMap(type, page)['hasItem']) {
+        mapSend['end'] = Timestamp.now();
+      }
+      Firestore.instance
+          .collection(type)
+          .document(snapshot.documentID)
+          .updateData(mapSend);
+    });
+  }
+
+  Future<void> updateDocumentInfo_reject() async {
+    var task = new Task();
+    Firestore.instance
+        .collection(type)
+        .where('uid', isEqualTo: uid_get)
+        .where('page', isEqualTo: page)
+        .where('group', isEqualTo: tokenMap['group'])
+        .getDocuments()
+        .then((data) {
+      DocumentSnapshot snapshot = data.documents[0];
+      Map<String, dynamic> map = Map<String, dynamic>();
+      map = snapshot['signed'];
+      map[number.toString()]['phaze'] = 'reject';
+      map[number.toString()]['feedback'] = feedback;
       Map<String, dynamic> mapSend = Map<String, dynamic>();
       mapSend['signed'] = map;
       if (map.length == task.getPartMap(type, page)['hasItem']) {

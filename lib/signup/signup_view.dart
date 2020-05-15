@@ -7,9 +7,10 @@ import 'package:provider/provider.dart';
 
 class SignupView extends StatelessWidget {
   static final list_select = [
-    '登録コードを入力',
-    'グループを新規作成',
+    '招待を受けている',
+    '隊で初めて利用する',
   ];
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -19,9 +20,9 @@ class SignupView extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.only(top: 30, bottom: 10),
             child: Text(
-              '以下から操作する内容を選択してください',
+              'あてはまる項目を選択してください',
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -35,43 +36,27 @@ class SignupView extends StatelessWidget {
                       itemCount: list_select.length,
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemBuilder:
-                          (BuildContext context, int index) {
+                      itemBuilder: (BuildContext context, int index) {
                         return Consumer<SignupModel>(
-                            builder: (context, model,
-                                child) =>
-                                Container(
+                            builder: (context, model, child) => Container(
                                   child: Card(
-                                    color:
-                                    model.isSelect_type[
-                                    index]
-                                        ? Colors.blue[900]
-                                        .withAlpha(60)
-                                        : Colors.grey
-                                        .withAlpha(
-                                        20),
+                                    color: model.isSelect_type[index]
+                                        ? Colors.blue[900].withAlpha(60)
+                                        : Colors.grey.withAlpha(20),
                                     elevation: 0,
                                     child: InkWell(
                                       onTap: () {
-                                        model
-                                            .clickPublicButton(
-                                            index);
+                                        model.clickPublicButton(index);
                                       },
                                       child: Column(
                                         children: <Widget>[
                                           Padding(
-                                            padding:
-                                            EdgeInsets
-                                                .all(10),
+                                            padding: EdgeInsets.all(10),
                                             child: Text(
-                                              list_select[
-                                              index],
-                                              style:
-                                              TextStyle(
+                                              list_select[index],
+                                              style: TextStyle(
                                                 fontSize: 17,
-                                                fontWeight:
-                                                FontWeight
-                                                    .bold,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ),
@@ -82,10 +67,10 @@ class SignupView extends StatelessWidget {
                                 ));
                       }))),
           Consumer<SignupModel>(
-              builder: (context, model, child) => model
-                  .isSelect_type[1]
-                  ? CreateGroupView()
-                  : JoinGroup())
+              builder: (context, model, child) =>
+                  model.isSelect_type[0] || model.isSelect_type[1]
+                      ? model.isSelect_type[1] ? CreateGroupView() : JoinGroup()
+                      : Container())
         ],
       ),
     );

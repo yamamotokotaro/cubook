@@ -16,9 +16,10 @@ class CreateGroupView extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 30),
           child: Text(
-            '以下の項目を入力してください',
+            'グループを新規作成します\n以下の項目を入力してください',
+            textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 23, fontWeight: FontWeight.bold, color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
           ),
         ),
         model.mes_join != ''
