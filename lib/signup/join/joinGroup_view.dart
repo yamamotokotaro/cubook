@@ -15,9 +15,10 @@ class JoinGroup extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 30),
           child: Text(
-            '登録コードを入力してください',
+            '招待メールに記載されている登録コードを入力してください',
+            textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 23, fontWeight: FontWeight.bold, color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
           ),
         ),
         model.mes_join != ''

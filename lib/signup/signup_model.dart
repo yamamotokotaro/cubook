@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_ui/firebase_auth_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 class SignupModel with ChangeNotifier {
-  List<bool> isSelect_type = [true,false];
+  List<bool> isSelect_type = [false,false];
   bool isLoading_join = false;
   bool isConsent = false;
   String joinCode = '';

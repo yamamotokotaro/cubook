@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:cubook/task_detail_scout/widget/videoView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,9 +7,10 @@ import '../taskDetailScout_model.dart';
 class TaskDetailScoutAddView extends StatelessWidget {
   int index_page;
   String type;
+  String mes;
   Color themeColor;
 
-  TaskDetailScoutAddView(int _index, String _type) {
+  TaskDetailScoutAddView(int _index, String _type, String _mes) {
     if (_type == 'usagi') {
       themeColor = Colors.orange;
     } else if (_type == 'sika') {
@@ -24,6 +22,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
     }
     index_page = _index;
     type = _type;
+    mes = _mes;
   }
 
   @override
@@ -54,7 +53,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                 Padding(
                     padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                     child: Text(
-                      'どんなことをしたのかリーダーに教えよう',
+                      mes,
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -204,6 +203,16 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                             ),
                                           ],
                                         ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 5),
+                                        child:Text(
+                                        '横向きで撮ってね',
+                                        style: TextStyle(
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
                                       ),
                                       model.map_attach[index_page][index] ==
                                               null
@@ -374,7 +383,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         color: Colors.white),
                   ),
                 ),
-                /*FlatButton.icon(
+                FlatButton.icon(
                   onPressed: () {
                     model.onPressAdd_new(index_page, 'video');
                   },
@@ -391,7 +400,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
-                ),*/
+                ),
                 Padding(
                   padding: EdgeInsets.only(top: 10),
                   child: Row(

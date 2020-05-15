@@ -23,6 +23,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   bool taskFinished = false;
   List<dynamic> body = List<dynamic>();
   Map<dynamic, dynamic> tokenMap;
+  List<dynamic> dataMap;
 
   Future<void> getTaskSnapshot(String _documentID) async {
     documentID = _documentID;
@@ -42,17 +43,18 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         type = taskSnapshot['type'];
         page = taskSnapshot['page'];
         number = taskSnapshot['number'];
+        dataMap = taskSnapshot['data'];
         for (int i = 0; i < taskSnapshot['data'].length; i++) {
           if (taskSnapshot['data'][i]['type'] == 'text') {
             body.add(taskSnapshot['data'][i]['body']);
           } else if (taskSnapshot['data'][i]['type'] == 'image') {
             final StorageReference ref =
-            FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
+                FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
             final String url = await ref.getDownloadURL();
             body.add(url);
           } else {
             final StorageReference ref =
-            FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
+                FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
             final String url = await ref.getDownloadURL();
             final videoPlayerController = VideoPlayerController.network(url);
             final chewieController = ChewieController(
@@ -181,6 +183,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     map['type'] = type;
     map['group'] = snapshot['group'];
     map['time'] = Timestamp.now();
+    map['data'] = dataMap;
     Firestore.instance.collection('effort').add(map);
     Firestore.instance
         .collection(type)

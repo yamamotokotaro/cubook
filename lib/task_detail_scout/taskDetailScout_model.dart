@@ -181,42 +181,45 @@ class TaskDetailScoutModel extends ChangeNotifier {
   Future addDocument(List list, int number) async {
     Map<String, dynamic> data = Map<String, dynamic>();
     FirebaseUser user = await auth.currentUser();
-    data["uid"] = user.uid;
-    data["date"] = Timestamp.now();
-    data["type"] = type;
-    data['page'] = numberPushed;
-    data['number'] = number;
-    data['data'] = list;
-    data['family'] = tokenMap['family'];
-    data['first'] = tokenMap['first'];
-    data['call'] = tokenMap['call'];
-    data['group'] = tokenMap['group'];
-    isAdded[number] = true;
-    documentReference = await Firestore.instance.collection('task').add(data);
-    documentID = documentReference.documentID;
-    Map<String, dynamic> data_signed = Map<String, dynamic>();
-    if (isExit) {
-      Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-      data_toAdd = stepSnapshot['signed'];
-      data_toAdd[number.toString()] = {'phaze': 'wait', 'data': list};
-      data_signed['signed'] = data_toAdd;
-      Firestore.instance
-          .collection(type)
-          .document(documentID_exit)
-          .updateData(data_signed);
-    } else {
-      Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-      data_toAdd['phaze'] = 'wait';
-      data_toAdd['data'] = list;
-      data_signed['page'] = numberPushed;
-      data_signed['uid'] = user.uid;
-      data_signed['start'] = Timestamp.now();
-      data_signed['signed'] = {number.toString(): data_toAdd};
-      data_signed['group'] = tokenMap['group'];
-      DocumentReference documentReference_add =
-          await Firestore.instance.collection(type).add(data_signed);
-      documentID_exit = documentReference_add.documentID;
-    }
+    Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((userDatas) async {
+      DocumentSnapshot userData = userDatas.documents[0];
+      data["uid"] = user.uid;
+      data["date"] = Timestamp.now();
+      data["type"] = type;
+      data['page'] = numberPushed;
+      data['number'] = number;
+      data['data'] = list;
+      data['family'] = userData['family'];
+      data['first'] = userData['first'];
+      data['call'] = userData['call'];
+      data['group'] = tokenMap['group'];
+      isAdded[number] = true;
+      documentReference = await Firestore.instance.collection('task').add(data);
+      documentID = documentReference.documentID;
+      Map<String, dynamic> data_signed = Map<String, dynamic>();
+      if (isExit) {
+        Map<String, dynamic> data_toAdd = Map<String, dynamic>();
+        data_toAdd = stepSnapshot['signed'];
+        data_toAdd[number.toString()] = {'phaze': 'wait', 'data': list};
+        data_signed['signed'] = data_toAdd;
+        Firestore.instance
+            .collection(type)
+            .document(documentID_exit)
+            .updateData(data_signed);
+      } else {
+        Map<String, dynamic> data_toAdd = Map<String, dynamic>();
+        data_toAdd['phaze'] = 'wait';
+        data_toAdd['data'] = list;
+        data_signed['page'] = numberPushed;
+        data_signed['uid'] = user.uid;
+        data_signed['start'] = Timestamp.now();
+        data_signed['signed'] = {number.toString(): data_toAdd};
+        data_signed['group'] = tokenMap['group'];
+        DocumentReference documentReference_add =
+            await Firestore.instance.collection(type).add(data_signed);
+        documentID_exit = documentReference_add.documentID;
+      }
+    });
   }
 
   Future updateDocument(Map data) async {

@@ -81,7 +81,7 @@ class TaskScoutDetailView extends StatelessWidget {
                         builder: (context, model, _) {
                       if (model.isExit == true) {
                         var message = '';
-                        if (model.stepSnapshot['end']!= null) {
+                        if (model.stepSnapshot['end'] != null) {
                           message = '完修済み🎉';
                         } else {
                           message = 'その調子🏃‍♂️';
@@ -289,7 +289,14 @@ class TaskScoutDetailView extends StatelessWidget {
                           ],
                         );
                       } else {
-                        return Container(child: Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(themeColor),),),);
+                        return Container(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(themeColor),
+                            ),
+                          ),
+                        );
                       }
                     })),
                   )),
@@ -364,9 +371,10 @@ class TaskScoutAddView extends StatelessWidget {
                                         [index_page.toString()] ==
                                     null) {
                                   return TaskDetailScoutAddView(
-                                      index_page, type);
-                                } else if(model.stepSnapshot['signed']
-                                [index_page.toString()]['phaze'] == 'signed') {
+                                      index_page, type, 'どんなことをしたのかリーダーに教えよう');
+                                } else if (model.stepSnapshot['signed']
+                                        [index_page.toString()]['phaze'] ==
+                                    'signed') {
                                   return Column(children: <Widget>[
                                     Container(
                                       width: MediaQuery.of(context).size.width,
@@ -408,8 +416,7 @@ class TaskScoutAddView extends StatelessWidget {
                                       padding: EdgeInsets.all(5),
                                       child: Text(
                                         model.stepSnapshot['signed']
-                                        [index_page.toString()]
-                                        ['feedback'],
+                                            [index_page.toString()]['feedback'],
                                         style: TextStyle(
                                             fontSize: 18.0,
                                             fontWeight: FontWeight.bold,
@@ -417,9 +424,9 @@ class TaskScoutAddView extends StatelessWidget {
                                       ),
                                     )
                                   ]);
-                                } else if(model.stepSnapshot['signed']
-                                [index_page.toString()]['phaze'] == 'wait'){
-
+                                } else if (model.stepSnapshot['signed']
+                                        [index_page.toString()]['phaze'] ==
+                                    'wait') {
                                   return Column(children: <Widget>[
                                     Container(
                                       width: MediaQuery.of(context).size.width,
@@ -449,19 +456,42 @@ class TaskScoutAddView extends StatelessWidget {
                                       ),
                                     ),
                                   ]);
+                                } else if (model.stepSnapshot['signed']
+                                        [index_page.toString()]['phaze'] ==
+                                    'reject') {
+                                  return Column(children: <Widget>[
+                                    /*Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        model.stepSnapshot['signed']
+                                            [index_page.toString()]['feedback'],
+                                        style: TextStyle(
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.bold,
+                                            decoration: TextDecoration.none),
+                                      ),
+                                    ),*/
+                                    TaskDetailScoutAddView(index_page, type, model.stepSnapshot['signed'][index_page.toString()]['feedback'])
+                                  ]);
                                 } else {
                                   return Center(
-                                    child: Text(
-                                      'エラーが発生しました'
-                                    ),
+                                    child: Text('エラーが発生しました'),
                                   );
                                 }
                               } else {
-                                return TaskDetailScoutAddView(
-                                    index_page, type);
+                                return TaskDetailScoutAddView(index_page, type, 'どんなことをしたのかリーダーに教えよう');
                               }
                             } else {
-                              return Padding(padding: EdgeInsets.only(top: 60),child: Container(child: Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(themeColor)),),));
+                              return Padding(
+                                  padding: EdgeInsets.only(top: 60),
+                                  child: Container(
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  themeColor)),
+                                    ),
+                                  ));
                             }
                           })
                         ],
