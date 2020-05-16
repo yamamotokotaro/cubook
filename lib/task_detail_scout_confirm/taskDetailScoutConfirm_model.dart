@@ -66,8 +66,10 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
 
     isLoading = new List<dynamic>.generate(quant, (index) => false);
     dateSelected = new List<dynamic>.generate(quant, (index) => null);
-    textField_signature = new List<TextEditingController>.generate(quant, (index) => null);
-    textField_feedback = new List<TextEditingController>.generate(quant, (index) => null);
+    textField_signature =
+        new List<TextEditingController>.generate(quant, (index) => null);
+    textField_feedback =
+        new List<TextEditingController>.generate(quant, (index) => null);
 
     list_toSend = new List<dynamic>.generate(
         quant, (index) => new List<Map<String, dynamic>>());
@@ -89,11 +91,11 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
             stepSnapshot = data.documents[0];
             documentID_exit = data.documents[0].documentID;
             isExit = true;
-            for(int i=0; i<quant; i++){
-              if(stepSnapshot['signed'][i.toString()] != null) {
+            for (int i = 0; i < quant; i++) {
+              if (stepSnapshot['signed'][i.toString()] != null) {
                 Map<String, dynamic> doc = stepSnapshot['signed'][i.toString()];
                 if (doc != null) {
-                  if(doc['phaze'] == 'signed') {
+                  if (doc['phaze'] == 'signed') {
                     dateSelected[i] = doc['time'].toDate();
                     textField_signature[i] =
                         TextEditingController(text: doc['family']);
@@ -123,9 +125,8 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       lastDate: DateTime(DateTime.now().year + 5),
       initialDate: dateTime,
     );
-    if(date != null) {
+    if (date != null) {
       dateSelected[page] = date;
-      print(dateSelected[page]);
       notifyListeners();
     }
   }
@@ -141,7 +142,6 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     FirebaseAuth.instance.currentUser().then((user) async {
       currentUser = user;
       currentUser.getIdToken().then((token) async {
-        print(token.claims);
         tokenMap = token.claims;
         await updateUserInfo(number);
         isLoading[number] = false;
@@ -151,7 +151,6 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   Future<void> updateUserInfo(int number) async {
-
     bool isComplete = false;
     var task = new Task();
     Firestore.instance
@@ -181,14 +180,14 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       if (map[page.toString()] == task.getPartMap(type, page)['hasItem']) {
         recordEndTime();
         isComplete = true;
-        if(!checkPost) {
+        if (!checkPost) {
           onFinish();
         }
       }
     });
 
     FirebaseUser user = await auth.currentUser();
-    Map<String, dynamic>  data_signed = Map<String, dynamic>();
+    Map<String, dynamic> data_signed = Map<String, dynamic>();
     Firestore.instance
         .collection(type)
         .where('group', isEqualTo: tokenMap['group'])
@@ -208,7 +207,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         data_toAdd['time'] = Timestamp.now();
         map[number.toString()] = data_toAdd;
         data_signed['signed'] = map;
-        if(isComplete) {
+        if (isComplete) {
           data_signed['end'] = Timestamp.now();
         }
         Firestore.instance
@@ -227,11 +226,11 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         data_signed['start'] = Timestamp.now();
         data_signed['signed'] = {number.toString(): data_toAdd};
         data_signed['group'] = tokenMap['group'];
-        if(isComplete) {
+        if (isComplete) {
           data_signed['end'] = Timestamp.now();
         }
         DocumentReference documentReference_add =
-        await Firestore.instance.collection(type).add(data_signed);
+            await Firestore.instance.collection(type).add(data_signed);
       }
     });
   }
@@ -258,7 +257,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         data_toAdd['time'] = Timestamp.now();
         map[number.toString()] = data_toAdd;
         data_signed['signed'] = map;
-        if(isComplete) {
+        if (isComplete) {
           data_signed['end'] = Timestamp.now();
         }
         Firestore.instance
@@ -277,7 +276,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         data_signed['start'] = Timestamp.now();
         data_signed['signed'] = {number.toString(): data_toAdd};
         data_signed['group'] = tokenMap['group'];
-        if(isComplete) {
+        if (isComplete) {
           data_signed['end'] = Timestamp.now();
         }
         DocumentReference documentReference_add =
@@ -335,7 +334,6 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     FirebaseAuth.instance.currentUser().then((user) async {
       currentUser = user;
       currentUser.getIdToken().then((token) async {
-        print(token.claims);
         tokenMap = token.claims;
         await updateData(number, context);
         isLoading[number] = false;
@@ -372,6 +370,50 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         duration: const Duration(seconds: 1),
         content: new Text('変更を保存しました'),
       ));
+      checkDate(snapshot, dateSelected[number], snapshot.documentID, quant);
     });
+  }
+
+  Future<void> checkDate(DocumentSnapshot snapshot, DateTime time, String documentID,int quant) async {
+    bool isStart = true;
+    bool isEnd = true;
+    DateTime dateStart;
+    if(snapshot['start'] is Timestamp){
+      dateStart = snapshot['start'].toDate();
+    } else {
+      dateStart = snapshot['start'];
+    }
+    Map map = snapshot['signed'];
+    for (int i = 0; i < map.length; i++) {
+      if(map[i.toString()] != null) {
+        DateTime date_toComparison;
+        if(map[i.toString()]['time'] is Timestamp){
+          date_toComparison = map[i.toString()]['time'].toDate();
+        } else {
+          date_toComparison = map[i.toString()]['time'];
+        }
+        if (time.isAfter(date_toComparison)) {
+          isStart = false;
+        }
+        if (time.isBefore(date_toComparison)) {
+          isEnd = false;
+        }
+      }
+    }
+    Map<String, dynamic> data_toChange = Map<String, dynamic>();
+    if (isStart) {
+      data_toChange['start'] = time;
+    }
+    if (isEnd && snapshot['end'] != null) {
+      data_toChange['end'] = time;
+    }
+    if(quant == 1 && dateStart != time){
+      data_toChange['start'] = time;
+      data_toChange['end'] = time;
+    }
+    Firestore.instance
+        .collection(type)
+        .document(documentID)
+        .updateData(data_toChange);
   }
 }

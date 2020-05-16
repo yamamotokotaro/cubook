@@ -108,7 +108,7 @@ class HomeLeaderView extends StatelessWidget {
             )),
       ),
       Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 5, bottom: 20),
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
         child: Container(
             child: Card(
           child: InkWell(
