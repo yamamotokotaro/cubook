@@ -26,7 +26,6 @@ class SignupModel with ChangeNotifier {
       FirebaseAuth.instance.currentUser().then((user) {
         if (user != null) {
           user.getIdToken(refresh: true).then((token) async {
-            print(token.claims);
             String url =
                 "https://asia-northeast1-cubook-dev.cloudfunctions.net/joinGroup";
             Map<String, String> headers = {'content-type': 'application/json'};
@@ -35,10 +34,7 @@ class SignupModel with ChangeNotifier {
 
             http.Response resp =
             await http.post(url, headers: headers, body: body);
-            print(resp.body);
-            print(token.claims);
             Map<dynamic, dynamic> tokenMap = token.claims;
-            print(tokenMap['sub']);
             isLoading_join = false;
             if (resp.body == 'success') {
               mes_join = '';

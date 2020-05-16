@@ -8,7 +8,6 @@ class SelectBookModel extends ChangeNotifier{
   bool isGet = false;
 
   void getSnapshot(String uid) async {
-    print(uid);
     FirebaseAuth.instance.currentUser().then((user) {
       currentUser = user;
       user.getIdToken().then((token) async {

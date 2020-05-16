@@ -119,7 +119,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
           currentUser = user;
           user.getIdToken().then((token) {
             tokenMap = token.claims;
-            print(tokenMap);
             Map<int, dynamic> MapDatas = map_attach[number];
             list_toSend[number] =
                 new List<dynamic>.generate(MapDatas.length, (index) => null);
@@ -164,7 +163,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
   void firestoreController(Map data, int number, int index) {
     data['type'] = list_attach[number][index];
     list_toSend[number][index] = data;
-    print(data);
     count_toSend[number]--;
     if (count_toSend[number] == 0) {
       isAdded[number] = true;
@@ -259,7 +257,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
 
   void onTextChanged(int number, int index, String text) async {
     map_attach[number][index] = text;
-    print(map_attach);
   }
 
   void onPressAdd() {

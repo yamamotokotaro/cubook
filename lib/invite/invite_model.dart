@@ -57,7 +57,6 @@ class InviteModel with ChangeNotifier {
       FirebaseAuth.instance.currentUser().then((user) {
         if (user != null) {
           user.getIdToken().then((token) async {
-            print(token.claims);
             String url =
                 "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
             Map<String, String> headers = {
@@ -76,8 +75,6 @@ class InviteModel with ChangeNotifier {
 
             http.Response resp =
             await http.post(url, headers: headers, body: body);
-            print(resp.body);
-            print(token.claims);
             isLoading_join = false;
             if (resp.body == 'success') {
               mes_join = '';
