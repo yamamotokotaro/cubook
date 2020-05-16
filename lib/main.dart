@@ -10,15 +10,18 @@ import 'package:cubook/select_book/selectBook_model.dart';
 import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   final boyColor = Colors.orange;
+  FirebaseAnalytics analytics = FirebaseAnalytics();
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +41,20 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           home: HomeController(),
+          navigatorObservers: [
+            FirebaseAnalyticsObserver(analytics: analytics),
+          ],
           debugShowCheckedModeBanner: false,
           theme: new ThemeData(
               fontFamily: 'NotoSansJP',
               brightness: Brightness.light,
               primaryColor: Colors.blue[900],
               accentColor: Colors.blue[900]),
+          darkTheme: new ThemeData(
+            brightness: Brightness.dark,
+            primaryColor: Colors.blue[900],
+            accentColor: Colors.white,
+          ),
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

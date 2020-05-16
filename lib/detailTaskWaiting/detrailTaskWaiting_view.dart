@@ -199,7 +199,8 @@ class DetailTaskWaitingView extends StatelessWidget {
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         maxLengthEnforced: false,
-                        decoration: InputDecoration(labelText: "フィードバックを入力"),
+                        decoration: InputDecoration(labelText: "フィードバックを入力",
+                        errorText: model.EmptyError ? 'フィードバックを入力してください' : null),
                         onChanged: (text) {
                           model.onTextChanged(text);
                         },
@@ -207,29 +208,53 @@ class DetailTaskWaitingView extends StatelessWidget {
                     ),
                     !model.isLoading
                         ? RaisedButton.icon(
-                            onPressed: () {
-                              model.onTapSend();
-                            },
-                            icon: Icon(
-                              Icons.edit,
-                              size: 20,
-                              color: Colors.white,
-                            ),
-                            color: Theme.of(context).accentColor,
-                            label: Text(
-                              'サインする',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          )
+                      onPressed: () {
+                        model.onTapSend();
+                      },
+                      icon: Icon(
+                        Icons.edit,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                      color: Theme.of(context).accentColor,
+                      label: Text(
+                        'サインする',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    )
                         : Container(
-                            child: Padding(
-                              padding: EdgeInsets.all(5),
-                              child: Center(),
-                            ),
-                          ),
+                      child: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Center(),
+                      ),
+                    ),
+                    !model.isLoading
+                        ? FlatButton.icon(
+                      onPressed: () {
+                        model.onTapReject();
+                      },
+                      icon: Icon(
+                        Icons.close,
+                        size: 20,
+                        color: Colors.red,
+                      ),
+                      label: Text(
+                        'やりなおし',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red),
+                      ),
+                    )
+                        : Container(
+                      child: Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Center(),
+                      ),
+                    ),
                   ],
                 );
               } else {

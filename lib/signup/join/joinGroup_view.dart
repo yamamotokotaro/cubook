@@ -18,7 +18,7 @@ class JoinGroup extends StatelessWidget {
             '招待メールに記載されている登録コードを入力してください',
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
         model.mes_join != ''
@@ -54,8 +54,7 @@ class JoinGroup extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.normal,
-                color: Colors.black),
+                fontWeight: FontWeight.normal,),
           ),
         ),
         FlatButton(

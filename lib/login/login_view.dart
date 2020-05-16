@@ -19,11 +19,10 @@ class LoginView extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(top: 0),
                 child: Text(
-                  'サインをしよう！もらおう！ほめあおう！',
+                  'カブブックサインアプリ',
                   style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                      fontWeight: FontWeight.bold,),
                 ),
               ),
             ),
@@ -34,8 +33,7 @@ class LoginView extends StatelessWidget {
                   'cubook',
                   style: TextStyle(
                       fontSize: 43,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                      fontWeight: FontWeight.bold,),
                 ),
               ),
             ),
@@ -45,7 +43,7 @@ class LoginView extends StatelessWidget {
                 child: Consumer<HomeModel>(
                   builder: (context, model, child) {
                     return RaisedButton(
-                      color: Theme.of(context).accentColor,
+                      color: Colors.blue[900],
                       onPressed: () {
                         FirebaseAuthUi.instance()
                             .launchAuth(

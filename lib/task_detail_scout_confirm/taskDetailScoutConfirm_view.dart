@@ -159,7 +159,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                   fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
                                                   decoration:
-                                                  TextDecoration.none),
+                                                      TextDecoration.none),
                                             ),
                                           ),
                                         ],
@@ -200,15 +200,15 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(
-                                                DateFormat('yyyy/MM/dd').format(
-                                                    model.stepSnapshot['end']
-                                                        .toDate()),
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
-                                                    TextDecoration.none),
-                                              ),
+                                              DateFormat('yyyy/MM/dd').format(
+                                                  model.stepSnapshot['end']
+                                                      .toDate()),
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration:
+                                                      TextDecoration.none),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -269,6 +269,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                     height: 70,
                     width: 70,
                     child: Card(
+                      color: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(35.0)),
                       elevation: 7,
@@ -318,187 +319,189 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                   child: Card(
                     elevation: 2,
                     child: InkWell(
-                      child:
-                          /*SingleChildScrollView(
-                        child: */
-                          Column(
-                        children: <Widget>[
-                          Consumer<TaskDetailScoutConfirmModel>(
-                              builder: (context, model, _) {
-                            if (!model.isGet) {
-                              model.getSnapshot();
-                            }
-                            if (model.isLoaded) {
-                              if (model.stepSnapshot != null) {
-                                if (model.stepSnapshot['signed']
-                                        [index_page.toString()] ==
-                                    null) {
-                                  return Container(
-                                    child: TaskDetailScoutConfirmAddView(
-                                        index_page, type),
-                                  );
-                                } else if (model.stepSnapshot['signed']
-                                        [index_page.toString()]['phaze'] ==
-                                    'signed') {
-                                  return Column(children: <Widget>[
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      color: themeColor,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 40, bottom: 20),
-                                        child: Center(
-                                          child: Text(
-                                            'サイン済み',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
+                        child: Scaffold(
+                            body: SingleChildScrollView(
+                                child: Column(
+                      children: <Widget>[
+                        Consumer<TaskDetailScoutConfirmModel>(
+                            builder: (context, model, _) {
+                          if (!model.isGet) {
+                            model.getSnapshot();
+                          }
+                          if (model.isLoaded) {
+                            if (model.stepSnapshot != null) {
+                              if (model.stepSnapshot['signed']
+                                      [index_page.toString()] ==
+                                  null) {
+                                return Container(
+                                  child: TaskDetailScoutConfirmAddView(
+                                      index_page, type),
+                                );
+                              } else if (model.stepSnapshot['signed']
+                                      [index_page.toString()]['phaze'] ==
+                                  'signed') {
+                                return Column(children: <Widget>[
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    color: themeColor,
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 40, bottom: 20),
+                                      child: Center(
+                                        child: Text(
+                                          'サイン済み',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
+                                  ),
+
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 5),
+                                    child: FlatButton(
                                       child: Text(
                                         DateFormat('yyyy/MM/dd')
-                                            .format(model
-                                            .stepSnapshot['signed']
-                                        [index_page.toString()]
-                                        ['time']
-                                            .toDate())
-                                            .toString() +
-                                            model.stepSnapshot['signed']
-                                            [index_page.toString()]
-                                            ['family'],
+                                            .format(
+                                                model.dateSelected[index_page])
+                                            .toString(),
                                         style: TextStyle(
                                             fontSize: 20.0,
                                             fontWeight: FontWeight.bold,
                                             decoration: TextDecoration.none),
                                       ),
+                                      onPressed: () {
+                                        model.openTimePicker(
+                                            model.stepSnapshot['signed']
+                                                    [index_page.toString()]
+                                                    ['time']
+                                                .toDate(),
+                                            context,
+                                            index_page);
+                                      },
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: Text(
-                                        model.stepSnapshot['signed']
-                                        [index_page.toString()]
-                                        ['feedback'],
-                                        style: TextStyle(
-                                            fontSize: 18.0,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none),
-                                      ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    child: TextField(
+                                      controller:
+                                          model.textField_signature[index_page],
+                                      decoration:
+                                          InputDecoration(labelText: "署名"),
                                     ),
-                                    /*Padding(
-                                      padding: EdgeInsets.only(top: 5),
-                                      child: FlatButton(
-                                        child: Text(
-                                          DateFormat('yyyy/MM/dd')
-                                              .format(model
-                                                  .stepSnapshot['signed']
-                                                      [index_page.toString()]
-                                                      ['time']
-                                                  .toDate())
-                                              .toString(),
-                                          style: TextStyle(
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.bold,
-                                              decoration: TextDecoration.none),
-                                        ),
-                                        onPressed: () {
-                                          model.openTimePicker(
-                                              model.stepSnapshot['signed']
-                                                      [index_page.toString()]
-                                                      ['time']
-                                                  .toDate(),
-                                              context);
-                                        },
-                                      ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 10,
+                                        left: 10,
+                                        right: 10,
+                                        bottom: 20),
+                                    child: TextField(
+                                      controller:
+                                          model.textField_feedback[index_page],
+                                      decoration:
+                                          InputDecoration(labelText: "フィードバック"),
                                     ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.only(left: 10, right: 10),
-                                      child: TextField(
-                                        controller: TextEditingController(
-                                          text: model.stepSnapshot['signed']
-                                              [index_page.toString()]['family'],
-                                        ),
-                                        decoration:
-                                            InputDecoration(labelText: "署名"),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 10, left: 10, right: 10),
-                                      child: TextField(
-                                        controller: TextEditingController(
-                                          text: model.stepSnapshot['signed']
-                                                  [index_page.toString()]
-                                              ['feedback'],
-                                        ),
-                                        decoration: InputDecoration(
-                                            labelText: "フィードバック"),
-                                      ),
-                                    ),*/
-                                  ]);
-                                } else if (model.stepSnapshot['signed']
-                                        [index_page.toString()]['phaze'] ==
-                                    'wait') {
-                                  return Column(children: <Widget>[
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      color: themeColor,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 40, bottom: 20),
-                                        child: Center(
-                                          child: Text(
-                                            'サイン待ち',
+                                  ),
+                                  !model.isLoading[index_page]
+                                      ? RaisedButton.icon(
+                                          onPressed: () {
+                                            model.onTapSave(
+                                                index_page, context);
+                                          },
+                                          icon: Icon(
+                                            Icons.save,
+                                            size: 20,
+                                            color: Colors.white,
+                                          ),
+                                          color: themeColor,
+                                          label: Text(
+                                            '変更を保存',
                                             style: TextStyle(
-                                                fontSize: 20,
+                                                fontSize: 15,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white),
                                           ),
+                                        )
+                                      : Container(
+                                          child: Container(
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(themeColor),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                ]);
+                              } else if (model.stepSnapshot['signed']
+                                      [index_page.toString()]['phaze'] ==
+                                  'wait') {
+                                return Column(children: <Widget>[
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    color: themeColor,
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.only(top: 40, bottom: 20),
+                                      child: Center(
+                                        child: Text(
+                                          'サイン待ち',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Text(
-                                        '最初の画面に戻ってサインしてください',
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none),
-                                      ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      '最初の画面に戻ってサインしてください',
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold,
+                                          decoration: TextDecoration.none),
                                     ),
-                                  ]);
-                                } else {
-                                  return Center(
-                                    child: Text('エラーが発生しました'),
-                                  );
-                                }
+                                  ),
+                                ]);
+                              } else if (model.stepSnapshot['signed']
+                              [index_page.toString()]['phaze'] ==
+                                  'reject') {
+                                return Column(children: <Widget>[
+                                  TaskDetailScoutConfirmAddView(index_page, type)
+                                ]);
                               } else {
-                                return TaskDetailScoutConfirmAddView(
-                                    index_page, type);
+                                return Center(
+                                  child: Text('エラーが発生しました'),
+                                );
                               }
                             } else {
-                              return Padding(
-                                  padding: EdgeInsets.only(top: 60),
-                                  child: Container(
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  themeColor)),
-                                    ),
-                                  ));
+                              return TaskDetailScoutConfirmAddView(
+                                  index_page, type);
                             }
-                          })
-                        ],
-                      ),
+                          } else {
+                            return Padding(
+                                padding: EdgeInsets.only(top: 60),
+                                child: Container(
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                themeColor)),
+                                  ),
+                                ));
+                          }
+                        })
+                      ],
+                    )))
 //                      ),
-                    ),
+                        ),
                   ))),
           Align(
               alignment: Alignment.topCenter,
@@ -506,6 +509,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                 height: 70,
                 width: 70,
                 child: Card(
+                  color: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(35.0)),
                   elevation: 7,
