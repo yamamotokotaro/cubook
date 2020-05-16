@@ -119,7 +119,7 @@ class listEffort extends StatelessWidget {
                         children: <Widget>[
                           Icon(
                             Icons.bubble_chart,
-                            color: Colors.blue[900],
+                            color: Theme.of(context).accentColor,
                             size: 35,
                           ),
                           Padding(
@@ -130,8 +130,7 @@ class listEffort extends StatelessWidget {
                                   'まだありません',
                                   style: TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 20,
-                                      color: Colors.black),
+                                      fontSize: 20,),
                                 ),
                               )),
                         ]),

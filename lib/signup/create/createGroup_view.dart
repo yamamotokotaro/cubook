@@ -19,7 +19,7 @@ class CreateGroupView extends StatelessWidget {
             'グループを新規作成します\n以下の項目を入力してください',
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.bold,),
           ),
         ),
         model.mes_join != ''
@@ -87,8 +87,7 @@ class CreateGroupView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.normal,
-                color: Colors.black),
+                fontWeight: FontWeight.normal,),
           ),
         ),
         FlatButton(
@@ -121,7 +120,7 @@ class CreateGroupView extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                   child: CircularProgressIndicator())
               : RaisedButton(
-                  color: Theme.of(context).accentColor,
+                  color: Colors.blue[900],
                   onPressed: () {
                     model.createRequest();
                   },

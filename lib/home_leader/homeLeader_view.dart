@@ -74,7 +74,6 @@ class HomeLeaderView extends StatelessWidget {
         padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
         child: Container(
             child: Card(
-              color: Colors.white,
               child: InkWell(
                 onTap: () {
                   Navigator.push(context,
@@ -89,7 +88,7 @@ class HomeLeaderView extends StatelessWidget {
                       children: <Widget>[
                         Icon(
                           Icons.book,
-                          color: Colors.blue[900],
+                          color: Theme.of(context).accentColor,
                           size: 35,
                         ),
                         Padding(
@@ -100,8 +99,7 @@ class HomeLeaderView extends StatelessWidget {
                                 ' カブブック確認',
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
-                                    fontSize: 30,
-                                    color: Colors.black),
+                                    fontSize: 30),
                               ),
                             )),
                       ]),
@@ -113,7 +111,6 @@ class HomeLeaderView extends StatelessWidget {
         padding: EdgeInsets.only(top: 5, left: 10, right: 5, bottom: 20),
         child: Container(
             child: Card(
-          color: Colors.white,
           child: InkWell(
             onTap: () {
               Navigator.push(context,
@@ -128,7 +125,7 @@ class HomeLeaderView extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       Icons.people,
-                      color: Colors.blue[900],
+                      color: Theme.of(context).accentColor,
                       size: 35,
                     ),
                     Padding(
@@ -139,8 +136,7 @@ class HomeLeaderView extends StatelessWidget {
                             'メンバーを招待',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
-                                fontSize: 30,
-                                color: Colors.black),
+                                fontSize: 30,),
                           ),
                         )),
                   ]),

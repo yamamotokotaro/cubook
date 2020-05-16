@@ -13,7 +13,7 @@ class HomeController extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle.dark,
+            value: Theme.of(context).accentColor == Colors.white ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark, // Detect dark mode
             child: SafeArea(
                 child: Align(
                     alignment: Alignment.topCenter,

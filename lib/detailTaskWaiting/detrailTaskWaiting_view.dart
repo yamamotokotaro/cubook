@@ -216,7 +216,7 @@ class DetailTaskWaitingView extends StatelessWidget {
                         size: 20,
                         color: Colors.white,
                       ),
-                      color: Theme.of(context).accentColor,
+                      color: Colors.blue[900],
                       label: Text(
                         'サインする',
                         style: TextStyle(

@@ -25,8 +25,7 @@ class SignupView extends StatelessWidget {
               'あてはまる項目を選択してください',
               style: TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+                  fontWeight: FontWeight.bold,),
             ),
           ),
           Padding(

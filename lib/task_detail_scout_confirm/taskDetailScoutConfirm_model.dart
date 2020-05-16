@@ -35,6 +35,9 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   var list_toSend = new List<dynamic>();
   var count_toSend = new List<dynamic>();
   var isLoading = new List<dynamic>();
+  var dateSelected = new List<dynamic>();
+  var textField_signature = new List<TextEditingController>();
+  var textField_feedback = new List<TextEditingController>();
   Map<dynamic, dynamic> tokenMap;
   String type;
   String uid;
@@ -62,6 +65,9 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     isAdded = new List<dynamic>.generate(quant, (index) => false);
 
     isLoading = new List<dynamic>.generate(quant, (index) => false);
+    dateSelected = new List<dynamic>.generate(quant, (index) => null);
+    textField_signature = new List<TextEditingController>.generate(quant, (index) => null);
+    textField_feedback = new List<TextEditingController>.generate(quant, (index) => null);
 
     list_toSend = new List<dynamic>.generate(
         quant, (index) => new List<Map<String, dynamic>>());
@@ -83,6 +89,21 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
             stepSnapshot = data.documents[0];
             documentID_exit = data.documents[0].documentID;
             isExit = true;
+            for(int i=0; i<quant; i++){
+              if(stepSnapshot['signed'][i.toString()] != null) {
+                Map<String, dynamic> doc = stepSnapshot['signed'][i.toString()];
+                if (doc != null) {
+                  if(doc['phaze'] == 'signed') {
+                    dateSelected[i] = doc['time'].toDate();
+                    textField_signature[i] =
+                        TextEditingController(text: doc['family']);
+                    textField_feedback[i] =
+                        TextEditingController(text: doc['feedback']);
+                    notifyListeners();
+                  }
+                }
+              }
+            }
           } else {
             isExit = false;
           }
@@ -95,13 +116,18 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     });
   }
 
-  void openTimePicker(DateTime dateTime, BuildContext context) async {
+  void openTimePicker(DateTime dateTime, BuildContext context, int page) async {
     DateTime date = await showDatePicker(
       context: context,
       firstDate: DateTime(DateTime.now().year - 5),
       lastDate: DateTime(DateTime.now().year + 5),
       initialDate: dateTime,
     );
+    if(date != null) {
+      dateSelected[page] = date;
+      print(dateSelected[page]);
+      notifyListeners();
+    }
   }
 
   void onPressCheckbox(bool e) async {
@@ -118,6 +144,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         print(token.claims);
         tokenMap = token.claims;
         await updateUserInfo(number);
+        isLoading[number] = false;
         //await updateDocumentInfo(number, isComplete);
       });
     });
@@ -300,5 +327,51 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         .where('uid', isEqualTo: uid)
         .where('group', isEqualTo: tokenMap['group'])
         .getDocuments();
+  }
+
+  void onTapSave(int number, BuildContext context) async {
+    isLoading[number] = true;
+    notifyListeners();
+    FirebaseAuth.instance.currentUser().then((user) async {
+      currentUser = user;
+      currentUser.getIdToken().then((token) async {
+        print(token.claims);
+        tokenMap = token.claims;
+        await updateData(number, context);
+        isLoading[number] = false;
+        notifyListeners();
+        //await updateDocumentInfo(number, isComplete);
+      });
+    });
+  }
+
+  Future<void> updateData(int number, BuildContext context) async {
+    Map<String, dynamic> data_signed = Map<String, dynamic>();
+    Firestore.instance
+        .collection(type)
+        .where('group', isEqualTo: tokenMap['group'])
+        .where('uid', isEqualTo: uid)
+        .where('page', isEqualTo: page)
+        .getDocuments()
+        .then((data) async {
+      DocumentSnapshot snapshot = data.documents[0];
+      Map<String, dynamic> map = Map<String, dynamic>();
+      Map<String, dynamic> data_toAdd = Map<String, dynamic>();
+      map = snapshot['signed'];
+      data_toAdd = map[number.toString()];
+      data_toAdd['family'] = textField_signature[number].text;
+      data_toAdd['feedback'] = textField_feedback[number].text;
+      data_toAdd['time'] = dateSelected[number];
+      map[number.toString()] = data_toAdd;
+      data_signed['signed'] = map;
+      Firestore.instance
+          .collection(type)
+          .document(snapshot.documentID)
+          .updateData(data_signed);
+      Scaffold.of(context).showSnackBar(new SnackBar(
+        duration: const Duration(seconds: 1),
+        content: new Text('変更を保存しました'),
+      ));
+    });
   }
 }
