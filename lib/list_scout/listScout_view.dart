@@ -44,6 +44,9 @@ class ListScoutView extends StatelessWidget {
                                       padding: EdgeInsets.all(5),
                                       child: Container(
                                         child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
                                           child: InkWell(
                                             onTap: () {
                                               Navigator.push(context,

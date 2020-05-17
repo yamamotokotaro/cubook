@@ -11,128 +11,135 @@ class InviteView extends StatelessWidget {
           title: Text('メンバーを招待'),
         ),
         body: Builder(builder: (BuildContext context) {
-          return GestureDetector(onTap: () {
-            FocusScope.of(context).unfocus();
-          }, child: SingleChildScrollView(
-            child: Center(
-                child: Consumer<InviteModel>(builder: (context, model, child) {
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Text(
-                          '以下の項目を入力してください',
-                          style: TextStyle(
-                            fontSize: 23,
-                            fontWeight: FontWeight.bold,),
-                        ),
-                      ),
-                      model.mes_join != ''
-                          ? Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Text(
-                          model.mes_join,
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.red),
-                        ),
-                      )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: TextField(
-                          controller: model.addressController,
-                          enabled: true,
-                          // 入力数
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          maxLengthEnforced: false,
-                          decoration: InputDecoration(labelText: "メールアドレス"),
-                          onChanged: (text) {
-                            model.joinCode = text;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: TextField(
-                          controller: model.familyController,
-                          enabled: true,
-                          // 入力数
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          maxLengthEnforced: false,
-                          decoration: InputDecoration(labelText: "姓"),
-                          onChanged: (text) {
-                            model.joinCode = text;
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(10),
-                        child: TextField(
-                          controller: model.firstController,
-                          enabled: true,
-                          // 入力数
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          maxLengthEnforced: false,
-                          decoration: InputDecoration(labelText: "名"),
-                          onChanged: (text) {
-                            model.joinCode = text;
-                          },
-                        ),
-                      ),
-                      DropdownButton<String>(
-                        hint: Text('役割を選択'),
-                        value: model.dropdown_text,
-                        items:
-                        <String>['うさぎ', 'しか', 'くま', 'リーダー'].map((String value) {
-                          return new DropdownMenuItem<String>(
-                            value: value,
-                            child: new Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          model.onDropdownChanged(value);
-                        },
-                      ),
-                      model.dropdown_text != 'リーダー'
-                          ? DropdownButton<String>(
-                        hint: Text('呼称'),
-                        value: model.dropdown_call,
-                        items: <String>['くん', 'さん'].map((String value) {
-                          return new DropdownMenuItem<String>(
-                            value: value,
-                            child: new Text(value),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          model.onDropdownCallChanged(value);
-                        },
-                      )
-                          : Container(),
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: model.isLoading_join
-                            ? Padding(
-                            padding: EdgeInsets.all(10),
-                            child: CircularProgressIndicator())
-                            : RaisedButton(
-                            color: Colors.blue[900],
-                            onPressed: () {
-                              model.inviteRequest(context);
-                            },
+          return GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: SingleChildScrollView(
+                  child: Center(
+                child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 800),
+                    child:
+                        Consumer<InviteModel>(builder: (context, model, child) {
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 30),
                             child: Text(
-                              '招待を送信',
-                              style: TextStyle(color: Colors.white),
-                            )),
-                      )
-                    ],
-                  );
-                })),
-          ));
+                              '以下の項目を入力してください',
+                              style: TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          model.mes_join != ''
+                              ? Padding(
+                                  padding: EdgeInsets.only(top: 30),
+                                  child: Text(
+                                    model.mes_join,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red),
+                                  ),
+                                )
+                              : Container(),
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: TextField(
+                              controller: model.addressController,
+                              enabled: true,
+                              // 入力数
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              maxLengthEnforced: false,
+                              decoration: InputDecoration(labelText: "メールアドレス"),
+                              onChanged: (text) {
+                                model.joinCode = text;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: TextField(
+                              controller: model.familyController,
+                              enabled: true,
+                              // 入力数
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              maxLengthEnforced: false,
+                              decoration: InputDecoration(labelText: "姓"),
+                              onChanged: (text) {
+                                model.joinCode = text;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: TextField(
+                              controller: model.firstController,
+                              enabled: true,
+                              // 入力数
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              maxLengthEnforced: false,
+                              decoration: InputDecoration(labelText: "名"),
+                              onChanged: (text) {
+                                model.joinCode = text;
+                              },
+                            ),
+                          ),
+                          DropdownButton<String>(
+                            hint: Text('役割を選択'),
+                            value: model.dropdown_text,
+                            items: <String>['うさぎ', 'しか', 'くま', 'リーダー']
+                                .map((String value) {
+                              return new DropdownMenuItem<String>(
+                                value: value,
+                                child: new Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              model.onDropdownChanged(value);
+                            },
+                          ),
+                          model.dropdown_text != 'リーダー'
+                              ? DropdownButton<String>(
+                                  hint: Text('呼称'),
+                                  value: model.dropdown_call,
+                                  items:
+                                      <String>['くん', 'さん'].map((String value) {
+                                    return new DropdownMenuItem<String>(
+                                      value: value,
+                                      child: new Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    model.onDropdownCallChanged(value);
+                                  },
+                                )
+                              : Container(),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: model.isLoading_join
+                                ? Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: CircularProgressIndicator())
+                                : RaisedButton(
+                                    color: Colors.blue[900],
+                                    onPressed: () {
+                                      model.inviteRequest(context);
+                                    },
+                                    child: Text(
+                                      '招待を送信',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                          )
+                        ],
+                      );
+                    })),
+              )));
         }));
   }
 }

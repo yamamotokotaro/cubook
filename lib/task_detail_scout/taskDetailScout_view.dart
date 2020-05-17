@@ -76,6 +76,9 @@ class TaskScoutDetailView extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.only(top: 30),
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     elevation: 2,
                     child: InkWell(child: Consumer<TaskDetailScoutModel>(
                         builder: (context, model, _) {
@@ -91,7 +94,14 @@ class TaskScoutDetailView extends StatelessWidget {
                             SingleChildScrollView(
                                 child: Column(children: <Widget>[
                               Container(
-                                color: themeColor,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: const Radius
+                                            .circular(20),
+                                        topRight:
+                                        const Radius
+                                            .circular(20)),
+                                    color: themeColor),
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 40, bottom: 20),
                                   child: Center(
@@ -236,7 +246,14 @@ class TaskScoutDetailView extends StatelessWidget {
                             SingleChildScrollView(
                                 child: Column(children: <Widget>[
                               Container(
-                                color: themeColor,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: const Radius
+                                            .circular(20),
+                                        topRight:
+                                        const Radius
+                                            .circular(20)),
+                                    color: themeColor),
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 40, bottom: 20),
                                   child: Center(
@@ -306,6 +323,7 @@ class TaskScoutDetailView extends StatelessWidget {
                     height: 70,
                     width: 70,
                     child: Card(
+                      color: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(35.0)),
                       elevation: 7,
@@ -353,6 +371,9 @@ class TaskScoutAddView extends StatelessWidget {
               child: Container(
                   height: 1500,
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     elevation: 2,
                     child: InkWell(
                       child:
@@ -377,8 +398,15 @@ class TaskScoutAddView extends StatelessWidget {
                                     'signed') {
                                   return Column(children: <Widget>[
                                     Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: const Radius
+                                                  .circular(20),
+                                              topRight:
+                                              const Radius
+                                                  .circular(20)),
+                                          color: themeColor),
                                       width: MediaQuery.of(context).size.width,
-                                      color: themeColor,
                                       child: Padding(
                                         padding: EdgeInsets.only(
                                             top: 40, bottom: 20),
@@ -429,8 +457,15 @@ class TaskScoutAddView extends StatelessWidget {
                                     'wait') {
                                   return Column(children: <Widget>[
                                     Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: const Radius
+                                                  .circular(20),
+                                              topRight:
+                                              const Radius
+                                                  .circular(20)),
+                                          color: themeColor),
                                       width: MediaQuery.of(context).size.width,
-                                      color: themeColor,
                                       child: Padding(
                                         padding: EdgeInsets.only(
                                             top: 40, bottom: 20),
@@ -505,6 +540,7 @@ class TaskScoutAddView extends StatelessWidget {
                 height: 70,
                 width: 70,
                 child: Card(
+                  color: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(35.0)),
                   elevation: 7,

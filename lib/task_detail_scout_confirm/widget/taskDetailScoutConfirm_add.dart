@@ -31,7 +31,14 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
       return Column(children: <Widget>[
         Container(
           width: MediaQuery.of(context).size.width,
-          color: themeColor,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: const Radius
+                      .circular(0),
+                  topRight:
+                  const Radius
+                      .circular(0)),
+              color: themeColor),
           child: Padding(
             padding:
             EdgeInsets.only(top: 40, bottom: 20),

@@ -21,6 +21,9 @@ class HomeLeaderView extends StatelessWidget {
               padding: EdgeInsets.all(10),
               child: Container(
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                 elevation: 8,
                 color: Colors.blue[900],
                 child: InkWell(
@@ -113,6 +116,9 @@ class HomeLeaderView extends StatelessWidget {
         padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
         child: Container(
             child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
               child: InkWell(
                 onTap: () {
                   Navigator.push(context,
@@ -150,6 +156,9 @@ class HomeLeaderView extends StatelessWidget {
         padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
         child: Container(
             child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
           child: InkWell(
             onTap: () {
               Navigator.push(context,

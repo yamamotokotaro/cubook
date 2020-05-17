@@ -89,6 +89,9 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                     padding: EdgeInsets.all(5),
                                     child: Container(
                                       child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
                                         child: InkWell(
                                           onTap: () {
                                             Navigator.of(context).push<dynamic>(
@@ -103,10 +106,10 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                   decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.only(
                                                           topLeft: const Radius
-                                                              .circular(5),
+                                                              .circular(10),
                                                           bottomLeft:
                                                               const Radius
-                                                                  .circular(5)),
+                                                                  .circular(10)),
                                                       color: themeColor),
                                                   height: 120,
                                                   child: ConstrainedBox(

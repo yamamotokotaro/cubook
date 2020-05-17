@@ -72,11 +72,21 @@ class listEffort extends StatelessWidget {
                         padding: const EdgeInsets.all(10),
                         child: Container(
                           child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                             child: Column(
                               children: <Widget>[
                                 Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: const Radius
+                                              .circular(10),
+                                          topRight:
+                                          const Radius
+                                              .circular(10)),
+                                      color: color),
                                   height: 90,
-                                  color: color,
                                 ),
                                 Align(
                                   alignment: Alignment.center,

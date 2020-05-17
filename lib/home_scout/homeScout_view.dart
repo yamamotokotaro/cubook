@@ -47,6 +47,9 @@ class HomeScoutView extends StatelessWidget {
                     child: Card(
                       elevation: 8,
                       color: theme.getThemeColor(model.age),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                       child: InkWell(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute<TaskView>(
@@ -102,6 +105,9 @@ class HomeScoutView extends StatelessWidget {
                   child: Card(
                     elevation: 8,
                     color: Colors.green[900],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute<TaskView>(

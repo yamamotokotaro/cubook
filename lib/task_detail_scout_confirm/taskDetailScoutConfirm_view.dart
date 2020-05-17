@@ -77,6 +77,9 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.only(top: 30),
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0),
+                    ),
                     elevation: 2,
                     child: InkWell(child: Consumer<TaskDetailScoutConfirmModel>(
                         builder: (context, model, _) {
@@ -92,7 +95,14 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                             SingleChildScrollView(
                                 child: Column(children: <Widget>[
                               Container(
-                                color: themeColor,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: const Radius
+                                            .circular(0),
+                                        topRight:
+                                        const Radius
+                                            .circular(0)),
+                                    color: themeColor),
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 40, bottom: 20),
                                   child: Center(
@@ -224,7 +234,14 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                             SingleChildScrollView(
                                 child: Column(children: <Widget>[
                               Container(
-                                color: themeColor,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: const Radius
+                                            .circular(0),
+                                        topRight:
+                                        const Radius
+                                            .circular(0)),
+                                    color: themeColor),
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 40, bottom: 20),
                                   child: Center(
@@ -317,6 +334,9 @@ class TaskScoutAddConfirmView extends StatelessWidget {
               child: Container(
                   height: 1500,
                   child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     elevation: 2,
                     child: InkWell(
                         child: Scaffold(
@@ -343,7 +363,14 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                 return Column(children: <Widget>[
                                   Container(
                                     width: MediaQuery.of(context).size.width,
-                                    color: themeColor,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: const Radius
+                                                .circular(0),
+                                            topRight:
+                                            const Radius
+                                                .circular(0)),
+                                        color: themeColor),
                                     child: Padding(
                                       padding:
                                           EdgeInsets.only(top: 40, bottom: 20),
@@ -444,7 +471,14 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                 return Column(children: <Widget>[
                                   Container(
                                     width: MediaQuery.of(context).size.width,
-                                    color: themeColor,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: const Radius
+                                                .circular(0),
+                                            topRight:
+                                            const Radius
+                                                .circular(0)),
+                                        color: themeColor),
                                     child: Padding(
                                       padding:
                                           EdgeInsets.only(top: 40, bottom: 20),

@@ -24,8 +24,9 @@ class DetailTaskWaitingView extends StatelessWidget {
           appBar: AppBar(
             title: Text('タスク詳細'),
           ),
-          body: SingleChildScrollView(child:
-          Consumer<DetailTaskWaitingModel>(builder: (context, model, _) {
+          body: SafeArea(
+    child:SingleChildScrollView(child:
+              Consumer<DetailTaskWaitingModel>(builder: (context, model, _) {
             if (!model.isGet) {
               model.getTaskSnapshot(documentID);
             }
@@ -33,7 +34,7 @@ class DetailTaskWaitingView extends StatelessWidget {
               if (!model.taskFinished) {
                 DocumentSnapshot snapshot = model.taskSnapshot;
                 Map<String, dynamic> map_task =
-                task.getPartMap(snapshot['type'], snapshot['page']);
+                    task.getPartMap(snapshot['type'], snapshot['page']);
                 return Column(
                   children: <Widget>[
                     Hero(
@@ -79,197 +80,204 @@ class DetailTaskWaitingView extends StatelessWidget {
                             ),
                           ),
                         )),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Center(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 5, top: 4),
-                                  child: Icon(
-                                    Icons.book,
-                                    color: Theme.of(context).accentColor,
-                                    size: 32,
-                                  ),
+                ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 800),
+                child:
+                Column(children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Center(
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(right: 5, top: 4),
+                                child: Icon(
+                                  Icons.book,
+                                  color: Theme.of(context).accentColor,
+                                  size: 32,
                                 ),
-                                Text(
-                                  '取り組み内容',
-                                  style: TextStyle(
-                                      fontSize: 25.0,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none),
+                              ),
+                              Text(
+                                '取り組み内容',
+                                style: TextStyle(
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.none),
+                              ),
+                            ])),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.all(10),
+                          child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: snapshot['data'].length,
+                              itemBuilder: (BuildContext context, int index) {
+                                String type = snapshot['data'][index]['type'];
+                                if (type == 'image') {
+                                  return Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Container(
+                                      child: Card(
+                                        color: Colors.green,
+                                        child: Column(
+                                          children: <Widget>[
+                                            Image.network(model.body[index])
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else if (type == 'video') {
+                                  return Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Container(
+                                      child: Card(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Chewie(
+                                              controller: model.body[index],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else if (type == 'text') {
+                                  return Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: Container(
+                                      child: Card(
+                                          child: Padding(
+                                        padding: EdgeInsets.all(0),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Text(
+                                                  model.body[index],
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                                ))
+                                          ],
+                                        ),
+                                      )),
+                                    ),
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              })),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Center(
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(right: 5, top: 4),
+                                child: Icon(
+                                  Icons.message,
+                                  color: Theme.of(context).accentColor,
+                                  size: 32,
                                 ),
-                              ])),
-                    ),
-                    Padding(
+                              ),
+                              Text(
+                                'フィードバック',
+                                style: TextStyle(
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.none),
+                              ),
+                            ])),
+                      ),
+                      Padding(
                         padding: EdgeInsets.all(10),
-                        child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: snapshot['data'].length,
-                            itemBuilder: (BuildContext context, int index) {
-                              String type = snapshot['data'][index]['type'];
-                              if (type == 'image') {
-                                return Padding(
-                                  padding: EdgeInsets.all(5),
-                                  child: Container(
-                                    child: Card(
-                                      color: Colors.green,
-                                      child: Column(
-                                        children: <Widget>[
-                                          Image.network(model.body[index])
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              } else if (type == 'video') {
-                                return Padding(
-                                  padding: EdgeInsets.all(5),
-                                  child: Container(
-                                    child: Card(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Chewie(
-                                            controller: model.body[index],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              } else if (type == 'text') {
-                                return Padding(
-                                  padding: EdgeInsets.all(5),
-                                  child: Container(
-                                    child: Card(
-                                        child: Padding(
-                                          padding: EdgeInsets.all(0),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Padding(
-                                                  padding: EdgeInsets.all(10),
-                                                  child: Text(
-                                                    model.body[index],
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                        FontWeight.normal),
-                                                  ))
-                                            ],
-                                          ),
-                                        )),
-                                  ),
-                                );
-                              } else {
-                                return Container();
-                              }
-                            })),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Center(
-                          child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 5, top: 4),
-                                  child: Icon(
-                                    Icons.message,
-                                    color: Theme.of(context).accentColor,
-                                    size: 32,
-                                  ),
-                                ),
-                                Text(
-                                  'フィードバック',
-                                  style: TextStyle(
-                                      fontSize: 25.0,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none),
-                                ),
-                              ])),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: TextField(
-                        enabled: true,
-                        // 入力数
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        maxLengthEnforced: false,
-                        decoration: InputDecoration(labelText: "フィードバックを入力",
-                            errorText: model.EmptyError ? 'フィードバックを入力してください' : null),
-                        onChanged: (text) {
-                          model.onTextChanged(text);
-                        },
+                        child: TextField(
+                          enabled: true,
+                          // 入力数
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          maxLengthEnforced: false,
+                          decoration: InputDecoration(
+                              labelText: "フィードバックを入力",
+                              errorText:
+                                  model.EmptyError ? 'フィードバックを入力してください' : null),
+                          onChanged: (text) {
+                            model.onTextChanged(text);
+                          },
+                        ),
                       ),
-                    ),
-                    !model.isLoading
-                        ? RaisedButton.icon(
-                      onPressed: () {
-                        model.onTapSend();
-                      },
-                      icon: Icon(
-                        Icons.edit,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                      color: Colors.blue[900],
-                      label: Text(
-                        'サインする',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                    )
-                        : Container(
-                      child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Center(),
-                      ),
-                    ),
-                    !model.isLoading
-                        ? FlatButton.icon(
-                      onPressed: () {
-                        model.onTapReject();
-                      },
-                      icon: Icon(
-                        Icons.close,
-                        size: 20,
-                        color: Colors.red,
-                      ),
-                      label: Text(
-                        'やりなおし',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red),
-                      ),
-                    )
-                        : Container(
-                      child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Center(),
-                      ),
-                    ),
+                      !model.isLoading
+                          ? RaisedButton.icon(
+                              onPressed: () {
+                                model.onTapSend();
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              color: Colors.blue[900],
+                              label: Text(
+                                'サインする',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                            )
+                          : Container(
+                              child: Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Center(),
+                              ),
+                            ),
+                      !model.isLoading
+                          ? FlatButton.icon(
+                              onPressed: () {
+                                model.onTapReject();
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                size: 20,
+                                color: Colors.red,
+                              ),
+                              label: Text(
+                                'やりなおし',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red),
+                              ),
+                            )
+                          : Container(
+                              child: Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Center(),
+                              ),
+                            ),
+                    ]))
                   ],
                 );
               } else {
                 return Container(
                   child: Center(
                       child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text(
-                          'タスクが完了しました',
-                          style: TextStyle(
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.none),
-                        ),
-                      )),
+                    padding: EdgeInsets.all(5),
+                    child: Text(
+                      'タスクが完了しました',
+                      style: TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.none),
+                    ),
+                  )),
                 );
               }
             } else {
@@ -279,7 +287,7 @@ class DetailTaskWaitingView extends StatelessWidget {
                     child: CircularProgressIndicator()),
               );
             }
-          })),
+          }))),
         ));
   }
 }

@@ -37,6 +37,9 @@ class SelectBookView extends StatelessWidget {
                                 child: Container(
                                     height: 180,
                                     child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
                                       elevation: 8,
                                       color: theme.getThemeColor(
                                           'usagi'),
@@ -152,6 +155,9 @@ class SelectBookView extends StatelessWidget {
                                 child: Container(
                                   height: 180,
                                   child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     elevation: 8,
                                     color: theme.getThemeColor(
                                         'sika'),
@@ -242,6 +248,9 @@ class SelectBookView extends StatelessWidget {
                                 child: Container(
                                   height: 180,
                                   child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     elevation: 8,
                                     color: theme.getThemeColor(
                                         'kuma'),
@@ -330,6 +339,9 @@ class SelectBookView extends StatelessWidget {
                                 child: Container(
                                   height: 180,
                                   child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     elevation: 8,
                                     color: Colors.green[900],
                                     child: InkWell(
