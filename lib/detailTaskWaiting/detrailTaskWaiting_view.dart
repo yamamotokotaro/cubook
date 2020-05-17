@@ -25,7 +25,7 @@ class DetailTaskWaitingView extends StatelessWidget {
             title: Text('タスク詳細'),
           ),
           body: SingleChildScrollView(child:
-              Consumer<DetailTaskWaitingModel>(builder: (context, model, _) {
+          Consumer<DetailTaskWaitingModel>(builder: (context, model, _) {
             if (!model.isGet) {
               model.getTaskSnapshot(documentID);
             }
@@ -33,7 +33,7 @@ class DetailTaskWaitingView extends StatelessWidget {
               if (!model.taskFinished) {
                 DocumentSnapshot snapshot = model.taskSnapshot;
                 Map<String, dynamic> map_task =
-                    task.getPartMap(snapshot['type'], snapshot['page']);
+                task.getPartMap(snapshot['type'], snapshot['page']);
                 return Column(
                   children: <Widget>[
                     Hero(
@@ -86,22 +86,22 @@ class DetailTaskWaitingView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(right: 5, top: 4),
-                              child: Icon(
-                                Icons.book,
-                                color: Theme.of(context).accentColor,
-                                size: 32,
-                              ),
-                            ),
-                            Text(
-                              '取り組み内容',
-                              style: TextStyle(
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.none),
-                            ),
-                          ])),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 5, top: 4),
+                                  child: Icon(
+                                    Icons.book,
+                                    color: Theme.of(context).accentColor,
+                                    size: 32,
+                                  ),
+                                ),
+                                Text(
+                                  '取り組み内容',
+                                  style: TextStyle(
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.none),
+                                ),
+                              ])),
                     ),
                     Padding(
                         padding: EdgeInsets.all(10),
@@ -146,21 +146,21 @@ class DetailTaskWaitingView extends StatelessWidget {
                                   child: Container(
                                     child: Card(
                                         child: Padding(
-                                      padding: EdgeInsets.all(0),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                              padding: EdgeInsets.all(10),
-                                              child: Text(
-                                                model.body[index],
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
+                                          padding: EdgeInsets.all(0),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                  padding: EdgeInsets.all(10),
+                                                  child: Text(
+                                                    model.body[index],
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
                                                         FontWeight.normal),
-                                              ))
-                                        ],
-                                      ),
-                                    )),
+                                                  ))
+                                            ],
+                                          ),
+                                        )),
                                   ),
                                 );
                               } else {
@@ -174,22 +174,22 @@ class DetailTaskWaitingView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(right: 5, top: 4),
-                              child: Icon(
-                                Icons.message,
-                                color: Theme.of(context).accentColor,
-                                size: 32,
-                              ),
-                            ),
-                            Text(
-                              'フィードバック',
-                              style: TextStyle(
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.none),
-                            ),
-                          ])),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 5, top: 4),
+                                  child: Icon(
+                                    Icons.message,
+                                    color: Theme.of(context).accentColor,
+                                    size: 32,
+                                  ),
+                                ),
+                                Text(
+                                  'フィードバック',
+                                  style: TextStyle(
+                                      fontSize: 25.0,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.none),
+                                ),
+                              ])),
                     ),
                     Padding(
                       padding: EdgeInsets.all(10),
@@ -200,7 +200,7 @@ class DetailTaskWaitingView extends StatelessWidget {
                         maxLines: null,
                         maxLengthEnforced: false,
                         decoration: InputDecoration(labelText: "フィードバックを入力",
-                        errorText: model.EmptyError ? 'フィードバックを入力してください' : null),
+                            errorText: model.EmptyError ? 'フィードバックを入力してください' : null),
                         onChanged: (text) {
                           model.onTextChanged(text);
                         },
@@ -216,7 +216,7 @@ class DetailTaskWaitingView extends StatelessWidget {
                         size: 20,
                         color: Colors.white,
                       ),
-                      color: Theme.of(context).accentColor,
+                      color: Colors.blue[900],
                       label: Text(
                         'サインする',
                         style: TextStyle(
@@ -261,15 +261,15 @@ class DetailTaskWaitingView extends StatelessWidget {
                 return Container(
                   child: Center(
                       child: Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Text(
-                      'タスクが完了しました',
-                      style: TextStyle(
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.none),
-                    ),
-                  )),
+                        padding: EdgeInsets.all(5),
+                        child: Text(
+                          'タスクが完了しました',
+                          style: TextStyle(
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.none),
+                        ),
+                      )),
                 );
               }
             } else {

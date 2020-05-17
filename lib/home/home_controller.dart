@@ -21,28 +21,28 @@ class HomeController extends StatelessWidget {
                         constraints: BoxConstraints(maxWidth: 800),
                         child: SingleChildScrollView(child: Consumer<HomeModel>(
                             builder: (context, model, child) {
-                          if (model.isLoaded) {
-                            if (model.currentUser != null) {
-                              if (model.userSnapshot != null) {
-                                if (model.userSnapshot['group'] != null) {
-                                  return HomeViewNew();
+                              if (model.isLoaded) {
+                                if (model.currentUser != null) {
+                                  if (model.userSnapshot != null) {
+                                    if (model.userSnapshot['group'] != null) {
+                                      return HomeViewNew();
+                                    } else {
+                                      return JoinGroup();
+                                    }
+                                  } else {
+                                    return SignupView();
+                                  }
                                 } else {
-                                  return JoinGroup();
+                                  return LoginView();
                                 }
                               } else {
-                                return SignupView();
+                                model.login();
+                                return Padding(
+                                    padding: EdgeInsets.all(20),
+                                    child: Center(
+                                        child: Padding(padding: EdgeInsets.all(10),child:CircularProgressIndicator())
+                                    ));
                               }
-                            } else {
-                              return LoginView();
-                            }
-                          } else {
-                            model.login();
-                            return Padding(
-                                padding: EdgeInsets.all(20),
-                                child: Center(
-                                  child: Padding(padding: EdgeInsets.all(10),child:CircularProgressIndicator())
-                                ));
-                          }
-                        })))))));
+                            })))))));
   }
 }

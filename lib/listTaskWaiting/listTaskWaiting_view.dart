@@ -22,7 +22,7 @@ class ListTaskWaitingView extends StatelessWidget {
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 600),
               child:
-                  Consumer<ListTaskWaitingModel>(builder: (context, model, _) {
+              Consumer<ListTaskWaitingModel>(builder: (context, model, _) {
                 if (!model.isGet) {
                   model.getTaskSnapshot();
                 }
@@ -32,12 +32,12 @@ class ListTaskWaitingView extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         DocumentSnapshot snapshot =
-                            model.taskSnapshot.documents[index];
+                        model.taskSnapshot.documents[index];
                         Map<String, dynamic> map_task = task.getPartMap(
                             snapshot['type'], snapshot['page']);
                         return Padding(
                           padding:
-                              EdgeInsets.only(top: 10, left: 10, right: 10),
+                          EdgeInsets.only(top: 10, left: 10, right: 10),
                           child: Container(
                             child: Hero(
                               tag: 'detailTask' +
@@ -49,13 +49,13 @@ class ListTaskWaitingView extends StatelessWidget {
                                   onTap: () {
                                     Navigator.push(context,
                                         new MaterialPageRoute<
-                                                DetailTaskWaitingView>(
+                                            DetailTaskWaitingView>(
                                             builder: (BuildContext context) {
-                                      return DetailTaskWaitingView(model
-                                          .taskSnapshot
-                                          .documents[index]
-                                          .documentID);
-                                    }));
+                                              return DetailTaskWaitingView(model
+                                                  .taskSnapshot
+                                                  .documents[index]
+                                                  .documentID);
+                                            }));
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.all(10),
@@ -77,14 +77,14 @@ class ListTaskWaitingView extends StatelessWidget {
                                               padding: EdgeInsets.only(top: 5),
                                               child: Text(
                                                 theme.getTitle(
-                                                        snapshot['type']) +
+                                                    snapshot['type']) +
                                                     ' ' +
                                                     map_task['number'] +
                                                     ' ' +
                                                     map_task['title'] + ' (' + (snapshot['number'] + 1).toString() + ')',
                                                 style: TextStyle(
                                                     fontWeight:
-                                                        FontWeight.normal,
+                                                    FontWeight.normal,
                                                     fontSize: 18,
                                                     color: Colors.white),
                                               ),

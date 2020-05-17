@@ -23,9 +23,8 @@ class InviteView extends StatelessWidget {
                         child: Text(
                           '以下の項目を入力してください',
                           style: TextStyle(
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black),
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,),
                         ),
                       ),
                       model.mes_join != ''
@@ -121,7 +120,7 @@ class InviteView extends StatelessWidget {
                             padding: EdgeInsets.all(10),
                             child: CircularProgressIndicator())
                             : RaisedButton(
-                            color: Theme.of(context).accentColor,
+                            color: Colors.blue[900],
                             onPressed: () {
                               model.inviteRequest(context);
                             },

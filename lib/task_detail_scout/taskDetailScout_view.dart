@@ -306,7 +306,6 @@ class TaskScoutDetailView extends StatelessWidget {
                     height: 70,
                     width: 70,
                     child: Card(
-                      color: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(35.0)),
                       elevation: 7,
@@ -461,6 +460,17 @@ class TaskScoutAddView extends StatelessWidget {
                                         [index_page.toString()]['phaze'] ==
                                     'reject') {
                                   return Column(children: <Widget>[
+                                    /*Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Text(
+                                        model.stepSnapshot['signed']
+                                            [index_page.toString()]['feedback'],
+                                        style: TextStyle(
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.bold,
+                                            decoration: TextDecoration.none),
+                                      ),
+                                    ),*/
                                     TaskDetailScoutAddView(index_page, type, model.stepSnapshot['signed'][index_page.toString()]['feedback'])
                                   ]);
                                 } else {
@@ -495,7 +505,6 @@ class TaskScoutAddView extends StatelessWidget {
                 height: 70,
                 width: 70,
                 child: Card(
-                  color: Colors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(35.0)),
                   elevation: 7,
