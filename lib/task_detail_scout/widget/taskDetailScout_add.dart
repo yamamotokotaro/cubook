@@ -56,8 +56,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                       mes,
                       style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                          fontWeight: FontWeight.bold),
                     )),
                 Padding(
                     padding: EdgeInsets.all(10),

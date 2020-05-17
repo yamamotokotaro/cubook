@@ -29,14 +29,12 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   Future<void> getTaskSnapshot(String _documentID) async {
     documentID = _documentID;
     isLoaded = false;
-    print('j');
     Firestore.instance
         .collection('task')
         .document(documentID)
         .snapshots()
         .listen((data) async {
       taskSnapshot = data;
-      print(data.data);
       if (taskSnapshot.data == null) {
         taskFinished = true;
       } else {
@@ -85,7 +83,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       FirebaseAuth.instance.currentUser().then((user) async {
         currentUser = user;
         currentUser.getIdToken().then((token) async {
-          print(token.claims);
           tokenMap = token.claims;
           await updateUserInfo();
           await updateDocumentInfo();
@@ -107,7 +104,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       FirebaseAuth.instance.currentUser().then((user) async {
         currentUser = user;
         currentUser.getIdToken().then((token) async {
-          print(token.claims);
           tokenMap = token.claims;
           await updateDocumentInfo_reject();
           await deleteTask();
