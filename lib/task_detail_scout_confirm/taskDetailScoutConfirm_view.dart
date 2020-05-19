@@ -427,6 +427,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                         right: 10,
                                         bottom: 20),
                                     child: TextField(
+                                      maxLines: null,
                                       controller:
                                           model.textField_feedback[index_page],
                                       keyboardType: TextInputType.multiline,
