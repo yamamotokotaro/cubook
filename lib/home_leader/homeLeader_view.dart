@@ -24,44 +24,44 @@ class HomeLeaderView extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    elevation: 8,
-                    color: Colors.blue[900],
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute<ListTaskWaitingView>(
-                                builder: (BuildContext context) {
-                                  return ListTaskWaitingView();
-                                }));
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(15),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                Icons.edit,
-                                color: Colors.white,
-                                size: 35,
-                              ),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Material(
-                                      type: MaterialType.transparency,
-                                      child: Text(
-                                        'サイン待ち' +
-                                            model.taskSnapshot.documents.length
-                                                .toString() +
-                                            '件',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 30,
-                                            color: Colors.white),
-                                      ))),
-                            ]),
-                      ),
-                    ),
-                  )),
+                elevation: 8,
+                color: Colors.blue[900],
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute<ListTaskWaitingView>(
+                            builder: (BuildContext context) {
+                      return ListTaskWaitingView();
+                    }));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Material(
+                                  type: MaterialType.transparency,
+                                  child: Text(
+                                    'サイン待ち' +
+                                        model.taskSnapshot.documents.length
+                                            .toString() +
+                                        '件',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 30,
+                                        color: Colors.white),
+                                  ))),
+                        ]),
+                  ),
+                ),
+              )),
             );
           } else {
             return Container();
@@ -159,38 +159,38 @@ class HomeLeaderView extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute<InviteView>(
-                          builder: (BuildContext context) {
-                            return InviteView();
-                          }));},
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.people,
-                          color: Theme.of(context).accentColor,
-                          size: 35,
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: Text(
-                                'メンバーを招待',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 30,),
-                              ),
-                            )),
-                      ]),
-                ),
-              ),
-            )),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute<InviteView>(
+                      builder: (BuildContext context) {
+                        return InviteView();
+                      }));},
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.people,
+                      color: Theme.of(context).accentColor,
+                      size: 35,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: Text(
+                            'メンバーを招待',
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 30,),
+                          ),
+                        )),
+                  ]),
+            ),
+          ),
+        )),
       ),
       /*Padding(
         padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
@@ -250,44 +250,44 @@ class HomeLeaderView2 extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        elevation: 8,
-                        color: Colors.blue[900],
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute<ListTaskWaitingView>(
-                                    builder: (BuildContext context) {
-                                      return ListTaskWaitingView2(group);
-                                    }));
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.edit,
-                                    color: Colors.white,
-                                    size: 35,
-                                  ),
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 10),
-                                      child: Material(
-                                          type: MaterialType.transparency,
-                                          child: Text(
-                                            'サイン待ち' +
-                                                snapshot.data.documents.length
-                                                    .toString() +
-                                                '件',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 30,
-                                                color: Colors.white),
-                                          ))),
-                                ]),
-                          ),
-                        ),
-                      )),
+                    elevation: 8,
+                    color: Colors.blue[900],
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute<ListTaskWaitingView>(
+                                builder: (BuildContext context) {
+                          return ListTaskWaitingView2(group);
+                        }));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(15),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                                size: 35,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Material(
+                                      type: MaterialType.transparency,
+                                      child: Text(
+                                        'サイン待ち' +
+                                            snapshot.data.documents.length
+                                                .toString() +
+                                            '件',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 30,
+                                            color: Colors.white),
+                                      ))),
+                            ]),
+                      ),
+                    ),
+                  )),
                 );
               } else {
                 return Container();

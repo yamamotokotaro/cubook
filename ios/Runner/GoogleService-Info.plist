@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>593398023204-pbdaaf520ekpvk3gogibq8h264dhvf7e.apps.googleusercontent.com</string>
+	<string>753196410884-jlmbkbv1enkm2vliuk300nq98p7rf6gv.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.593398023204-pbdaaf520ekpvk3gogibq8h264dhvf7e</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>593398023204-2lla8qf12vv44602akkvf3peg7bobqpl.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.753196410884-jlmbkbv1enkm2vliuk300nq98p7rf6gv</string>
 	<key>API_KEY</key>
-	<string>AIzaSyArqdXRPGNr5E9lcs5oeWP8bqFO7NpwO3c</string>
+	<string>AIzaSyAK6uPDz6q2KbSdZUdmPkQ4mliWOXE3ea0</string>
 	<key>GCM_SENDER_ID</key>
-	<string>593398023204</string>
+	<string>753196410884</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>app.kotakota.cubook</string>
 	<key>PROJECT_ID</key>
-	<string>cubook-dev</string>
+	<string>cubook-3c960</string>
 	<key>STORAGE_BUCKET</key>
-	<string>cubook-dev.appspot.com</string>
+	<string>cubook-3c960.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:593398023204:ios:2e2f66b5487e3a788b04b1</string>
+	<string>1:753196410884:ios:33bea3fafc1800be4d2d51</string>
 	<key>DATABASE_URL</key>
-	<string>https://cubook-dev.firebaseio.com</string>
+	<string>https://cubook-3c960.firebaseio.com</string>
 </dict>
 </plist>

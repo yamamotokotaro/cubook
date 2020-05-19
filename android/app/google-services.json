@@ -1,46 +1,38 @@
 {
   "project_info": {
-    "project_number": "593398023204",
-    "firebase_url": "https://cubook-dev.firebaseio.com",
-    "project_id": "cubook-dev",
-    "storage_bucket": "cubook-dev.appspot.com"
+    "project_number": "753196410884",
+    "firebase_url": "https://cubook-3c960.firebaseio.com",
+    "project_id": "cubook-3c960",
+    "storage_bucket": "cubook-3c960.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:593398023204:android:bb49beecb3e445b68b04b1",
+        "mobilesdk_app_id": "1:753196410884:android:c0420c546e6be2384d2d51",
         "android_client_info": {
           "package_name": "app.kotakota.cubook"
         }
       },
       "oauth_client": [
         {
-          "client_id": "593398023204-2lla8qf12vv44602akkvf3peg7bobqpl.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "app.kotakota.cubook",
-            "certificate_hash": "0a3dfb5d4040a09f772578c155a93277f70a987d"
-          }
-        },
-        {
-          "client_id": "593398023204-bvgjmamuapnnfij11cmrqk43hsh1djel.apps.googleusercontent.com",
+          "client_id": "753196410884-d9d3s2re1lou8mpvc8vfa3dj5u9q40go.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBGSD9SDkTRvts_tjBhT1mn6FVGVk3qW4M"
+          "current_key": "AIzaSyC_S_Pr9-QIqFhpz_QEVl7iFyceJ4-sYYM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "593398023204-bvgjmamuapnnfij11cmrqk43hsh1djel.apps.googleusercontent.com",
+              "client_id": "753196410884-d9d3s2re1lou8mpvc8vfa3dj5u9q40go.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "593398023204-pbdaaf520ekpvk3gogibq8h264dhvf7e.apps.googleusercontent.com",
+              "client_id": "753196410884-jlmbkbv1enkm2vliuk300nq98p7rf6gv.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "app.kotakota.cubook"
