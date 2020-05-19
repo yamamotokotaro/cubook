@@ -193,9 +193,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       map[number.toString()]['feedback'] = feedback;
       Map<String, dynamic> mapSend = Map<String, dynamic>();
       mapSend['signed'] = map;
-      if (map.length == task.getPartMap(type, page)['hasItem']) {
-        mapSend['end'] = Timestamp.now();
-      }
       Firestore.instance
           .collection(type)
           .document(snapshot.documentID)
