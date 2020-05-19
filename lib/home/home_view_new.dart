@@ -9,6 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'home_controller.dart';
+
 class HomeViewNew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,8 @@ class HomeViewNew extends StatelessWidget {
                 child: Row(children: [
                   Padding(
                     padding: EdgeInsets.only(top: 10, right: 10),
-                    child: Consumer<HomeModel>(builder: (context, model, child) {
+                    child:
+                        Consumer<HomeModel>(builder: (context, model, child) {
                       return FlatButton.icon(
                           icon: Icon(Icons.help),
                           label: Text('ヘルプ'),
@@ -33,12 +36,18 @@ class HomeViewNew extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 10, right: 10),
-                    child: Consumer<HomeModel>(builder: (context, model, child) {
+                    child:
+                        Consumer<HomeModel>(builder: (context, model, child) {
                       return FlatButton.icon(
-                        icon: Icon(Icons.exit_to_app),
+                          icon: Icon(Icons.exit_to_app),
                           label: Text('ログアウト'),
                           onPressed: () {
                             model.logout();
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute<HomeController>(
+                                    builder: (BuildContext context) {
+                              return HomeController();
+                            }));
                           });
                     }),
                   ),
@@ -73,7 +82,10 @@ class HomeViewNew extends StatelessWidget {
             }
           },
         ),
-        listEffort()
+        Selector<HomeModel, DocumentSnapshot>(
+            selector: (context, model) => model.userSnapshot,
+            builder: (context, snapshot, child) =>
+                listEffort2(snapshot['group']))
       ],
     );
   }

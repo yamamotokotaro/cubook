@@ -78,14 +78,16 @@ class HomeScoutView extends StatelessWidget {
                                           ))),
                                   Padding(
                                       padding: EdgeInsets.all(20),
-                                      child: model.userSnapshot[model.age] != null
+                                      child: model.userSnapshot[model.age] !=
+                                              null
                                           ? LinearProgressIndicator(
-                                              backgroundColor:
-                                                  theme.getIndicatorColor(model.age),
+                                              backgroundColor: theme
+                                                  .getIndicatorColor(model.age),
                                               valueColor:
                                                   new AlwaysStoppedAnimation<
                                                       Color>(Colors.white),
-                                              value: model.userSnapshot[model.age]
+                                              value: model
+                                                      .userSnapshot[model.age]
                                                       .length /
                                                   task
                                                       .getAllMap(model.age)
@@ -140,19 +142,22 @@ class HomeScoutView extends StatelessWidget {
                                       selector: (context, model) =>
                                           model.userSnapshot,
                                       builder: (context, snapshot, child) =>
-                                          snapshot['challenge'] != null
-                                              ? LinearProgressIndicator(
-                                                  backgroundColor:
-                                                      Colors.green[700],
-                                                  valueColor:
-                                                      new AlwaysStoppedAnimation<
-                                                          Color>(Colors.white),
-                                                  value: snapshot['challenge']
-                                                          .length /
-                                                      task
-                                                          .getAllMap(
-                                                              'challenge')
-                                                          .length)
+                                          snapshot != null
+                                              ? snapshot['challenge'] != null
+                                                  ? LinearProgressIndicator(
+                                                      backgroundColor:
+                                                          Colors.green[700],
+                                                      valueColor:
+                                                          new AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Colors.white),
+                                                      value: snapshot['challenge']
+                                                              .length /
+                                                          task
+                                                              .getAllMap(
+                                                                  'challenge')
+                                                              .length)
+                                                  : Container()
                                               : Container())),
                             ]),
                       ),

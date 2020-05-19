@@ -231,11 +231,15 @@ class HomeLeaderView extends StatelessWidget {
 }
 
 class HomeLeaderView2 extends StatelessWidget {
+  String group;
+  HomeLeaderView2(String _group){
+    group = _group;
+  }
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       StreamBuilder<QuerySnapshot>(
-          stream: getTaskSnapshot(),
+          stream: Firestore.instance.collection('task').where('group', isEqualTo: group).snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data.documents.length != 0) {
@@ -250,7 +254,7 @@ class HomeLeaderView2 extends StatelessWidget {
                         Navigator.push(context,
                             MaterialPageRoute<ListTaskWaitingView>(
                                 builder: (BuildContext context) {
-                          return ListTaskWaitingView();
+                          return ListTaskWaitingView2(group);
                         }));
                       },
                       child: Padding(

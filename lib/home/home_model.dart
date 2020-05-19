@@ -50,7 +50,7 @@ class HomeModel extends ChangeNotifier {
               toShow = HomeScoutView();
               getSnapshot();
             } else if (position == 'leader') {
-              toShow = HomeLeaderView();
+              toShow = HomeLeaderView2(userSnapshot['group']);
             } else {
               toShow = Center(
                 child: Text('エラーが発生しました'),

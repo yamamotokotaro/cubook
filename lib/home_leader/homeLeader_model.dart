@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +23,6 @@ class HomeLeaderModel extends ChangeNotifier {
   }
 }
 
-Stream<QuerySnapshot> getTaskSnapshot() {
-  FirebaseAuth.instance.currentUser().then((user) {
-    if (user != null) {
-      user.getIdToken().then((token) {
-        return Firestore.instance.collection('task').where('group', isEqualTo: token.claims['group']).snapshots();
-      });
-    } else {
-    }
-  });
+Stream<QuerySnapshot> getTaskSnapshot(String group) {
+  return Firestore.instance.collection('task').where('group', isEqualTo: group).snapshots();
 }
