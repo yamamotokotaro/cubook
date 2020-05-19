@@ -429,6 +429,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                     child: TextField(
                                       controller:
                                           model.textField_feedback[index_page],
+                                      keyboardType: TextInputType.multiline,
                                       decoration:
                                           InputDecoration(labelText: "フィードバック"),
                                     ),

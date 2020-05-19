@@ -35,32 +35,34 @@ class HomeModel extends ChangeNotifier {
     FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
         currentUser = user;
-        Firestore.instance
-            .collection('user')
-            .where('uid', isEqualTo: currentUser.uid)
-            .snapshots()
-            .listen((data) {
-          if (data.documents.length != 0) {
-            userSnapshot = data.documents[0];
-            username = userSnapshot['name'] + userSnapshot['call'];
-            usercall = userSnapshot['call'];
-            position = userSnapshot['position'];
-            age = userSnapshot['age'];
-            if (position == 'scout') {
-              toShow = HomeScoutView();
-              getSnapshot();
-            } else if (position == 'leader') {
-              toShow = HomeLeaderView2(userSnapshot['group']);
+        currentUser.getIdToken(refresh: true).then((tokenMap) {
+          Firestore.instance
+              .collection('user')
+              .where('uid', isEqualTo: currentUser.uid)
+              .snapshots()
+              .listen((data) {
+            if (data.documents.length != 0) {
+              userSnapshot = data.documents[0];
+              username = userSnapshot['name'] + userSnapshot['call'];
+              usercall = userSnapshot['call'];
+              position = userSnapshot['position'];
+              age = userSnapshot['age'];
+              if (position == 'scout') {
+                toShow = HomeScoutView();
+                getSnapshot();
+              } else if (position == 'leader') {
+                toShow = HomeLeaderView2(tokenMap.claims['group']);
+              } else {
+                toShow = Center(
+                  child: Text('エラーが発生しました'),
+                );
+              }
+              isLoaded = true;
+              notifyListeners();
             } else {
-              toShow = Center(
-                child: Text('エラーが発生しました'),
-              );
+              isLoaded = true;
             }
-            isLoaded = true;
-            notifyListeners();
-          } else {
-            isLoaded = true;
-          }
+          });
         });
       } else {
         isLoaded = true;
@@ -103,6 +105,4 @@ class HomeModel extends ChangeNotifier {
         .document(documentID)
         .updateData(<String, dynamic>{'congrats': FieldValue.increment(1)});
   }
-
-
 }
