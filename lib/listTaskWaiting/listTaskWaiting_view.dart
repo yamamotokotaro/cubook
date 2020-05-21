@@ -64,10 +64,10 @@ class ListTaskWaitingView extends StatelessWidget {
                                                 onTap: () {
                                                   Navigator.push(context,
                                                       new MaterialPageRoute<
-                                                              DetailTaskWaitingView2>(
+                                                              DetailTaskWaitingView>(
                                                           builder: (BuildContext
                                                               context) {
-                                                    return DetailTaskWaitingView2(
+                                                    return DetailTaskWaitingView(
                                                         snapshot_get
                                                             .data
                                                             .documents[index]

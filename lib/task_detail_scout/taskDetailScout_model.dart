@@ -168,12 +168,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
       isAdded[number] = true;
       addDocument(list_toSend[number], number);
     }
-    /*if (isAdded[number]) {
-      updateDocument(data);
-    } else {
-      isAdded[number] = true;
-      addDocument(data, number);
-    }*/
   }
 
   Future addDocument(List list, int number) async {
@@ -217,6 +211,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
             await Firestore.instance.collection(type).add(data_signed);
         documentID_exit = documentReference_add.documentID;
       }
+      isLoading[number] = false;
     });
   }
 
