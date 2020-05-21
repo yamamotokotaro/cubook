@@ -20,210 +20,153 @@ class ListTaskWaitingView extends StatelessWidget {
         body: Align(
             alignment: Alignment.topCenter,
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
-              child:
-                  Consumer<ListTaskWaitingModel>(builder: (context, model, _) {
-                if (!model.isGet) {
-                  model.getTaskSnapshot();
-                }
-                if (model.isLoaded) {
-                  return ListView.builder(
-                      itemCount: model.taskSnapshot.documents.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        DocumentSnapshot snapshot =
-                            model.taskSnapshot.documents[index];
-                        Map<String, dynamic> map_task =
-                            task.getPartMap(snapshot['type'], snapshot['page']);
-                        return Padding(
-                          padding:
-                              EdgeInsets.only(top: 10, left: 10, right: 10),
-                          child: Container(
-                            child: Hero(
-                              tag: 'detailTask' +
-                                  model
-                                      .taskSnapshot.documents[index].documentID,
-                              child: Card(
-                                color: theme.getThemeColor(snapshot['type']),
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(context,
-                                        new MaterialPageRoute<
-                                                DetailTaskWaitingView>(
-                                            builder: (BuildContext context) {
-                                      return DetailTaskWaitingView(model
-                                          .taskSnapshot
-                                          .documents[index]
-                                          .documentID);
-                                    }));
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Material(
-                                          type: MaterialType.transparency,
-                                          child: Text(
-                                            snapshot['family'] +
-                                                snapshot['first'],
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 25,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                        Material(
-                                            type: MaterialType.transparency,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(top: 5),
-                                              child: Text(
-                                                theme.getTitle(
-                                                        snapshot['type']) +
-                                                    ' ' +
-                                                    map_task['number'] +
-                                                    ' ' +
-                                                    map_task['title'] +
-                                                    ' (' +
-                                                    (snapshot['number'] + 1)
-                                                        .toString() +
-                                                    ')',
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontSize: 18,
-                                                    color: Colors.white),
-                                              ),
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      });
-                } else {
-                  return Center(
-                    child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: CircularProgressIndicator()),
-                  );
-                }
-              }),
-            )));
-  }
-}
-
-class ListTaskWaitingView2 extends StatelessWidget {
-  var task = new Task();
-  var theme = new ThemeInfo();
-  String group;
-
-  ListTaskWaitingView2(String _group){
-    group = _group;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('サイン待ちリスト'),
-        ),
-        body: Align(
-            alignment: Alignment.topCenter,
-            child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 600),
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: Firestore.instance
-                        .collection('task')
-                        .where('group', isEqualTo: group)
-                        .orderBy('date', descending: false)
-                        .snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot_get) {
-                      if (snapshot_get.hasData) {
-                        return ListView.builder(
-                            itemCount: snapshot_get.data.documents.length,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              DocumentSnapshot snapshot =
-                              snapshot_get.data.documents[index];
-                              Map<String, dynamic> map_task =
-                              task.getPartMap(snapshot['type'], snapshot['page']);
-                              return Padding(
-                                padding:
-                                EdgeInsets.only(top: 10, left: 10, right: 10),
-                                child: Container(
-                                  child: Hero(
-                                    tag: 'detailTask' +
-                                        snapshot_get.data.documents[index].documentID,
-                                    child: Card(
-                                      color: theme.getThemeColor(snapshot['type']),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(context,
-                                              new MaterialPageRoute<
-                                                  DetailTaskWaitingView>(
-                                                  builder: (BuildContext context) {
-                                                    return DetailTaskWaitingView(snapshot_get.data
-                                                        .documents[index]
-                                                        .documentID);
-                                                  }));
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Material(
-                                                type: MaterialType.transparency,
-                                                child: Text(
-                                                  snapshot['family'] +
-                                                      snapshot['first'],
-                                                  style: TextStyle(
-                                                      fontWeight: FontWeight.normal,
-                                                      fontSize: 25,
-                                                      color: Colors.white),
-                                                ),
+                child: Consumer<ListTaskWaitingModel>(
+                    builder: (context, model, child) {
+                  model.getSnapshot();
+                  if (model.group != null) {
+                    return StreamBuilder<QuerySnapshot>(
+                        stream: Firestore.instance
+                            .collection('task')
+                            .where('group', isEqualTo: model.group)
+                            .where('phase', isEqualTo: 'wait')
+                            .orderBy('date', descending: false)
+                            .snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot_get) {
+                          if (snapshot_get.hasData) {
+                            return ListView.builder(
+                                itemCount: snapshot_get.data.documents.length,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  DocumentSnapshot snapshot =
+                                      snapshot_get.data.documents[index];
+                                  Map<String, dynamic> map_task =
+                                      task.getPartMap(
+                                          snapshot['type'], snapshot['page']);
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 10, left: 10, right: 10),
+                                    child: Container(
+                                      child: Hero(
+                                          tag: 'detailTask' +
+                                              snapshot_get.data.documents[index]
+                                                  .documentID,
+                                          child: SingleChildScrollView(
+                                            child: Card(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                               ),
-                                              Material(
-                                                  type: MaterialType.transparency,
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(top: 5),
-                                                    child: Text(
-                                                      theme.getTitle(
-                                                          snapshot['type']) +
-                                                          ' ' +
-                                                          map_task['number'] +
-                                                          ' ' +
-                                                          map_task['title'] +
-                                                          ' (' +
-                                                          (snapshot['number'] + 1)
-                                                              .toString() +
-                                                          ')',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                          FontWeight.normal,
-                                                          fontSize: 18,
-                                                          color: Colors.white),
-                                                    ),
-                                                  ))
-                                            ],
-                                          ),
-                                        ),
-                                      ),
+                                              color: theme.getThemeColor(
+                                                  snapshot['type']),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.push(context,
+                                                      new MaterialPageRoute<
+                                                              DetailTaskWaitingView2>(
+                                                          builder: (BuildContext
+                                                              context) {
+                                                    return DetailTaskWaitingView2(
+                                                        snapshot_get
+                                                            .data
+                                                            .documents[index]
+                                                            .documentID,
+                                                        snapshot['family'] +
+                                                            snapshot['first'],
+                                                        theme.getTitle(snapshot[
+                                                                'type']) +
+                                                            ' ' +
+                                                            map_task['number'] +
+                                                            ' ' +
+                                                            map_task['title'] +
+                                                            ' (' +
+                                                            (snapshot['number'] +
+                                                                    1)
+                                                                .toString() +
+                                                            ')',
+                                                        snapshot['type']);
+                                                  }));
+                                                },
+                                                child: Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Container(
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          Material(
+                                                            type: MaterialType
+                                                                .transparency,
+                                                            child: Text(
+                                                              snapshot[
+                                                                      'family'] +
+                                                                  snapshot[
+                                                                      'first'],
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontSize: 25,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          ),
+                                                          Material(
+                                                              type: MaterialType
+                                                                  .transparency,
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top:
+                                                                            10),
+                                                                child: Text(
+                                                                  theme.getTitle(
+                                                                          snapshot[
+                                                                              'type']) +
+                                                                      ' ' +
+                                                                      map_task[
+                                                                          'number'] +
+                                                                      ' ' +
+                                                                      map_task[
+                                                                          'title'] +
+                                                                      ' (' +
+                                                                      (snapshot['number'] +
+                                                                              1)
+                                                                          .toString() +
+                                                                      ')',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                              ))
+                                                        ],
+                                                      ),
+                                                    )),
+                                              ),
+                                            ),
+                                          )),
                                     ),
-                                  ),
-                                ),
-                              );
-                            });
-                      } else {
-                        return Center(
-                          child: Padding(
-                              padding: EdgeInsets.all(5),
-                              child: CircularProgressIndicator()),
-                        );
-                      }
-                    }))));
+                                  );
+                                });
+                          } else {
+                            return Center(
+                              child: Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: CircularProgressIndicator()),
+                            );
+                          }
+                        });
+                  } else {
+                    return const Center(
+                      child: Padding(
+                          padding: EdgeInsets.all(5),
+                          child: CircularProgressIndicator()),
+                    );
+                  }
+                }))));
   }
 }

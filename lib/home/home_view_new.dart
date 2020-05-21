@@ -12,6 +12,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'home_controller.dart';
 
 class HomeViewNew extends StatelessWidget {
+  String group;
+  HomeViewNew(String _group){
+    group = _group;
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -75,17 +79,18 @@ class HomeViewNew extends StatelessWidget {
               return Center(
                 child: Padding(
                     padding: EdgeInsets.all(5),
-                    child: CircularProgressIndicator()),
+                    child: Container()),
               );
             } else {
               return model.toShow;
             }
           },
         ),
-        Selector<HomeModel, DocumentSnapshot>(
+        listEffort()
+        /*Selector<HomeModel, DocumentSnapshot>(
             selector: (context, model) => model.userSnapshot,
             builder: (context, snapshot, child) =>
-                listEffort2(snapshot['group']))
+                listEffort2(snapshot['group']))*/
       ],
     );
   }
