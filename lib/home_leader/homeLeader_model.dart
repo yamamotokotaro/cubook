@@ -7,6 +7,20 @@ import 'package:flutter/material.dart';
 class HomeLeaderModel extends ChangeNotifier {
   QuerySnapshot taskSnapshot;
   bool isLoaded = false;
+  bool isGet = false;
+  String group;
+
+  void getSnapshot() async {
+    String group_before = group;
+    FirebaseAuth.instance.currentUser().then((user) {
+      user.getIdToken(refresh: true).then((token) async {
+        group = token.claims['group'];
+        if(group != group_before) {
+          notifyListeners();
+        }
+      });
+    });
+  }
 
   Future<void> getTaskSnapshot2() async {
     isLoaded = true;

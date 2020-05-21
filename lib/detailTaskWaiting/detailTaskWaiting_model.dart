@@ -26,7 +26,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   List<dynamic> dataMap;
   bool EmptyError = false;
 
-  Future<void> getTaskSnapshot(String _documentID) async {
+  /*Future<void> getTaskSnapshot(String _documentID) async {
     documentID = _documentID;
     isLoaded = false;
     Firestore.instance
@@ -37,6 +37,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       taskSnapshot = data;
       if (taskSnapshot.data == null) {
         taskFinished = true;
+        notifyListeners();
       } else {
         uid_get = taskSnapshot['uid'];
         type = taskSnapshot['type'];
@@ -70,6 +71,51 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       isLoaded = true;
       notifyListeners();
     });
+  }*/
+
+  Future<void> onSnapshotHasData(DocumentSnapshot taskSnapshot) async {
+    isLoaded = false;
+    notifyListeners();
+    if(taskSnapshot != null) {
+      if (taskSnapshot.documentID != documentID) {
+        body = List<dynamic>();
+        documentID = taskSnapshot.documentID;
+        uid_get = taskSnapshot['uid'];
+        type = taskSnapshot['type'];
+        page = taskSnapshot['page'];
+        number = taskSnapshot['number'];
+        dataMap = taskSnapshot['data'];
+        if (taskSnapshot != null) {
+          for (int i = 0; i < taskSnapshot['data'].length; i++) {
+            if (taskSnapshot['data'][i]['type'] == 'text') {
+              body.add(taskSnapshot['data'][i]['body']);
+            } else if (taskSnapshot['data'][i]['type'] == 'image') {
+              final StorageReference ref =
+              FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
+              final String url = await ref.getDownloadURL();
+              body.add(url);
+            } else {
+              final StorageReference ref =
+              FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
+              final String url = await ref.getDownloadURL();
+              final videoPlayerController = VideoPlayerController.network(url);
+              final chewieController = ChewieController(
+                  videoPlayerController: videoPlayerController,
+                  aspectRatio: 16 / 9,
+                  autoPlay: true,
+                  looping: false);
+              body.add(chewieController);
+            }
+          }
+        } else {
+          taskFinished = true;
+        }
+      }
+    } else {
+      taskFinished = true;
+    }
+    isLoaded = true;
+    notifyListeners();
   }
 
   void onTextChanged(String text) async {
@@ -106,7 +152,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         currentUser.getIdToken().then((token) async {
           tokenMap = token.claims;
           await updateDocumentInfo_reject();
-          await deleteTask();
         });
         isLoading = false;
       });
@@ -185,7 +230,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         .where('page', isEqualTo: page)
         .where('group', isEqualTo: tokenMap['group'])
         .getDocuments()
-        .then((data) {
+        .then((data)  {
       DocumentSnapshot snapshot = data.documents[0];
       Map<String, dynamic> map = Map<String, dynamic>();
       map = snapshot['signed'];
@@ -197,6 +242,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
           .collection(type)
           .document(snapshot.documentID)
           .updateData(mapSend);
+      deleteTask();
     });
   }
 
@@ -267,6 +313,11 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   }
 
   void deleteTask() {
-    Firestore.instance.collection('task').document(documentID).delete();
+    Map<String, dynamic> map = Map<String, dynamic>();
+    map['date'] = FieldValue.delete();
+    map['date_signed'] = Timestamp.now();
+    map['uid_signed'] = currentUser.uid;
+    map['phase'] = 'signed';
+    Firestore. instance.collection('task').document(documentID).updateData(map);
   }
 }

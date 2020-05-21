@@ -35,7 +35,7 @@ class HomeModel extends ChangeNotifier {
     FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
         currentUser = user;
-        currentUser.getIdToken(refresh: true).then((tokenMap) {
+        currentUser.getIdToken().then((tokenMap) {
           Firestore.instance
               .collection('user')
               .where('uid', isEqualTo: currentUser.uid)
@@ -51,7 +51,7 @@ class HomeModel extends ChangeNotifier {
                 toShow = HomeScoutView();
                 getSnapshot();
               } else if (position == 'leader') {
-                toShow = HomeLeaderView2(tokenMap.claims['group']);
+                toShow = HomeLeaderView();
               } else {
                 toShow = Center(
                   child: Text('エラーが発生しました'),

@@ -25,7 +25,7 @@ class HomeController extends StatelessWidget {
                                 if (model.currentUser != null) {
                                   if (model.userSnapshot != null) {
                                     if (model.userSnapshot['group'] != null) {
-                                      return HomeViewNew();
+                                      return HomeViewNew(model.userSnapshot['group']);
                                     } else {
                                       return JoinGroup();
                                     }
@@ -40,7 +40,7 @@ class HomeController extends StatelessWidget {
                                 return Padding(
                                     padding: EdgeInsets.all(20),
                                     child: Center(
-                                        child: Padding(padding: EdgeInsets.all(10),child:CircularProgressIndicator())
+                                        child: Padding(padding: EdgeInsets.all(10),child: Container()/*padding: EdgeInsets.all(10),child:CircularProgressIndicator()*/)
                                     ));
                               }
                             })))))));

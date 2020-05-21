@@ -5,9 +5,19 @@ import 'package:flutter/cupertino.dart';
 class ListEffortModel extends ChangeNotifier {
   QuerySnapshot effortSnapshot;
   bool isGet = false;
+  String group;
 
   void getSnapshot() async {
+    String group_before = group;
     FirebaseAuth.instance.currentUser().then((user) {
+      user.getIdToken(refresh: true).then((token) async {
+        group = token.claims['group'];
+        if(group != group_before) {
+          notifyListeners();
+        }
+      });
+    });
+    /*FirebaseAuth.instance.currentUser().then((user) {
       user.getIdToken(refresh: true).then((token) async {
         print(token.claims);
         if (token.claims['group'] != null) {
@@ -23,7 +33,7 @@ class ListEffortModel extends ChangeNotifier {
           });
         }
       });
-    });
+    });*/
   }
 
   void increaseCount(String documentID) async {
