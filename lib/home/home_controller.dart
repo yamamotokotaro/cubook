@@ -40,7 +40,7 @@ class HomeController extends StatelessWidget {
                                 return Padding(
                                     padding: EdgeInsets.all(20),
                                     child: Center(
-                                        child: Padding(padding: EdgeInsets.all(10),child: Container()/*padding: EdgeInsets.all(10),child:CircularProgressIndicator()*/)
+                                        child: Padding(padding: EdgeInsets.all(10),child:CircularProgressIndicator())
                                     ));
                               }
                             })))))));
