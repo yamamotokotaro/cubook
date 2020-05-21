@@ -185,6 +185,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
       data['first'] = userData['first'];
       data['call'] = userData['call'];
       data['group'] = tokenMap['group'];
+      data['phase'] = 'wait';
       isAdded[number] = true;
       documentReference = await Firestore.instance.collection('task').add(data);
       documentID = documentReference.documentID;
