@@ -166,6 +166,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     count_toSend[number]--;
     if (count_toSend[number] == 0) {
       isAdded[number] = true;
+      map_attach[number] = new Map<int, dynamic>();
       addDocument(list_toSend[number], number);
     }
   }
