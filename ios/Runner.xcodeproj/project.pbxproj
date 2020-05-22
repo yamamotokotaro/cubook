@@ -155,6 +155,7 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				1041DA653DCE14A500CE0162 /* [CP] Embed Pods Frameworks */,
 				E6ED75DD86943ABC65700A08 /* [CP] Copy Pods Resources */,
+				9A762752247828B80013080F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -258,7 +259,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
+		};
+		9A762752247828B80013080F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/Fabric/run\n";
 		};
 		E6ED75DD86943ABC65700A08 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

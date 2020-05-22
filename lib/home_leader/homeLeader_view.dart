@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
+import 'package:cubook/home_lump/homeLump_view.dart';
 import 'package:cubook/invite/invite_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_view.dart';
 import 'package:cubook/list_scout/listScout_view.dart';
@@ -165,6 +166,45 @@ class HomeLeaderView extends StatelessWidget {
             ),
           ),
         )),
+      ),
+      Padding(
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
+        child: Container(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute<HomeLumpView>(
+                      builder: (BuildContext context) {
+                        return HomeLumpView();
+                      }));
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.list,
+                          color: Theme.of(context).accentColor,
+                          size: 35,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Material(
+                              type: MaterialType.transparency,
+                              child: Text(
+                                ' 一括サイン',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal, fontSize: 30),
+                              ),
+                            )),
+                      ]),
+                ),
+              ),
+            )),
       ),
       Padding(
         padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
