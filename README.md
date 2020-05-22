@@ -1,5 +1,6 @@
 # cubook
 [![Codemagic build status](https://api.codemagic.io/apps/5ec49c4343c930081bdd10a9/5ec49c4343c930081bdd10a8/status_badge.svg)](https://codemagic.io/apps/5ec49c4343c930081bdd10a9/5ec49c4343c930081bdd10a8/latest_build)
+
 The goal of this project is to reduce the time it takes to review a Scout's progress as much as possible, which in turn reduces the burden on leaders to provide more accurate feedback.
 
 ![Screenshot](https://user-images.githubusercontent.com/25360586/80860683-3f22ec80-8ca4-11ea-87d9-b4cf2ccdc434.png)
