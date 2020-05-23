@@ -1,6 +1,8 @@
 import 'dart:core';
 
-class Task {
+import 'package:flutter/cupertino.dart';
+
+class Task{
 
   // implict-dynamicをどうにかしなきゃいけないらしいがよくわからないので放置なう
 

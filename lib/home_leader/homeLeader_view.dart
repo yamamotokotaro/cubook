@@ -247,40 +247,6 @@ class HomeLeaderView extends StatelessWidget {
           ),
         )),
       ),
-      /*Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
-        child: Container(
-            child: Card(
-          color: Colors.white,
-          child: InkWell(
-            onTap: () {},
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.edit,
-                      color: Colors.blue[900],
-                      size: 35,
-                    ),
-                    Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Material(
-                          type: MaterialType.transparency,
-                          child: Text(
-                            '一括サイン',
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 30,
-                                color: Colors.black),
-                          ),
-                        )),
-                  ]),
-            ),
-          ),
-        )),
-      ),*/
     ]);
   }
 

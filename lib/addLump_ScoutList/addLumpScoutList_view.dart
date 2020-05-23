@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
+import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
 import 'package:cubook/invite/invite_model.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,6 +26,10 @@ class AddLumpScoutListView extends StatelessWidget {
               }
             }
             print(list_uid);
+            Navigator.push(context, MaterialPageRoute<AddLumpSelectItemView>(
+                builder: (BuildContext context) {
+                  return AddLumpSelectItemView(list_uid);
+                }));
           },
           label: Text('次へ'),
           icon: Icon(Icons.arrow_forward),

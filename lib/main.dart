@@ -1,4 +1,5 @@
 import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
+import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => SelectBookModel()),
           ChangeNotifierProvider(create: (context) => TaskListScoutConfirmModel()),
           ChangeNotifierProvider(create: (context) => AddLumpScoutListModel()),
+          ChangeNotifierProvider(create: (context) => AddLumpSelectItemModel()),
         ],
         child: MaterialApp(
           home: HomeController(),
