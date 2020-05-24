@@ -1,5 +1,5 @@
 import 'package:cubook/home/home_model.dart';
-import 'package:cubook/home/home_view_new.dart';
+import 'package:cubook/home/home_view.dart';
 import 'package:cubook/login/login_view.dart';
 import 'package:cubook/signup/join/joinGroup_view.dart';
 import 'package:cubook/signup/signup_view.dart';

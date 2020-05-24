@@ -1,11 +1,17 @@
+import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
+import 'package:cubook/addLump_ScoutList/addLumpScoutList_view.dart';
+import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
+import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
+import 'package:cubook/home_lump/homeLump_view.dart';
 import 'package:cubook/invite/invite_model.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
-import 'package:cubook/list_scout/listScout_model.dart';
+import 'package:cubook/list_scout/listMember_model.dart';
+import 'package:cubook/list_scout/listMember_view.dart';
 import 'package:cubook/select_book/selectBook_model.dart';
 import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
@@ -16,8 +22,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // Set `enableInDevMode` to true to see reports while in debug mode
+  // This is only to be used for confirming that reports are being
+  // submitted as expected. It is not intended to be used for everyday
+  // development.
+  Crashlytics.instance.enableInDevMode = true;
+
+  // Pass all uncaught errors from the framework to Crashlytics.
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   final boyColor = Colors.orange;
@@ -35,9 +53,11 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => DetailTaskWaitingModel()),
           ChangeNotifierProvider(create: (context) => SignupModel()),
           ChangeNotifierProvider(create: (context) => InviteModel()),
-          ChangeNotifierProvider(create: (context) => ListScoutModel()),
+          ChangeNotifierProvider(create: (context) => ListMemberModel()),
           ChangeNotifierProvider(create: (context) => SelectBookModel()),
           ChangeNotifierProvider(create: (context) => TaskListScoutConfirmModel()),
+          ChangeNotifierProvider(create: (context) => AddLumpScoutListModel()),
+          ChangeNotifierProvider(create: (context) => AddLumpSelectItemModel()),
         ],
         child: MaterialApp(
           home: HomeController(),
@@ -55,6 +75,12 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.blue[900],
             accentColor: Colors.white,
           ),
+          routes: <String, WidgetBuilder> {
+            '/listMember': (BuildContext context) => ListMemberView2(),
+            '/homeLump': (BuildContext context) => HomeLumpView(),
+            '/addLumpScoutList': (BuildContext context) => AddLumpScoutListView(),
+            '/addLumpSelectItem': (BuildContext context) => AddLumpSelectItemView(),
+          },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

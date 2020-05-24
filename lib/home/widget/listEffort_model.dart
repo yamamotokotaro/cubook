@@ -17,23 +17,6 @@ class ListEffortModel extends ChangeNotifier {
         }
       });
     });
-    /*FirebaseAuth.instance.currentUser().then((user) {
-      user.getIdToken(refresh: true).then((token) async {
-        print(token.claims);
-        if (token.claims['group'] != null) {
-          Firestore.instance
-              .collection('effort')
-              .where('group', isEqualTo: token.claims['group'])
-              .orderBy('time', descending: true)
-              .snapshots()
-              .listen((data) {
-            effortSnapshot = data;
-            isGet = true;
-            notifyListeners();
-          });
-        }
-      });
-    });*/
   }
 
   void increaseCount(String documentID) async {

@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class InviteModel with ChangeNotifier {
+class HomeLumpModel with ChangeNotifier {
   var isSelect_type = new List.generate(2, (index) => false);
   bool isLoading_join = false;
   bool isConsent = false;
@@ -56,9 +56,9 @@ class InviteModel with ChangeNotifier {
       notifyListeners();
       FirebaseAuth.instance.currentUser().then((user) {
         if (user != null) {
-          user.getIdToken(refresh: true).then((token) async {
+          user.getIdToken().then((token) async {
             String url =
-                "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
+                "https://asia-northeast1-cubook-dev.cloudfunctions.net/inviteGroup";
             Map<String, String> headers = {
               'content-type': 'application/json'
             };
