@@ -215,11 +215,11 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       mapSend['signed'] = map;
       if (map.length == task.getPartMap(type, page)['hasItem']) {
         mapSend['end'] = Timestamp.now();
-        mapSend['citation'] = false;
+        mapSend['isCitationed'] = false;
       }
       Firestore.instance
           .collection(type)
-          .document(snapshot.documentID)
+          .document(snapshot.documentID)`
           .updateData(mapSend);
     });
   }

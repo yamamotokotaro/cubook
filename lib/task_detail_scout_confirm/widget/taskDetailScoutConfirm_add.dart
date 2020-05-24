@@ -85,7 +85,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                           Checkbox(
                             onChanged: model.onPressCheckbox,
                             activeColor: themeColor,
-                            value: model.checkPost,
+                            value: model.checkCitation,
                           ),
                           Text('過去に表彰済み')
                         ],

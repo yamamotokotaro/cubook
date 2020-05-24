@@ -219,7 +219,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         data_signed['signed'] = map;
         if (isComplete) {
           data_signed['end'] = Timestamp.now();
-          data_signed['citation'] = checkCitation;
+          data_signed['isCitationed'] = checkCitation;
         }
         Firestore.instance
             .collection(type)
@@ -239,6 +239,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         data_signed['group'] = tokenMap['group'];
         if (isComplete) {
           data_signed['end'] = Timestamp.now();
+          data_signed['isCitationed'] = checkCitation;
         }
         DocumentReference documentReference_add =
             await Firestore.instance.collection(type).add(data_signed);
