@@ -215,6 +215,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       mapSend['signed'] = map;
       if (map.length == task.getPartMap(type, page)['hasItem']) {
         mapSend['end'] = Timestamp.now();
+        mapSend['citation'] = false;
       }
       Firestore.instance
           .collection(type)

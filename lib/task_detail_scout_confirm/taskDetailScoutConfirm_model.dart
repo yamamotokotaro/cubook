@@ -11,7 +11,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
   var list_isSelected = new List<bool>();
   String documentID;
-  bool checkPost = false;
+  bool checkCitation = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   DocumentSnapshot stepSnapshot;
   DocumentReference documentReference;
@@ -129,7 +129,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   void onPressCheckbox(bool e) async {
-    checkPost = e;
+    checkCitation = e;
     notifyListeners();
   }
 
@@ -190,7 +190,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       if (map[page.toString()] == task.getPartMap(type, page)['hasItem']) {
         recordEndTime();
         isComplete = true;
-        if (!checkPost) {
+        if (!checkCitation) {
           onFinish();
         }
       }
@@ -219,6 +219,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         data_signed['signed'] = map;
         if (isComplete) {
           data_signed['end'] = Timestamp.now();
+          data_signed['citation'] = checkCitation;
         }
         Firestore.instance
             .collection(type)
