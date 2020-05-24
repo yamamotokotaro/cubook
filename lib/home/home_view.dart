@@ -1,8 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_view.dart';
-import 'package:cubook/home_leader/homeLeader_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -87,10 +84,6 @@ class HomeViewNew extends StatelessWidget {
           },
         ),
         listEffort()
-        /*Selector<HomeModel, DocumentSnapshot>(
-            selector: (context, model) => model.userSnapshot,
-            builder: (context, snapshot, child) =>
-                listEffort2(snapshot['group']))*/
       ],
     );
   }

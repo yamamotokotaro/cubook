@@ -10,8 +10,9 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
   int index_page;
   String type;
   Color themeColor;
+  String mes;
 
-  TaskDetailScoutConfirmAddView(int _index, String _type) {
+  TaskDetailScoutConfirmAddView(int _index, String _type, String _mes) {
     if (_type == 'usagi') {
       themeColor = Colors.orange;
     } else if (_type == 'sika') {
@@ -23,6 +24,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
     }
     index_page = _index;
     type = _type;
+    mes = _mes;
   }
 
   @override
@@ -53,6 +55,16 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
             ),
           ),
         ),
+        mes != '' ?
+        Padding(
+            padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+            child: Text(
+              mes,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            )): Container(),
         Container(
             height: MediaQuery.of(context)
                 .size
@@ -75,7 +87,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                             activeColor: themeColor,
                             value: model.checkPost,
                           ),
-                          Text('みんなの取り組みに追加しない')
+                          Text('過去に表彰済み')
                         ],
                       ),
                     ),

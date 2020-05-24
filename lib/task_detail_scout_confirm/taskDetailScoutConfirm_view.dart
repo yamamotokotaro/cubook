@@ -97,11 +97,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: const Radius
-                                            .circular(0),
-                                        topRight:
-                                        const Radius
-                                            .circular(0)),
+                                        topLeft: const Radius.circular(0),
+                                        topRight: const Radius.circular(0)),
                                     color: themeColor),
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 40, bottom: 20),
@@ -236,11 +233,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: const Radius
-                                            .circular(0),
-                                        topRight:
-                                        const Radius
-                                            .circular(0)),
+                                        topLeft: const Radius.circular(0),
+                                        topRight: const Radius.circular(0)),
                                     color: themeColor),
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 40, bottom: 20),
@@ -349,13 +343,13 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                             model.getSnapshot();
                           }
                           if (model.isLoaded) {
-                            if (model.stepSnapshot != null) {
+                            if (model.isExit) {
                               if (model.stepSnapshot['signed']
                                       [index_page.toString()] ==
                                   null) {
                                 return Container(
                                   child: TaskDetailScoutConfirmAddView(
-                                      index_page, type),
+                                      index_page, type,''),
                                 );
                               } else if (model.stepSnapshot['signed']
                                       [index_page.toString()]['phaze'] ==
@@ -365,11 +359,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.only(
-                                            topLeft: const Radius
-                                                .circular(0),
-                                            topRight:
-                                            const Radius
-                                                .circular(0)),
+                                            topLeft: const Radius.circular(0),
+                                            topRight: const Radius.circular(0)),
                                         color: themeColor),
                                     child: Padding(
                                       padding:
@@ -385,7 +376,6 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-
                                   Padding(
                                     padding: EdgeInsets.only(top: 5),
                                     child: FlatButton(
@@ -436,24 +426,45 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                     ),
                                   ),
                                   !model.isLoading[index_page]
-                                      ? RaisedButton.icon(
-                                          onPressed: () {
-                                            model.onTapSave(
-                                                index_page, context);
-                                          },
-                                          icon: Icon(
-                                            Icons.save,
-                                            size: 20,
-                                            color: Colors.white,
-                                          ),
-                                          color: themeColor,
-                                          label: Text(
-                                            '変更を保存',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
+                                      ? Column(
+                                          children: <Widget>[
+                                            RaisedButton.icon(
+                                              onPressed: () {
+                                                model.onTapSave(
+                                                    index_page, context);
+                                              },
+                                              icon: Icon(
+                                                Icons.save,
+                                                size: 20,
+                                                color: Colors.white,
+                                              ),
+                                              color: themeColor,
+                                              label: Text(
+                                                '変更を保存',
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                            FlatButton.icon(
+                                              onPressed: () {
+                                                model.onTapCancel(index_page);
+                                              },
+                                              icon: Icon(
+                                                Icons.close,
+                                                size: 20,
+                                                color: Colors.red,
+                                              ),
+                                              label: Text(
+                                                'サイン取り消し',
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.red),
+                                              ),
+                                            )
+                                          ],
                                         )
                                       : Container(
                                           child: Container(
@@ -475,11 +486,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.only(
-                                            topLeft: const Radius
-                                                .circular(0),
-                                            topRight:
-                                            const Radius
-                                                .circular(0)),
+                                            topLeft: const Radius.circular(0),
+                                            topRight: const Radius.circular(0)),
                                         color: themeColor),
                                     child: Padding(
                                       padding:
@@ -507,10 +515,11 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                   ),
                                 ]);
                               } else if (model.stepSnapshot['signed']
-                              [index_page.toString()]['phaze'] ==
+                                      [index_page.toString()]['phaze'] ==
                                   'reject') {
                                 return Column(children: <Widget>[
-                                  TaskDetailScoutConfirmAddView(index_page, type)
+                                  TaskDetailScoutConfirmAddView(
+                                      index_page, type, 'やりなおし： ' + model.stepSnapshot['signed'][index_page.toString()]['feedback'])
                                 ]);
                               } else {
                                 return Center(
@@ -519,7 +528,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                               }
                             } else {
                               return TaskDetailScoutConfirmAddView(
-                                  index_page, type);
+                                  index_page, type, '');
                             }
                           } else {
                             return Padding(

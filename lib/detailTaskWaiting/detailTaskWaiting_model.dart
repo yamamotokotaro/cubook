@@ -99,10 +99,11 @@ class DetailTaskWaitingModel extends ChangeNotifier {
               FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
               final String url = await ref.getDownloadURL();
               final videoPlayerController = VideoPlayerController.network(url);
+              await videoPlayerController.initialize();
               final chewieController = ChewieController(
                   videoPlayerController: videoPlayerController,
-                  aspectRatio: 16 / 9,
-                  autoPlay: true,
+                  aspectRatio: videoPlayerController.value.aspectRatio,
+                  autoPlay: false,
                   looping: false);
               body.add(chewieController);
             }

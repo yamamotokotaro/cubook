@@ -11,6 +11,13 @@ class HomeLumpView extends StatelessWidget {
         appBar: AppBar(
           title: Text('一括サイン'),
         ),
+        floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.of(context).pushNamed('/addLumpScoutList');
+            },
+            label: Text('サインを始める'),
+            icon: Icon(Icons.edit),
+        ),
         body: Builder(builder: (BuildContext context) {
           return GestureDetector(
               onTap: () {
@@ -33,10 +40,7 @@ class HomeLumpView extends StatelessWidget {
                                       ),
                                       child: InkWell(
                                         onTap: () {
-                                          Navigator.push(context, MaterialPageRoute<AddLumpScoutListView>(
-                                              builder: (BuildContext context) {
-                                                return AddLumpScoutListView();
-                                              }));
+                                          Navigator.of(context).pushNamed('/addLumpScoutList');
                                         },
                                         child: Padding(
                                           padding: EdgeInsets.all(10),

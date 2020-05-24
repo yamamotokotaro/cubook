@@ -3,7 +3,7 @@ import 'package:cubook/home_leader/homeLeader_model.dart';
 import 'package:cubook/home_lump/homeLump_view.dart';
 import 'package:cubook/invite/invite_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_view.dart';
-import 'package:cubook/list_scout/listScout_view.dart';
+import 'package:cubook/list_scout/listMember_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -137,10 +137,7 @@ class HomeLeaderView extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute<ListScoutView>(
-                  builder: (BuildContext context) {
-                return ListScoutView();
-              }));
+              Navigator.of(context).pushNamed('/listMember');
             },
             child: Padding(
               padding: EdgeInsets.all(10),
@@ -176,10 +173,7 @@ class HomeLeaderView extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute<HomeLumpView>(
-                      builder: (BuildContext context) {
-                        return HomeLumpView();
-                      }));
+                  Navigator.of(context).pushNamed('/homeLump');
                 },
                 child: Padding(
                   padding: EdgeInsets.all(10),

@@ -34,7 +34,7 @@ class TaskView extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 10),
+                  padding: EdgeInsets.only(top: 20, bottom: 70),
                   child: Consumer<AddLumpSelectItemModel>(
                       builder: (context, model, child) {
                     var map_task = task.getAllMap(type);

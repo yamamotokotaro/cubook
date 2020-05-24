@@ -26,10 +26,7 @@ class AddLumpScoutListView extends StatelessWidget {
               }
             }
             print(list_uid);
-            Navigator.push(context, MaterialPageRoute<AddLumpSelectItemView>(
-                builder: (BuildContext context) {
-                  return AddLumpSelectItemView(list_uid);
-                }));
+            Navigator.of(context).pushNamed('/addLumpSelectItem', arguments: list_uid);
           },
           label: Text('次へ'),
           icon: Icon(Icons.arrow_forward),

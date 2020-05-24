@@ -56,7 +56,7 @@ class InviteModel with ChangeNotifier {
       notifyListeners();
       FirebaseAuth.instance.currentUser().then((user) {
         if (user != null) {
-          user.getIdToken().then((token) async {
+          user.getIdToken(refresh: true).then((token) async {
             String url =
                 "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
             Map<String, String> headers = {

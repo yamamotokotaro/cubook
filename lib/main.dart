@@ -1,13 +1,17 @@
 import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
+import 'package:cubook/addLump_ScoutList/addLumpScoutList_view.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
+import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
+import 'package:cubook/home_lump/homeLump_view.dart';
 import 'package:cubook/invite/invite_model.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
-import 'package:cubook/list_scout/listScout_model.dart';
+import 'package:cubook/list_scout/listMember_model.dart';
+import 'package:cubook/list_scout/listMember_view.dart';
 import 'package:cubook/select_book/selectBook_model.dart';
 import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
@@ -49,7 +53,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => DetailTaskWaitingModel()),
           ChangeNotifierProvider(create: (context) => SignupModel()),
           ChangeNotifierProvider(create: (context) => InviteModel()),
-          ChangeNotifierProvider(create: (context) => ListScoutModel()),
+          ChangeNotifierProvider(create: (context) => ListMemberModel()),
           ChangeNotifierProvider(create: (context) => SelectBookModel()),
           ChangeNotifierProvider(create: (context) => TaskListScoutConfirmModel()),
           ChangeNotifierProvider(create: (context) => AddLumpScoutListModel()),
@@ -71,6 +75,12 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.blue[900],
             accentColor: Colors.white,
           ),
+          routes: <String, WidgetBuilder> {
+            '/listMember': (BuildContext context) => ListMemberView2(),
+            '/homeLump': (BuildContext context) => HomeLumpView(),
+            '/addLumpScoutList': (BuildContext context) => AddLumpScoutListView(),
+            '/addLumpSelectItem': (BuildContext context) => AddLumpSelectItemView(),
+          },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

@@ -61,6 +61,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                     padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                     child: Text(
                       mes,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
@@ -209,16 +210,6 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(bottom: 5),
-                                        child:Text(
-                                        '横向きで撮ってね',
-                                        style: TextStyle(
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
                                       ),
                                       model.map_attach[index_page][index] ==
                                               null

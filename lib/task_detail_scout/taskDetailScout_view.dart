@@ -82,7 +82,7 @@ class TaskScoutDetailView extends StatelessWidget {
                     elevation: 2,
                     child: InkWell(child: Consumer<TaskDetailScoutModel>(
                         builder: (context, model, _) {
-                      if (model.isExit == true) {
+                      if (model.isExit) {
                         var message = '';
                         if (model.stepSnapshot['end'] != null) {
                           message = '完修済み🎉';
@@ -387,7 +387,7 @@ class TaskScoutAddView extends StatelessWidget {
                               model.getSnapshot();
                             }
                             if (model.isLoaded) {
-                              if (model.stepSnapshot != null) {
+                              if (model.isExit) {
                                 if (model.stepSnapshot['signed']
                                         [index_page.toString()] ==
                                     null) {
@@ -495,18 +495,7 @@ class TaskScoutAddView extends StatelessWidget {
                                         [index_page.toString()]['phaze'] ==
                                     'reject') {
                                   return Column(children: <Widget>[
-                                    /*Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Text(
-                                        model.stepSnapshot['signed']
-                                            [index_page.toString()]['feedback'],
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none),
-                                      ),
-                                    ),*/
-                                    TaskDetailScoutAddView(index_page, type, model.stepSnapshot['signed'][index_page.toString()]['feedback'])
+                                    TaskDetailScoutAddView(index_page, type, 'やりなおし： ' + model.stepSnapshot['signed'][index_page.toString()]['feedback'])
                                   ]);
                                 } else {
                                   return Center(

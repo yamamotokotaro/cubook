@@ -23,8 +23,6 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   int quant = 0;
   int countToSend = 0;
   String documentID_exit;
-
-  //bool isAdded = false;
   bool isLoaded = false;
   bool isExit = false;
 
@@ -101,7 +99,6 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
                         TextEditingController(text: doc['family']);
                     textField_feedback[i] =
                         TextEditingController(text: doc['feedback']);
-                    notifyListeners();
                   }
                 }
               }
@@ -146,6 +143,19 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         await updateUserInfo(number);
         isLoading[number] = false;
         //await updateDocumentInfo(number, isComplete);
+      });
+    });
+  }
+
+  void onTapCancel(int number) async {
+    isLoading[number] = true;
+    notifyListeners();
+    FirebaseAuth.instance.currentUser().then((user) async {
+      currentUser = user;
+      currentUser.getIdToken().then((token) async {
+        tokenMap = token.claims;
+        await updateDocumentInfo_cancel(number);
+        isLoading[number] = false;
       });
     });
   }
@@ -285,6 +295,71 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     });
   }
 
+  Future<void> updateDocumentInfo_cancel(int number) async {
+    FirebaseUser user = await auth.currentUser();
+    Map<String, dynamic> data_signed = Map<String, dynamic>();
+    Firestore.instance
+        .collection(type)
+        .where('group', isEqualTo: tokenMap['group'])
+        .where('uid', isEqualTo: uid)
+        .where('page', isEqualTo: page)
+        .getDocuments()
+        .then((data) async {
+      if (data.documents.length != 0) {
+        int count = 0;
+        DocumentSnapshot snapshot = data.documents[0];
+        if (snapshot['signed'].length - 1 != 0) {
+          Map<String, dynamic> map = Map<String, dynamic>();
+          Map<String, dynamic> data_toAdd = Map<String, dynamic>();
+          map = snapshot['signed'];
+          map.remove(number.toString());
+          data_signed['signed'] = map;
+          data_signed['end'] = FieldValue.delete();
+          count = map.length;
+          Firestore.instance
+              .collection(type)
+              .document(snapshot.documentID)
+              .updateData(data_signed);
+        } else {
+          count = 0;
+          Firestore.instance
+              .collection(type)
+              .document(snapshot.documentID)
+              .delete();
+        }
+        updateUserInfo_cancel(page, count);
+      }
+    });
+  }
+
+  Future<void> updateUserInfo_cancel(int page, int count) async {
+    FirebaseUser user = await auth.currentUser();
+    Map<String, dynamic> data_signed = Map<String, dynamic>();
+    Map<String, dynamic> data_toAdd = Map<String, dynamic>();
+    Firestore.instance
+        .collection('user')
+        .where('group', isEqualTo: tokenMap['group'])
+        .where('uid', isEqualTo: uid)
+        .getDocuments()
+        .then((data) async {
+      if (data.documents.length != 0) {
+        DocumentSnapshot snapshot = data.documents[0];
+        Map<String, dynamic> map = Map<String, dynamic>();
+        map = snapshot[type];
+        if (count != 0) {
+          map[page.toString()] = count;
+        } else {
+          map.remove(page.toString());
+        }
+        data_signed[type] = map;
+        Firestore.instance
+            .collection('user')
+            .document(snapshot.documentID)
+            .updateData(data_signed);
+      }
+    });
+  }
+
   Future<void> recordEndTime() async {
     Map<String, dynamic> data = Map<String, dynamic>();
     data['end'] = Timestamp.now();
@@ -374,20 +449,21 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     });
   }
 
-  Future<void> checkDate(DocumentSnapshot snapshot, DateTime time, String documentID,int quant) async {
+  Future<void> checkDate(DocumentSnapshot snapshot, DateTime time,
+      String documentID, int quant) async {
     bool isStart = true;
     bool isEnd = true;
     DateTime dateStart;
-    if(snapshot['start'] is Timestamp){
+    if (snapshot['start'] is Timestamp) {
       dateStart = snapshot['start'].toDate();
     } else {
       dateStart = snapshot['start'];
     }
     Map map = snapshot['signed'];
     for (int i = 0; i < map.length; i++) {
-      if(map[i.toString()] != null) {
+      if (map[i.toString()] != null) {
         DateTime date_toComparison;
-        if(map[i.toString()]['time'] is Timestamp){
+        if (map[i.toString()]['time'] is Timestamp) {
           date_toComparison = map[i.toString()]['time'].toDate();
         } else {
           date_toComparison = map[i.toString()]['time'];
@@ -407,7 +483,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     if (isEnd && snapshot['end'] != null) {
       data_toChange['end'] = time;
     }
-    if(quant == 1 && dateStart != time){
+    if (quant == 1 && dateStart != time) {
       data_toChange['start'] = time;
       data_toChange['end'] = time;
     }
