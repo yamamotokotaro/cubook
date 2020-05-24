@@ -219,7 +219,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       }
       Firestore.instance
           .collection(type)
-          .document(snapshot.documentID)`
+          .document(snapshot.documentID)
           .updateData(mapSend);
     });
   }
