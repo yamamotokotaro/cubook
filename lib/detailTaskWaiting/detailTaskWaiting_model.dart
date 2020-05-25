@@ -26,7 +26,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   List<dynamic> dataMap;
   bool EmptyError = false;
 
-  /*Future<void> getTaskSnapshot(String _documentID) async {
+  Future<void> getTaskSnapshot(String _documentID) async {
     documentID = _documentID;
     isLoaded = false;
     Firestore.instance
@@ -57,10 +57,11 @@ class DetailTaskWaitingModel extends ChangeNotifier {
             FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
             final String url = await ref.getDownloadURL();
             final videoPlayerController = VideoPlayerController.network(url);
+            videoPlayerController.initialize();
             final chewieController = ChewieController(
                 videoPlayerController: videoPlayerController,
-                aspectRatio: 16 / 9,
-                autoPlay: true,
+                aspectRatio: videoPlayerController.value.aspectRatio,
+                autoPlay: false,
                 looping: false);
             body.add(chewieController);
           }
@@ -69,13 +70,13 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       }
       isGet = true;
       isLoaded = true;
+      print(body);
       notifyListeners();
     });
-  }*/
+  }
 
-  Future<void> onSnapshotHasData(DocumentSnapshot taskSnapshot) async {
+  void onSnapshotHasData(DocumentSnapshot taskSnapshot) async {
     isLoaded = false;
-    notifyListeners();
     if(taskSnapshot != null) {
       if (taskSnapshot.documentID != documentID) {
         body = List<dynamic>();
@@ -102,12 +103,14 @@ class DetailTaskWaitingModel extends ChangeNotifier {
               await videoPlayerController.initialize();
               final chewieController = ChewieController(
                   videoPlayerController: videoPlayerController,
-                  aspectRatio: videoPlayerController.value.aspectRatio,
+                  aspectRatio: 16 / 9,
                   autoPlay: false,
                   looping: false);
               body.add(chewieController);
             }
           }
+          print(body);
+          notifyListeners();
         } else {
           taskFinished = true;
         }
@@ -116,7 +119,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       taskFinished = true;
     }
     isLoaded = true;
-    notifyListeners();
   }
 
   void onTextChanged(String text) async {
@@ -215,7 +217,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       mapSend['signed'] = map;
       if (map.length == task.getPartMap(type, page)['hasItem']) {
         mapSend['end'] = Timestamp.now();
-        mapSend['isCitationed'] = false;
       }
       Firestore.instance
           .collection(type)
