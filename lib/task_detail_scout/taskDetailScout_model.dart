@@ -117,7 +117,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
       FirebaseAuth.instance.currentUser().then((user) {
         if (user != null) {
           currentUser = user;
-          user.getIdToken().then((token) {
+          user.getIdToken().then((token) async {
             tokenMap = token.claims;
             Map<int, dynamic> MapDatas = map_attach[number];
             list_toSend[number] =
@@ -125,9 +125,9 @@ class TaskDetailScoutModel extends ChangeNotifier {
             count_toSend[number] = MapDatas.length;
             for (int i = 0; i < MapDatas.length; i++) {
               if (MapDatas[i] is String) {
-                textSend(i, MapDatas[i], number);
+                await textSend(i, MapDatas[i], number);
               } else if (MapDatas[i] is File) {
-                fileSend(i, MapDatas[i], number);
+                await fileSend(i, MapDatas[i], number);
               }
             }
           });

@@ -23,7 +23,18 @@ class SelectBookView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('確認する項目を選択'),
+          title: Text('メンバー詳細'),
+          /*actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.settings,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushNamed('/settingAccount');
+              },
+            )
+          ],*/
         ),
         body: SafeArea(
             child: SingleChildScrollView(
@@ -32,6 +43,80 @@ class SelectBookView extends StatelessWidget {
                         constraints: BoxConstraints(maxWidth: 600),
                         child: Column(
                           children: <Widget>[
+                            /*Padding(
+                              padding: EdgeInsets.only(top: 16, bottom: 10),
+                              child: Container(
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    shape: BoxShape
+                                        .circle),
+                                child: Icon(
+                                  Icons.person,
+                                  size: 40,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                                padding:
+                                EdgeInsets.only(bottom: 10),
+                                child: Text(
+                                  '山本虎太郎',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight:
+                                      FontWeight
+                                          .bold,
+                                      fontSize: 25),
+                                )),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceEvenly,
+                                children: <Widget>[
+                                  Text('1組',
+                                    style: TextStyle(
+                                        fontWeight:
+                                        FontWeight
+                                            .bold,
+                                        fontSize: 10),),
+                                  Text('うさぎ',
+                                    style: TextStyle(
+                                        fontWeight:
+                                        FontWeight
+                                            .bold,
+                                        fontSize: 18),)
+                                ],
+                              ),
+                            ),*/
+                            Center(
+                                child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 5, top: 4),
+                                        child: Icon(
+                                          //ああああ
+                                          Icons.book,
+                                          color: Theme
+                                              .of(context)
+                                              .accentColor,
+                                          size: 32,
+                                        ),
+                                      ),
+                                      Text(
+                                        'カブブック一覧',
+                                        style: TextStyle(
+                                            fontSize: 25.0,
+                                            fontWeight: FontWeight.bold,
+                                            decoration: TextDecoration.none),
+                                      ),
+                                    ])),
                             Padding(
                                 padding: EdgeInsets.all(10),
                                 child: Container(

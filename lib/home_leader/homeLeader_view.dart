@@ -15,42 +15,6 @@ class HomeLeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
-        child: Container(
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: InkWell(
-                onTap: () {
-                  launchURL();
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(6),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.assignment_late,
-                          color: Theme.of(context).accentColor,
-                          size: 30,
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: Text(
-                                '重要なお知らせ',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal, fontSize: 25),
-                              ),
-                            )),
-                      ]),
-                ),
-              ),
-            )),
-      ),
       Consumer<HomeLeaderModel>(builder: (context, model, child) {
         model.getSnapshot();
         if (model.group != null) {
@@ -164,7 +128,7 @@ class HomeLeaderView extends StatelessWidget {
           ),
         )),
       ),
-      /*Padding(
+      Padding(
         padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
         child: Container(
             child: Card(
@@ -199,7 +163,7 @@ class HomeLeaderView extends StatelessWidget {
                 ),
               ),
             )),
-      ),*/
+      ),
       Padding(
         padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
         child: Container(

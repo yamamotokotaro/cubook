@@ -13,6 +13,7 @@ import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
 import 'package:cubook/list_scout/listMember_model.dart';
 import 'package:cubook/list_scout/listMember_view.dart';
 import 'package:cubook/select_book/selectBook_model.dart';
+import 'package:cubook/setting_account_group/settingAccount_view.dart';
 import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
             '/homeLump': (BuildContext context) => HomeLumpView(),
             '/addLumpScoutList': (BuildContext context) => AddLumpScoutListView(),
             '/addLumpSelectItem': (BuildContext context) => AddLumpSelectItemView(),
+            '/settingAccount': (BuildContext context) => SettingAccountView(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

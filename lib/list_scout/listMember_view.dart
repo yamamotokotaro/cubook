@@ -72,6 +72,10 @@ class ListScoutView extends StatelessWidget {
                                                                 snapshot[
                                                                     'age']),
                                                         shape: BoxShape.circle),
+                                                    child:
+                                                    Center(
+                                                      child:Text('1４１２４５３１２４１３２')
+                                                    ),
                                                   ),
                                                   Padding(
                                                       padding: EdgeInsets.only(
@@ -218,6 +222,9 @@ class ListMemberView2 extends StatelessWidget {
                                                                           'age']),
                                                               shape: BoxShape
                                                                   .circle),
+                                                          child: Icon(
+                                                            Icons.person
+                                                          ),
                                                         ),
                                                         Padding(
                                                             padding:
