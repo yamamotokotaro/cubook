@@ -1,21 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
+import 'package:cubook/notification/notification_model.dart';
 import 'package:cubook/select_book/selectBook_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'listMember_model.dart';
-
-class ListMemberView extends StatelessWidget {
+class NotificationView extends StatelessWidget {
   var theme = new ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('スカウト一覧'),
+        title: Text('お知らせ'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -26,15 +25,16 @@ class ListMemberView extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                       padding: EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<ListMemberModel>(
+                      child: Consumer<NotificationModel>(
                           builder: (context, model, child) {
-                        model.getGroup();
-                        if (model.group != null) {
+                        if (model.uid == null) {
+                          model.getUser();
+                        }
+                        if (model.uid != null) {
                           return StreamBuilder<QuerySnapshot>(
                             stream: Firestore.instance
-                                .collection('user')
-                                .where('group', isEqualTo: model.group)
-                                .where('position', isEqualTo: 'scout')
+                                .collection('notification')
+                                .where('uid', isEqualTo: model.uid)
                                 .snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -44,22 +44,16 @@ class ListMemberView extends StatelessWidget {
                                   return ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemCount:
-                                          querySnapshot.documents.length,
+                                      itemCount: querySnapshot.documents.length,
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         DocumentSnapshot snapshot =
-                                           querySnapshot.documents[index];
+                                            querySnapshot.documents[index];
                                         return Padding(
                                             padding: EdgeInsets.all(5),
                                             child: Container(
-                                              child: Card(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                child: InkWell(
+                                              child: InkWell(
                                                   onTap: () {
                                                     Navigator.push(context,
                                                         MaterialPageRoute<
@@ -73,41 +67,42 @@ class ListMemberView extends StatelessWidget {
                                                   },
                                                   child: Padding(
                                                     padding: EdgeInsets.all(10),
-                                                    child: Row(
+                                                    child: Column(
                                                       children: <Widget>[
-                                                        Container(
-                                                          width: 40,
-                                                          height: 40,
-                                                          decoration: BoxDecoration(
-                                                              color: theme
-                                                                  .getThemeColor(
-                                                                      snapshot[
-                                                                          'age']),
-                                                              shape: BoxShape
-                                                                  .circle),
-                                                          child: Icon(
-                                                            Icons.person,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
                                                         Padding(
                                                             padding:
                                                                 EdgeInsets.only(
-                                                                    left: 10),
-                                                            child: Text(
-                                                              snapshot['name'],
+                                                                    left: 0),
+                                                            child: FittedBox(
+                                                              fit: BoxFit.contain,
+                                                                child: Text(
+                                                              snapshot['body'],
                                                               style: TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
-                                                                  fontSize: 25),
-                                                            ))
+                                                                  fontSize: 18),
+                                                            ))),
+                                                        Padding(
+                                                            padding:
+                                                            EdgeInsets.only(
+                                                                left: 0),
+                                                            child: FittedBox(
+                                                                fit: BoxFit.contain,
+                                                                child: Text(
+                                                                  snapshot['body'],
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                      fontSize: 18),
+                                                                )))
                                                       ],
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ));
+                                            );
                                       });
                                 } else {
                                   return Padding(
@@ -135,7 +130,7 @@ class ListMemberView extends StatelessWidget {
                                                     type: MaterialType
                                                         .transparency,
                                                     child: Text(
-                                                      'スカウトを招待しよう',
+                                                      'お知らせはまだありません',
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.normal,

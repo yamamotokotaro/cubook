@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/home/home_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/select_book/selectBook_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,99 +22,93 @@ class SelectBookView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('メンバー詳細'),
-          /*actions: <Widget>[
+          actions: <Widget>[
             IconButton(
               icon: Icon(
                 Icons.settings,
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.of(context).pushNamed('/settingAccount');
+                Navigator.of(context).pushNamed(
+                    '/settingAccount', arguments: uid);
               },
             )
-          ],*/
+          ],
         ),
         body: SafeArea(
             child: SingleChildScrollView(
                 child: Center(
                     child: ConstrainedBox(
                         constraints: BoxConstraints(maxWidth: 600),
-                        child: Column(
+                        child:
+                        Column(
                           children: <Widget>[
-                            /*Padding(
-                              padding: EdgeInsets.only(top: 16, bottom: 10),
-                              child: Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    shape: BoxShape
-                                        .circle),
-                                child: Icon(
-                                  Icons.person,
-                                  size: 40,
-                                ),
-                              ),
+                            Consumer<SelectBookModel>(
+                                builder: (context, model, child) {
+                                  model.getGroup();
+                                  if (model.group != null) {
+                                    return StreamBuilder<QuerySnapshot>(
+                                      stream: Firestore.instance.collection(
+                                          'user')
+                                          .where(
+                                          'group', isEqualTo: model.group)
+                                          .where(
+                                          'uid', isEqualTo: uid)
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<
+                                              QuerySnapshot> snapshot) {
+                                        if (snapshot.hasData) {
+                                          DocumentSnapshot userSnapshot = snapshot.data.documents[0];
+                                          return Column(children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 16, bottom: 10),
+                                              child: Container(
+                                                width: 80,
+                                                height: 80,
+                                                decoration: BoxDecoration(
+                                                    color: theme.getThemeColor(userSnapshot['age']),
+                                                    shape: BoxShape
+                                                        .circle),
+                                                child: Icon(
+                                                  Icons.person,
+                                                  size: 40,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                                padding:
+                                                EdgeInsets.only(bottom: 10),
+                                                child: Text(
+                                                  userSnapshot['name'],
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .bold,
+                                                      fontSize: 25),
+                                                )),
+                                          ],);
+                                        } else {
+                                          return const Center(
+                                            child: Padding(
+                                                padding: EdgeInsets.all(5),
+                                                child: CircularProgressIndicator()),
+                                          );
+                                        }
+                                      },
+                                    );
+                                  } else {
+                                    return const Center(
+                                      child: Padding(
+                                          padding: EdgeInsets.all(5),
+                                          child: CircularProgressIndicator()),
+                                    );
+                                  }
+                                }
                             ),
-                            Padding(
-                                padding:
-                                EdgeInsets.only(bottom: 10),
-                                child: Text(
-                                  '山本虎太郎',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight:
-                                      FontWeight
-                                          .bold,
-                                      fontSize: 25),
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceEvenly,
-                                children: <Widget>[
-                                  Text('1組',
-                                    style: TextStyle(
-                                        fontWeight:
-                                        FontWeight
-                                            .bold,
-                                        fontSize: 10),),
-                                  Text('うさぎ',
-                                    style: TextStyle(
-                                        fontWeight:
-                                        FontWeight
-                                            .bold,
-                                        fontSize: 18),)
-                                ],
-                              ),
-                            ),*/
-                            Center(
-                                child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 5, top: 4),
-                                        child: Icon(
-                                          //ああああ
-                                          Icons.book,
-                                          color: Theme
-                                              .of(context)
-                                              .accentColor,
-                                          size: 32,
-                                        ),
-                                      ),
-                                      Text(
-                                        'カブブック一覧',
-                                        style: TextStyle(
-                                            fontSize: 25.0,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none),
-                                      ),
-                                    ])),
                             Padding(
                                 padding: EdgeInsets.all(10),
                                 child: Container(

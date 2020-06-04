@@ -6,6 +6,7 @@ import 'package:cubook/listTaskWaiting/listTaskWaiting_view.dart';
 import 'package:cubook/list_scout/listMember_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -109,7 +110,7 @@ class HomeLeaderView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
-                      Icons.book,
+                      Icons.people,
                       color: Theme.of(context).accentColor,
                       size: 35,
                     ),
@@ -118,7 +119,7 @@ class HomeLeaderView extends StatelessWidget {
                         child: Material(
                           type: MaterialType.transparency,
                           child: Text(
-                            ' カブブック確認',
+                            ' スカウト一覧',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal, fontSize: 30),
                           ),
@@ -165,7 +166,7 @@ class HomeLeaderView extends StatelessWidget {
             )),
       ),*/
       Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 30),
         child: Container(
             child: Card(
           shape: RoundedRectangleBorder(
@@ -184,7 +185,7 @@ class HomeLeaderView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
-                      Icons.people,
+                      Icons.person_add,
                       color: Theme.of(context).accentColor,
                       size: 35,
                     ),
@@ -209,7 +210,8 @@ class HomeLeaderView extends StatelessWidget {
   }
 
   void launchURL() async {
-    const url = 'https://sites.google.com/view/cubookinfo/qa/%E9%87%8D%E8%A6%81%E3%82%A2%E3%83%83%E3%83%97%E3%83%87%E3%83%BC%E3%83%88%E3%81%AE%E3%81%8A%E9%A1%98%E3%81%84';
+    const url =
+        'https://sites.google.com/view/cubookinfo/qa/%E9%87%8D%E8%A6%81%E3%82%A2%E3%83%83%E3%83%97%E3%83%87%E3%83%BC%E3%83%88%E3%81%AE%E3%81%8A%E9%A1%98%E3%81%84';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

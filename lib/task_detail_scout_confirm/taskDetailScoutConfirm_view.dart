@@ -1,3 +1,4 @@
+import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
@@ -85,6 +86,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                         builder: (context, model, _) {
                       if (model.isExit == true) {
                         var message = '';
+                        DocumentSnapshot snapshot = model.stepSnapshot;
                         if (model.stepSnapshot['end'] != null) {
                           message = '完修済み';
                         } else {
@@ -349,11 +351,14 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                   null) {
                                 return Container(
                                   child: TaskDetailScoutConfirmAddView(
-                                      index_page, type,''),
+                                      index_page, type, ''),
                                 );
                               } else if (model.stepSnapshot['signed']
                                       [index_page.toString()]['phaze'] ==
                                   'signed') {
+                                Map<String, dynamic> snapshot =
+                                    model.stepSnapshot['signed']
+                                        [index_page.toString()];
                                 return Column(children: <Widget>[
                                   Container(
                                     width: MediaQuery.of(context).size.width,
@@ -477,6 +482,108 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                             ),
                                           ),
                                         ),
+                                  snapshot['data'] != null
+                                      ? Column(
+                                          children: <Widget>[
+                                            Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: ListView.builder(
+                                                    physics:
+                                                        NeverScrollableScrollPhysics(),
+                                                    shrinkWrap: true,
+                                                    itemCount:
+                                                        snapshot['data'].length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      String type =
+                                                          snapshot['data']
+                                                              [index]['type'];
+                                                      if (type == 'image') {
+                                                        return Padding(
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child: Container(
+                                                            child: Card(
+                                                              color:
+                                                                  Colors.green,
+                                                              child: Column(
+                                                                children: <
+                                                                    Widget>[
+                                                                  Image.network(
+                                                                      model.dataList[
+                                                                              index_page]
+                                                                          [
+                                                                          index])
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      } else if (type ==
+                                                          'video') {
+                                                        print(model.dataList[
+                                                            index_page]);
+                                                        return Padding(
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child: Container(
+                                                            child: Card(
+                                                              child: Column(
+                                                                children: <
+                                                                    Widget>[
+                                                                  Chewie(
+                                                                    controller:
+                                                                        model.dataList[index_page]
+                                                                            [
+                                                                            index],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      } else if (type ==
+                                                          'text') {
+                                                        return Padding(
+                                                          padding:
+                                                              EdgeInsets.all(5),
+                                                          child: Container(
+                                                            child: Card(
+                                                                child: Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(0),
+                                                              child: Column(
+                                                                children: <
+                                                                    Widget>[
+                                                                  Padding(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              10),
+                                                                      child:
+                                                                          Text(
+                                                                        model.dataList[index_page]
+                                                                            [
+                                                                            index],
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                18,
+                                                                            fontWeight:
+                                                                                FontWeight.normal),
+                                                                      ))
+                                                                ],
+                                                              ),
+                                                            )),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        return Container();
+                                                      }
+                                                    }))
+                                          ],
+                                        )
+                                      : Container(),
                                 ]);
                               } else if (model.stepSnapshot['signed']
                                       [index_page.toString()]['phaze'] ==
@@ -519,7 +626,12 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                   'reject') {
                                 return Column(children: <Widget>[
                                   TaskDetailScoutConfirmAddView(
-                                      index_page, type, 'やりなおし： ' + model.stepSnapshot['signed'][index_page.toString()]['feedback'])
+                                      index_page,
+                                      type,
+                                      'やりなおし： ' +
+                                          model.stepSnapshot['signed']
+                                                  [index_page.toString()]
+                                              ['feedback'])
                                 ]);
                               } else {
                                 return Center(

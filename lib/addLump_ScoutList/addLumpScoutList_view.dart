@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
-import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
-import 'package:cubook/invite/invite_model.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

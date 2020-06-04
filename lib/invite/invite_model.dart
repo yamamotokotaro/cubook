@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,18 @@ class InviteModel with ChangeNotifier {
       FirebaseAuth.instance.currentUser().then((user) {
         if (user != null) {
           user.getIdToken(refresh: true).then((token) async {
+            /*final HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(
+              functionName: 'inviteGroup',
+            );
+            dynamic resp = await callable.call(<String, String>{
+              'idToken': token.token,
+              'address': addressController.text,
+              'family': familyController.text,
+              'first': firstController.text,
+              'call': dropdown_call,
+              'age': age,
+              'position': position
+            });*/
             String url =
                 "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
             Map<String, String> headers = {

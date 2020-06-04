@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/home_model.dart';
+import 'package:cubook/invite/invite_view.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
+import 'package:cubook/notification/notification_view.dart';
 import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +18,47 @@ class HomeScoutView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        /*Padding(
+          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
+          child: Container(
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute<InviteView>(
+                        builder: (BuildContext context) {
+                          return NotificationView();
+                        }));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.notifications,
+                            color: Theme.of(context).accentColor,
+                            size: 35,
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Material(
+                                type: MaterialType.transparency,
+                                child: Text(
+                                  '新しいお知らせ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 30,
+                                  ),
+                                ),
+                              )),
+                        ]),
+                  ),
+                ),
+              )),
+        ),*/
         Center(
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
