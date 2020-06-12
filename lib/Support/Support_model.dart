@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_admob/firebase_admob.dart';
+//import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +10,8 @@ import 'dart:math' as math;
 import 'package:flutter_svg/svg.dart';
 
 class SupportModel with ChangeNotifier {
-  RewardedVideoAd videoAd = RewardedVideoAd.instance;
-  MobileAdTargetingInfo targetingInfo;
+  /*RewardedVideoAd videoAd = RewardedVideoAd.instance;
+  MobileAdTargetingInfo targetingInfo;*/
   bool isLoaded = false;
   String uid;
   String documentID;
@@ -52,14 +54,20 @@ class SupportModel with ChangeNotifier {
   void getAdmob(BuildContext context) {
     if (!isLoaded) {
       const String testDevices = 'Mobile_id';
-      targetingInfo = MobileAdTargetingInfo(
+      /*targetingInfo = MobileAdTargetingInfo(
           keywords: <String>['outdoor', 'scout'],
           childDirected: false,
           testDevices: testDevices != null
               ? <String>['testDevices']
               : null // Android emulators are considered test devices
           );
-      FirebaseAdMob.instance.initialize(appId: FirebaseAdMob.testAppId);
+      if (Platform.isAndroid) {
+        FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-9318890511624941/8096138050');
+        // Android-specific code
+      } else if (Platform.isIOS) {
+        FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-9318890511624941/8355992501');
+        // iOS-specific code
+      }
       videoAd.listener = (RewardedVideoAdEvent event,
           {String rewardType, int rewardAmount}) async {
         print("REWARDED VIDEO AD $event");
@@ -118,15 +126,15 @@ class SupportModel with ChangeNotifier {
             },
           );
         }
-      };
-      videoAd
+      };*/
+      /*videoAd
           .load(
               adUnitId: RewardedVideoAd.testAdUnitId,
               targetingInfo: targetingInfo)
           .then((value) {
         isLoaded = true;
         notifyListeners();
-      });
+      });*/
     }
   }
 }

@@ -106,9 +106,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                       Text(
                                         '取り組み内容',
                                         style: TextStyle(
-                                            fontSize: 25.0,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none),
+                                            fontSize: 25.0,fontWeight: FontWeight.bold),
                                       ),
                                     ])),
                               ),

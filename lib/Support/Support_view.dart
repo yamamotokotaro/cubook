@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/Support/Support_model.dart';
 import 'package:cubook/invite/invite_model.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -15,7 +14,7 @@ class SupportView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('運営を支援'),
+          title: Text('広告を見る'),
         ),
         body: Builder(builder: (BuildContext context) {
           return GestureDetector(
@@ -61,7 +60,7 @@ class SupportView extends StatelessWidget {
                                             child: Material(
                                                 type: MaterialType.transparency,
                                                 child: Text(
-                                                  'cubookは個人で開発・運営を行っています。今後も継続的に運営と改善を行うためにご支援賜りますようお願い申し上げます。支援は動画広告を最後まで見ることで行うことができます。視聴後にお礼としてアプリ内でロープを差し上げます。ロープの色はランダムで決まります。',
+                                                  'cubookは広告によって無料で運営できています。視聴後にお礼としてアプリ内でロープを差し上げます。ロープの色はランダムで決まります。',
                                                   style: TextStyle(
                                                     fontWeight:
                                                         FontWeight.normal,
@@ -94,7 +93,7 @@ class SupportView extends StatelessWidget {
                                           color: Colors.blue[900],
                                           child: InkWell(
                                             onTap: () {
-                                              model.videoAd.show();
+//                                              model.videoAd.show();
                                             },
                                             child: Padding(
                                               padding: EdgeInsets.all(15),

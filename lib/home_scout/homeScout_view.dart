@@ -18,8 +18,8 @@ class HomeScoutView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        /*Padding(
-          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
+        Padding(
+          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
           child: Container(
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -47,7 +47,48 @@ class HomeScoutView extends StatelessWidget {
                               child: Material(
                                 type: MaterialType.transparency,
                                 child: Text(
-                                  '新しいお知らせ',
+                                  'お知らせ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 30,
+                                  ),
+                                ),
+                              )),
+                        ]),
+                  ),
+                ),
+              )),
+        ),
+        /*Padding(
+          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
+          child: Container(
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute<InviteView>(
+                        builder: (BuildContext context) {
+                          return NotificationView();
+                        }));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.insert_chart,
+                            color: Theme.of(context).accentColor,
+                            size: 35,
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Material(
+                                type: MaterialType.transparency,
+                                child: Text(
+                                  'みんなの取り組み',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 30,

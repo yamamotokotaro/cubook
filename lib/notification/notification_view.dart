@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/notification/notification_model.dart';
 import 'package:cubook/select_book/selectBook_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class NotificationView extends StatelessWidget {
@@ -35,6 +35,7 @@ class NotificationView extends StatelessWidget {
                             stream: Firestore.instance
                                 .collection('notification')
                                 .where('uid', isEqualTo: model.uid)
+                                .orderBy('time')
                                 .snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -51,58 +52,61 @@ class NotificationView extends StatelessWidget {
                                         DocumentSnapshot snapshot =
                                             querySnapshot.documents[index];
                                         return Padding(
-                                            padding: EdgeInsets.all(5),
-                                            child: Container(
+                                          padding: EdgeInsets.all(5),
+                                          child: Container(
+                                            child: Card(
                                               child: InkWell(
-                                                  onTap: () {
-                                                    Navigator.push(context,
-                                                        MaterialPageRoute<
-                                                                SelectBookView>(
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                      return SelectBookView(
-                                                          snapshot['uid']);
-                                                    }));
-                                                  },
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Column(
-                                                      children: <Widget>[
-                                                        Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: 0),
-                                                            child: FittedBox(
-                                                              fit: BoxFit.contain,
-                                                                child: Text(
-                                                              snapshot['body'],
-                                                              style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 18),
-                                                            ))),
-                                                        Padding(
-                                                            padding:
-                                                            EdgeInsets.only(
-                                                                left: 0),
-                                                            child: FittedBox(
-                                                                fit: BoxFit.contain,
-                                                                child: Text(
-                                                                  snapshot['body'],
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                      fontSize: 18),
-                                                                )))
-                                                      ],
-                                                    ),
+                                                onTap: () {},
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(10),
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 0),
+                                                          child: FittedBox(
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                              child: Text(
+                                                                snapshot[
+                                                                    'body'],
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        18),
+                                                              ))),
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 3,
+                                                                  top: 5),
+                                                          child: Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                DateFormat(
+                                                                        'yyyy/MM/dd hh:mm')
+                                                                    .format(snapshot[
+                                                                            'time']
+                                                                        .toDate())
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        15),
+                                                              ))),
+                                                    ],
                                                   ),
                                                 ),
                                               ),
-                                            );
+                                            ),
+                                          ),
+                                        );
                                       });
                                 } else {
                                   return Padding(

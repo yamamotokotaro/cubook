@@ -49,12 +49,12 @@ class DetailTaskWaitingModel extends ChangeNotifier {
             body.add(taskSnapshot['data'][i]['body']);
           } else if (taskSnapshot['data'][i]['type'] == 'image') {
             final StorageReference ref =
-            FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
+                FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
             final String url = await ref.getDownloadURL();
             body.add(url);
           } else {
             final StorageReference ref =
-            FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
+                FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
             final String url = await ref.getDownloadURL();
             final videoPlayerController = VideoPlayerController.network(url);
             await videoPlayerController.initialize();
@@ -77,7 +77,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
 
   void onSnapshotHasData(DocumentSnapshot taskSnapshot) async {
     isLoaded = false;
-    if(taskSnapshot != null) {
+    if (taskSnapshot != null) {
       if (taskSnapshot.documentID != documentID) {
         body = List<dynamic>();
         documentID = taskSnapshot.documentID;
@@ -91,13 +91,15 @@ class DetailTaskWaitingModel extends ChangeNotifier {
             if (taskSnapshot['data'][i]['type'] == 'text') {
               body.add(taskSnapshot['data'][i]['body']);
             } else if (taskSnapshot['data'][i]['type'] == 'image') {
-              final StorageReference ref =
-              FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
+              final StorageReference ref = FirebaseStorage()
+                  .ref()
+                  .child(taskSnapshot['data'][i]['body']);
               final String url = await ref.getDownloadURL();
               body.add(url);
             } else {
-              final StorageReference ref =
-              FirebaseStorage().ref().child(taskSnapshot['data'][i]['body']);
+              final StorageReference ref = FirebaseStorage()
+                  .ref()
+                  .child(taskSnapshot['data'][i]['body']);
               final String url = await ref.getDownloadURL();
               final videoPlayerController = VideoPlayerController.network(url);
               await videoPlayerController.initialize();
@@ -136,6 +138,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
           await updateUserInfo();
           await updateDocumentInfo();
           await addEffort();
+          await addNotification('signed');
           await deleteTask();
         });
         isLoading = false;
@@ -155,6 +158,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         currentUser.getIdToken().then((token) async {
           tokenMap = token.claims;
           await updateDocumentInfo_reject();
+          await addNotification('reject');
         });
         isLoading = false;
       });
@@ -233,7 +237,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         .where('page', isEqualTo: page)
         .where('group', isEqualTo: tokenMap['group'])
         .getDocuments()
-        .then((data)  {
+        .then((data) {
       DocumentSnapshot snapshot = data.documents[0];
       Map<String, dynamic> map = Map<String, dynamic>();
       map = snapshot['signed'];
@@ -311,8 +315,47 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     map['congrats'] = 0;
     map['body'] = body;
     map['type'] = type;
+    map['page'] = page;
+    map['number'] = number;
     map['group'] = snapshot['group'];
     map['time'] = Timestamp.now();
+  }
+
+  Future<void> addNotification(String phase) async {
+    var task = new Task();
+    var theme = new ThemeInfo();
+    String mes;
+    if (phase == 'signed') {
+      mes = 'サインされました';
+    } else if (phase == 'reject') {
+      mes = 'やり直しになりました';
+    }
+    QuerySnapshot data = await Firestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: uid_get)
+        .where('group', isEqualTo: tokenMap['group'])
+        .getDocuments();
+    DocumentSnapshot snapshot = data.documents[0];
+    Map<String, dynamic> map = Map<String, dynamic>();
+    Map<String, dynamic> taskMap = task.getPartMap(type, page);
+    String body = theme.getTitle(type) +
+        ' ' +
+        taskMap['number'] +
+        ' ' +
+        taskMap['title'] +
+        '(' +
+        (number + 1).toString() +
+        ')' +
+        'が' +
+        mes;
+    map['uid'] = uid_get;
+    map['body'] = body;
+    map['type'] = type;
+    map['page'] = page;
+    map['number'] = number;
+    map['group'] = snapshot['group'];
+    map['time'] = Timestamp.now();
+    Firestore.instance.collection('notification').add(map);
   }
 
   void deleteTask() {
@@ -321,6 +364,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     map['date_signed'] = Timestamp.now();
     map['uid_signed'] = currentUser.uid;
     map['phase'] = 'signed';
-    Firestore. instance.collection('task').document(documentID).updateData(map);
+    Firestore.instance.collection('task').document(documentID).updateData(map);
   }
 }

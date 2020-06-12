@@ -11,6 +11,7 @@ import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
 import 'package:cubook/home_lump/homeLump_view.dart';
 import 'package:cubook/invite/invite_model.dart';
+import 'package:cubook/invite/invite_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
 import 'package:cubook/list_scout/listMember_model.dart';
 import 'package:cubook/list_scout/listMember_view.dart';
@@ -30,7 +31,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:package_info/package_info.dart';
 
 void main() {
@@ -49,7 +49,6 @@ void main() {
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-3940256099942544~3347511713');
     return _MyAppState();
   }
 }
@@ -136,6 +135,7 @@ class _MyAppState extends State<MyApp> {
             '/changeName': (BuildContext context) => ChangeNameView(),
             '/changeAge': (BuildContext context) => ChangeAgeView(),
             '/support': (BuildContext context) => SupportView(),
+            '/invite': (BuildContext context) => InviteView(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

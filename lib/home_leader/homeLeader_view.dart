@@ -94,7 +94,7 @@ class HomeLeaderView extends StatelessWidget {
         }
       }),
       Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 30),
         child: Container(
             child: Card(
           shape: RoundedRectangleBorder(
@@ -119,7 +119,7 @@ class HomeLeaderView extends StatelessWidget {
                         child: Material(
                           type: MaterialType.transparency,
                           child: Text(
-                            ' スカウト一覧',
+                            ' メンバーリスト',
                             style: TextStyle(
                                 fontWeight: FontWeight.normal, fontSize: 30),
                           ),
@@ -165,7 +165,7 @@ class HomeLeaderView extends StatelessWidget {
               ),
             )),
       ),*/
-      Padding(
+      /*Padding(
         padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 30),
         child: Container(
             child: Card(
@@ -185,7 +185,7 @@ class HomeLeaderView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
-                      Icons.person_add,
+                      Icons.insert_chart,
                       color: Theme.of(context).accentColor,
                       size: 35,
                     ),
@@ -194,7 +194,7 @@ class HomeLeaderView extends StatelessWidget {
                         child: Material(
                           type: MaterialType.transparency,
                           child: Text(
-                            'メンバーを招待',
+                            'アナリティクス',
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 30,
@@ -205,7 +205,7 @@ class HomeLeaderView extends StatelessWidget {
             ),
           ),
         )),
-      ),
+      ),*/
     ]);
   }
 
