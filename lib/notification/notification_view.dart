@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/notification/notification_model.dart';
-import 'package:cubook/select_book/selectBook_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -35,7 +34,7 @@ class NotificationView extends StatelessWidget {
                             stream: Firestore.instance
                                 .collection('notification')
                                 .where('uid', isEqualTo: model.uid)
-                                .orderBy('time')
+                                .orderBy('time', descending: true)
                                 .snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {

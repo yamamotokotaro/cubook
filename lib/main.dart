@@ -12,11 +12,13 @@ import 'package:cubook/home_leader/homeLeader_model.dart';
 import 'package:cubook/home_lump/homeLump_view.dart';
 import 'package:cubook/invite/invite_model.dart';
 import 'package:cubook/invite/invite_view.dart';
+import 'package:cubook/listCitationWaiting/listCitationWaiting_model.dart';
+import 'package:cubook/listCitationWaiting/listCitationWaiting_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
-import 'package:cubook/list_scout/listMember_model.dart';
-import 'package:cubook/list_scout/listMember_view.dart';
+import 'package:cubook/list_member/listMember_model.dart';
+import 'package:cubook/list_member/listMember_view.dart';
 import 'package:cubook/notification/notification_model.dart';
-import 'package:cubook/select_book/selectBook_model.dart';
+import 'package:cubook/userDetail/selectBook_model.dart';
 import 'package:cubook/setting_account_group/settingAccount_model.dart';
 import 'package:cubook/setting_account_group/settingAccount_view.dart';
 import 'package:cubook/setting_account_group/widget/changeAge.dart';
@@ -99,16 +101,17 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => TaskListScoutModel()),
           ChangeNotifierProvider(create: (context) => ListTaskWaitingModel()),
           ChangeNotifierProvider(create: (context) => DetailTaskWaitingModel()),
+          ChangeNotifierProvider(create: (context) => UserDetailModel()),
           ChangeNotifierProvider(create: (context) => SignupModel()),
           ChangeNotifierProvider(create: (context) => InviteModel()),
           ChangeNotifierProvider(create: (context) => ListMemberModel()),
-          ChangeNotifierProvider(create: (context) => SelectBookModel()),
           ChangeNotifierProvider(create: (context) => TaskListScoutConfirmModel()),
           ChangeNotifierProvider(create: (context) => AddLumpScoutListModel()),
           ChangeNotifierProvider(create: (context) => AddLumpSelectItemModel()),
           ChangeNotifierProvider(create: (context) => SettingAccountModel()),
           ChangeNotifierProvider(create: (context) => NotificationModel()),
           ChangeNotifierProvider(create: (context) => SupportModel()),
+          ChangeNotifierProvider(create: (context) => ListCitationWaitingModel()),
         ],
         child: MaterialApp(
           home: HomeController(),
@@ -128,6 +131,7 @@ class _MyAppState extends State<MyApp> {
           ),
           routes: <String, WidgetBuilder> {
             '/listMember': (BuildContext context) => ListMemberView(),
+            '/listCitationWaiting': (BuildContext context) => ListCitationWaitingView(),
             '/homeLump': (BuildContext context) => HomeLumpView(),
             '/addLumpScoutList': (BuildContext context) => AddLumpScoutListView(),
             '/addLumpSelectItem': (BuildContext context) => AddLumpSelectItemView(),

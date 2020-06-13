@@ -14,6 +14,7 @@ class SettingAccountModel extends ChangeNotifier {
   String group;
   TextEditingController familyController;
   TextEditingController firstController;
+  TextEditingController teamController;
   String dropdown_text;
   String age;
   String call;
@@ -37,6 +38,12 @@ class SettingAccountModel extends ChangeNotifier {
                 TextEditingController(text: userSnapshot['family']);
             firstController =
                 TextEditingController(text: userSnapshot['first']);
+            if(userSnapshot['team'] != null) {
+              teamController =
+                  TextEditingController(text: userSnapshot['team'].toString());
+            } else {
+              teamController = TextEditingController();
+            }
             switch (userSnapshot['age']) {
               case 'usagi':
                 age = 'うさぎ';
@@ -83,18 +90,22 @@ class SettingAccountModel extends ChangeNotifier {
   void changeRequest(BuildContext context, String uid) async {
     String age;
     String position;
+    int age_turn;
     switch (dropdown_text) {
       case 'うさぎ':
         age = 'usagi';
         position = 'scout';
+        age_turn = 7;
         break;
       case 'しか':
         age = 'sika';
         position = 'scout';
+        age_turn = 8;
         break;
       case 'くま':
         age = 'kuma';
         position = 'scout';
+        age_turn = 9;
         break;
       case 'リーダー':
         age = 'leader';
@@ -103,6 +114,7 @@ class SettingAccountModel extends ChangeNotifier {
     }
     if (familyController.text != '' &&
         firstController.text != '' &&
+        teamController.text != '' &&
         dropdown_text != null &&
         call != null) {
       isLoading = true;
@@ -118,12 +130,14 @@ class SettingAccountModel extends ChangeNotifier {
               'family': familyController.text,
               'first': firstController.text,
               'call': call,
+              'team': int.parse(teamController.text),
               'age': age,
+              'age_turn': age_turn,
               'uid': uid
             });
 
             http.Response resp =
-            await http.post(url, headers: headers, body: body);
+                await http.post(url, headers: headers, body: body);
             isLoading = false;
             if (resp.body == 'success') {
               Scaffold.of(context).showSnackBar(new SnackBar(
