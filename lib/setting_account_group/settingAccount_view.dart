@@ -9,20 +9,20 @@ class SettingAccountView extends StatelessWidget {
   var task = new Task();
   var theme = new ThemeInfo();
 
+  String uid;
+  SettingAccountView (String _uid){
+    uid = _uid;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final uid = ModalRoute.of(context).settings.arguments;
     return Scaffold(
-        appBar: AppBar(
-          title: Text('アカウント設定'),
-        ),
-        body: SafeArea(
+        body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
             child: SingleChildScrollView(
-                child: GestureDetector(
-                    onTap: () {
-                      FocusScope.of(context).unfocus();
-                    },
-                    child: Center(
+                child: Center(
                         child: ConstrainedBox(
                             constraints: BoxConstraints(maxWidth: 600),
                             child: Consumer<SettingAccountModel>(
@@ -131,6 +131,6 @@ class SettingAccountView extends StatelessWidget {
                                       child: CircularProgressIndicator()),
                                 );
                               }
-                            })))))));
+                            }))))));
   }
 }

@@ -18,7 +18,7 @@ import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
 import 'package:cubook/list_member/listMember_model.dart';
 import 'package:cubook/list_member/listMember_view.dart';
 import 'package:cubook/notification/notification_model.dart';
-import 'package:cubook/userDetail/selectBook_model.dart';
+import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/setting_account_group/settingAccount_model.dart';
 import 'package:cubook/setting_account_group/settingAccount_view.dart';
 import 'package:cubook/setting_account_group/widget/changeAge.dart';
@@ -135,7 +135,7 @@ class _MyAppState extends State<MyApp> {
             '/homeLump': (BuildContext context) => HomeLumpView(),
             '/addLumpScoutList': (BuildContext context) => AddLumpScoutListView(),
             '/addLumpSelectItem': (BuildContext context) => AddLumpSelectItemView(),
-            '/settingAccount': (BuildContext context) => SettingAccountView(),
+            //'/settingAccount': (BuildContext context) => SettingAccountView(),
             '/changeName': (BuildContext context) => ChangeNameView(),
             '/changeAge': (BuildContext context) => ChangeAgeView(),
             '/support': (BuildContext context) => SupportView(),

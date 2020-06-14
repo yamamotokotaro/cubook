@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:cubook/userDetail/selectBook_model.dart';
+import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 class TabInfo {
   String label;
   Widget widget;
+
   TabInfo(this.label, this.widget);
 }
 
@@ -19,20 +20,14 @@ class SelectBook extends StatelessWidget {
   var theme = new ThemeInfo();
   String uid;
 
-  final List<TabInfo> _tabs = [
-    TabInfo("うさぎのカブブック", TaskView('usagi')),
-    TabInfo("しかのカブブック", TaskView('sika')),
-    TabInfo("くまのカブブック", TaskView('kuma')),
-    TabInfo("チャレンジ章", TaskView('challenge')),
-  ];
-
   SelectBook(String uid) {
     this.uid = uid;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return SingleChildScrollView(
+        child: Column(
       children: <Widget>[
         Padding(
             padding: EdgeInsets.all(10),
@@ -320,6 +315,6 @@ class SelectBook extends StatelessWidget {
               ),
             )),
       ],
-    );
+    ));
   }
 }

@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:cubook/userDetail/selectBook_model.dart';
+import 'package:cubook/setting_account_group/settingAccount_view.dart';
+import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_view.dart';
-import 'package:cubook/userDetail/selectBook_model.dart';
+import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/userDetail/widget/selectBook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Ink(color: Color(0x00000000), child: tabBar);
+    return Container(color: Theme.of(context).canvasColor, child: tabBar);
   }
 
   @override
@@ -38,10 +39,15 @@ class SelectBookView extends StatelessWidget {
   var theme = new ThemeInfo();
   String uid;
 
-  final _tabs = ['カブブック', '表彰待ち', '設定'];
+  List<TabInfo> _tabs;
 
   SelectBookView(String uid) {
     this.uid = uid;
+    _tabs = [
+      TabInfo("カブブック", SelectBook(uid)),
+      TabInfo("表彰待ち", TaskView('sika')),
+      TabInfo("設定", SettingAccountView(uid)),
+    ];
   }
 
   @override
@@ -66,7 +72,7 @@ class SelectBookView extends StatelessWidget {
             child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 600),
                 child: DefaultTabController(
-                    length: 3,
+                    length: _tabs.length,
                     child: NestedScrollView(
                         headerSliverBuilder:
                             (BuildContext context, bool innerBoxIsScrolled) {
@@ -151,26 +157,14 @@ class SelectBookView extends StatelessWidget {
                                 TabBar(
                                   indicatorColor: Theme.of(context).accentColor,
                                   labelColor: Theme.of(context).accentColor,
-                                  tabs: _tabs
-                                      .map((String name) => Tab(text: name))
-                                      .toList(),
+                                  tabs: _tabs.map((TabInfo tab) {
+                                    return Tab(text: tab.label);
+                                  }).toList(),
                                 ),
                               ),
                             )),
                           ];
                         },
-                        body: Column(children: <Widget>[
-                          TabBarView(children: [
-                            Container(
-                              child: Text("Home Body"),
-                            ),
-                            Container(
-                              child: Text("Articles Body"),
-                            ),
-                            Container(
-                              child: Text("User Body"),
-                            ),
-                          ]),
-                        ]))))));
+                        body: TabBarView(children: _tabs.map((tab) => tab.widget).toList()),)))));
   }
 }
