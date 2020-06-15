@@ -72,7 +72,7 @@ class InviteModel with ChangeNotifier {
               'position': position
             });*/
             String url =
-                "https://asia-northeast1-cubook-dev.cloudfunctions.net/inviteGroup";
+                "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
             Map<String, String> headers = {
               'content-type': 'application/json'
             };
