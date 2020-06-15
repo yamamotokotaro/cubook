@@ -19,6 +19,7 @@ class InviteModel with ChangeNotifier {
   TextEditingController addressController = TextEditingController();
   TextEditingController familyController = TextEditingController();
   TextEditingController firstController = TextEditingController();
+  TextEditingController teamController = TextEditingController();
 
   void onDropdownChanged(String value) {
     dropdown_text = value;
@@ -52,7 +53,7 @@ class InviteModel with ChangeNotifier {
         dropdown_call = 'さん';
         break;
     }
-    if(addressController != '' && familyController.text != '' && firstController.text != '' && dropdown_text != null && dropdown_call != null) {
+    if(addressController != '' && familyController.text != '' && firstController.text != '' && teamController.text != '' && dropdown_text != null && dropdown_call != null) {
       isLoading_join = true;
       notifyListeners();
       FirebaseAuth.instance.currentUser().then((user) {
@@ -71,7 +72,7 @@ class InviteModel with ChangeNotifier {
               'position': position
             });*/
             String url =
-                "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
+                "https://asia-northeast1-cubook-dev.cloudfunctions.net/inviteGroup";
             Map<String, String> headers = {
               'content-type': 'application/json'
             };
@@ -83,7 +84,8 @@ class InviteModel with ChangeNotifier {
               'first': firstController.text,
               'call': dropdown_call,
               'age': age,
-              'position': position
+              'position': position,
+              'team': int.parse(teamController.text)
             });
 
             http.Response resp =

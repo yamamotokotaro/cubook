@@ -144,9 +144,9 @@ packages:
   firebase_auth_ui:
     dependency: "direct main"
     description:
-      name: firebase_auth_ui
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "Packages/firebase_auth_ui"
+      relative: true
+    source: path
     version: "1.0.1"
   firebase_auth_web:
     dependency: transitive

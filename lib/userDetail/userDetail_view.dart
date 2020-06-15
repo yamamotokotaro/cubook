@@ -6,6 +6,7 @@ import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_view.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
+import 'package:cubook/userDetail/widget/list_notCititationed.dart';
 import 'package:cubook/userDetail/widget/selectBook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class SelectBookView extends StatelessWidget {
     this.uid = uid;
     _tabs = [
       TabInfo("カブブック", SelectBook(uid)),
-      TabInfo("表彰待ち", TaskView('sika')),
+      TabInfo("表彰待ち", ListNotCititationed(uid)),
       TabInfo("設定", SettingAccountView(uid)),
     ];
   }
@@ -55,18 +56,6 @@ class SelectBookView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('メンバー詳細'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.settings,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamed('/settingAccount', arguments: uid);
-              },
-            )
-          ],
         ),
         body: Center(
             child: ConstrainedBox(

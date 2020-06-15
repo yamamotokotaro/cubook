@@ -38,4 +38,8 @@ class UserDetailModel extends ChangeNotifier {
       });
     }
   }
+
+  void onTapCititation(String documentID){
+    Firestore.instance.collection('challenge').document(documentID).updateData(<String, dynamic>{'isCitationed': true});
+  }
 }

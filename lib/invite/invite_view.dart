@@ -93,6 +93,7 @@ class InviteView extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.all(10),
                             child: TextField(
+                              controller: model.teamController,
                               enabled: true,
                               // 入力数
                               keyboardType: TextInputType.number,

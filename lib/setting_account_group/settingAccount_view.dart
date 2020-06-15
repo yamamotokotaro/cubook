@@ -10,7 +10,8 @@ class SettingAccountView extends StatelessWidget {
   var theme = new ThemeInfo();
 
   String uid;
-  SettingAccountView (String _uid){
+
+  SettingAccountView(String _uid) {
     uid = _uid;
   }
 
@@ -23,53 +24,66 @@ class SettingAccountView extends StatelessWidget {
             },
             child: SingleChildScrollView(
                 child: Center(
-                        child: ConstrainedBox(
-                            constraints: BoxConstraints(maxWidth: 600),
-                            child: Consumer<SettingAccountModel>(
-                                builder: (context, model, child) {
-                              model.getSnapshot(uid);
-                              if (model.userSnapshot != null) {
-                                return Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: TextField(
-                                        controller: model.familyController,
-                                        enabled: true,
-                                        decoration:
-                                            InputDecoration(labelText: "姓"),
-                                        onChanged: (text) {
-                                          //model.joinCode = text;
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: TextField(
-                                        controller: model.firstController,
-                                        enabled: true,
-                                        decoration:
-                                            InputDecoration(labelText: "名"),
-                                        onChanged: (text) {
-                                          //model.joinCode = text;
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: TextField(
-                                        controller: model.teamController,
-                                        enabled: true,
-                                        // 入力数
-                                        keyboardType: TextInputType.number,
-                                        maxLines: null,
-                                        maxLengthEnforced: false,
-                                        decoration: InputDecoration(labelText: "組"),
-                                        onChanged: (text) {
-                                        },
-                                      ),
-                                    ),
-                                    DropdownButton<String>(
+                    child: ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 600),
+                        child: Consumer<SettingAccountModel>(
+                            builder: (context, model, child) {
+                          model.getSnapshot(uid);
+                          if (model.userSnapshot != null) {
+                            return Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: TextField(
+                                    controller: model.familyController,
+                                    enabled: true,
+                                    decoration: InputDecoration(labelText: "姓"),
+                                    onChanged: (text) {
+                                      //model.joinCode = text;
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: TextField(
+                                    controller: model.firstController,
+                                    enabled: true,
+                                    decoration: InputDecoration(labelText: "名"),
+                                    onChanged: (text) {
+                                      //model.joinCode = text;
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: TextField(
+                                    controller: model.teamController,
+                                    enabled: true,
+                                    // 入力数
+                                    keyboardType: TextInputType.number,
+                                    maxLines: null,
+                                    maxLengthEnforced: false,
+                                    decoration: InputDecoration(labelText: "組"),
+                                    onChanged: (text) {},
+                                  ),
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(top: 10, left: 10),
+                                    child: Container(
+                                        width: double.infinity,
+                                        child: Text(
+                                          '年代',
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color:
+                                                  Theme.of(context).hintColor),
+                                          textAlign: TextAlign.left,
+                                        ))),
+                                Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    child: DropdownButton<String>(
+                                      isExpanded: true,
                                       hint: Text('役割を選択'),
                                       value: model.dropdown_text,
                                       items: <String>['うさぎ', 'しか', 'くま']
@@ -82,8 +96,24 @@ class SettingAccountView extends StatelessWidget {
                                       onChanged: (value) {
                                         model.onDropdownChanged(value);
                                       },
-                                    ),
-                                    DropdownButton<String>(
+                                    )),
+                                Padding(
+                                    padding: EdgeInsets.only(top: 10, left: 10),
+                                    child: Container(
+                                        width: double.infinity,
+                                        child: Text(
+                                          '呼称',
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color:
+                                                  Theme.of(context).hintColor),
+                                          textAlign: TextAlign.left,
+                                        ))),
+                                Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    child: DropdownButton<String>(
+                                      isExpanded: true,
                                       hint: Text('呼称'),
                                       value: model.call,
                                       items: <String>['くん', 'さん']
@@ -96,8 +126,10 @@ class SettingAccountView extends StatelessWidget {
                                       onChanged: (value) {
                                         model.onDropdownCallChanged(value);
                                       },
-                                    ),
-                                    !model.isLoading
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                    child: !model.isLoading
                                         ? RaisedButton.icon(
                                             onPressed: () {
                                               model.changeRequest(context, uid);
@@ -121,16 +153,16 @@ class SettingAccountView extends StatelessWidget {
                                                 padding: EdgeInsets.all(5),
                                                 child:
                                                     CircularProgressIndicator()),
-                                          )
-                                  ],
-                                );
-                              } else {
-                                return const Center(
-                                  child: Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: CircularProgressIndicator()),
-                                );
-                              }
-                            }))))));
+                                          ))
+                              ],
+                            );
+                          } else {
+                            return const Center(
+                              child: Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: CircularProgressIndicator()),
+                            );
+                          }
+                        }))))));
   }
 }
