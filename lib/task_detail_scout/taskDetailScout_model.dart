@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
 
 class TaskDetailScoutModel extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -35,6 +37,8 @@ class TaskDetailScoutModel extends ChangeNotifier {
   var list_toSend = new List<dynamic>();
   var count_toSend = new List<dynamic>();
   var isLoading = new List<dynamic>();
+  List<dynamic> dataMap;
+  var dataList = new List<dynamic>();
   Map<dynamic, dynamic> tokenMap;
   String type;
 
@@ -57,6 +61,8 @@ class TaskDetailScoutModel extends ChangeNotifier {
         new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
 
     isAdded = new List<dynamic>.generate(quant, (index) => false);
+    dataList =
+    new List<dynamic>.generate(quant, (index) => new List<dynamic>());
 
     isLoading = new List<dynamic>.generate(quant, (index) => false);
 
@@ -72,10 +78,49 @@ class TaskDetailScoutModel extends ChangeNotifier {
           .where('page', isEqualTo: numberPushed)
           .where('uid', isEqualTo: currentUser.uid)
           .snapshots()
-          .listen((data) {
+          .listen((data) async {
         if (data.documents.length != 0) {
           stepSnapshot = data.documents[0];
           documentID_exit = data.documents[0].documentID;
+          isExit = true;
+          for (int i = 0; i < quant; i++) {
+            if (stepSnapshot['signed'][i.toString()] != null) {
+              Map<String, dynamic> doc = stepSnapshot['signed'][i.toString()];
+              if (doc != null) {
+                if (doc['phaze'] == 'signed') {
+                  dataMap = doc['data'];
+                  if (dataMap != null) {
+                    List<dynamic> body = List<dynamic>();
+                    for (int j = 0; j < dataMap.length; j++) {
+                      if (dataMap[j]['type'] == 'text') {
+                        body.add(dataMap[j]['body']);
+                      } else if (dataMap[j]['type'] == 'image') {
+                        final StorageReference ref =
+                        FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final String url = await ref.getDownloadURL();
+                        body.add(url);
+                      } else {
+                        final StorageReference ref =
+                        FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final String url = await ref.getDownloadURL();
+                        final videoPlayerController =
+                        VideoPlayerController.network(url);
+                        await videoPlayerController.initialize();
+                        final chewieController = ChewieController(
+                            videoPlayerController: videoPlayerController,
+                            aspectRatio:
+                            videoPlayerController.value.aspectRatio,
+                            autoPlay: false,
+                            looping: false);
+                        body.add(chewieController);
+                      }
+                      dataList[i] = body;
+                    }
+                  }
+                }
+              }
+            }
+          }
           isExit = true;
         } else {
           isExit = false;

@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -107,9 +106,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                       Text(
                                         '取り組み内容',
                                         style: TextStyle(
-                                            fontSize: 25.0,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none),
+                                            fontSize: 25.0,fontWeight: FontWeight.bold),
                                       ),
                                     ])),
                               ),
@@ -391,7 +388,6 @@ class DetailTaskWaitingView extends StatelessWidget {
                     return Container();
                   }
                   if (asyncSnapshot.hasData) {
-                    print('＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝Data hasData');
                     return Consumer<DetailTaskWaitingModel>(
                         builder: (context, model, _) {
                       DocumentSnapshot snapshot = asyncSnapshot.data;

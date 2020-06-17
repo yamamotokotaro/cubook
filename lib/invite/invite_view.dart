@@ -90,6 +90,44 @@ class InviteView extends StatelessWidget {
                               },
                             ),
                           ),
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: TextField(
+                              controller: model.teamController,
+                              enabled: true,
+                              // 入力数
+                              keyboardType: TextInputType.number,
+                              maxLines: null,
+                              maxLengthEnforced: false,
+                              decoration: InputDecoration(labelText: "組"),
+                              onChanged: (text) {
+                              },
+                            ),
+                          ),
+                          /*Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: TextField(
+                                    controller: model.familyController,
+                                    enabled: true,
+                                    // 入力数
+                                    keyboardType: TextInputType.number,
+                                    maxLines: null,
+                                    maxLengthEnforced: false,
+                                    decoration: InputDecoration(labelText: "姓"),
+                                    onChanged: (text) {
+                                    },
+                                  ),
+                                ),
+                                Text(
+                                  '組'
+                                )
+                              ],
+                            )
+                          ),*/
                           DropdownButton<String>(
                             hint: Text('役割を選択'),
                             value: model.dropdown_text,

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class InviteModel with ChangeNotifier {
   TextEditingController addressController = TextEditingController();
   TextEditingController familyController = TextEditingController();
   TextEditingController firstController = TextEditingController();
+  TextEditingController teamController = TextEditingController();
 
   void onDropdownChanged(String value) {
     dropdown_text = value;
@@ -51,12 +53,24 @@ class InviteModel with ChangeNotifier {
         dropdown_call = 'さん';
         break;
     }
-    if(addressController != '' && familyController.text != '' && firstController.text != '' && dropdown_text != null && dropdown_call != null) {
+    if(addressController != '' && familyController.text != '' && firstController.text != '' && teamController.text != '' && dropdown_text != null && dropdown_call != null) {
       isLoading_join = true;
       notifyListeners();
       FirebaseAuth.instance.currentUser().then((user) {
         if (user != null) {
           user.getIdToken(refresh: true).then((token) async {
+            /*final HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(
+              functionName: 'inviteGroup',
+            );
+            dynamic resp = await callable.call(<String, String>{
+              'idToken': token.token,
+              'address': addressController.text,
+              'family': familyController.text,
+              'first': firstController.text,
+              'call': dropdown_call,
+              'age': age,
+              'position': position
+            });*/
             String url =
                 "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
             Map<String, String> headers = {
@@ -70,7 +84,8 @@ class InviteModel with ChangeNotifier {
               'first': firstController.text,
               'call': dropdown_call,
               'age': age,
-              'position': position
+              'position': position,
+              'team': int.parse(teamController.text)
             });
 
             http.Response resp =

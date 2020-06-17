@@ -1,3 +1,4 @@
+import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
@@ -96,11 +97,8 @@ class TaskScoutDetailView extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: const Radius
-                                            .circular(20),
-                                        topRight:
-                                        const Radius
-                                            .circular(20)),
+                                        topLeft: const Radius.circular(20),
+                                        topRight: const Radius.circular(20)),
                                     color: themeColor),
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 40, bottom: 20),
@@ -248,11 +246,8 @@ class TaskScoutDetailView extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: const Radius
-                                            .circular(20),
-                                        topRight:
-                                        const Radius
-                                            .circular(20)),
+                                        topLeft: const Radius.circular(20),
+                                        topRight: const Radius.circular(20)),
                                     color: themeColor),
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 40, bottom: 20),
@@ -396,15 +391,17 @@ class TaskScoutAddView extends StatelessWidget {
                                 } else if (model.stepSnapshot['signed']
                                         [index_page.toString()]['phaze'] ==
                                     'signed') {
+                                  Map<String, dynamic> snapshot =
+                                      model.stepSnapshot['signed']
+                                          [index_page.toString()];
                                   return Column(children: <Widget>[
                                     Container(
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.only(
-                                              topLeft: const Radius
-                                                  .circular(20),
+                                              topLeft:
+                                                  const Radius.circular(20),
                                               topRight:
-                                              const Radius
-                                                  .circular(20)),
+                                                  const Radius.circular(20)),
                                           color: themeColor),
                                       width: MediaQuery.of(context).size.width,
                                       child: Padding(
@@ -421,36 +418,157 @@ class TaskScoutAddView extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Text(
-                                        DateFormat('yyyy/MM/dd')
-                                                .format(model
-                                                    .stepSnapshot['signed']
+                                    Container(
+                                        height: MediaQuery.of(context)
+                                                    .size
+                                                    .height >
+                                                700
+                                            ? MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                334
+                                            : MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                228,
+                                        child: SingleChildScrollView(
+                                            child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                DateFormat('yyyy/MM/dd')
+                                                        .format(model
+                                                            .stepSnapshot[
+                                                                'signed'][
+                                                                index_page
+                                                                    .toString()]
+                                                                ['time']
+                                                            .toDate())
+                                                        .toString() +
+                                                    model.stepSnapshot['signed']
+                                                            [index_page
+                                                                .toString()]
+                                                        ['family'],
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(5),
+                                              child: Text(
+                                                model.stepSnapshot['signed']
                                                         [index_page.toString()]
-                                                        ['time']
-                                                    .toDate())
-                                                .toString() +
-                                            model.stepSnapshot['signed']
-                                                    [index_page.toString()]
-                                                ['family'],
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: Text(
-                                        model.stepSnapshot['signed']
-                                            [index_page.toString()]['feedback'],
-                                        style: TextStyle(
-                                            fontSize: 18.0,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none),
-                                      ),
-                                    )
+                                                    ['feedback'],
+                                                style: TextStyle(
+                                                    fontSize: 18.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ),
+                                            snapshot['data'] != null
+                                                ? Column(
+                                                    children: <Widget>[
+                                                      Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10),
+                                                          child:
+                                                              ListView.builder(
+                                                                  physics:
+                                                                      NeverScrollableScrollPhysics(),
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  itemCount: snapshot[
+                                                                          'data']
+                                                                      .length,
+                                                                  itemBuilder:
+                                                                      (BuildContext
+                                                                              context,
+                                                                          int index) {
+                                                                    String
+                                                                        type =
+                                                                        snapshot['data'][index]
+                                                                            [
+                                                                            'type'];
+                                                                    if (type ==
+                                                                        'image') {
+                                                                      return Padding(
+                                                                        padding:
+                                                                            EdgeInsets.all(5),
+                                                                        child:
+                                                                            Container(
+                                                                          child:
+                                                                              Card(
+                                                                            color:
+                                                                                Colors.green,
+                                                                            child:
+                                                                                Column(
+                                                                              children: <Widget>[
+                                                                                Image.network(model.dataList[index_page][index])
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    } else if (type ==
+                                                                        'video') {
+                                                                      return Padding(
+                                                                        padding:
+                                                                            EdgeInsets.all(5),
+                                                                        child:
+                                                                            Container(
+                                                                          child:
+                                                                              Card(
+                                                                            child:
+                                                                                Column(
+                                                                              children: <Widget>[
+                                                                                Chewie(
+                                                                                  controller: model.dataList[index_page][index],
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    } else if (type ==
+                                                                        'text') {
+                                                                      return Padding(
+                                                                        padding:
+                                                                            EdgeInsets.all(5),
+                                                                        child:
+                                                                            Container(
+                                                                          child: Card(
+                                                                              child: Padding(
+                                                                            padding:
+                                                                                EdgeInsets.all(0),
+                                                                            child:
+                                                                                Column(
+                                                                              children: <Widget>[
+                                                                                Padding(
+                                                                                    padding: EdgeInsets.all(10),
+                                                                                    child: Text(
+                                                                                      model.dataList[index_page][index],
+                                                                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                                    ))
+                                                                              ],
+                                                                            ),
+                                                                          )),
+                                                                        ),
+                                                                      );
+                                                                    } else {
+                                                                      return Container();
+                                                                    }
+                                                                  }))
+                                                    ],
+                                                  )
+                                                : Container(),
+                                          ],
+                                        )))
                                   ]);
                                 } else if (model.stepSnapshot['signed']
                                         [index_page.toString()]['phaze'] ==
@@ -459,11 +577,10 @@ class TaskScoutAddView extends StatelessWidget {
                                     Container(
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.only(
-                                              topLeft: const Radius
-                                                  .circular(20),
+                                              topLeft:
+                                                  const Radius.circular(20),
                                               topRight:
-                                              const Radius
-                                                  .circular(20)),
+                                                  const Radius.circular(20)),
                                           color: themeColor),
                                       width: MediaQuery.of(context).size.width,
                                       child: Padding(
@@ -495,7 +612,13 @@ class TaskScoutAddView extends StatelessWidget {
                                         [index_page.toString()]['phaze'] ==
                                     'reject') {
                                   return Column(children: <Widget>[
-                                    TaskDetailScoutAddView(index_page, type, 'やりなおし： ' + model.stepSnapshot['signed'][index_page.toString()]['feedback'])
+                                    TaskDetailScoutAddView(
+                                        index_page,
+                                        type,
+                                        'やりなおし： ' +
+                                            model.stepSnapshot['signed']
+                                                    [index_page.toString()]
+                                                ['feedback'])
                                   ]);
                                 } else {
                                   return Center(
@@ -503,7 +626,8 @@ class TaskScoutAddView extends StatelessWidget {
                                   );
                                 }
                               } else {
-                                return TaskDetailScoutAddView(index_page, type, 'どんなことをしたのかリーダーに教えよう');
+                                return TaskDetailScoutAddView(
+                                    index_page, type, 'どんなことをしたのかリーダーに教えよう');
                               }
                             } else {
                               return Padding(
