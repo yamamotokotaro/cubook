@@ -33,6 +33,10 @@ class ListNotCititationed extends StatelessWidget {
                       model.getGroup();
                     }
                     if (model.group != null) {
+                      print(uid);
+                      DateTime date = DateTime.now();
+                      DateTime newDate =
+                          new DateTime(date.year, date.month + 1, date.day);
                       return StreamBuilder<QuerySnapshot>(
                         stream: Firestore.instance
                             .collection('challenge')
@@ -40,6 +44,7 @@ class ListNotCititationed extends StatelessWidget {
                             .where('uid', isEqualTo: uid)
                             .where('isCitationed', isEqualTo: false)
                             .orderBy('page', descending: false)
+                        .orderBy('end')
                             .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -106,17 +111,28 @@ class ListNotCititationed extends StatelessWidget {
                                                                 fontSize: 16),
                                                           ))),
                                                   Padding(
-                                                    padding: EdgeInsets.only(left: 10, top: 5),
+                                                      padding: EdgeInsets.only(
+                                                          left: 10, top: 5),
                                                       child: Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: FlatButton(
-                                                      padding:
-                                                          EdgeInsets.all(0),
-                                                      onPressed: () {model.onTapCititation(snapshot.documentID);},
-                                                      child: Text('表彰済みにする',style: TextStyle(color: Colors.blue,),
-                                                    ),
-                                                  )))
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: FlatButton(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    0),
+                                                            onPressed: () {
+                                                              model.onTapCititation(
+                                                                  snapshot
+                                                                      .documentID);
+                                                            },
+                                                            child: Text(
+                                                              '表彰済みにする',
+                                                              style: TextStyle(
+                                                                color:
+                                                                    Colors.blue,
+                                                              ),
+                                                            ),
+                                                          )))
                                                 ],
                                               ),
                                             ),
