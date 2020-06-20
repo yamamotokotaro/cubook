@@ -33,6 +33,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   var list_snapshot = new List<bool>();
   var list_attach = new List<dynamic>();
   var map_attach = new List<dynamic>();
+  var map_chewie = new List<dynamic>();
   var isAdded = new List<dynamic>();
   var list_toSend = new List<dynamic>();
   var count_toSend = new List<dynamic>();
@@ -59,6 +60,9 @@ class TaskDetailScoutModel extends ChangeNotifier {
 
     map_attach =
         new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
+
+    map_chewie =
+    new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
 
     isAdded = new List<dynamic>.generate(quant, (index) => false);
     dataList =
@@ -286,6 +290,15 @@ class TaskDetailScoutModel extends ChangeNotifier {
   void onVideoPressPick(int number, int index) async {
     File image = await ImagePicker.pickVideo(source: ImageSource.gallery);
     map_attach[number][index] = image;
+    final videoPlayerController =
+    VideoPlayerController.file(image);
+    await videoPlayerController.initialize();
+    map_chewie[number][index] = ChewieController(
+        videoPlayerController: videoPlayerController,
+        aspectRatio:
+        videoPlayerController.value.aspectRatio,
+        autoPlay: false,
+        looping: false);
     notifyListeners();
   }
 
@@ -294,6 +307,15 @@ class TaskDetailScoutModel extends ChangeNotifier {
       source: ImageSource.camera,
     );
     map_attach[number][index] = image;
+    final videoPlayerController =
+    VideoPlayerController.file(image);
+    await videoPlayerController.initialize();
+    map_chewie[number][index] = ChewieController(
+        videoPlayerController: videoPlayerController,
+        aspectRatio:
+        videoPlayerController.value.aspectRatio,
+        autoPlay: false,
+        looping: false);
     notifyListeners();
   }
 
@@ -308,6 +330,15 @@ class TaskDetailScoutModel extends ChangeNotifier {
 
   void onPressAdd_new(int index, String type) {
     list_attach[index].add(type);
+    notifyListeners();
+  }
+
+  void onPressDelete(int number, int index) {
+    map_attach[number].remove(index);
+    list_attach[number].remove(index);
+    if(map_chewie[number][index] != null){
+      map_chewie[number].remove(index);
+    }
     notifyListeners();
   }
 
