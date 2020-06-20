@@ -175,8 +175,9 @@ class TaskView extends StatelessWidget {
                                                                           border:
                                                                           Border
                                                                               .all(
-                                                                              color: Colors
-                                                                                  .grey[400]),
+                                                                              color: Theme.of(context).hintColor
+
+                                                                          ),
                                                                           borderRadius:
                                                                           BorderRadius
                                                                               .circular(
@@ -193,8 +194,7 @@ class TaskView extends StatelessWidget {
                                                                                 fontWeight: FontWeight
                                                                                     .bold,
                                                                                 fontSize: 22,
-                                                                                color: Colors
-                                                                                    .grey[600]),
+                                                                                color: Theme.of(context).hintColor),
                                                                           ),
                                                                         ))));
                                                           } else {

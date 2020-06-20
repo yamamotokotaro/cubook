@@ -46,6 +46,23 @@ class InviteView extends StatelessWidget {
                                 )
                               : Container(),
                           Padding(
+                              padding: EdgeInsets.only(top:15, left: 10, right: 10),
+                              child: DropdownButton<String>(
+                                isExpanded: true,
+                                hint: Text('立場を選択'),
+                                value: model.dropdown_text,
+                                items: <String>['うさぎ', 'しか', 'くま', 'リーダー']
+                                    .map((String value) {
+                                  return new DropdownMenuItem<String>(
+                                    value: value,
+                                    child: new Text(value),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  model.onDropdownChanged(value);
+                                },
+                              )),
+                          Padding(
                             padding: EdgeInsets.all(10),
                             child: TextField(
                               controller: model.addressController,
@@ -90,8 +107,9 @@ class InviteView extends StatelessWidget {
                               },
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
+                          model.dropdown_text != 'リーダー'
+                              ? Padding(
+                            padding: EdgeInsets.only(top: 0, left: 10, right: 10),
                             child: TextField(
                               controller: model.teamController,
                               enabled: true,
@@ -100,63 +118,27 @@ class InviteView extends StatelessWidget {
                               maxLines: null,
                               maxLengthEnforced: false,
                               decoration: InputDecoration(labelText: "組"),
-                              onChanged: (text) {
-                              },
+                              onChanged: (text) {},
                             ),
-                          ),
-                          /*Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: TextField(
-                                    controller: model.familyController,
-                                    enabled: true,
-                                    // 入力数
-                                    keyboardType: TextInputType.number,
-                                    maxLines: null,
-                                    maxLengthEnforced: false,
-                                    decoration: InputDecoration(labelText: "姓"),
-                                    onChanged: (text) {
-                                    },
-                                  ),
-                                ),
-                                Text(
-                                  '組'
-                                )
-                              ],
-                            )
-                          ),*/
-                          DropdownButton<String>(
-                            hint: Text('役割を選択'),
-                            value: model.dropdown_text,
-                            items: <String>['うさぎ', 'しか', 'くま', 'リーダー']
-                                .map((String value) {
-                              return new DropdownMenuItem<String>(
-                                value: value,
-                                child: new Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              model.onDropdownChanged(value);
-                            },
-                          ),
+                          ):Container(),
                           model.dropdown_text != 'リーダー'
-                              ? DropdownButton<String>(
-                                  hint: Text('呼称'),
-                                  value: model.dropdown_call,
-                                  items:
-                                      <String>['くん', 'さん'].map((String value) {
-                                    return new DropdownMenuItem<String>(
-                                      value: value,
-                                      child: new Text(value),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    model.onDropdownCallChanged(value);
-                                  },
-                                )
+                              ? Padding(
+                                  padding: EdgeInsets.only(top:20, left: 10, right: 10, bottom: 10),
+                                  child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    hint: Text('呼称'),
+                                    value: model.dropdown_call,
+                                    items: <String>['くん', 'さん']
+                                        .map((String value) {
+                                      return new DropdownMenuItem<String>(
+                                        value: value,
+                                        child: new Text(value),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      model.onDropdownCallChanged(value);
+                                    },
+                                  ))
                               : Container(),
                           Padding(
                             padding: EdgeInsets.only(top: 10),

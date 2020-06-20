@@ -63,19 +63,19 @@ class NotificationView extends StatelessWidget {
                                                       Padding(
                                                           padding:
                                                               EdgeInsets.only(
-                                                                  left: 0),
-                                                          child: FittedBox(
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                              child: Text(
+                                                                  top: 3, bottom: 8),
+                                                          child: Align(
+                                                            alignment: Alignment.centerLeft,
+                                                              child:Text(
                                                                 snapshot[
                                                                     'body'],
+                                                                textAlign: TextAlign.left,
                                                                 style: TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
                                                                     fontSize:
-                                                                        18),
+                                                                        16),
                                                               ))),
                                                       Padding(
                                                           padding:

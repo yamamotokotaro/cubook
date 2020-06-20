@@ -90,7 +90,7 @@ class HomeLeaderView extends StatelessWidget {
         }
       }),
       Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 30),
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 15),
         child: Container(
             child: Card(
           shape: RoundedRectangleBorder(
@@ -126,7 +126,7 @@ class HomeLeaderView extends StatelessWidget {
         )),
       ),
       /*Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 15),
         child: Container(
             child: Card(
               shape: RoundedRectangleBorder(

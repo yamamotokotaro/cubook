@@ -34,26 +34,31 @@ class InviteModel with ChangeNotifier {
   void inviteRequest(BuildContext context) async {
     String age;
     String position;
+    String team;
     switch (dropdown_text) {
       case 'うさぎ':
         age = 'usagi';
         position = 'scout';
+        team = teamController.text;
         break;
       case 'しか':
         age = 'sika';
         position = 'scout';
+        team = teamController.text;
         break;
       case 'くま':
         age = 'kuma';
         position = 'scout';
+        team = teamController.text;
         break;
       case 'リーダー':
         age = 'leader';
         position = 'leader';
         dropdown_call = 'さん';
+        team = '100';
         break;
     }
-    if(addressController != '' && familyController.text != '' && firstController.text != '' && teamController.text != '' && dropdown_text != null && dropdown_call != null) {
+    if(addressController != '' && familyController.text != '' && firstController.text != '' && team != '' && dropdown_text != null && dropdown_call != null) {
       isLoading_join = true;
       notifyListeners();
       FirebaseAuth.instance.currentUser().then((user) {
@@ -85,7 +90,7 @@ class InviteModel with ChangeNotifier {
               'call': dropdown_call,
               'age': age,
               'position': position,
-              'team': int.parse(teamController.text)
+              'team': team
             });
 
             http.Response resp =
