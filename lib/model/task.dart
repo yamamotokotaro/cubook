@@ -158,7 +158,7 @@ class Task{
         list_info = kuma;
         break;
       case 'challenge':
-        list_info = sinpo;
+        list_info = challnege;
         break;
     }
     return list_info;
@@ -177,7 +177,7 @@ class Task{
         map_info = kuma[number];
         break;
       case 'challenge':
-        map_info = sinpo[number];
+        map_info = challnege[number];
         break;
     }
     return map_info;
