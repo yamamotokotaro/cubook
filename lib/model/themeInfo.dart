@@ -18,7 +18,7 @@ class ThemeInfo {
     'うさぎのカブブック',
     'しかのカブブック',
     'くまのカブブック',
-    'チャレンジ章'
+    '技能章'
   ];
 
   Color getThemeColor(String type) {

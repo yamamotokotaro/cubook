@@ -14,7 +14,7 @@ class SupportView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('広告を見る'),
+          title: Text('おもしろコンテンツを見る'),
         ),
         body: Builder(builder: (BuildContext context) {
           return GestureDetector(
@@ -47,7 +47,7 @@ class SupportView extends StatelessWidget {
                                                     type: MaterialType
                                                         .transparency,
                                                     child: Text(
-                                                      '継続的な運営をご支援ください',
+                                                      'おもしろ機能',
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -60,7 +60,7 @@ class SupportView extends StatelessWidget {
                                             child: Material(
                                                 type: MaterialType.transparency,
                                                 child: Text(
-                                                  'cubookは広告によって無料で運営できています。視聴後にお礼としてアプリ内でロープを差し上げます。ロープの色はランダムで決まります。',
+                                                  '広告視聴後にお礼としてアプリ内でロープを差し上げます。ロープの色はランダムで決まります。ロープを消費することで面白いコンテンツを見ることができます',
                                                   style: TextStyle(
                                                     fontWeight:
                                                         FontWeight.normal,
@@ -70,15 +70,15 @@ class SupportView extends StatelessWidget {
                                       ],
                                     ))),
                           ),
-                          Consumer<SupportModel>(
+                          /*Consumer<SupportModel>(
                               builder: (context, model, child) {
                             model.getUser();
                             model.getAdmob(context);
-                            return /*RaisedButton(
+                            return *//*RaisedButton(
                                 child: Text("SHOW REWARDED VIDEOAD"),
                                 onPressed: () {
                                   model.videoAd.show();
-                                });*/
+                                });*//*
                                 !model.isLoaded
                                     ? Container()
                                     : Padding(
@@ -93,7 +93,7 @@ class SupportView extends StatelessWidget {
                                           color: Colors.blue[900],
                                           child: InkWell(
                                             onTap: () {
-//                                              model.videoAd.show();
+                                              model.videoAd.show();
                                             },
                                             child: Padding(
                                               padding: EdgeInsets.all(15),
@@ -128,7 +128,7 @@ class SupportView extends StatelessWidget {
                                           ),
                                         )),
                                       );
-                          }),
+                          }),*/
                           Selector<SupportModel, String>(
                               selector: (context, model) => model.uid,
                               builder: (context, uid, child) => uid != null
@@ -205,11 +205,34 @@ class SupportView extends StatelessWidget {
                                                   ),
                                                 )));
                                       })
-                                  : Container())
+                                  : Container()),
                         ],
                       );
                     })),
               )));
         }));
+  }
+  Widget _menuItem(String title, Icon icon) {
+    return Container(
+      decoration: new BoxDecoration(
+          border: new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))
+      ),
+      child:ListTile(
+        leading: icon,
+        title: Text(
+          title,
+          style: TextStyle(
+              color:Colors.black,
+              fontSize: 18.0
+          ),
+        ),
+        onTap: () {
+          print("onTap called.");
+        }, // タップ
+        onLongPress: () {
+          print("onLongPress called.");
+        }, // 長押し
+      ),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -200,38 +201,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   Future<void> updateUserInfo(int number) async {
     bool isComplete = false;
     var task = new Task();
-    Firestore.instance
-        .collection('user')
-        .where('group', isEqualTo: tokenMap['group'])
-        .where('uid', isEqualTo: uid)
-        .getDocuments()
-        .then((data) {
-      DocumentSnapshot snapshot = data.documents[0];
-      Map<String, dynamic> map = Map<String, int>();
-      if (snapshot[type] != null) {
-        map = snapshot[type];
-        if (map[page.toString()] != null) {
-          map[page.toString()]++;
-        } else {
-          map[page.toString()] = 1;
-        }
-      } else {
-        map[page.toString()] = 1;
-      }
-      var mapSend = {type: map};
-      Firestore.instance
-          .collection('user')
-          .document(snapshot.documentID)
-          .updateData(mapSend);
-
-      if (map[page.toString()] == task.getPartMap(type, page)['hasItem']) {
-        recordEndTime();
-        isComplete = true;
-        if (!checkCitation) {
-          onFinish();
-        }
-      }
-    });
+    int count = 0;
 
     FirebaseUser user = await auth.currentUser();
     Map<String, dynamic> data_signed = Map<String, dynamic>();
@@ -254,6 +224,14 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         data_toAdd['time'] = Timestamp.now();
         map[number.toString()] = data_toAdd;
         data_signed['signed'] = map;
+        map.forEach((key, dynamic values) {
+          Map<String, dynamic> partData = map[key.toString()];
+          print(map);
+          print(partData['phaze']);
+          if (partData['phaze'] == 'signed') {
+            count++;
+          }
+        });
         if (isComplete) {
           data_signed['end'] = Timestamp.now();
           data_signed['isCitationed'] = checkCitation;
@@ -274,6 +252,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         data_signed['start'] = Timestamp.now();
         data_signed['signed'] = {number.toString(): data_toAdd};
         data_signed['group'] = tokenMap['group'];
+        count = 1;
         if (isComplete) {
           data_signed['end'] = Timestamp.now();
           data_signed['isCitationed'] = checkCitation;
@@ -281,6 +260,31 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         DocumentReference documentReference_add =
             await Firestore.instance.collection(type).add(data_signed);
       }
+
+      Firestore.instance
+          .collection('user')
+          .where('uid', isEqualTo: uid)
+          .where('group', isEqualTo: tokenMap['group'])
+          .getDocuments()
+          .then((data) {
+        DocumentSnapshot snapshot = data.documents[0];
+        Map<String, dynamic> map = Map<String, int>();
+        if (snapshot[type] != null) {
+          map = snapshot[type];
+          map[page.toString()] = count;
+        } else {
+          map[page.toString()] = count;
+        }
+        var mapSend = {type: map};
+        Firestore.instance
+            .collection('user')
+            .document(snapshot.documentID)
+            .updateData(mapSend);
+
+        if (map[page.toString()] == task.getPartMap(type, page)['hasItem']) {
+          onFinish();
+        }
+      });
     });
   }
 
@@ -354,7 +358,14 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
           map.remove(number.toString());
           data_signed['signed'] = map;
           data_signed['end'] = FieldValue.delete();
-          count = map.length;
+          map.forEach((key, dynamic values) {
+            Map<String, dynamic> partData = map[key.toString()];
+            print(map);
+            print(partData['phaze']);
+            if (partData['phaze'] == 'signed') {
+              count++;
+            }
+          });
           Firestore.instance
               .collection(type)
               .document(snapshot.documentID)
