@@ -248,6 +248,27 @@ class HomeScoutView extends StatelessWidget {
                     ),
                   ),
                 ))),
+        Center(
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(right: 5, top: 4),
+                    child: Icon(
+                      Icons.book,
+                      color: Theme.of(context).accentColor,
+                      size: 32,
+                    ),
+                  ),
+                  Text(
+                    'やってみよう！',
+                    style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none),
+                  ),
+                ])),
       ],
     );
   }

@@ -105,13 +105,15 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => SignupModel()),
           ChangeNotifierProvider(create: (context) => InviteModel()),
           ChangeNotifierProvider(create: (context) => ListMemberModel()),
-          ChangeNotifierProvider(create: (context) => TaskListScoutConfirmModel()),
+          ChangeNotifierProvider(
+              create: (context) => TaskListScoutConfirmModel()),
           ChangeNotifierProvider(create: (context) => AddLumpScoutListModel()),
           ChangeNotifierProvider(create: (context) => AddLumpSelectItemModel()),
           ChangeNotifierProvider(create: (context) => SettingAccountModel()),
           ChangeNotifierProvider(create: (context) => NotificationModel()),
           ChangeNotifierProvider(create: (context) => SupportModel()),
-          ChangeNotifierProvider(create: (context) => ListCitationWaitingModel()),
+          ChangeNotifierProvider(
+              create: (context) => ListCitationWaitingModel()),
         ],
         child: MaterialApp(
           home: HomeController(),
@@ -129,13 +131,15 @@ class _MyAppState extends State<MyApp> {
             primaryColor: Colors.blue[900],
             accentColor: Colors.white,
           ),
-          routes: <String, WidgetBuilder> {
+          routes: <String, WidgetBuilder>{
             '/listMember': (BuildContext context) => ListMemberView(),
-            '/listCitationWaiting': (BuildContext context) => ListCitationWaitingView(),
+            '/listCitationWaiting': (BuildContext context) =>
+                ListCitationWaitingView(),
             '/homeLump': (BuildContext context) => HomeLumpView(),
-            '/addLumpScoutList': (BuildContext context) => AddLumpScoutListView(),
-            '/addLumpSelectItem': (BuildContext context) => AddLumpSelectItemView(),
-            //'/settingAccount': (BuildContext context) => SettingAccountView(),
+            '/addLumpScoutList': (BuildContext context) =>
+                AddLumpScoutListView(),
+            '/addLumpSelectItem': (BuildContext context) =>
+                AddLumpSelectItemView(),
             '/changeName': (BuildContext context) => ChangeNameView(),
             '/changeAge': (BuildContext context) => ChangeAgeView(),
             '/support': (BuildContext context) => SupportView(),

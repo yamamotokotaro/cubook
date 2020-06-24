@@ -70,7 +70,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       }
       isGet = true;
       isLoaded = true;
-      print(body);
       notifyListeners();
     });
   }
@@ -111,7 +110,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
               body.add(chewieController);
             }
           }
-          print(body);
           notifyListeners();
         } else {
           taskFinished = true;
@@ -135,7 +133,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         currentUser = user;
         currentUser.getIdToken().then((token) async {
           tokenMap = token.claims;
-          await updateUserInfo();
+         // await updateUserInfo();
           await updateDocumentInfo();
           await addEffort();
           await addNotification('signed');
@@ -202,6 +200,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
 
   Future<void> updateDocumentInfo() async {
     var task = new Task();
+    int count = 0;
     Firestore.instance
         .collection(type)
         .where('uid', isEqualTo: uid_get)
@@ -228,6 +227,39 @@ class DetailTaskWaitingModel extends ChangeNotifier {
           .collection(type)
           .document(snapshot.documentID)
           .updateData(mapSend);
+      for(int i=0; i<map.length; i++){
+        Map<String, dynamic> partData = map[i.toString()];
+        if(partData['phaze'] == 'signed'){
+          count++;
+        }
+      }
+      Firestore.instance
+          .collection('user')
+          .where('uid', isEqualTo: uid_get)
+          .where('group', isEqualTo: tokenMap['group'])
+          .getDocuments()
+          .then((data) {
+        DocumentSnapshot snapshot = data.documents[0];
+        Map<String, dynamic> map = Map<String, int>();
+        map.forEach((key, dynamic values) {
+          Map<String, dynamic> partData = map[key.toString()];
+          print(map);
+          print(partData['phaze']);
+          if (partData['phaze'] == 'signed') {
+            count++;
+          }
+        });
+        map[page.toString()] = count;
+        var mapSend = {type: map};
+        Firestore.instance
+            .collection('user')
+            .document(snapshot.documentID)
+            .updateData(mapSend);
+
+        if (map[page.toString()] == task.getPartMap(type, page)['hasItem']) {
+          onFinish();
+        }
+      });
     });
   }
 

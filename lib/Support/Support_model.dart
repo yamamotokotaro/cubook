@@ -51,10 +51,10 @@ class SupportModel with ChangeNotifier {
     }
   }
 
-  void getAdmob(BuildContext context) {
+  /*void getAdmob(BuildContext context) {
     if (!isLoaded) {
       const String testDevices = 'Mobile_id';
-      /*targetingInfo = MobileAdTargetingInfo(
+      targetingInfo = MobileAdTargetingInfo(
           keywords: <String>['outdoor', 'scout'],
           childDirected: false,
           testDevices: testDevices != null
@@ -62,7 +62,7 @@ class SupportModel with ChangeNotifier {
               : null // Android emulators are considered test devices
           );
       if (Platform.isAndroid) {
-        FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-9318890511624941/8096138050');
+        FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-3940256099942544/5224354917');
         // Android-specific code
       } else if (Platform.isIOS) {
         FirebaseAdMob.instance.initialize(appId: 'ca-app-pub-9318890511624941/8355992501');
@@ -105,7 +105,7 @@ class SupportModel with ChangeNotifier {
                       Padding(
                           padding: EdgeInsets.only(top: 10),
                           child: Text(
-                            'ご支援ありがとうございます',
+                            '第一話',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -115,7 +115,7 @@ class SupportModel with ChangeNotifier {
                       Padding(
                           padding: EdgeInsets.only(top: 10, bottom: 20),
                           child: Text(
-                            'ロープを一つプレゼントいたしました',
+                            'やまもとこたろうの入団秘話',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -126,15 +126,15 @@ class SupportModel with ChangeNotifier {
             },
           );
         }
-      };*/
-      /*videoAd
+      };
+      videoAd
           .load(
               adUnitId: RewardedVideoAd.testAdUnitId,
               targetingInfo: targetingInfo)
           .then((value) {
         isLoaded = true;
         notifyListeners();
-      });*/
+      });
     }
-  }
+  }*/
 }
