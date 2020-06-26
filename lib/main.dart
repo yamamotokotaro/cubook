@@ -4,6 +4,10 @@ import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
 import 'package:cubook/addLump_ScoutList/addLumpScoutList_view.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
+import 'package:cubook/createActivity/createActivity_model.dart';
+import 'package:cubook/createActivity/createActivity_view.dart';
+import 'package:cubook/detailActivity/detailActivity_model.dart';
+import 'package:cubook/detailActivity/detailActivity_view.dart';
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
@@ -12,6 +16,11 @@ import 'package:cubook/home_leader/homeLeader_model.dart';
 import 'package:cubook/home_lump/homeLump_view.dart';
 import 'package:cubook/invite/invite_model.dart';
 import 'package:cubook/invite/invite_view.dart';
+import 'package:cubook/listAbsent/listAbsent_model.dart';
+import 'package:cubook/listAbsent_scout/listAbsentScout_model.dart';
+import 'package:cubook/listAbsent_scout/listAbsentScout_view.dart';
+import 'package:cubook/listActivity/listActivity_model.dart';
+import 'package:cubook/listActivity/listActivity_view.dart';
 import 'package:cubook/listCitationWaiting/listCitationWaiting_model.dart';
 import 'package:cubook/listCitationWaiting/listCitationWaiting_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
@@ -112,6 +121,11 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => SettingAccountModel()),
           ChangeNotifierProvider(create: (context) => NotificationModel()),
           ChangeNotifierProvider(create: (context) => SupportModel()),
+          ChangeNotifierProvider(create: (context) => ListActivityModel()),
+          ChangeNotifierProvider(create: (context) => CreateActivityModel()),
+          ChangeNotifierProvider(create: (context) => DetailActivityModel()),
+          ChangeNotifierProvider(create: (context) => ListAbsentModel()),
+          ChangeNotifierProvider(create: (context) => ListAbsentScoutModel()),
           ChangeNotifierProvider(
               create: (context) => ListCitationWaitingModel()),
         ],
@@ -144,6 +158,10 @@ class _MyAppState extends State<MyApp> {
             '/changeAge': (BuildContext context) => ChangeAgeView(),
             '/support': (BuildContext context) => SupportView(),
             '/invite': (BuildContext context) => InviteView(),
+            '/listActivity': (BuildContext context) => ListActivityView(),
+            '/createActivity': (BuildContext context) => CreateActivityView(),
+            '/detailActivity': (BuildContext context) => DetailActivityView(),
+            '/listAbsentScout': (BuildContext context) => ListAbsentScoutView(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeScoutView extends StatelessWidget {
+class HomeBSView extends StatelessWidget {
   var task = new Task();
   var theme = new ThemeInfo();
 
@@ -19,7 +19,7 @@ class HomeScoutView extends StatelessWidget {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
+          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
           child: Container(
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -48,44 +48,6 @@ class HomeScoutView extends StatelessWidget {
                                 type: MaterialType.transparency,
                                 child: Text(
                                   'お知らせ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 30,
-                                  ),
-                                ),
-                              )),
-                        ]),
-                  ),
-                ),
-              )),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
-          child: Container(
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/listAbsentScout');
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.event_available,
-                            color: Theme.of(context).accentColor,
-                            size: 35,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: Text(
-                                  '出欠確認',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 30,
@@ -143,22 +105,22 @@ class HomeScoutView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(right: 5, top: 4),
-                child: Icon(
-                  Icons.book,
-                  color: Theme.of(context).accentColor,
-                  size: 32,
-                ),
-              ),
-              Text(
-                'やってみよう！',
-                style: TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.none),
-              ),
-            ])),
+                  Padding(
+                    padding: EdgeInsets.only(right: 5, top: 4),
+                    child: Icon(
+                      Icons.book,
+                      color: Theme.of(context).accentColor,
+                      size: 32,
+                    ),
+                  ),
+                  Text(
+                    'やってみよう！',
+                    style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none),
+                  ),
+                ])),
         Consumer<HomeModel>(builder: (context, model, child) {
           return Padding(
               padding: EdgeInsets.all(10),
@@ -176,8 +138,8 @@ class HomeScoutView extends StatelessWidget {
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute<TaskView>(
                               builder: (BuildContext context) {
-                            return TaskView(model.age);
-                          }));
+                                return TaskView(model.age);
+                              }));
                         },
                         child: Align(
                             alignment: Alignment.bottomLeft,
@@ -201,19 +163,19 @@ class HomeScoutView extends StatelessWidget {
                                   Padding(
                                       padding: EdgeInsets.all(20),
                                       child: model.userSnapshot[model.age] !=
-                                              null
+                                          null
                                           ? LinearProgressIndicator(
-                                              backgroundColor: theme
-                                                  .getIndicatorColor(model.age),
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                      Color>(Colors.white),
-                                              value: model
-                                                      .userSnapshot[model.age]
-                                                      .length /
-                                                  task
-                                                      .getAllMap(model.age)
-                                                      .length)
+                                          backgroundColor: theme
+                                              .getIndicatorColor(model.age),
+                                          valueColor:
+                                          new AlwaysStoppedAnimation<
+                                              Color>(Colors.white),
+                                          value: model
+                                              .userSnapshot[model.age]
+                                              .length /
+                                              task
+                                                  .getAllMap(model.age)
+                                                  .length)
                                           : Container())
                                 ])),
                       ),
@@ -236,8 +198,8 @@ class HomeScoutView extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute<TaskView>(
                             builder: (BuildContext context) {
-                          return TaskView('challenge');
-                        }));
+                              return TaskView('challenge');
+                            }));
                       },
                       child: Align(
                         alignment: Alignment.bottomLeft,
@@ -262,30 +224,51 @@ class HomeScoutView extends StatelessWidget {
                                   padding: EdgeInsets.all(20),
                                   child: Selector<HomeModel, DocumentSnapshot>(
                                       selector: (context, model) =>
-                                          model.userSnapshot,
+                                      model.userSnapshot,
                                       builder: (context, snapshot, child) =>
-                                          snapshot != null
-                                              ? snapshot['challenge'] != null
-                                                  ? LinearProgressIndicator(
-                                                      backgroundColor:
-                                                          Colors.green[700],
-                                                      valueColor:
-                                                          new AlwaysStoppedAnimation<
-                                                                  Color>(
-                                                              Colors.white),
-                                                      value: snapshot['challenge']
-                                                              .length /
-                                                          task
-                                                              .getAllMap(
-                                                                  'challenge')
-                                                              .length)
-                                                  : Container()
-                                              : Container())),
+                                      snapshot != null
+                                          ? snapshot['challenge'] != null
+                                          ? LinearProgressIndicator(
+                                          backgroundColor:
+                                          Colors.green[700],
+                                          valueColor:
+                                          new AlwaysStoppedAnimation<
+                                              Color>(
+                                              Colors.white),
+                                          value: snapshot['challenge']
+                                              .length /
+                                              task
+                                                  .getAllMap(
+                                                  'challenge')
+                                                  .length)
+                                          : Container()
+                                          : Container())),
                             ]),
                       ),
                     ),
                   ),
                 ))),
+        Center(
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(right: 5, top: 4),
+                    child: Icon(
+                      Icons.book,
+                      color: Theme.of(context).accentColor,
+                      size: 32,
+                    ),
+                  ),
+                  Text(
+                    'やってみよう！',
+                    style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none),
+                  ),
+                ])),
       ],
     );
   }
