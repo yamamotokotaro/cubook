@@ -199,7 +199,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
     final StorageUploadTask uploadTask = ref.putFile(file);
     StorageTaskSnapshot snapshot = await uploadTask.onComplete;
     if (snapshot.error == null) {
-      //String url = await snapshot.ref.getDownloadURL();
       String path = await snapshot.ref.getPath();
       Map<String, dynamic> data = Map<String, dynamic>();
       data.putIfAbsent('body', () => path);

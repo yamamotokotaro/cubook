@@ -60,7 +60,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Column(
               children: <Widget>[
-                RaisedButton.icon(
+                /*RaisedButton.icon(
                   onPressed: () async {
                     var result =
                     await showModalBottomSheet<
@@ -101,7 +101,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),
-                ),
+                ),*/
                 Padding(
                     padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                     child: Text(
