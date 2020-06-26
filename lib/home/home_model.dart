@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_view.dart';
+import 'package:cubook/home_scout/homeBS_view.dart';
 import 'package:cubook/home_scout/homeScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart' show FirebaseAuthUi;
@@ -50,7 +51,14 @@ class HomeModel extends ChangeNotifier {
               if (position == 'scout') {
                 toShow = HomeScoutView();
                 getSnapshot();
-              } else if (position == 'leader') {
+              } else if (position == 'boyscout') {
+                toShow = HomeBSView();
+              } else if (position == 'boyscoutGL') {
+                toShow = Column(children: <Widget>[
+                  HomeBSView(),
+                  HomeLeaderView()
+                ],);
+              }  else if (position == 'leader') {
                 toShow = HomeLeaderView();
               } else {
                 toShow = Center(

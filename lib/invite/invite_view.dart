@@ -46,13 +46,18 @@ class InviteView extends StatelessWidget {
                                 )
                               : Container(),
                           Padding(
-                              padding: EdgeInsets.only(top:15, left: 10, right: 10),
+                              padding:
+                                  EdgeInsets.only(top: 15, left: 10, right: 10),
                               child: DropdownButton<String>(
                                 isExpanded: true,
                                 hint: Text('立場を選択'),
                                 value: model.dropdown_text,
-                                items: <String>['うさぎ', 'しか', 'くま', 'リーダー']
-                                    .map((String value) {
+                                items: <String>[
+                                  'うさぎ',
+                                  'しか',
+                                  'くま',
+                                  'リーダー'
+                                ].map((String value) {
                                   return new DropdownMenuItem<String>(
                                     value: value,
                                     child: new Text(value),
@@ -109,21 +114,24 @@ class InviteView extends StatelessWidget {
                           ),
                           model.dropdown_text != 'リーダー'
                               ? Padding(
-                            padding: EdgeInsets.only(top: 0, left: 10, right: 10),
-                            child: TextField(
-                              controller: model.teamController,
-                              enabled: true,
-                              // 入力数
-                              keyboardType: TextInputType.number,
-                              maxLines: null,
-                              maxLengthEnforced: false,
-                              decoration: InputDecoration(labelText: "組"),
-                              onChanged: (text) {},
-                            ),
-                          ):Container(),
+                                  padding: EdgeInsets.only(
+                                      top: 0, left: 10, right: 10),
+                                  child: TextField(
+                                    controller: model.teamController,
+                                    enabled: true,
+                                    // 入力数
+                                    keyboardType: TextInputType.number,
+                                    maxLines: null,
+                                    maxLengthEnforced: false,
+                                    decoration: InputDecoration(labelText: "組"),
+                                    onChanged: (text) {},
+                                  ),
+                                )
+                              : Container(),
                           model.dropdown_text != 'リーダー'
                               ? Padding(
-                                  padding: EdgeInsets.only(top:20, left: 10, right: 10, bottom: 10),
+                                  padding: EdgeInsets.only(
+                                      top: 20, left: 10, right: 10, bottom: 10),
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     hint: Text('呼称'),

@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cubook/listAbsent/listAbsent_model.dart';
+import 'package:cubook/listAbsent/listAbsent_view.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/setting_account_group/settingAccount_view.dart';
@@ -47,6 +49,7 @@ class SelectBookView extends StatelessWidget {
     _tabs = [
       TabInfo("カブブック", SelectBook(uid)),
       TabInfo("表彰待ち", ListNotCititationed(uid)),
+      TabInfo("出欠", ListAbsentView(uid)),
       TabInfo("設定", SettingAccountView(uid)),
     ];
   }
@@ -146,6 +149,7 @@ class SelectBookView extends StatelessWidget {
                                 TabBar(
                                   indicatorColor: Theme.of(context).accentColor,
                                   labelColor: Theme.of(context).accentColor,
+                                  isScrollable: false,
                                   tabs: _tabs.map((TabInfo tab) {
                                     return Tab(text: tab.label);
                                   }).toList(),

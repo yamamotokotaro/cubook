@@ -58,6 +58,7 @@ class ListMemberView extends StatelessWidget {
                                     .where('position', isEqualTo: 'scout')
                                     .orderBy('team')
                                     .orderBy('age_turn', descending: true)
+                                    .orderBy('name')
                                     .snapshots(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -65,6 +66,7 @@ class ListMemberView extends StatelessWidget {
                                     if (snapshot.data.documents.length != 0) {
                                       QuerySnapshot querySnapshot =
                                           snapshot.data;
+                                      int team_last = 0;
                                       return ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
@@ -75,87 +77,120 @@ class ListMemberView extends StatelessWidget {
                                               int index) {
                                             DocumentSnapshot snapshot =
                                                 querySnapshot.documents[index];
-                                            return Padding(
-                                                padding: EdgeInsets.all(5),
-                                                child: Container(
-                                                  child: Card(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                    ),
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        Navigator.push(context,
-                                                            MaterialPageRoute<
-                                                                    SelectBookView>(
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                          return SelectBookView(
-                                                              snapshot['uid']);
-                                                        }));
-                                                      },
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(10),
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Container(
-                                                              width: 40,
-                                                              height: 40,
-                                                              decoration: BoxDecoration(
-                                                                  color: theme
-                                                                      .getThemeColor(
-                                                                          snapshot[
-                                                                              'age']),
-                                                                  shape: BoxShape
-                                                                      .circle),
-                                                              child: Icon(
-                                                                Icons.person,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
+                                            bool isFirst;
+                                            if (team_last != snapshot['team']) {
+                                              isFirst = true;
+                                              team_last = snapshot['team'];
+                                            } else {
+                                              isFirst = false;
+                                            }
+                                            return Column(children: <Widget>[
+                                              isFirst
+                                                  ? Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10,
+                                                          bottom: 10,
+                                                          left: 17),
+                                                      child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          child: Text(
+                                                            snapshot['team']
+                                                                    .toString() +
+                                                                '組',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 23,
                                                             ),
-                                                            Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            10),
-                                                                child: Text(
-                                                                  snapshot[
-                                                                      'name'],
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          25),
-                                                                )),
-                                                            Spacer(),
-                                                            Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            10),
-                                                                child: Text(
-                                                                  snapshot['team']
-                                                                          .toString() +
-                                                                      '組',
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          15),
-                                                                ))
-                                                          ],
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                          )))
+                                                  : Container(),
+                                              Padding(
+                                                  padding: EdgeInsets.all(5),
+                                                  child: Container(
+                                                    child: Card(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                      ),
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute<
+                                                                      SelectBookView>(
+                                                                  builder:
+                                                                      (BuildContext
+                                                                          context) {
+                                                            return SelectBookView(
+                                                                snapshot[
+                                                                    'uid']);
+                                                          }));
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10),
+                                                          child: Row(
+                                                            children: <Widget>[
+                                                              Container(
+                                                                width: 40,
+                                                                height: 40,
+                                                                decoration: BoxDecoration(
+                                                                    color: theme.getThemeColor(
+                                                                        snapshot[
+                                                                            'age']),
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                                child: Icon(
+                                                                  Icons.person,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10),
+                                                                  child: Text(
+                                                                    snapshot[
+                                                                        'name'],
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontSize:
+                                                                            25),
+                                                                  )),
+                                                              Spacer(),
+                                                              /*Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                      left: 10),
+                                                                  child: Text(
+                                                                    snapshot['team']
+                                                                        .toString() +
+                                                                        '組',
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                        fontSize:
+                                                                        15),
+                                                                  ))*/
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ));
+                                                  ))
+                                            ]);
                                           });
                                     } else {
                                       return Container();
@@ -192,44 +227,44 @@ class ListMemberView extends StatelessWidget {
                                               int index) {
                                             DocumentSnapshot snapshot =
                                                 querySnapshot.documents[index];
-                                            if(snapshot['team'] == null) {
+                                            if (snapshot['team'] == null) {
                                               return Padding(
                                                   padding: EdgeInsets.all(5),
                                                   child: Container(
                                                     child: Card(
                                                       shape:
-                                                      RoundedRectangleBorder(
+                                                          RoundedRectangleBorder(
                                                         borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
+                                                            BorderRadius
+                                                                .circular(10),
                                                       ),
                                                       child: InkWell(
                                                         onTap: () {
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute<
-                                                                  SelectBookView>(
+                                                                      SelectBookView>(
                                                                   builder:
-                                                                      (
-                                                                      BuildContext
-                                                                      context) {
-                                                                    return SelectBookView(
-                                                                        snapshot['uid']);
-                                                                  }));
+                                                                      (BuildContext
+                                                                          context) {
+                                                            return SelectBookView(
+                                                                snapshot[
+                                                                    'uid']);
+                                                          }));
                                                         },
                                                         child: Padding(
                                                           padding:
-                                                          EdgeInsets.all(10),
+                                                              EdgeInsets.all(
+                                                                  10),
                                                           child: Row(
                                                             children: <Widget>[
                                                               Container(
                                                                 width: 40,
                                                                 height: 40,
                                                                 decoration: BoxDecoration(
-                                                                    color: theme
-                                                                        .getThemeColor(
+                                                                    color: theme.getThemeColor(
                                                                         snapshot[
-                                                                        'age']),
+                                                                            'age']),
                                                                     shape: BoxShape
                                                                         .circle),
                                                                 child: Icon(
@@ -241,34 +276,34 @@ class ListMemberView extends StatelessWidget {
                                                               Padding(
                                                                   padding: EdgeInsets
                                                                       .only(
-                                                                      left:
-                                                                      10),
+                                                                          left:
+                                                                              10),
                                                                   child: Text(
                                                                     snapshot[
-                                                                    'name'],
+                                                                        'name'],
                                                                     style: TextStyle(
                                                                         fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
+                                                                            FontWeight
+                                                                                .bold,
                                                                         fontSize:
-                                                                        25),
+                                                                            25),
                                                                   )),
                                                               Spacer(),
                                                               Padding(
                                                                   padding: EdgeInsets
                                                                       .only(
-                                                                      left:
-                                                                      10),
+                                                                          left:
+                                                                              10),
                                                                   child: Text(
                                                                     /*snapshot['team']
                                                                           .toString() +*/
                                                                     '組未設定',
                                                                     style: TextStyle(
                                                                         fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
+                                                                            FontWeight
+                                                                                .bold,
                                                                         fontSize:
-                                                                        15),
+                                                                            15),
                                                                   ))
                                                             ],
                                                           ),
