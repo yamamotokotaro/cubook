@@ -59,7 +59,7 @@ class HomeScoutView extends StatelessWidget {
                 ),
               )),
         ),
-        Padding(
+        /*Padding(
           padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
           child: Container(
               child: Card(
@@ -85,7 +85,7 @@ class HomeScoutView extends StatelessWidget {
                               child: Material(
                                 type: MaterialType.transparency,
                                 child: Text(
-                                  '出欠確認',
+                                  '出欠履歴',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 30,
@@ -96,7 +96,7 @@ class HomeScoutView extends StatelessWidget {
                   ),
                 ),
               )),
-        ),
+        ),*/
         /*Padding(
           padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
           child: Container(
@@ -286,6 +286,44 @@ class HomeScoutView extends StatelessWidget {
                     ),
                   ),
                 ))),
+        Padding(
+          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
+          child: Container(
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/listAbsentScout');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.assignment,
+                            color: Theme.of(context).accentColor,
+                            size: 35,
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Material(
+                                type: MaterialType.transparency,
+                                child: Text(
+                                  'スカウティングの履歴',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 25,
+                                  ),
+                                ),
+                              )),
+                        ]),
+                  ),
+                ),
+              )),
+        ),
       ],
     );
   }

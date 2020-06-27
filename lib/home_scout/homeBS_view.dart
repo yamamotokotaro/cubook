@@ -60,7 +60,7 @@ class HomeBSView extends StatelessWidget {
               )),
         ),
         /*Padding(
-          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
+          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
           child: Container(
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -68,10 +68,7 @@ class HomeBSView extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute<InviteView>(
-                        builder: (BuildContext context) {
-                          return NotificationView();
-                        }));
+                    Navigator.of(context).pushNamed('/listAbsentScout');
                   },
                   child: Padding(
                     padding: EdgeInsets.all(10),
@@ -79,7 +76,7 @@ class HomeBSView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(
-                            Icons.insert_chart,
+                            Icons.event_available,
                             color: Theme.of(context).accentColor,
                             size: 35,
                           ),
@@ -88,7 +85,7 @@ class HomeBSView extends StatelessWidget {
                               child: Material(
                                 type: MaterialType.transparency,
                                 child: Text(
-                                  'みんなの取り組み',
+                                  '出欠履歴',
                                   style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 30,
@@ -198,7 +195,7 @@ class HomeBSView extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute<TaskView>(
                             builder: (BuildContext context) {
-                              return TaskView('challenge');
+                              return TaskView('gino');
                             }));
                       },
                       child: Align(
@@ -213,7 +210,7 @@ class HomeBSView extends StatelessWidget {
                                     child: Material(
                                         type: MaterialType.transparency,
                                         child: Text(
-                                          'チャレンジ章',
+                                          '技能章',
                                           style: TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 30,
@@ -248,27 +245,6 @@ class HomeBSView extends StatelessWidget {
                     ),
                   ),
                 ))),
-        Center(
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(right: 5, top: 4),
-                    child: Icon(
-                      Icons.book,
-                      color: Theme.of(context).accentColor,
-                      size: 32,
-                    ),
-                  ),
-                  Text(
-                    'やってみよう！',
-                    style: TextStyle(
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.none),
-                  ),
-                ])),
       ],
     );
   }

@@ -12,7 +12,7 @@ class ListEffortModel extends ChangeNotifier {
     String group_before = group;
     String position_before = position;
     FirebaseAuth.instance.currentUser().then((user) {
-      user.getIdToken().then((token) async {
+      user.getIdToken(refresh: true).then((token) async {
         group = token.claims['group'];
         position = token.claims['position'];
         if(group != group_before || position != position_before) {

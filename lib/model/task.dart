@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Task{
 
@@ -56,49 +57,6 @@ class Task{
     {'number' : '14', 'title': '世界の国々', 'hasItem': 1},
   ];
 
-  List<Map<String, dynamic>> sinpo = [
-    {'number' : '01', 'title': '野営章', 'hasItem': 4},
-    {'number' : '02', 'title': '野営管理章', 'hasItem': 6},
-    {'number' : '03', 'title': '救急章', 'hasItem': 4},
-    {'number' : '04', 'title': '野外炊事章', 'hasItem': 4},
-    {'number' : '05', 'title': '公民章', 'hasItem': 4},
-    {'number' : '06', 'title': 'パイオニアリング章', 'hasItem': 3},
-    {'number' : '07', 'title': '手伝い', 'hasItem': 5},
-    {'number' : '08', 'title': '災害救助員', 'hasItem': 3},
-    {'number' : '09', 'title': '天文学者', 'hasItem': 4},
-    {'number' : '10', 'title': '自然観察官', 'hasItem': 2},
-    {'number' : '2-3', 'title': 'ハイカー', 'hasItem': 4},
-    {'number' : '2-4', 'title': 'キャンパー', 'hasItem': 6},
-    {'number' : '2-5', 'title': '地質学者', 'hasItem': 3},
-    {'number' : '2-6', 'title': '気象学者', 'hasItem': 4},
-    {'number' : '2-7', 'title': '探検家', 'hasItem': 3},
-    {'number' : '3-1', 'title': '写真博士', 'hasItem': 4},
-    {'number' : '3-2', 'title': 'コンピュータ博士', 'hasItem': 3},
-    {'number' : '3-3', 'title': '自転車博士', 'hasItem': 3},
-    {'number' : '3-4', 'title': '工作博士', 'hasItem': 4},
-    {'number' : '3-5', 'title': '通信博士', 'hasItem': 5},
-    {'number' : '3-6', 'title': '修理博士', 'hasItem': 5},
-    {'number' : '3-7', 'title': '乗り物博士', 'hasItem': 4},
-    {'number' : '3-8', 'title': '技術博士', 'hasItem': 3},
-    {'number' : '3-9', 'title': '救急博士', 'hasItem': 6},
-    {'number' : '3-10', 'title': '特技博士', 'hasItem': 1},
-    {'number' : '4-1', 'title': '水泳選手', 'hasItem': 4},
-    {'number' : '4-2', 'title': '運動選手', 'hasItem': 5},
-    {'number' : '4-3', 'title': 'チームスポーツ選手', 'hasItem': 4},
-    {'number' : '4-4', 'title': 'スキー選手', 'hasItem': 6},
-    {'number' : '4-5', 'title': 'アイススケート選手', 'hasItem': 3},
-    {'number' : '5-1', 'title': '収集家', 'hasItem': 2},
-    {'number' : '5-2', 'title': '画家', 'hasItem': 4},
-    {'number' : '5-3', 'title': '音楽家', 'hasItem': 4},
-    {'number' : '5-4', 'title': '料理家', 'hasItem': 4},
-    {'number' : '5-5', 'title': 'フィッシャーマン', 'hasItem': 4},
-    {'number' : '5-6', 'title': '旅行家', 'hasItem': 4},
-    {'number' : '5-7', 'title': '園芸家', 'hasItem': 5},
-    {'number' : '5-8', 'title': '演劇家', 'hasItem': 5},
-    {'number' : '5-9', 'title': '読書家', 'hasItem': 6},
-    {'number' : '5-10', 'title': 'マジシャン', 'hasItem': 4},
-  ];
-
   List<Map<String, dynamic>> challnege = [
     {'number' : '1-1', 'title': '国際', 'hasItem': 4},
     {'number' : '1-2', 'title': '市民', 'hasItem': 6},
@@ -142,6 +100,93 @@ class Task{
     {'number' : '5-10', 'title': 'マジシャン', 'hasItem': 4},
   ];
 
+  List<Map<String, dynamic>> syokyu = [
+    {'number' : '1', 'title': '基本', 'hasItem': 4},
+    {'number' : '2', 'title': '健康と発達', 'hasItem': 6},
+    {'number' : '3', 'title': 'スカウト技能', 'hasItem': 4},
+    {'number' : '4', 'title': '善行', 'hasItem': 4},
+    {'number' : '5', 'title': '信仰奨励', 'hasItem': 4},
+    {'number' : '6', 'title': '班長会議', 'hasItem': 3},
+  ];
+
+  List<Map<String, dynamic>> nikyu = [
+    {'number' : '1', 'title': '基本', 'hasItem': 4},
+    {'number' : '2', 'title': '健康と発達', 'hasItem': 6},
+    {'number' : '3', 'title': 'スカウト技能', 'hasItem': 4},
+    {'number' : '4', 'title': '奉仕', 'hasItem': 4},
+    {'number' : '5', 'title': '信仰奨励', 'hasItem': 4},
+    {'number' : '6', 'title': '班長会議', 'hasItem': 3},
+  ];
+
+  List<Map<String, dynamic>> ikkyu = [
+    {'number' : '1', 'title': '基本', 'hasItem': 4},
+    {'number' : '2', 'title': '健康と発達', 'hasItem': 6},
+    {'number' : '3', 'title': 'スカウト技能', 'hasItem': 4},
+    {'number' : '4', 'title': '奉仕', 'hasItem': 4},
+    {'number' : '5', 'title': '信仰奨励', 'hasItem': 4},
+    {'number' : '6', 'title': '班長会議', 'hasItem': 3},
+  ];
+
+  List<Map<String, dynamic>> kiku = [
+    {'number' : '1', 'title': '基本', 'hasItem': 4},
+    {'number' : '2', 'title': '健康と発達', 'hasItem': 3},
+    {'number' : '3', 'title': 'スカウト技能', 'hasItem': 3},
+    {'number' : '4', 'title': '奉仕', 'hasItem': 1},
+    {'number' : '5', 'title': '信仰奨励', 'hasItem': 1},
+    {'number' : '6', 'title': '班長会議', 'hasItem': 1 },
+  ];
+
+  List<Map<String, dynamic>> gino = [
+    {'number' : '01', 'title': '野営章', 'hasItem': 4},
+    {'number' : '02', 'title': '野営管理章', 'hasItem': 6},
+    {'number' : '03', 'title': '救急章', 'hasItem': 4},
+    {'number' : '04', 'title': '野外炊事章', 'hasItem': 4},
+    {'number' : '05', 'title': '公民章', 'hasItem': 4},
+    {'number' : '06', 'title': 'パイオニアリング章', 'hasItem': 3},
+  ];
+
+  List<Map<String, dynamic>> content_syokyu = [
+    [
+      'ここに内容を入力',
+      'ここに二つ目'
+    ]
+  ];
+
+  List<Map<String, dynamic>> content_nikyu = [
+    [
+      'ここに内容を入力',
+      'ここに二つ目'
+    ]
+  ];
+
+  List<Map<String, dynamic>> content_ikkyu = [
+    [
+      'ここに内容を入力',
+      'ここに二つ目'
+    ]
+  ];
+
+  List<Map<String, dynamic>> content_kiku = [
+    [
+      'ここに内容を入力',
+      'ここに二つ目'
+    ]
+  ];
+
+  List<Map<String, dynamic>> content_hayabusa = [
+    [
+      'ここに内容を入力',
+      'ここに二つ目'
+    ]
+  ];
+
+  List<Map<String, dynamic>> content_fuji = [
+    [
+      'ここに内容を入力',
+      'ここに二つ目'
+    ]
+  ];
+
   /*String call(String type, int number){
   }*/
 
@@ -159,6 +204,21 @@ class Task{
         break;
       case 'challenge':
         list_info = challnege;
+        break;
+      case 'syokyu':
+        list_info = syokyu;
+        break;
+      case 'nikyu':
+        list_info = nikyu;
+        break;
+      case 'ikkyu':
+        list_info = ikkyu;
+        break;
+      case 'kiku':
+        list_info = kiku;
+        break;
+      case 'gino':
+        list_info = gino;
         break;
     }
     return list_info;
@@ -178,6 +238,21 @@ class Task{
         break;
       case 'challenge':
         map_info = challnege[number];
+        break;
+      case 'syokyu':
+        map_info = syokyu[number];
+        break;
+      case 'nikyu':
+        map_info = nikyu[number];
+        break;
+      case 'ikkyu':
+        map_info = ikkyu[number];
+        break;
+      case 'kiku':
+        map_info = kiku[number];
+        break;
+      case 'gino':
+        map_info = gino[number];
         break;
     }
     return map_info;

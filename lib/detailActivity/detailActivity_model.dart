@@ -25,4 +25,22 @@ class DetailActivityModel extends ChangeNotifier {
       });
     });
   }
+
+  void deleteActivity(String documentID) async {
+    Firestore.instance
+        .collection('activity_personal')
+        .where('group', isEqualTo: group)
+        .where('activity', isEqualTo: documentID)
+        .getDocuments()
+        .then((value) {
+      for (int i = 0; i < value.documents.length; i++) {
+        DocumentSnapshot documentSnapshot = value.documents[i];
+        Firestore.instance
+            .collection('activity_personal')
+            .document(documentSnapshot.documentID)
+            .delete();
+      }
+    });
+    Firestore.instance.collection('activity').document(documentID).delete();
+  }
 }
