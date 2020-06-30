@@ -9,30 +9,23 @@ class HomeLeaderModel extends ChangeNotifier {
   bool isLoaded = false;
   bool isGet = false;
   String group;
+  Map<String, dynamic> claims = new Map<String, dynamic>();
 
   void getSnapshot() async {
     String group_before = group;
     FirebaseAuth.instance.currentUser().then((user) {
-      user.getIdToken(refresh: true).then((token) async {
-        group = token.claims['group'];
+      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
+        group = snapshot.documents[0]['group'];
         if(group != group_before) {
           notifyListeners();
         }
-      });
-    });
-  }
-
-  Future<void> getTaskSnapshot2() async {
-    isLoaded = true;
-    FirebaseAuth.instance.currentUser().then((user) {
-      if (user != null) {
-        user.getIdToken(refresh: true).then((token) async {
-          Firestore.instance.collection('task').where('group', isEqualTo: token.claims['group']).snapshots().listen((data) {
-            taskSnapshot = data;
+        user.getIdToken(refresh: true).then((value) {
+          Map<String, dynamic> claims_before = new Map<String,dynamic>.from(value.claims);
+          if(claims_before != claims) {
             notifyListeners();
-          });
+          }
         });
-      }
+      });
     });
   }
 }

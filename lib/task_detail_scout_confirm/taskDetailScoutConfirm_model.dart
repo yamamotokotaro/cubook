@@ -232,7 +232,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
             count++;
           }
         });
-        if (isComplete) {
+        if (count == task.getPartMap(type, page)['hasItem']) {
           data_signed['end'] = Timestamp.now();
           data_signed['isCitationed'] = checkCitation;
         }
@@ -253,7 +253,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         data_signed['signed'] = {number.toString(): data_toAdd};
         data_signed['group'] = tokenMap['group'];
         count = 1;
-        if (isComplete) {
+        if (count == task.getPartMap(type, page)['hasItem']) {
           data_signed['end'] = Timestamp.now();
           data_signed['isCitationed'] = checkCitation;
         }

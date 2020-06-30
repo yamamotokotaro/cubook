@@ -19,6 +19,7 @@ class SettingAccountModel extends ChangeNotifier {
   String age;
   String call;
   String uid_before;
+  Map<String, dynamic> claims = new Map<String, dynamic>();
 
   void getSnapshot(String uid) async {
     if (uid != uid_before) {
@@ -68,11 +69,17 @@ class SettingAccountModel extends ChangeNotifier {
   void getGroup() async {
     String group_before = group;
     FirebaseAuth.instance.currentUser().then((user) {
-      user.getIdToken(refresh: true).then((token) async {
-        group = token.claims['group'];
-        if (group != group_before) {
+      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
+        group = snapshot.documents[0]['group'];
+        if(group != group_before) {
           notifyListeners();
         }
+        user.getIdToken(refresh: true).then((value) {
+          Map<String, dynamic> claims_before = new Map<String,dynamic>.from(value.claims);
+          if(claims_before != claims) {
+            notifyListeners();
+          }
+        });
       });
     });
   }

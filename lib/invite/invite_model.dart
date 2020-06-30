@@ -90,7 +90,7 @@ class InviteModel with ChangeNotifier {
               'call': dropdown_call,
               'age': age,
               'position': position,
-              'team': team
+              'team': int.parse(team)
             });
 
             http.Response resp =

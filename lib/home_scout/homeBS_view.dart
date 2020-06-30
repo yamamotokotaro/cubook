@@ -59,7 +59,7 @@ class HomeBSView extends StatelessWidget {
                 ),
               )),
         ),
-        /*Padding(
+        Padding(
           padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
           child: Container(
               child: Card(
@@ -96,7 +96,7 @@ class HomeBSView extends StatelessWidget {
                   ),
                 ),
               )),
-        ),*/
+        ),
         Center(
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

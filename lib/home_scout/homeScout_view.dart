@@ -59,7 +59,7 @@ class HomeScoutView extends StatelessWidget {
                 ),
               )),
         ),
-        /*Padding(
+        Padding(
           padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
           child: Container(
               child: Card(
@@ -96,7 +96,7 @@ class HomeScoutView extends StatelessWidget {
                   ),
                 ),
               )),
-        ),*/
+        ),
         /*Padding(
           padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
           child: Container(
@@ -286,7 +286,7 @@ class HomeScoutView extends StatelessWidget {
                     ),
                   ),
                 ))),
-        Padding(
+        /*Padding(
           padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
           child: Container(
               child: Card(
@@ -323,7 +323,7 @@ class HomeScoutView extends StatelessWidget {
                   ),
                 ),
               )),
-        ),
+        ),*/
       ],
     );
   }
