@@ -9,6 +9,7 @@ class HomeLeaderModel extends ChangeNotifier {
   bool isLoaded = false;
   bool isGet = false;
   String group;
+  String group_claim;
   Map<String, dynamic> claims = new Map<String, dynamic>();
 
   void getSnapshot() async {
@@ -20,8 +21,9 @@ class HomeLeaderModel extends ChangeNotifier {
           notifyListeners();
         }
         user.getIdToken(refresh: true).then((value) {
-          Map<String, dynamic> claims_before = new Map<String,dynamic>.from(value.claims);
-          if(claims_before != claims) {
+          String group_claim_before = group_claim;
+          group_claim = value.claims['group'];
+          if(group_claim_before != group_claim) {
             notifyListeners();
           }
         });

@@ -7,6 +7,7 @@ class ListEffortModel extends ChangeNotifier {
   bool isGet = false;
   String group;
   String position;
+  String group_claim;
   Map<String, dynamic> claims = new Map<String, dynamic>();
 
   void getSnapshot() async {
@@ -21,8 +22,9 @@ class ListEffortModel extends ChangeNotifier {
           notifyListeners();
         }
         user.getIdToken(refresh: true).then((value) {
-          Map<String, dynamic> claims_before = new Map<String,dynamic>.from(value.claims);
-          if(claims_before != claims) {
+          String group_claim_before = group_claim;
+          group_claim = value.claims['group'];
+          if(group_claim_before != group_claim) {
             notifyListeners();
           }
         });

@@ -8,6 +8,7 @@ class CreateActivityModel extends ChangeNotifier {
   FirebaseUser currentUser;
   bool isGet = false;
   String group;
+  String group_claim;
   DateTime date = DateTime.now();
   TextEditingController titleController = TextEditingController();
   bool isLoading = false;
@@ -25,8 +26,9 @@ class CreateActivityModel extends ChangeNotifier {
           notifyListeners();
         }
         user.getIdToken(refresh: true).then((value) {
-          Map<String, dynamic> claims_before = new Map<String,dynamic>.from(value.claims);
-          if(claims_before != claims) {
+          String group_claim_before = group_claim;
+          group_claim = value.claims['group'];
+          if(group_claim_before != group_claim) {
             notifyListeners();
           }
         });
