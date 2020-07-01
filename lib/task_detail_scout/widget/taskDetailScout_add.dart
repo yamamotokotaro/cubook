@@ -56,41 +56,58 @@ class TaskDetailScoutAddView extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Column(
               children: <Widget>[
-                /*Padding(
+                Padding(
                     padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                     child: RaisedButton.icon(
-                  onPressed: () async {
-                    var result = await showModalBottomSheet<int>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Padding(
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text(task.getContent(type, model.numberPushed, index_page),
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,),),
-                              ],
-                            ));
+                      onPressed: () async {
+                        var result = await showModalBottomSheet<int>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Padding(
+                                padding: EdgeInsets.all(15),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Text(
+                                      task.getContent(
+                                          type, model.numberPushed, index_page),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.all(0),
+                                        child: Container(
+                                          width: double.infinity,
+                                          child: Text(
+                                            '\n©︎2020 公益財団法人ボーイスカウト日本連盟',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        )),
+                                  ],
+                                ));
+                          },
+                        );
                       },
-                    );
-                  },
-                  icon: Icon(
-                    Icons.book,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                  color: themeColor,
-                  label: Text(
-                    '内容を見る',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                )),*/
+                      icon: Icon(
+                        Icons.book,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                      color: themeColor,
+                      label: Text(
+                        '内容を見る',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    )),
                 Padding(
                     padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                     child: Text(

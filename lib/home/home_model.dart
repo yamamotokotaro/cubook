@@ -23,6 +23,7 @@ class HomeModel extends ChangeNotifier {
   bool isLoading_join = false;
   bool isConsent = false;
   String position;
+  String grade;
   Widget toShow;
   String username = '';
   String usercall = '';
@@ -47,18 +48,28 @@ class HomeModel extends ChangeNotifier {
               username = userSnapshot['name'] + userSnapshot['call'];
               usercall = userSnapshot['call'];
               position = userSnapshot['position'];
+              grade = userSnapshot['grade'];
               age = userSnapshot['age'];
               if (position == 'scout') {
-                toShow = HomeScoutView();
+                if (grade != null) {
+                  if (grade == 'cub') {
+                    toShow = HomeScoutView();
+                  } else if (grade == 'boy') {
+                    toShow = HomeBSView();
+                  } else if (grade == 'venture') {
+                    toShow = HomeBSView();
+                  }
+                } else {
+                  toShow = HomeScoutView();
+                }
                 getSnapshot();
               } else if (position == 'boyscout') {
                 toShow = HomeBSView();
               } else if (position == 'boyscoutGL') {
-                toShow = Column(children: <Widget>[
-                  HomeBSView(),
-                  HomeLeaderView()
-                ],);
-              }  else if (position == 'leader') {
+                toShow = Column(
+                  children: <Widget>[HomeBSView(), HomeLeaderView()],
+                );
+              } else if (position == 'leader') {
                 toShow = HomeLeaderView();
               } else {
                 toShow = Center(

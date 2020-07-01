@@ -47,7 +47,7 @@ class SelectBookView extends StatelessWidget {
   SelectBookView(String uid) {
     this.uid = uid;
     _tabs = [
-      TabInfo("カブブック", SelectBook(uid)),
+      TabInfo("進歩", SelectBook(uid)),
       TabInfo("表彰待ち", ListNotCititationed(uid)),
       TabInfo("出欠", ListAbsentView(uid)),
       TabInfo("設定", SettingAccountView(uid)),

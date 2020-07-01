@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
+import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,6 +8,7 @@ import 'package:provider/provider.dart';
 
 class listEffort extends StatelessWidget {
   String group;
+  var theme = new ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -67,16 +69,7 @@ class listEffort extends StatelessWidget {
                             final String documentID =
                                 documentSnapshot.documentID;
                             Color color;
-                            if (documentSnapshot['type'] == 'usagi') {
-                              color = Colors.orange;
-                            } else if (documentSnapshot['type'] == 'sika') {
-                              color = Colors.green;
-                            } else if (documentSnapshot['type'] == 'kuma') {
-                              color = Colors.blue;
-                            } else if (documentSnapshot['type'] ==
-                                'challenge') {
-                              color = Colors.green[900];
-                            }
+                            color = theme.getThemeColor(documentSnapshot['type']);
                             return Padding(
                               padding: const EdgeInsets.all(10),
                               child: Container(

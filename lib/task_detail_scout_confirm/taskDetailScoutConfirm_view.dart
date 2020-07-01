@@ -303,17 +303,10 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   int index_page;
   String type;
   Color themeColor;
+  var theme = new ThemeInfo();
 
   TaskScoutAddConfirmView(int _index, String _type) {
-    if (_type == 'usagi') {
-      themeColor = Colors.orange;
-    } else if (_type == 'sika') {
-      themeColor = Colors.green;
-    } else if (_type == 'kuma') {
-      themeColor = Colors.blue;
-    } else if (_type == 'challenge') {
-      themeColor = Colors.green[900];
-    }
+    themeColor = theme.getThemeColor(_type);
     index_page = _index;
     type = _type;
   }

@@ -65,7 +65,7 @@ class HomeViewNew extends StatelessWidget {
                                       title: Text('ライセンスを表示'),
                                       onTap: () => showLicensePage(
                                         context: context,
-                                        applicationName: packageInfo.appName,
+                                        applicationName: 'cubook',
                                         applicationVersion: packageInfo.version,
                                         applicationLegalese: '©︎ 2020 山本虎太郎',
                                       ),

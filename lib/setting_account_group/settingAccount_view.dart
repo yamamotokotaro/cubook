@@ -72,7 +72,7 @@ class SettingAccountView extends StatelessWidget {
                                     child: Container(
                                         width: double.infinity,
                                         child: Text(
-                                          '年代',
+                                          '進歩',
                                           style: TextStyle(
                                               fontSize: 13,
                                               color:
@@ -86,7 +86,7 @@ class SettingAccountView extends StatelessWidget {
                                       isExpanded: true,
                                       hint: Text('役割を選択'),
                                       value: model.dropdown_text,
-                                      items: <String>['うさぎ', 'しか', 'くま']
+                                      items: <String>['うさぎ', 'しか', 'くま','ボーイスカウトバッジ', '初級スカウト', '2級スカウト', '1級スカウト', '菊スカウト', '隼スカウト', '富士スカウト']
                                           .map((String value) {
                                         return new DropdownMenuItem<String>(
                                           value: value,
