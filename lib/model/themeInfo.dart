@@ -82,6 +82,46 @@ class ThemeInfo {
     return color;
   }
 
+  Color getUserColor(String type) {
+    Color color;
+    switch (type) {
+      case 'usagi':
+        color = colors[0];
+        break;
+      case 'sika':
+        color = colors[1];
+        break;
+      case 'kuma':
+        color = colors[2];
+        break;
+      case 'challenge':
+        color = colors[3];
+        break;
+      case 'syokyu':
+        color = colors[4];
+        break;
+      case 'nikyu':
+        color = colors[4];
+        break;
+      case 'ikkyu':
+        color = colors[5];
+        break;
+      case 'kiku':
+        color = colors[6];
+        break;
+      case 'hayabusa':
+        color = colors[7];
+        break;
+      case 'fuji':
+        color = colors[8];
+        break;
+      case 'gino':
+        color = colors[9];
+        break;
+    }
+    return color;
+  }
+
   Color getIndicatorColor(String type) {
     Color color;
     switch (type) {

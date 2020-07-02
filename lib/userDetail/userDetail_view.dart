@@ -98,7 +98,7 @@ class SelectBookView extends StatelessWidget {
                                                   height: 80,
                                                   decoration: BoxDecoration(
                                                       color:
-                                                          theme.getThemeColor(
+                                                          theme.getUserColor(
                                                               userSnapshot[
                                                                   'age']),
                                                       shape: BoxShape.circle),

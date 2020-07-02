@@ -27,6 +27,7 @@ class HomeModel extends ChangeNotifier {
   Widget toShow;
   String username = '';
   String usercall = '';
+  String groupName;
   String age = '';
   Map<dynamic, dynamic> tokenMap;
 
@@ -47,6 +48,7 @@ class HomeModel extends ChangeNotifier {
               userSnapshot = data.documents[0];
               username = userSnapshot['name'] + userSnapshot['call'];
               usercall = userSnapshot['call'];
+              groupName = userSnapshot['groupName'];
               position = userSnapshot['position'];
               grade = userSnapshot['grade'];
               age = userSnapshot['age'];

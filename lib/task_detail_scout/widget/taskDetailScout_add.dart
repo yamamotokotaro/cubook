@@ -68,14 +68,21 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    Text(
-                                      task.getContent(
-                                          type, model.numberPushed, index_page),
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.all(0),
+                                        child: Container(
+                                          width: double.infinity,
+                                          child:
+                                          Text(
+                                            task.getContent(
+                                                type, model.numberPushed, index_page),
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        )),
                                     Padding(
                                         padding: EdgeInsets.all(0),
                                         child: Container(

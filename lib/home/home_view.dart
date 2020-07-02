@@ -97,16 +97,20 @@ class HomeViewNew extends StatelessWidget {
                       ),
                     ))),
             Spacer(),
-            Padding(
-              padding: EdgeInsets.only(top: 10, right: 15),
-              child: Text(
-                '',
-                style: GoogleFonts.notoSans(
-                    textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                )),
-              ),
+            Selector<HomeModel, String>(
+              selector: (context, model) => model.groupName,
+              builder: (context, name, child) =>
+                  Padding(
+                    padding: EdgeInsets.only(top: 12, right: 15),
+                    child: Text(
+                      name,
+                      style: GoogleFonts.notoSans(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          )),
+                    ),
+                  ),
             ),
           ],
         ),

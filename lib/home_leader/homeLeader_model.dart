@@ -23,6 +23,7 @@ class HomeLeaderModel extends ChangeNotifier {
         user.getIdToken(refresh: true).then((value) {
           String group_claim_before = group_claim;
           group_claim = value.claims['group'];
+          print(value.claims);
           if(group_claim_before != group_claim) {
             notifyListeners();
           }

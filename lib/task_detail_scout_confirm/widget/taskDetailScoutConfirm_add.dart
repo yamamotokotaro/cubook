@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout/widget/videoView.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_model.dart';
@@ -12,6 +13,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
   String type;
   Color themeColor;
   String mes;
+  var task = new Task();
   var theme = new ThemeInfo();
 
   TaskDetailScoutConfirmAddView(int _index, String _type, String _mes) {
@@ -71,6 +73,65 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
+                    Padding(
+                        padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                        child: RaisedButton.icon(
+                          onPressed: () async {
+                            var result = await showModalBottomSheet<int>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Padding(
+                                    padding: EdgeInsets.all(15),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Padding(
+                                            padding: EdgeInsets.all(0),
+                                            child: Container(
+                                              width: double.infinity,
+                                              child:
+                                              Text(
+                                                task.getContent(
+                                                    type, model.page, index_page),
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            )),
+                                        Padding(
+                                            padding: EdgeInsets.all(0),
+                                            child: Container(
+                                              width: double.infinity,
+                                              child: Text(
+                                                '\n©︎2020 公益財団法人ボーイスカウト日本連盟',
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            )),
+                                      ],
+                                    ));
+                              },
+                            );
+                          },
+                          icon: Icon(
+                            Icons.book,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                          color: themeColor,
+                          label: Text(
+                            '内容を見る',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        )),
                     Padding(
                       padding: EdgeInsets.only(top: 10),
                       child: Row(

@@ -188,7 +188,7 @@ class CreateActivityView extends StatelessWidget {
                                                                 width: 40,
                                                                 height: 40,
                                                                 decoration: BoxDecoration(
-                                                                    color: theme.getThemeColor(
+                                                                    color: theme.getUserColor(
                                                                         snapshot[
                                                                             'age']),
                                                                     shape: BoxShape

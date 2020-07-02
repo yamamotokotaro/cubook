@@ -51,6 +51,36 @@ class InviteModel with ChangeNotifier {
         position = 'scout';
         team = teamController.text;
         break;
+      case 'ボーイスカウトバッジ':
+        age = 'syokyu';
+        position = 'scout';
+        team = teamController.text;
+        break;
+      case '初級スカウト':
+        age = 'nikyu';
+        position = 'scout';
+        team = teamController.text;
+        break;
+      case '2級スカウト':
+        age = 'ikyu';
+        position = 'scout';
+        team = teamController.text;
+        break;
+      case '1級スカウト':
+        age = 'kiku';
+        position = 'scout';
+        team = teamController.text;
+        break;
+      case '菊スカウト':
+        age = 'hayabusa';
+        position = 'scout';
+        team = teamController.text;
+        break;
+      case '隼スカウト':
+        age = 'fuji';
+        position = 'scout';
+        team = teamController.text;
+        break;
       case 'リーダー':
         age = 'leader';
         position = 'leader';
@@ -58,7 +88,7 @@ class InviteModel with ChangeNotifier {
         team = '100';
         break;
     }
-    if(addressController != '' && familyController.text != '' && firstController.text != '' && team != '' && dropdown_text != null && dropdown_call != null) {
+    if(addressController != '' && familyController.text != '' && firstController.text != '' && team != '' && age != '' && dropdown_text != null && dropdown_call != null) {
       isLoading_join = true;
       notifyListeners();
       FirebaseAuth.instance.currentUser().then((user) {

@@ -34,6 +34,24 @@ class CreateGroupView extends StatelessWidget {
                 ),
               )
             : Container(),
+            Padding(
+                padding:
+                EdgeInsets.only(left: 10, right: 10),
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  value: model.dropdown_text,
+                  hint: Text('隊を選択'),
+                  items: <String>['ビーバー隊', 'カブ隊', 'ボーイ隊', 'ベンチャー隊']
+                      .map((String value) {
+                    return new DropdownMenuItem<String>(
+                      value: value,
+                      child: new Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    model.onDropdownChanged(value);
+                  },
+                )),
         Padding(
           padding: EdgeInsets.all(10),
           child: TextField(
