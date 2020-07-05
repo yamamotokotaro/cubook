@@ -47,14 +47,14 @@ class HomeViewNew extends StatelessWidget {
                                     child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
-                                    /*ListTile(
-                                      leading: Icon(Icons.favorite_border),
-                                      title: Text('広告を見る'),
+                                    ListTile(
+                                      leading: Icon(Icons.star_border),
+                                      title: Text('スペシャルコンテンツ'),
                                       onTap: () {
                                         Navigator.of(context)
                                             .pushNamed('/support');
                                       },
-                                    ),*/
+                                    ),
                                     ListTile(
                                       leading: Icon(Icons.help_outline),
                                       title: Text('ヘルプ'),

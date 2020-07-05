@@ -82,6 +82,62 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                         task.getPartMap(snapshot['type'], snapshot['page']);
                     return Column(
                       children: <Widget>[
+                        Padding(
+                            padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                            child: FlatButton.icon(
+                              onPressed: () async {
+                                var result = await showModalBottomSheet<int>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Padding(
+                                        padding: EdgeInsets.all(15),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Padding(
+                                                padding: EdgeInsets.all(0),
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  child:
+                                                  Text(
+                                                    task.getContent(
+                                                        type, model.page, model.number),
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                )),
+                                            Padding(
+                                                padding: EdgeInsets.all(0),
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  child: Text(
+                                                    '\n©︎2020 公益財団法人ボーイスカウト日本連盟',
+                                                    style: TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    textAlign: TextAlign.left,
+                                                  ),
+                                                )),
+                                          ],
+                                        ));
+                                  },
+                                );
+                              },
+                              icon: Icon(
+                                Icons.book,
+                                size: 20,
+                              ),
+                              label: Text(
+                                '内容を見る',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,),
+                              ),
+                            )),
                         ConstrainedBox(
                             constraints: BoxConstraints(maxWidth: 800),
                             child: Column(children: <Widget>[

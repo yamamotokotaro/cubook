@@ -58,7 +58,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
               children: <Widget>[
                 Padding(
                     padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-                    child: RaisedButton.icon(
+                    child: FlatButton.icon(
                       onPressed: () async {
                         var result = await showModalBottomSheet<int>(
                           context: context,
@@ -104,15 +104,12 @@ class TaskDetailScoutAddView extends StatelessWidget {
                       icon: Icon(
                         Icons.book,
                         size: 20,
-                        color: Colors.white,
                       ),
-                      color: themeColor,
                       label: Text(
                         '内容を見る',
                         style: TextStyle(
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                            fontWeight: FontWeight.bold,),
                       ),
                     )),
                 Padding(

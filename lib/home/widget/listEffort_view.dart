@@ -1,14 +1,19 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:native_ads/native_ad_param.dart';
+import 'package:native_ads/native_ad_view.dart';
 import 'package:provider/provider.dart';
 
 class listEffort extends StatelessWidget {
   String group;
   var theme = new ThemeInfo();
+  NativeAdViewController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -69,162 +74,224 @@ class listEffort extends StatelessWidget {
                             final String documentID =
                                 documentSnapshot.documentID;
                             Color color;
-                            color = theme.getThemeColor(documentSnapshot['type']);
-                            return Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Container(
-                                child: Card(
-                                  color: color,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 15, left: 11, right: 10),
-                                            child: Row(
-                                              children: <Widget>[
-                                                Icon(
-                                                  //ああああ
-                                                  Icons.person,
-                                                  color: Colors.white,
-                                                  size: 28,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 5, bottom: 3),
-                                                  child: Text(
-                                                    documentSnapshot['family'] +
+                            color =
+                                theme.getThemeColor(documentSnapshot['type']);
+                            return Column(
+                              children: <Widget>[
+                              Platform.isAndroid == true?
+                                index != 3
+                                  ? Container()
+                                  : Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: SizedBox(
+                                          width: double.infinity,
+                                          height: 430,
+                                          child: Card(
+                                              color: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              child: Padding(
+                                                  padding: EdgeInsets.all(10),
+                                                  child: NativeAdView(
+                                                    onParentViewCreated:
+                                                        (controller) {
+                                                      _controller = controller;
+                                                    },
+                                                    androidParam: AndroidParam()
+                                                      ..placementId =
+                                                          "ca-app-pub-9318890511624941/4696625113" // test
+                                                      ..packageName =
+                                                          "app.kotakota.cubook"
+                                                      ..layoutName =
+                                                          "native_ad_layout"
+                                                      ..attributionText = "AD",
+                                                    iosParam: IOSParam()
+                                                      ..placementId =
+                                                          "ca-app-pub-3940256099942544/3986624511" // test
+                                                      ..bundleId =
+                                                          "app.kotakota.cubook"
+                                                      ..layoutName =
+                                                          "UnifiedNativeAdView"
+                                                      ..attributionText =
+                                                          "SPONSORED",
+                                                    onAdImpression: () => print(
+                                                        "onAdImpression!!!"),
+                                                    onAdClicked: () =>
+                                                        print("onAdClicked!!!"),
+                                                    onAdFailedToLoad: (Map<
+                                                                String, dynamic>
+                                                            error) =>
+                                                        print(
+                                                            "onAdFailedToLoad!!! $error"),
+                                                    onAdLoaded: () =>
+                                                        print("onAdLoaded!!!"),
+                                                  ))))):Container(),
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Container(
+                                    child: Card(
+                                      color: color,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15,
+                                                    left: 11,
+                                                    right: 10),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Icon(
+                                                      //ああああ
+                                                      Icons.person,
+                                                      color: Colors.white,
+                                                      size: 28,
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 5, bottom: 3),
+                                                      child: Text(
                                                         documentSnapshot[
-                                                            'first'] +
-                                                        documentSnapshot[
-                                                            'call'],
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18.0,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        decoration:
-                                                            TextDecoration
-                                                                .none),
-                                                  ),
-                                                ),
-                                                Spacer(),
-                                                Text(DateFormat(
-                                                    'MM/dd')
-                                                    .format(documentSnapshot[
-                                                'time']
-                                                    .toDate())
-                                                    .toString(),
+                                                                'family'] +
+                                                            documentSnapshot[
+                                                                'first'] +
+                                                            documentSnapshot[
+                                                                'call'],
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 18.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .none),
+                                                      ),
+                                                    ),
+                                                    Spacer(),
+                                                    Text(
+                                                      DateFormat('MM/dd')
+                                                          .format(
+                                                              documentSnapshot[
+                                                                      'time']
+                                                                  .toDate())
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15.5,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none),
+                                                    )
+                                                  ],
+                                                )),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 5),
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10,
+                                                    left: 10,
+                                                    right: 10),
+                                                child: Text(
+                                                  documentSnapshot['body'],
+                                                  textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 15.5,
+                                                      fontSize: 20.0,
                                                       fontWeight:
-                                                      FontWeight.bold,
+                                                          FontWeight.bold,
                                                       decoration:
-                                                      TextDecoration
-                                                          .none),)
-                                              ],
-                                            )),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 5),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10, left: 10, right: 10),
-                                            child: Text(
-                                              documentSnapshot['body'],
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 5, bottom: 2),
-                                          child: Row(
-                                            children: <Widget>[
-                                              FlatButton.icon(
-                                                onPressed: () {
-                                                  increaseCount(documentID);
-                                                },
-                                                icon: Icon(
-                                                  Icons.favorite_border,
-                                                  color: Colors.white,
-                                                ),
-                                                label: Text(
-                                                  'おめでとう！' +
-                                                      congrats.toString(),
-                                                  style: TextStyle(
-                                                      color: Colors.white),
+                                                          TextDecoration.none),
                                                 ),
                                               ),
-                                              Spacer(),
-                                              model.position == 'leader'
-                                                  ? IconButton(
-                                                      onPressed: () async {
-                                                        var result =
-                                                            await showModalBottomSheet<
-                                                                int>(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 5, bottom: 2),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  FlatButton.icon(
+                                                    onPressed: () {
+                                                      increaseCount(documentID);
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.favorite_border,
+                                                      color: Colors.white,
+                                                    ),
+                                                    label: Text(
+                                                      'おめでとう！' +
+                                                          congrats.toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                  model.position == 'leader'
+                                                      ? IconButton(
+                                                          onPressed: () async {
+                                                            var result =
+                                                                await showModalBottomSheet<
+                                                                    int>(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return Padding(
+                                                                    padding: EdgeInsets.only(
                                                                         top: 10,
                                                                         bottom:
                                                                             10),
-                                                                child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .min,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    ListTile(
-                                                                      leading: Icon(
-                                                                          Icons
-                                                                              .delete),
-                                                                      title: Text(
-                                                                          '投稿を削除する'),
-                                                                      onTap:
-                                                                          () {
-                                                                        model.deleteEffort(
-                                                                            documentID);
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                    ),
-                                                                  ],
-                                                                ));
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      children: <
+                                                                          Widget>[
+                                                                        ListTile(
+                                                                          leading:
+                                                                              Icon(Icons.delete),
+                                                                          title:
+                                                                              Text('投稿を削除する'),
+                                                                          onTap:
+                                                                              () {
+                                                                            model.deleteEffort(documentID);
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                        ),
+                                                                      ],
+                                                                    ));
+                                                              },
+                                                            );
                                                           },
-                                                        );
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.more_vert,
-                                                        color: Colors.white,
-                                                        size: 21,
-                                                      ),
-                                                    )
-                                                  : Container()
-                                            ],
-                                          ))
-                                    ],
+                                                          icon: Icon(
+                                                            Icons.more_vert,
+                                                            color: Colors.white,
+                                                            size: 21,
+                                                          ),
+                                                        )
+                                                      : Container()
+                                                ],
+                                              ))
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
+                                )
+                              ],
                             );
                           }),
                     );

@@ -36,6 +36,8 @@ class CreateActivityView extends StatelessWidget {
                     constraints: BoxConstraints(maxWidth: 800),
                     child: Consumer<CreateActivityModel>(
                         builder: (context, model, child) {
+                      model.getAdmob(context);
+                      model.getGroup();
                       return Column(
                         children: [
                           Padding(

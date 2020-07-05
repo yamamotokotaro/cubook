@@ -26,7 +26,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
   int countToSend = 0;
   String documentID_exit;
 
-  //bool isAdded = false;
   bool isLoaded = false;
   bool isExit = false;
 
