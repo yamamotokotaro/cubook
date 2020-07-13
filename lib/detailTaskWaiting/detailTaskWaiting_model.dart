@@ -259,8 +259,12 @@ class DetailTaskWaitingModel extends ChangeNotifier {
           if (partData['phaze'] == 'signed') {
             count++;
           }
-        });
-        map[page.toString()] = count;
+        });if (snapshot[type] != null) {
+          map = snapshot[type];
+          map[page.toString()] = count;
+        } else {
+          map[page.toString()] = count;
+        }
         var mapSend = {type: map};
         Firestore.instance
             .collection('user')

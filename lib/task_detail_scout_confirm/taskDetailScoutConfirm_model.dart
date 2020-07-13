@@ -258,10 +258,12 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         if (count == taskInfo['hasItem']) {
           data_signed['end'] = Timestamp.now();
           data_signed['isCitationed'] = false;
-          if(taskInfo['examination']){
-            data_signed['phase'] = 'not examined';
-          } else {
-            data_signed['phase'] = 'complete';
+          if(type == 'gino') {
+            if (taskInfo['examination']) {
+              data_signed['phase'] = 'not examined';
+            } else {
+              data_signed['phase'] = 'complete';
+            }
           }
         }
         Firestore.instance
