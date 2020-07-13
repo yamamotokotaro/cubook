@@ -15,6 +15,37 @@ class DetailActivityView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('記録詳細'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: () async {
+              var result = await showModalBottomSheet<int>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Consumer<DetailActivityModel>(
+                              builder: (context, model, child) {
+                            return ListTile(
+                              leading: Icon(Icons.delete),
+                              title: Text('記録を削除する'),
+                              onTap: () {
+                                model.deleteActivity(documentID);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                            );
+                          })
+                        ],
+                      ));
+                },
+              );
+            },
+          )
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -63,12 +94,15 @@ class DetailActivityView extends StatelessWidget {
                                                   textAlign: TextAlign.left,
                                                 ))),
                                         Padding(
-                                            padding: EdgeInsets.only(top: 0, bottom: 15, left: 17),
+                                            padding: EdgeInsets.only(
+                                                top: 0, bottom: 15, left: 17),
                                             child: Container(
                                                 width: double.infinity,
                                                 child: Text(
                                                   DateFormat('yyyy年MM月dd日')
-                                                      .format(documentSnapshot['date'].toDate())
+                                                      .format(documentSnapshot[
+                                                              'date']
+                                                          .toDate())
                                                       .toString(),
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
@@ -150,7 +184,7 @@ class DetailActivityView extends StatelessWidget {
                                                                   width: 40,
                                                                   height: 40,
                                                                   decoration: BoxDecoration(
-                                                                      color: theme.getThemeColor(
+                                                                      color: theme.getUserColor(
                                                                           snapshot[
                                                                               'age']),
                                                                       shape: BoxShape

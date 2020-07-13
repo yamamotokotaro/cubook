@@ -338,18 +338,12 @@ class TaskScoutDetailView extends StatelessWidget {
 class TaskScoutAddView extends StatelessWidget {
   int index_page;
   String type;
+  var theme = new ThemeInfo();
   Color themeColor;
 
+
   TaskScoutAddView(int _index, String _type) {
-    if (_type == 'usagi') {
-      themeColor = Colors.orange;
-    } else if (_type == 'sika') {
-      themeColor = Colors.green;
-    } else if (_type == 'kuma') {
-      themeColor = Colors.blue;
-    } else if (_type == 'challenge') {
-      themeColor = Colors.green[900];
-    }
+    themeColor = theme.getThemeColor(_type);
     index_page = _index;
     type = _type;
   }
@@ -607,10 +601,30 @@ class TaskScoutAddView extends StatelessWidget {
                                             decoration: TextDecoration.none),
                                       ),
                                     ),
+                                    Padding(
+                                        padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                                        child: FlatButton.icon(
+                                          onPressed: () async {
+                                            model.withdraw(index_page);
+                                          },
+                                          icon: Icon(
+                                            Icons.close,
+                                            size: 20,
+                                            color: Colors.red,
+                                          ),
+                                          label: Text(
+                                            'サイン申請を取り下げる',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        )),
                                   ]);
                                 } else if (model.stepSnapshot['signed']
                                         [index_page.toString()]['phaze'] ==
-                                    'reject') {
+                                    'reject' ) {
                                   return Column(children: <Widget>[
                                     TaskDetailScoutAddView(
                                         index_page,
@@ -619,6 +633,15 @@ class TaskScoutAddView extends StatelessWidget {
                                             model.stepSnapshot['signed']
                                                     [index_page.toString()]
                                                 ['feedback'])
+                                  ]);
+                                } else if (model.stepSnapshot['signed']
+                                [index_page.toString()]['phaze'] ==
+                                    'withdraw' ) {
+                                  return Column(children: <Widget>[
+                                    TaskDetailScoutAddView(
+                                        index_page,
+                                        type,
+                                        'どんなことをしたのかリーダーに教えよう')
                                   ]);
                                 } else {
                                   return Center(

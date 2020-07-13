@@ -56,6 +56,13 @@ class InviteView extends StatelessWidget {
                                   'うさぎ',
                                   'しか',
                                   'くま',
+                                  /*'ボーイスカウトバッジ',
+                                  '初級スカウト',
+                                  '2級スカウト',
+                                  '1級スカウト',
+                                  '菊スカウト',
+                                  '隼スカウト',*/
+                                  //'富士スカウト',
                                   'リーダー'
                                 ].map((String value) {
                                   return new DropdownMenuItem<String>(

@@ -87,8 +87,16 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                       if (model.isExit == true) {
                         var message = '';
                         DocumentSnapshot snapshot = model.stepSnapshot;
-                        if (model.stepSnapshot['end'] != null) {
-                          message = '完修済み';
+                        if (snapshot['end'] != null) {
+                          if (snapshot['phase'] != null) {
+                            if (snapshot['phase'] == 'not examined') {
+                              message = '技能考査が必要です';
+                            } else {
+                              message = '完修済み';
+                            }
+                          } else {
+                            message = '完修済み';
+                          }
                         } else {
                           message = '進行中️';
                         }
@@ -125,6 +133,41 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                       decoration: TextDecoration.none),
                                 ),
                               ),
+                              model.stepSnapshot['phase'] != null
+                                  ? model.stepSnapshot['phase'] ==
+                                          'not examined'
+                                      ? Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 10,
+                                                      left: 20,
+                                                      right: 20),
+                                                  child: RaisedButton.icon(
+                                                    onPressed: () async {
+                                                      model.onTapExamination(
+                                                          snapshot.documentID);
+                                                    },
+                                                    color: themeColor,
+                                                    icon: Icon(
+                                                      Icons.check,
+                                                      size: 20,
+                                                    ),
+                                                    label: Text(
+                                                      '考査済みにする',
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  )),
+                                            ],
+                                          ),
+                                        )
+                                      : Container()
+                                  : Container(),
                               model.stepSnapshot['start'] != null
                                   ? Container(
                                       child: Column(
@@ -140,13 +183,12 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                       TextDecoration.none),
                                             ),
                                           ),
-                                          /*Padding(
-                                            padding: EdgeInsets.all(10),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 5),
                                             child: FlatButton(
                                               child: Text(
                                                 DateFormat('yyyy/MM/dd')
-                                                    .format(model
-                                                        .stepSnapshot['start']
+                                                    .format(snapshot['start']
                                                         .toDate())
                                                     .toString(),
                                                 style: TextStyle(
@@ -155,20 +197,13 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                     decoration:
                                                         TextDecoration.none),
                                               ),
-                                              onPressed: () {},
-                                            ),
-                                          ),*/
-                                          Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              DateFormat('yyyy/MM/dd').format(
-                                                  model.stepSnapshot['start']
-                                                      .toDate()),
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
+                                              onPressed: () {
+                                                model.changeTime(
+                                                    snapshot['start'].toDate(),
+                                                    context,
+                                                    snapshot.documentID,
+                                                    'start');
+                                              },
                                             ),
                                           ),
                                         ],
@@ -190,28 +225,41 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                       TextDecoration.none),
                                             ),
                                           ),
-                                          /*Padding(
-                                            padding: EdgeInsets.all(10),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 5),
                                             child: FlatButton(
                                               child: Text(
-                                                DateFormat('yyyy/MM/dd').format(
-                                                    model.stepSnapshot['end']
-                                                        .toDate()),
+                                                DateFormat('yyyy/MM/dd')
+                                                    .format(snapshot['end']
+                                                        .toDate())
+                                                    .toString(),
                                                 style: TextStyle(
                                                     fontSize: 20.0,
                                                     fontWeight: FontWeight.bold,
                                                     decoration:
                                                         TextDecoration.none),
                                               ),
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                model.changeTime(
+                                                    snapshot['end'].toDate(),
+                                                    context,
+                                                    snapshot.documentID,
+                                                    'end');
+                                              },
                                             ),
-                                          ),*/
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Container(),
+                              model.stepSnapshot['date_examination'] != null
+                                  ? Container(
+                                      child: Column(
+                                        children: <Widget>[
                                           Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(
-                                              DateFormat('yyyy/MM/dd').format(
-                                                  model.stepSnapshot['end']
-                                                      .toDate()),
+                                              '考査認定日',
                                               style: TextStyle(
                                                   fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
@@ -219,6 +267,51 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                       TextDecoration.none),
                                             ),
                                           ),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 5),
+                                            child: FlatButton(
+                                              child: Text(
+                                                DateFormat('yyyy/MM/dd')
+                                                    .format(snapshot[
+                                                            'date_examination']
+                                                        .toDate())
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                              onPressed: () {
+                                                model.changeTime(
+                                                    snapshot['date_examination']
+                                                        .toDate(),
+                                                    context,
+                                                    snapshot.documentID,
+                                                    'date_examination');
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, left: 20, right: 20),
+                                              child: FlatButton.icon(
+                                                onPressed: () async {
+                                                  model.onTapNotExamination(
+                                                      snapshot.documentID);
+                                                },
+                                                icon: Icon(
+                                                  Icons.close,
+                                                  size: 20,
+                                                ),
+                                                label: Text(
+                                                  '考査未完了にする',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              )),
                                         ],
                                       ),
                                     )
@@ -303,17 +396,10 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   int index_page;
   String type;
   Color themeColor;
+  var theme = new ThemeInfo();
 
   TaskScoutAddConfirmView(int _index, String _type) {
-    if (_type == 'usagi') {
-      themeColor = Colors.orange;
-    } else if (_type == 'sika') {
-      themeColor = Colors.green;
-    } else if (_type == 'kuma') {
-      themeColor = Colors.blue;
-    } else if (_type == 'challenge') {
-      themeColor = Colors.green[900];
-    }
+    themeColor = theme.getThemeColor(_type);
     index_page = _index;
     type = _type;
   }
@@ -632,6 +718,15 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                           model.stepSnapshot['signed']
                                                   [index_page.toString()]
                                               ['feedback'])
+                                ]);
+                              } else if (model.stepSnapshot['signed']
+                              [index_page.toString()]['phaze'] ==
+                                  'withdraw') {
+                                return Column(children: <Widget>[
+                                  TaskDetailScoutConfirmAddView(
+                                      index_page,
+                                      type,
+                                      '')
                                 ]);
                               } else {
                                 return Center(

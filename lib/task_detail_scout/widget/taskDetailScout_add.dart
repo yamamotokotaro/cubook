@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:chewie/chewie.dart';
+import 'package:cubook/model/task.dart';
+import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,17 +16,11 @@ class TaskDetailScoutAddView extends StatelessWidget {
   String mes;
   Color themeColor;
   int countChewie;
+  var task = new Task();
+  var theme = new ThemeInfo();
 
   TaskDetailScoutAddView(int _index, String _type, String _mes) {
-    if (_type == 'usagi') {
-      themeColor = Colors.orange;
-    } else if (_type == 'sika') {
-      themeColor = Colors.green;
-    } else if (_type == 'kuma') {
-      themeColor = Colors.blue;
-    } else if (_type == 'challenge') {
-      themeColor = Colors.green[900];
-    }
+    themeColor = theme.getThemeColor(_type);
     index_page = _index;
     type = _type;
     mes = _mes;
@@ -60,48 +58,6 @@ class TaskDetailScoutAddView extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Column(
               children: <Widget>[
-                /*RaisedButton.icon(
-                  onPressed: () async {
-                    var result =
-                    await showModalBottomSheet<
-                        int>(
-                      context: context,
-                      builder: (BuildContext
-                      context) {
-                        return Padding(
-                            padding: EdgeInsets
-                                .only(
-                                top: 10,
-                                bottom:
-                                10),
-                            child: Column(
-                              mainAxisSize:
-                              MainAxisSize
-                                  .min,
-                              children: <
-                                  Widget>[
-                                Text(
-                                      'キャンプの衛生について、次の各項にわけて説明ができること。\nア) 湿気の防止と乾燥作業の必要性とその方法\nイ) 寝るテント内に食品を貯えることの有害な理由\nウ) キャンプサイトにハエを発生させないための対策'),
-
-                              ],
-                            ));
-                      },
-                    );
-                  },
-                  icon: Icon(
-                    Icons.book,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                  color: themeColor,
-                  label: Text(
-                    '内容を見る',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                ),*/
                 Padding(
                     padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                     child: Text(
@@ -111,7 +67,63 @@ class TaskDetailScoutAddView extends StatelessWidget {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     )),
                 Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                    child: FlatButton.icon(
+                      onPressed: () async {
+                        var result = await showModalBottomSheet<int>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Padding(
+                                padding: EdgeInsets.all(15),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Padding(
+                                        padding: EdgeInsets.all(0),
+                                        child: Container(
+                                          width: double.infinity,
+                                          child: Text(
+                                            task.getContent(type,
+                                                model.numberPushed, index_page),
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        )),
+                                    Padding(
+                                        padding: EdgeInsets.all(0),
+                                        child: Container(
+                                          width: double.infinity,
+                                          child: Text(
+                                            '\n©︎2020 公益財団法人ボーイスカウト日本連盟',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        )),
+                                  ],
+                                ));
+                          },
+                        );
+                      },
+                      icon: Icon(
+                        Icons.book,
+                        size: 20,
+                      ),
+                      label: Text(
+                        '内容を見る',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )),
+                Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                     child: ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -221,9 +233,18 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                       color: Colors.green,
                                                       child: Column(
                                                         children: <Widget>[
-                                                          Image.file(model
-                                                                  .map_attach[
-                                                              index_page][index])
+                                                          model.map_attach[
+                                                                      index_page]
+                                                                  [
+                                                                  index] is File
+                                                              ? Image.file(model
+                                                                          .map_attach[
+                                                                      index_page]
+                                                                  [index])
+                                                              : Image.network(
+                                                                  model.map_show[
+                                                                          index_page]
+                                                                      [index])
                                                         ],
                                                       ),
                                                     ),
@@ -248,7 +269,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                               ),
                             );
                           } else if (attach == 'video') {
-                            print(model.map_chewie);
+                            print(model.map_show);
                             return Padding(
                               padding: EdgeInsets.all(0),
                               child: Container(
@@ -351,7 +372,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                         children: <Widget>[
                                                           Chewie(
                                                             controller: model
-                                                                    .map_chewie[
+                                                                    .map_show[
                                                                 index_page][index],
                                                           )
                                                         ],
@@ -412,6 +433,9 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                       ),
                                       new TextField(
                                         enabled: true,
+                                        controller: TextEditingController(text: model
+                                            .map_attach[
+                                        index_page][index],),
                                         // 入力数
                                         maxLength: 2000,
                                         keyboardType: TextInputType.multiline,

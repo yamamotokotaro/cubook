@@ -4,6 +4,8 @@ import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
 import 'package:cubook/addLump_ScoutList/addLumpScoutList_view.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
+import 'package:cubook/contentsView/contents_model.dart';
+import 'package:cubook/contentsView/contents_view.dart';
 import 'package:cubook/createActivity/createActivity_model.dart';
 import 'package:cubook/createActivity/createActivity_view.dart';
 import 'package:cubook/detailActivity/detailActivity_model.dart';
@@ -126,6 +128,7 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => DetailActivityModel()),
           ChangeNotifierProvider(create: (context) => ListAbsentModel()),
           ChangeNotifierProvider(create: (context) => ListAbsentScoutModel()),
+          ChangeNotifierProvider(create: (context) => ContentsModel()),
           ChangeNotifierProvider(
               create: (context) => ListCitationWaitingModel()),
         ],
@@ -162,6 +165,7 @@ class _MyAppState extends State<MyApp> {
             '/createActivity': (BuildContext context) => CreateActivityView(),
             '/detailActivity': (BuildContext context) => DetailActivityView(),
             '/listAbsentScout': (BuildContext context) => ListAbsentScoutView(),
+            '/contentsView': (BuildContext context) => ContentsView(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

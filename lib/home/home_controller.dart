@@ -13,19 +13,23 @@ class HomeController extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: AnnotatedRegion<SystemUiOverlayStyle>(
-            value: Theme.of(context).accentColor == Colors.white ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark, // Detect dark mode
+            value: Theme.of(context).accentColor == Colors.white
+                ? SystemUiOverlayStyle.light
+                : SystemUiOverlayStyle.dark, // Detect dark mode
             child: SafeArea(
-                child: Align(
-                    alignment: Alignment.topCenter,
-                    child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 800),
-                        child: SingleChildScrollView(child: Consumer<HomeModel>(
-                            builder: (context, model, child) {
+                child: SingleChildScrollView(
+                    child: Align(
+                        alignment: Alignment.topCenter,
+                        child: ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: 800),
+                            child: Consumer<HomeModel>(
+                                builder: (context, model, child) {
                               if (model.isLoaded) {
                                 if (model.currentUser != null) {
                                   if (model.userSnapshot != null) {
                                     if (model.userSnapshot['group'] != null) {
-                                      return HomeViewNew(model.userSnapshot['group']);
+                                      return HomeViewNew(
+                                          model.userSnapshot['group']);
                                     } else {
                                       return JoinGroup();
                                     }
@@ -40,8 +44,10 @@ class HomeController extends StatelessWidget {
                                 return Padding(
                                     padding: EdgeInsets.all(20),
                                     child: Center(
-                                        child: Padding(padding: EdgeInsets.all(10),child:CircularProgressIndicator())
-                                    ));
+                                        child: Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child:
+                                                CircularProgressIndicator())));
                               }
                             })))))));
   }

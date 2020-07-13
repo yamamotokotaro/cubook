@@ -36,6 +36,8 @@ class CreateActivityView extends StatelessWidget {
                     constraints: BoxConstraints(maxWidth: 800),
                     child: Consumer<CreateActivityModel>(
                         builder: (context, model, child) {
+                      model.getAdmob(context);
+                      model.getGroup();
                       return Column(
                         children: [
                           Padding(
@@ -188,7 +190,7 @@ class CreateActivityView extends StatelessWidget {
                                                                 width: 40,
                                                                 height: 40,
                                                                 decoration: BoxDecoration(
-                                                                    color: theme.getThemeColor(
+                                                                    color: theme.getUserColor(
                                                                         snapshot[
                                                                             'age']),
                                                                     shape: BoxShape

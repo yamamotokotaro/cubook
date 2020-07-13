@@ -13,6 +13,7 @@ class SignupModel with ChangeNotifier {
   bool isConsent = false;
   String joinCode = '';
   String mes_join = '';
+  String dropdown_text;
 
   TextEditingController groupController = TextEditingController();
   TextEditingController familyController = TextEditingController();
@@ -55,7 +56,22 @@ class SignupModel with ChangeNotifier {
   }
 
   void createRequest() async {
-    if (isConsent && joinCode != '') {
+    String grade = '';
+    switch (dropdown_text) {
+      case 'ビーバー隊':
+        grade = 'beaver';
+        break;
+      case 'カブ隊':
+        grade = 'cub';
+        break;
+      case 'ボーイ隊':
+        grade = 'boy';
+        break;
+      case 'ベンチャー隊':
+        grade = 'venture';
+        break;
+    }
+    if (isConsent && joinCode != '' && grade != '') {
       isLoading_join = true;
       notifyListeners();
 
@@ -67,7 +83,7 @@ class SignupModel with ChangeNotifier {
                 "https://asia-northeast1-cubook-3c960.cloudfunctions.net/createGroup";
             Map<String, String> headers = {'content-type': 'application/json'};
             String body =
-            json.encode({'idToken': token.token, 'groupName': groupController.text, 'family': familyController.text, 'first': firstController.text});
+            json.encode({'idToken': token.token, 'groupName': groupController.text, 'family': familyController.text, 'first': firstController.text, 'grade': grade});
 
             http.Response resp =
             await http.post(url, headers: headers, body: body);
@@ -104,6 +120,11 @@ class SignupModel with ChangeNotifier {
       isSelect_type[1] = true;
       isSelect_type[0] = false;
     }
+    notifyListeners();
+  }
+
+  void onDropdownChanged(String value) {
+    dropdown_text = value;
     notifyListeners();
   }
 

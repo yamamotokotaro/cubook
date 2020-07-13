@@ -10,15 +10,25 @@ class ListAbsentModel extends ChangeNotifier {
   String position;
   String group_before = '';
   String position_before = '';
+  String group_claim;
+  Map<String, dynamic> claims = new Map<String, dynamic>();
 
   void getGroup() async {
     String group_before = group;
     String position_before = position;
     FirebaseAuth.instance.currentUser().then((user) {
-      user.getIdToken().then((token) async {
-        group = token.claims['group'];
-        position = token.claims['position'];
-        if(group != group_before || position != position_before) {
+      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
+        DocumentSnapshot documentSnapshot = snapshot.documents[0];
+        group = documentSnapshot['group'];
+        position = documentSnapshot['position'];
+        if (group != group_before || position != position_before) {
+          notifyListeners();
+        }
+      });
+      user.getIdToken(refresh: true).then((value) {
+        String group_claim_before = group_claim;
+        group_claim = value.claims['group'];
+        if(group_claim_before != group_claim) {
           notifyListeners();
         }
       });
