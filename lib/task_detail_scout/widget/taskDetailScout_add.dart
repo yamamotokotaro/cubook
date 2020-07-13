@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chewie/chewie.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
@@ -58,6 +60,14 @@ class TaskDetailScoutAddView extends StatelessWidget {
               children: <Widget>[
                 Padding(
                     padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                    child: Text(
+                      mes,
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    )),
+                Padding(
+                    padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                     child: FlatButton.icon(
                       onPressed: () async {
                         var result = await showModalBottomSheet<int>(
@@ -72,10 +82,9 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                         padding: EdgeInsets.all(0),
                                         child: Container(
                                           width: double.infinity,
-                                          child:
-                                          Text(
-                                            task.getContent(
-                                                type, model.numberPushed, index_page),
+                                          child: Text(
+                                            task.getContent(type,
+                                                model.numberPushed, index_page),
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
@@ -108,20 +117,13 @@ class TaskDetailScoutAddView extends StatelessWidget {
                       label: Text(
                         '内容を見る',
                         style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     )),
                 Padding(
-                    padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-                    child: Text(
-                      mes,
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    )),
-                Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                     child: ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -231,9 +233,18 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                       color: Colors.green,
                                                       child: Column(
                                                         children: <Widget>[
-                                                          Image.file(model
-                                                                  .map_attach[
-                                                              index_page][index])
+                                                          model.map_attach[
+                                                                      index_page]
+                                                                  [
+                                                                  index] is File
+                                                              ? Image.file(model
+                                                                          .map_attach[
+                                                                      index_page]
+                                                                  [index])
+                                                              : Image.network(
+                                                                  model.map_show[
+                                                                          index_page]
+                                                                      [index])
                                                         ],
                                                       ),
                                                     ),
@@ -258,7 +269,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                               ),
                             );
                           } else if (attach == 'video') {
-                            print(model.map_chewie);
+                            print(model.map_show);
                             return Padding(
                               padding: EdgeInsets.all(0),
                               child: Container(
@@ -361,7 +372,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                         children: <Widget>[
                                                           Chewie(
                                                             controller: model
-                                                                    .map_chewie[
+                                                                    .map_show[
                                                                 index_page][index],
                                                           )
                                                         ],
@@ -422,6 +433,9 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                       ),
                                       new TextField(
                                         enabled: true,
+                                        controller: TextEditingController(text: model
+                                            .map_attach[
+                                        index_page][index],),
                                         // 入力数
                                         maxLength: 2000,
                                         keyboardType: TextInputType.multiline,

@@ -43,36 +43,41 @@ class HomeViewNew extends StatelessWidget {
                                 shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(20.0))),
-                                content: SingleChildScrollView(
-                                    child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    ListTile(
-                                      leading: Icon(Icons.star_border),
-                                      title: Text('スペシャルコンテンツ'),
-                                      onTap: () {
-                                        Navigator.of(context)
-                                            .pushNamed('/support');
-                                      },
-                                    ),
-                                    ListTile(
-                                      leading: Icon(Icons.help_outline),
-                                      title: Text('ヘルプ'),
-                                      onTap: () => launchURL(),
-                                    ),
-                                    ListTile(
-                                      leading: Icon(Icons.list),
-                                      title: Text('ライセンスを表示'),
-                                      onTap: () => showLicensePage(
-                                        context: context,
-                                        applicationName: 'cubook',
-                                        applicationVersion: packageInfo.version,
-                                        applicationLegalese: '©︎ 2020 山本虎太郎',
-                                      ),
-                                    ),
+                                content: SingleChildScrollView(child:
                                     Consumer<HomeModel>(
                                         builder: (context, model, child) {
-                                      return ListTile(
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      model.age != 'usagi' &&
+                                              model.age != 'sika' &&
+                                              model.age != 'kuma'
+                                          ? ListTile(
+                                              leading: Icon(Icons.star_border),
+                                              title: Text('スペシャルコンテンツ'),
+                                              onTap: () {
+                                                Navigator.of(context)
+                                                    .pushNamed('/support');
+                                              },
+                                            )
+                                          : Container(),
+                                      ListTile(
+                                        leading: Icon(Icons.help_outline),
+                                        title: Text('ヘルプ'),
+                                        onTap: () => launchURL(),
+                                      ),
+                                      ListTile(
+                                        leading: Icon(Icons.list),
+                                        title: Text('ライセンスを表示'),
+                                        onTap: () => showLicensePage(
+                                          context: context,
+                                          applicationName: 'cubook',
+                                          applicationVersion:
+                                              packageInfo.version,
+                                          applicationLegalese: '©︎ 2020 山本虎太郎',
+                                        ),
+                                      ),
+                                      ListTile(
                                         leading: Icon(Icons.exit_to_app),
                                         title: Text('ログアウト'),
                                         onTap: () {
@@ -84,10 +89,10 @@ class HomeViewNew extends StatelessWidget {
                                             return HomeController();
                                           }));
                                         },
-                                      );
-                                    })
-                                  ],
-                                )),
+                                      )
+                                    ],
+                                  );
+                                })),
                               );
                             });
                       },
@@ -97,7 +102,7 @@ class HomeViewNew extends StatelessWidget {
                       ),
                     ))),
             Spacer(),
-            Selector<HomeModel, String>(
+            /*Selector<HomeModel, String>(
               selector: (context, model) => model.groupName,
               builder: (context, name, child) =>
                   Padding(
@@ -111,7 +116,7 @@ class HomeViewNew extends StatelessWidget {
                           )),
                     ),
                   ),
-            ),
+            ),*/
           ],
         ),
         Selector<HomeModel, String>(

@@ -19,13 +19,13 @@ class ThemeInfo {
     Colors.green[300],
     Colors.blue[300],
     Colors.green[700],
-    Colors.green,
+    Colors.green[400],
     Colors.blue[500],
     Colors.red[500],
     Colors.blue[700],
     Colors.green[400],
     Colors.red[700],
-    Colors.green[900],
+    Colors.green[800],
   ];
 
   List<String> titles = [
@@ -156,7 +156,7 @@ class ThemeInfo {
         color = colors_indicator[9];
         break;
       case 'gino':
-        color = colors_indicator[1];
+        color = colors_indicator[10];
         break;
     }
     return color;

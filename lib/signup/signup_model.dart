@@ -56,7 +56,7 @@ class SignupModel with ChangeNotifier {
   }
 
   void createRequest() async {
-    String grade;
+    String grade = '';
     switch (dropdown_text) {
       case 'ビーバー隊':
         grade = 'beaver';

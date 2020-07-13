@@ -32,7 +32,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   var list_snapshot = new List<bool>();
   var list_attach = new List<dynamic>();
   var map_attach = new List<dynamic>();
-  var map_chewie = new List<dynamic>();
+  var map_show = new List<dynamic>();
   var isAdded = new List<dynamic>();
   var list_toSend = new List<dynamic>();
   var count_toSend = new List<dynamic>();
@@ -60,12 +60,12 @@ class TaskDetailScoutModel extends ChangeNotifier {
     map_attach =
         new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
 
-    map_chewie =
-    new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
+    map_show =
+        new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
 
     isAdded = new List<dynamic>.generate(quant, (index) => false);
     dataList =
-    new List<dynamic>.generate(quant, (index) => new List<dynamic>());
+        new List<dynamic>.generate(quant, (index) => new List<dynamic>());
 
     isLoading = new List<dynamic>.generate(quant, (index) => false);
 
@@ -99,25 +99,58 @@ class TaskDetailScoutModel extends ChangeNotifier {
                         body.add(dataMap[j]['body']);
                       } else if (dataMap[j]['type'] == 'image') {
                         final StorageReference ref =
-                        FirebaseStorage().ref().child(dataMap[j]['body']);
+                            FirebaseStorage().ref().child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         body.add(url);
                       } else {
                         final StorageReference ref =
-                        FirebaseStorage().ref().child(dataMap[j]['body']);
+                            FirebaseStorage().ref().child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         final videoPlayerController =
-                        VideoPlayerController.network(url);
+                            VideoPlayerController.network(url);
                         await videoPlayerController.initialize();
                         final chewieController = ChewieController(
                             videoPlayerController: videoPlayerController,
                             aspectRatio:
-                            videoPlayerController.value.aspectRatio,
+                                videoPlayerController.value.aspectRatio,
                             autoPlay: false,
                             looping: false);
                         body.add(chewieController);
                       }
                       dataList[i] = body;
+                    }
+                  }
+                } else if (doc['phaze'] == 'reject' || doc['phaze'] == 'withdraw') {
+                  dataMap = doc['data'];
+                  if (dataMap != null) {
+                    List<dynamic> body = List<dynamic>();
+                    for (int j = 0; j < dataMap.length; j++) {
+                      list_attach[i].add(dataMap[j]['type']);
+                      if (dataMap[j]['type'] == 'text') {
+                        map_attach[i][j] = dataMap[j]['body'];
+                      } else if (dataMap[j]['type'] == 'image') {
+                        final StorageReference ref =
+                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final String url = await ref.getDownloadURL();
+                        map_attach[i][j] = dataMap[j]['body'];
+                        map_show[i][j] = url;
+                      } else {
+                        final StorageReference ref =
+                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final String url = await ref.getDownloadURL();
+                        final videoPlayerController =
+                            VideoPlayerController.network(url);
+                        await videoPlayerController.initialize();
+                        final chewieController = ChewieController(
+                            videoPlayerController: videoPlayerController,
+                            aspectRatio:
+                                videoPlayerController.value.aspectRatio,
+                            autoPlay: false,
+                            looping: false);
+                        map_attach[i][j] = dataMap[j]['body'];
+                        map_show[i][j] = chewieController;
+                      }
+//                      dataList[i] = body;
                     }
                   }
                 }
@@ -221,7 +254,11 @@ class TaskDetailScoutModel extends ChangeNotifier {
   Future addDocument(List list, int number) async {
     Map<String, dynamic> data = Map<String, dynamic>();
     FirebaseUser user = await auth.currentUser();
-    Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((userDatas) async {
+    Firestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .getDocuments()
+        .then((userDatas) async {
       DocumentSnapshot userData = userDatas.documents[0];
       data["uid"] = user.uid;
       data["date"] = Timestamp.now();
@@ -260,6 +297,15 @@ class TaskDetailScoutModel extends ChangeNotifier {
             await Firestore.instance.collection(type).add(data_signed);
         documentID_exit = documentReference_add.documentID;
       }
+
+      list_attach =
+          new List<dynamic>.generate(quant, (index) => new List<dynamic>());
+
+      map_attach =
+          new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
+
+      map_show =
+          new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
       isLoading[number] = false;
     });
   }
@@ -269,6 +315,36 @@ class TaskDetailScoutModel extends ChangeNotifier {
         .collection('task')
         .document(documentReference.documentID)
         .updateData(data);
+  }
+
+  Future withdraw(int number) async {
+    Firestore.instance
+        .collection('task')
+        .where('uid', isEqualTo: currentUser.uid)
+        .where('page', isEqualTo: numberPushed)
+        .where('number', isEqualTo: number)
+        .getDocuments()
+        .then((documents) {
+      for (int i = 0; i < documents.documents.length; i++) {
+        DocumentSnapshot snapshot = documents.documents[i];
+        Firestore.instance
+            .collection('task')
+            .document(snapshot.documentID)
+            .delete();
+      }
+      Firestore.instance
+          .collection(type)
+          .document(stepSnapshot.documentID)
+          .get()
+          .then((document) {
+        Map<String, dynamic> sign_get = document['signed'];
+        sign_get[number.toString()]['phaze'] = 'withdraw';
+        Firestore.instance
+            .collection(type)
+            .document(stepSnapshot.documentID)
+            .updateData(<String, dynamic>{'signed': sign_get});
+      });
+    });
   }
 
   void onImagePressPick(int number, int index) async {
@@ -288,13 +364,11 @@ class TaskDetailScoutModel extends ChangeNotifier {
   void onVideoPressPick(int number, int index) async {
     File image = await ImagePicker.pickVideo(source: ImageSource.gallery);
     map_attach[number][index] = image;
-    final videoPlayerController =
-    VideoPlayerController.file(image);
+    final videoPlayerController = VideoPlayerController.file(image);
     await videoPlayerController.initialize();
-    map_chewie[number][index] = ChewieController(
+    map_show[number][index] = ChewieController(
         videoPlayerController: videoPlayerController,
-        aspectRatio:
-        videoPlayerController.value.aspectRatio,
+        aspectRatio: videoPlayerController.value.aspectRatio,
         autoPlay: false,
         looping: false);
     notifyListeners();
@@ -305,13 +379,11 @@ class TaskDetailScoutModel extends ChangeNotifier {
       source: ImageSource.camera,
     );
     map_attach[number][index] = image;
-    final videoPlayerController =
-    VideoPlayerController.file(image);
+    final videoPlayerController = VideoPlayerController.file(image);
     await videoPlayerController.initialize();
-    map_chewie[number][index] = ChewieController(
+    map_show[number][index] = ChewieController(
         videoPlayerController: videoPlayerController,
-        aspectRatio:
-        videoPlayerController.value.aspectRatio,
+        aspectRatio: videoPlayerController.value.aspectRatio,
         autoPlay: false,
         looping: false);
     notifyListeners();
@@ -334,8 +406,8 @@ class TaskDetailScoutModel extends ChangeNotifier {
   void onPressDelete(int number, int index) {
     map_attach[number].remove(index);
     list_attach[number].remove(index);
-    if(map_chewie[number][index] != null){
-      map_chewie[number].remove(index);
+    if (map_show[number][index] != null) {
+      map_show[number].remove(index);
     }
     notifyListeners();
   }

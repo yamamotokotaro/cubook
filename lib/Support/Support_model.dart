@@ -25,6 +25,7 @@ class SupportModel with ChangeNotifier {
   QuerySnapshot contents_green_before;
   var list_type = ['red', 'yellow', 'blue', 'green'];
   var list_color = [Colors.red, Colors.yellow[700], Colors.blue, Colors.green];
+  var isRelease = const bool.fromEnvironment('dart.vm.product');
 
   void getUser() async {
     FirebaseAuth.instance.currentUser().then((user) {
@@ -153,12 +154,16 @@ class SupportModel with ChangeNotifier {
               : null // Android emulators are considered test devices
           );
       String adunitID;
-      if (Platform.isAndroid) {
-        adunitID = 'ca-app-pub-9318890511624941/8096138050';
-        // Android-specific code
-      } else if (Platform.isIOS) {
-        adunitID = 'ca-app-pub-9318890511624941/8355992501';
-        // iOS-specific code
+      if(isRelease) {
+        if (Platform.isAndroid) {
+          adunitID = 'ca-app-pub-9318890511624941/8096138050';
+          // Android-specific code
+        } else if (Platform.isIOS) {
+          adunitID = 'ca-app-pub-9318890511624941/8355992501';
+          // iOS-specific code
+        }
+      } else {
+        adunitID = RewardedVideoAd.testAdUnitId;
       }
       videoAd.listener = (RewardedVideoAdEvent event,
           {String rewardType, int rewardAmount}) async {

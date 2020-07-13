@@ -57,9 +57,13 @@ class HomeModel extends ChangeNotifier {
                   if (grade == 'cub') {
                     toShow = HomeScoutView();
                   } else if (grade == 'boy') {
-                    toShow = HomeBSView();
+                    toShow = Column(
+                      children: <Widget>[HomeBSView()],
+                    );
                   } else if (grade == 'venture') {
-                    toShow = HomeBSView();
+                    toShow = Column(
+                      children: <Widget>[HomeBSView(), ],
+                    );
                   }
                 } else {
                   toShow = HomeScoutView();

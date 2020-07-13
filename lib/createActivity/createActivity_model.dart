@@ -22,6 +22,7 @@ class CreateActivityModel extends ChangeNotifier {
   MobileAdTargetingInfo targetingInfo;
   bool isLoaded = false;
   InterstitialAd interstitialAd;
+  var isRelease = const bool.fromEnvironment('dart.vm.product');
 
   void getGroup() async {
     String group_before = group;
@@ -34,6 +35,7 @@ class CreateActivityModel extends ChangeNotifier {
           .then((snapshot) {
         group = snapshot.documents[0]['group'];
         if (group != group_before) {
+          group_before = group;
           notifyListeners();
         }
         user.getIdToken(refresh: true).then((value) {
@@ -58,12 +60,16 @@ class CreateActivityModel extends ChangeNotifier {
               : null // Android emulators are considered test devices
           );
       String adunitID;
-      if (Platform.isAndroid) {
-        adunitID = 'ca-app-pub-9318890511624941/3455286517';
-        // Android-specific code
-      } else if (Platform.isIOS) {
-        adunitID = 'ca-app-pub-9318890511624941/7202959836';
-        // iOS-specific code
+      if (isRelease) {
+        if (Platform.isAndroid) {
+          adunitID = 'ca-app-pub-9318890511624941/3455286517';
+          // Android-specific code
+        } else if (Platform.isIOS) {
+          adunitID = 'ca-app-pub-9318890511624941/7202959836';
+          // iOS-specific code
+        }
+      } else {
+        adunitID = InterstitialAd.testAdUnitId;
       }
       interstitialAd = InterstitialAd(
         // Replace the testAdUnitId with an ad unit id from the AdMob dash.

@@ -219,15 +219,26 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       map[number.toString()]['time'] = Timestamp.now();
       Map<String, dynamic> mapSend = Map<String, dynamic>();
       mapSend['signed'] = map;
-      for(int i=0; i<map.length; i++){
-        Map<String, dynamic> partData = map[i.toString()];
-        if(partData['phaze'] == 'signed'){
+      map.forEach((key, dynamic values) {
+        Map<String, dynamic> partData = map[key.toString()];
+        print(map);
+        print(partData['phaze']);
+        if (partData['phaze'] == 'signed') {
           count++;
         }
-      }
-      if (count == task.getPartMap(type, page)['hasItem']) {
+      });
+      Map<String, dynamic> taskInfo = new Map<String, dynamic>();
+      taskInfo = task.getPartMap(type, page);
+      if (count == taskInfo['hasItem']) {
         mapSend['end'] = Timestamp.now();
         mapSend['isCitationed'] = false;
+        if(type == 'gino') {
+          if (taskInfo['examination']) {
+            mapSend['phase'] = 'not examined';
+          } else {
+            mapSend['phase'] = 'complete';
+          }
+        }
       }
       Firestore.instance
           .collection(type)
@@ -394,7 +405,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
 
   void deleteTask() {
     Map<String, dynamic> map = Map<String, dynamic>();
-    map['date'] = FieldValue.delete();
     map['date_signed'] = Timestamp.now();
     map['uid_signed'] = currentUser.uid;
     map['phase'] = 'signed';

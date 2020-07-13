@@ -601,10 +601,30 @@ class TaskScoutAddView extends StatelessWidget {
                                             decoration: TextDecoration.none),
                                       ),
                                     ),
+                                    Padding(
+                                        padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                                        child: FlatButton.icon(
+                                          onPressed: () async {
+                                            model.withdraw(index_page);
+                                          },
+                                          icon: Icon(
+                                            Icons.close,
+                                            size: 20,
+                                            color: Colors.red,
+                                          ),
+                                          label: Text(
+                                            'サイン申請を取り下げる',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        )),
                                   ]);
                                 } else if (model.stepSnapshot['signed']
                                         [index_page.toString()]['phaze'] ==
-                                    'reject') {
+                                    'reject' ) {
                                   return Column(children: <Widget>[
                                     TaskDetailScoutAddView(
                                         index_page,
@@ -613,6 +633,15 @@ class TaskScoutAddView extends StatelessWidget {
                                             model.stepSnapshot['signed']
                                                     [index_page.toString()]
                                                 ['feedback'])
+                                  ]);
+                                } else if (model.stepSnapshot['signed']
+                                [index_page.toString()]['phaze'] ==
+                                    'withdraw' ) {
+                                  return Column(children: <Widget>[
+                                    TaskDetailScoutAddView(
+                                        index_page,
+                                        type,
+                                        'どんなことをしたのかリーダーに教えよう')
                                   ]);
                                 } else {
                                   return Center(

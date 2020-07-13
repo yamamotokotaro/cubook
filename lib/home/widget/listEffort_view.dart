@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/model/themeInfo.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,7 @@ class listEffort extends StatelessWidget {
   String group;
   var theme = new ThemeInfo();
   NativeAdViewController _controller;
+  var isRelease = const bool.fromEnvironment('dart.vm.product');
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +80,7 @@ class listEffort extends StatelessWidget {
                                 theme.getThemeColor(documentSnapshot['type']);
                             return Column(
                               children: <Widget>[
-                              Platform.isAndroid == true?
+                              Platform.isAndroid == true && model.position == 'leader'?
                                 index != 3
                                   ? Container()
                                   : Padding(
@@ -93,7 +95,7 @@ class listEffort extends StatelessWidget {
                                               ),
                                               child: Padding(
                                                   padding: EdgeInsets.all(10),
-                                                  child: NativeAdView(
+                                                  child: isRelease ? NativeAdView(
                                                     onParentViewCreated:
                                                         (controller) {
                                                       _controller = controller;
@@ -108,7 +110,7 @@ class listEffort extends StatelessWidget {
                                                       ..attributionText = "AD",
                                                     iosParam: IOSParam()
                                                       ..placementId =
-                                                          "ca-app-pub-3940256099942544/3986624511" // test
+                                                          "ca-app-pub-9318890511624941/9545449503" // test
                                                       ..bundleId =
                                                           "app.kotakota.cubook"
                                                       ..layoutName =
@@ -122,6 +124,39 @@ class listEffort extends StatelessWidget {
                                                     onAdFailedToLoad: (Map<
                                                                 String, dynamic>
                                                             error) =>
+                                                        print(
+                                                            "onAdFailedToLoad!!! $error"),
+                                                    onAdLoaded: () =>
+                                                        print("onAdLoaded!!!"),
+                                                  ) : NativeAdView(
+                                                    onParentViewCreated:
+                                                        (controller) {
+                                                      _controller = controller;
+                                                    },
+                                                    androidParam: AndroidParam()
+                                                      ..placementId =
+                                                          NativeAd.testAdUnitId // test
+                                                      ..packageName =
+                                                          "app.kotakota.cubook"
+                                                      ..layoutName =
+                                                          "native_ad_layout"
+                                                      ..attributionText = "AD",
+                                                    iosParam: IOSParam()
+                                                      ..placementId =
+                                                          NativeAd.testAdUnitId // test
+                                                      ..bundleId =
+                                                          "app.kotakota.cubook"
+                                                      ..layoutName =
+                                                          "UnifiedNativeAdView"
+                                                      ..attributionText =
+                                                          "SPONSORED",
+                                                    onAdImpression: () => print(
+                                                        "onAdImpression!!!"),
+                                                    onAdClicked: () =>
+                                                        print("onAdClicked!!!"),
+                                                    onAdFailedToLoad: (Map<
+                                                        String, dynamic>
+                                                    error) =>
                                                         print(
                                                             "onAdFailedToLoad!!! $error"),
                                                     onAdLoaded: () =>
