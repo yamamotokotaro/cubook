@@ -66,7 +66,7 @@ class ListMemberView extends StatelessWidget {
                                     if (snapshot.data.documents.length != 0) {
                                       QuerySnapshot querySnapshot =
                                           snapshot.data;
-                                      int team_last = 0;
+                                      String team_last = '';
                                       return ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
@@ -78,14 +78,27 @@ class ListMemberView extends StatelessWidget {
                                             DocumentSnapshot snapshot =
                                                 querySnapshot.documents[index];
                                             bool isFirst;
-                                            if (team_last != snapshot['team']) {
+                                            String team;
+                                            if(snapshot['team'] is int){
+                                              team = snapshot['team'].toString();
+                                            } else {
+                                              team = snapshot['team'];
+                                            }
+                                            if (team_last != team) {
                                               isFirst = true;
-                                              team_last = snapshot['team'];
+                                              team_last = team;
                                             } else {
                                               isFirst = false;
                                             }
+                                            String grade = snapshot['grade'];
+                                            String team_call;
+                                            if(grade == 'cub'){
+                                              team_call = '組';
+                                            } else {
+                                              team_call = '班';
+                                            }
                                             return Column(children: <Widget>[
-                                              isFirst
+                                              isFirst && team != ''
                                                   ? Padding(
                                                       padding: EdgeInsets.only(
                                                           top: 10,
@@ -95,9 +108,8 @@ class ListMemberView extends StatelessWidget {
                                                           width:
                                                               double.infinity,
                                                           child: Text(
-                                                            snapshot['team']
-                                                                    .toString() +
-                                                                '組',
+                                                            team +
+                                                                team_call,
                                                             style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight

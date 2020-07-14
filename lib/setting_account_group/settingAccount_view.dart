@@ -60,10 +60,9 @@ class SettingAccountView extends StatelessWidget {
                                     controller: model.teamController,
                                     enabled: true,
                                     // 入力数
-                                    keyboardType: TextInputType.number,
                                     maxLines: null,
                                     maxLengthEnforced: false,
-                                    decoration: InputDecoration(labelText: "組"),
+                                    decoration: InputDecoration(labelText: "組・班（オプション）"),
                                     onChanged: (text) {},
                                   ),
                                 ),
@@ -86,7 +85,7 @@ class SettingAccountView extends StatelessWidget {
                                       isExpanded: true,
                                       hint: Text('役割を選択'),
                                       value: model.dropdown_text,
-                                      items: <String>['うさぎ', 'しか', 'くま',/*'ボーイスカウトバッジ', '初級スカウト', '2級スカウト', '1級スカウト', '菊スカウト', '隼スカウト', '富士スカウト'*/]
+                                      items: <String>['うさぎ', 'しか', 'くま','ボーイスカウトバッジ', '初級スカウト', '2級スカウト', '1級スカウト', '菊スカウト', '隼スカウト', '富士スカウト']
                                           .map((String value) {
                                         return new DropdownMenuItem<String>(
                                           value: value,

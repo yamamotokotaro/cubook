@@ -118,7 +118,7 @@ class CreateActivityView extends StatelessWidget {
                                     if (snapshot.data.documents.length != 0) {
                                       QuerySnapshot querySnapshot =
                                           snapshot.data;
-                                      int team_last = 0;
+                                      String team_last = '';
                                       return ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
@@ -135,16 +135,29 @@ class CreateActivityView extends StatelessWidget {
                                             if (model.uid_check[uid] != null) {
                                               isCheck = model.uid_check[uid];
                                             }
+                                            String team;
+                                            if(snapshot['team'] is int){
+                                              team = snapshot['team'].toString();
+                                            } else {
+                                              team = snapshot['team'];
+                                            }
                                             bool isFirst;
-                                            if (team_last != snapshot['team']) {
+                                            if (team_last != team) {
                                               isFirst = true;
-                                              team_last = snapshot['team'];
+                                              team_last = team;
                                             } else {
                                               isFirst = false;
                                             }
+                                            String grade = snapshot['grade'];
+                                            String team_call;
+                                            if(grade == 'cub'){
+                                              team_call = '組';
+                                            } else {
+                                              team_call = '班';
+                                            }
                                             print(model.uid_check);
                                             return Column(children: <Widget>[
-                                              isFirst
+                                              isFirst && team != ''
                                                   ? Padding(
                                                       padding:
                                                           EdgeInsets.all(10),
@@ -152,9 +165,8 @@ class CreateActivityView extends StatelessWidget {
                                                           width:
                                                               double.infinity,
                                                           child: Text(
-                                                            snapshot['team']
-                                                                    .toString() +
-                                                                '組',
+                                                            team +
+                                                                team_call,
                                                             style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
