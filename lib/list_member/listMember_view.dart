@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/userDetail/userDetail_view.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,9 +14,22 @@ import 'listMember_model.dart';
 
 class ListMemberView extends StatelessWidget {
   var theme = new ThemeInfo();
+  var isRelease = const bool.fromEnvironment('dart.vm.product');
 
   @override
   Widget build(BuildContext context) {
+    String adunitID;
+    if (isRelease) {
+      if (Platform.isAndroid) {
+        adunitID = 'ca-app-pub-9318890511624941/3455286517';
+        // Android-specific code
+      } else if (Platform.isIOS) {
+        adunitID = 'ca-app-pub-9318890511624941/7202959836';
+        // iOS-specific code
+      }
+    } else {
+      adunitID = BannerAd.testAdUnitId;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('メンバーリスト'),
@@ -215,6 +232,13 @@ class ListMemberView extends StatelessWidget {
                                     );
                                   }
                                 },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AdmobBanner(
+                                  adUnitId: adunitID,
+                                  adSize: AdmobBannerSize.LARGE_BANNER,
+                                ),
                               ),
                               StreamBuilder<QuerySnapshot>(
                                 stream: Firestore.instance

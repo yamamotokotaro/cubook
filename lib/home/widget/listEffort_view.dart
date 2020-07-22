@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/model/themeInfo.dart';
@@ -16,9 +17,23 @@ class listEffort extends StatelessWidget {
   var theme = new ThemeInfo();
   NativeAdViewController _controller;
   var isRelease = const bool.fromEnvironment('dart.vm.product');
+  DateTime now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    String adunitID;
+    if (isRelease) {
+      if (Platform.isAndroid) {
+        adunitID = 'ca-app-pub-9318890511624941/4696625113';
+        // Android-specific code
+      } else if (Platform.isIOS) {
+        adunitID = 'ca-app-pub-9318890511624941/9545449503';
+        // iOS-specific code
+      }
+    } else {
+      adunitID = NativeAd.testAdUnitId;
+    }
+    DateTime date = DateTime(now.year, now.month, now.day - 28);
     return Column(
       children: <Widget>[
         Center(
@@ -50,6 +65,7 @@ class listEffort extends StatelessWidget {
               stream: Firestore.instance
                   .collection('effort')
                   .where('group', isEqualTo: model.group)
+                  .where('time', isGreaterThanOrEqualTo: date)
                   .orderBy('time', descending: true)
                   .snapshots(),
               builder: (BuildContext context,
@@ -80,88 +96,69 @@ class listEffort extends StatelessWidget {
                                 theme.getThemeColor(documentSnapshot['type']);
                             return Column(
                               children: <Widget>[
-                              Platform.isAndroid == true && model.position == 'leader'?
-                                index != 3
-                                  ? Container()
-                                  : Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: SizedBox(
-                                          width: double.infinity,
-                                          height: 430,
-                                          child: Card(
-                                              color: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(10.0),
-                                              ),
-                                              child: Padding(
-                                                  padding: EdgeInsets.all(10),
-                                                  child: isRelease ? NativeAdView(
-                                                    onParentViewCreated:
-                                                        (controller) {
-                                                      _controller = controller;
-                                                    },
-                                                    androidParam: AndroidParam()
-                                                      ..placementId =
-                                                          "ca-app-pub-9318890511624941/4696625113" // test
-                                                      ..packageName =
-                                                          "app.kotakota.cubook"
-                                                      ..layoutName =
-                                                          "native_ad_layout"
-                                                      ..attributionText = "AD",
-                                                    iosParam: IOSParam()
-                                                      ..placementId =
-                                                          "ca-app-pub-9318890511624941/9545449503" // test
-                                                      ..bundleId =
-                                                          "app.kotakota.cubook"
-                                                      ..layoutName =
-                                                          "UnifiedNativeAdView"
-                                                      ..attributionText =
-                                                          "SPONSORED",
-                                                    onAdImpression: () => print(
-                                                        "onAdImpression!!!"),
-                                                    onAdClicked: () =>
-                                                        print("onAdClicked!!!"),
-                                                    onAdFailedToLoad: (Map<
-                                                                String, dynamic>
-                                                            error) =>
-                                                        print(
-                                                            "onAdFailedToLoad!!! $error"),
-                                                    onAdLoaded: () =>
-                                                        print("onAdLoaded!!!"),
-                                                  ) : NativeAdView(
-                                                    onParentViewCreated:
-                                                        (controller) {
-                                                      _controller = controller;
-                                                    },
-                                                    androidParam: AndroidParam()
-                                                      ..placementId =
-                                                          NativeAd.testAdUnitId // test
-                                                      ..packageName =
-                                                          "app.kotakota.cubook"
-                                                      ..layoutName =
-                                                          "native_ad_layout"
-                                                      ..attributionText = "AD",
-                                                    iosParam: IOSParam()
-                                                      ..placementId =
-                                                          NativeAd.testAdUnitId // test
-                                                      ..bundleId =
-                                                          "app.kotakota.cubook"
-                                                      ..layoutName =
-                                                          "UnifiedNativeAdView"
-                                                      ..attributionText =
-                                                          "SPONSORED",
-                                                    onAdImpression: () => print(
-                                                        "onAdImpression!!!"),
-                                                    onAdClicked: () =>
-                                                        print("onAdClicked!!!"),
-                                                    onAdFailedToLoad: (Map<
-                                                        String, dynamic>
-                                                    error) =>
-                                                        print(
-                                                            "onAdFailedToLoad!!! $error"),
-                                                    onAdLoaded: () =>
-                                                        print("onAdLoaded!!!"),
-                                                  ))))):Container(),
+                                Platform.isAndroid == true &&
+                                        model.position == 'leader'
+                                    ? index == 3
+                                        ? Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: SizedBox(
+                                                width: double.infinity,
+                                                height: 430,
+                                                child: Card(
+                                                    color: Colors.white,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ),
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(10),
+                                                        child: NativeAdView(
+                                                                onParentViewCreated:
+                                                                    (controller) {
+                                                                  _controller =
+                                                                      controller;
+                                                                },
+                                                                androidParam:
+                                                                    AndroidParam()
+                                                                      ..placementId =
+                                                                          adunitID// test
+                                                                      ..packageName =
+                                                                          "app.kotakota.cubook"
+                                                                      ..layoutName =
+                                                                          "native_ad_layout"
+                                                                      ..attributionText =
+                                                                          "AD",
+                                                                iosParam:
+                                                                    IOSParam()
+                                                                      ..placementId =
+                                                                          adunitID // test
+                                                                      ..bundleId =
+                                                                          "app.kotakota.cubook"
+                                                                      ..layoutName =
+                                                                          "UnifiedNativeAdView"
+                                                                      ..attributionText =
+                                                                          "SPONSORED",
+                                                                onAdImpression:
+                                                                    () => print(
+                                                                        "onAdImpression!!!"),
+                                                                onAdClicked:
+                                                                    () => print(
+                                                                        "onAdClicked!!!"),
+                                                                onAdFailedToLoad: (Map<
+                                                                            String,
+                                                                            dynamic>
+                                                                        error) =>
+                                                                    print(
+                                                                        "onAdFailedToLoad!!! $error"),
+                                                                onAdLoaded:
+                                                                    () => print(
+                                                                        "onAdLoaded!!!"),
+                                                              )))))
+                                        : Container()
+                                    : Container(),
                                 Padding(
                                   padding: const EdgeInsets.all(10),
                                   child: Container(
@@ -351,7 +348,7 @@ class listEffort extends StatelessWidget {
                                     child: Material(
                                       type: MaterialType.transparency,
                                       child: Text(
-                                        'まだありません',
+                                        '4週間以内にありません',
                                         style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 20,

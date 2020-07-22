@@ -102,7 +102,7 @@ class HomeViewNew extends StatelessWidget {
                       ),
                     ))),
             Spacer(),
-            /*Selector<HomeModel, String>(
+            Selector<HomeModel, String>(
               selector: (context, model) => model.groupName,
               builder: (context, name, child) =>
                   Padding(
@@ -116,7 +116,7 @@ class HomeViewNew extends StatelessWidget {
                           )),
                     ),
                   ),
-            ),*/
+            ),
           ],
         ),
         Selector<HomeModel, String>(

@@ -42,7 +42,7 @@ class ContentsView extends StatelessWidget {
                                 ))),
                         Container(
                             margin: const EdgeInsets.only(
-                                top: 2.5, left: 25, right: 25),
+                                top: 16, left: 25, right: 25),
                             width: 685,
                             child: Align(
                               alignment: Alignment.topLeft,

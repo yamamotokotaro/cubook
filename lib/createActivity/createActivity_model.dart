@@ -75,81 +75,13 @@ class CreateActivityModel extends ChangeNotifier {
         // Replace the testAdUnitId with an ad unit id from the AdMob dash.
         // https://developers.google.com/admob/android/test-ads
         // https://developers.google.com/admob/ios/test-ads
-        adUnitId: InterstitialAd.testAdUnitId,
+        adUnitId: adunitID,
         targetingInfo: targetingInfo,
         listener: (MobileAdEvent event) {
           print("InterstitialAd event is $event");
         },
       );
       interstitialAd..load().then((value) => isLoaded = true);
-      /*videoAd.listener = (RewardedVideoAdEvent event,
-          {String rewardType, int rewardAmount}) async {
-        print("REWARDED VIDEO AD $event");
-        isLoaded = false;
-        notifyListeners();
-        videoAd
-            .load(
-                adUnitId: RewardedVideoAd.testAdUnitId,
-                targetingInfo: targetingInfo)
-            .then((value) {
-          isLoaded = true;
-          notifyListeners();
-        });
-        if (event == RewardedVideoAdEvent.rewarded) {
-          var random = new math.Random();
-          int color = random.nextInt(4);
-          increaseCount(list_type[color]);
-          var result = await showModalBottomSheet<int>(
-            context: context,
-            builder: (BuildContext context) {
-              return Container(
-                  color: list_color[color],
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                          child: SvgPicture.asset(
-                        'assets/svg/rope.svg',
-                        semanticsLabel: 'shopping',
-                        color: Colors.white,
-                        width: 50,
-                        height: 50,
-                      )),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Text(
-                            '第一話',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 25,
-                            ),
-                          )),
-                      Padding(
-                          padding: EdgeInsets.only(top: 10, bottom: 20),
-                          child: Text(
-                            'やまもとこたろうの入団秘話',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                          ))
-                    ],
-                  ));
-            },
-          );
-        }
-      };
-      videoAd
-          .load(
-              adUnitId: RewardedVideoAd.testAdUnitId,
-              targetingInfo: targetingInfo)
-          .then((value) {
-        isLoaded = true;
-        notifyListeners();
-      });
-    }*/
     }
   }
 
@@ -233,7 +165,7 @@ class CreateActivityModel extends ChangeNotifier {
               }
             });
             var rand = new math.Random();
-            if (rand.nextDouble() < 0.6) {
+            if (rand.nextDouble() < 0.7) {
               interstitialAd
                 ..show(
                   anchorType: AnchorType.bottom,

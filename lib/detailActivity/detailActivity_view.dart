@@ -112,22 +112,24 @@ class DetailActivityView extends StatelessWidget {
                                                 ))),
                                         ListView.builder(
                                             physics:
-                                            const NeverScrollableScrollPhysics(),
+                                                const NeverScrollableScrollPhysics(),
                                             itemCount:
-                                            querySnapshot.documents.length,
+                                                querySnapshot.documents.length,
                                             shrinkWrap: true,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               String uid;
                                               DocumentSnapshot snapshot =
-                                              querySnapshot.documents[index];
+                                                  querySnapshot
+                                                      .documents[index];
                                               uid = snapshot['uid'];
                                               bool isCheck = true;
-                                              if (model.uid_check[uid] != null) {
+                                              if (model.uid_check[uid] !=
+                                                  null) {
                                                 isCheck = model.uid_check[uid];
                                               }
                                               String team = '';
-                                              if(snapshot['team'] != null) {
+                                              if (snapshot['team'] != null) {
                                                 if (snapshot['team'] is int) {
                                                   team = snapshot['team']
                                                       .toString();
@@ -138,15 +140,21 @@ class DetailActivityView extends StatelessWidget {
                                                 team = 'null';
                                               }
                                               bool isFirst;
+                                              String absence;
                                               if (team_last != team) {
                                                 isFirst = true;
                                                 team_last = team;
                                               } else {
                                                 isFirst = false;
                                               }
+                                              if (snapshot['absent']) {
+                                                absence = '出席';
+                                              } else {
+                                                absence = '欠席';
+                                              }
                                               String grade = snapshot['grade'];
                                               String team_call;
-                                              if(grade == 'cub'){
+                                              if (grade == 'cub') {
                                                 team_call = '組';
                                               } else {
                                                 team_call = '班';
@@ -155,54 +163,55 @@ class DetailActivityView extends StatelessWidget {
                                               return Column(children: <Widget>[
                                                 isFirst && team != ''
                                                     ? Padding(
-                                                    padding:
-                                                    EdgeInsets.all(10),
-                                                    child: Container(
-                                                        width:
-                                                        double.infinity,
-                                                        child: Text(
-                                                          team +
-                                                              team_call,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .bold,
-                                                            fontSize: 23,
-                                                          ),
-                                                          textAlign:
-                                                          TextAlign.left,
-                                                        )))
+                                                        padding:
+                                                            EdgeInsets.all(10),
+                                                        child: Container(
+                                                            width:
+                                                                double.infinity,
+                                                            child: Text(
+                                                              team + team_call,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 23,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                            )))
                                                     : Container(),
                                                 Padding(
                                                     padding: EdgeInsets.all(5),
                                                     child: Container(
                                                       child: Card(
                                                         shape:
-                                                        RoundedRectangleBorder(
+                                                            RoundedRectangleBorder(
                                                           borderRadius:
-                                                          BorderRadius
-                                                              .circular(10),
+                                                              BorderRadius
+                                                                  .circular(10),
                                                         ),
                                                         child: InkWell(
-                                                          onTap: () {
-                                                          },
+                                                          onTap: () {},
                                                           child: Padding(
                                                             padding:
-                                                            EdgeInsets.all(
-                                                                10),
+                                                                EdgeInsets.all(
+                                                                    10),
                                                             child: Row(
-                                                              children: <Widget>[
+                                                              children: <
+                                                                  Widget>[
                                                                 Container(
                                                                   width: 40,
                                                                   height: 40,
                                                                   decoration: BoxDecoration(
                                                                       color: theme.getUserColor(
                                                                           snapshot[
-                                                                          'age']),
+                                                                              'age']),
                                                                       shape: BoxShape
                                                                           .circle),
                                                                   child: Icon(
-                                                                    Icons.person,
+                                                                    Icons
+                                                                        .person,
                                                                     color: Colors
                                                                         .white,
                                                                   ),
@@ -210,28 +219,32 @@ class DetailActivityView extends StatelessWidget {
                                                                 Padding(
                                                                     padding: EdgeInsets
                                                                         .only(
-                                                                        left:
-                                                                        10),
+                                                                            left:
+                                                                                10),
                                                                     child: Text(
                                                                       snapshot[
-                                                                      'name'],
+                                                                          'name'],
                                                                       style: TextStyle(
-                                                                          fontWeight:
-                                                                          FontWeight
+                                                                          fontWeight: FontWeight
                                                                               .bold,
                                                                           fontSize:
-                                                                          25),
+                                                                              25),
                                                                     )),
                                                                 Spacer(),
-                                                                Checkbox(
-                                                                  value: isCheck,
-                                                                  onChanged:
-                                                                      (bool e) {
-                                                                  },
-                                                                  activeColor:
-                                                                  Colors.blue[
-                                                                  600],
-                                                                )
+                                                                Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                            left:
+                                                                                10),
+                                                                    child: Text(
+                                                                      absence,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontSize:
+                                                                              17),
+                                                                    ))
+
                                                                 /*Padding(
                                                               padding: EdgeInsets
                                                                   .only(
