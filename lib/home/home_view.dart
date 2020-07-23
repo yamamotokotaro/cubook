@@ -49,6 +49,11 @@ class HomeViewNew extends StatelessWidget {
                                   return Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
+                                      /*ListTile(
+                                        leading: Icon(Icons.person),
+                                        title: Text('アカウント設定'),
+                                        onTap: () => launchURL(),
+                                      ),*/
                                       model.age != 'usagi' &&
                                               model.age != 'sika' &&
                                               model.age != 'kuma'
@@ -104,18 +109,17 @@ class HomeViewNew extends StatelessWidget {
             Spacer(),
             Selector<HomeModel, String>(
               selector: (context, model) => model.groupName,
-              builder: (context, name, child) =>
-                  Padding(
-                    padding: EdgeInsets.only(top: 12, right: 15),
-                    child: Text(
-                      name,
-                      style: GoogleFonts.notoSans(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          )),
-                    ),
-                  ),
+              builder: (context, name, child) => Padding(
+                padding: EdgeInsets.only(top: 12, right: 15),
+                child: Text(
+                  name,
+                  style: GoogleFonts.notoSans(
+                      textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  )),
+                ),
+              ),
             ),
           ],
         ),

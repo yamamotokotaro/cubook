@@ -21,16 +21,18 @@ class SelectBook extends StatelessWidget {
   String uid;
 
   var type = [
+    /*'beaver',*/
+    'usagi',
     'sika',
     'kuma',
     'challenge',
-    'syokyu',
+    /*'syokyu',
     'nikyu',
     'ikkyu',
     'kiku',
     'hayabusa',
     'fuji',
-    'gino'
+    'gino'*/
   ];
 
   SelectBook(String uid) {
@@ -42,157 +44,92 @@ class SelectBook extends StatelessWidget {
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
-        Padding(
-            padding: EdgeInsets.all(10),
-            child: Container(
-                height: 180,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  elevation: 8,
-                  color: theme.getThemeColor('usagi'),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute<TaskView>(
-                          builder: (BuildContext context) {
-                        return TaskListScoutConfirmView('usagi', uid);
-                      }));
-                    },
-                    child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                      padding: EdgeInsets.only(left: 13),
-                                      child: Material(
-                                        type: MaterialType.transparency,
-                                        child: Text(
-                                          theme.getTitle('usagi'),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 30,
-                                              color: Colors.white),
-                                        ),
-                                      ))),
-                              Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: Consumer<UserDetailModel>(
-                                      builder: (context, model, child) {
-                                    if (model.userSnapshot == null) {
-                                      model.getSnapshot(uid);
-                                    } else if (model.userSnapshot.data['uid'] !=
-                                        uid) {
-                                      model.getSnapshot(uid);
-                                      model.userSnapshot = null;
-                                    }
-                                    if (model.userSnapshot != null) {
-                                      if (model.userSnapshot['usagi'] != null) {
-                                        return LinearProgressIndicator(
-                                            backgroundColor: theme
-                                                .getIndicatorColor('usagi'),
-                                            valueColor:
-                                                new AlwaysStoppedAnimation<
-                                                    Color>(Colors.white),
-                                            value: model.userSnapshot['usagi']
-                                                    .length /
-                                                task.getAllMap('usagi').length);
-                                      } else {
-                                        return Container();
-                                      }
-                                    } else {
-                                      return LinearProgressIndicator(
-                                        backgroundColor:
-                                            theme.getIndicatorColor('usagi'),
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                Colors.white),
-                                      );
-                                    }
-                                  }))
-                            ])),
-                  ),
-                ))),
-        ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: type.length,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Container(
-                    height: 180,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      elevation: 8,
-                      color: theme.getThemeColor(type[index]),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute<TaskView>(
-                              builder: (BuildContext context) {
-                            return TaskListScoutConfirmView(type[index], uid);
-                          }));
-                        },
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 13),
-                                      child: Material(
-                                          type: MaterialType.transparency,
-                                          child: Text(
-                                            theme.getTitle(type[index]),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 30,
-                                                color: Colors.white),
-                                          )),
-                                    )),
-                                Padding(
-                                    padding: EdgeInsets.all(20),
-                                    child: Selector<UserDetailModel,
-                                            DocumentSnapshot>(
-                                        selector: (context, model) =>
-                                            model.userSnapshot,
-                                        builder: (context, snapshot, child) => snapshot !=
-                                                null
-                                            ? snapshot[type[index]] != null
-                                                ? LinearProgressIndicator(
-                                                    backgroundColor:
-                                                        theme.getIndicatorColor(
-                                                            type[index]),
-                                                    valueColor:
-                                                        new AlwaysStoppedAnimation<
-                                                                Color>(
-                                                            Colors.white),
-                                                    value: snapshot[type[index]]
-                                                            .length /
-                                                        task
-                                                            .getAllMap(type[index])
-                                                            .length)
-                                                : Container()
-                                            : LinearProgressIndicator(
-                                                backgroundColor: theme
-                                                    .getIndicatorColor(type[index]),
-                                                valueColor:
-                                                    new AlwaysStoppedAnimation<
-                                                        Color>(Colors.white),
-                                              ))),
-                              ]),
+        Consumer<UserDetailModel>(builder: (context, model, child) {
+          if (model.userSnapshot == null) {
+            model.getSnapshot(uid);
+          } else if (model.userSnapshot.data['uid'] != uid) {
+            model.getSnapshot(uid);
+            model.userSnapshot = null;
+          }
+          return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: type.length,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                      height: 180,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 8,
+                        color: theme.getThemeColor(type[index]),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute<TaskView>(
+                                builder: (BuildContext context) {
+                              return TaskListScoutConfirmView(type[index], uid);
+                            }));
+                          },
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 13),
+                                        child: Material(
+                                            type: MaterialType.transparency,
+                                            child: Text(
+                                              theme.getTitle(type[index]),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 30,
+                                                  color: Colors.white),
+                                            )),
+                                      )),
+                                  Padding(
+                                      padding: EdgeInsets.all(20),
+                                      child: Selector<UserDetailModel,
+                                              DocumentSnapshot>(
+                                          selector: (context, model) =>
+                                              model.userSnapshot,
+                                          builder: (context, snapshot, child) => snapshot !=
+                                                  null
+                                              ? snapshot[type[index]] != null
+                                                  ? LinearProgressIndicator(
+                                                      backgroundColor: theme
+                                                          .getIndicatorColor(
+                                                              type[index]),
+                                                      valueColor:
+                                                          new AlwaysStoppedAnimation<Color>(
+                                                              Colors.white),
+                                                      value: snapshot[type[index]]
+                                                              .length /
+                                                          task
+                                                              .getAllMap(
+                                                                  type[index])
+                                                              .length)
+                                                  : Container()
+                                              : LinearProgressIndicator(
+                                                  backgroundColor:
+                                                      theme.getIndicatorColor(
+                                                          type[index]),
+                                                  valueColor:
+                                                      new AlwaysStoppedAnimation<
+                                                          Color>(Colors.white),
+                                                ))),
+                                ]),
+                          ),
                         ),
                       ),
-                    ),
-                  ));
-            }),
+                    ));
+              });
+        }),
       ],
     ));
   }

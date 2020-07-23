@@ -257,7 +257,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         taskInfo = task.getPartMap(type, page);
         if (count == taskInfo['hasItem']) {
           data_signed['end'] = Timestamp.now();
-          data_signed['isCitationed'] = false;
+          data_signed['isCitationed'] = checkCitation;
           if(type == 'gino') {
             if (taskInfo['examination']) {
               data_signed['phase'] = 'not examined';
@@ -287,7 +287,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         taskInfo = task.getPartMap(type, page);
         if (count == taskInfo['hasItem']) {
           data_signed['end'] = Timestamp.now();
-          data_signed['isCitationed'] = false;
+          data_signed['isCitationed'] = checkCitation;
           if(type == 'gino') {
             if (taskInfo['examination']) {
               data_signed['phase'] = 'not examined';
@@ -320,7 +320,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
             .document(snapshot.documentID)
             .updateData(mapSend);
 
-        if (map[page.toString()] == task.getPartMap(type, page)['hasItem']) {
+        if (map[page.toString()] == task.getPartMap(type, page)['hasItem'] && !isComplete) {
           onFinish();
         }
       });

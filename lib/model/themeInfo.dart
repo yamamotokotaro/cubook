@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ThemeInfo {
   List<Color> colors = [
+    Colors.lightBlue[400],
     Colors.orange,
     Colors.green,
     Colors.blue,
@@ -15,6 +16,7 @@ class ThemeInfo {
     Colors.green[900],
   ];
   List<Color> colors_indicator = [
+    Colors.lightBlue[500],
     Colors.orange[300],
     Colors.green[300],
     Colors.blue[300],
@@ -29,6 +31,7 @@ class ThemeInfo {
   ];
 
   List<String> titles = [
+    'ビーバーノート',
     'うさぎのカブブック',
     'しかのカブブック',
     'くまのカブブック',
@@ -45,20 +48,66 @@ class ThemeInfo {
   Color getThemeColor(String type) {
     Color color;
     switch (type) {
-      case 'usagi':
+      case 'beaver':
         color = colors[0];
         break;
-      case 'sika':
+      case 'usagi':
         color = colors[1];
         break;
-      case 'kuma':
+      case 'sika':
         color = colors[2];
         break;
-      case 'challenge':
+      case 'kuma':
         color = colors[3];
         break;
-      case 'syokyu':
+      case 'challenge':
         color = colors[4];
+        break;
+      case 'syokyu':
+        color = colors[5];
+        break;
+      case 'nikyu':
+        color = colors[6];
+        break;
+      case 'ikkyu':
+        color = colors[7];
+        break;
+      case 'kiku':
+        color = colors[8];
+        break;
+      case 'hayabusa':
+        color = colors[9];
+        break;
+      case 'fuji':
+        color = colors[10];
+        break;
+      case 'gino':
+        color = colors[11];
+        break;
+    }
+    return color;
+  }
+
+  Color getUserColor(String type) {
+    Color color;
+    switch (type) {
+      case 'beaver':
+        color = colors[0];
+        break;
+      case 'usagi':
+        color = colors[1];
+        break;
+      case 'sika':
+        color = colors[2];
+        break;
+      case 'kuma':
+        color = colors[3];
+        break;
+      case 'challenge':
+        color = colors[4];
+        break;
+      case 'syokyu':
+        color = colors[5];
         break;
       case 'nikyu':
         color = colors[5];
@@ -82,81 +131,44 @@ class ThemeInfo {
     return color;
   }
 
-  Color getUserColor(String type) {
-    Color color;
-    switch (type) {
-      case 'usagi':
-        color = colors[0];
-        break;
-      case 'sika':
-        color = colors[1];
-        break;
-      case 'kuma':
-        color = colors[2];
-        break;
-      case 'challenge':
-        color = colors[3];
-        break;
-      case 'syokyu':
-        color = colors[4];
-        break;
-      case 'nikyu':
-        color = colors[4];
-        break;
-      case 'ikkyu':
-        color = colors[5];
-        break;
-      case 'kiku':
-        color = colors[6];
-        break;
-      case 'hayabusa':
-        color = colors[7];
-        break;
-      case 'fuji':
-        color = colors[8];
-        break;
-      case 'gino':
-        color = colors[9];
-        break;
-    }
-    return color;
-  }
-
   Color getIndicatorColor(String type) {
     Color color;
     switch (type) {
-      case 'usagi':
+      case 'beaver':
         color = colors_indicator[0];
         break;
-      case 'sika':
+      case 'usagi':
         color = colors_indicator[1];
         break;
-      case 'kuma':
+      case 'sika':
         color = colors_indicator[2];
         break;
-      case 'challenge':
+      case 'kuma':
         color = colors_indicator[3];
         break;
-      case 'syokyu':
+      case 'challenge':
         color = colors_indicator[4];
         break;
-      case 'nikyu':
+      case 'syokyu':
         color = colors_indicator[5];
         break;
-      case 'ikkyu':
+      case 'nikyu':
         color = colors_indicator[6];
         break;
-      case 'kiku':
+      case 'ikkyu':
         color = colors_indicator[7];
         break;
-      case 'hayabusa':
+      case 'kiku':
         color = colors_indicator[8];
         break;
-      case 'fuji':
+      case 'hayabusa':
         color = colors_indicator[9];
         break;
-      case 'gino':
+      case 'fuji':
         color = colors_indicator[10];
+        break;
+      case 'gino':
+        color = colors_indicator[11];
         break;
     }
     return color;
@@ -165,38 +177,41 @@ class ThemeInfo {
   String getTitle(String type) {
     String title;
     switch (type) {
-      case 'usagi':
+      case 'beaver':
         title = titles[0];
         break;
-      case 'sika':
+      case 'usagi':
         title = titles[1];
         break;
-      case 'kuma':
+      case 'sika':
         title = titles[2];
         break;
-      case 'challenge':
+      case 'kuma':
         title = titles[3];
         break;
-      case 'syokyu':
+      case 'challenge':
         title = titles[4];
         break;
-      case 'nikyu':
+      case 'syokyu':
         title = titles[5];
         break;
-      case 'ikkyu':
+      case 'nikyu':
         title = titles[6];
         break;
-      case 'kiku':
+      case 'ikkyu':
         title = titles[7];
         break;
-      case 'hayabusa':
+      case 'kiku':
         title = titles[8];
         break;
-      case 'fuji':
+      case 'hayabusa':
         title = titles[9];
         break;
-      case 'gino':
+      case 'fuji':
         title = titles[10];
+        break;
+      case 'gino':
+        title = titles[11];
         break;
     }
     return title;
