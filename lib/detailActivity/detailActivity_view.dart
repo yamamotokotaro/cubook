@@ -62,6 +62,57 @@ class DetailActivityView extends StatelessWidget {
                         if (model.group != null) {
                           return Column(
                             children: <Widget>[
+                              StreamBuilder<DocumentSnapshot>(
+                                stream: Firestore.instance
+                                    .collection('activity')
+                                    .document(documentID)
+                                    .snapshots(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                  if (snapshot.hasData) {
+                                    DocumentSnapshot documentSnapshot =
+                                        snapshot.data;
+                                    String team_last = '';
+                                    return Column(children: <Widget>[
+                                      Padding(
+                                          padding: EdgeInsets.all(17),
+                                          child: Container(
+                                              width: double.infinity,
+                                              child: Text(
+                                                documentSnapshot['title'],
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 32,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                              ))),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 0, bottom: 15, left: 17),
+                                          child: Container(
+                                              width: double.infinity,
+                                              child: Text(
+                                                DateFormat('yyyy年MM月dd日')
+                                                    .format(
+                                                        documentSnapshot['date']
+                                                            .toDate())
+                                                    .toString(),
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                              ))),
+                                    ]);
+                                  } else {
+                                    return const Center(
+                                      child: Padding(
+                                          padding: EdgeInsets.all(5),
+                                          child: CircularProgressIndicator()),
+                                    );
+                                  }
+                                },
+                              ),
                               StreamBuilder<QuerySnapshot>(
                                 stream: Firestore.instance
                                     .collection('activity_personal')
@@ -81,35 +132,6 @@ class DetailActivityView extends StatelessWidget {
                                           querySnapshot.documents[0];
                                       String team_last = '';
                                       return Column(children: <Widget>[
-                                        Padding(
-                                            padding: EdgeInsets.all(17),
-                                            child: Container(
-                                                width: double.infinity,
-                                                child: Text(
-                                                  documentSnapshot['title'],
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 32,
-                                                  ),
-                                                  textAlign: TextAlign.left,
-                                                ))),
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 0, bottom: 15, left: 17),
-                                            child: Container(
-                                                width: double.infinity,
-                                                child: Text(
-                                                  DateFormat('yyyy年MM月dd日')
-                                                      .format(documentSnapshot[
-                                                              'date']
-                                                          .toDate())
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20,
-                                                  ),
-                                                  textAlign: TextAlign.left,
-                                                ))),
                                         ListView.builder(
                                             physics:
                                                 const NeverScrollableScrollPhysics(),
@@ -152,9 +174,9 @@ class DetailActivityView extends StatelessWidget {
                                               } else {
                                                 absence = '欠席';
                                               }
-                                              String grade = snapshot['grade'];
+                                              String age = snapshot['age'];
                                               String team_call;
-                                              if (grade == 'cub') {
+                                              if (age == 'usagi' || age == 'sika' || age == 'kuma') {
                                                 team_call = '組';
                                               } else {
                                                 team_call = '班';
@@ -270,7 +292,44 @@ class DetailActivityView extends StatelessWidget {
                                             })
                                       ]);
                                     } else {
-                                      return Container();
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 5, left: 10, right: 10),
+                                        child: Container(
+                                            child: InkWell(
+                                              onTap: () {},
+                                              child: Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      Icon(
+                                                        Icons.bubble_chart,
+                                                        color: Theme.of(context)
+                                                            .accentColor,
+                                                        size: 35,
+                                                      ),
+                                                      Padding(
+                                                          padding: EdgeInsets.only(
+                                                              left: 10),
+                                                          child: Material(
+                                                            type: MaterialType
+                                                                .transparency,
+                                                            child: Text(
+                                                              '出欠の記録はありません',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                                fontSize: 20,
+                                                              ),
+                                                            ),
+                                                          )),
+                                                    ]),
+                                              ),
+                                            )),
+                                      );
                                     }
                                   } else {
                                     return const Center(

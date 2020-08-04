@@ -220,7 +220,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   Future<void> updateUserInfo(int number) async {
-    bool isComplete = false;
+    bool isComplete = checkCitation;
     var task = new Task();
     int count = 0;
 

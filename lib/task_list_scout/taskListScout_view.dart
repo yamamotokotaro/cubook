@@ -92,7 +92,7 @@ class TaskView extends StatelessWidget {
                                           onTap: () {
                                             Navigator.of(context).push<dynamic>(
                                                 MyPageRoute(
-                                                    page: _ModalPage(index, type, typeFireStore),
+                                                    page: showTaskView(index, type, 0),
                                                     dismissible: true));
                                           },
                                           child: Row(
@@ -224,10 +224,11 @@ class TaskView extends StatelessWidget {
   }
 }
 
-class _ModalPage extends StatelessWidget {
+class showTaskView extends StatelessWidget {
   var task = new Task();
   int currentPage = 0;
   int numberPushed;
+  int initialPage;
   String type;
   String typeFirestore;
   bool test = false;
@@ -236,12 +237,12 @@ class _ModalPage extends StatelessWidget {
 //    StepAddView()
   ];
 
-  _ModalPage(int number, String _type, String _typeFS) {
-    numberPushed = number;
+  showTaskView(int _number, String _type, int _initialPage) {
+    numberPushed = _number;
     type = _type;
-    typeFirestore = _typeFS;
-    pages.add(TaskScoutDetailView(type, number),);
-    for (int i = 0; i < task.getPartMap(type, number)['hasItem']; i++) {
+    initialPage = _initialPage;
+    pages.add(TaskScoutDetailView(type, _number),);
+    for (int i = 0; i < task.getPartMap(type, _number)['hasItem']; i++) {
       pages.add(TaskScoutAddView(i, type));
     }
   }
@@ -263,7 +264,7 @@ class _ModalPage extends StatelessWidget {
       setFraction = 0.8;
     }
     PageController controller =
-    PageController(initialPage: 0, viewportFraction: setFraction);
+    PageController(initialPage: initialPage, viewportFraction: setFraction);
 
     return ChangeNotifierProvider(
         create: (context) => TaskDetailScoutModel(numberPushed, task.getPartMap(type, numberPushed)['hasItem'], type),

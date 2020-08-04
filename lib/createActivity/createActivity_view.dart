@@ -265,7 +265,44 @@ class CreateActivityView extends StatelessWidget {
                                             ]);
                                           });
                                     } else {
-                                      return Container();
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 5, left: 10, right: 10),
+                                        child: Container(
+                                            child: InkWell(
+                                              onTap: () {},
+                                              child: Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      Icon(
+                                                        Icons.bubble_chart,
+                                                        color: Theme.of(context)
+                                                            .accentColor,
+                                                        size: 35,
+                                                      ),
+                                                      Padding(
+                                                          padding: EdgeInsets.only(
+                                                              left: 10),
+                                                          child: Material(
+                                                            type: MaterialType
+                                                                .transparency,
+                                                            child: Text(
+                                                              'スカウトを招待しよう',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                                fontSize: 20,
+                                                              ),
+                                                            ),
+                                                          )),
+                                                    ]),
+                                              ),
+                                            )),
+                                      );
                                     }
                                   } else {
                                     return const Center(

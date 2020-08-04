@@ -96,7 +96,7 @@ class listEffort extends StatelessWidget {
                                 theme.getThemeColor(documentSnapshot['type']);
                             return Column(
                               children: <Widget>[
-                                Platform.isAndroid == true &&
+                                true == true &&
                                         model.position == 'leader'
                                     ? index == 3
                                         ? Padding(
