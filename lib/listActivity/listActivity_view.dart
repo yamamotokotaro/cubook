@@ -59,6 +59,9 @@ class ListActivityView extends StatelessWidget {
                                         child: Container(
                                           child: Card(
                                             child: InkWell(
+                                              customBorder: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
                                               onTap: () {
                                                 Navigator.of(context).pushNamed(
                                                     '/detailActivity',

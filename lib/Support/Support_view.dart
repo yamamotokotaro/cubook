@@ -91,6 +91,10 @@ class SupportView extends StatelessWidget {
                                       elevation: 8,
                                       color: Colors.blue[900],
                                       child: InkWell(
+                                        customBorder: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
                                         onTap: () {
                                           model.videoAd.show();
                                         },
@@ -162,7 +166,8 @@ class SupportView extends StatelessWidget {
                                                         count = userSnapshot[
                                                             list_type[index]];
                                                       }
-                                                      count_color[index] = count;
+                                                      count_color[index] =
+                                                          count;
                                                       return Container(
                                                         height: 70,
                                                         width: 100,
@@ -236,6 +241,7 @@ class SupportView extends StatelessWidget {
                                                     .where('type',
                                                         isEqualTo: list_type[
                                                             index_color])
+                                                    .orderBy('date',descending: true)
                                                     .snapshots(),
                                                 builder: (BuildContext context,
                                                     AsyncSnapshot<QuerySnapshot>

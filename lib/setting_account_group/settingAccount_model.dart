@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class SettingAccountModel extends ChangeNotifier {
+class SettingAccountGroupModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
   FirebaseUser currentUser;
   bool isGet = false;
@@ -40,9 +40,15 @@ class SettingAccountModel extends ChangeNotifier {
                 TextEditingController(text: userSnapshot['family']);
             firstController =
                 TextEditingController(text: userSnapshot['first']);
+            String team;
+            if(userSnapshot['team'] is int){
+              team = userSnapshot['team'].toString();
+            } else {
+              team = userSnapshot['team'];
+            }
             if(userSnapshot['team'] != null) {
               teamController =
-                  TextEditingController(text: userSnapshot['team'].toString());
+                  TextEditingController(text: team);
             } else {
               teamController = TextEditingController();
             }
@@ -182,7 +188,6 @@ class SettingAccountModel extends ChangeNotifier {
     }
     if (familyController.text != '' &&
         firstController.text != '' &&
-        teamController.text != '' &&
         dropdown_text != null &&
         call != null) {
       isLoading = true;
@@ -198,7 +203,7 @@ class SettingAccountModel extends ChangeNotifier {
               'family': familyController.text,
               'first': firstController.text,
               'call': call,
-              'team': int.parse(teamController.text),
+              'team': teamController.text,
               'age': age,
               'age_turn': age_turn,
               'uid': uid,

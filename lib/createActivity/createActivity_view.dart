@@ -118,7 +118,7 @@ class CreateActivityView extends StatelessWidget {
                                     if (snapshot.data.documents.length != 0) {
                                       QuerySnapshot querySnapshot =
                                           snapshot.data;
-                                      int team_last = 0;
+                                      String team_last = '';
                                       return ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
@@ -135,16 +135,29 @@ class CreateActivityView extends StatelessWidget {
                                             if (model.uid_check[uid] != null) {
                                               isCheck = model.uid_check[uid];
                                             }
+                                            String team;
+                                            if(snapshot['team'] is int){
+                                              team = snapshot['team'].toString();
+                                            } else {
+                                              team = snapshot['team'];
+                                            }
                                             bool isFirst;
-                                            if (team_last != snapshot['team']) {
+                                            if (team_last != team) {
                                               isFirst = true;
-                                              team_last = snapshot['team'];
+                                              team_last = team;
                                             } else {
                                               isFirst = false;
                                             }
+                                            String grade = snapshot['grade'];
+                                            String team_call;
+                                            if(grade == 'cub'){
+                                              team_call = '組';
+                                            } else {
+                                              team_call = '班';
+                                            }
                                             print(model.uid_check);
                                             return Column(children: <Widget>[
-                                              isFirst
+                                              isFirst && team != ''
                                                   ? Padding(
                                                       padding:
                                                           EdgeInsets.all(10),
@@ -152,9 +165,8 @@ class CreateActivityView extends StatelessWidget {
                                                           width:
                                                               double.infinity,
                                                           child: Text(
-                                                            snapshot['team']
-                                                                    .toString() +
-                                                                '組',
+                                                            team +
+                                                                team_call,
                                                             style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -253,7 +265,44 @@ class CreateActivityView extends StatelessWidget {
                                             ]);
                                           });
                                     } else {
-                                      return Container();
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 5, left: 10, right: 10),
+                                        child: Container(
+                                            child: InkWell(
+                                              onTap: () {},
+                                              child: Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      Icon(
+                                                        Icons.bubble_chart,
+                                                        color: Theme.of(context)
+                                                            .accentColor,
+                                                        size: 35,
+                                                      ),
+                                                      Padding(
+                                                          padding: EdgeInsets.only(
+                                                              left: 10),
+                                                          child: Material(
+                                                            type: MaterialType
+                                                                .transparency,
+                                                            child: Text(
+                                                              'スカウトを招待しよう',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                                fontSize: 20,
+                                                              ),
+                                                            ),
+                                                          )),
+                                                    ]),
+                                              ),
+                                            )),
+                                      );
                                     }
                                   } else {
                                     return const Center(

@@ -26,6 +26,9 @@ class HomeScoutView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: InkWell(
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute<InviteView>(
                         builder: (BuildContext context) {
@@ -67,6 +70,9 @@ class HomeScoutView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: InkWell(
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                   onTap: () {
                     Navigator.of(context).pushNamed('/listAbsentScout');
                   },
@@ -173,6 +179,9 @@ class HomeScoutView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: InkWell(
+                        customBorder: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute<TaskView>(
                               builder: (BuildContext context) {
@@ -233,6 +242,9 @@ class HomeScoutView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute<TaskView>(
                             builder: (BuildContext context) {

@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <solid
-        android:color="@android:color/holo_red_light" />
+        android:color="@color/colorPrimary" />
 
     <padding
         android:left="4dp"

@@ -88,7 +88,7 @@ class InviteModel with ChangeNotifier {
         team = '100';
         break;
     }
-    if(addressController != '' && familyController.text != '' && firstController.text != '' && team != '' && age != '' && dropdown_text != null && dropdown_call != null) {
+    if(addressController != '' && familyController.text != '' && firstController.text != '' && age != '' && dropdown_text != null && dropdown_call != null) {
       isLoading_join = true;
       notifyListeners();
       FirebaseAuth.instance.currentUser().then((user) {
@@ -120,7 +120,7 @@ class InviteModel with ChangeNotifier {
               'call': dropdown_call,
               'age': age,
               'position': position,
-              'team': int.parse(team)
+              'team': team
             });
 
             http.Response resp =

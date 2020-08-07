@@ -220,7 +220,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   Future<void> updateUserInfo(int number) async {
-    bool isComplete = false;
+    bool isComplete = checkCitation;
     var task = new Task();
     int count = 0;
 
@@ -257,7 +257,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         taskInfo = task.getPartMap(type, page);
         if (count == taskInfo['hasItem']) {
           data_signed['end'] = Timestamp.now();
-          data_signed['isCitationed'] = false;
+          data_signed['isCitationed'] = checkCitation;
           if(type == 'gino') {
             if (taskInfo['examination']) {
               data_signed['phase'] = 'not examined';
@@ -287,7 +287,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         taskInfo = task.getPartMap(type, page);
         if (count == taskInfo['hasItem']) {
           data_signed['end'] = Timestamp.now();
-          data_signed['isCitationed'] = false;
+          data_signed['isCitationed'] = checkCitation;
           if(type == 'gino') {
             if (taskInfo['examination']) {
               data_signed['phase'] = 'not examined';
@@ -320,7 +320,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
             .document(snapshot.documentID)
             .updateData(mapSend);
 
-        if (map[page.toString()] == task.getPartMap(type, page)['hasItem']) {
+        if (map[page.toString()] == task.getPartMap(type, page)['hasItem'] && !isComplete) {
           onFinish();
         }
       });
@@ -484,6 +484,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     map['type'] = type;
     map['group'] = snapshot['group'];
     map['time'] = Timestamp.now();
+    map['page'] = page;
     Firestore.instance.collection('effort').add(map);
     Firestore.instance
         .collection(type)

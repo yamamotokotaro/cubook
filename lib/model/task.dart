@@ -1284,19 +1284,19 @@ class Task {
     switch (type) {
       case 'usagi':
         //map_info = usagi[number];
-        content = '情報がありません';
+        content = '日本連盟に掲載許可の確認をしています\n許可が取れ次第表示をいたします';
         break;
       case 'sika':
         //map_info = sika[number];
-        content = '情報がありません';
+        content = '日本連盟に掲載許可の確認をしています\n許可が取れ次第表示をいたします';
         break;
       case 'kuma':
         //map_info = kuma[number];
-        content = '情報がありません';
+        content = '日本連盟に掲載許可の確認をしています\n許可が取れ次第表示をいたします';
         break;
       case 'challenge':
         //map_info = challnege[number];
-        content = '情報がありません';
+        content = '日本連盟に掲載許可の確認をしています\n許可が取れ次第表示をいたします';
         break;
       case 'syokyu':
         content = content_syokyu[page][number];
