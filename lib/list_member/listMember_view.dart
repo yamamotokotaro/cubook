@@ -20,10 +20,10 @@ class ListMemberView extends StatelessWidget {
     String adunitID;
     if (isRelease) {
       if (Platform.isAndroid) {
-        adunitID = 'ca-app-pub-9318890511624941/3455286517';
+        adunitID = 'ca-app-pub-9318890511624941/8410165495';
         // Android-specific code
       } else if (Platform.isIOS) {
-        adunitID = 'ca-app-pub-9318890511624941/7202959836';
+        adunitID = 'ca-app-pub-9318890511624941/5503858609';
         // iOS-specific code
       }
     } else {
@@ -147,6 +147,9 @@ class ListMemberView extends StatelessWidget {
                                                                 .circular(10),
                                                       ),
                                                       child: InkWell(
+                                                        customBorder: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(10.0),
+                                                        ),
                                                         onTap: () {
                                                           Navigator.push(
                                                               context,

@@ -61,6 +61,10 @@ class ListTaskWaitingView extends StatelessWidget {
                                               color: theme.getThemeColor(
                                                   snapshot['type']),
                                               child: InkWell(
+                                                customBorder: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                                ),
                                                 onTap: () {
                                                   Navigator.push(context,
                                                       new MaterialPageRoute<

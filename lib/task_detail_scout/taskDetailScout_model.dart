@@ -120,14 +120,16 @@ class TaskDetailScoutModel extends ChangeNotifier {
                       dataList[i] = body;
                     }
                   }
-                } else if (doc['phaze'] == 'reject' || doc['phaze'] == 'withdraw') {
+                } else if (doc['phaze'] == 'reject' ||
+                    doc['phaze'] == 'withdraw') {
                   dataMap = doc['data'];
                   if (dataMap != null) {
                     List<dynamic> body = List<dynamic>();
                     for (int j = 0; j < dataMap.length; j++) {
                       list_attach[i].add(dataMap[j]['type']);
                       if (dataMap[j]['type'] == 'text') {
-                        map_attach[i][j] = dataMap[j]['body'];
+                        map_attach[i][j] =
+                            TextEditingController(text: dataMap[j]['body']);
                       } else if (dataMap[j]['type'] == 'image') {
                         final StorageReference ref =
                             FirebaseStorage().ref().child(dataMap[j]['body']);
@@ -194,6 +196,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     if (checkParent && map_attach[number].length != 0) {
       isLoading[number] = true;
       notifyListeners();
+      print(map_attach);
 
       FirebaseAuth.instance.currentUser().then((user) {
         if (user != null) {
@@ -205,8 +208,8 @@ class TaskDetailScoutModel extends ChangeNotifier {
                 new List<dynamic>.generate(MapDatas.length, (index) => null);
             count_toSend[number] = MapDatas.length;
             for (int i = 0; i < MapDatas.length; i++) {
-              if (MapDatas[i] is String) {
-                await textSend(i, MapDatas[i], number);
+              if (MapDatas[i] is TextEditingController) {
+                await textSend(i, MapDatas[i].text, number);
               } else if (MapDatas[i] is File) {
                 await fileSend(i, MapDatas[i], number);
               }
@@ -370,7 +373,8 @@ class TaskDetailScoutModel extends ChangeNotifier {
         videoPlayerController: videoPlayerController,
         aspectRatio: videoPlayerController.value.aspectRatio,
         autoPlay: false,
-        looping: false);
+        looping: false,
+        allowFullScreen: false);
     notifyListeners();
   }
 
@@ -385,12 +389,9 @@ class TaskDetailScoutModel extends ChangeNotifier {
         videoPlayerController: videoPlayerController,
         aspectRatio: videoPlayerController.value.aspectRatio,
         autoPlay: false,
-        looping: false);
+        looping: false,
+        allowFullScreen: false);
     notifyListeners();
-  }
-
-  void onTextChanged(int number, int index, String text) async {
-    map_attach[number][index] = text;
   }
 
   void onPressAdd() {
@@ -399,11 +400,19 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   void onPressAdd_new(int index, String type) {
+    if (type == 'text') {
+      print('map_attach[' + index.toString() + '][' + list_attach[index].length.toString() + ']');
+      map_attach[index][list_attach[index].length] =
+          TextEditingController();
+    }
     list_attach[index].add(type);
     notifyListeners();
   }
 
   void onPressDelete(int number, int index) {
+    print(map_attach);
+    print(list_attach);
+    print('map_attach[' + number.toString() + '][' + index.toString() + ']');
     map_attach[number].remove(index);
     list_attach[number].remove(index);
     if (map_show[number][index] != null) {

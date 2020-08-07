@@ -372,8 +372,9 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                         children: <Widget>[
                                                           Chewie(
                                                             controller: model
-                                                                    .map_show[
-                                                                index_page][index],
+                                                                        .map_show[
+                                                                    index_page]
+                                                                [index],
                                                           )
                                                         ],
                                                       ),
@@ -433,18 +434,13 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                       ),
                                       new TextField(
                                         enabled: true,
-                                        controller: TextEditingController(text: model
-                                            .map_attach[
-                                        index_page][index],),
+                                        controller: model.map_attach[index_page]
+                                            [index],
                                         // 入力数
                                         maxLength: 2000,
                                         keyboardType: TextInputType.multiline,
                                         maxLines: null,
                                         maxLengthEnforced: false,
-                                        onChanged: (text) {
-                                          model.onTextChanged(
-                                              index_page, index, text);
-                                        },
                                       ),
                                       /*IconButton(
                                                 padding: EdgeInsets.all(0),

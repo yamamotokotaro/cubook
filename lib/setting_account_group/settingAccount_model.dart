@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class SettingAccountModel extends ChangeNotifier {
+class SettingAccountGroupModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
   FirebaseUser currentUser;
   bool isGet = false;

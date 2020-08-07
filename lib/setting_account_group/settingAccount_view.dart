@@ -5,13 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SettingAccountView extends StatelessWidget {
+class SettingAccountGroupView extends StatelessWidget {
   var task = new Task();
   var theme = new ThemeInfo();
 
   String uid;
 
-  SettingAccountView(String _uid) {
+  SettingAccountGroupView(String _uid) {
     uid = _uid;
   }
 
@@ -26,7 +26,7 @@ class SettingAccountView extends StatelessWidget {
                 child: Center(
                     child: ConstrainedBox(
                         constraints: BoxConstraints(maxWidth: 600),
-                        child: Consumer<SettingAccountModel>(
+                        child: Consumer<SettingAccountGroupModel>(
                             builder: (context, model, child) {
                           model.getSnapshot(uid);
                           if (model.userSnapshot != null) {
@@ -85,7 +85,7 @@ class SettingAccountView extends StatelessWidget {
                                       isExpanded: true,
                                       hint: Text('役割を選択'),
                                       value: model.dropdown_text,
-                                      items: <String>['うさぎ', 'しか', 'くま'/*,'ボーイスカウトバッジ', '初級スカウト', '2級スカウト', '1級スカウト', '菊スカウト（隼を目指すスカウト）', '隼スカウト', '富士スカウト'*/]
+                                      items: <String>['うさぎ', 'しか', 'くま','ボーイスカウトバッジ'/*, '初級スカウト', '2級スカウト', '1級スカウト', '菊スカウト（隼を目指すスカウト）', '隼スカウト', '富士スカウト'*/]
                                           .map((String value) {
                                         return new DropdownMenuItem<String>(
                                           value: value,

@@ -64,7 +64,16 @@ class NotificationView extends StatelessWidget {
                                           child: Container(
                                             child: Card(
                                               color: color,
+                                              shape:
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    10.0),
+                                              ),
                                               child: InkWell(
+                                                customBorder: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                ),
                                                 onTap: () {
                                                   Navigator.of(context).push<
                                                           dynamic>(
@@ -98,7 +107,9 @@ class NotificationView extends StatelessWidget {
                                                                         FontWeight
                                                                             .bold,
                                                                     fontSize:
-                                                                        16),
+                                                                        16,
+                                                                    color: Colors
+                                                                        .white),
                                                               ))),
                                                       Padding(
                                                           padding:
@@ -120,7 +131,9 @@ class NotificationView extends StatelessWidget {
                                                                         FontWeight
                                                                             .bold,
                                                                     fontSize:
-                                                                        15),
+                                                                        15,
+                                                                    color: Colors
+                                                                        .white),
                                                               ))),
                                                     ],
                                                   ),

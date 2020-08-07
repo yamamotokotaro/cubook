@@ -32,125 +32,57 @@ class SettingAccountView extends StatelessWidget {
                             if (model.uid != null) {
                               return StreamBuilder<QuerySnapshot>(
                                 stream: Firestore.instance
-                                    .collection('notification')
+                                    .collection('user')
+                                    .where('group',
+                                    isEqualTo: model.group)
                                     .where('uid', isEqualTo: model.uid)
-                                    .orderBy('time', descending: true)
                                     .snapshots(),
                                 builder: (BuildContext context,
-                                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                                    AsyncSnapshot<QuerySnapshot>
+                                    snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data.documents.length != 0) {
-                                      QuerySnapshot querySnapshot = snapshot.data;
-                                      return ListView.builder(
-                                          physics:
-                                          const NeverScrollableScrollPhysics(),
-                                          itemCount: querySnapshot.documents.length,
-                                          shrinkWrap: true,
-                                          itemBuilder:
-                                              (BuildContext context, int index) {
-                                            DocumentSnapshot snapshot =
-                                            querySnapshot.documents[index];
-                                            return Padding(
-                                              padding: EdgeInsets.all(5),
-                                              child: Container(
-                                                child: Card(
-                                                  child: InkWell(
-                                                    onTap: () {},
-                                                    child: Padding(
-                                                      padding: EdgeInsets.all(10),
-                                                      child: Column(
-                                                        children: <Widget>[
-                                                          Padding(
-                                                              padding:
-                                                              EdgeInsets.only(
-                                                                  top: 3, bottom: 8),
-                                                              child: Align(
-                                                                  alignment: Alignment.centerLeft,
-                                                                  child:Text(
-                                                                    snapshot[
-                                                                    'body'],
-                                                                    textAlign: TextAlign.left,
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                        fontSize:
-                                                                        16),
-                                                                  ))),
-                                                          Padding(
-                                                              padding:
-                                                              EdgeInsets.only(
-                                                                  left: 3,
-                                                                  top: 5),
-                                                              child: Align(
-                                                                  alignment: Alignment
-                                                                      .centerLeft,
-                                                                  child: Text(
-                                                                    DateFormat(
-                                                                        'yyyy/MM/dd hh:mm')
-                                                                        .format(snapshot[
-                                                                    'time']
-                                                                        .toDate())
-                                                                        .toString(),
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                        fontSize:
-                                                                        15),
-                                                                  ))),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          });
-                                    } else {
-                                      return Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 5, left: 10, right: 10),
-                                        child: Container(
-                                            child: InkWell(
-                                              onTap: () {},
-                                              child: Padding(
-                                                padding: EdgeInsets.all(10),
-                                                child: Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                    children: <Widget>[
-                                                      Icon(
-                                                        Icons.bubble_chart,
-                                                        color: Theme.of(context)
-                                                            .accentColor,
-                                                        size: 35,
-                                                      ),
-                                                      Padding(
-                                                          padding:
-                                                          EdgeInsets.only(left: 10),
-                                                          child: Material(
-                                                            type: MaterialType
-                                                                .transparency,
-                                                            child: Text(
-                                                              'お知らせはまだありません',
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                FontWeight.normal,
-                                                                fontSize: 20,
-                                                              ),
-                                                            ),
-                                                          )),
-                                                    ]),
-                                              ),
+                                    DocumentSnapshot userSnapshot =
+                                    snapshot.data.documents[0];
+                                    return Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 16, bottom: 10),
+                                          child: Container(
+                                            width: 80,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                                color:
+                                                theme.getUserColor(
+                                                    userSnapshot[
+                                                    'age']),
+                                                shape: BoxShape.circle),
+                                            child: Icon(
+                                              Icons.person,
+                                              size: 40,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: 10),
+                                            child: Text(
+                                              userSnapshot['name'],
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight.bold,
+                                                  fontSize: 25),
                                             )),
-                                      );
-                                    }
+                                      ],
+                                    );
                                   } else {
                                     return const Center(
                                       child: Padding(
                                           padding: EdgeInsets.all(5),
-                                          child: CircularProgressIndicator()),
+                                          child:
+                                          CircularProgressIndicator()),
                                     );
                                   }
                                 },

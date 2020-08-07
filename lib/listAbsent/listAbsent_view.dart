@@ -68,6 +68,9 @@ class ListAbsentView extends StatelessWidget {
                                                 BorderRadius.circular(10.0),
                                               ),
                                               child: InkWell(
+                                                customBorder: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                ),
                                                 onTap: () {
                                                   print(model.position);
                                                   if (model.position ==

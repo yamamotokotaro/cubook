@@ -67,6 +67,9 @@ class SelectBook extends StatelessWidget {
                         elevation: 8,
                         color: theme.getThemeColor(type[index]),
                         child: InkWell(
+                          customBorder: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute<TaskView>(
                                 builder: (BuildContext context) {

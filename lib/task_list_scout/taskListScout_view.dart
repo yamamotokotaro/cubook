@@ -89,6 +89,9 @@ class TaskView extends StatelessWidget {
                                           borderRadius: BorderRadius.circular(10.0),
                                         ),
                                         child: InkWell(
+                                          customBorder: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                          ),
                                           onTap: () {
                                             Navigator.of(context).push<dynamic>(
                                                 MyPageRoute(

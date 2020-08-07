@@ -329,6 +329,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     map['group'] = snapshot['group'];
     map['time'] = Timestamp.now();
     map['data'] = dataMap;
+    map['page'] = page;
     Firestore.instance.collection('effort').add(map);
     Firestore.instance
         .collection(type)

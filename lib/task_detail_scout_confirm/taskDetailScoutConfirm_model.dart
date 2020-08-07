@@ -484,6 +484,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     map['type'] = type;
     map['group'] = snapshot['group'];
     map['time'] = Timestamp.now();
+    map['page'] = page;
     Firestore.instance.collection('effort').add(map);
     Firestore.instance
         .collection(type)
