@@ -84,7 +84,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                           width: double.infinity,
                                           child: Text(
                                             task.getContent(type,
-                                                model.numberPushed, index_page),
+                                                model.numberPushed, index_page).toString(),
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,

@@ -94,7 +94,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                                               child:
                                               Text(
                                                 task.getContent(
-                                                    type, model.page, index_page),
+                                                    type, model.page, index_page).toString(),
                                                 style: TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
