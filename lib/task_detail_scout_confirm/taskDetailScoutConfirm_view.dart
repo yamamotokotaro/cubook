@@ -78,8 +78,9 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.only(top: 30),
                   child: Card(
+//                    color: Color.fromRGBO(48, 48, 48, 1.0),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     elevation: 2,
                     child: InkWell(child: Consumer<TaskDetailScoutConfirmModel>(
@@ -87,8 +88,16 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                       if (model.isExit == true) {
                         var message = '';
                         DocumentSnapshot snapshot = model.stepSnapshot;
-                        if (model.stepSnapshot['end'] != null) {
-                          message = '完修済み';
+                        if (snapshot['end'] != null) {
+                          if (snapshot['phase'] != null) {
+                            if (snapshot['phase'] == 'not examined') {
+                              message = '技能考査が必要です';
+                            } else {
+                              message = '完修済み';
+                            }
+                          } else {
+                            message = '完修済み';
+                          }
                         } else {
                           message = '進行中️';
                         }
@@ -99,8 +108,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(0),
-                                        topRight: const Radius.circular(0)),
+                                        topLeft: const Radius.circular(20),
+                                        topRight: const Radius.circular(20)),
                                     color: themeColor),
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 40, bottom: 20),
@@ -125,6 +134,41 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                       decoration: TextDecoration.none),
                                 ),
                               ),
+                              model.stepSnapshot['phase'] != null
+                                  ? model.stepSnapshot['phase'] ==
+                                          'not examined'
+                                      ? Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 10,
+                                                      left: 20,
+                                                      right: 20),
+                                                  child: RaisedButton.icon(
+                                                    onPressed: () async {
+                                                      model.onTapExamination(
+                                                          snapshot.documentID);
+                                                    },
+                                                    color: themeColor,
+                                                    icon: Icon(
+                                                      Icons.check,
+                                                      size: 20,
+                                                    ),
+                                                    label: Text(
+                                                      '考査済みにする',
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  )),
+                                            ],
+                                          ),
+                                        )
+                                      : Container()
+                                  : Container(),
                               model.stepSnapshot['start'] != null
                                   ? Container(
                                       child: Column(
@@ -140,13 +184,12 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                       TextDecoration.none),
                                             ),
                                           ),
-                                          /*Padding(
-                                            padding: EdgeInsets.all(10),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 5),
                                             child: FlatButton(
                                               child: Text(
                                                 DateFormat('yyyy/MM/dd')
-                                                    .format(model
-                                                        .stepSnapshot['start']
+                                                    .format(snapshot['start']
                                                         .toDate())
                                                     .toString(),
                                                 style: TextStyle(
@@ -155,20 +198,13 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                     decoration:
                                                         TextDecoration.none),
                                               ),
-                                              onPressed: () {},
-                                            ),
-                                          ),*/
-                                          Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              DateFormat('yyyy/MM/dd').format(
-                                                  model.stepSnapshot['start']
-                                                      .toDate()),
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
+                                              onPressed: () {
+                                                model.changeTime(
+                                                    snapshot['start'].toDate(),
+                                                    context,
+                                                    snapshot.documentID,
+                                                    'start');
+                                              },
                                             ),
                                           ),
                                         ],
@@ -190,28 +226,41 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                       TextDecoration.none),
                                             ),
                                           ),
-                                          /*Padding(
-                                            padding: EdgeInsets.all(10),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 5),
                                             child: FlatButton(
                                               child: Text(
-                                                DateFormat('yyyy/MM/dd').format(
-                                                    model.stepSnapshot['end']
-                                                        .toDate()),
+                                                DateFormat('yyyy/MM/dd')
+                                                    .format(snapshot['end']
+                                                        .toDate())
+                                                    .toString(),
                                                 style: TextStyle(
                                                     fontSize: 20.0,
                                                     fontWeight: FontWeight.bold,
                                                     decoration:
                                                         TextDecoration.none),
                                               ),
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                model.changeTime(
+                                                    snapshot['end'].toDate(),
+                                                    context,
+                                                    snapshot.documentID,
+                                                    'end');
+                                              },
                                             ),
-                                          ),*/
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Container(),
+                              model.stepSnapshot['date_examination'] != null
+                                  ? Container(
+                                      child: Column(
+                                        children: <Widget>[
                                           Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(
-                                              DateFormat('yyyy/MM/dd').format(
-                                                  model.stepSnapshot['end']
-                                                      .toDate()),
+                                              '考査認定日',
                                               style: TextStyle(
                                                   fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
@@ -219,6 +268,51 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                       TextDecoration.none),
                                             ),
                                           ),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 5),
+                                            child: FlatButton(
+                                              child: Text(
+                                                DateFormat('yyyy/MM/dd')
+                                                    .format(snapshot[
+                                                            'date_examination']
+                                                        .toDate())
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                              onPressed: () {
+                                                model.changeTime(
+                                                    snapshot['date_examination']
+                                                        .toDate(),
+                                                    context,
+                                                    snapshot.documentID,
+                                                    'date_examination');
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, left: 20, right: 20),
+                                              child: FlatButton.icon(
+                                                onPressed: () async {
+                                                  model.onTapNotExamination(
+                                                      snapshot.documentID);
+                                                },
+                                                icon: Icon(
+                                                  Icons.close,
+                                                  size: 20,
+                                                ),
+                                                label: Text(
+                                                  '考査未完了にする',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              )),
                                         ],
                                       ),
                                     )
@@ -235,8 +329,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(0),
-                                        topRight: const Radius.circular(0)),
+                                        topLeft: const Radius.circular(20),
+                                        topRight: const Radius.circular(20)),
                                     color: themeColor),
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 40, bottom: 20),
@@ -303,17 +397,10 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   int index_page;
   String type;
   Color themeColor;
+  var theme = new ThemeInfo();
 
   TaskScoutAddConfirmView(int _index, String _type) {
-    if (_type == 'usagi') {
-      themeColor = Colors.orange;
-    } else if (_type == 'sika') {
-      themeColor = Colors.green;
-    } else if (_type == 'kuma') {
-      themeColor = Colors.blue;
-    } else if (_type == 'challenge') {
-      themeColor = Colors.green[900];
-    }
+    themeColor = theme.getThemeColor(_type);
     index_page = _index;
     type = _type;
   }
@@ -335,328 +422,375 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                     ),
                     elevation: 2,
                     child: InkWell(
-                        child: Scaffold(
-                            body: SingleChildScrollView(
-                                child: Column(
-                      children: <Widget>[
-                        Consumer<TaskDetailScoutConfirmModel>(
-                            builder: (context, model, _) {
-                          if (!model.isGet) {
-                            model.getSnapshot();
-                          }
-                          if (model.isLoaded) {
-                            if (model.isExit) {
-                              if (model.stepSnapshot['signed']
-                                      [index_page.toString()] ==
-                                  null) {
-                                return Container(
-                                  child: TaskDetailScoutConfirmAddView(
-                                      index_page, type, ''),
-                                );
-                              } else if (model.stepSnapshot['signed']
-                                      [index_page.toString()]['phaze'] ==
-                                  'signed') {
-                                Map<String, dynamic> snapshot =
-                                    model.stepSnapshot['signed']
-                                        [index_page.toString()];
-                                return Column(children: <Widget>[
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: const Radius.circular(0),
-                                            topRight: const Radius.circular(0)),
-                                        color: themeColor),
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 40, bottom: 20),
-                                      child: Center(
-                                        child: Text(
-                                          'サイン済み',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 5),
-                                    child: FlatButton(
-                                      child: Text(
-                                        DateFormat('yyyy/MM/dd')
-                                            .format(
-                                                model.dateSelected[index_page])
-                                            .toString(),
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none),
-                                      ),
-                                      onPressed: () {
-                                        model.openTimePicker(
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Scaffold(
+                                body: SingleChildScrollView(
+                                    child: Column(
+                              children: <Widget>[
+                                Consumer<TaskDetailScoutConfirmModel>(
+                                    builder: (context, model, _) {
+                                  if (!model.isGet) {
+                                    model.getSnapshot();
+                                  }
+                                  if (model.isLoaded) {
+                                    if (model.isExit) {
+                                      if (model.stepSnapshot['signed']
+                                              [index_page.toString()] ==
+                                          null) {
+                                        return Container(
+                                          child: TaskDetailScoutConfirmAddView(
+                                              index_page, type, ''),
+                                        );
+                                      } else if (model.stepSnapshot['signed']
+                                                  [index_page.toString()]
+                                              ['phaze'] ==
+                                          'signed') {
+                                        Map<String, dynamic> snapshot =
                                             model.stepSnapshot['signed']
-                                                    [index_page.toString()]
-                                                    ['time']
-                                                .toDate(),
-                                            context,
-                                            index_page);
-                                      },
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 10, right: 10),
-                                    child: TextField(
-                                      controller:
-                                          model.textField_signature[index_page],
-                                      decoration:
-                                          InputDecoration(labelText: "署名"),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 10,
-                                        left: 10,
-                                        right: 10,
-                                        bottom: 20),
-                                    child: TextField(
-                                      maxLines: null,
-                                      controller:
-                                          model.textField_feedback[index_page],
-                                      keyboardType: TextInputType.multiline,
-                                      decoration:
-                                          InputDecoration(labelText: "フィードバック"),
-                                    ),
-                                  ),
-                                  !model.isLoading[index_page]
-                                      ? Column(
-                                          children: <Widget>[
-                                            RaisedButton.icon(
-                                              onPressed: () {
-                                                model.onTapSave(
-                                                    index_page, context);
-                                              },
-                                              icon: Icon(
-                                                Icons.save,
-                                                size: 20,
-                                                color: Colors.white,
-                                              ),
-                                              color: themeColor,
-                                              label: Text(
-                                                '変更を保存',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            FlatButton.icon(
-                                              onPressed: () {
-                                                model.onTapCancel(index_page);
-                                              },
-                                              icon: Icon(
-                                                Icons.close,
-                                                size: 20,
-                                                color: Colors.red,
-                                              ),
-                                              label: Text(
-                                                'サイン取り消し',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.red),
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                      : Container(
-                                          child: Container(
-                                            child: Center(
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(themeColor),
+                                                [index_page.toString()];
+                                        return Column(children: <Widget>[
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft:
+                                                        const Radius.circular(
+                                                            0),
+                                                    topRight:
+                                                        const Radius.circular(
+                                                            0)),
+                                                color: themeColor),
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 40, bottom: 20),
+                                              child: Center(
+                                                child: Text(
+                                                  'サイン済み',
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                  snapshot['data'] != null
-                                      ? Column(
-                                          children: <Widget>[
-                                            Padding(
-                                                padding: EdgeInsets.all(10),
-                                                child: ListView.builder(
-                                                    physics:
-                                                        NeverScrollableScrollPhysics(),
-                                                    shrinkWrap: true,
-                                                    itemCount:
-                                                        snapshot['data'].length,
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                            int index) {
-                                                      String type =
-                                                          snapshot['data']
-                                                              [index]['type'];
-                                                      if (type == 'image') {
-                                                        return Padding(
-                                                          padding:
-                                                              EdgeInsets.all(5),
-                                                          child: Container(
-                                                            child: Card(
-                                                              color:
-                                                                  Colors.green,
-                                                              child: Column(
-                                                                children: <
-                                                                    Widget>[
-                                                                  Image.network(
-                                                                      model.dataList[
-                                                                              index_page]
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 5),
+                                            child: FlatButton(
+                                              child: Text(
+                                                DateFormat('yyyy/MM/dd')
+                                                    .format(model.dateSelected[
+                                                        index_page])
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                              onPressed: () {
+                                                model.openTimePicker(
+                                                    model.stepSnapshot['signed']
+                                                            [index_page
+                                                                .toString()]
+                                                            ['time']
+                                                        .toDate(),
+                                                    context,
+                                                    index_page);
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            child: TextField(
+                                              controller:
+                                                  model.textField_signature[
+                                                      index_page],
+                                              decoration: InputDecoration(
+                                                  labelText: "署名"),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 10,
+                                                left: 10,
+                                                right: 10,
+                                                bottom: 20),
+                                            child: TextField(
+                                              maxLines: null,
+                                              controller:
+                                                  model.textField_feedback[
+                                                      index_page],
+                                              keyboardType:
+                                                  TextInputType.multiline,
+                                              decoration: InputDecoration(
+                                                  labelText: "フィードバック"),
+                                            ),
+                                          ),
+                                          !model.isLoading[index_page]
+                                              ? Column(
+                                                  children: <Widget>[
+                                                    RaisedButton.icon(
+                                                      onPressed: () {
+                                                        model.onTapSave(
+                                                            index_page,
+                                                            context);
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.save,
+                                                        size: 20,
+                                                        color: Colors.white,
+                                                      ),
+                                                      color: themeColor,
+                                                      label: Text(
+                                                        '変更を保存',
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                    FlatButton.icon(
+                                                      onPressed: () {
+                                                        model.onTapCancel(
+                                                            index_page);
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.close,
+                                                        size: 20,
+                                                        color: Colors.red,
+                                                      ),
+                                                      label: Text(
+                                                        'サイン取り消し',
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors.red),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                              : Container(
+                                                  child: Container(
+                                                    child: Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        valueColor:
+                                                            AlwaysStoppedAnimation<
+                                                                    Color>(
+                                                                themeColor),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                          snapshot['data'] != null
+                                              ? Column(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                        padding:
+                                                            EdgeInsets.all(10),
+                                                        child: ListView.builder(
+                                                            physics:
+                                                                NeverScrollableScrollPhysics(),
+                                                            shrinkWrap: true,
+                                                            itemCount:
+                                                                snapshot['data']
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (BuildContext
+                                                                        context,
+                                                                    int index) {
+                                                              String type =
+                                                                  snapshot['data']
                                                                           [
-                                                                          index])
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      } else if (type ==
-                                                          'video') {
-                                                        print(model.dataList[
-                                                            index_page]);
-                                                        return Padding(
-                                                          padding:
-                                                              EdgeInsets.all(5),
-                                                          child: Container(
-                                                            child: Card(
-                                                              child: Column(
-                                                                children: <
-                                                                    Widget>[
-                                                                  Chewie(
-                                                                    controller:
-                                                                        model.dataList[index_page]
-                                                                            [
-                                                                            index],
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      } else if (type ==
-                                                          'text') {
-                                                        return Padding(
-                                                          padding:
-                                                              EdgeInsets.all(5),
-                                                          child: Container(
-                                                            child: Card(
-                                                                child: Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(0),
-                                                              child: Column(
-                                                                children: <
-                                                                    Widget>[
-                                                                  Padding(
+                                                                          index]
+                                                                      ['type'];
+                                                              if (type ==
+                                                                  'image') {
+                                                                return Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5),
+                                                                  child:
+                                                                      Container(
+                                                                    child: Card(
+                                                                      color: Colors
+                                                                          .green,
+                                                                      child:
+                                                                          Column(
+                                                                        children: <
+                                                                            Widget>[
+                                                                          Image.network(model.dataList[index_page]
+                                                                              [
+                                                                              index])
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              } else if (type ==
+                                                                  'video') {
+                                                                print(model
+                                                                        .dataList[
+                                                                    index_page]);
+                                                                return Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5),
+                                                                  child:
+                                                                      Container(
+                                                                    child: Card(
+                                                                      child:
+                                                                          Column(
+                                                                        children: <
+                                                                            Widget>[
+                                                                          Chewie(
+                                                                            controller:
+                                                                                model.dataList[index_page][index],
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              } else if (type ==
+                                                                  'text') {
+                                                                return Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5),
+                                                                  child:
+                                                                      Container(
+                                                                    child: Card(
+                                                                        child:
+                                                                            Padding(
                                                                       padding:
                                                                           EdgeInsets.all(
-                                                                              10),
+                                                                              0),
                                                                       child:
-                                                                          Text(
-                                                                        model.dataList[index_page]
-                                                                            [
-                                                                            index],
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                18,
-                                                                            fontWeight:
-                                                                                FontWeight.normal),
-                                                                      ))
-                                                                ],
-                                                              ),
-                                                            )),
-                                                          ),
-                                                        );
-                                                      } else {
-                                                        return Container();
-                                                      }
-                                                    }))
-                                          ],
-                                        )
-                                      : Container(),
-                                ]);
-                              } else if (model.stepSnapshot['signed']
-                                      [index_page.toString()]['phaze'] ==
-                                  'wait') {
-                                return Column(children: <Widget>[
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: const Radius.circular(0),
-                                            topRight: const Radius.circular(0)),
-                                        color: themeColor),
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.only(top: 40, bottom: 20),
-                                      child: Center(
-                                        child: Text(
-                                          'サイン待ち',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Text(
-                                      '最初の画面に戻ってサインしてください',
-                                      style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.bold,
-                                          decoration: TextDecoration.none),
-                                    ),
-                                  ),
-                                ]);
-                              } else if (model.stepSnapshot['signed']
-                                      [index_page.toString()]['phaze'] ==
-                                  'reject') {
-                                return Column(children: <Widget>[
-                                  TaskDetailScoutConfirmAddView(
-                                      index_page,
-                                      type,
-                                      'やりなおし： ' +
-                                          model.stepSnapshot['signed']
+                                                                          Column(
+                                                                        children: <
+                                                                            Widget>[
+                                                                          Padding(
+                                                                              padding: EdgeInsets.all(10),
+                                                                              child: Text(
+                                                                                model.dataList[index_page][index],
+                                                                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                              ))
+                                                                        ],
+                                                                      ),
+                                                                    )),
+                                                                  ),
+                                                                );
+                                                              } else {
+                                                                return Container();
+                                                              }
+                                                            }))
+                                                  ],
+                                                )
+                                              : Container(),
+                                        ]);
+                                      } else if (model.stepSnapshot['signed']
                                                   [index_page.toString()]
-                                              ['feedback'])
-                                ]);
-                              } else {
-                                return Center(
-                                  child: Text('エラーが発生しました'),
-                                );
-                              }
-                            } else {
-                              return TaskDetailScoutConfirmAddView(
-                                  index_page, type, '');
-                            }
-                          } else {
-                            return Padding(
-                                padding: EdgeInsets.only(top: 60),
-                                child: Container(
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                                themeColor)),
-                                  ),
-                                ));
-                          }
-                        })
-                      ],
-                    )))
+                                              ['phaze'] ==
+                                          'wait') {
+                                        return Column(children: <Widget>[
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft:
+                                                        const Radius.circular(
+                                                            0),
+                                                    topRight:
+                                                        const Radius.circular(
+                                                            0)),
+                                                color: themeColor),
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 40, bottom: 20),
+                                              child: Center(
+                                                child: Text(
+                                                  'サイン待ち',
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Text(
+                                              '最初の画面に戻ってサインしてください',
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration:
+                                                      TextDecoration.none),
+                                            ),
+                                          ),
+                                        ]);
+                                      } else if (model.stepSnapshot['signed']
+                                                  [index_page.toString()]
+                                              ['phaze'] ==
+                                          'reject') {
+                                        return Column(children: <Widget>[
+                                          TaskDetailScoutConfirmAddView(
+                                              index_page,
+                                              type,
+                                              'やりなおし： ' +
+                                                  model.stepSnapshot['signed'][
+                                                          index_page.toString()]
+                                                      ['feedback'])
+                                        ]);
+                                      } else if (model.stepSnapshot['signed']
+                                                  [index_page.toString()]
+                                              ['phaze'] ==
+                                          'withdraw') {
+                                        return Column(children: <Widget>[
+                                          TaskDetailScoutConfirmAddView(
+                                              index_page, type, '')
+                                        ]);
+                                      } else {
+                                        return Center(
+                                          child: Text('エラーが発生しました'),
+                                        );
+                                      }
+                                    } else {
+                                      return TaskDetailScoutConfirmAddView(
+                                          index_page, type, '');
+                                    }
+                                  } else {
+                                    return Padding(
+                                        padding: EdgeInsets.only(top: 60, bottom: 10),
+                                        child: Container(
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(themeColor)),
+                                          ),
+                                        ));
+                                  }
+                                })
+                              ],
+                            ))))
 //                      ),
                         ),
                   ))),

@@ -1,3 +1,5 @@
+import 'package:cubook/home/home_controller.dart';
+import 'package:cubook/home/home_model.dart';
 import 'package:cubook/signup/create/createGroup_view.dart';
 import 'package:cubook/signup/join/joinGroup_view.dart';
 import 'package:cubook/signup/signup_model.dart';
@@ -19,13 +21,28 @@ class SignupView extends StatelessWidget {
       },
       child: Column(
         children: [
+          Row(
+            children: [
+              Spacer(),
+              Padding(
+                  padding: EdgeInsets.only(top: 10, right: 10),
+                  child: Consumer<HomeModel>(builder: (context, model, child) {
+                    return FlatButton(
+                        child: Text('ログアウト'),
+                        onPressed: () {
+                          model.logout();
+                        });
+                  })),
+            ],
+          ),
           Padding(
             padding: EdgeInsets.only(top: 30, bottom: 10),
             child: Text(
               'あてはまる項目を選択してください',
               style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           Padding(

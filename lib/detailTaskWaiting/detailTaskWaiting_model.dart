@@ -219,20 +219,31 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       map[number.toString()]['time'] = Timestamp.now();
       Map<String, dynamic> mapSend = Map<String, dynamic>();
       mapSend['signed'] = map;
-      if (map.length == task.getPartMap(type, page)['hasItem']) {
+      map.forEach((key, dynamic values) {
+        Map<String, dynamic> partData = map[key.toString()];
+        print(map);
+        print(partData['phaze']);
+        if (partData['phaze'] == 'signed') {
+          count++;
+        }
+      });
+      Map<String, dynamic> taskInfo = new Map<String, dynamic>();
+      taskInfo = task.getPartMap(type, page);
+      if (count == taskInfo['hasItem']) {
         mapSend['end'] = Timestamp.now();
         mapSend['isCitationed'] = false;
+        if(type == 'gino') {
+          if (taskInfo['examination']) {
+            mapSend['phase'] = 'not examined';
+          } else {
+            mapSend['phase'] = 'complete';
+          }
+        }
       }
       Firestore.instance
           .collection(type)
           .document(snapshot.documentID)
           .updateData(mapSend);
-      for(int i=0; i<map.length; i++){
-        Map<String, dynamic> partData = map[i.toString()];
-        if(partData['phaze'] == 'signed'){
-          count++;
-        }
-      }
       Firestore.instance
           .collection('user')
           .where('uid', isEqualTo: uid_get)
@@ -248,8 +259,12 @@ class DetailTaskWaitingModel extends ChangeNotifier {
           if (partData['phaze'] == 'signed') {
             count++;
           }
-        });
-        map[page.toString()] = count;
+        });if (snapshot[type] != null) {
+          map = snapshot[type];
+          map[page.toString()] = count;
+        } else {
+          map[page.toString()] = count;
+        }
         var mapSend = {type: map};
         Firestore.instance
             .collection('user')
@@ -314,6 +329,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     map['group'] = snapshot['group'];
     map['time'] = Timestamp.now();
     map['data'] = dataMap;
+    map['page'] = page;
     Firestore.instance.collection('effort').add(map);
     Firestore.instance
         .collection(type)
@@ -394,7 +410,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
 
   void deleteTask() {
     Map<String, dynamic> map = Map<String, dynamic>();
-    map['date'] = FieldValue.delete();
     map['date_signed'] = Timestamp.now();
     map['uid_signed'] = currentUser.uid;
     map['phase'] = 'signed';

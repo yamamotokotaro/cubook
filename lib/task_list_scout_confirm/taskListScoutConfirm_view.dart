@@ -93,11 +93,14 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                           borderRadius: BorderRadius.circular(10),
                                         ),
                                         child: InkWell(
+                                          customBorder: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                          ),
                                           onTap: () {
                                             Navigator.of(context).push<dynamic>(
                                                 MyPageRoute(
-                                                    page: _ModalPage(index,
-                                                        type, typeFireStore, uid),
+                                                    page: showTaskConfirmView(index,
+                                                        type, uid),
                                                     dismissible: true));
                                           },
                                           child: Row(
@@ -229,7 +232,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
   }
 }
 
-class _ModalPage extends StatelessWidget {
+class showTaskConfirmView extends StatelessWidget {
   var task = new Task();
   int currentPage = 0;
   int numberPushed;
@@ -242,10 +245,9 @@ class _ModalPage extends StatelessWidget {
 //    StepAddView()
   ];
 
-  _ModalPage(int number, String _type, String _typeFS, String _uid) {
+  showTaskConfirmView(int number, String _type, String _uid) {
     numberPushed = number;
     type = _type;
-    typeFirestore = _typeFS;
     uid = _uid;
     pages.add(
       TaskScoutDetailConfirmView(type, number),

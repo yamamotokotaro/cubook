@@ -4,6 +4,8 @@ import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
 import 'package:cubook/addLump_ScoutList/addLumpScoutList_view.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
+import 'package:cubook/contentsView/contents_model.dart';
+import 'package:cubook/contentsView/contents_view.dart';
 import 'package:cubook/createActivity/createActivity_model.dart';
 import 'package:cubook/createActivity/createActivity_view.dart';
 import 'package:cubook/detailActivity/detailActivity_model.dart';
@@ -27,9 +29,9 @@ import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
 import 'package:cubook/list_member/listMember_model.dart';
 import 'package:cubook/list_member/listMember_view.dart';
 import 'package:cubook/notification/notification_model.dart';
+import 'package:cubook/setting_account/settingAccount_model.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/setting_account_group/settingAccount_model.dart';
-import 'package:cubook/setting_account_group/settingAccount_view.dart';
 import 'package:cubook/setting_account_group/widget/changeAge.dart';
 import 'package:cubook/setting_account_group/widget/changeName.dart';
 import 'package:cubook/signup/signup_model.dart';
@@ -42,7 +44,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:package_info/package_info.dart';
 
 void main() {
   // Set `enableInDevMode` to true to see reports while in debug mode
@@ -118,6 +119,8 @@ class _MyAppState extends State<MyApp> {
               create: (context) => TaskListScoutConfirmModel()),
           ChangeNotifierProvider(create: (context) => AddLumpScoutListModel()),
           ChangeNotifierProvider(create: (context) => AddLumpSelectItemModel()),
+          ChangeNotifierProvider(
+              create: (context) => SettingAccountGroupModel()),
           ChangeNotifierProvider(create: (context) => SettingAccountModel()),
           ChangeNotifierProvider(create: (context) => NotificationModel()),
           ChangeNotifierProvider(create: (context) => SupportModel()),
@@ -126,6 +129,7 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => DetailActivityModel()),
           ChangeNotifierProvider(create: (context) => ListAbsentModel()),
           ChangeNotifierProvider(create: (context) => ListAbsentScoutModel()),
+          ChangeNotifierProvider(create: (context) => ContentsModel()),
           ChangeNotifierProvider(
               create: (context) => ListCitationWaitingModel()),
         ],
@@ -162,6 +166,7 @@ class _MyAppState extends State<MyApp> {
             '/createActivity': (BuildContext context) => CreateActivityView(),
             '/detailActivity': (BuildContext context) => DetailActivityView(),
             '/listAbsentScout': (BuildContext context) => ListAbsentScoutView(),
+            '/contentsView': (BuildContext context) => ContentsView(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

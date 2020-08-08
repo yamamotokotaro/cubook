@@ -7,17 +7,16 @@ class ListCitationWaitingModel extends ChangeNotifier{
   FirebaseUser currentUser;
   bool isGet = false;
   String group;
+  Map<String, dynamic> claims = new Map<String, dynamic>();
 
   void getSnapshot() async {
+    String group_before = group;
     FirebaseAuth.instance.currentUser().then((user) {
-      currentUser = user;
-      user.getIdToken().then((token) async {
-        Firestore.instance.collection('user').where('group', isEqualTo: token.claims['group']).where('position', isEqualTo: 'scout').getDocuments().then((data) {
-          userSnapshot = data;
+      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
+        group = snapshot.documents[0]['group'];
+        if(group != group_before) {
           notifyListeners();
-        });
-        isGet = true;
-        notifyListeners();
+        }
       });
     });
   }
@@ -25,11 +24,17 @@ class ListCitationWaitingModel extends ChangeNotifier{
   void getGroup() async {
     String group_before = group;
     FirebaseAuth.instance.currentUser().then((user) {
-      user.getIdToken(refresh: true).then((token) async {
-        group = token.claims['group'];
+      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
+        group = snapshot.documents[0]['group'];
         if(group != group_before) {
           notifyListeners();
         }
+        user.getIdToken(refresh: true).then((value) {
+          Map<String, dynamic> claims_before = new Map<String,dynamic>.from(value.claims);
+          if(claims_before != claims) {
+            notifyListeners();
+          }
+        });
       });
     });
   }

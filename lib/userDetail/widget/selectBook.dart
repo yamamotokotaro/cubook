@@ -20,6 +20,21 @@ class SelectBook extends StatelessWidget {
   var theme = new ThemeInfo();
   String uid;
 
+  var type = [
+    /*'beaver',*/
+    'usagi',
+    'sika',
+    'kuma',
+    'challenge',
+    /*'syokyu',
+    'nikyu',
+    'ikkyu',
+    'kiku',
+    'hayabusa',
+    'fuji',
+    'gino'*/
+  ];
+
   SelectBook(String uid) {
     this.uid = uid;
   }
@@ -29,291 +44,95 @@ class SelectBook extends StatelessWidget {
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
-        Padding(
-            padding: EdgeInsets.all(10),
-            child: Container(
-                height: 180,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  elevation: 8,
-                  color: theme.getThemeColor('usagi'),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute<TaskView>(
-                          builder: (BuildContext context) {
-                        return TaskListScoutConfirmView('usagi', uid);
-                      }));
-                    },
-                    child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                      padding: EdgeInsets.only(left: 13),
-                                      child: Material(
-                                        type: MaterialType.transparency,
-                                        child: Text(
-                                          theme.getTitle('usagi'),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 30,
-                                              color: Colors.white),
-                                        ),
-                                      ))),
-                              Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: Consumer<UserDetailModel>(
-                                      builder: (context, model, child) {
-                                    if (model.userSnapshot == null) {
-                                      model.getSnapshot(uid);
-                                    } else if (model.userSnapshot.data['uid'] !=
-                                        uid) {
-                                      model.getSnapshot(uid);
-                                      model.userSnapshot = null;
-                                    }
-                                    if (model.userSnapshot != null) {
-                                      if (model.userSnapshot['usagi'] != null) {
-                                        return LinearProgressIndicator(
-                                            backgroundColor: theme
-                                                .getIndicatorColor('usagi'),
-                                            valueColor:
-                                                new AlwaysStoppedAnimation<
-                                                    Color>(Colors.white),
-                                            value: model.userSnapshot['usagi']
-                                                    .length /
-                                                task.getAllMap('usagi').length);
-                                      } else {
-                                        return Container();
-                                      }
-                                    } else {
-                                      return LinearProgressIndicator(
-                                        backgroundColor:
-                                            theme.getIndicatorColor('usagi'),
-                                        valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
-                                                Colors.white),
-                                      );
-                                    }
-                                  }))
-                            ])),
-                  ),
-                ))),
-        Padding(
-            padding: EdgeInsets.all(10),
-            child: Container(
-              height: 180,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 8,
-                color: theme.getThemeColor('sika'),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute<TaskView>(
-                        builder: (BuildContext context) {
-                      return TaskListScoutConfirmView('sika', uid);
-                    }));
-                  },
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 13),
-                                child: Material(
-                                    type: MaterialType.transparency,
-                                    child: Text(
-                                      'しかのカブブック',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 30,
-                                          color: Colors.white),
-                                    )),
-                              )),
-                          Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Selector<UserDetailModel,
-                                      DocumentSnapshot>(
-                                  selector: (context, model) =>
-                                      model.userSnapshot,
-                                  builder: (context, snapshot, child) =>
-                                      snapshot != null
-                                          ? snapshot['sika'] != null
-                                              ? LinearProgressIndicator(
+        Consumer<UserDetailModel>(builder: (context, model, child) {
+          if (model.userSnapshot == null) {
+            model.getSnapshot(uid);
+          } else if (model.userSnapshot.data['uid'] != uid) {
+            model.getSnapshot(uid);
+            model.userSnapshot = null;
+          }
+          return ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: type.length,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                      height: 180,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 8,
+                        color: theme.getThemeColor(type[index]),
+                        child: InkWell(
+                          customBorder: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute<TaskView>(
+                                builder: (BuildContext context) {
+                              return TaskListScoutConfirmView(type[index], uid);
+                            }));
+                          },
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 13),
+                                        child: Material(
+                                            type: MaterialType.transparency,
+                                            child: Text(
+                                              theme.getTitle(type[index]),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 30,
+                                                  color: Colors.white),
+                                            )),
+                                      )),
+                                  Padding(
+                                      padding: EdgeInsets.all(20),
+                                      child: Selector<UserDetailModel,
+                                              DocumentSnapshot>(
+                                          selector: (context, model) =>
+                                              model.userSnapshot,
+                                          builder: (context, snapshot, child) => snapshot !=
+                                                  null
+                                              ? snapshot[type[index]] != null
+                                                  ? LinearProgressIndicator(
+                                                      backgroundColor: theme
+                                                          .getIndicatorColor(
+                                                              type[index]),
+                                                      valueColor:
+                                                          new AlwaysStoppedAnimation<Color>(
+                                                              Colors.white),
+                                                      value: snapshot[type[index]]
+                                                              .length /
+                                                          task
+                                                              .getAllMap(
+                                                                  type[index])
+                                                              .length)
+                                                  : Container()
+                                              : LinearProgressIndicator(
                                                   backgroundColor:
                                                       theme.getIndicatorColor(
-                                                          'sika'),
+                                                          type[index]),
                                                   valueColor:
                                                       new AlwaysStoppedAnimation<
                                                           Color>(Colors.white),
-                                                  value: snapshot['sika']
-                                                          .length /
-                                                      task
-                                                          .getAllMap('sika')
-                                                          .length)
-                                              : Container()
-                                          : LinearProgressIndicator(
-                                              backgroundColor: theme
-                                                  .getIndicatorColor('sika'),
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                      Color>(Colors.white),
-                                            ))),
-                        ]),
-                  ),
-                ),
-              ),
-            )),
-        Padding(
-            padding: EdgeInsets.all(10),
-            child: Container(
-              height: 180,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 8,
-                color: theme.getThemeColor('kuma'),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute<TaskView>(
-                        builder: (BuildContext context) {
-                      return TaskListScoutConfirmView('kuma', uid);
-                    }));
-                  },
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 13),
-                                child: Material(
-                                    type: MaterialType.transparency,
-                                    child: Text(
-                                      'くまのカブブック',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 30,
-                                          color: Colors.white),
-                                    )),
-                              )),
-                          Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Selector<UserDetailModel,
-                                      DocumentSnapshot>(
-                                  selector: (context, model) =>
-                                      model.userSnapshot,
-                                  builder: (context, snapshot, child) =>
-                                      snapshot != null
-                                          ? snapshot['kuma'] != null
-                                              ? LinearProgressIndicator(
-                                                  backgroundColor:
-                                                      theme.getIndicatorColor(
-                                                          'kuma'),
-                                                  valueColor:
-                                                      new AlwaysStoppedAnimation<
-                                                          Color>(Colors.white),
-                                                  value: snapshot['kuma']
-                                                          .length /
-                                                      task
-                                                          .getAllMap('kuma')
-                                                          .length)
-                                              : Container()
-                                          : LinearProgressIndicator(
-                                              backgroundColor: theme
-                                                  .getIndicatorColor('kuma'),
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                      Color>(Colors.white),
-                                            ))),
-                        ]),
-                  ),
-                ),
-              ),
-            )),
-        Padding(
-            padding: EdgeInsets.all(10),
-            child: Container(
-              height: 180,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                elevation: 8,
-                color: Colors.green[900],
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute<TaskView>(
-                        builder: (BuildContext context) {
-                      return TaskListScoutConfirmView('challenge', uid);
-                    }));
-                  },
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 13),
-                                child: Material(
-                                    type: MaterialType.transparency,
-                                    child: Text(
-                                      'チャレンジ章',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 30,
-                                          color: Colors.white),
-                                    )),
-                              )),
-                          Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Selector<UserDetailModel,
-                                      DocumentSnapshot>(
-                                  selector: (context, model) =>
-                                      model.userSnapshot,
-                                  builder: (context, snapshot, child) =>
-                                      snapshot != null
-                                          ? snapshot['challenge'] != null
-                                              ? LinearProgressIndicator(
-                                                  backgroundColor:
-                                                      theme.getIndicatorColor(
-                                                          'challenge'),
-                                                  valueColor:
-                                                      new AlwaysStoppedAnimation<
-                                                          Color>(Colors.white),
-                                                  value: snapshot['challenge']
-                                                          .length /
-                                                      task
-                                                          .getAllMap('challenge')
-                                                          .length)
-                                              : Container()
-                                          : LinearProgressIndicator(
-                                              backgroundColor:
-                                                  theme.getIndicatorColor(
-                                                      'challenge'),
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                      Color>(Colors.white),
-                                            ))),
-                        ]),
-                  ),
-                ),
-              ),
-            )),
+                                                ))),
+                                ]),
+                          ),
+                        ),
+                      ),
+                    ));
+              });
+        }),
       ],
     ));
   }

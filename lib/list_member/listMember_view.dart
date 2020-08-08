@@ -1,7 +1,10 @@
+import 'dart:io';
+
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/userDetail/userDetail_view.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,9 +13,22 @@ import 'listMember_model.dart';
 
 class ListMemberView extends StatelessWidget {
   var theme = new ThemeInfo();
+  var isRelease = const bool.fromEnvironment('dart.vm.product');
 
   @override
   Widget build(BuildContext context) {
+    String adunitID;
+    if (isRelease) {
+      if (Platform.isAndroid) {
+        adunitID = 'ca-app-pub-9318890511624941/8410165495';
+        // Android-specific code
+      } else if (Platform.isIOS) {
+        adunitID = 'ca-app-pub-9318890511624941/5503858609';
+        // iOS-specific code
+      }
+    } else {
+      adunitID = BannerAd.testAdUnitId;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('メンバーリスト'),
@@ -66,7 +82,7 @@ class ListMemberView extends StatelessWidget {
                                     if (snapshot.data.documents.length != 0) {
                                       QuerySnapshot querySnapshot =
                                           snapshot.data;
-                                      int team_last = 0;
+                                      String team_last = '';
                                       return ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
@@ -78,14 +94,27 @@ class ListMemberView extends StatelessWidget {
                                             DocumentSnapshot snapshot =
                                                 querySnapshot.documents[index];
                                             bool isFirst;
-                                            if (team_last != snapshot['team']) {
+                                            String team;
+                                            if(snapshot['team'] is int){
+                                              team = snapshot['team'].toString();
+                                            } else {
+                                              team = snapshot['team'];
+                                            }
+                                            if (team_last != team) {
                                               isFirst = true;
-                                              team_last = snapshot['team'];
+                                              team_last = team;
                                             } else {
                                               isFirst = false;
                                             }
+                                            String grade = snapshot['grade'];
+                                            String team_call;
+                                            if(grade == 'cub'){
+                                              team_call = '組';
+                                            } else {
+                                              team_call = '班';
+                                            }
                                             return Column(children: <Widget>[
-                                              isFirst
+                                              isFirst && team != ''
                                                   ? Padding(
                                                       padding: EdgeInsets.only(
                                                           top: 10,
@@ -95,9 +124,8 @@ class ListMemberView extends StatelessWidget {
                                                           width:
                                                               double.infinity,
                                                           child: Text(
-                                                            snapshot['team']
-                                                                    .toString() +
-                                                                '組',
+                                                            team +
+                                                                team_call,
                                                             style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -119,6 +147,9 @@ class ListMemberView extends StatelessWidget {
                                                                 .circular(10),
                                                       ),
                                                       child: InkWell(
+                                                        customBorder: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(10.0),
+                                                        ),
                                                         onTap: () {
                                                           Navigator.push(
                                                               context,
@@ -142,7 +173,7 @@ class ListMemberView extends StatelessWidget {
                                                                 width: 40,
                                                                 height: 40,
                                                                 decoration: BoxDecoration(
-                                                                    color: theme.getThemeColor(
+                                                                    color: theme.getUserColor(
                                                                         snapshot[
                                                                             'age']),
                                                                     shape: BoxShape
@@ -203,6 +234,13 @@ class ListMemberView extends StatelessWidget {
                                     );
                                   }
                                 },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AdmobBanner(
+                                  adUnitId: adunitID,
+                                  adSize: AdmobBannerSize.LARGE_BANNER,
+                                ),
                               ),
                               StreamBuilder<QuerySnapshot>(
                                 stream: Firestore.instance

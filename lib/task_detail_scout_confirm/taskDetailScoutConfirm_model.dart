@@ -166,6 +166,19 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     }
   }
 
+  void changeTime(DateTime dateTime, BuildContext context, String documentID, String type_time) async {
+    DateTime date = await showDatePicker(
+      context: context,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime(DateTime.now().year + 5),
+      initialDate: dateTime,
+    );
+    if (date != null) {
+      Firestore.instance.collection(type).document(documentID).updateData(<String, dynamic>{type_time: date});
+      notifyListeners();
+    }
+  }
+
   void onPressCheckbox(bool e) async {
     checkCitation = e;
     notifyListeners();
@@ -198,8 +211,16 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     });
   }
 
+  void onTapExamination(String documentID) async {
+    Firestore.instance.collection('gino').document(documentID).updateData(<String, dynamic>{'phase': 'complete', 'date_examination': DateTime.now()});
+  }
+
+  void onTapNotExamination(String documentID) async {
+    Firestore.instance.collection('gino').document(documentID).updateData(<String, dynamic>{'phase': 'not examined', 'date_examination': FieldValue.delete()});
+  }
+
   Future<void> updateUserInfo(int number) async {
-    bool isComplete = false;
+    bool isComplete = checkCitation;
     var task = new Task();
     int count = 0;
 
@@ -232,9 +253,18 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
             count++;
           }
         });
-        if (isComplete) {
+        Map<String, dynamic> taskInfo = new Map<String, dynamic>();
+        taskInfo = task.getPartMap(type, page);
+        if (count == taskInfo['hasItem']) {
           data_signed['end'] = Timestamp.now();
           data_signed['isCitationed'] = checkCitation;
+          if(type == 'gino') {
+            if (taskInfo['examination']) {
+              data_signed['phase'] = 'not examined';
+            } else {
+              data_signed['phase'] = 'complete';
+            }
+          }
         }
         Firestore.instance
             .collection(type)
@@ -253,9 +283,18 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         data_signed['signed'] = {number.toString(): data_toAdd};
         data_signed['group'] = tokenMap['group'];
         count = 1;
-        if (isComplete) {
+        Map<String, dynamic> taskInfo = new Map<String, dynamic>();
+        taskInfo = task.getPartMap(type, page);
+        if (count == taskInfo['hasItem']) {
           data_signed['end'] = Timestamp.now();
           data_signed['isCitationed'] = checkCitation;
+          if(type == 'gino') {
+            if (taskInfo['examination']) {
+              data_signed['phase'] = 'not examined';
+            } else {
+              data_signed['phase'] = 'complete';
+            }
+          }
         }
         DocumentReference documentReference_add =
             await Firestore.instance.collection(type).add(data_signed);
@@ -281,7 +320,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
             .document(snapshot.documentID)
             .updateData(mapSend);
 
-        if (map[page.toString()] == task.getPartMap(type, page)['hasItem']) {
+        if (map[page.toString()] == task.getPartMap(type, page)['hasItem'] && !isComplete) {
           onFinish();
         }
       });
@@ -445,6 +484,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     map['type'] = type;
     map['group'] = snapshot['group'];
     map['time'] = Timestamp.now();
+    map['page'] = page;
     Firestore.instance.collection('effort').add(map);
     Firestore.instance
         .collection(type)

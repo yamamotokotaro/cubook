@@ -43,36 +43,46 @@ class HomeViewNew extends StatelessWidget {
                                 shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(20.0))),
-                                content: SingleChildScrollView(
-                                    child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    /*ListTile(
-                                      leading: Icon(Icons.favorite_border),
-                                      title: Text('広告を見る'),
-                                      onTap: () {
-                                        Navigator.of(context)
-                                            .pushNamed('/support');
-                                      },
-                                    ),*/
-                                    ListTile(
-                                      leading: Icon(Icons.help_outline),
-                                      title: Text('ヘルプ'),
-                                      onTap: () => launchURL(),
-                                    ),
-                                    ListTile(
-                                      leading: Icon(Icons.list),
-                                      title: Text('ライセンスを表示'),
-                                      onTap: () => showLicensePage(
-                                        context: context,
-                                        applicationName: packageInfo.appName,
-                                        applicationVersion: packageInfo.version,
-                                        applicationLegalese: '©︎ 2020 山本虎太郎',
-                                      ),
-                                    ),
+                                content: SingleChildScrollView(child:
                                     Consumer<HomeModel>(
                                         builder: (context, model, child) {
-                                      return ListTile(
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      /*ListTile(
+                                        leading: Icon(Icons.person),
+                                        title: Text('アカウント設定'),
+                                        onTap: () => launchURL(),
+                                      ),*/
+                                      model.age != 'usagi' &&
+                                              model.age != 'sika' &&
+                                              model.age != 'kuma'
+                                          ? ListTile(
+                                              leading: Icon(Icons.star_border),
+                                              title: Text('スペシャルコンテンツ'),
+                                              onTap: () {
+                                                Navigator.of(context)
+                                                    .pushNamed('/support');
+                                              },
+                                            )
+                                          : Container(),
+                                      ListTile(
+                                        leading: Icon(Icons.help_outline),
+                                        title: Text('ヘルプ'),
+                                        onTap: () => launchURL(),
+                                      ),
+                                      ListTile(
+                                        leading: Icon(Icons.list),
+                                        title: Text('ライセンスを表示'),
+                                        onTap: () => showLicensePage(
+                                          context: context,
+                                          applicationName: 'cubook',
+                                          applicationVersion:
+                                              packageInfo.version,
+                                          applicationLegalese: '©︎ 2020 山本虎太郎',
+                                        ),
+                                      ),
+                                      ListTile(
                                         leading: Icon(Icons.exit_to_app),
                                         title: Text('ログアウト'),
                                         onTap: () {
@@ -84,10 +94,10 @@ class HomeViewNew extends StatelessWidget {
                                             return HomeController();
                                           }));
                                         },
-                                      );
-                                    })
-                                  ],
-                                )),
+                                      )
+                                    ],
+                                  );
+                                })),
                               );
                             });
                       },
@@ -97,15 +107,18 @@ class HomeViewNew extends StatelessWidget {
                       ),
                     ))),
             Spacer(),
-            Padding(
-              padding: EdgeInsets.only(top: 10, right: 15),
-              child: Text(
-                '',
-                style: GoogleFonts.notoSans(
-                    textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                )),
+            Selector<HomeModel, String>(
+              selector: (context, model) => model.groupName,
+              builder: (context, name, child) => Padding(
+                padding: EdgeInsets.only(top: 12, right: 15),
+                child: Text(
+                  name,
+                  style: GoogleFonts.notoSans(
+                      textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  )),
+                ),
               ),
             ),
           ],

@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/listAbsent/listAbsent_model.dart';
 import 'package:cubook/listAbsent/listAbsent_view.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/setting_account_group/settingAccount_view.dart';
-import 'package:cubook/userDetail/userDetail_model.dart';
-import 'package:cubook/task_list_scout/taskListScout_view.dart';
-import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_view.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/userDetail/widget/list_notCititationed.dart';
 import 'package:cubook/userDetail/widget/selectBook.dart';
@@ -47,10 +43,10 @@ class SelectBookView extends StatelessWidget {
   SelectBookView(String uid) {
     this.uid = uid;
     _tabs = [
-      TabInfo("カブブック", SelectBook(uid)),
+      TabInfo("進歩", SelectBook(uid)),
       TabInfo("表彰待ち", ListNotCititationed(uid)),
       TabInfo("出欠", ListAbsentView(uid)),
-      TabInfo("設定", SettingAccountView(uid)),
+      TabInfo("設定", SettingAccountGroupView(uid)),
     ];
   }
 
@@ -98,7 +94,7 @@ class SelectBookView extends StatelessWidget {
                                                   height: 80,
                                                   decoration: BoxDecoration(
                                                       color:
-                                                          theme.getThemeColor(
+                                                          theme.getUserColor(
                                                               userSnapshot[
                                                                   'age']),
                                                       shape: BoxShape.circle),
