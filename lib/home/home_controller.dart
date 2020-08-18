@@ -28,8 +28,9 @@ class HomeController extends StatelessWidget {
                                 if (model.currentUser != null) {
                                   if (model.userSnapshot != null) {
                                     if (model.userSnapshot['group'] != null) {
-                                      return HomeViewNew(
-                                          model.userSnapshot['group']);
+                                      return HomeView(
+                                          model.userSnapshot['group'],
+                                          model.userSnapshot['position']);
                                     } else {
                                       return JoinGroup();
                                     }
