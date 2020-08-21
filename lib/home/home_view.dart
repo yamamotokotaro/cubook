@@ -6,18 +6,67 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:math' as math;
 
 import 'home_controller.dart';
 
-class HomeViewNew extends StatelessWidget {
+class HomeView extends StatelessWidget {
   String group;
+  String position;
+  var random = new math.Random();
 
-  HomeViewNew(String _group) {
+  HomeView(String _group, String _position) {
     group = _group;
   }
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String greet = '';
+    String emoji = '';
+    List<String> emojis;
+    if (now.hour < 4) {
+      if (position == 'scout') {
+        greet = '夜更かしは良くないですよ😾';
+      } else {
+        greet = 'こんばんは💤';
+      }
+    } else if (4 <= now.hour && now.hour < 10) {
+      if (position == 'scout') {
+        emoji = '☀️';
+      } else {
+        emoji = '☀️';
+      }
+      greet = 'おはようございます️' + emoji;
+    } else if (10 <= now.hour && now.hour < 14) {
+      if (position == 'scout') {
+        emoji = '😀️';
+      } else {
+        emoji = '😀️';
+      }
+      greet = 'こんにちは️' + emoji;
+    } else if (14 <= now.hour && now.hour < 17) {
+      if (position == 'scout') {
+        emoji = '🍵';
+      } else {
+        emoji = '☕️️';
+      }
+      greet = 'こんにちは' + emoji;
+    } else if (17 <= now.hour && now.hour < 20) {
+      if (position == 'scout') {
+        emoji = '🌙';
+      } else {
+        emoji = '🌙';
+      }
+      greet = 'こんばんは' + emoji;
+    } else if (20 <= now.hour && now.hour <= 23) {
+      if (position == 'scout') {
+        emoji = '💤';
+      } else {
+        emoji = '🌙';
+      }
+      greet = 'こんばんは' + emoji;
+    }
     return Column(
       children: <Widget>[
         Row(
@@ -128,7 +177,7 @@ class HomeViewNew extends StatelessWidget {
           builder: (context, name, child) => Padding(
             padding: EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
             child: Text(
-              name + '、こんにちは😀',
+              name + '、' + greet,
               style: GoogleFonts.notoSans(
                   textStyle: TextStyle(
                 fontWeight: FontWeight.bold,

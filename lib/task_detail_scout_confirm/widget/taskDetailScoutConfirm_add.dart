@@ -94,7 +94,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                                               child:
                                               Text(
                                                 task.getContent(
-                                                    type, model.page, index_page),
+                                                    type, model.page, index_page).toString(),
                                                 style: TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
@@ -107,7 +107,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                                             child: Container(
                                               width: double.infinity,
                                               child: Text(
-                                                '\n©︎2020 公益財団法人ボーイスカウト日本連盟',
+                                                '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
                                                 style: TextStyle(
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold,
@@ -121,7 +121,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                             );
                           },
                           icon: Icon(
-                            Icons.book,
+                            Icons.sort,
                             size: 20,
                           ),
                           label: Text(

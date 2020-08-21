@@ -26,13 +26,13 @@ class SelectBook extends StatelessWidget {
     'sika',
     'kuma',
     'challenge',
-    /*'syokyu',
+    'syokyu',
     'nikyu',
     'ikkyu',
     'kiku',
     'hayabusa',
     'fuji',
-    'gino'*/
+    'gino'
   ];
 
   SelectBook(String uid) {
