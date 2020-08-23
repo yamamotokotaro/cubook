@@ -62,7 +62,7 @@ class InviteModel with ChangeNotifier {
         team = teamController.text;
         break;
       case '2級スカウト':
-        age = 'ikyu';
+        age = 'ikkyu';
         position = 'scout';
         team = teamController.text;
         break;

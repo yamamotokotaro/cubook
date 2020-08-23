@@ -83,12 +83,14 @@ class HomeView extends StatelessWidget {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: Text(
+                                /*title: Padding(
+                                  padding: EdgeInsets.only(left: 15),
+                                    child: Text(
                                   "cubook",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
-                                ),
+                                )),*/
                                 shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(20.0))),
@@ -143,7 +145,40 @@ class HomeView extends StatelessWidget {
                                             return HomeController();
                                           }));
                                         },
-                                      )
+                                      ),
+//                                      Divider(color: Colors.grey),
+                                      /*Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          FlatButton(
+                                            onPressed: () {},
+                                            child: Text(
+                                              'プライバシーポリシー',
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                          ),
+                                          FlatButton(
+                                            onPressed: () {},
+                                            child: Text(
+                                              '利用規約',
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                          )
+                                        ],
+                                      ),*/
+                                      /*
+                                      Center(
+                                        child: Text(
+                                          'cubook',
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12
+                                          ),
+                                        ),
+                                      )*/
                                     ],
                                   );
                                 })),
