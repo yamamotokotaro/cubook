@@ -1644,7 +1644,7 @@ class Task {
         map_info = fuji[number];
         break;
       case 'gino':
-      case 'gino':n
+      case 'gino':
         map_info = gino[number];
         break;
     }
