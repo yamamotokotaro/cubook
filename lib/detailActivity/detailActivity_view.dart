@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/detailActivity/detailActivity_model.dart';
+import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 
 class DetailActivityView extends StatelessWidget {
   var theme = new ThemeInfo();
+  var task = new Task();
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +105,80 @@ class DetailActivityView extends StatelessWidget {
                                                 ),
                                                 textAlign: TextAlign.left,
                                               ))),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 15, bottom: 15, left: 10),
+                                          child: Container(
+                                              width: double.infinity,
+                                              child: Text(
+                                                '取得項目',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 25,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                              ))),
+                                      ListView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount:
+                                              documentSnapshot['list_item']
+                                                  .length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            Map<String, dynamic> part_selected =
+                                                documentSnapshot['list_item']
+                                                    [index];
+                                            String type = part_selected['type'];
+                                            int page = part_selected['page'];
+                                            int number =
+                                                part_selected['number'];
+                                            Map<String, dynamic> map_task =
+                                                task.getPartMap(type, page);
+                                            return Padding(
+                                                padding: EdgeInsets.all(5),
+                                                child: Card(
+                                                  color:
+                                                      theme.getThemeColor(type),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
+                                                  ),
+                                                  child: Center(
+                                                      child: Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: 5,
+                                                                  bottom: 5),
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                  theme.getTitle(type) +
+                                                                      ' ' +
+                                                                      (page + 1)
+                                                                          .toString() +
+                                                                      ' ' +
+                                                                      map_task[
+                                                                          'title'] +
+                                                                      ' (' +
+                                                                      (number +
+                                                                              1)
+                                                                          .toString() +
+                                                                      ')',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontSize:
+                                                                          18,
+                                                                      color: Colors
+                                                                          .white))
+                                                            ],
+                                                          ))),
+                                                ));
+                                          })
                                     ]);
                                   } else {
                                     return const Center(
@@ -176,7 +252,9 @@ class DetailActivityView extends StatelessWidget {
                                               }
                                               String age = snapshot['age'];
                                               String team_call;
-                                              if (age == 'usagi' || age == 'sika' || age == 'kuma') {
+                                              if (age == 'usagi' ||
+                                                  age == 'sika' ||
+                                                  age == 'kuma') {
                                                 team_call = '組';
                                               } else {
                                                 team_call = '班';
@@ -297,38 +375,38 @@ class DetailActivityView extends StatelessWidget {
                                             top: 5, left: 10, right: 10),
                                         child: Container(
                                             child: InkWell(
-                                              onTap: () {},
-                                              child: Padding(
-                                                padding: EdgeInsets.all(10),
-                                                child: Row(
-                                                    mainAxisAlignment:
+                                          onTap: () {},
+                                          child: Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Row(
+                                                mainAxisAlignment:
                                                     MainAxisAlignment.center,
-                                                    children: <Widget>[
-                                                      Icon(
-                                                        Icons.bubble_chart,
-                                                        color: Theme.of(context)
-                                                            .accentColor,
-                                                        size: 35,
-                                                      ),
-                                                      Padding(
-                                                          padding: EdgeInsets.only(
-                                                              left: 10),
-                                                          child: Material(
-                                                            type: MaterialType
-                                                                .transparency,
-                                                            child: Text(
-                                                              '出欠の記録はありません',
-                                                              style: TextStyle(
-                                                                fontWeight:
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.bubble_chart,
+                                                    color: Theme.of(context)
+                                                        .accentColor,
+                                                    size: 35,
+                                                  ),
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 10),
+                                                      child: Material(
+                                                        type: MaterialType
+                                                            .transparency,
+                                                        child: Text(
+                                                          '出欠の記録はありません',
+                                                          style: TextStyle(
+                                                            fontWeight:
                                                                 FontWeight
                                                                     .normal,
-                                                                fontSize: 20,
-                                                              ),
-                                                            ),
-                                                          )),
-                                                    ]),
-                                              ),
-                                            )),
+                                                            fontSize: 20,
+                                                          ),
+                                                        ),
+                                                      )),
+                                                ]),
+                                          ),
+                                        )),
                                       );
                                     }
                                   } else {

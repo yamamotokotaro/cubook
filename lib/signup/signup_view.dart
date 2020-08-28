@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class SignupView extends StatelessWidget {
   static final list_select = [
     '招待を受けている',
-    '隊で初めて利用する',
+    '隊として初めて利用する',
   ];
 
   @override

@@ -234,7 +234,7 @@ class Task {
     {'number': '83', 'title': 'ネットユーザー章', 'hasItem': 8, 'examination': true},
   ];
 
-  List<List<dynamic>> content_usagi = [
+  List<List<String>> content_usagi = [
     [
       '食事の時に、感謝を言葉で表す',
       '近所の人々や友達に元気よくあいさつをする',
@@ -277,7 +277,7 @@ class Task {
     ]
   ];
 
-  List<List<dynamic>> content_sika = [
+  List<List<String>> content_sika = [
     [
       '今までにお世話になった人々について、家族やリーダーと話し合う',
       '家族の人やリーダーに感謝の手紙を書く',
@@ -323,7 +323,7 @@ class Task {
     ]
   ];
 
-  List<List<dynamic>> content_kuma = [
+  List<List<String>> content_kuma = [
     [
       'お寺や神社、教会などにお参りする',
       '制服を正しく身につけ、言葉遣いや動作がスマートにできる',
@@ -374,7 +374,7 @@ class Task {
     ]
   ];
 
-  List<List<dynamic>> content_challenge = [
+  List<List<String>> content_challenge = [
     [
       '国際連合旗の図柄を覚えて、その意味が説明できる',
       'ボーイスカウトの創始者「ベーデン・パウエル卿」の生まれた国「イギリス」について調べて記録する',
@@ -609,7 +609,7 @@ class Task {
     ]
   ];
 
-  List<List<dynamic>> content_syokyu = [
+  List<List<String>> content_syokyu = [
     [
       '「ちかい」と「おきて」が言える。そのうえで、隊長と話し合う。',
       '「スカウト章」、「モットー」、「スローガン」の意味を説明できる。',
@@ -637,7 +637,7 @@ class Task {
     ]
   ];
 
-  List<List<dynamic>> content_nikyu = [
+  List<List<String>> content_nikyu = [
     [
       '「ちかい」と「おきて」について意味を説明でき、その実践に努力していることを隊長に認めてもらう。',
       '日本の国旗の意味、歴史、仕様を説明でき、班や隊の活動で国旗を正しく掲揚できる。',
@@ -679,7 +679,7 @@ class Task {
     ]
   ];
 
-  List<List<dynamic>> content_ikkyu = [
+  List<List<String>> content_ikkyu = [
     [
       '「ちかい」と「おきて」の実践に努力していることを日常生活で示す。',
       '姉妹都市または自分が興味を持っている2か国の民族、文化、通過、言語を調べ、隊または班集会で話す。',
@@ -726,7 +726,7 @@ class Task {
     ],
   ];
 
-  List<List<dynamic>> content_kiku = [
+  List<List<String>> content_kiku = [
     [
       '「ちかい」と「おきて」の実践に努力して他のスカウトの模範となる。',
       '班長や次長（グリーンバー）、またはジュニアリーダーとして隊運営に6か月以上携わる。',
@@ -755,7 +755,7 @@ class Task {
     ]
   ];
 
-  List<List<dynamic>> content_hayabusa = [
+  List<List<String>> content_hayabusa = [
     [
       '菊スカウトとして最近6か月間、「ちかい」と「おきて」の実践に最善をつくす。',
     ],
@@ -781,7 +781,7 @@ class Task {
     ],
   ];
 
-  List<List<dynamic>> content_fuji = [
+  List<List<String>> content_fuji = [
     [
       '隼スカウトとして最低6か月間、「ちかい」と「おきて」の実施に最善をつくす。',
       '現在の自分の考えと将来の進路についてまとめ、その内容について隊長と話し合う。',
@@ -812,7 +812,7 @@ class Task {
 // https://www.scout.or.jp/member/skill-badges/
 // 改行は\nです
 
-  List<List<dynamic>> content_gino = [
+  List<List<String>> content_gino = [
     //野営章
     [
       '入団以来通算10泊以上のキャンプ（3泊以上のキャンプに2回参加したことを含むこと、また自分が計画した班キャンプを含むことができる）に参加していること。',
@@ -1644,7 +1644,6 @@ class Task {
         map_info = fuji[number];
         break;
       case 'gino':
-      case 'gino':
         map_info = gino[number];
         break;
     }
@@ -1690,6 +1689,46 @@ class Task {
     }
     if (content == null) {
       content = 'エラーが発生しました（内容がありません）';
+    }
+    return content;
+  }
+
+  List<String> getContentList(String type, int page) {
+    List<String> content;
+    switch (type) {
+      case 'usagi':
+        content = content_usagi[page];
+        break;
+      case 'sika':
+        content = content_sika[page];
+        break;
+      case 'kuma':
+        content = content_kuma[page];
+        break;
+      case 'challenge':
+        content = content_challenge[page];
+        break;
+      case 'syokyu':
+        content = content_syokyu[page];
+        break;
+      case 'nikyu':
+        content = content_nikyu[page];
+        break;
+      case 'ikkyu':
+        content = content_ikkyu[page];
+        break;
+      case 'kiku':
+        content = content_kiku[page];
+        break;
+      case 'hayabusa':
+        content = content_hayabusa[page];
+        break;
+      case 'fuji':
+        content = content_fuji[page];
+        break;
+      case 'gino':
+        content = content_gino[page];
+        break;
     }
     return content;
   }

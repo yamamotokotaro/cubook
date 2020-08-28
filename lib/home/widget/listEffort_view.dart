@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/model/themeInfo.dart';
@@ -46,7 +45,6 @@ class listEffort extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 5, top: 4),
                 child: Icon(
-                  //ああああ
                   Icons.assignment,
                   color: Theme.of(context).accentColor,
                   size: 32,
@@ -162,7 +160,8 @@ class listEffort extends StatelessWidget {
                                               BorderRadius.circular(10.0),
                                         ),
                                         onTap: () {
-                                          if (page != null && model.position == 'leader') {
+                                          if (page != null &&
+                                              model.position == 'leader') {
                                             Navigator.of(context).push<dynamic>(
                                                 MyPageRoute(
                                                     page: showTaskConfirmView(
@@ -183,7 +182,6 @@ class listEffort extends StatelessWidget {
                                                   child: Row(
                                                     children: <Widget>[
                                                       Icon(
-                                                        //ああああ
                                                         Icons.person,
                                                         color: Colors.white,
                                                         size: 28,

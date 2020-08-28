@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/addLump_ScoutList/addLumpScoutList_view.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,7 +28,8 @@ class AddLumpSelectItemModel extends ChangeNotifier {
   }
 
   Future<void> onPressedSend(List<String> uids, BuildContext context) async {
-    var task = new Task();
+    Navigator.of(context).pop(itemSelected);
+    /*var task = new Task();
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     Firestore.instance
         .collection('user')
@@ -72,40 +72,6 @@ class AddLumpSelectItemModel extends ChangeNotifier {
 
       Firestore.instance.collection('lump').add(data).then((value) =>
           Navigator.popUntil(context, ModalRoute.withName('/homeLump')));
-    });
-  }
-
-  Future<void> onFinish(String uid, String type, int page) async {
-    var task = new Task();
-    var theme = new ThemeInfo();
-    QuerySnapshot data = await Firestore.instance
-        .collection('user')
-        .where('uid', isEqualTo: uid)
-        .where('group', isEqualTo: userData['group'])
-        .getDocuments();
-    DocumentSnapshot snapshot = data.documents[0];
-    Map<String, dynamic> map = Map<String, dynamic>();
-    Map<String, dynamic> taskMap = task.getPartMap(type, page);
-    String body = theme.getTitle(type) +
-        ' ' +
-        taskMap['number'] +
-        ' ' +
-        taskMap['title'] +
-        'を完修！';
-    map['family'] = snapshot['family'];
-    map['first'] = snapshot['first'];
-    map['call'] = snapshot['call'];
-    map['uid'] = snapshot['uid'];
-    map['congrats'] = 0;
-    map['body'] = body;
-    map['type'] = type;
-    map['group'] = snapshot['group'];
-    map['time'] = Timestamp.now();
-    Firestore.instance.collection('effort').add(map);
-    Firestore.instance
-        .collection(type)
-        .where('uid', isEqualTo: uid)
-        .where('group', isEqualTo: userData['group'])
-        .getDocuments();
+    });*/
   }
 }

@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 class TabInfo {
   String label;
   Widget widget;
+
   TabInfo(this.label, this.widget);
 }
 
@@ -25,30 +26,30 @@ class AddLumpSelectItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String> uids = ModalRoute.of(context).settings.arguments;
     return DefaultTabController(
-      length: _tabs.length,
+        length: _tabs.length,
         child: Scaffold(
-      appBar: AppBar(
-        title: Text('サインする項目を選択'),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(30.0),
-          child: TabBar(
-            isScrollable: true,
-            tabs: _tabs.map((TabInfo tab) {
-              return Tab(text: tab.label);
-            }).toList(),
+          appBar: AppBar(
+            title: Text('サインする項目を選択'),
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(30.0),
+              child: TabBar(
+                isScrollable: true,
+                tabs: _tabs.map((TabInfo tab) {
+                  return Tab(text: tab.label);
+                }).toList(),
+              ),
+            ),
           ),
-        ),
-      ),
-      floatingActionButton: Consumer<AddLumpSelectItemModel>(
-        builder: (context, model, child) => FloatingActionButton.extended(
-          onPressed: () {
-            model.onPressedSend(uids, context);
-          },
-          label: Text('サイン'),
-          icon: Icon(Icons.edit),
-        ),
-      ),
-      body: TabBarView(children: _tabs.map((tab) => tab.widget).toList()),
-    ));
+          floatingActionButton: Consumer<AddLumpSelectItemModel>(
+            builder: (context, model, child) => FloatingActionButton.extended(
+              onPressed: () {
+                model.onPressedSend(uids, context);
+              },
+              label: Text('決定'),
+              icon: Icon(Icons.check),
+            ),
+          ),
+          body: TabBarView(children: _tabs.map((tab) => tab.widget).toList()),
+        ));
   }
 }

@@ -278,7 +278,7 @@ class showTaskConfirmView extends StatelessWidget {
 
     return ChangeNotifierProvider(
         create: (context) => TaskDetailScoutConfirmModel(
-            numberPushed, task.getPartMap(type, numberPushed)['hasItem'], type, uid),
+            numberPushed, task.getPartMap(type, numberPushed)['hasItem'], type, uid,controller),
         child: Container(
             height: setHeight,
             child: PageView(

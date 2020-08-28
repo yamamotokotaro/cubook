@@ -68,6 +68,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> contents = task.getContentList(type, number);
     return Container(
         width: 280,
         child: GestureDetector(
@@ -101,231 +102,304 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                         } else {
                           message = '進行中️';
                         }
-                        return Column(
-                          children: <Widget>[
-                            SingleChildScrollView(
-                                child: Column(children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(20),
-                                        topRight: const Radius.circular(20)),
-                                    color: themeColor),
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 40, bottom: 20),
-                                  child: Center(
-                                    child: Text(
-                                      task.getPartMap(type, number)['title'],
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                        return ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Scaffold(
+                                body: SingleChildScrollView(
+                                    child: Column(
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: const Radius.circular(20),
+                                          topRight: const Radius.circular(20)),
+                                      color: themeColor),
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 40, bottom: 20),
+                                    child: Center(
+                                      child: Text(
+                                        task.getPartMap(type, number)['title'],
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  message,
-                                  style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none),
+                                Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Text(
+                                    message,
+                                    style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold,
+                                        decoration: TextDecoration.none),
+                                  ),
                                 ),
-                              ),
-                              model.stepSnapshot['phase'] != null
-                                  ? model.stepSnapshot['phase'] ==
-                                          'not examined'
-                                      ? Container(
-                                          child: Column(
-                                            children: <Widget>[
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 10,
-                                                      left: 20,
-                                                      right: 20),
-                                                  child: RaisedButton.icon(
-                                                    onPressed: () async {
-                                                      model.onTapExamination(
-                                                          snapshot.documentID);
-                                                    },
-                                                    color: themeColor,
-                                                    icon: Icon(
-                                                      Icons.check,
-                                                      size: 20,
-                                                    ),
-                                                    label: Text(
-                                                      '考査済みにする',
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                model.stepSnapshot['phase'] != null
+                                    ? model.stepSnapshot['phase'] ==
+                                            'not examined'
+                                        ? Container(
+                                            child: Column(
+                                              children: <Widget>[
+                                                Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10,
+                                                        left: 20,
+                                                        right: 20),
+                                                    child: RaisedButton.icon(
+                                                      onPressed: () async {
+                                                        model.onTapExamination(
+                                                            snapshot
+                                                                .documentID);
+                                                      },
+                                                      color: themeColor,
+                                                      icon: Icon(
+                                                        Icons.check,
+                                                        size: 20,
                                                       ),
-                                                    ),
-                                                  )),
-                                            ],
-                                          ),
-                                        )
-                                      : Container()
-                                  : Container(),
-                              model.stepSnapshot['start'] != null
-                                  ? Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              '開始日',
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
+                                                      label: Text(
+                                                        '考査済みにする',
+                                                        style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    )),
+                                              ],
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 5),
-                                            child: FlatButton(
+                                          )
+                                        : Container()
+                                    : Container(),
+                                model.stepSnapshot['start'] != null
+                                    ? Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.all(10),
                                               child: Text(
-                                                DateFormat('yyyy/MM/dd')
-                                                    .format(snapshot['start']
-                                                        .toDate())
-                                                    .toString(),
+                                                '開始日',
                                                 style: TextStyle(
                                                     fontSize: 20.0,
                                                     fontWeight: FontWeight.bold,
                                                     decoration:
                                                         TextDecoration.none),
                                               ),
-                                              onPressed: () {
-                                                model.changeTime(
-                                                    snapshot['start'].toDate(),
-                                                    context,
-                                                    snapshot.documentID,
-                                                    'start');
-                                              },
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : Container(),
-                              model.stepSnapshot['end'] != null
-                                  ? Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              '完修日',
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 5),
-                                            child: FlatButton(
-                                              child: Text(
-                                                DateFormat('yyyy/MM/dd')
-                                                    .format(snapshot['end']
-                                                        .toDate())
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
-                                              onPressed: () {
-                                                model.changeTime(
-                                                    snapshot['end'].toDate(),
-                                                    context,
-                                                    snapshot.documentID,
-                                                    'end');
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : Container(),
-                              model.stepSnapshot['date_examination'] != null
-                                  ? Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              '考査認定日',
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 5),
-                                            child: FlatButton(
-                                              child: Text(
-                                                DateFormat('yyyy/MM/dd')
-                                                    .format(snapshot[
-                                                            'date_examination']
-                                                        .toDate())
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
-                                              onPressed: () {
-                                                model.changeTime(
-                                                    snapshot['date_examination']
-                                                        .toDate(),
-                                                    context,
-                                                    snapshot.documentID,
-                                                    'date_examination');
-                                              },
-                                            ),
-                                          ),
-                                          Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 10, left: 20, right: 20),
-                                              child: FlatButton.icon(
-                                                onPressed: () async {
-                                                  model.onTapNotExamination(
-                                                      snapshot.documentID);
-                                                },
-                                                icon: Icon(
-                                                  Icons.close,
-                                                  size: 20,
-                                                ),
-                                                label: Text(
-                                                  '考査未完了にする',
+                                            Padding(
+                                              padding: EdgeInsets.only(top: 5),
+                                              child: FlatButton(
+                                                child: Text(
+                                                  DateFormat('yyyy/MM/dd')
+                                                      .format(snapshot['start']
+                                                          .toDate())
+                                                      .toString(),
                                                   style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
                                                 ),
-                                              )),
-                                        ],
+                                                onPressed: () {
+                                                  model.changeTime(
+                                                      snapshot['start']
+                                                          .toDate(),
+                                                      context,
+                                                      snapshot.documentID,
+                                                      'start');
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Container(),
+                                model.stepSnapshot['end'] != null
+                                    ? Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                '完修日',
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(top: 5),
+                                              child: FlatButton(
+                                                child: Text(
+                                                  DateFormat('yyyy/MM/dd')
+                                                      .format(snapshot['end']
+                                                          .toDate())
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                                onPressed: () {
+                                                  model.changeTime(
+                                                      snapshot['end'].toDate(),
+                                                      context,
+                                                      snapshot.documentID,
+                                                      'end');
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Container(),
+                                model.stepSnapshot['date_examination'] != null
+                                    ? Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                '考査認定日',
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(top: 5),
+                                              child: FlatButton(
+                                                child: Text(
+                                                  DateFormat('yyyy/MM/dd')
+                                                      .format(snapshot[
+                                                              'date_examination']
+                                                          .toDate())
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                                onPressed: () {
+                                                  model.changeTime(
+                                                      snapshot[
+                                                              'date_examination']
+                                                          .toDate(),
+                                                      context,
+                                                      snapshot.documentID,
+                                                      'date_examination');
+                                                },
+                                              ),
+                                            ),
+                                            Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 10,
+                                                    left: 20,
+                                                    right: 20),
+                                                child: FlatButton.icon(
+                                                  onPressed: () async {
+                                                    model.onTapNotExamination(
+                                                        snapshot.documentID);
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.close,
+                                                    size: 20,
+                                                  ),
+                                                  label: Text(
+                                                    '考査未完了にする',
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                )),
+                                          ],
+                                        ),
+                                      )
+                                    : Container(),
+                                ListView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: contents.length,
+                                    shrinkWrap: true,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      String content = contents[index];
+                                      Color bordercolor;
+                                      if (Theme.of(context).accentColor ==
+                                          Colors.white) {
+                                        bordercolor = Colors.grey[700];
+                                      } else {
+                                        bordercolor = Colors.grey[300];
+                                      }
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: 10, right: 10, left: 10),
+                                        child: Card(
+                                            color: Color(0x00000000),
+                                            shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                color: bordercolor,
+                                                width: 2.0,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                            ),
+                                            elevation: 0,
+                                            child: InkWell(
+                                              customBorder:
+                                                  RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              onTap: () {
+                                                model.controller.animateToPage(
+                                                    index + 1,
+                                                    duration: const Duration(
+                                                        milliseconds: 1000),
+                                                    curve: Curves.ease);
+                                              },
+                                              child: Padding(
+                                                  padding: EdgeInsets.all(8),
+                                                  child: Text(content)),
+                                            )),
+                                      );
+                                    }),
+                                Padding(
+                                    padding: EdgeInsets.only(left: 15,bottom:10,right:15),
+                                    child: Container(
+                                      width: double.infinity,
+                                      child: Text(
+                                        '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.left,
                                       ),
-                                    )
-                                  : Container(),
-                            ]))
-                          ],
-                        );
+                                    )),
+                              ],
+                            ))));
                       } else if (model.isExit != true &&
                           model.isLoaded == true) {
-                        return Column(
-                          children: <Widget>[
-                            SingleChildScrollView(
-                                child: Column(children: <Widget>[
+                        return ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Scaffold(
+                                body: SingleChildScrollView(
+                                    child: Column(children: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
@@ -355,9 +429,67 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                       decoration: TextDecoration.none),
                                 ),
                               ),
-                            ]))
-                          ],
-                        );
+                              ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: contents.length,
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    String content = contents[index];
+                                    Color bordercolor;
+                                    if (Theme.of(context).accentColor ==
+                                        Colors.white) {
+                                      bordercolor = Colors.grey[700];
+                                    } else {
+                                      bordercolor = Colors.grey[300];
+                                    }
+                                    return Padding(
+                                      padding: EdgeInsets.only(
+                                          bottom: 10, right: 10, left: 10),
+                                      child: Card(
+                                          color: Color(0x00000000),
+                                          shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                              color: bordercolor,
+                                              width: 2.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          elevation: 0,
+                                          child: InkWell(
+                                            customBorder:
+                                                RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                            ),
+                                            onTap: () {
+                                              model.controller.animateToPage(
+                                                  index + 1,
+                                                  duration: const Duration(
+                                                      milliseconds: 1000),
+                                                  curve: Curves.ease);
+                                            },
+                                            child: Padding(
+                                                padding: EdgeInsets.all(8),
+                                                child: Text(content)),
+                                          )),
+                                    );
+                                  }),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 15,bottom:10,right:15),
+                                  child: Container(
+                                    width: double.infinity,
+                                    child: Text(
+                                      '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  )),
+                            ]))));
                       } else {
                         return Container(
                           child: Center(
@@ -778,7 +910,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                     }
                                   } else {
                                     return Padding(
-                                        padding: EdgeInsets.only(top: 60, bottom: 10),
+                                        padding: EdgeInsets.only(
+                                            top: 60, bottom: 10),
                                         child: Container(
                                           child: Center(
                                             child: CircularProgressIndicator(
