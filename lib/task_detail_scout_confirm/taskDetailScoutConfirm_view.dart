@@ -366,11 +366,14 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                     BorderRadius.circular(10.0),
                                               ),
                                               onTap: () {
-                                                model.controller.animateToPage(
-                                                    index + 1,
-                                                    duration: const Duration(
-                                                        milliseconds: 1000),
-                                                    curve: Curves.ease);
+                                                if (model.controller.hasClients) {
+                                                  model.controller
+                                                      .animateToPage(
+                                                      index + 1,
+                                                      duration: const Duration(
+                                                          milliseconds: 1000),
+                                                      curve: Curves.ease);
+                                                }
                                               },
                                               child: Padding(
                                                   padding: EdgeInsets.all(8),

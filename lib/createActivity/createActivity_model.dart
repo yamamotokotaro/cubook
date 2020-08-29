@@ -223,8 +223,9 @@ class CreateActivityModel extends ChangeNotifier {
                 data['group'] = userGroup;
                 data['family'] = userData['family'];
                 data['feedback'] = '「' + titleController.text + '」で取得';
+                data['activity'] = titleController.text;
                 data['type'] = 'activity';
-                data['id'] = docID;
+                data['activityID'] = docID;
                 data['uid_toAdd'] = list_uid;
                 var listCategory = ['usagi', 'sika', 'kuma', 'challenge'];
                 if(itemSelected != null) {
