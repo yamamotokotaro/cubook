@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
 class TaskDetailScoutConfirmModel extends ChangeNotifier {
@@ -47,8 +49,8 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   String type;
   String uid;
 
-  TaskDetailScoutConfirmModel(
-      int number, int quant, String _type, String _uid,PageController _controller) {
+  TaskDetailScoutConfirmModel(int number, int quant, String _type, String _uid,
+      PageController _controller) {
     page = number;
     this.quant = quant;
     type = _type;
@@ -597,5 +599,46 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         .collection(type)
         .document(documentID)
         .updateData(data_toChange);
+  }
+
+  void onImagePressPick(int number, int index) async {
+    File file = await ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50);
+    sendFile(file, index);
+    // notifyListeners();
+  }
+
+  void onImagePressCamera(int number, int index) async {
+    File file = await ImagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50);
+    sendFile(file, index);
+    // notifyListeners();
+  }
+
+  void sendFile(File file, int index) async {
+    int timestamp = DateTime.now().millisecondsSinceEpoch;
+    String subDirectoryName = tokenMap['group'] + '/' + uid;
+    final StorageReference ref =
+        FirebaseStorage().ref().child(subDirectoryName).child('${timestamp}');
+    final StorageUploadTask uploadTask = ref.putFile(file);
+    StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+    if (snapshot.error == null) {
+      String path = await snapshot.ref.getPath();
+      Map<String, dynamic> data = Map<String, dynamic>();
+      data.putIfAbsent('body', () => path);
+      data.putIfAbsent('type', () => 'image');
+      Map<String, dynamic> signed = stepSnapshot['signed'];
+      if(signed[index.toString()]['data'] != null) {
+        signed[index.toString()]['data'].add(data);
+      } else {
+        List<dynamic> dataList = new List<dynamic>();
+        dataList.add(data);
+        signed[index.toString()]['data'] = dataList;
+      }
+      Firestore.instance.collection(type).document(stepSnapshot.documentID).updateData(<String, dynamic>{'signed':signed});
+      print(signed);
+    } else {
+      //return 'Something goes wrong';
+    }
   }
 }

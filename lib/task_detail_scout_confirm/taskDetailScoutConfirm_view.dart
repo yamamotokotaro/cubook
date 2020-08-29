@@ -379,7 +379,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                       );
                                     }),
                                 Padding(
-                                    padding: EdgeInsets.only(left: 15,bottom:10,right:15),
+                                    padding: EdgeInsets.only(
+                                        left: 15, bottom: 10, right: 15),
                                     child: Container(
                                       width: double.infinity,
                                       child: Text(
@@ -477,7 +478,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                     );
                                   }),
                               Padding(
-                                  padding: EdgeInsets.only(left: 15,bottom:10,right:15),
+                                  padding: EdgeInsets.only(
+                                      left: 15, bottom: 10, right: 15),
                                   child: Container(
                                     width: double.infinity,
                                     child: Text(
@@ -664,8 +666,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                   labelText: "フィードバック"),
                                             ),
                                           ),
-                                          !model.isLoading[index_page]
-                                              ? Column(
+                                          if (!model.isLoading[index_page]) Column(
                                                   children: <Widget>[
                                                     RaisedButton.icon(
                                                       onPressed: () {
@@ -707,10 +708,77 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                 FontWeight.bold,
                                                             color: Colors.red),
                                                       ),
+                                                    ),
+                                                    FlatButton.icon(
+                                                      onPressed: () async {
+                                                        var result =
+                                                            await showModalBottomSheet<
+                                                                int>(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top: 10,
+                                                                        bottom:
+                                                                            10),
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    ListTile(
+                                                                      leading: Icon(
+                                                                          Icons
+                                                                              .camera_alt),
+                                                                      title: Text(
+                                                                          'カメラ'),
+                                                                      onTap:
+                                                                          () {
+                                                                        model.onImagePressCamera(
+                                                                            model.page,
+                                                                            index_page);
+                                                                        Navigator.pop(context);
+                                                                      },
+                                                                    ),
+                                                                    ListTile(
+                                                                      leading:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .collections,
+                                                                      ),
+                                                                      title: Text(
+                                                                          'ギャラリー'),
+                                                                      onTap:
+                                                                          () {
+                                                                        model.onImagePressPick(
+                                                                            model.page,
+                                                                            index_page);
+                                                                        Navigator.pop(context);
+                                                                      },
+                                                                    ),
+                                                                  ],
+                                                                ));
+                                                          },
+                                                        );
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.add,
+                                                        size: 20,
+                                                      ),
+                                                      label: Text(
+                                                        '画像を追加',
+                                                        style: TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
                                                     )
                                                   ],
-                                                )
-                                              : Container(
+                                                ) else Container(
                                                   child: Container(
                                                     child: Center(
                                                       child:

@@ -227,29 +227,31 @@ class CreateActivityModel extends ChangeNotifier {
                 data['id'] = docID;
                 data['uid_toAdd'] = list_uid;
                 var listCategory = ['usagi', 'sika', 'kuma', 'challenge'];
-                for (int i = 0; i < listCategory.length; i++) {
-                  List<dynamic> data_item = new List<dynamic>();
-                  if (itemSelected[listCategory[i]] != null) {
-                    List<dynamic> pageItem = itemSelected[listCategory[i]];
-                    for (int k = 0; k < pageItem.length; k++) {
-                      List<dynamic> numberItem = pageItem[k];
-                      Map<String, dynamic> toAdd =
-                      new Map<String, dynamic>();
-                      List<dynamic> numbers = new List<dynamic>();
-                      toAdd['page'] = k;
-                      for (int l = 0; l < numberItem.length; l++) {
-                        bool isCheck = numberItem[l];
-                        if (isCheck) {
-                          numbers.add(l);
+                if(itemSelected != null) {
+                  for (int i = 0; i < listCategory.length; i++) {
+                    List<dynamic> data_item = new List<dynamic>();
+                    if (itemSelected[listCategory[i]] != null) {
+                      List<dynamic> pageItem = itemSelected[listCategory[i]];
+                      for (int k = 0; k < pageItem.length; k++) {
+                        List<dynamic> numberItem = pageItem[k];
+                        Map<String, dynamic> toAdd =
+                        new Map<String, dynamic>();
+                        List<dynamic> numbers = new List<dynamic>();
+                        toAdd['page'] = k;
+                        for (int l = 0; l < numberItem.length; l++) {
+                          bool isCheck = numberItem[l];
+                          if (isCheck) {
+                            numbers.add(l);
+                          }
+                        }
+                        if (numbers.length != 0) {
+                          toAdd['numbers'] = numbers;
+                          data_item.add(toAdd);
                         }
                       }
-                      if (numbers.length != 0) {
-                        toAdd['numbers'] = numbers;
-                        data_item.add(toAdd);
-                      }
                     }
+                    data[listCategory[i]] = data_item;
                   }
-                  data[listCategory[i]] = data_item;
                 }
                 await Firestore.instance
                     .collection('lump')

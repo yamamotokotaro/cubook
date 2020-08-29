@@ -105,80 +105,92 @@ class DetailActivityView extends StatelessWidget {
                                                 ),
                                                 textAlign: TextAlign.left,
                                               ))),
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 15, bottom: 15, left: 10),
-                                          child: Container(
-                                              width: double.infinity,
-                                              child: Text(
-                                                '取得項目',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 25,
-                                                ),
-                                                textAlign: TextAlign.left,
-                                              ))),
-                                      ListView.builder(
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          itemCount:
-                                              documentSnapshot['list_item']
-                                                  .length,
-                                          shrinkWrap: true,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            Map<String, dynamic> part_selected =
-                                                documentSnapshot['list_item']
-                                                    [index];
-                                            String type = part_selected['type'];
-                                            int page = part_selected['page'];
-                                            int number =
-                                                part_selected['number'];
-                                            Map<String, dynamic> map_task =
-                                                task.getPartMap(type, page);
-                                            return Padding(
-                                                padding: EdgeInsets.all(5),
-                                                child: Card(
-                                                  color:
-                                                      theme.getThemeColor(type),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.0),
-                                                  ),
-                                                  child: Center(
-                                                      child: Padding(
+                                      documentSnapshot['list_item'] != null
+                                          ? Column(
+                                              children: [
+                                                Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 15,
+                                                        bottom: 15,
+                                                        left: 10),
+                                                    child: Container(
+                                                        width: double.infinity,
+                                                        child: Text(
+                                                          '取得項目',
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 25,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                        ))),
+                                                ListView.builder(
+                                                    physics:
+                                                        const NeverScrollableScrollPhysics(),
+                                                    itemCount: documentSnapshot[
+                                                            'list_item']
+                                                        .length,
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      Map<String, dynamic>
+                                                          part_selected =
+                                                          documentSnapshot[
+                                                                  'list_item']
+                                                              [index];
+                                                      String type =
+                                                          part_selected['type'];
+                                                      int page =
+                                                          part_selected['page'];
+                                                      int number =
+                                                          part_selected[
+                                                              'number'];
+                                                      Map<String, dynamic>
+                                                          map_task =
+                                                          task.getPartMap(
+                                                              type, page);
+                                                      return Padding(
                                                           padding:
-                                                              EdgeInsets.only(
-                                                                  top: 5,
-                                                                  bottom: 5),
-                                                          child: Column(
-                                                            children: [
-                                                              Text(
-                                                                  theme.getTitle(type) +
-                                                                      ' ' +
-                                                                      (page + 1)
-                                                                          .toString() +
-                                                                      ' ' +
-                                                                      map_task[
-                                                                          'title'] +
-                                                                      ' (' +
-                                                                      (number +
-                                                                              1)
-                                                                          .toString() +
-                                                                      ')',
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                      fontSize:
-                                                                          18,
-                                                                      color: Colors
-                                                                          .white))
-                                                            ],
-                                                          ))),
-                                                ));
-                                          })
+                                                              EdgeInsets.all(5),
+                                                          child: Card(
+                                                            color: theme
+                                                                .getThemeColor(
+                                                                    type),
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5.0),
+                                                            ),
+                                                            child: Center(
+                                                                child: Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        top: 5,
+                                                                        bottom:
+                                                                            5),
+                                                                    child:
+                                                                        Column(
+                                                                      children: [
+                                                                        Text(
+                                                                            theme.getTitle(type) +
+                                                                                ' ' +
+                                                                                (page + 1).toString() +
+                                                                                ' ' +
+                                                                                map_task['title'] +
+                                                                                ' (' +
+                                                                                (number + 1).toString() +
+                                                                                ')',
+                                                                            style: TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white))
+                                                                      ],
+                                                                    ))),
+                                                          ));
+                                                    })
+                                              ],
+                                            )
+                                          : Container(),
                                     ]);
                                   } else {
                                     return const Center(
