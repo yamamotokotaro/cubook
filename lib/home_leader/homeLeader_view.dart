@@ -13,7 +13,7 @@ class HomeLeaderView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       Consumer<HomeLeaderModel>(builder: (context, model, child) {
-        model.getSnapshot();
+        model.getSnapshot(context);
         if (model.group != null) {
           return StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance

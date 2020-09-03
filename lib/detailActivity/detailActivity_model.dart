@@ -8,6 +8,8 @@ class DetailActivityModel extends ChangeNotifier {
   FirebaseUser currentUser;
   bool isGet = false;
   String group;
+  String position;
+  String age;
   DateTime date = DateTime.now();
   TextEditingController titleController = TextEditingController();
   bool isLoading = false;
@@ -19,7 +21,10 @@ class DetailActivityModel extends ChangeNotifier {
     String group_before = group;
     FirebaseAuth.instance.currentUser().then((user) {
       Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
-        group = snapshot.documents[0]['group'];
+        DocumentSnapshot documentSnapshot = snapshot.documents[0];
+        group = documentSnapshot['group'];
+        position = documentSnapshot['position'];
+        age = documentSnapshot['age'];
         if(group != group_before) {
           notifyListeners();
         }

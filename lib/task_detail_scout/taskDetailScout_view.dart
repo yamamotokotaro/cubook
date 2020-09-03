@@ -457,11 +457,12 @@ class TaskScoutAddView extends StatelessWidget {
                                                 model.stepSnapshot['signed']
                                                         [index_page.toString()]
                                                     ['feedback'],
+                                                textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 18.0,
                                                     fontWeight: FontWeight.bold,
                                                     decoration:
-                                                        TextDecoration.none),
+                                                        TextDecoration.none,),
                                               ),
                                             ),
                                             snapshot['data'] != null

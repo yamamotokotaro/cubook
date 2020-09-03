@@ -21,6 +21,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     DateTime now = DateTime.now();
     String greet = '';
     String emoji = '';
@@ -100,11 +101,6 @@ class HomeView extends StatelessWidget {
                                   return Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
-                                      /*ListTile(
-                                        leading: Icon(Icons.person),
-                                        title: Text('アカウント設定'),
-                                        onTap: () => launchURL(),
-                                      ),*/
                                       model.age != 'usagi' &&
                                               model.age != 'sika' &&
                                               model.age != 'kuma'

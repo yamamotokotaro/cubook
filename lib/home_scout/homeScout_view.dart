@@ -22,128 +22,117 @@ class HomeScoutView extends StatelessWidget {
           padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
           child: Container(
               child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: InkWell(
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute<InviteView>(
-                        builder: (BuildContext context) {
-                          return NotificationView();
-                        }));
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.notifications,
-                            color: Theme.of(context).accentColor,
-                            size: 35,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: Text(
-                                  'お知らせ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 30,
-                                  ),
-                                ),
-                              )),
-                        ]),
-                  ),
-                ),
-              )),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: InkWell(
+              customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute<InviteView>(
+                    builder: (BuildContext context) {
+                  return NotificationView();
+                }));
+              },
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.notifications,
+                        color: Theme.of(context).accentColor,
+                        size: 35,
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Material(
+                            type: MaterialType.transparency,
+                            child: Text(
+                              'お知らせ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 30,
+                              ),
+                            ),
+                          )),
+                    ]),
+              ),
+            ),
+          )),
         ),
         Padding(
           padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
           child: Container(
               child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: InkWell(
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/listAbsentScout');
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.event_available,
-                            color: Theme.of(context).accentColor,
-                            size: 35,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: Text(
-                                  '出欠履歴',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 30,
-                                  ),
-                                ),
-                              )),
-                        ]),
-                  ),
-                ),
-              )),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: InkWell(
+              customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed('/listAbsentScout');
+              },
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.event,
+                        color: Theme
+                            .of(context)
+                            .accentColor,
+                        size: 35,
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Material(
+                            type: MaterialType.transparency,
+                            child: Text(
+                              '活動記録',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 30),
+                            ),
+                          )),
+                    ]),
+              ),
+            ),
+          )),
         ),
-        /*Padding(
-          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
-          child: Container(
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+        /*Center(
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(right: 5, top: 4),
+                child: Icon(
+                  Icons.directions_run,
+                  color: Theme.of(context).accentColor,
+                  size: 32,
                 ),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute<InviteView>(
-                        builder: (BuildContext context) {
-                          return NotificationView();
-                        }));
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.insert_chart,
-                            color: Theme.of(context).accentColor,
-                            size: 35,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: Text(
-                                  'みんなの取り組み',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 30,
-                                  ),
-                                ),
-                              )),
-                        ]),
-                  ),
-                ),
-              )),
-        ),*/
+              ),
+              Text(
+                'もうすぐ完修！',
+                style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.none),
+              ),
+            ])),
+        Consumer<HomeModel>(builder: (context, model, child) {
+          return Padding(
+              padding: EdgeInsets.all(10),
+              child: ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+
+                  }));
+        }),*/
         Center(
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

@@ -38,56 +38,56 @@ class HomeModel extends ChangeNotifier {
     FirebaseAuth.instance.currentUser().then((user) {
       if (user != null) {
         currentUser = user;
-        currentUser.getIdToken().then((tokenMap) {
-          Firestore.instance
-              .collection('user')
-              .where('uid', isEqualTo: currentUser.uid)
-              .snapshots()
-              .listen((data) {
-            if (data.documents.length != 0) {
-              userSnapshot = data.documents[0];
-              username = userSnapshot['name'] + userSnapshot['call'];
-              usercall = userSnapshot['call'];
-              groupName = userSnapshot['groupName'];
-              position = userSnapshot['position'];
-              grade = userSnapshot['grade'];
-              age = userSnapshot['age'];
-              if (position == 'scout') {
-                if (grade != null) {
-                  if (grade == 'cub') {
-                    toShow = HomeScoutView();
-                  } else if (grade == 'boy') {
-                    toShow = Column(
-                      children: <Widget>[HomeBSView()],
-                    );
-                  } else if (grade == 'venture') {
-                    toShow = Column(
-                      children: <Widget>[HomeBSView(), ],
-                    );
-                  }
-                } else {
+        Firestore.instance
+            .collection('user')
+            .where('uid', isEqualTo: currentUser.uid)
+            .snapshots()
+            .listen((data) {
+          if (data.documents.length != 0) {
+            userSnapshot = data.documents[0];
+            username = userSnapshot['name'] + userSnapshot['call'];
+            usercall = userSnapshot['call'];
+            groupName = userSnapshot['groupName'];
+            position = userSnapshot['position'];
+            grade = userSnapshot['grade'];
+            age = userSnapshot['age'];
+            if (position == 'scout') {
+              if (grade != null) {
+                if (grade == 'cub') {
                   toShow = HomeScoutView();
+                } else if (grade == 'boy') {
+                  toShow = Column(
+                    children: <Widget>[HomeBSView()],
+                  );
+                } else if (grade == 'venture') {
+                  toShow = Column(
+                    children: <Widget>[
+                      HomeBSView(),
+                    ],
+                  );
                 }
-                getSnapshot();
-              } else if (position == 'boyscout') {
-                toShow = HomeBSView();
-              } else if (position == 'boyscoutGL') {
-                toShow = Column(
-                  children: <Widget>[HomeBSView(), HomeLeaderView()],
-                );
-              } else if (position == 'leader') {
-                toShow = HomeLeaderView();
               } else {
-                toShow = Center(
-                  child: Text('エラーが発生しました'),
-                );
+                toShow = HomeScoutView();
               }
-              isLoaded = true;
-              notifyListeners();
+              getSnapshot();
+            } else if (position == 'boyscout') {
+              toShow = HomeBSView();
+            } else if (position == 'boyscoutGL') {
+              toShow = Column(
+                children: <Widget>[HomeBSView(), HomeLeaderView()],
+              );
+            } else if (position == 'leader') {
+              toShow = HomeLeaderView();
             } else {
-              isLoaded = true;
+              toShow = Center(
+                child: Text('エラーが発生しました'),
+              );
             }
-          });
+            isLoaded = true;
+            notifyListeners();
+          } else {
+            isLoaded = true;
+          }
         });
       } else {
         isLoaded = true;

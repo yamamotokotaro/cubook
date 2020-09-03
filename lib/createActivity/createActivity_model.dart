@@ -6,6 +6,7 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:intl/intl.dart';
 
 class CreateActivityModel extends ChangeNotifier {
