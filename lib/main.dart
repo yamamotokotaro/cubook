@@ -48,6 +48,8 @@ import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
+import 'task_detail_analytics/taskDetailAnalytics_view.dart';
+
 void main() {
   // Set `enableInDevMode` to true to see reports while in debug mode
   // This is only to be used for confirming that reports are being
@@ -173,6 +175,7 @@ class _MyAppState extends State<MyApp> {
             '/listAbsentScout': (BuildContext context) => ListAbsentScoutView(),
             '/contentsView': (BuildContext context) => ContentsView(),
             '/analytics': (BuildContext context) => AnalyticsView(),
+            '/taskDetailAnalytics': (BuildContext context) => TaskDetailAnalyticsView(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
