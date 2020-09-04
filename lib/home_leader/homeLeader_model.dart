@@ -29,7 +29,7 @@ class HomeLeaderModel extends ChangeNotifier {
           await remoteConfig.fetch(expiration: const Duration(seconds: 1));
           await remoteConfig.activateFetched();
           print('term = ' + remoteConfig.getString('version_term'));
-          await showModalBottomSheet<int>(
+          /*await showModalBottomSheet<int>(
             context: context,
             isDismissible: false,
             enableDrag: false,
@@ -94,10 +94,18 @@ class HomeLeaderModel extends ChangeNotifier {
                         ],
                       )));
             },
-          );
+          );*/
         }
       });
     });
+  }
+
+  Stream<QuerySnapshot> getTaskSnapshot(String group) {
+    return Firestore.instance
+        .collection('task')
+        .where('group', isEqualTo: group)
+        .where('phase', isEqualTo: 'wait')
+        .snapshots();
   }
 }
 
@@ -119,11 +127,4 @@ void launchPrivacyURL() async {
   } else {
     throw 'Could not launch $url';
   }
-}
-
-Stream<QuerySnapshot> getTaskSnapshot(String group) {
-  return Firestore.instance
-      .collection('task')
-      .where('group', isEqualTo: group)
-      .snapshots();
 }

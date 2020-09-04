@@ -16,11 +16,7 @@ class HomeLeaderView extends StatelessWidget {
         model.getSnapshot(context);
         if (model.group != null) {
           return StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance
-                  .collection('task')
-                  .where('group', isEqualTo: model.group)
-                  .where('phase', isEqualTo: 'wait')
-                  .snapshots(),
+              stream: model.getTaskSnapshot(model.group),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
@@ -137,7 +133,7 @@ class HomeLeaderView extends StatelessWidget {
             )),
       ),
       Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 15),
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
         child: Container(
             child: Card(
               shape: RoundedRectangleBorder(
@@ -168,6 +164,48 @@ class HomeLeaderView extends StatelessWidget {
                               type: MaterialType.transparency,
                               child: Text(
                                 '活動記録',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 30),
+                              ),
+                            )),
+                      ]),
+                ),
+              ),
+            )),
+      ),
+      Padding(
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 15),
+        child: Container(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: InkWell(
+                customBorder: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                onTap: () {
+                  Navigator.of(context).pushNamed('/analytics');
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.insert_chart,
+                          color: Theme
+                              .of(context)
+                              .accentColor,
+                          size: 35,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Material(
+                              type: MaterialType.transparency,
+                              child: Text(
+                                'アナリティクス',
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 30),

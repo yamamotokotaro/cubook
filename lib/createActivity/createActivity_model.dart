@@ -97,7 +97,7 @@ class CreateActivityModel extends ChangeNotifier {
           keywords: <String>['outdoor', 'scout'],
           childDirected: false,
           testDevices: testDevices != null
-              ? <String>['testDevices']
+              ? <String>[]
               : null // Android emulators are considered test devices
           );
       String adunitID;

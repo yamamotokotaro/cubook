@@ -1,3 +1,5 @@
+import 'package:cubook/Analytics/analytics_model.dart';
+import 'package:cubook/Analytics/analytics_view.dart';
 import 'package:cubook/Support/Support_view.dart';
 import 'package:cubook/Support/Support_model.dart';
 import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
@@ -30,6 +32,7 @@ import 'package:cubook/list_member/listMember_model.dart';
 import 'package:cubook/list_member/listMember_view.dart';
 import 'package:cubook/notification/notification_model.dart';
 import 'package:cubook/setting_account/settingAccount_model.dart';
+import 'package:cubook/task_list_analytics/taskListAnalytics_model.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/setting_account_group/settingAccount_model.dart';
 import 'package:cubook/setting_account_group/widget/changeAge.dart';
@@ -130,6 +133,8 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => ListAbsentModel()),
           ChangeNotifierProvider(create: (context) => ListAbsentScoutModel()),
           ChangeNotifierProvider(create: (context) => ContentsModel()),
+          ChangeNotifierProvider(create: (context) => AnalyticsModel()),
+          ChangeNotifierProvider(create: (context) => TaskListAnalyticsModel()),
           ChangeNotifierProvider(
               create: (context) => ListCitationWaitingModel()),
         ],
@@ -167,6 +172,7 @@ class _MyAppState extends State<MyApp> {
             '/detailActivity': (BuildContext context) => DetailActivityView(),
             '/listAbsentScout': (BuildContext context) => ListAbsentScoutView(),
             '/contentsView': (BuildContext context) => ContentsView(),
+            '/analytics': (BuildContext context) => AnalyticsView(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

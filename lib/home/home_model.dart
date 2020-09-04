@@ -72,7 +72,7 @@ class HomeModel extends ChangeNotifier {
               getSnapshot();
             } else if (position == 'boyscout') {
               toShow = HomeBSView();
-            } else if (position == 'boyscoutGL') {
+            } else if (position == 'groupleader') {
               toShow = Column(
                 children: <Widget>[HomeBSView(), HomeLeaderView()],
               );
