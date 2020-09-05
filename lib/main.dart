@@ -41,9 +41,11 @@ import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -76,7 +78,7 @@ class _MyAppState extends State<MyApp> {
   final boyColor = Colors.orange;
   FirebaseAnalytics analytics = FirebaseAnalytics();
 
-  /*FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
@@ -104,7 +106,9 @@ class _MyAppState extends State<MyApp> {
       assert(token != null);
       print("Push Messaging token: $token");
     });
-  }*/
+  }
+  Future<PermissionStatus> permissionStatus =
+  NotificationPermissions.getNotificationPermissionStatus();
 
   @override
   Widget build(BuildContext context) {

@@ -3,6 +3,7 @@ import 'package:cubook/home_leader/homeLeader_model.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -185,7 +186,8 @@ class HomeLeaderView extends StatelessWidget {
                 customBorder: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                onTap: () {
+                onTap: () async {
+                  // final Future<PermissionStatus> permissionStatus = NotificationPermissions.requestNotificationPermissions();
                   Navigator.of(context).pushNamed('/analytics');
                 },
                 child: Padding(

@@ -19,6 +19,12 @@ class TaskDetailAnalyticsView extends StatelessWidget {
     Color themeColor = theme.getThemeColor(type);
     List<String> contents = task.getContentList(type, page);
     var map_task = task.getPartMap(type, page);
+    bool isDark;
+    if(Theme.of(context).accentColor == Colors.white){
+      isDark = true;
+    } else {
+      isDark = false;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(map_task['title']),
@@ -191,9 +197,9 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                           child: Container(
                                                                               width: 200,
                                                                               child: LinearProgressIndicator(
-                                                                                backgroundColor: theme.getIndicatorColor(type[index]),
-                                                                                valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-                                                                                value: countItem[index] / userCount,
+                                                                                backgroundColor: isDark ? Colors.grey[700]: Colors.grey[300],
+                                                                                valueColor: new AlwaysStoppedAnimation<Color>(isDark ?Colors.white: theme.getThemeColor(type)),
+                                                                                value: userCount == 0 ? 0 : countItem[index] / userCount,
                                                                               )))
                                                                     ],
                                                                   )),
@@ -225,7 +231,19 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                       );
                                     }
                                   }),
-                              /*Padding(
+                              Padding(
+                                  padding: EdgeInsets.only(left:17),
+                                  child: Container(
+                                      width: double.infinity,
+                                      child: Text(
+                                        '細目',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ))),
+                              Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: ListView.builder(
                                       physics:
@@ -283,7 +301,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                       ),
                                       textAlign: TextAlign.left,
                                     ),
-                                  )),*/
+                                  )),
                             ],
                           );
                         } else {

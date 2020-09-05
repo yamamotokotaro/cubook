@@ -223,7 +223,7 @@ class CreateActivityModel extends ChangeNotifier {
                 data['uid'] = userUid;
                 data['group'] = userGroup;
                 data['family'] = userData['family'];
-                data['feedback'] = '「' + titleController.text + '」で取得';
+                data['feedback'] = '「' + titleController.text + '」でサイン';
                 data['activity'] = titleController.text;
                 data['type'] = 'activity';
                 data['activityID'] = docID;
