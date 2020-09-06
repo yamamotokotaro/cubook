@@ -197,26 +197,19 @@ class TaskDetailScoutModel extends ChangeNotifier {
       isLoading[number] = true;
       notifyListeners();
       print(map_attach);
-
-      FirebaseAuth.instance.currentUser().then((user) {
-        if (user != null) {
-          currentUser = user;
-          user.getIdToken().then((token) async {
-            tokenMap = token.claims;
-            Map<int, dynamic> MapDatas = map_attach[number];
-            list_toSend[number] =
-                new List<dynamic>.generate(MapDatas.length, (index) => null);
-            count_toSend[number] = MapDatas.length;
-            for (int i = 0; i < MapDatas.length; i++) {
-              if (MapDatas[i] is TextEditingController) {
-                await textSend(i, MapDatas[i].text, number);
-              } else if (MapDatas[i] is File) {
-                await fileSend(i, MapDatas[i], number);
-              }
-            }
-          });
+      Map<int, dynamic> MapDatas = map_attach[number];
+      list_toSend[number] =
+          new List<dynamic>.generate(MapDatas.length, (index) => null);
+      count_toSend[number] = MapDatas.length;
+      for (int i = 0; i < MapDatas.length; i++) {
+        if (MapDatas[i] is TextEditingController) {
+          await textSend(i, MapDatas[i].text, number);
+        } else if (MapDatas[i] is String) {
+          await textSend(i, MapDatas[i], number);
+        } else if (MapDatas[i] is File) {
+          await fileSend(i, MapDatas[i], number);
         }
-      });
+      }
     }
   }
 
@@ -272,7 +265,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
       data['family'] = userData['family'];
       data['first'] = userData['first'];
       data['call'] = userData['call'];
-      data['group'] = tokenMap['group'];
+      data['group'] = userData['group'];
       data['phase'] = 'wait';
       isAdded[number] = true;
       documentReference = await Firestore.instance.collection('task').add(data);
@@ -295,7 +288,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
         data_signed['uid'] = user.uid;
         data_signed['start'] = Timestamp.now();
         data_signed['signed'] = {number.toString(): data_toAdd};
-        data_signed['group'] = tokenMap['group'];
+        data_signed['group'] = userData['group'];
         DocumentReference documentReference_add =
             await Firestore.instance.collection(type).add(data_signed);
         documentID_exit = documentReference_add.documentID;
@@ -401,9 +394,12 @@ class TaskDetailScoutModel extends ChangeNotifier {
 
   void onPressAdd_new(int index, String type) {
     if (type == 'text') {
-      print('map_attach[' + index.toString() + '][' + list_attach[index].length.toString() + ']');
-      map_attach[index][list_attach[index].length] =
-          TextEditingController();
+      print('map_attach[' +
+          index.toString() +
+          '][' +
+          list_attach[index].length.toString() +
+          ']');
+      map_attach[index][list_attach[index].length] = TextEditingController();
     }
     list_attach[index].add(type);
     notifyListeners();

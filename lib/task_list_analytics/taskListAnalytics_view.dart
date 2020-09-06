@@ -244,8 +244,8 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                                     height: 30,
                                                                                     width: 30,
                                                                                     child: CircularProgressIndicator(
-                                                                                      backgroundColor: isDark ? Colors.grey[700]: Colors.grey[300],
-                                                                                      valueColor: new AlwaysStoppedAnimation<Color>(isDark ?Colors.white: theme.getThemeColor(type)),
+                                                                                      backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
+                                                                                      valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),
                                                                                       value: userCount == 0 ? 0 : itemCount / userCount,
                                                                                     ))),
                                                                             Text('完修者 ' + itemCount.toString() + '/' + userCount.toString(),
@@ -253,12 +253,14 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                           ],
                                                                         ));
                                                                   } else {
-                                                                    return const Center(
-                                                                      child: Padding(
-                                                                          padding: EdgeInsets.all(
-                                                                              5),
-                                                                          child:
-                                                                              CircularProgressIndicator()),
+                                                                    return Padding(
+                                                                      padding: EdgeInsets.only(left: 5, right: 10),
+                                                                      child: Container(
+                                                                          height: 30,
+                                                                          width: 30,
+                                                                          child: CircularProgressIndicator(
+                                                                            backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
+                                                                            valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
                                                                     );
                                                                   }
                                                                 })
@@ -271,18 +273,26 @@ class TaskListAnalyticsView extends StatelessWidget {
                                           ));
                                     });
                               } else {
-                                return const Center(
-                                  child: Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: CircularProgressIndicator()),
+                                return Padding(
+                                  padding: EdgeInsets.only(left: 5, right: 10),
+                                  child: Container(
+                                      height: 30,
+                                      width: 30,
+                                      child: CircularProgressIndicator(
+                                        backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
+                                        valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
                                 );
                               }
                             });
                       } else {
-                        return const Center(
-                          child: Padding(
-                              padding: EdgeInsets.all(5),
-                              child: CircularProgressIndicator()),
+                        return Padding(
+                          padding: EdgeInsets.only(left: 5, right: 10),
+                          child: Container(
+                              height: 30,
+                              width: 30,
+                              child: CircularProgressIndicator(
+                                backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
+                                valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
                         );
                       }
                     }))

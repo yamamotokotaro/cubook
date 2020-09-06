@@ -91,6 +91,7 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           title = message["notification"]["title"];
           helper = "You have recieved a new notification";
+          print(title);
         });
 
       },
@@ -98,15 +99,12 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           title = message["data"]["title"];
           helper = "You have open the application from notification";
+          print(message.toString());
         });
 
       },
 
     );
-    _firebaseMessaging.getToken().then((String token) {
-      assert(token != null);
-      print("Push Messaging token: $token");
-    });
   }
   Future<PermissionStatus> permissionStatus =
   NotificationPermissions.getNotificationPermissionStatus();
