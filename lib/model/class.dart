@@ -24,7 +24,7 @@ class showTaskConfirmView extends StatelessWidget {
     type = _type;
     uid = _uid;
     pages.add(
-      TaskScoutDetailConfirmView(type, number),
+      TaskScoutDetailConfirmView(type, page),
     );
     for (int i = 0; i < task.getPartMap(type, page)['hasItem']; i++) {
       pages.add(TaskScoutAddConfirmView(i, type));

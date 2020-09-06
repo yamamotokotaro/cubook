@@ -604,18 +604,32 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   void onImagePressPick(int number, int index) async {
     File file = await ImagePicker.pickImage(
         source: ImageSource.gallery, imageQuality: 50);
-    sendFile(file, index);
+    sendFile(file, index,'image');
     // notifyListeners();
   }
 
   void onImagePressCamera(int number, int index) async {
     File file = await ImagePicker.pickImage(
         source: ImageSource.camera, imageQuality: 50);
-    sendFile(file, index);
+    sendFile(file, index,'image');
     // notifyListeners();
   }
 
-  void sendFile(File file, int index) async {
+  void onVideoPressPick(int number, int index) async {
+    File file = await ImagePicker.pickVideo(
+        source: ImageSource.gallery);
+    sendFile(file, index, 'video');
+    // notifyListeners();
+  }
+
+  void onVideoPressCamera(int number, int index) async {
+    File file = await ImagePicker.pickVideo(
+        source: ImageSource.camera);
+    sendFile(file, index, 'video');
+    // notifyListeners();
+  }
+
+  void sendFile(File file, int index,String type_file) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
     String subDirectoryName = tokenMap['group'] + '/' + uid;
     final StorageReference ref =
@@ -626,19 +640,35 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       String path = await snapshot.ref.getPath();
       Map<String, dynamic> data = Map<String, dynamic>();
       data.putIfAbsent('body', () => path);
-      data.putIfAbsent('type', () => 'image');
+      data.putIfAbsent('type', () => type_file);
       Map<String, dynamic> signed = stepSnapshot['signed'];
-      if(signed[index.toString()]['data'] != null) {
+      if (signed[index.toString()]['data'] != null) {
         signed[index.toString()]['data'].add(data);
       } else {
         List<dynamic> dataList = new List<dynamic>();
         dataList.add(data);
         signed[index.toString()]['data'] = dataList;
       }
-      Firestore.instance.collection(type).document(stepSnapshot.documentID).updateData(<String, dynamic>{'signed':signed});
+      Firestore.instance
+          .collection(type)
+          .document(stepSnapshot.documentID)
+          .updateData(<String, dynamic>{'signed': signed});
       print(signed);
     } else {
       //return 'Something goes wrong';
     }
+  }
+
+  Future<void> deleteFile(int number, int index) async {
+    Map<String, dynamic> signed = stepSnapshot['signed'];
+    String path = signed[number.toString()]['data'][index]['body'];
+    signed[number.toString()]['data'].removeAt(index);
+    Firestore.instance
+        .collection(type)
+        .document(stepSnapshot.documentID)
+        .updateData({'signed': signed}).then((value) {
+      final StorageReference ref = FirebaseStorage().ref().child(path);
+      ref.delete();
+    });
   }
 }

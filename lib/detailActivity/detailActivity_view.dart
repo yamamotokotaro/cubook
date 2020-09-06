@@ -258,7 +258,7 @@ class DetailActivityView extends StatelessWidget {
                                                                               padding: EdgeInsets.only(top: 5, bottom: 5),
                                                                               child: Column(
                                                                                 children: [
-                                                                                  Text(theme.getTitle(type) + ' ' + (page + 1).toString() + ' ' + map_task['title'] + ' (' + (number + 1).toString() + ')', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white))
+                                                                                  Text(theme.getTitle(type) + ' ' + map_task['number'] + ' ' + map_task['title'] + ' (' + (number + 1).toString() + ')', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white))
                                                                                 ],
                                                                               )))),
                                                                 ));

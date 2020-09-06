@@ -25,6 +25,8 @@ import 'package:cubook/listAbsent_scout/listAbsentScout_model.dart';
 import 'package:cubook/listAbsent_scout/listAbsentScout_view.dart';
 import 'package:cubook/listActivity/listActivity_model.dart';
 import 'package:cubook/listActivity/listActivity_view.dart';
+import 'package:cubook/listCitationAnalytics/listCitationAnalytics_model.dart';
+import 'package:cubook/listCitationAnalytics/listCitationAnalytics_view.dart';
 import 'package:cubook/listCitationWaiting/listCitationWaiting_model.dart';
 import 'package:cubook/listCitationWaiting/listCitationWaiting_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
@@ -142,6 +144,8 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => TaskListAnalyticsModel()),
           ChangeNotifierProvider(
               create: (context) => ListCitationWaitingModel()),
+          ChangeNotifierProvider(
+              create: (context) => ListCitationAnalyticsModel()),
         ],
         child: MaterialApp(
           home: HomeController(),
@@ -180,6 +184,7 @@ class _MyAppState extends State<MyApp> {
             '/analytics': (BuildContext context) => AnalyticsView(),
             '/taskDetailAnalytics': (BuildContext context) => TaskDetailAnalyticsView(),
             '/taskDetailAnalyticsMember': (BuildContext context) => TaskDetailAnalyticsMemberView(),
+            '/listCitationAnalyticsView': (BuildContext context) => ListCitationAnalyticsView(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

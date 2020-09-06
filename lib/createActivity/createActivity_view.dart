@@ -172,8 +172,7 @@ class CreateActivityView extends StatelessWidget {
                                                       Text(
                                                           theme.getTitle(type) +
                                                               ' ' +
-                                                              (page + 1)
-                                                                  .toString() +
+                                                              map_task['number'] +
                                                               ' ' +
                                                               map_task[
                                                                   'title'] +
