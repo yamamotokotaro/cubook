@@ -1,5 +1,4 @@
 import 'package:chewie/chewie.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_model.dart';
@@ -67,6 +66,7 @@ class TaskScoutDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> contents = task.getContentList(type, number);
     return Container(
         width: 280,
         child: GestureDetector(
@@ -90,7 +90,8 @@ class TaskScoutDetailView extends StatelessWidget {
                         } else {
                           message = 'その調子🏃‍♂️';
                         }
-                        return Column(
+                        return SingleChildScrollView(
+                            child: Column(
                           children: <Widget>[
                             SingleChildScrollView(
                                 child: Column(children: <Widget>[
@@ -189,57 +190,65 @@ class TaskScoutDetailView extends StatelessWidget {
                                       ),
                                     )
                                   : Container(),
-                              /*Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  '完修日',
-                                  style: TextStyle(
-                                      fontSize: 20.0,
+                            ])),
+                            ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: contents.length,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  String content = contents[index];
+                                  Color bordercolor;
+                                  if (Theme.of(context).accentColor ==
+                                      Colors.white) {
+                                    bordercolor = Colors.grey[700];
+                                  } else {
+                                    bordercolor = Colors.grey[300];
+                                  }
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: 10, right: 10, left: 10),
+                                    child: Card(
+                                        color: Color(0x00000000),
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            color: bordercolor,
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        elevation: 0,
+                                        child: InkWell(
+                                          customBorder: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                              padding: EdgeInsets.all(8),
+                                              child: Text(content)),
+                                        )),
+                                  );
+                                }),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 15, bottom: 10, right: 15),
+                                child: Container(
+                                  width: double.infinity,
+                                  child: Text(
+                                    '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                    style: TextStyle(
+                                      fontSize: 13,
                                       fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  model.stepSnapshot['end'].toDate().toString(),
-                                  style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none),
-                                ),
-                              ),*/
-                              Center(
-                                  child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.only(right: 5, top: 4),
-                                      child: Icon(
-                                        //ああああ
-                                        Icons.chrome_reader_mode,
-                                        color: themeColor,
-                                        size: 22,
-                                      ),
                                     ),
-                                    Text(
-                                      '内容はカブブックで確認しよう',
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none),
-                                    ),
-                                  ])),
-                            ]))
+                                    textAlign: TextAlign.left,
+                                  ),
+                                )),
                           ],
-                        );
+                        ));
                       } else if (model.isExit != true &&
                           model.isLoaded == true) {
-                        return Column(
+                        return SingleChildScrollView(
+                            child: Column(
                           children: <Widget>[
                             SingleChildScrollView(
                                 child: Column(children: <Widget>[
@@ -272,34 +281,61 @@ class TaskScoutDetailView extends StatelessWidget {
                                       decoration: TextDecoration.none),
                                 ),
                               ),
-                              Center(
-                                  child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.only(right: 5, top: 4),
-                                      child: Icon(
-                                        //ああああ
-                                        Icons.chrome_reader_mode,
-                                        color: themeColor,
-                                        size: 22,
-                                      ),
+                            ])),
+                            ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: contents.length,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  String content = contents[index];
+                                  Color bordercolor;
+                                  if (Theme.of(context).accentColor ==
+                                      Colors.white) {
+                                    bordercolor = Colors.grey[700];
+                                  } else {
+                                    bordercolor = Colors.grey[300];
+                                  }
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: 10, right: 10, left: 10),
+                                    child: Card(
+                                        color: Color(0x00000000),
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            color: bordercolor,
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        elevation: 0,
+                                        child: InkWell(
+                                          customBorder: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: Padding(
+                                              padding: EdgeInsets.all(8),
+                                              child: Text(content)),
+                                        )),
+                                  );
+                                }),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                    left: 15, bottom: 10, right: 15),
+                                child: Container(
+                                  width: double.infinity,
+                                  child: Text(
+                                    '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    Text(
-                                      '内容はカブブックで確認しよう',
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none),
-                                    ),
-                                  ])),
-                            ]))
+                                    textAlign: TextAlign.left,
+                                  ),
+                                )),
                           ],
-                        );
+                        ));
                       } else {
                         return Container(
                           child: Center(
@@ -340,7 +376,6 @@ class TaskScoutAddView extends StatelessWidget {
   String type;
   var theme = new ThemeInfo();
   Color themeColor;
-
 
   TaskScoutAddView(int _index, String _type) {
     themeColor = theme.getThemeColor(_type);
@@ -457,11 +492,13 @@ class TaskScoutAddView extends StatelessWidget {
                                                 model.stepSnapshot['signed']
                                                         [index_page.toString()]
                                                     ['feedback'],
+                                                textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontSize: 18.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
-                                                        TextDecoration.none),
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration:
+                                                      TextDecoration.none,
+                                                ),
                                               ),
                                             ),
                                             snapshot['data'] != null
@@ -602,7 +639,8 @@ class TaskScoutAddView extends StatelessWidget {
                                       ),
                                     ),
                                     Padding(
-                                        padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                                        padding: EdgeInsets.only(
+                                            top: 10, left: 20, right: 20),
                                         child: FlatButton.icon(
                                           onPressed: () async {
                                             model.withdraw(index_page);
@@ -624,7 +662,7 @@ class TaskScoutAddView extends StatelessWidget {
                                   ]);
                                 } else if (model.stepSnapshot['signed']
                                         [index_page.toString()]['phaze'] ==
-                                    'reject' ) {
+                                    'reject') {
                                   return Column(children: <Widget>[
                                     TaskDetailScoutAddView(
                                         index_page,
@@ -635,13 +673,11 @@ class TaskScoutAddView extends StatelessWidget {
                                                 ['feedback'])
                                   ]);
                                 } else if (model.stepSnapshot['signed']
-                                [index_page.toString()]['phaze'] ==
-                                    'withdraw' ) {
+                                        [index_page.toString()]['phaze'] ==
+                                    'withdraw') {
                                   return Column(children: <Widget>[
                                     TaskDetailScoutAddView(
-                                        index_page,
-                                        type,
-                                        'どんなことをしたのかリーダーに教えよう')
+                                        index_page, type, 'どんなことをしたのかリーダーに教えよう')
                                   ]);
                                 } else {
                                   return Center(

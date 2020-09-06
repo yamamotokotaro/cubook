@@ -84,7 +84,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                           width: double.infinity,
                                           child: Text(
                                             task.getContent(type,
-                                                model.numberPushed, index_page),
+                                                model.numberPushed, index_page).toString(),
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
@@ -97,7 +97,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                         child: Container(
                                           width: double.infinity,
                                           child: Text(
-                                            '\n©︎2020 公益財団法人ボーイスカウト日本連盟',
+                                            '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
                                             style: TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.bold,
@@ -111,7 +111,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         );
                       },
                       icon: Icon(
-                        Icons.book,
+                        Icons.sort ,
                         size: 20,
                       ),
                       label: Text(
@@ -131,7 +131,6 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           String attach = model.list_attach[index_page][index];
                           if (attach == 'image') {
-                            print(model.map_attach[index_page][index]);
                             return Padding(
                               padding: EdgeInsets.all(0),
                               child: Container(
@@ -269,7 +268,6 @@ class TaskDetailScoutAddView extends StatelessWidget {
                               ),
                             );
                           } else if (attach == 'video') {
-                            print(model.map_show);
                             return Padding(
                               padding: EdgeInsets.all(0),
                               child: Container(

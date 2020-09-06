@@ -21,7 +21,7 @@ class SelectBook extends StatelessWidget {
   String uid;
 
   var type = [
-    /*'beaver',*/
+//    'beaver',
     'usagi',
     'sika',
     'kuma',

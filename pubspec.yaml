@@ -11,10 +11,10 @@ description: A new Flutter application.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.9.0+61
+version: 1.10.0+81
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -49,6 +49,9 @@ dependencies:
   native_ads: ^0.5.0
   admob_flutter: ^0.3.4
   firebase_performance: ^0.3.2
+  firebase_remote_config: ^0.3.1+1
+  firebase_messaging: ^6.0.16
+  notification_permissions: ^0.4.7
 
 dev_dependencies:
   flutter_test:

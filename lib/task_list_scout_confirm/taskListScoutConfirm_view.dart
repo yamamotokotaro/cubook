@@ -1,3 +1,4 @@
+import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_model.dart';
@@ -31,6 +32,12 @@ class TaskListScoutConfirmView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark;
+    if(Theme.of(context).accentColor == Colors.white){
+      isDark = true;
+    } else {
+      isDark = false;
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: themeColor,
@@ -100,7 +107,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                             Navigator.of(context).push<dynamic>(
                                                 MyPageRoute(
                                                     page: showTaskConfirmView(index,
-                                                        type, uid),
+                                                        type, uid,0),
                                                     dismissible: true));
                                           },
                                           child: Row(
@@ -197,10 +204,8 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                                                 10),
                                                                         child:
                                                                             CircularProgressIndicator(
-                                                                          backgroundColor:
-                                                                              Colors.grey[300],
-                                                                          valueColor:
-                                                                              new AlwaysStoppedAnimation<Color>(themeColor),
+                                                                              backgroundColor: isDark ? Colors.grey[700]: Colors.grey[300],
+                                                                              valueColor: new AlwaysStoppedAnimation<Color>(isDark ?Colors.white: theme.getThemeColor(type)),
                                                                           value:
                                                                               list_percentage[index],
                                                                         ))
@@ -229,65 +234,5 @@ class TaskListScoutConfirmView extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class showTaskConfirmView extends StatelessWidget {
-  var task = new Task();
-  int currentPage = 0;
-  int numberPushed;
-  String type;
-  String typeFirestore;
-  String uid;
-  bool test = false;
-  List<Widget> pages = <Widget>[
-    /*StepSignView(),*/
-//    StepAddView()
-  ];
-
-  showTaskConfirmView(int number, String _type, String _uid) {
-    numberPushed = number;
-    type = _type;
-    uid = _uid;
-    pages.add(
-      TaskScoutDetailConfirmView(type, number),
-    );
-    for (int i = 0; i < task.getPartMap(type, number)['hasItem']; i++) {
-      pages.add(TaskScoutAddConfirmView(i, type));
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-    double setHeight;
-    double setFraction;
-    if (height > 700.0) {
-      setHeight = height - 200;
-    } else {
-      setHeight = height - 90;
-    }
-    if (width > 1000.0) {
-      setFraction = 0.6;
-    } else {
-      setFraction = 0.8;
-    }
-    PageController controller =
-        PageController(initialPage: 0, viewportFraction: setFraction);
-
-    return ChangeNotifierProvider(
-        create: (context) => TaskDetailScoutConfirmModel(
-            numberPushed, task.getPartMap(type, numberPushed)['hasItem'], type, uid),
-        child: Container(
-            height: setHeight,
-            child: PageView(
-              onPageChanged: (index) {
-                FocusScope.of(context).unfocus();
-              },
-              controller: controller,
-              scrollDirection: Axis.horizontal,
-              children: pages,
-            )));
   }
 }
