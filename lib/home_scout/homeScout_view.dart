@@ -8,16 +8,108 @@ import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 
 class HomeScoutView extends StatelessWidget {
   var task = new Task();
   var theme = new ThemeInfo();
+  Future<PermissionStatus> permissionStatus =
+  NotificationPermissions.getNotificationPermissionStatus();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        /*Consumer<HomeModel>(builder: (context, model, child) {
+          if (model.permission == 'unknown') {
+            return Padding(
+              padding:
+              EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
+              child: Container(
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.notifications,
+                                      color: Theme
+                                          .of(context)
+                                          .accentColor,
+                                      size: 28,
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Material(
+                                          type: MaterialType.transparency,
+                                          child: Text(
+                                            '通知の設定',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 23,
+                                            ),
+                                          ),
+                                        )),
+                                  ]),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 5, top: 10),
+                                  child: Material(
+                                    type: MaterialType.transparency,
+                                    child: Text(
+                                      '通知をオンにすることで、cubookからのお知らせ（サイン申請に関するサイン・やり直しのお知らせなど）を受け取ることができます',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  )),
+                              Padding(
+                                  padding: EdgeInsets.only(top: 5),
+                                  child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: FlatButton(
+                                        onPressed: () async {
+                                          NotificationPermissions
+                                              .getNotificationPermissionStatus()
+                                              .then((PermissionStatus status) {
+                                            model.onStatusChange(status);
+                                            *//*switch (status) {
+                                              case PermissionStatus.denied:
+                                                return permDenied;
+                                              case PermissionStatus.granted:
+                                                return permGranted;
+                                              case PermissionStatus.unknown:
+                                                return permUnknown;
+                                              default:
+                                                return null;
+                                            }*//*
+                                          });
+                                        },
+                                        *//*final Future<
+                                          PermissionStatus> permissionStatus = await NotificationPermissions
+                                          .requestNotificationPermissions();*//*
+                                        child: Text('設定する'),
+                                      ))),
+                            ],
+                          )),
+                    ),
+                  )),
+            );
+          } else {
+            return Container(child: Text('通知は設定済みです'));
+          }
+        }),*/
         Padding(
           padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
           child: Container(
@@ -42,7 +134,9 @@ class HomeScoutView extends StatelessWidget {
                         children: <Widget>[
                           Icon(
                             Icons.notifications,
-                            color: Theme.of(context).accentColor,
+                            color: Theme
+                                .of(context)
+                                .accentColor,
                             size: 35,
                           ),
                           Padding(
@@ -82,8 +176,10 @@ class HomeScoutView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(
-                            Icons.event_available,
-                            color: Theme.of(context).accentColor,
+                            Icons.event,
+                            color: Theme
+                                .of(context)
+                                .accentColor,
                             size: 35,
                           ),
                           Padding(
@@ -91,11 +187,10 @@ class HomeScoutView extends StatelessWidget {
                               child: Material(
                                 type: MaterialType.transparency,
                                 child: Text(
-                                  '出欠履歴',
+                                  '活動記録',
                                   style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 30,
-                                  ),
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 30),
                                 ),
                               )),
                         ]),
@@ -103,48 +198,7 @@ class HomeScoutView extends StatelessWidget {
                 ),
               )),
         ),
-        /*Padding(
-          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
-          child: Container(
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute<InviteView>(
-                        builder: (BuildContext context) {
-                          return NotificationView();
-                        }));
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.insert_chart,
-                            color: Theme.of(context).accentColor,
-                            size: 35,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: Text(
-                                  'みんなの取り組み',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 30,
-                                  ),
-                                ),
-                              )),
-                        ]),
-                  ),
-                ),
-              )),
-        ),*/
-        Center(
+        /*Center(
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -152,19 +206,50 @@ class HomeScoutView extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(right: 5, top: 4),
                 child: Icon(
-                  Icons.book,
+                  Icons.directions_run,
                   color: Theme.of(context).accentColor,
                   size: 32,
                 ),
               ),
               Text(
-                'やってみよう！',
+                'もうすぐ完修！',
                 style: TextStyle(
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.none),
               ),
             ])),
+        Consumer<HomeModel>(builder: (context, model, child) {
+          return Padding(
+              padding: EdgeInsets.all(10),
+              child: ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+
+                  }));
+        }),*/
+        Center(
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(right: 5, top: 4),
+                    child: Icon(
+                      Icons.book,
+                      color: Theme
+                          .of(context)
+                          .accentColor,
+                      size: 32,
+                    ),
+                  ),
+                  Text(
+                    'やってみよう！',
+                    style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none),
+                  ),
+                ])),
         Consumer<HomeModel>(builder: (context, model, child) {
           return Padding(
               padding: EdgeInsets.all(10),
@@ -185,8 +270,8 @@ class HomeScoutView extends StatelessWidget {
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute<TaskView>(
                               builder: (BuildContext context) {
-                            return TaskView(model.age);
-                          }));
+                                return TaskView(model.age);
+                              }));
                         },
                         child: Align(
                             alignment: Alignment.bottomLeft,
@@ -210,19 +295,19 @@ class HomeScoutView extends StatelessWidget {
                                   Padding(
                                       padding: EdgeInsets.all(20),
                                       child: model.userSnapshot[model.age] !=
-                                              null
+                                          null
                                           ? LinearProgressIndicator(
-                                              backgroundColor: theme
-                                                  .getIndicatorColor(model.age),
-                                              valueColor:
-                                                  new AlwaysStoppedAnimation<
-                                                      Color>(Colors.white),
-                                              value: model
-                                                      .userSnapshot[model.age]
-                                                      .length /
-                                                  task
-                                                      .getAllMap(model.age)
-                                                      .length)
+                                          backgroundColor: theme
+                                              .getIndicatorColor(model.age),
+                                          valueColor:
+                                          new AlwaysStoppedAnimation<
+                                              Color>(Colors.white),
+                                          value: model
+                                              .userSnapshot[model.age]
+                                              .length /
+                                              task
+                                                  .getAllMap(model.age)
+                                                  .length)
                                           : Container())
                                 ])),
                       ),
@@ -248,8 +333,8 @@ class HomeScoutView extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute<TaskView>(
                             builder: (BuildContext context) {
-                          return TaskView('challenge');
-                        }));
+                              return TaskView('challenge');
+                            }));
                       },
                       child: Align(
                         alignment: Alignment.bottomLeft,
@@ -274,25 +359,25 @@ class HomeScoutView extends StatelessWidget {
                                   padding: EdgeInsets.all(20),
                                   child: Selector<HomeModel, DocumentSnapshot>(
                                       selector: (context, model) =>
-                                          model.userSnapshot,
+                                      model.userSnapshot,
                                       builder: (context, snapshot, child) =>
-                                          snapshot != null
-                                              ? snapshot['challenge'] != null
-                                                  ? LinearProgressIndicator(
-                                                      backgroundColor:
-                                                          Colors.green[700],
-                                                      valueColor:
-                                                          new AlwaysStoppedAnimation<
-                                                                  Color>(
-                                                              Colors.white),
-                                                      value: snapshot['challenge']
-                                                              .length /
-                                                          task
-                                                              .getAllMap(
-                                                                  'challenge')
-                                                              .length)
-                                                  : Container()
-                                              : Container())),
+                                      snapshot != null
+                                          ? snapshot['challenge'] != null
+                                          ? LinearProgressIndicator(
+                                          backgroundColor:
+                                          Colors.green[700],
+                                          valueColor:
+                                          new AlwaysStoppedAnimation<
+                                              Color>(
+                                              Colors.white),
+                                          value: snapshot['challenge']
+                                              .length /
+                                              task
+                                                  .getAllMap(
+                                                  'challenge')
+                                                  .length)
+                                          : Container()
+                                          : Container())),
                             ]),
                       ),
                     ),

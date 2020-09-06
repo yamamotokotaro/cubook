@@ -9,7 +9,7 @@ class ListAbsentScoutView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('出欠確認'),
+          title: Text('活動記録'),
         ),
         body: SafeArea(child:
             Consumer<ListAbsentScoutModel>(builder: (context, model, child) {

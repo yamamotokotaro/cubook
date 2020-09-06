@@ -1,3 +1,5 @@
+import 'package:cubook/Analytics/analytics_model.dart';
+import 'package:cubook/Analytics/analytics_view.dart';
 import 'package:cubook/Support/Support_view.dart';
 import 'package:cubook/Support/Support_model.dart';
 import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
@@ -23,6 +25,8 @@ import 'package:cubook/listAbsent_scout/listAbsentScout_model.dart';
 import 'package:cubook/listAbsent_scout/listAbsentScout_view.dart';
 import 'package:cubook/listActivity/listActivity_model.dart';
 import 'package:cubook/listActivity/listActivity_view.dart';
+import 'package:cubook/listCitationAnalytics/listCitationAnalytics_model.dart';
+import 'package:cubook/listCitationAnalytics/listCitationAnalytics_view.dart';
 import 'package:cubook/listCitationWaiting/listCitationWaiting_model.dart';
 import 'package:cubook/listCitationWaiting/listCitationWaiting_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
@@ -30,6 +34,8 @@ import 'package:cubook/list_member/listMember_model.dart';
 import 'package:cubook/list_member/listMember_view.dart';
 import 'package:cubook/notification/notification_model.dart';
 import 'package:cubook/setting_account/settingAccount_model.dart';
+import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_view.dart';
+import 'package:cubook/task_list_analytics/taskListAnalytics_model.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/setting_account_group/settingAccount_model.dart';
 import 'package:cubook/setting_account_group/widget/changeAge.dart';
@@ -38,12 +44,16 @@ import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+
+import 'task_detail_analytics/taskDetailAnalytics_view.dart';
 
 void main() {
   // Set `enableInDevMode` to true to see reports while in debug mode
@@ -71,7 +81,7 @@ class _MyAppState extends State<MyApp> {
   final boyColor = Colors.orange;
   FirebaseAnalytics analytics = FirebaseAnalytics();
 
-  /*FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
@@ -83,6 +93,7 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           title = message["notification"]["title"];
           helper = "You have recieved a new notification";
+          print(title);
         });
 
       },
@@ -90,16 +101,15 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           title = message["data"]["title"];
           helper = "You have open the application from notification";
+          print(message.toString());
         });
 
       },
 
     );
-    _firebaseMessaging.getToken().then((String token) {
-      assert(token != null);
-      print("Push Messaging token: $token");
-    });
-  }*/
+  }
+  Future<PermissionStatus> permissionStatus =
+  NotificationPermissions.getNotificationPermissionStatus();
 
   @override
   Widget build(BuildContext context) {
@@ -130,8 +140,12 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => ListAbsentModel()),
           ChangeNotifierProvider(create: (context) => ListAbsentScoutModel()),
           ChangeNotifierProvider(create: (context) => ContentsModel()),
+          ChangeNotifierProvider(create: (context) => AnalyticsModel()),
+          ChangeNotifierProvider(create: (context) => TaskListAnalyticsModel()),
           ChangeNotifierProvider(
               create: (context) => ListCitationWaitingModel()),
+          ChangeNotifierProvider(
+              create: (context) => ListCitationAnalyticsModel()),
         ],
         child: MaterialApp(
           home: HomeController(),
@@ -167,6 +181,10 @@ class _MyAppState extends State<MyApp> {
             '/detailActivity': (BuildContext context) => DetailActivityView(),
             '/listAbsentScout': (BuildContext context) => ListAbsentScoutView(),
             '/contentsView': (BuildContext context) => ContentsView(),
+            '/analytics': (BuildContext context) => AnalyticsView(),
+            '/taskDetailAnalytics': (BuildContext context) => TaskDetailAnalyticsView(),
+            '/taskDetailAnalyticsMember': (BuildContext context) => TaskDetailAnalyticsMemberView(),
+            '/listCitationAnalyticsView': (BuildContext context) => ListCitationAnalyticsView(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

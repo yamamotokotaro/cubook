@@ -1,6 +1,7 @@
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
+import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
@@ -189,7 +190,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                       page: showTaskConfirmView(
                                                           model.page,
                                                           type,
-                                                          model.uid_get),
+                                                          model.uid_get,0),
                                                       dismissible: true));
                                             },
                                             child: Padding(
@@ -545,7 +546,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                       page: showTaskConfirmView(
                                                           model.page,
                                                           type,
-                                                          model.uid_get),
+                                                          model.uid_get,0),
                                                       dismissible: true));
                                             },
                                             child: Padding(

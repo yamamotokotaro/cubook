@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
 class TaskDetailScoutConfirmModel extends ChangeNotifier {
@@ -21,7 +23,6 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   DocumentReference documentReference;
   QuerySnapshot effortSnapshot;
   FirebaseUser currentUser;
-  StreamSubscription<FirebaseUser> _listener;
   bool isGet = false;
   int page = 0;
   int quant = 0;
@@ -43,16 +44,18 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   var dataList = new List<dynamic>();
   var textField_signature = new List<TextEditingController>();
   var textField_feedback = new List<TextEditingController>();
+  PageController controller;
   Map<dynamic, dynamic> tokenMap;
   String type;
   String uid;
 
-  TaskDetailScoutConfirmModel(
-      int number, int quant, String _type, String _uid) {
+  TaskDetailScoutConfirmModel(int number, int quant, String _type, String _uid,
+      PageController _controller) {
     page = number;
     this.quant = quant;
     type = _type;
     uid = _uid;
+    controller = _controller;
   }
 
   void getSnapshot() async {
@@ -166,7 +169,8 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     }
   }
 
-  void changeTime(DateTime dateTime, BuildContext context, String documentID, String type_time) async {
+  void changeTime(DateTime dateTime, BuildContext context, String documentID,
+      String type_time) async {
     DateTime date = await showDatePicker(
       context: context,
       firstDate: DateTime(DateTime.now().year - 5),
@@ -174,7 +178,10 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       initialDate: dateTime,
     );
     if (date != null) {
-      Firestore.instance.collection(type).document(documentID).updateData(<String, dynamic>{type_time: date});
+      Firestore.instance
+          .collection(type)
+          .document(documentID)
+          .updateData(<String, dynamic>{type_time: date});
       notifyListeners();
     }
   }
@@ -193,7 +200,6 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         tokenMap = token.claims;
         await updateUserInfo(number);
         isLoading[number] = false;
-        //await updateDocumentInfo(number, isComplete);
       });
     });
   }
@@ -212,11 +218,23 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   void onTapExamination(String documentID) async {
-    Firestore.instance.collection('gino').document(documentID).updateData(<String, dynamic>{'phase': 'complete', 'date_examination': DateTime.now()});
+    Firestore.instance
+        .collection('gino')
+        .document(documentID)
+        .updateData(<String, dynamic>{
+      'phase': 'complete',
+      'date_examination': DateTime.now()
+    });
   }
 
   void onTapNotExamination(String documentID) async {
-    Firestore.instance.collection('gino').document(documentID).updateData(<String, dynamic>{'phase': 'not examined', 'date_examination': FieldValue.delete()});
+    Firestore.instance
+        .collection('gino')
+        .document(documentID)
+        .updateData(<String, dynamic>{
+      'phase': 'not examined',
+      'date_examination': FieldValue.delete()
+    });
   }
 
   Future<void> updateUserInfo(int number) async {
@@ -258,7 +276,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         if (count == taskInfo['hasItem']) {
           data_signed['end'] = Timestamp.now();
           data_signed['isCitationed'] = checkCitation;
-          if(type == 'gino') {
+          if (type == 'gino') {
             if (taskInfo['examination']) {
               data_signed['phase'] = 'not examined';
             } else {
@@ -288,7 +306,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         if (count == taskInfo['hasItem']) {
           data_signed['end'] = Timestamp.now();
           data_signed['isCitationed'] = checkCitation;
-          if(type == 'gino') {
+          if (type == 'gino') {
             if (taskInfo['examination']) {
               data_signed['phase'] = 'not examined';
             } else {
@@ -320,7 +338,8 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
             .document(snapshot.documentID)
             .updateData(mapSend);
 
-        if (map[page.toString()] == task.getPartMap(type, page)['hasItem'] && !isComplete) {
+        if (map[page.toString()] == task.getPartMap(type, page)['hasItem'] &&
+            !isComplete) {
           onFinish();
         }
       });
@@ -503,7 +522,6 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         await updateData(number, context);
         isLoading[number] = false;
         notifyListeners();
-        //await updateDocumentInfo(number, isComplete);
       });
     });
   }
@@ -581,5 +599,76 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         .collection(type)
         .document(documentID)
         .updateData(data_toChange);
+  }
+
+  void onImagePressPick(int number, int index) async {
+    File file = await ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50);
+    sendFile(file, index,'image');
+    // notifyListeners();
+  }
+
+  void onImagePressCamera(int number, int index) async {
+    File file = await ImagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50);
+    sendFile(file, index,'image');
+    // notifyListeners();
+  }
+
+  void onVideoPressPick(int number, int index) async {
+    File file = await ImagePicker.pickVideo(
+        source: ImageSource.gallery);
+    sendFile(file, index, 'video');
+    // notifyListeners();
+  }
+
+  void onVideoPressCamera(int number, int index) async {
+    File file = await ImagePicker.pickVideo(
+        source: ImageSource.camera);
+    sendFile(file, index, 'video');
+    // notifyListeners();
+  }
+
+  void sendFile(File file, int index,String type_file) async {
+    int timestamp = DateTime.now().millisecondsSinceEpoch;
+    String subDirectoryName = tokenMap['group'] + '/' + uid;
+    final StorageReference ref =
+        FirebaseStorage().ref().child(subDirectoryName).child('${timestamp}');
+    final StorageUploadTask uploadTask = ref.putFile(file);
+    StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+    if (snapshot.error == null) {
+      String path = await snapshot.ref.getPath();
+      Map<String, dynamic> data = Map<String, dynamic>();
+      data.putIfAbsent('body', () => path);
+      data.putIfAbsent('type', () => type_file);
+      Map<String, dynamic> signed = stepSnapshot['signed'];
+      if (signed[index.toString()]['data'] != null) {
+        signed[index.toString()]['data'].add(data);
+      } else {
+        List<dynamic> dataList = new List<dynamic>();
+        dataList.add(data);
+        signed[index.toString()]['data'] = dataList;
+      }
+      Firestore.instance
+          .collection(type)
+          .document(stepSnapshot.documentID)
+          .updateData(<String, dynamic>{'signed': signed});
+      print(signed);
+    } else {
+      //return 'Something goes wrong';
+    }
+  }
+
+  Future<void> deleteFile(int number, int index) async {
+    Map<String, dynamic> signed = stepSnapshot['signed'];
+    String path = signed[number.toString()]['data'][index]['body'];
+    signed[number.toString()]['data'].removeAt(index);
+    Firestore.instance
+        .collection(type)
+        .document(stepSnapshot.documentID)
+        .updateData({'signed': signed}).then((value) {
+      final StorageReference ref = FirebaseStorage().ref().child(path);
+      ref.delete();
+    });
   }
 }

@@ -76,8 +76,10 @@ class HomeBSView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(
-                            Icons.event_available,
-                            color: Theme.of(context).accentColor,
+                            Icons.event,
+                            color: Theme
+                                .of(context)
+                                .accentColor,
                             size: 35,
                           ),
                           Padding(
@@ -85,11 +87,10 @@ class HomeBSView extends StatelessWidget {
                               child: Material(
                                 type: MaterialType.transparency,
                                 child: Text(
-                                  '出欠履歴',
+                                  '活動記録',
                                   style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 30,
-                                  ),
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 30),
                                 ),
                               )),
                         ]),

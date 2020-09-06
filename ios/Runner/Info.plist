@@ -29,6 +29,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9318890511624941~1982155847</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -44,6 +46,11 @@
 	<string>動画の撮影のために必要となります</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>取り組み内容を説明するためのアップロードする画像や動画を選択するために必要となります</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

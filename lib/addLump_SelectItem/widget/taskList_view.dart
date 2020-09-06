@@ -128,6 +128,9 @@ class TaskView extends StatelessWidget {
                                                                     .only(
                                                                     right: 3),
                                                                 child: InkWell(
+                                                                    customBorder: RoundedRectangleBorder(
+                                                                      borderRadius: BorderRadius.circular(30.0),
+                                                                    ),
                                                                     onTap: () {
                                                                       model
                                                                           .onPressedCheck(
