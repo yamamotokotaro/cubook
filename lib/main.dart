@@ -32,6 +32,7 @@ import 'package:cubook/list_member/listMember_model.dart';
 import 'package:cubook/list_member/listMember_view.dart';
 import 'package:cubook/notification/notification_model.dart';
 import 'package:cubook/setting_account/settingAccount_model.dart';
+import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_view.dart';
 import 'package:cubook/task_list_analytics/taskListAnalytics_model.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/setting_account_group/settingAccount_model.dart';
@@ -180,6 +181,7 @@ class _MyAppState extends State<MyApp> {
             '/contentsView': (BuildContext context) => ContentsView(),
             '/analytics': (BuildContext context) => AnalyticsView(),
             '/taskDetailAnalytics': (BuildContext context) => TaskDetailAnalyticsView(),
+            '/taskDetailAnalyticsMember': (BuildContext context) => TaskDetailAnalyticsMemberView(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

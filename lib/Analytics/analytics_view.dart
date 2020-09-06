@@ -1,11 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/listActivity/listActivity_model.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_list_analytics/taskListAnalytics_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class AnalyticsView extends StatelessWidget {
   var theme = new ThemeInfo();
@@ -29,7 +25,7 @@ class AnalyticsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('アナリティクス（ベータ）'),
+        title: Text('アナリティクス'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

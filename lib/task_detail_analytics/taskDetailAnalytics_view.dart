@@ -20,7 +20,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
     List<String> contents = task.getContentList(type, page);
     var map_task = task.getPartMap(type, page);
     bool isDark;
-    if(Theme.of(context).accentColor == Colors.white){
+    if (Theme.of(context).accentColor == Colors.white) {
       isDark = true;
     } else {
       isDark = false;
@@ -91,9 +91,18 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                             List<int> countItem =
                                                 new List<int>.generate(
                                                     quant, (index) => 0);
-                                            ;
+                                            int countEnd = 0;
                                             for (DocumentSnapshot documentSnapshot
                                                 in list_documentSnapshot) {
+                                              if (documentSnapshot['end'] !=
+                                                      null &&
+                                                  (listUid.contains(
+                                                          documentSnapshot[
+                                                              'uid']) ||
+                                                      type == 'challenge' ||
+                                                      type == 'gino')) {
+                                                countEnd++;
+                                              }
                                               Map<dynamic, dynamic> signed =
                                                   documentSnapshot['signed'];
                                               for (int i = 0; i < quant; i++) {
@@ -114,6 +123,106 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                               }
                                             }
                                             return Column(children: <Widget>[
+                                              Padding(
+                                                  padding: EdgeInsets.all(5),
+                                                  child: Card(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                    child: InkWell(
+                                                        onTap: () {
+                                                          Navigator.of(context).pushNamed(
+                                                              '/taskDetailAnalyticsMember',
+                                                              arguments:
+                                                                  TaskDetailMember(
+                                                                      type:
+                                                                          type,
+                                                                      page:
+                                                                          page,
+                                                                      phase:
+                                                                          'end'));
+                                                        },
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top: 15,
+                                                                        bottom:
+                                                                            15,
+                                                                        left:
+                                                                            10,
+                                                                        right:
+                                                                            10),
+                                                                child:
+                                                                    CircularProgressIndicator(
+                                                                  backgroundColor: isDark
+                                                                      ? Colors.grey[
+                                                                          700]
+                                                                      : Colors.grey[
+                                                                          300],
+                                                                  valueColor: new AlwaysStoppedAnimation<Color>(isDark
+                                                                      ? Colors
+                                                                          .white
+                                                                      : theme.getThemeColor(
+                                                                          type)),
+                                                                  value: userCount ==
+                                                                          0
+                                                                      ? 0
+                                                                      : countEnd /
+                                                                          userCount,
+                                                                )),
+                                                            Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        left:
+                                                                            10),
+                                                                child: Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Padding(
+                                                                        padding: EdgeInsets.only(
+                                                                            top:
+                                                                                10,
+                                                                            bottom:
+                                                                                10),
+                                                                        child: Align(
+                                                                            alignment: Alignment.centerLeft,
+                                                                            child: Text(
+                                                                              '完修者 ' + countEnd.toString() + '/' + userCount.toString(),
+                                                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+                                                                            ))),
+                                                                  ],
+                                                                )),
+                                                          ],
+                                                        )), /*child: Text(countItem[
+                                                                        index]
+                                                                    .toString() +
+                                                                '/' +
+                                                                userCount
+                                                                    .toString())*/
+                                                  )),
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 5, left: 17),
+                                                  child: Container(
+                                                      width: double.infinity,
+                                                      child: Text(
+                                                        '細目ごとのサイン数',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                      ))),
                                               ListView.builder(
                                                   physics:
                                                       const NeverScrollableScrollPhysics(),
@@ -133,78 +242,83 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                     .circular(
                                                                         10),
                                                           ),
-                                                          child: Row(
-                                                            children: <Widget>[
-                                                              Container(
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.only(
-                                                                          topLeft: const Radius.circular(
-                                                                              10),
-                                                                          bottomLeft: const Radius.circular(
-                                                                              10)),
-                                                                      color:
-                                                                          themeColor),
-                                                                  height: 60,
-                                                                  child:
-                                                                      ConstrainedBox(
-                                                                    constraints:
-                                                                        BoxConstraints(
-                                                                            minWidth:
-                                                                                60),
-                                                                    child:
-                                                                        Center(
+                                                          child: InkWell(
+                                                              onTap: () {
+                                                                Navigator.of(context).pushNamed(
+                                                                    '/taskDetailAnalyticsMember',
+                                                                    arguments: TaskDetailMember(
+                                                                        type:
+                                                                            type,
+                                                                        page:
+                                                                            page,
+                                                                        phase:
+                                                                            'number',
+                                                                        number:
+                                                                            index));
+                                                              },
+                                                              child: Row(
+                                                                children: <
+                                                                    Widget>[
+                                                                  Container(
+                                                                      decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.only(
+                                                                              topLeft: const Radius.circular(
+                                                                                  10),
+                                                                              bottomLeft: const Radius.circular(
+                                                                                  10)),
+                                                                          color:
+                                                                              themeColor),
+                                                                      height:
+                                                                          65,
                                                                       child:
-                                                                          Padding(
-                                                                        padding:
-                                                                            EdgeInsets.all(0),
+                                                                          ConstrainedBox(
+                                                                        constraints:
+                                                                            BoxConstraints(minWidth: 60),
                                                                         child:
-                                                                            Text(
-                                                                          (index + 1)
-                                                                              .toString(),
-                                                                          style: TextStyle(
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontSize: 30,
-                                                                              color: Colors.white),
+                                                                            Center(
+                                                                          child:
+                                                                              Padding(
+                                                                            padding:
+                                                                                EdgeInsets.all(0),
+                                                                            child:
+                                                                                Text(
+                                                                              (index + 1).toString(),
+                                                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white),
+                                                                            ),
+                                                                          ),
                                                                         ),
-                                                                      ),
-                                                                    ),
-                                                                  )),
-                                                              Padding(
-                                                                  padding: EdgeInsets
-                                                                      .only(
+                                                                      )),
+                                                                  Padding(
+                                                                      padding: EdgeInsets.only(
                                                                           left:
                                                                               10),
-                                                                  child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: <
-                                                                        Widget>[
-                                                                      Padding(
-                                                                          padding:
-                                                                              EdgeInsets.only(top: 10),
-                                                                          child: Align(
-                                                                              alignment: Alignment.centerLeft,
-                                                                              child: Text(
-                                                                                'サイン済み ' + countItem[index].toString() + '/' + userCount.toString(),
-                                                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                                                                              ))),
-                                                                      Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                              top: 10,
-                                                                              bottom: 12,
-                                                                              left: 5),
-                                                                          child: Container(
-                                                                              width: 200,
-                                                                              child: LinearProgressIndicator(
-                                                                                backgroundColor: isDark ? Colors.grey[700]: Colors.grey[300],
-                                                                                valueColor: new AlwaysStoppedAnimation<Color>(isDark ?Colors.white: theme.getThemeColor(type)),
-                                                                                value: userCount == 0 ? 0 : countItem[index] / userCount,
-                                                                              )))
-                                                                    ],
-                                                                  )),
-                                                            ],
-                                                          ), /*child: Text(countItem[
+                                                                      child:
+                                                                          Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        children: <
+                                                                            Widget>[
+                                                                          Padding(
+                                                                              padding: EdgeInsets.only(top: 10),
+                                                                              child: Align(
+                                                                                  alignment: Alignment.centerLeft,
+                                                                                  child: Text(
+                                                                                    'サイン済み ' + countItem[index].toString() + '/' + userCount.toString(),
+                                                                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                                                                  ))),
+                                                                          Padding(
+                                                                              padding: EdgeInsets.only(top: 10, bottom: 12, left: 5),
+                                                                              child: Container(
+                                                                                  width: 200,
+                                                                                  child: LinearProgressIndicator(
+                                                                                    backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
+                                                                                    valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),
+                                                                                    value: userCount == 0 ? 0 : countItem[index] / userCount,
+                                                                                  )))
+                                                                        ],
+                                                                      )),
+                                                                ],
+                                                              )), /*child: Text(countItem[
                                                                         index]
                                                                     .toString() +
                                                                 '/' +
@@ -232,7 +346,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                     }
                                   }),
                               Padding(
-                                  padding: EdgeInsets.only(left:17),
+                                  padding: EdgeInsets.only(top: 5, left: 17),
                                   child: Container(
                                       width: double.infinity,
                                       child: Text(
@@ -281,7 +395,6 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                       BorderRadius.circular(
                                                           10.0),
                                                 ),
-                                                onTap: () {},
                                                 child: Padding(
                                                     padding: EdgeInsets.all(8),
                                                     child: Text(content)),
