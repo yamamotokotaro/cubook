@@ -131,7 +131,6 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           String attach = model.list_attach[index_page][index];
                           if (attach == 'image') {
-                            print(model.map_attach[index_page][index]);
                             return Padding(
                               padding: EdgeInsets.all(0),
                               child: Container(
@@ -269,7 +268,6 @@ class TaskDetailScoutAddView extends StatelessWidget {
                               ),
                             );
                           } else if (attach == 'video') {
-                            print(model.map_show);
                             return Padding(
                               padding: EdgeInsets.all(0),
                               child: Container(

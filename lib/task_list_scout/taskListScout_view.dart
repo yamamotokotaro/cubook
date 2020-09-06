@@ -29,6 +29,12 @@ class TaskView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark;
+    if(Theme.of(context).accentColor == Colors.white){
+      isDark = true;
+    } else {
+      isDark = false;
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: themeColor,
@@ -191,11 +197,8 @@ class TaskView extends StatelessWidget {
                                                                       10),
                                                                   child:
                                                                   CircularProgressIndicator(
-                                                                    backgroundColor:
-                                                                    Colors.grey[300],
-                                                                    valueColor:
-                                                                    new AlwaysStoppedAnimation<
-                                                                        Color>(themeColor),
+                                                                    backgroundColor: isDark ? Colors.grey[700]: Colors.grey[300],
+                                                                    valueColor: new AlwaysStoppedAnimation<Color>(isDark ?Colors.white: theme.getThemeColor(type)),
                                                                     value:
                                                                     list_percentage[index],
                                                                   ))

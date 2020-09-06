@@ -394,11 +394,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
 
   void onPressAdd_new(int index, String type) {
     if (type == 'text') {
-      print('map_attach[' +
-          index.toString() +
-          '][' +
-          list_attach[index].length.toString() +
-          ']');
       map_attach[index][list_attach[index].length] = TextEditingController();
     }
     list_attach[index].add(type);
@@ -406,9 +401,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   void onPressDelete(int number, int index) {
-    print(map_attach);
-    print(list_attach);
-    print('map_attach[' + number.toString() + '][' + index.toString() + ']');
     map_attach[number].remove(index);
     list_attach[number].remove(index);
     if (map_show[number][index] != null) {

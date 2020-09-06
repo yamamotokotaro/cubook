@@ -123,7 +123,7 @@ class CreateActivityView extends StatelessWidget {
                               child: Container(
                                   width: double.infinity,
                                   child: Text(
-                                    '選択した項目は一括でサインされます',
+                                    '選択した項目は一括でサインされます\n現時点では検証が不十分なので、数分後に適切にサインされているか確認下さい',
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 12

@@ -837,7 +837,8 @@ class Task {
     [
       'ボーイスカウト救急法講習会もしくはそれに準ずる救急法講習会を修了する。ただし、次の講習会の場合では、ボーイスカウト救急法講習会の一部細目を履修することができる。これらの講習会で履修できなかった細目については、別途考査を受け、合格すること。\nア) 日本赤十字社（救急法講習、救急員養成講習）\nイ) 消防署（普通救命講習、上級救命講習）'
           '隊の救急箱を整備し（未整備品、充足、不足物品のリストアップ含む）、そのチェックリストを提出する。',
-      '県連盟、地区単位で設置される救護所の奉仕や隊活動、キャンプでの救護係を通算5日以上担当し、その報告書を提出する。',
+      '隊の救急箱を整備し（未整備品、充足、不足物品のリストアップ含む）、そのチェックリストを提出する。',
+      '県連盟、地区単位で設置される救護所の奉仕や隊活動、キャンプでの救護係を通算5日以上担当し、その報告書を提出する。'
     ],
     //野外炊事章
     [
@@ -1654,15 +1655,19 @@ class Task {
     switch (type) {
       case 'usagi':
         content = content_usagi[page][number];
+        content = '現在日本連盟に掲載許可の手続き中です';
         break;
       case 'sika':
         content = content_sika[page][number];
+        content = '現在日本連盟に掲載許可の手続き中です';
         break;
       case 'kuma':
         content = content_kuma[page][number];
+        content = '現在日本連盟に掲載許可の手続き中です';
         break;
       case 'challenge':
         content = content_challenge[page][number];
+        content = '現在日本連盟に掲載許可の手続き中です';
         break;
       case 'syokyu':
         content = content_syokyu[page][number];
@@ -1697,15 +1702,19 @@ class Task {
     switch (type) {
       case 'usagi':
         content = content_usagi[page];
+        content = [];
         break;
       case 'sika':
         content = content_sika[page];
+        content = [];
         break;
       case 'kuma':
         content = content_kuma[page];
+        content = [];
         break;
       case 'challenge':
         content = content_challenge[page];
+        content = [];
         break;
       case 'syokyu':
         content = content_syokyu[page];
