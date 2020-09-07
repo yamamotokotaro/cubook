@@ -27,8 +27,6 @@ import 'package:cubook/listActivity/listActivity_model.dart';
 import 'package:cubook/listActivity/listActivity_view.dart';
 import 'package:cubook/listCitationAnalytics/listCitationAnalytics_model.dart';
 import 'package:cubook/listCitationAnalytics/listCitationAnalytics_view.dart';
-import 'package:cubook/listCitationWaiting/listCitationWaiting_model.dart';
-import 'package:cubook/listCitationWaiting/listCitationWaiting_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
 import 'package:cubook/list_member/listMember_model.dart';
 import 'package:cubook/list_member/listMember_view.dart';
@@ -143,8 +141,6 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => AnalyticsModel()),
           ChangeNotifierProvider(create: (context) => TaskListAnalyticsModel()),
           ChangeNotifierProvider(
-              create: (context) => ListCitationWaitingModel()),
-          ChangeNotifierProvider(
               create: (context) => ListCitationAnalyticsModel()),
         ],
         child: MaterialApp(
@@ -165,8 +161,6 @@ class _MyAppState extends State<MyApp> {
           ),
           routes: <String, WidgetBuilder>{
             '/listMember': (BuildContext context) => ListMemberView(),
-            '/listCitationWaiting': (BuildContext context) =>
-                ListCitationWaitingView(),
             '/homeLump': (BuildContext context) => HomeLumpView(),
             '/addLumpScoutList': (BuildContext context) =>
                 AddLumpScoutListView(),
