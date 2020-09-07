@@ -25,6 +25,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   int quant = 0;
   int countToSend = 0;
   String documentID_exit;
+  DocumentSnapshot userSnapshot;
 
   bool isLoaded = false;
   bool isExit = false;
@@ -39,7 +40,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
   var isLoading = new List<dynamic>();
   List<dynamic> dataMap;
   var dataList = new List<dynamic>();
-  Map<dynamic, dynamic> tokenMap;
   String type;
 
   TaskDetailScoutModel(int number, int quant, String _type) {
@@ -171,46 +171,33 @@ class TaskDetailScoutModel extends ChangeNotifier {
     });
   }
 
-  void getSnapshot_() async {
-    currentUser = await _auth.currentUser();
-    currentUser?.getIdToken(refresh: true);
-
-    list_snapshot = new List<bool>.generate(numberPushed, (index) => false);
-
-    _listener = _auth.onAuthStateChanged.listen((FirebaseUser user) {
-      currentUser = user;
-      Firestore.instance
-          .collection('steps')
-          .where('page', isEqualTo: 0)
-          .snapshots()
-          .listen((data) {
-        stepSnapshot = data.documents[0];
-        notifyListeners();
-      });
-      isGet = true;
-      notifyListeners();
-    });
-  }
-
   void onTapSend(int number) async {
-    if (checkParent && map_attach[number].length != 0) {
-      isLoading[number] = true;
-      notifyListeners();
-      print(map_attach);
-      Map<int, dynamic> MapDatas = map_attach[number];
-      list_toSend[number] =
-          new List<dynamic>.generate(MapDatas.length, (index) => null);
-      count_toSend[number] = MapDatas.length;
-      for (int i = 0; i < MapDatas.length; i++) {
-        if (MapDatas[i] is TextEditingController) {
-          await textSend(i, MapDatas[i].text, number);
-        } else if (MapDatas[i] is String) {
-          await textSend(i, MapDatas[i], number);
-        } else if (MapDatas[i] is File) {
-          await fileSend(i, MapDatas[i], number);
+    FirebaseUser user = await auth.currentUser();
+    Firestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .getDocuments()
+        .then((userDatas) async {
+      userSnapshot = userDatas.documents[0];
+      if (checkParent && map_attach[number].length != 0) {
+        isLoading[number] = true;
+        notifyListeners();
+        print(map_attach);
+        Map<int, dynamic> MapDatas = map_attach[number];
+        list_toSend[number] =
+            new List<dynamic>.generate(MapDatas.length, (index) => null);
+        count_toSend[number] = MapDatas.length;
+        for (int i = 0; i < MapDatas.length; i++) {
+          if (MapDatas[i] is TextEditingController) {
+            await textSend(i, MapDatas[i].text, number);
+          } else if (MapDatas[i] is String) {
+            await textSend(i, MapDatas[i], number);
+          } else if (MapDatas[i] is File) {
+            await fileSend(i, MapDatas[i], number);
+          }
         }
       }
-    }
+    });
   }
 
   void textSend(int index, String text, int number) {
@@ -221,7 +208,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
 
   Future<dynamic> fileSend(int index, File file, int number) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
-    String subDirectoryName = tokenMap['group'] + '/' + currentUser.uid;
+    String subDirectoryName = userSnapshot['group'] + '/' + currentUser.uid;
     final StorageReference ref =
         FirebaseStorage().ref().child(subDirectoryName).child('${timestamp}');
     final StorageUploadTask uploadTask = ref.putFile(file);
@@ -250,60 +237,53 @@ class TaskDetailScoutModel extends ChangeNotifier {
   Future addDocument(List list, int number) async {
     Map<String, dynamic> data = Map<String, dynamic>();
     FirebaseUser user = await auth.currentUser();
-    Firestore.instance
-        .collection('user')
-        .where('uid', isEqualTo: user.uid)
-        .getDocuments()
-        .then((userDatas) async {
-      DocumentSnapshot userData = userDatas.documents[0];
-      data["uid"] = user.uid;
-      data["date"] = Timestamp.now();
-      data["type"] = type;
-      data['page'] = numberPushed;
-      data['number'] = number;
-      data['data'] = list;
-      data['family'] = userData['family'];
-      data['first'] = userData['first'];
-      data['call'] = userData['call'];
-      data['group'] = userData['group'];
-      data['phase'] = 'wait';
-      isAdded[number] = true;
-      documentReference = await Firestore.instance.collection('task').add(data);
-      documentID = documentReference.documentID;
-      Map<String, dynamic> data_signed = Map<String, dynamic>();
-      if (isExit) {
-        Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-        data_toAdd = stepSnapshot['signed'];
-        data_toAdd[number.toString()] = {'phaze': 'wait', 'data': list};
-        data_signed['signed'] = data_toAdd;
-        Firestore.instance
-            .collection(type)
-            .document(documentID_exit)
-            .updateData(data_signed);
-      } else {
-        Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-        data_toAdd['phaze'] = 'wait';
-        data_toAdd['data'] = list;
-        data_signed['page'] = numberPushed;
-        data_signed['uid'] = user.uid;
-        data_signed['start'] = Timestamp.now();
-        data_signed['signed'] = {number.toString(): data_toAdd};
-        data_signed['group'] = userData['group'];
-        DocumentReference documentReference_add =
-            await Firestore.instance.collection(type).add(data_signed);
-        documentID_exit = documentReference_add.documentID;
-      }
+    data["uid"] = user.uid;
+    data["date"] = Timestamp.now();
+    data["type"] = type;
+    data['page'] = numberPushed;
+    data['number'] = number;
+    data['data'] = list;
+    data['family'] = userSnapshot['family'];
+    data['first'] = userSnapshot['first'];
+    data['call'] = userSnapshot['call'];
+    data['group'] = userSnapshot['group'];
+    data['phase'] = 'wait';
+    isAdded[number] = true;
+    documentReference = await Firestore.instance.collection('task').add(data);
+    documentID = documentReference.documentID;
+    Map<String, dynamic> data_signed = Map<String, dynamic>();
+    if (isExit) {
+      Map<String, dynamic> data_toAdd = Map<String, dynamic>();
+      data_toAdd = stepSnapshot['signed'];
+      data_toAdd[number.toString()] = {'phaze': 'wait', 'data': list};
+      data_signed['signed'] = data_toAdd;
+      Firestore.instance
+          .collection(type)
+          .document(documentID_exit)
+          .updateData(data_signed);
+    } else {
+      Map<String, dynamic> data_toAdd = Map<String, dynamic>();
+      data_toAdd['phaze'] = 'wait';
+      data_toAdd['data'] = list;
+      data_signed['page'] = numberPushed;
+      data_signed['uid'] = user.uid;
+      data_signed['start'] = Timestamp.now();
+      data_signed['signed'] = {number.toString(): data_toAdd};
+      data_signed['group'] = userSnapshot['group'];
+      DocumentReference documentReference_add =
+          await Firestore.instance.collection(type).add(data_signed);
+      documentID_exit = documentReference_add.documentID;
+    }
 
-      list_attach =
-          new List<dynamic>.generate(quant, (index) => new List<dynamic>());
+    list_attach =
+        new List<dynamic>.generate(quant, (index) => new List<dynamic>());
 
-      map_attach =
-          new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
+    map_attach =
+        new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
 
-      map_show =
-          new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
-      isLoading[number] = false;
-    });
+    map_show =
+        new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
+    isLoading[number] = false;
   }
 
   Future updateDocument(Map data) async {

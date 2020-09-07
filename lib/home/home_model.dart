@@ -77,7 +77,6 @@ class HomeModel extends ChangeNotifier {
                 default:
                   return null;
               }
-              print(permission);
             });
             if (position == 'scout') {
               if (grade != null) {
@@ -155,6 +154,12 @@ class HomeModel extends ChangeNotifier {
         .document(userSnapshot.documentID)
         .updateData({'token_notification': _token_notification}).then(
             (value) async {
+      final result = await FirebaseAuthUi.instance().logout();
+      currentUser = null;
+      login();
+      notifyListeners();
+      isSended = false;
+    }).catchError(() async {
       final result = await FirebaseAuthUi.instance().logout();
       currentUser = null;
       login();

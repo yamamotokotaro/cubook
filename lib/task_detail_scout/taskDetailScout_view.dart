@@ -90,11 +90,9 @@ class TaskScoutDetailView extends StatelessWidget {
                         } else {
                           message = 'その調子🏃‍♂️';
                         }
-                        return SingleChildScrollView(
-                            child: Column(
+                        return Column(
                           children: <Widget>[
-                            SingleChildScrollView(
-                                child: Column(children: <Widget>[
+                            Column(children: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
@@ -114,228 +112,265 @@ class TaskScoutDetailView extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  message,
-                                  style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none),
-                                ),
-                              ),
-                              model.stepSnapshot['start'] != null
-                                  ? Container(
+                              Container(
+                                  height: MediaQuery.of(context).size.height >
+                                          700
+                                      ? MediaQuery.of(context).size.height - 334
+                                      : MediaQuery.of(context).size.height -
+                                          228,
+                                  child: SingleChildScrollView(
                                       child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              '開始日',
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              DateFormat('yyyy/MM/dd')
-                                                  .format(model
-                                                      .stepSnapshot['start']
-                                                      .toDate())
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : Container(),
-                              model.stepSnapshot['end'] != null
-                                  ? Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              '完修日',
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              DateFormat('yyyy/MM/dd').format(
-                                                  model.stepSnapshot['end']
-                                                      .toDate()),
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : Container(),
-                            ])),
-                            ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: contents.length,
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  String content = contents[index];
-                                  Color bordercolor;
-                                  if (Theme.of(context).accentColor ==
-                                      Colors.white) {
-                                    bordercolor = Colors.grey[700];
-                                  } else {
-                                    bordercolor = Colors.grey[300];
-                                  }
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: 10, right: 10, left: 10),
-                                    child: Card(
-                                        color: Color(0x00000000),
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                            color: bordercolor,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Text(
+                                          message,
+                                          style: TextStyle(
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold,
+                                              decoration: TextDecoration.none),
                                         ),
-                                        elevation: 0,
-                                        child: InkWell(
-                                          customBorder: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                              padding: EdgeInsets.all(8),
-                                              child: Text(content)),
-                                        )),
-                                  );
-                                }),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 15, bottom: 10, right: 15),
-                                child: Container(
-                                  width: double.infinity,
-                                  child: Text(
-                                    '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                )),
+                                      ),
+                                      model.stepSnapshot['start'] != null
+                                          ? Container(
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Text(
+                                                      '開始日',
+                                                      style: TextStyle(
+                                                          fontSize: 20.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Text(
+                                                      DateFormat('yyyy/MM/dd')
+                                                          .format(model
+                                                              .stepSnapshot[
+                                                                  'start']
+                                                              .toDate())
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 20.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          : Container(),
+                                      model.stepSnapshot['end'] != null
+                                          ? Container(
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Text(
+                                                      '完修日',
+                                                      style: TextStyle(
+                                                          fontSize: 20.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Text(
+                                                      DateFormat('yyyy/MM/dd')
+                                                          .format(model
+                                                              .stepSnapshot[
+                                                                  'end']
+                                                              .toDate()),
+                                                      style: TextStyle(
+                                                          fontSize: 20.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          : Container(),
+                                      ListView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: contents.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            String content = contents[index];
+                                            Color bordercolor;
+                                            if (Theme.of(context).accentColor ==
+                                                Colors.white) {
+                                              bordercolor = Colors.grey[700];
+                                            } else {
+                                              bordercolor = Colors.grey[300];
+                                            }
+                                            return Padding(
+                                              padding: EdgeInsets.only(
+                                                  bottom: 10,
+                                                  right: 10,
+                                                  left: 10),
+                                              child: Card(
+                                                  color: Color(0x00000000),
+                                                  shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                      color: bordercolor,
+                                                      width: 2.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  elevation: 0,
+                                                  child: InkWell(
+                                                    customBorder:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ),
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8),
+                                                        child: Text(content)),
+                                                  )),
+                                            );
+                                          }),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 15, bottom: 10, right: 15),
+                                          child: Container(
+                                            width: double.infinity,
+                                            child: Text(
+                                              '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          )),
+                                    ],
+                                  ))),
+                            ]),
                           ],
-                        ));
+                        );
                       } else if (model.isExit != true &&
                           model.isLoaded == true) {
-                        return SingleChildScrollView(
-                            child: Column(
-                          children: <Widget>[
-                            SingleChildScrollView(
-                                child: Column(children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(20),
-                                        topRight: const Radius.circular(20)),
-                                    color: themeColor),
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 40, bottom: 20),
-                                  child: Center(
-                                    child: Text(
-                                      task.getPartMap(type, number)['title'],
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  'はじめよう💨',
-                                  style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none),
-                                ),
-                              ),
-                            ])),
-                            ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: contents.length,
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  String content = contents[index];
-                                  Color bordercolor;
-                                  if (Theme.of(context).accentColor ==
-                                      Colors.white) {
-                                    bordercolor = Colors.grey[700];
-                                  } else {
-                                    bordercolor = Colors.grey[300];
-                                  }
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: 10, right: 10, left: 10),
-                                    child: Card(
-                                        color: Color(0x00000000),
-                                        shape: RoundedRectangleBorder(
-                                          side: BorderSide(
-                                            color: bordercolor,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        elevation: 0,
-                                        child: InkWell(
-                                          customBorder: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Padding(
-                                              padding: EdgeInsets.all(8),
-                                              child: Text(content)),
-                                        )),
-                                  );
-                                }),
-                            Padding(
-                                padding: EdgeInsets.only(
-                                    left: 15, bottom: 10, right: 15),
-                                child: Container(
-                                  width: double.infinity,
+                        return Column(children: <Widget>[
+                          Column(children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: const Radius.circular(20),
+                                      topRight: const Radius.circular(20)),
+                                  color: themeColor),
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 40, bottom: 20),
+                                child: Center(
                                   child: Text(
-                                    '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                    task.getPartMap(type, number)['title'],
                                     style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.left,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
                                   ),
-                                )),
-                          ],
-                        ));
+                                ),
+                              ),
+                            ),
+                            Container(
+                                height: MediaQuery.of(context).size.height > 700
+                                    ? MediaQuery.of(context).size.height - 334
+                                    : MediaQuery.of(context).size.height - 228,
+                                child: SingleChildScrollView(
+                                    child: Column(children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      'はじめよう💨',
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold,
+                                          decoration: TextDecoration.none),
+                                    ),
+                                  ),
+                                  ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: contents.length,
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        String content = contents[index];
+                                        Color bordercolor;
+                                        if (Theme.of(context).accentColor ==
+                                            Colors.white) {
+                                          bordercolor = Colors.grey[700];
+                                        } else {
+                                          bordercolor = Colors.grey[300];
+                                        }
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                              bottom: 10, right: 10, left: 10),
+                                          child: Card(
+                                              color: Color(0x00000000),
+                                              shape: RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                  color: bordercolor,
+                                                  width: 2.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              elevation: 0,
+                                              child: InkWell(
+                                                customBorder:
+                                                    RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ),
+                                                child: Padding(
+                                                    padding: EdgeInsets.all(8),
+                                                    child: Text(content)),
+                                              )),
+                                        );
+                                      }),
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 15, bottom: 10, right: 15),
+                                      child: Container(
+                                        width: double.infinity,
+                                        child: Text(
+                                          '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      )),
+                                ])))
+                          ])
+                        ]);
                       } else {
                         return Container(
                           child: Center(
