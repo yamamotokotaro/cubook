@@ -12,6 +12,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   DocumentSnapshot taskSnapshot;
   FirebaseUser currentUser;
   String documentID;
+  String documentID_type;
   String feedback = '';
   String uid_get;
   String type;
@@ -209,6 +210,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         .getDocuments()
         .then((data) {
       DocumentSnapshot snapshot = data.documents[0];
+      documentID_type = snapshot.documentID;
       Map<String, dynamic> map = Map<String, dynamic>();
       map = snapshot['signed'];
       map[number.toString()]['data'] = taskSnapshot['data'];
@@ -330,6 +332,10 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     map['time'] = Timestamp.now();
     map['data'] = dataMap;
     map['page'] = page;
+    if(snapshot['group'] == ' j27DETWHGYEfpyp2Y292' || snapshot['group'] == ' z4pkBhhgr0fUMN4evr5z') {
+      map['taskID'] = documentID_type;
+      map['enable_community'] = true;
+    }
     Firestore.instance.collection('effort').add(map);
     Firestore.instance
         .collection(type)

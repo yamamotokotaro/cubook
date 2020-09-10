@@ -561,8 +561,8 @@ class Task {
     ],
     ['楽譜を正しく読むことができる', '譜面を見ながら演奏できる', '仲間と一緒に合奏ができる', 'カブスカウト歌集から選んで2曲以上歌う'],
     [
-      '包丁を正しく使い、切ったり皮をむいたりすることができる'
-          '献立にしたがって材料を購入し、料理の手伝いをする',
+      '包丁を正しく使い、切ったり皮をむいたりすることができる',
+      '献立にしたがって材料を購入し、料理の手伝いをする',
       '家族と一緒にクッキーやケーキなどを作る',
       '自分の得意とする料理を作り、家族に食べてもらう'
     ],
@@ -1655,15 +1655,19 @@ class Task {
     switch (type) {
       case 'usagi':
         content = content_usagi[page][number];
+        content = '表示について調整中です';
         break;
       case 'sika':
         content = content_sika[page][number];
+        content = '表示について調整中です';
         break;
       case 'kuma':
         content = content_kuma[page][number];
+        content = '表示について調整中です';
         break;
       case 'challenge':
         content = content_challenge[page][number];
+        content = '表示について調整中です';
         break;
       case 'syokyu':
         content = content_syokyu[page][number];
@@ -1698,15 +1702,19 @@ class Task {
     switch (type) {
       case 'usagi':
         content = content_usagi[page];
+        content = [];
         break;
       case 'sika':
         content = content_sika[page];
+        content = [];
         break;
       case 'kuma':
         content = content_kuma[page];
+        content = [];
         break;
       case 'challenge':
         content = content_challenge[page];
+        content = [];
         break;
       case 'syokyu':
         content = content_syokyu[page];

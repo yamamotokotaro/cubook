@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
+import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/class.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
@@ -95,6 +96,7 @@ class listEffort extends StatelessWidget {
                             final int page = documentSnapshot['page'];
                             final String type = documentSnapshot['type'];
                             final String uid = documentSnapshot['uid'];
+                            final String taskid = documentSnapshot['taskID'];
                             Color color;
                             color = theme.getThemeColor(type);
                             return Column(
@@ -166,8 +168,20 @@ class listEffort extends StatelessWidget {
                                             Navigator.of(context).push<dynamic>(
                                                 MyPageRoute(
                                                     page: showTaskConfirmView(
-                                                        page, type, uid,0),
+                                                        page, type, uid, 0),
                                                     dismissible: true));
+                                          } else if (taskid != null &&
+                                              model.position == 'scout') {
+                                            Navigator.of(context).pushNamed(
+                                                '/communityView',
+                                                arguments: Community(
+                                                    type: type,
+                                                    page: page,
+                                                    name: documentSnapshot[
+                                                        'family'] + documentSnapshot['first'],
+                                                    taskid: taskid,
+                                                    effortid: documentSnapshot
+                                                        .documentID));
                                           }
                                         },
                                         child: Column(
