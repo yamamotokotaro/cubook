@@ -13,3 +13,11 @@ class TaskDetailMember {
   final String phase;
   final int number;
 }
+
+class Community {
+  Community({this.type, this.taskid, this.effortid});
+
+  final String type;
+  final String taskid;
+  final String effortid;
+}

@@ -18,7 +18,7 @@ class TabInfo {
 class SelectBook extends StatelessWidget {
   var task = new Task();
   var theme = new ThemeInfo();
-  String uid;
+  String uid;d
 
   var type = [
 //    'beaver',
