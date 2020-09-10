@@ -127,6 +127,9 @@ class ThemeInfo {
       case 'gino':
         color = colors[10];
         break;
+      case 'leader':
+        color = Colors.green[900];
+        break;
     }
     return color;
   }

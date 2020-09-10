@@ -28,6 +28,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   int quant = 0;
   int countToSend = 0;
   String documentID_exit;
+  String documentID_task;
   bool isLoaded = false;
   bool isExit = false;
   List<dynamic> body = List<dynamic>();
@@ -316,6 +317,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         }
         DocumentReference documentReference_add =
             await Firestore.instance.collection(type).add(data_signed);
+        documentID_exit = documentReference_add.documentID;
       }
 
       Firestore.instance
@@ -371,6 +373,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         if (isComplete) {
           data_signed['end'] = Timestamp.now();
         }
+        documentID_task = snapshot.documentID;
         Firestore.instance
             .collection(type)
             .document(snapshot.documentID)
@@ -392,6 +395,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         }
         DocumentReference documentReference_add =
             await Firestore.instance.collection(type).add(data_signed);
+        documentID_exit = documentReference_add.documentID;
       }
     });
   }
@@ -504,6 +508,10 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     map['group'] = snapshot['group'];
     map['time'] = Timestamp.now();
     map['page'] = page;
+    if(snapshot['group'] == ' j27DETWHGYEfpyp2Y292' || snapshot['group'] == ' z4pkBhhgr0fUMN4evr5z') {
+      map['taskID'] = documentID_exit;
+      map['enable_community'] = true;
+    }
     Firestore.instance.collection('effort').add(map);
     Firestore.instance
         .collection(type)

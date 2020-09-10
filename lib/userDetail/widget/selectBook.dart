@@ -18,7 +18,7 @@ class TabInfo {
 class SelectBook extends StatelessWidget {
   var task = new Task();
   var theme = new ThemeInfo();
-  String uid;d
+  String uid;
 
   var type = [
 //    'beaver',
@@ -26,13 +26,13 @@ class SelectBook extends StatelessWidget {
     'sika',
     'kuma',
     'challenge',
-    'syokyu',
+    /*'syokyu',
     'nikyu',
     'ikkyu',
     'kiku',
     'hayabusa',
     'fuji',
-    'gino'
+    'gino'*/
   ];
 
   SelectBook(String uid) {

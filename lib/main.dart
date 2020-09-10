@@ -6,6 +6,8 @@ import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
 import 'package:cubook/addLump_ScoutList/addLumpScoutList_view.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
+import 'package:cubook/community/community_model.dart';
+import 'package:cubook/community/community_view.dart';
 import 'package:cubook/contentsView/contents_model.dart';
 import 'package:cubook/contentsView/contents_view.dart';
 import 'package:cubook/createActivity/createActivity_model.dart';
@@ -30,6 +32,7 @@ import 'package:cubook/listCitationAnalytics/listCitationAnalytics_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
 import 'package:cubook/list_member/listMember_model.dart';
 import 'package:cubook/list_member/listMember_view.dart';
+import 'package:cubook/model/arguments.dart';
 import 'package:cubook/notification/notification_model.dart';
 import 'package:cubook/setting_account/settingAccount_model.dart';
 import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_view.dart';
@@ -51,6 +54,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
+import 'community/comment_view.dart';
 import 'task_detail_analytics/taskDetailAnalytics_view.dart';
 
 void main() {
@@ -140,6 +144,7 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => ContentsModel()),
           ChangeNotifierProvider(create: (context) => AnalyticsModel()),
           ChangeNotifierProvider(create: (context) => TaskListAnalyticsModel()),
+          ChangeNotifierProvider(create: (context) => CommunityModel()),
           ChangeNotifierProvider(
               create: (context) => ListCitationAnalyticsModel()),
         ],
@@ -179,6 +184,8 @@ class _MyAppState extends State<MyApp> {
             '/taskDetailAnalytics': (BuildContext context) => TaskDetailAnalyticsView(),
             '/taskDetailAnalyticsMember': (BuildContext context) => TaskDetailAnalyticsMemberView(),
             '/listCitationAnalyticsView': (BuildContext context) => ListCitationAnalyticsView(),
+            '/communityView': (BuildContext context) => CommunityView(),
+            '/commentView': (BuildContext context) => CommentView()
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

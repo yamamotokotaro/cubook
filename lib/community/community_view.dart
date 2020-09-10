@@ -1,4 +1,6 @@
+import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cubook/community/community_model.dart';
 import 'package:cubook/detailActivity/detailActivity_model.dart';
 import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/task.dart';
@@ -15,11 +17,14 @@ class CommunityView extends StatelessWidget {
   Widget build(BuildContext context) {
     Community info = ModalRoute.of(context).settings.arguments;
     String type = info.type;
+    int page = info.page;
+    String name = info.name;
     String taskid = info.taskid;
     String effortid = info.effortid;
     Color themeColor = theme.getThemeColor(type);
     List<String> contents = task.getContentList(type, page);
     var map_task = task.getPartMap(type, page);
+    int quant = map_task['hasItem'];
     bool isDark;
     if (Theme.of(context).accentColor == Colors.white) {
       isDark = true;
@@ -31,389 +36,328 @@ class CommunityView extends StatelessWidget {
         title: Text(map_task['title']),
         backgroundColor: themeColor,
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.of(context).pushNamed('/commentView',
+              arguments: Comment(type: type, effortid: effortid));
+        },
+        label: Selector<CommunityModel, String>(
+            selector: (context, model) => model.group,
+            builder: (context, group, child) {
+              if (group != null) {
+                return StreamBuilder<QuerySnapshot>(
+                    stream: Firestore.instance
+                        .collection('comment')
+                        .where('group', isEqualTo: group)
+                        .where('effortID', isEqualTo: effortid)
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> querySnapshot) {
+                      if (querySnapshot.hasData) {
+                        if (querySnapshot.data.documents.length != 0) {
+                          return Text('コメント ' +
+                              querySnapshot.data.documents.length.toString() +
+                              '件');
+                        } else {
+                          return Text('コメント');
+                        }
+                      } else {
+                        return const Center(
+                          child: Padding(
+                              padding: EdgeInsets.all(5),
+                              child: CircularProgressIndicator()),
+                        );
+                      }
+                    });
+              } else {
+                return Container();
+              }
+            }),
+        icon: Icon(Icons.comment),
+      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<DetailActivityModel>(
-                          builder: (context, model, child) {
+                constraints: BoxConstraints(maxWidth: 600),
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 65),
+                  child: Column(
+                    children: <Widget>[
+                      /*Padding(
+                          padding: EdgeInsets.all(17),
+                          child: Container(
+                              width: double.infinity,
+                              child: Text(
+                                map_task['title'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 32,
+                                ),
+                                textAlign: TextAlign.left,
+                              ))),*/
+                      Padding(
+                          padding:
+                              EdgeInsets.only(top: 20, bottom: 15, left: 17),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.person,
+                                size: 35,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                  child: Text(
+                                    name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 23,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ))
+                            ],
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(top: 20, bottom: 10),
+                          child: Consumer<CommunityModel>(
+                              builder: (context, model, child) {
                             model.getGroup();
                             if (model.group != null) {
                               return Column(
                                 children: <Widget>[
                                   StreamBuilder<DocumentSnapshot>(
                                       stream: Firestore.instance
-                                          .collection('task')
-                                      .document(taskid)
+                                          .collection(type)
+                                          .document(taskid)
                                           .snapshots(),
                                       builder: (BuildContext context,
-                                          AsyncSnapshot<DocumentSnapshot> snapshot) {
-                                        if (snapshot.hasData) {
-                                          int userCount = 0;
-                                          List<DocumentSnapshot> listSnapshot =
-                                              snapshot.data.documents;
-                                          List<String> listUid = new List<String>();
-                                          if (type == 'challenge' ||
-                                              type == 'gino') {
-                                            userCount = listSnapshot.length;
-                                          } else {
-                                            for (DocumentSnapshot documentSnapshot
-                                            in listSnapshot) {
-                                              if (documentSnapshot['age'] == type) {
-                                                userCount++;
-                                                listUid
-                                                    .add(documentSnapshot['uid']);
-                                              }
-                                            }
-                                          }
-                                          return StreamBuilder<QuerySnapshot>(
-                                            stream: Firestore.instance
-                                                .collection(type)
-                                                .where('group',
-                                                isEqualTo: model.group)
-                                                .where('page', isEqualTo: page)
-                                                .snapshots(),
-                                            builder: (BuildContext context,
-                                                AsyncSnapshot<QuerySnapshot>
-                                                snapshot_task) {
-                                              if (snapshot_task.hasData) {
-                                                int quant = task.getPartMap(
-                                                    type, page)['hasItem'];
-                                                List<DocumentSnapshot>
-                                                list_documentSnapshot =
-                                                    snapshot_task.data.documents;
-                                                List<int> countItem =
-                                                new List<int>.generate(
-                                                    quant, (index) => 0);
-                                                int countEnd = 0;
-                                                for (DocumentSnapshot documentSnapshot
-                                                in list_documentSnapshot) {
-                                                  if (documentSnapshot['end'] !=
-                                                      null &&
-                                                      (listUid.contains(
-                                                          documentSnapshot[
-                                                          'uid']) ||
-                                                          type == 'challenge' ||
-                                                          type == 'gino')) {
-                                                    countEnd++;
-                                                  }
-                                                  Map<dynamic, dynamic> signed =
-                                                  documentSnapshot['signed'];
-                                                  for (int i = 0; i < quant; i++) {
-                                                    Map<dynamic, dynamic>
-                                                    signed_part =
-                                                    signed[i.toString()];
-                                                    if (signed_part != null) {
-                                                      if (signed_part['phaze'] ==
-                                                          'signed' &&
-                                                          (listUid.contains(
-                                                              documentSnapshot[
-                                                              'uid']) ||
-                                                              type == 'challenge' ||
-                                                              type == 'gino')) {
-                                                        countItem[i]++;
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                                return Column(children: <Widget>[
-                                                  Padding(
-                                                      padding: EdgeInsets.all(5),
-                                                      child: Card(
-                                                        shape:
-                                                        RoundedRectangleBorder(
-                                                          borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                        ),
-                                                        child: InkWell(
-                                                            onTap: () {
-                                                              Navigator.of(context).pushNamed(
-                                                                  '/taskDetailAnalyticsMember',
-                                                                  arguments:
-                                                                  TaskDetailMember(
-                                                                      type:
-                                                                      type,
-                                                                      page:
-                                                                      page,
-                                                                      phase:
-                                                                      'end'));
-                                                            },
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        top: 15,
-                                                                        bottom:
-                                                                        15,
-                                                                        left:
-                                                                        10,
-                                                                        right:
-                                                                        10),
-                                                                    child:
-                                                                    CircularProgressIndicator(
-                                                                      backgroundColor: isDark
-                                                                          ? Colors.grey[
-                                                                      700]
-                                                                          : Colors.grey[
-                                                                      300],
-                                                                      valueColor: new AlwaysStoppedAnimation<Color>(isDark
-                                                                          ? Colors
-                                                                          .white
-                                                                          : theme.getThemeColor(
-                                                                          type)),
-                                                                      value: userCount ==
-                                                                          0
-                                                                          ? 0
-                                                                          : countEnd /
-                                                                          userCount,
-                                                                    )),
-                                                                Padding(
-                                                                    padding: EdgeInsets
-                                                                        .only(
-                                                                        left:
-                                                                        10),
-                                                                    child: Column(
-                                                                      crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                      children: <
-                                                                          Widget>[
-                                                                        Padding(
-                                                                            padding: EdgeInsets.only(
-                                                                                top:
-                                                                                10,
-                                                                                bottom:
-                                                                                10),
-                                                                            child: Align(
-                                                                                alignment: Alignment.centerLeft,
-                                                                                child: Text(
-                                                                                  '完修者 ' + countEnd.toString() + '/' + userCount.toString(),
-                                                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
-                                                                                ))),
-                                                                      ],
-                                                                    )),
-                                                              ],
-                                                            )), /*child: Text(countItem[
-                                                                        index]
-                                                                    .toString() +
-                                                                '/' +
-                                                                userCount
-                                                                    .toString())*/
-                                                      )),
-                                                  Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 5, left: 17),
-                                                      child: Container(
-                                                          width: double.infinity,
-                                                          child: Text(
-                                                            '細目ごとのサイン数',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                              FontWeight.bold,
-                                                              fontSize: 16,
-                                                            ),
-                                                            textAlign:
-                                                            TextAlign.left,
-                                                          ))),
-                                                  ListView.builder(
-                                                      physics:
-                                                      const NeverScrollableScrollPhysics(),
-                                                      itemCount: quant,
-                                                      shrinkWrap: true,
-                                                      itemBuilder:
-                                                          (BuildContext context,
-                                                          int index) {
-                                                        return Padding(
-                                                            padding:
-                                                            EdgeInsets.all(5),
-                                                            child: Card(
-                                                              shape:
-                                                              RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    10),
+                                          AsyncSnapshot<DocumentSnapshot>
+                                              asyncSnapshot) {
+                                        if (asyncSnapshot.hasData) {
+                                          DocumentSnapshot snapshot =
+                                              asyncSnapshot.data;
+                                          return Consumer<CommunityModel>(
+                                              builder: (context, model, child) {
+                                            model.getData(snapshot, quant);
+                                            return model.isGet
+                                                ? ListView.builder(
+                                                    physics:
+                                                        NeverScrollableScrollPhysics(),
+                                                    shrinkWrap: true,
+                                                    itemCount:
+                                                        map_task['hasItem'],
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index_number) {
+                                                      Map<String, dynamic>
+                                                          numberSnapshot =
+                                                          snapshot['signed'][
+                                                              index_number
+                                                                  .toString()];
+                                                      print(numberSnapshot);
+                                                      return Column(
+                                                        children: <Widget>[
+                                                          Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .only(
+                                                                left: 20,
                                                               ),
-                                                              child: InkWell(
-                                                                  onTap: () {
-                                                                    Navigator.of(context).pushNamed(
-                                                                        '/taskDetailAnalyticsMember',
-                                                                        arguments: TaskDetailMember(
-                                                                            type:
-                                                                            type,
-                                                                            page:
-                                                                            page,
-                                                                            phase:
-                                                                            'number',
-                                                                            number:
-                                                                            index));
-                                                                  },
-                                                                  child: Row(
-                                                                    children: <
-                                                                        Widget>[
-                                                                      Container(
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius: BorderRadius.only(
-                                                                                  topLeft: const Radius.circular(
-                                                                                      10),
-                                                                                  bottomLeft: const Radius.circular(
-                                                                                      10)),
-                                                                              color:
-                                                                              themeColor),
-                                                                          height:
-                                                                          65,
-                                                                          child:
-                                                                          ConstrainedBox(
-                                                                            constraints:
-                                                                            BoxConstraints(minWidth: 60),
-                                                                            child:
-                                                                            Center(
-                                                                              child:
-                                                                              Padding(
-                                                                                padding:
-                                                                                EdgeInsets.all(0),
-                                                                                child:
-                                                                                Text(
-                                                                                  (index + 1).toString(),
-                                                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white),
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                          )),
-                                                                      Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                              left:
+                                                              child: Container(
+                                                                  width: double
+                                                                      .infinity,
+                                                                  child: Text(
+                                                                    (index_number +
+                                                                            1)
+                                                                        .toString(),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          20,
+                                                                    ),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .left,
+                                                                  ))),
+                                                          numberSnapshot['data'] !=
+                                                                  null
+                                                              ? Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
                                                                               10),
-                                                                          child:
-                                                                          Column(
-                                                                            crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                            children: <
-                                                                                Widget>[
-                                                                              Padding(
-                                                                                  padding: EdgeInsets.only(top: 10),
-                                                                                  child: Align(
-                                                                                      alignment: Alignment.centerLeft,
-                                                                                      child: Text(
-                                                                                        'サイン済み ' + countItem[index].toString() + '/' + userCount.toString(),
-                                                                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                                                                                      ))),
-                                                                              Padding(
-                                                                                  padding: EdgeInsets.only(top: 10, bottom: 12, left: 5),
+                                                                  child: ListView
+                                                                      .builder(
+                                                                          physics:
+                                                                              NeverScrollableScrollPhysics(),
+                                                                          shrinkWrap:
+                                                                              true,
+                                                                          itemCount: numberSnapshot['data']
+                                                                              .length,
+                                                                          itemBuilder: (BuildContext context,
+                                                                              int
+                                                                                  index) {
+                                                                            String
+                                                                                type =
+                                                                                numberSnapshot['data'][index]['type'];
+                                                                            if (type ==
+                                                                                'image') {
+                                                                              return Padding(
+                                                                                padding: EdgeInsets.all(5),
+                                                                                child: Material(
+                                                                                    child: InkWell(
                                                                                   child: Container(
-                                                                                      width: 200,
-                                                                                      child: LinearProgressIndicator(
-                                                                                        backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                                                                        valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),
-                                                                                        value: userCount == 0 ? 0 : countItem[index] / userCount,
-                                                                                      )))
-                                                                            ],
-                                                                          )),
-                                                                    ],
-                                                                  )), /*child: Text(countItem[
-                                                                        index]
-                                                                    .toString() +
-                                                                '/' +
-                                                                userCount
-                                                                    .toString())*/
-                                                            ));
-                                                      })
-                                                ]);
-                                              } else {
-                                                return const Center(
-                                                  child: Padding(
-                                                      padding: EdgeInsets.all(5),
-                                                      child:
-                                                      CircularProgressIndicator()),
-                                                );
-                                              }
-                                            },
-                                          );
+                                                                                    child: Column(
+                                                                                      children: <Widget>[
+                                                                                        model.dataList[index_number][index] != null ? Image.network(model.dataList[index_number][index]) : Container()
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                )),
+                                                                              );
+                                                                            } else if (type ==
+                                                                                'video') {
+                                                                              return Padding(
+                                                                                  padding: EdgeInsets.all(5),
+                                                                                  child: Material(
+                                                                                    child: InkWell(
+                                                                                      child: Container(
+                                                                                        child: Column(
+                                                                                          children: <Widget>[
+                                                                                            model.dataList[index_number][index] != null
+                                                                                                ? Chewie(
+                                                                                                    controller: model.dataList[index_number][index],
+                                                                                                  )
+                                                                                                : Container()
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ));
+                                                                            } else if (type ==
+                                                                                'text') {
+                                                                              return Padding(
+                                                                                padding: EdgeInsets.all(5),
+                                                                                child: Container(
+                                                                                  child: Card(
+                                                                                      child: Padding(
+                                                                                    padding: EdgeInsets.all(0),
+                                                                                    child: Column(
+                                                                                      children: <Widget>[
+                                                                                        Padding(
+                                                                                            padding: EdgeInsets.all(10),
+                                                                                            child: Text(
+                                                                                              model.dataList[index_number][index],
+                                                                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                                            ))
+                                                                                      ],
+                                                                                    ),
+                                                                                  )),
+                                                                                ),
+                                                                              );
+                                                                            } else {
+                                                                              return Container();
+                                                                            }
+                                                                          }))
+                                                              : Padding(
+                                                                  padding: EdgeInsets.only(
+                                                                      left: 18,
+                                                                      top: 8,
+                                                                      bottom:
+                                                                          8),
+                                                                  child: Container(
+                                                                      width: double
+                                                                          .infinity,
+                                                                      child: Text(
+                                                                          'データがありません')))
+                                                        ],
+                                                      );
+                                                    })
+                                                : Container();
+                                          });
                                         } else {
                                           return const Center(
                                             child: Padding(
                                                 padding: EdgeInsets.all(5),
-                                                child: CircularProgressIndicator()),
+                                                child:
+                                                    CircularProgressIndicator()),
                                           );
                                         }
                                       }),
-                                  Padding(
-                                      padding: EdgeInsets.only(top: 5, left: 17),
-                                      child: Container(
-                                          width: double.infinity,
-                                          child: Text(
-                                            '細目',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ))),
-                                  Padding(
-                                      padding: EdgeInsets.only(top: 10),
-                                      child: ListView.builder(
-                                          physics:
+                                  /*Padding(
+                                  padding: EdgeInsets.only(top: 5, left: 17),
+                                  child: Container(
+                                      width: double.infinity,
+                                      child: Text(
+                                        '細目',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ))),
+                              Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: ListView.builder(
+                                      physics:
                                           const NeverScrollableScrollPhysics(),
-                                          itemCount: contents.length,
-                                          shrinkWrap: true,
-                                          itemBuilder:
-                                              (BuildContext context, int index) {
-                                            String content = contents[index];
-                                            Color bordercolor;
-                                            if (Theme.of(context).accentColor ==
-                                                Colors.white) {
-                                              bordercolor = Colors.grey[700];
-                                            } else {
-                                              bordercolor = Colors.grey[300];
-                                            }
-                                            return Padding(
-                                              padding: EdgeInsets.only(
-                                                  bottom: 10, right: 5, left: 5),
-                                              child: Card(
-                                                  color: Color(0x00000000),
-                                                  shape: RoundedRectangleBorder(
-                                                    side: BorderSide(
-                                                      color: bordercolor,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
+                                      itemCount: contents.length,
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        String content = contents[index];
+                                        Color bordercolor;
+                                        if (Theme.of(context).accentColor ==
+                                            Colors.white) {
+                                          bordercolor = Colors.grey[700];
+                                        } else {
+                                          bordercolor = Colors.grey[300];
+                                        }
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                              bottom: 10, right: 5, left: 5),
+                                          child: Card(
+                                              color: Color(0x00000000),
+                                              shape: RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                  color: bordercolor,
+                                                  width: 2.0,
+                                                ),
+                                                borderRadius:
                                                     BorderRadius.circular(10.0),
-                                                  ),
-                                                  elevation: 0,
-                                                  child: InkWell(
-                                                    customBorder:
+                                              ),
+                                              elevation: 0,
+                                              child: InkWell(
+                                                customBorder:
                                                     RoundedRectangleBorder(
-                                                      borderRadius:
+                                                  borderRadius:
                                                       BorderRadius.circular(
                                                           10.0),
-                                                    ),
-                                                    child: Padding(
-                                                        padding: EdgeInsets.all(8),
-                                                        child: Text(content)),
-                                                  )),
-                                            );
-                                          })),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 15, bottom: 10, right: 15),
-                                      child: Container(
-                                        width: double.infinity,
-                                        child: Text(
-                                          '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      )),
+                                                ),
+                                                child: Padding(
+                                                    padding: EdgeInsets.all(8),
+                                                    child: Text(content)),
+                                              )),
+                                        );
+                                      })),
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 15, bottom: 65, right: 15),
+                                  child: Container(
+                                    width: double.infinity,
+                                    child: Text(
+                                      '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  )),*/
                                 ],
                               );
                             } else {
@@ -424,9 +368,9 @@ class CommunityView extends StatelessWidget {
                               );
                             }
                           }))
-                ],
-              ),
-            ),
+                    ],
+                  ),
+                )),
           ),
         ),
       ),

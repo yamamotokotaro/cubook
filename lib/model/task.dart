@@ -1655,15 +1655,19 @@ class Task {
     switch (type) {
       case 'usagi':
         content = content_usagi[page][number];
+        content = '表示について調整中です';
         break;
       case 'sika':
         content = content_sika[page][number];
+        content = '表示について調整中です';
         break;
       case 'kuma':
         content = content_kuma[page][number];
+        content = '表示について調整中です';
         break;
       case 'challenge':
         content = content_challenge[page][number];
+        content = '表示について調整中です';
         break;
       case 'syokyu':
         content = content_syokyu[page][number];
@@ -1698,15 +1702,19 @@ class Task {
     switch (type) {
       case 'usagi':
         content = content_usagi[page];
+        content = [];
         break;
       case 'sika':
         content = content_sika[page];
+        content = [];
         break;
       case 'kuma':
         content = content_kuma[page];
+        content = [];
         break;
       case 'challenge':
         content = content_challenge[page];
+        content = [];
         break;
       case 'syokyu':
         content = content_syokyu[page];
