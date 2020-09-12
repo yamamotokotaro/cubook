@@ -121,7 +121,7 @@ class HomeModel extends ChangeNotifier {
                     Firestore.instance
                         .collection('user')
                         .document(userSnapshot.documentID)
-                        .updateData(
+                        .updateData(<String, dynamic>
                             {'token_notification': _token_notification});
                   }
                 } else {
@@ -129,7 +129,7 @@ class HomeModel extends ChangeNotifier {
                   Firestore.instance
                       .collection('user')
                       .document(userSnapshot.documentID)
-                      .updateData({'token_notification': _token_notification});
+                      .updateData(<String, dynamic>{'token_notification': _token_notification});
                 }
               });
               isSended = true;
@@ -152,7 +152,7 @@ class HomeModel extends ChangeNotifier {
     Firestore.instance
         .collection('user')
         .document(userSnapshot.documentID)
-        .updateData({'token_notification': _token_notification}).then(
+        .updateData(<String, dynamic>{'token_notification': _token_notification}).then(
             (value) async {
       final result = await FirebaseAuthUi.instance().logout();
       currentUser = null;

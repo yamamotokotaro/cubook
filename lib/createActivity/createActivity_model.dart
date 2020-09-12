@@ -50,7 +50,7 @@ class CreateActivityModel extends ChangeNotifier {
             if (isCheck) {
               numbers.add(l);
               list_selected
-                  .add({'type': listCategory[i], 'page': k, 'number': l});
+                  .add(<String, dynamic>{'type': listCategory[i], 'page': k, 'number': l});
             }
           }
           if (numbers.length != 0) {

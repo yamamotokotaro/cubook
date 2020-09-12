@@ -15,6 +15,8 @@ import 'package:cubook/createActivity/createActivity_view.dart';
 import 'package:cubook/detailActivity/detailActivity_model.dart';
 import 'package:cubook/detailActivity/detailActivity_view.dart';
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
+import 'package:cubook/editAntivity/editActivity_model.dart';
+import 'package:cubook/editAntivity/editActivity_view.dart';
 import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
@@ -91,27 +93,25 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     _firebaseMessaging.configure(
-      onMessage: (message) async{
+      onMessage: (message) async {
         setState(() {
           title = message["notification"]["title"];
           helper = "You have recieved a new notification";
           print(title);
         });
-
       },
-      onResume: (message) async{
+      onResume: (message) async {
         setState(() {
           title = message["data"]["title"];
           helper = "You have open the application from notification";
           print(message.toString());
         });
-
       },
-
     );
   }
+
   Future<PermissionStatus> permissionStatus =
-  NotificationPermissions.getNotificationPermissionStatus();
+      NotificationPermissions.getNotificationPermissionStatus();
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +139,7 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => ListActivityModel()),
           ChangeNotifierProvider(create: (context) => CreateActivityModel()),
           ChangeNotifierProvider(create: (context) => DetailActivityModel()),
+          ChangeNotifierProvider(create: (context) => EditActivityModel()),
           ChangeNotifierProvider(create: (context) => ListAbsentModel()),
           ChangeNotifierProvider(create: (context) => ListAbsentScoutModel()),
           ChangeNotifierProvider(create: (context) => ContentsModel()),
@@ -178,12 +179,16 @@ class _MyAppState extends State<MyApp> {
             '/listActivity': (BuildContext context) => ListActivityView(),
             '/createActivity': (BuildContext context) => CreateActivityView(),
             '/detailActivity': (BuildContext context) => DetailActivityView(),
+            '/editActivity': (BuildContext context) => EditActivityView(),
             '/listAbsentScout': (BuildContext context) => ListAbsentScoutView(),
             '/contentsView': (BuildContext context) => ContentsView(),
             '/analytics': (BuildContext context) => AnalyticsView(),
-            '/taskDetailAnalytics': (BuildContext context) => TaskDetailAnalyticsView(),
-            '/taskDetailAnalyticsMember': (BuildContext context) => TaskDetailAnalyticsMemberView(),
-            '/listCitationAnalyticsView': (BuildContext context) => ListCitationAnalyticsView(),
+            '/taskDetailAnalytics': (BuildContext context) =>
+                TaskDetailAnalyticsView(),
+            '/taskDetailAnalyticsMember': (BuildContext context) =>
+                TaskDetailAnalyticsMemberView(),
+            '/listCitationAnalyticsView': (BuildContext context) =>
+                ListCitationAnalyticsView(),
             '/communityView': (BuildContext context) => CommunityView(),
             '/commentView': (BuildContext context) => CommentView()
           },

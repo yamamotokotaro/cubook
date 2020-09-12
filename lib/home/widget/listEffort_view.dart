@@ -178,7 +178,25 @@ class listEffort extends StatelessWidget {
                                                     type: type,
                                                     page: page,
                                                     name: documentSnapshot[
-                                                        'family'] + documentSnapshot['first'],
+                                                            'family'] +
+                                                        documentSnapshot[
+                                                            'first'],
+                                                    taskid: taskid,
+                                                    effortid: documentSnapshot
+                                                        .documentID));
+                                          }
+                                        },
+                                        onLongPress: () {
+                                          if (taskid != null) {
+                                            Navigator.of(context).pushNamed(
+                                                '/communityView',
+                                                arguments: Community(
+                                                    type: type,
+                                                    page: page,
+                                                    name: documentSnapshot[
+                                                            'family'] +
+                                                        documentSnapshot[
+                                                            'first'],
                                                     taskid: taskid,
                                                     effortid: documentSnapshot
                                                         .documentID));

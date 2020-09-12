@@ -674,7 +674,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     Firestore.instance
         .collection(type)
         .document(stepSnapshot.documentID)
-        .updateData({'signed': signed}).then((value) {
+        .updateData(<String, dynamic>{'signed': signed}).then((value) {
       final StorageReference ref = FirebaseStorage().ref().child(path);
       ref.delete();
     });

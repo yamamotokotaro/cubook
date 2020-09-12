@@ -518,22 +518,29 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         color: Colors.white),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Checkbox(
-                        activeColor: themeColor,
-                        value: model.checkParent,
-                        onChanged: model.onPressedCheckParent,
-                      ),
-                      Text('保護者チェック')
-                    ],
-                  ),
-                ),
+                type == 'usagi' ||
+                        type == 'sika' ||
+                        type == 'kuma' ||
+                        type == 'challenge'
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Checkbox(
+                              activeColor: themeColor,
+                              value: model.checkParent,
+                              onChanged: model.onPressedCheckParent,
+                            ),
+                            Text('保護者チェック')
+                          ],
+                        ),
+                      )
+                    : Container(),
                 !model.isLoading[index_page]
-                    ? RaisedButton.icon(
+                    ? Padding(
+                  padding: EdgeInsets.only(top: 5),
+                        child: RaisedButton.icon(
                         onPressed: () {
                           model.onTapSend(index_page);
                         },
@@ -550,7 +557,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
-                      )
+                      ))
                     : Container(
                         child: Container(
                           child: Center(

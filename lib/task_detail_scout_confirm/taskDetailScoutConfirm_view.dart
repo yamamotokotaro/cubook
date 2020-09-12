@@ -701,9 +701,72 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 FlatButton.icon(
-                                                  onPressed: () {
-                                                    model.onTapCancel(
-                                                        index_page);
+                                                  onPressed: () async {
+                                                    await showModalBottomSheet<
+                                                        int>(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10,
+                                                                    bottom: 10),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: <
+                                                                  Widget>[
+                                                                Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        top: 5,
+                                                                        left:
+                                                                            17,
+                                                                        bottom:
+                                                                            17),
+                                                                    child: Container(
+                                                                        width: double.infinity,
+                                                                        child: Text(
+                                                                          '本当に取り消しますか?',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontSize:
+                                                                                22,
+                                                                          ),
+                                                                          textAlign:
+                                                                              TextAlign.left,
+                                                                        ))),
+                                                                ListTile(
+                                                                  leading: Icon(
+                                                                      Icons
+                                                                          .delete),
+                                                                  title: Text(
+                                                                      'はい'),
+                                                                  onTap: () {
+                                                                    model.onTapCancel(
+                                                                        index_page);
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                ),
+                                                                ListTile(
+                                                                  leading: Icon(
+                                                                      Icons
+                                                                          .arrow_back),
+                                                                  title: Text(
+                                                                      'いいえ'),
+                                                                  onTap: () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                )
+                                                              ],
+                                                            ));
+                                                      },
+                                                    );
                                                   },
                                                   icon: Icon(
                                                     Icons.close,
@@ -720,12 +783,13 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Padding(
-                                                    padding: EdgeInsets.only(left:10,right:10),
-                                                  child:Divider(
-                                                  color: isDark
-                                                      ? Colors.grey[600]
-                                                      : Colors.grey[400],
-                                                )),
+                                                    padding: EdgeInsets.only(
+                                                        left: 10, right: 10),
+                                                    child: Divider(
+                                                      color: isDark
+                                                          ? Colors.grey[600]
+                                                          : Colors.grey[400],
+                                                    )),
                                                 FlatButton.icon(
                                                   onPressed: () async {
                                                     var result =
