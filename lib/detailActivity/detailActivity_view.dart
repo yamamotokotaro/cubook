@@ -37,14 +37,87 @@ class DetailActivityView extends StatelessWidget {
                                   children: <Widget>[
                                     Consumer<DetailActivityModel>(
                                         builder: (context, model, child) {
-                                      return ListTile(
-                                        leading: Icon(Icons.delete),
-                                        title: Text('記録を削除する'),
-                                        onTap: () {
-                                          model.deleteActivity(documentID);
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                        },
+                                      return Column(
+                                        children: [
+                                          ListTile(
+                                            leading: Icon(Icons.edit),
+                                            title: Text('編集する'),
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                              Navigator.of(context).pushNamed(
+                                                  '/editActivity',
+                                                  arguments: documentID);
+                                            },
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.delete),
+                                            title: Text('削除する'),
+                                            onTap: () async {
+                                              Navigator.pop(
+                                                  context);
+                                              await showModalBottomSheet<int>(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10, bottom: 10),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: <Widget>[
+                                                          Consumer<
+                                                                  DetailActivityModel>(
+                                                              builder: (context,
+                                                                  model,
+                                                                  child) {
+                                                            return Column(
+                                                              children: [
+                                                                Padding(
+                                                                    padding: EdgeInsets.only(top:5,left:17,bottom: 17),
+                                                                    child: Container(
+                                                                        width: double.infinity,
+                                                                        child: Text(
+                                                                          '本当に削除しますか？',
+                                                                          style: TextStyle(
+                                                                            fontWeight: FontWeight.bold,
+                                                                            fontSize: 22,
+                                                                          ),
+                                                                          textAlign: TextAlign.left,
+                                                                        ))),
+                                                                ListTile(
+                                                                  leading: Icon(
+                                                                      Icons.delete),
+                                                                  title: Text(
+                                                                      'はい'),
+                                                                  onTap: () {
+                                                                    model.deleteActivity(documentID);
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                    Navigator.pop(context);
+                                                                  },
+                                                                ),
+                                                                ListTile(
+                                                                  leading: Icon(
+                                                                      Icons
+                                                                          .arrow_back),
+                                                                  title: Text(
+                                                                      'いいえ'),
+                                                                  onTap: () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                )
+                                                              ],
+                                                            );
+                                                          })
+                                                        ],
+                                                      ));
+                                                },
+                                              );
+                                            },
+                                          )
+                                        ],
                                       );
                                     })
                                   ],

@@ -51,6 +51,7 @@ class CommunityModel extends ChangeNotifier {
   void getData(DocumentSnapshot snapshot, int quant) async {
     String documentID_before = snapshot.documentID;
     if (documentID != documentID_before) {
+      isGet = false;
       dataList =
           new List<dynamic>.generate(quant, (index) => new List<dynamic>());
       dateSelected = new List<dynamic>.generate(quant, (index) => null);
@@ -100,8 +101,6 @@ class CommunityModel extends ChangeNotifier {
   }
 
   void sendComment(String effortID, BuildContext context) {
-    scrollController.animateTo(20 /*scrollController.position.maxScrollExtent*/,
-        duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
     if (commentController.text != '') {
       isLoading_comment = true;
       notifyListeners();
@@ -114,7 +113,7 @@ class CommunityModel extends ChangeNotifier {
               .getDocuments()
               .then((data) {
             DocumentSnapshot snapshot = data.documents[0];
-            Firestore.instance.collection('comment').add({
+            Firestore.instance.collection('comment').add(<String, dynamic>{
               'group': group,
               'uid': user.uid,
               'body': commentController.text,

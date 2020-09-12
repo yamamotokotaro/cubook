@@ -179,7 +179,12 @@ class TaskDetailScoutModel extends ChangeNotifier {
         .getDocuments()
         .then((userDatas) async {
       userSnapshot = userDatas.documents[0];
-      if (checkParent && map_attach[number].length != 0) {
+      if (((type != 'usagi' &&
+                  type != 'sika' &&
+                  type != 'kuma' &&
+                  type != 'challenge') ||
+              checkParent) &&
+          map_attach[number].length != 0) {
         isLoading[number] = true;
         notifyListeners();
         print(map_attach);
