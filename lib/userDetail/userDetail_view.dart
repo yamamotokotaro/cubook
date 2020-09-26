@@ -42,12 +42,6 @@ class SelectBookView extends StatelessWidget {
 
   SelectBookView(String uid) {
     this.uid = uid;
-    _tabs = [
-      TabInfo("進歩", SelectBook(uid)),
-      TabInfo("表彰待ち", ListNotCititationed(uid)),
-      TabInfo("出欠", ListAbsentView(uid)),
-      TabInfo("設定", SettingAccountGroupView(uid)),
-    ];
   }
 
   @override
@@ -59,101 +53,140 @@ class SelectBookView extends StatelessWidget {
         body: Center(
             child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 600),
-                child: DefaultTabController(
-                    length: _tabs.length,
-                    child: NestedScrollView(
-                        headerSliverBuilder:
-                            (BuildContext context, bool innerBoxIsScrolled) {
-                          return <Widget>[
-                            SliverList(
-                              delegate: SliverChildListDelegate([
-                                Consumer<UserDetailModel>(
-                                    builder: (context, model, child) {
-                                  model.getGroup();
-                                  if (model.group != null) {
-                                    return StreamBuilder<QuerySnapshot>(
-                                      stream: Firestore.instance
-                                          .collection('user')
-                                          .where('group',
-                                              isEqualTo: model.group)
-                                          .where('uid', isEqualTo: uid)
-                                          .snapshots(),
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<QuerySnapshot>
-                                              snapshot) {
-                                        if (snapshot.hasData) {
-                                          DocumentSnapshot userSnapshot =
-                                              snapshot.data.documents[0];
-                                          return Column(
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 16, bottom: 10),
-                                                child: Container(
-                                                  width: 80,
-                                                  height: 80,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          theme.getUserColor(
-                                                              userSnapshot[
-                                                                  'age']),
-                                                      shape: BoxShape.circle),
-                                                  child: Icon(
-                                                    Icons.person,
-                                                    size: 40,
-                                                    color: Colors.white,
+                child:
+                    Consumer<UserDetailModel>(builder: (context, model, child) {
+                  model.getGroup();
+                  if (model.group != null) {
+                    if (model.teamPosition != null) {
+                      if (model.teamPosition == 'teamLeader') {
+                        _tabs = [
+                          TabInfo("進歩", SelectBook(uid)),
+                          TabInfo("出欠", ListAbsentView(uid)),
+                        ];
+                      } else {
+                        _tabs = [
+                          TabInfo("進歩", SelectBook(uid)),
+                          TabInfo("表彰待ち", ListNotCititationed(uid)),
+                          TabInfo("出欠", ListAbsentView(uid)),
+                          TabInfo("設定", SettingAccountGroupView(uid)),
+                        ];
+                      }
+                    } else {
+                      _tabs = [
+                        TabInfo("進歩", SelectBook(uid)),
+                        TabInfo("表彰待ち", ListNotCititationed(uid)),
+                        TabInfo("出欠", ListAbsentView(uid)),
+                        TabInfo("設定", SettingAccountGroupView(uid)),
+                      ];
+                    }
+                    return DefaultTabController(
+                        length: _tabs.length,
+                        child: NestedScrollView(
+                          headerSliverBuilder:
+                              (BuildContext context, bool innerBoxIsScrolled) {
+                            return <Widget>[
+                              SliverList(
+                                delegate: SliverChildListDelegate([
+                                  Consumer<UserDetailModel>(
+                                      builder: (context, model, child) {
+                                    model.getGroup();
+                                    if (model.group != null) {
+                                      return StreamBuilder<QuerySnapshot>(
+                                        stream: Firestore.instance
+                                            .collection('user')
+                                            .where('group',
+                                                isEqualTo: model.group)
+                                            .where('uid', isEqualTo: uid)
+                                            .snapshots(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<QuerySnapshot>
+                                                snapshot) {
+                                          if (snapshot.hasData) {
+                                            DocumentSnapshot userSnapshot =
+                                                snapshot.data.documents[0];
+                                            return Column(
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 16, bottom: 10),
+                                                  child: Container(
+                                                    width: 80,
+                                                    height: 80,
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                            theme.getUserColor(
+                                                                userSnapshot[
+                                                                    'age']),
+                                                        shape: BoxShape.circle),
+                                                    child: Icon(
+                                                      Icons.person,
+                                                      size: 40,
+                                                      color: Colors.white,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      bottom: 10),
-                                                  child: Text(
-                                                    userSnapshot['name'],
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 25),
-                                                  )),
-                                            ],
-                                          );
-                                        } else {
-                                          return const Center(
-                                            child: Padding(
-                                                padding: EdgeInsets.all(5),
-                                                child:
-                                                    CircularProgressIndicator()),
-                                          );
-                                        }
-                                      },
-                                    );
-                                  } else {
-                                    return const Center(
-                                      child: Padding(
-                                          padding: EdgeInsets.all(5),
-                                          child: CircularProgressIndicator()),
-                                    );
-                                  }
-                                }),
-                              ]),
-                            ),
-                            Container(
-                                child: SliverPersistentHeader(
-                              pinned: true,
-                              delegate: _StickyTabBarDelegate(
-                                TabBar(
-                                  indicatorColor: Theme.of(context).accentColor,
-                                  labelColor: Theme.of(context).accentColor,
-                                  isScrollable: false,
-                                  tabs: _tabs.map((TabInfo tab) {
-                                    return Tab(text: tab.label);
-                                  }).toList(),
-                                ),
+                                                Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 10),
+                                                    child: Text(
+                                                      userSnapshot['name'],
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 25),
+                                                    )),
+                                              ],
+                                            );
+                                          } else {
+                                            return const Center(
+                                              child: Padding(
+                                                  padding: EdgeInsets.all(5),
+                                                  child:
+                                                      CircularProgressIndicator()),
+                                            );
+                                          }
+                                        },
+                                      );
+                                    } else {
+                                      return const Center(
+                                        child: Padding(
+                                            padding: EdgeInsets.all(5),
+                                            child: CircularProgressIndicator()),
+                                      );
+                                    }
+                                  }),
+                                ]),
                               ),
-                            )),
-                          ];
-                        },
-                        body: TabBarView(children: _tabs.map((tab) => tab.widget).toList()),)))));
+                              Container(
+                                  child: SliverPersistentHeader(
+                                pinned: true,
+                                delegate: _StickyTabBarDelegate(
+                                  TabBar(
+                                    indicatorColor:
+                                        Theme.of(context).accentColor,
+                                    labelColor: Theme.of(context).accentColor,
+                                    isScrollable: false,
+                                    tabs: _tabs.map((TabInfo tab) {
+                                      return Tab(text: tab.label);
+                                    }).toList(),
+                                  ),
+                                ),
+                              )),
+                            ];
+                          },
+                          body: TabBarView(
+                              children:
+                                  _tabs.map((tab) => tab.widget).toList()),
+                        ));
+                  } else {
+                    return const Center(
+                      child: Padding(
+                          padding: EdgeInsets.all(5),
+                          child: CircularProgressIndicator()),
+                    );
+                  }
+                }))));
   }
 }

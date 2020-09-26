@@ -37,7 +37,8 @@ class EditActivityView extends StatelessWidget {
               if (model.isLoading) {
                 return FloatingActionButton(
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(isDark?Colors.blue[900]:Colors.white),
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                        isDark ? Colors.blue[900] : Colors.white),
                   ),
                 );
               } else {
@@ -56,7 +57,7 @@ class EditActivityView extends StatelessWidget {
                     child: ConstrainedBox(
                       constraints: BoxConstraints(maxWidth: 600),
                       child: Padding(
-                        padding: EdgeInsets.only(bottom:60),
+                        padding: EdgeInsets.only(bottom: 60),
                         child: Column(
                           children: <Widget>[
                             Padding(
@@ -329,13 +330,17 @@ class EditActivityView extends StatelessWidget {
                                                                                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                                   )),
                                                                               Spacer(),
-                                                                              Checkbox(
-                                                                                value: model.checkAbsents[documentID],
-                                                                                onChanged: (bool e) {
-                                                                                  model.onCheckMember(documentID);
-                                                                                },
-                                                                                activeColor: Colors.blue[600],
-                                                                              ),
+                                                                              Selector<EditActivityModel, bool>(
+                                                                                  selector: (context, model) => model.checkAbsents[documentID],
+                                                                                  builder: (context, absent, child) {
+                                                                                    return Checkbox(
+                                                                                      value: absent,
+                                                                                      onChanged: (bool e) {
+                                                                                        model.onCheckMember(documentID);
+                                                                                      },
+                                                                                      activeColor: Colors.blue[600],
+                                                                                    );
+                                                                                  }),
 
                                                                               /*Padding(
                                                               padding: EdgeInsets
@@ -528,7 +533,7 @@ class EditActivityView extends StatelessWidget {
                                                                                             Spacer(),
                                                                                             IconButton(
                                                                                               onPressed: () {
-                                                                                                model.onPressAdd(snapshot, context_builder,isDark);
+                                                                                                model.onPressAdd(snapshot, context_builder, isDark);
                                                                                               },
                                                                                               icon: Icon(Icons.add),
                                                                                               iconSize: 30,

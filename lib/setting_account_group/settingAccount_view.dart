@@ -62,7 +62,8 @@ class SettingAccountGroupView extends StatelessWidget {
                                     // 入力数
                                     maxLines: null,
                                     maxLengthEnforced: false,
-                                    decoration: InputDecoration(labelText: "組・班（オプション）"),
+                                    decoration: InputDecoration(
+                                        labelText: "組・班（オプション）"),
                                     onChanged: (text) {},
                                   ),
                                 ),
@@ -85,8 +86,18 @@ class SettingAccountGroupView extends StatelessWidget {
                                       isExpanded: true,
                                       hint: Text('役割を選択'),
                                       value: model.dropdown_text,
-                                      items: <String>['うさぎ', 'しか', 'くま'/*,'ボーイスカウトバッジ', '初級スカウト', '2級スカウト', '1級スカウト', '菊スカウト（隼を目指すスカウト）', '隼スカウト', '富士スカウト'*/]
-                                          .map((String value) {
+                                      items: <String>[
+                                        'うさぎ',
+                                        'しか',
+                                        'くま',
+                                        /*'ボーイスカウトバッジ',
+                                        '初級スカウト',
+                                        '2級スカウト',
+                                        '1級スカウト',
+                                        '菊スカウト（隼を目指すスカウト）',
+                                        '隼スカウト',
+                                        '富士スカウト'*/
+                                      ].map((String value) {
                                         return new DropdownMenuItem<String>(
                                           value: value,
                                           child: new Text(value),
@@ -96,6 +107,30 @@ class SettingAccountGroupView extends StatelessWidget {
                                         model.onDropdownChanged(value);
                                       },
                                     )),
+                                model.dropdown_text == 'ボーイスカウトバッジ' ||
+                                        model.dropdown_text == '初級スカウト' ||
+                                        model.dropdown_text == '2級スカウト' ||
+                                        model.dropdown_text == '1級スカウト' ||
+                                        model.dropdown_text ==
+                                            '菊スカウト（隼を目指すスカウト）' ||
+                                        model.dropdown_text == '隼スカウト' ||
+                                        model.dropdown_text == '富士スカウト'
+                                    ? Padding(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Checkbox(
+                                              value: model.isTeamLeader,
+                                              onChanged: model
+                                                  .onCheckboxTeamLeaderChanged,
+                                            ),
+                                            Text('班長')
+                                          ],
+                                        ),
+                                      )
+                                    : Container(),
                                 Padding(
                                     padding: EdgeInsets.only(top: 10, left: 10),
                                     child: Container(
@@ -127,7 +162,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                       },
                                     )),
                                 Padding(
-                                  padding: EdgeInsets.only(top: 10),
+                                    padding: EdgeInsets.only(top: 10),
                                     child: !model.isLoading
                                         ? RaisedButton.icon(
                                             onPressed: () {

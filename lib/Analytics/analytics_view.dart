@@ -1,7 +1,9 @@
+import 'package:cubook/Analytics/analytics_model.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_list_analytics/taskListAnalytics_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AnalyticsView extends StatelessWidget {
   var theme = new ThemeInfo();
@@ -34,69 +36,173 @@ class AnalyticsView extends StatelessWidget {
               constraints: BoxConstraints(maxWidth: 600),
               child: Column(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: 20, left: 10, right: 10, bottom: 10),
-                    child: Container(
-                        child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: InkWell(
-                        customBorder: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        onTap: () async {
-                          // final Future<PermissionStatus> permissionStatus = NotificationPermissions.requestNotificationPermissions();
-                          Navigator.of(context).pushNamed('/listCitationAnalyticsView');
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.menu,
-                                  color: Theme.of(context).accentColor,
-                                  size: 35,
+                  Consumer<AnalyticsModel>(builder: (context, model, child) {
+                    model.getGroup();
+                    if (model.group != null) {
+                      if (model.teamPosition != null) {
+                        if (model.teamPosition == 'teamLeader') {
+                          return Container();
+                        } else {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                                top: 20, left: 10, right: 10, bottom: 0),
+                            child: Container(
+                                child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: InkWell(
+                                customBorder: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Material(
-                                      type: MaterialType.transparency,
-                                      child: Text(
-                                        '表彰待ちリスト',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 30),
+                                onTap: () async {
+                                  // final Future<PermissionStatus> permissionStatus = NotificationPermissions.requestNotificationPermissions();
+                                  Navigator.of(context)
+                                      .pushNamed('/listCitationAnalyticsView');
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.menu,
+                                          color: Theme.of(context).accentColor,
+                                          size: 35,
+                                        ),
+                                        Padding(
+                                            padding: EdgeInsets.only(left: 10),
+                                            child: Material(
+                                              type: MaterialType.transparency,
+                                              child: Text(
+                                                '表彰待ちリスト',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 30),
+                                              ),
+                                            )),
+                                      ]),
+                                ),
+                              ),
+                            )),
+                          );
+                        }
+                      } else {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                              top: 20, left: 10, right: 10, bottom: 0),
+                          child: Container(
+                              child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: InkWell(
+                              customBorder: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              onTap: () async {
+                                // final Future<PermissionStatus> permissionStatus = NotificationPermissions.requestNotificationPermissions();
+                                Navigator.of(context)
+                                    .pushNamed('/listCitationAnalyticsView');
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.menu,
+                                        color: Theme.of(context).accentColor,
+                                        size: 35,
                                       ),
-                                    )),
-                              ]),
-                        ),
-                      ),
-                    )),
-                  ),
-                  Center(
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5, top: 4),
-                              child: Icon(
-                                Icons.assignment,
-                                color: Theme.of(context).accentColor,
-                                size: 32,
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Material(
+                                            type: MaterialType.transparency,
+                                            child: Text(
+                                              '表彰待ちリスト',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 30),
+                                            ),
+                                          )),
+                                    ]),
                               ),
                             ),
-                            Text(
-                              '進歩の記録',
-                              style: TextStyle(
-                                  fontSize: 25.0,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.none),
+                          )),
+                        );
+                      }
+                    } else {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            top: 20, left: 10, right: 10, bottom: 0),
+                        child: Container(
+                            child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: InkWell(
+                            customBorder: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                          ])),
+                            onTap: () async {
+                              // final Future<PermissionStatus> permissionStatus = NotificationPermissions.requestNotificationPermissions();
+                              Navigator.of(context)
+                                  .pushNamed('/listCitationAnalyticsView');
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.menu,
+                                      color: Theme.of(context).accentColor,
+                                      size: 35,
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Material(
+                                          type: MaterialType.transparency,
+                                          child: Text(
+                                            '表彰待ちリスト',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 30),
+                                          ),
+                                        )),
+                                  ]),
+                            ),
+                          ),
+                        )),
+                      );
+                    }
+                  }),
+                  Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10),
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5, top: 4),
+                          child: Icon(
+                            Icons.assignment,
+                            color: Theme.of(context).accentColor,
+                            size: 32,
+                          ),
+                        ),
+                        Text(
+                          '進歩の記録',
+                          style: TextStyle(
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.none),
+                        ),
+                      ]))),
                   ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: type.length,

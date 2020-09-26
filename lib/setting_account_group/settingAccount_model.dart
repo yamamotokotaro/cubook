@@ -11,6 +11,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
   FirebaseUser currentUser;
   bool isGet = false;
   bool isLoading = false;
+  bool isTeamLeader;
   String group;
   String group_claim;
   TextEditingController familyController;
@@ -40,15 +41,23 @@ class SettingAccountGroupModel extends ChangeNotifier {
                 TextEditingController(text: userSnapshot['family']);
             firstController =
                 TextEditingController(text: userSnapshot['first']);
+            if (userSnapshot['teamPosition'] != null) {
+              if (userSnapshot['teamPosition'] == 'teamLeader') {
+                isTeamLeader = true;
+              } else {
+                isTeamLeader = false;
+              }
+            } else {
+              isTeamLeader = false;
+            }
             String team;
-            if(userSnapshot['team'] is int){
+            if (userSnapshot['team'] is int) {
               team = userSnapshot['team'].toString();
             } else {
               team = userSnapshot['team'];
             }
-            if(userSnapshot['team'] != null) {
-              teamController =
-                  TextEditingController(text: team);
+            if (userSnapshot['team'] != null) {
+              teamController = TextEditingController(text: team);
             } else {
               teamController = TextEditingController();
             }
@@ -94,20 +103,29 @@ class SettingAccountGroupModel extends ChangeNotifier {
   void getGroup() async {
     String group_before = group;
     FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
+      Firestore.instance
+          .collection('user')
+          .where('uid', isEqualTo: user.uid)
+          .getDocuments()
+          .then((snapshot) {
         group = snapshot.documents[0]['group'];
-        if(group != group_before) {
+        if (group != group_before) {
           notifyListeners();
         }
         user.getIdToken(refresh: true).then((value) {
           String group_claim_before = group_claim;
           group_claim = value.claims['group'];
-          if(group_claim_before != group_claim) {
+          if (group_claim_before != group_claim) {
             notifyListeners();
           }
         });
       });
     });
+  }
+
+  void onCheckboxTeamLeaderChanged(bool value) {
+    isTeamLeader = value;
+    notifyListeners();
   }
 
   void onDropdownChanged(String value) {
@@ -123,6 +141,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
   void changeRequest(BuildContext context, String uid) async {
     String age;
     String position;
+    String teamPosition;
     int age_turn;
     String grade;
     switch (dropdown_text) {
@@ -186,6 +205,11 @@ class SettingAccountGroupModel extends ChangeNotifier {
         grade = 'boy';
         break;
     }
+    if (isTeamLeader && (age == 'syokyu' || age == 'nikyu' || age == 'ikkyu' || age == 'kiku' || age == 'hayabusa' || age == 'fuji')) {
+      teamPosition = 'teamLeader';
+    } else {
+      teamPosition = position;
+    }
     if (familyController.text != '' &&
         firstController.text != '' &&
         dropdown_text != null &&
@@ -204,6 +228,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
               'first': firstController.text,
               'call': call,
               'team': teamController.text,
+              'teamPosition': teamPosition,
               'age': age,
               'age_turn': age_turn,
               'uid': uid,

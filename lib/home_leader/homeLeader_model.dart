@@ -11,19 +11,25 @@ class HomeLeaderModel extends ChangeNotifier {
   bool isLoaded = false;
   bool isGet = false;
   String group;
+  dynamic team;
+  String teamPosition;
   String uid;
   Map<String, dynamic> claims = new Map<String, dynamic>();
 
   void getSnapshot(BuildContext context) async {
     String group_before = group;
+    String teamPosition_before = teamPosition;
     FirebaseAuth.instance.currentUser().then((user) {
       Firestore.instance
           .collection('user')
           .where('uid', isEqualTo: user.uid)
           .getDocuments()
           .then((snapshot) async {
-        group = snapshot.documents[0]['group'];
-        if (group != group_before) {
+        DocumentSnapshot userSnapshot = snapshot.documents[0];
+        group = userSnapshot['group'];
+        team = userSnapshot['team'];
+        teamPosition = userSnapshot['teamPosition'];
+        if (group != group_before || teamPosition != teamPosition_before) {
           notifyListeners();
           final RemoteConfig remoteConfig = await RemoteConfig.instance;
           await remoteConfig.fetch(expiration: const Duration(seconds: 1));
@@ -101,11 +107,28 @@ class HomeLeaderModel extends ChangeNotifier {
   }
 
   Stream<QuerySnapshot> getTaskSnapshot(String group) {
-    return Firestore.instance
-        .collection('task')
-        .where('group', isEqualTo: group)
-        .where('phase', isEqualTo: 'wait')
-        .snapshots();
+    if (teamPosition != null) {
+      if(teamPosition == 'teamLeader') {
+        return Firestore.instance
+            .collection('task')
+            .where('group', isEqualTo: group)
+            .where('team', isEqualTo: team)
+            .where('phase', isEqualTo: 'wait')
+            .snapshots();
+      } else {
+        return Firestore.instance
+            .collection('task')
+            .where('group', isEqualTo: group)
+            .where('phase', isEqualTo: 'wait')
+            .snapshots();
+      }
+    } else {
+      return Firestore.instance
+          .collection('task')
+          .where('group', isEqualTo: group)
+          .where('phase', isEqualTo: 'wait')
+          .snapshots();
+    }
   }
 }
 

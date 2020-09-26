@@ -296,70 +296,74 @@ class listEffort extends StatelessWidget {
                                                 child: Row(
                                                   children: <Widget>[
                                                     FlatButton.icon(
-                                                      onPressed: () {
-                                                        increaseCount(
-                                                            documentID);
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.favorite_border,
-                                                        color: Colors.white,
-                                                      ),
-                                                      label: Text(
-                                                        'おめでとう！' +
-                                                            congrats.toString(),
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ),
+                                                          onPressed: () {
+                                                            increaseCount(
+                                                                documentID);
+                                                          },
+                                                          icon: Icon(
+                                                            Icons
+                                                                .favorite_border,
+                                                            color: Colors.white,
+                                                          ),
+                                                          label: Semantics(
+                                                            hint:
+                                                            'ボタンを押すとカウントが増えます',
+                                                            child: Text(
+                                                            'おめでとう！' +
+                                                                congrats
+                                                                    .toString(),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        )),
                                                     Spacer(),
                                                     model.position == 'leader'
-                                                        ? IconButton(
-                                                            onPressed:
-                                                                () async {
-                                                              var result =
-                                                                  await showModalBottomSheet<
-                                                                      int>(
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (BuildContext
-                                                                        context) {
-                                                                  return Padding(
-                                                                      padding: EdgeInsets.only(
-                                                                          top:
-                                                                              10,
-                                                                          bottom:
-                                                                              10),
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisSize:
-                                                                            MainAxisSize.min,
-                                                                        children: <
-                                                                            Widget>[
-                                                                          ListTile(
-                                                                            leading:
-                                                                                Icon(Icons.delete),
-                                                                            title:
-                                                                                Text('投稿を削除する'),
-                                                                            onTap:
-                                                                                () {
-                                                                              model.deleteEffort(documentID);
-                                                                              Navigator.pop(context);
-                                                                            },
-                                                                          ),
-                                                                        ],
-                                                                      ));
-                                                                },
-                                                              );
-                                                            },
-                                                            icon: Icon(
-                                                              Icons.more_vert,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 21,
-                                                            ),
-                                                          )
+                                                        ? Semantics(
+                                                            label: '投稿の削除を行います',
+                                                            child: IconButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                var result =
+                                                                    await showModalBottomSheet<
+                                                                        int>(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (BuildContext
+                                                                          context) {
+                                                                    return Padding(
+                                                                        padding: EdgeInsets.only(
+                                                                            top:
+                                                                                10,
+                                                                            bottom:
+                                                                                10),
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.min,
+                                                                          children: <
+                                                                              Widget>[
+                                                                            ListTile(
+                                                                              leading: Icon(Icons.delete),
+                                                                              title: Text('投稿を削除する'),
+                                                                              onTap: () {
+                                                                                model.deleteEffort(documentID);
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                            ),
+                                                                          ],
+                                                                        ));
+                                                                  },
+                                                                );
+                                                              },
+                                                              icon: Icon(
+                                                                Icons.more_vert,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 21,
+                                                              ),
+                                                            ))
                                                         : Container()
                                                   ],
                                                 ))

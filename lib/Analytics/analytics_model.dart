@@ -6,25 +6,34 @@ import 'package:flutter/cupertino.dart';
 import 'package:video_player/video_player.dart';
 
 class AnalyticsModel extends ChangeNotifier{
-  QuerySnapshot userSnapshot;
+  DocumentSnapshot userSnapshot;
   FirebaseUser currentUser;
   bool isGet = false;
   String group;
+  String group_before = '';
   String group_claim;
+  String teamPosition;
   Map<String, dynamic> claims = new Map<String, dynamic>();
 
   void getGroup() async {
     String group_before = group;
+    String teamPosition_before = teamPosition;
     FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
-        group = snapshot.documents[0]['group'];
-        if(group != group_before) {
+      Firestore.instance
+          .collection('user')
+          .where('uid', isEqualTo: user.uid)
+          .getDocuments()
+          .then((snapshot) {
+        userSnapshot = snapshot.documents[0];
+        group = userSnapshot['group'];
+        teamPosition = userSnapshot['teamPosition'];
+        if (group != group_before || teamPosition != teamPosition_before) {
           notifyListeners();
         }
         user.getIdToken(refresh: true).then((value) {
           String group_claim_before = group_claim;
           group_claim = value.claims['group'];
-          if(group_claim_before != group_claim) {
+          if (group_claim_before != group_claim) {
             notifyListeners();
           }
         });

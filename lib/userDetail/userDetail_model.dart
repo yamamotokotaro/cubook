@@ -9,38 +9,28 @@ class UserDetailModel extends ChangeNotifier {
   String group;
   String group_before = '';
   String group_claim;
+  String teamPosition;
   Map<String, dynamic> claims = new Map<String, dynamic>();
-
-  void getSnapshot(String uid) async {
-    FirebaseAuth.instance.currentUser().then((user) {
-      currentUser = user;
-      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
-        Firestore.instance
-            .collection('user')
-            .where('group', isEqualTo: snapshot.documents[0]['group'])
-            .where('uid', isEqualTo: uid)
-            .getDocuments()
-            .then((data) {
-          userSnapshot = data.documents[0];
-          notifyListeners();
-        });
-        isGet = true;
-      });
-    });
-  }
 
   void getGroup() async {
     String group_before = group;
+    String teamPosition_before = teamPosition;
     FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
-        group = snapshot.documents[0]['group'];
-        if(group != group_before) {
+      Firestore.instance
+          .collection('user')
+          .where('uid', isEqualTo: user.uid)
+          .getDocuments()
+          .then((snapshot) {
+        userSnapshot = snapshot.documents[0];
+        group = userSnapshot['group'];
+        teamPosition = userSnapshot['teamPosition'];
+        if (group != group_before || teamPosition != teamPosition_before) {
           notifyListeners();
         }
         user.getIdToken(refresh: true).then((value) {
           String group_claim_before = group_claim;
           group_claim = value.claims['group'];
-          if(group_claim_before != group_claim) {
+          if (group_claim_before != group_claim) {
             notifyListeners();
           }
         });
@@ -48,7 +38,10 @@ class UserDetailModel extends ChangeNotifier {
     });
   }
 
-  void onTapCititation(String documentID){
-    Firestore.instance.collection('challenge').document(documentID).updateData(<String, dynamic>{'isCitationed': true});
+  void onTapCititation(String documentID) {
+    Firestore.instance
+        .collection('challenge')
+        .document(documentID)
+        .updateData(<String, dynamic>{'isCitationed': true});
   }
 }

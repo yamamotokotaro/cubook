@@ -3,6 +3,7 @@ import 'package:cubook/detailActivity/detailActivity_model.dart';
 import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
+import 'package:cubook/task_detail_analytics/taskDetailAnalytics_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,19 +40,14 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                       padding: EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<DetailActivityModel>(
+                      child: Consumer<TaskDetailAnalyticsModel>(
                           builder: (context, model, child) {
                         model.getGroup();
                         if (model.group != null) {
                           return Column(
                             children: <Widget>[
                               StreamBuilder<QuerySnapshot>(
-                                  stream: Firestore.instance
-                                      .collection('user')
-                                      .where('group', isEqualTo: model.group)
-                                      .where('position', isEqualTo: 'scout')
-                                      .orderBy('name')
-                                      .snapshots(),
+                                  stream: model.getUserSnapshot(),
                                   builder: (BuildContext context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasData) {
@@ -375,31 +371,35 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                           bordercolor = Colors.grey[300];
                                         }
                                         return Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: 10, right: 5, left: 5),
-                                          child: Card(
-                                              color: Color(0x00000000),
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                  color: bordercolor,
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                              ),
-                                              elevation: 0,
-                                              child: InkWell(
-                                                customBorder:
-                                                    RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                child: Padding(
-                                                    padding: EdgeInsets.all(8),
-                                                    child: Text(content)),
-                                              )),
-                                        );
+                                            padding: EdgeInsets.only(
+                                                bottom: 10, right: 5, left: 5),
+                                            child: Card(
+                                                  color: Color(0x00000000),
+                                                  shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                      color: bordercolor,
+                                                      width: 2.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  elevation: 0,
+                                                  child: InkWell(
+                                                    customBorder:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ),
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8),
+                                                        child: Semantics(
+                                                            label: 'さいもく' + (index+1).toString() + '、',
+                                                            child: Text(content)),
+                                                  )),
+                                            ));
                                       })),
                               Padding(
                                   padding: EdgeInsets.only(

@@ -37,6 +37,8 @@ import 'package:cubook/list_member/listMember_view.dart';
 import 'package:cubook/model/arguments.dart';
 import 'package:cubook/notification/notification_model.dart';
 import 'package:cubook/setting_account/settingAccount_model.dart';
+import 'package:cubook/task_detail_analytics/taskDetailAnalytics_model.dart';
+import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_model.dart';
 import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_view.dart';
 import 'package:cubook/task_list_analytics/taskListAnalytics_model.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
@@ -145,6 +147,10 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => ContentsModel()),
           ChangeNotifierProvider(create: (context) => AnalyticsModel()),
           ChangeNotifierProvider(create: (context) => TaskListAnalyticsModel()),
+          ChangeNotifierProvider(
+              create: (context) => TaskDetailAnalyticsModel()),
+          ChangeNotifierProvider(
+              create: (context) => TaskDetailAnalyticsMemberModel()),
           ChangeNotifierProvider(create: (context) => CommunityModel()),
           ChangeNotifierProvider(
               create: (context) => ListCitationAnalyticsModel()),

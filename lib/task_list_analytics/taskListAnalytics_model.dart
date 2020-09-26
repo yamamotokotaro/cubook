@@ -8,14 +8,19 @@ class TaskListAnalyticsModel extends ChangeNotifier{
   DocumentSnapshot userSnapshot;
   FirebaseUser currentUser;
   String group;
+  String team;
   String group_claim;
+  String teamPosition;
   bool isGet = false;
 
   void getGroup() async {
     String group_before = group;
     FirebaseAuth.instance.currentUser().then((user) {
       Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
-        group = snapshot.documents[0]['group'];
+        DocumentSnapshot userSnapshot = snapshot.documents[0];
+        group = userSnapshot['group'];
+        team = userSnapshot['team'];
+        teamPosition = userSnapshot['teamPosition'];
         if(group != group_before) {
           notifyListeners();
         }
@@ -42,5 +47,30 @@ class TaskListAnalyticsModel extends ChangeNotifier{
         isGet = true;
       });
     });
+  }
+
+  Stream<QuerySnapshot> getUserSnapshot() {
+    if (teamPosition != null) {
+      if (teamPosition == 'teamLeader') {
+        return Firestore.instance
+            .collection('user')
+            .where('group', isEqualTo: group)
+            .where('position', isEqualTo: 'scout')
+            .where('team', isEqualTo: team)
+            .snapshots();
+      } else {
+        return Firestore.instance
+            .collection('user')
+            .where('group', isEqualTo: group)
+            .where('position', isEqualTo: 'scout')
+            .snapshots();
+      }
+    } else {
+      return Firestore.instance
+          .collection('user')
+          .where('group', isEqualTo: group)
+          .where('position', isEqualTo: 'scout')
+          .snapshots();
+    }
   }
 }

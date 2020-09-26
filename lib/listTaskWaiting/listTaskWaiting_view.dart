@@ -26,12 +26,7 @@ class ListTaskWaitingView extends StatelessWidget {
                   model.getSnapshot();
                   if (model.group != null) {
                     return StreamBuilder<QuerySnapshot>(
-                        stream: Firestore.instance
-                            .collection('task')
-                            .where('group', isEqualTo: model.group)
-                            .where('phase', isEqualTo: 'wait')
-                            .orderBy('date', descending: false)
-                            .snapshots(),
+                        stream: model.getTaskSnapshot(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot_get) {
                           if (snapshot_get.hasData) {

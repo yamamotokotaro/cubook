@@ -19,7 +19,7 @@ class HomeBSView extends StatelessWidget {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
+          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
           child: Container(
               child: Card(
                 shape: RoundedRectangleBorder(

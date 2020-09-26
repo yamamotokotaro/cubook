@@ -45,12 +45,6 @@ class SelectBook extends StatelessWidget {
         child: Column(
       children: <Widget>[
         Consumer<UserDetailModel>(builder: (context, model, child) {
-          if (model.userSnapshot == null) {
-            model.getSnapshot(uid);
-          } else if (model.userSnapshot.data['uid'] != uid) {
-            model.getSnapshot(uid);
-            model.userSnapshot = null;
-          }
           return ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               itemCount: type.length,

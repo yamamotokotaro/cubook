@@ -216,16 +216,18 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                                                                                           )),
                                                                                       Spacer(),
-                                                                                      IconButton(
-                                                                                        onPressed: () {
-                                                                                          model.onTapCititation(snapshot.documentID, context_builder, userSnapshot['name']+userSnapshot['call'], taskInfo['title'], isDark);
-                                                                                        },
-                                                                                        icon: Icon(
-                                                                                          Icons.check,
-                                                                                          color: isDark ? Colors.white : Colors.green[900],
-                                                                                          size: 30,
-                                                                                        ),
-                                                                                      )
+                                                                                      Semantics(
+                                                                                          label: '表彰済みにする',
+                                                                                          child: IconButton(
+                                                                                            onPressed: () {
+                                                                                              model.onTapCititation(snapshot.documentID, context_builder, userSnapshot['name'] + userSnapshot['call'], taskInfo['title'], isDark);
+                                                                                            },
+                                                                                            icon: Icon(
+                                                                                              Icons.check,
+                                                                                              color: isDark ? Colors.white : Colors.green[900],
+                                                                                              size: 30,
+                                                                                            ),
+                                                                                          ))
                                                                                     ],
                                                                                   )
                                                                                 ],

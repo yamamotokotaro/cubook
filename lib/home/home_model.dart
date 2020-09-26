@@ -30,6 +30,7 @@ class HomeModel extends ChangeNotifier {
   String username = '';
   String usercall = '';
   String groupName;
+  String teamPosition;
   String age = '';
   String permission;
   Map<dynamic, dynamic> tokenMap;
@@ -56,6 +57,7 @@ class HomeModel extends ChangeNotifier {
             username = userSnapshot['name'] + userSnapshot['call'];
             usercall = userSnapshot['call'];
             groupName = userSnapshot['groupName'];
+            teamPosition = userSnapshot['teamPosition'];
             position = userSnapshot['position'];
             grade = userSnapshot['grade'];
             age = userSnapshot['age'];
@@ -83,9 +85,21 @@ class HomeModel extends ChangeNotifier {
                 if (grade == 'cub') {
                   toShow = HomeScoutView();
                 } else if (grade == 'boy') {
-                  toShow = Column(
-                    children: <Widget>[HomeBSView()],
-                  );
+                  if (teamPosition != null) {
+                    if (teamPosition == 'teamLeader') {
+                      toShow = Column(
+                        children: <Widget>[HomeLeaderView(), HomeBSView()],
+                      );
+                    } else {
+                      toShow = Column(
+                        children: <Widget>[HomeBSView()],
+                      );
+                    }
+                  } else {
+                    toShow = Column(
+                      children: <Widget>[HomeBSView()],
+                    );
+                  }
                 } else if (grade == 'venture') {
                   toShow = Column(
                     children: <Widget>[
@@ -101,7 +115,7 @@ class HomeModel extends ChangeNotifier {
               toShow = HomeBSView();
             } else if (position == 'groupleader') {
               toShow = Column(
-                children: <Widget>[HomeBSView(), HomeLeaderView()],
+                children: <Widget>[HomeLeaderView(), HomeBSView()],
               );
             } else if (position == 'leader') {
               toShow = HomeLeaderView();
@@ -115,22 +129,25 @@ class HomeModel extends ChangeNotifier {
               _firebaseMessaging.getToken().then((String token_get) {
                 assert(token_get != null);
                 token = token_get;
-                if (_token_notification.length != 0) {
+                /*if (_token_notification.length != 0) {
                   if (!_token_notification.contains(token_get)) {
                     _token_notification.add(token_get);
                     Firestore.instance
                         .collection('user')
                         .document(userSnapshot.documentID)
-                        .updateData(<String, dynamic>
-                            {'token_notification': _token_notification});
+                        .updateData(<String, dynamic>{
+                      'token_notification': _token_notification
+                    });
                   }
                 } else {
                   _token_notification.add(token_get);
                   Firestore.instance
                       .collection('user')
                       .document(userSnapshot.documentID)
-                      .updateData(<String, dynamic>{'token_notification': _token_notification});
-                }
+                      .updateData(<String, dynamic>{
+                    'token_notification': _token_notification
+                  });
+                }*/
               });
               isSended = true;
             }
@@ -146,14 +163,21 @@ class HomeModel extends ChangeNotifier {
       notifyListeners();
     });
   }
-
   void logout() async {
+    final result = await FirebaseAuthUi.instance().logout();
+    currentUser = null;
+    notifyListeners();
+    login();
+  }
+
+  /*void logout() async {
     _token_notification.removeWhere((dynamic item) => item == token);
     Firestore.instance
         .collection('user')
         .document(userSnapshot.documentID)
-        .updateData(<String, dynamic>{'token_notification': _token_notification}).then(
-            (value) async {
+        .updateData(<String, dynamic>{
+      'token_notification': _token_notification
+    }).then((value) async {
       final result = await FirebaseAuthUi.instance().logout();
       currentUser = null;
       login();
@@ -166,7 +190,7 @@ class HomeModel extends ChangeNotifier {
       notifyListeners();
       isSended = false;
     });
-  }
+  }*/
 
   void getUserSnapshot() async {}
 
@@ -197,8 +221,7 @@ class HomeModel extends ChangeNotifier {
   }
 
   Future<void> getCheckNotificationPermStatus() {
-    NotificationPermissions.getNotificationPermissionStatus()
-        .then((status) {
+    NotificationPermissions.getNotificationPermissionStatus().then((status) {
       switch (status) {
         case PermissionStatus.denied:
           permission = 'denied';
@@ -216,7 +239,7 @@ class HomeModel extends ChangeNotifier {
     });
   }
 
-  void onStatusChange(PermissionStatus status){
+  void onStatusChange(PermissionStatus status) {
     switch (status) {
       case PermissionStatus.denied:
         permission = 'denied';

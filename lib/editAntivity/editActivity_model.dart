@@ -86,12 +86,16 @@ class EditActivityModel extends ChangeNotifier {
     }
   }
 
-  void onCheckMember(String documentID) {
+  void onCheckMember(String documentID) async {
     if (checkAbsents[documentID] != null) {
       checkAbsents[documentID] = !checkAbsents[documentID];
+      notifyListeners();
     } else {
       checkAbsents[documentID] = false;
+      notifyListeners();
     }
+    //print('tap');
+    //print(checkAbsents[documentID].toString());
     notifyListeners();
   }
 
@@ -99,7 +103,7 @@ class EditActivityModel extends ChangeNotifier {
     int count_user = 0;
     int count_absent = 0;
     isLoading = true;
-    notifyListeners();
+    //notifyListeners();
     checkAbsents.forEach((key, absent) async {
       count_user++;
       if (absent) {

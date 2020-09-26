@@ -49,7 +49,8 @@ class TaskView extends StatelessWidget {
                           itemCount: task_length,
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index_page) {
-                            Map<String, dynamic> map_item = map_task[index_page];
+                            Map<String, dynamic> map_item =
+                                map_task[index_page];
                             return Padding(
                                 padding: EdgeInsets.all(5),
                                 child: Container(
@@ -118,88 +119,66 @@ class TaskView extends StatelessWidget {
                                                                     context,
                                                                 int index) {
                                                           index_number++;
-                                                          if(list_itemCheck[index_page].length == 0){
-                                                            model.createbool(type, index_page, map_item['hasItem']);
+                                                          if (list_itemCheck[
+                                                                      index_page]
+                                                                  .length ==
+                                                              0) {
+                                                            model.createbool(
+                                                                type,
+                                                                index_page,
+                                                                map_item[
+                                                                    'hasItem']);
                                                           }
 
-                                                          if(list_itemCheck[index_page].length != 0) {
+                                                          if (list_itemCheck[
+                                                                      index_page]
+                                                                  .length !=
+                                                              0) {
                                                             return Padding(
                                                                 padding: EdgeInsets
                                                                     .only(
-                                                                    right: 3),
-                                                                child: InkWell(
-                                                                    customBorder: RoundedRectangleBorder(
-                                                                      borderRadius: BorderRadius.circular(30.0),
-                                                                    ),
-                                                                    onTap: () {
-                                                                      model
-                                                                          .onPressedCheck(
-                                                                          type,
-                                                                          index_page,
-                                                                      index);
-                                                                    },
-                                                                    child: list_itemCheck[index_page][index]
-                                                                        ? Container(
-                                                                        height:
-                                                                        37,
-                                                                        width:
-                                                                        37,
-                                                                        decoration:
-                                                                        BoxDecoration(
+                                                                        right:
+                                                                            3),
+                                                                child: Semantics(
+                                                                    hint: 'さいもく' + (index + 1).toString() + 'を選択する',
+                                                                    child: InkWell(
+                                                                        customBorder: RoundedRectangleBorder(
                                                                           borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                              40),
-                                                                          color:
-                                                                          themeColor,
+                                                                              BorderRadius.circular(30.0),
                                                                         ),
-                                                                        child:
-                                                                        Center(
-                                                                          child:
-                                                                          Text(
-                                                                            (index +
-                                                                                1)
-                                                                                .toString(),
-                                                                            style: TextStyle(
-                                                                                fontWeight: FontWeight
-                                                                                    .bold,
-                                                                                fontSize: 22,
-                                                                                color: Colors
-                                                                                    .white),
-                                                                          ),
-                                                                        ))
-                                                                        : Container(
-                                                                        height:
-                                                                        37,
-                                                                        width:
-                                                                        37,
-                                                                        decoration:
-                                                                        BoxDecoration(
-                                                                          border:
-                                                                          Border
-                                                                              .all(
-                                                                              color: Theme.of(context).hintColor
-
-                                                                          ),
-                                                                          borderRadius:
-                                                                          BorderRadius
-                                                                              .circular(
-                                                                              40),
-                                                                        ),
-                                                                        child:
-                                                                        Center(
-                                                                          child:
-                                                                          Text(
-                                                                            (index +
-                                                                                1)
-                                                                                .toString(),
-                                                                            style: TextStyle(
-                                                                                fontWeight: FontWeight
-                                                                                    .bold,
-                                                                                fontSize: 22,
-                                                                                color: Theme.of(context).hintColor),
-                                                                          ),
-                                                                        ))));
+                                                                        onTap: () {
+                                                                          model.onPressedCheck(
+                                                                              type,
+                                                                              index_page,
+                                                                              index);
+                                                                        },
+                                                                        child: list_itemCheck[index_page][index]
+                                                                            ? Container(
+                                                                                height: 37,
+                                                                                width: 37,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.circular(40),
+                                                                                  color: themeColor,
+                                                                                ),
+                                                                                child: Center(
+                                                                                  child: Text(
+                                                                                    (index + 1).toString(),
+                                                                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),
+                                                                                  ),
+                                                                                ))
+                                                                            : Container(
+                                                                                height: 37,
+                                                                                width: 37,
+                                                                                decoration: BoxDecoration(
+                                                                                  border: Border.all(color: Theme.of(context).hintColor),
+                                                                                  borderRadius: BorderRadius.circular(40),
+                                                                                ),
+                                                                                child: Center(
+                                                                                  child: Text(
+                                                                                    (index + 1).toString(),
+                                                                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Theme.of(context).hintColor),
+                                                                                  ),
+                                                                                )))));
                                                           } else {
                                                             return Container();
                                                           }

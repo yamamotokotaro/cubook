@@ -4,6 +4,7 @@ import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
+import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_model.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,21 +45,14 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                       padding: EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<DetailActivityModel>(
+                      child: Consumer<TaskDetailAnalyticsMemberModel>(
                           builder: (context, model, child) {
                         model.getGroup();
                         if (model.group != null) {
                           return Column(
                             children: <Widget>[
                               StreamBuilder<QuerySnapshot>(
-                                  stream: Firestore.instance
-                                      .collection('user')
-                                      .where('group', isEqualTo: model.group)
-                                      .where('position', isEqualTo: 'scout')
-                                      .orderBy('team')
-                                      .orderBy('age_turn', descending: true)
-                                      .orderBy('name')
-                                      .snapshots(),
+                                  stream: model.getUserSnapshot(),
                                   builder: (BuildContext context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     String team_last = '';

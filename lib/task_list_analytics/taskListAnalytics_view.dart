@@ -60,11 +60,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                       model.getGroup();
                       if (model.group != null) {
                         return StreamBuilder<QuerySnapshot>(
-                            stream: Firestore.instance
-                                .collection('user')
-                                .where('group', isEqualTo: model.group)
-                                .where('position', isEqualTo: 'scout')
-                                .snapshots(),
+                            stream: model.getUserSnapshot(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
