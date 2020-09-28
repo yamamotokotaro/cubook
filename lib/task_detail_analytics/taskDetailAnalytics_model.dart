@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
-class TaskDetailAnalyticsModel extends ChangeNotifier{
+class TaskDetailAnalyticsModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
   FirebaseUser currentUser;
   String group;
@@ -15,37 +15,44 @@ class TaskDetailAnalyticsModel extends ChangeNotifier{
 
   void getGroup() async {
     String group_before = group;
-    FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
-        DocumentSnapshot userSnapshot = snapshot.documents[0];
-        group = userSnapshot['group'];
-        team = userSnapshot['team'];
-        teamPosition = userSnapshot['teamPosition'];
-        if(group != group_before) {
+    User user = await FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .get()
+        .then((snapshot) {
+      DocumentSnapshot userSnapshot = snapshot.docs[0];
+      group = userSnapshot.data()['group'];
+      team = userSnapshot.data()['team'];
+      teamPosition = userSnapshot.data()['teamPosition'];
+      if (group != group_before) {
+        notifyListeners();
+      }
+      user.getIdTokenResult().then((value) {
+        String group_claim_before = group_claim;
+        group_claim = value.claims['group'];
+        if (group_claim_before != group_claim) {
           notifyListeners();
         }
-        user.getIdToken(refresh: true).then((value) {
-          String group_claim_before = group_claim;
-          group_claim = value.claims['group'];
-          if(group_claim_before != group_claim) {
-            notifyListeners();
-          }
-        });
       });
     });
   }
 
   void getSnapshot(String uid) async {
     print(uid);
-    FirebaseAuth.instance.currentUser().then((user) {
-      currentUser = user;
-      user.getIdToken().then((token) async {
-        Firestore.instance.collection('user').where('group', isEqualTo: token.claims['group']).where('uid', isEqualTo: uid).snapshots().listen((data) {
-          userSnapshot = data.documents[0];
-          notifyListeners();
-        });
-        isGet = true;
+    User user = await FirebaseAuth.instance.currentUser;
+    currentUser = user;
+    user.getIdTokenResult().then((token) async {
+      FirebaseFirestore.instance
+          .collection('user')
+          .where('group', isEqualTo: token.claims['group'])
+          .where('uid', isEqualTo: uid)
+          .snapshots()
+          .listen((data) {
+        userSnapshot = data.docs[0];
+        notifyListeners();
       });
+      isGet = true;
     });
   }
 

@@ -14,27 +14,26 @@ class ListTaskWaitingModel extends ChangeNotifier {
   void getSnapshot() async {
     String group_before = group;
     String teamPosition_before = teamPosition;
-    FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance
-          .collection('user')
-          .where('uid', isEqualTo: user.uid)
-          .getDocuments()
-          .then((snapshot) {
-        DocumentSnapshot userSnapshot = snapshot.documents[0];
-        group = userSnapshot['group'];
-        team = userSnapshot['team'];
-        teamPosition = userSnapshot['teamPosition'];
-        if (group != group_before || teamPosition != teamPosition_before) {
+    User user = await FirebaseAuth.instance.currentUser;
+    Firestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .getDocuments()
+        .then((snapshot) {
+      DocumentSnapshot userSnapshot = snapshot.documents[0];
+      group = userSnapshot.data()['group'];
+      team = userSnapshot.data()['team'];
+      teamPosition = userSnapshot.data()['teamPosition'];
+      if (group != group_before || teamPosition != teamPosition_before) {
+        notifyListeners();
+      }
+      /*user.getIdToken(refresh: true).then((value) {
+        String group_claim_before = group_claim;
+        group_claim = value.claims['group'];
+        if (group_claim_before != group_claim) {
           notifyListeners();
         }
-        user.getIdToken(refresh: true).then((value) {
-          String group_claim_before = group_claim;
-          group_claim = value.claims['group'];
-          if (group_claim_before != group_claim) {
-            notifyListeners();
-          }
-        });
-      });
+      });*/
     });
   }
 

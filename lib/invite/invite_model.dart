@@ -1,7 +1,5 @@
-import 'dart:async';
 import 'dart:convert';
 
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -88,13 +86,18 @@ class InviteModel with ChangeNotifier {
         team = '100';
         break;
     }
-    if(addressController != '' && familyController.text != '' && firstController.text != '' && age != '' && dropdown_text != null && dropdown_call != null) {
+    if (addressController != '' &&
+        familyController.text != '' &&
+        firstController.text != '' &&
+        age != '' &&
+        dropdown_text != null &&
+        dropdown_call != null) {
       isLoading_join = true;
       notifyListeners();
-      FirebaseAuth.instance.currentUser().then((user) {
-        if (user != null) {
-          user.getIdToken(refresh: true).then((token) async {
-            /*final HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(
+      User user = await FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        user.getIdToken().then((token) async {
+          /*final HttpsCallable callable = CloudFunctions.instance.getHttpsCallable(
               functionName: 'inviteGroup',
             );
             dynamic resp = await callable.call(<String, String>{
@@ -106,49 +109,44 @@ class InviteModel with ChangeNotifier {
               'age': age,
               'position': position
             });*/
-            String url =
-                "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
-            Map<String, String> headers = {
-              'content-type': 'application/json'
-            };
-            String body =
-            json.encode({
-              'idToken': token.token,
-              'address': addressController.text,
-              'family': familyController.text,
-              'first': firstController.text,
-              'call': dropdown_call,
-              'age': age,
-              'position': position,
-              'team': team
-            });
-
-            http.Response resp =
-            await http.post(url, headers: headers, body: body);
-            isLoading_join = false;
-            if (resp.body == 'success') {
-              mes_join = '';
-              addressController.clear();
-              familyController.clear();
-              firstController.clear();
-              Scaffold.of(context).showSnackBar(new SnackBar(
-                content: new Text('送信リクエストが完了しました'),
-              ));
-            } else if (resp.body == 'No such document!' ||
-                resp.body == 'not found') {
-              isLoading_join = false;
-              mes_join = 'コードが見つかりませんでした';
-            } else {
-              isLoading_join = false;
-              mes_join = 'エラーが発生しました';
-            }
-            notifyListeners();
+          String url =
+              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
+          Map<String, String> headers = {'content-type': 'application/json'};
+          String body = json.encode(<String, dynamic>{
+            'idToken': token,
+            'address': addressController.text,
+            'family': familyController.text,
+            'first': firstController.text,
+            'call': dropdown_call,
+            'age': age,
+            'position': position,
+            'team': team
           });
-        }
-      });
+
+          http.Response resp =
+              await http.post(url, headers: headers, body: body);
+          isLoading_join = false;
+          if (resp.body == 'success') {
+            mes_join = '';
+            addressController.clear();
+            familyController.clear();
+            firstController.clear();
+            Scaffold.of(context).showSnackBar(new SnackBar(
+              content: new Text('送信リクエストが完了しました'),
+            ));
+          } else if (resp.body == 'No such document!' ||
+              resp.body == 'not found') {
+            isLoading_join = false;
+            mes_join = 'コードが見つかりませんでした';
+          } else {
+            isLoading_join = false;
+            mes_join = 'エラーが発生しました';
+          }
+          notifyListeners();
+        });
+      }
     } else {
       notifyListeners();
     }
   }
-
 }

@@ -80,7 +80,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                               model.group)
                                                       .where('uid',
                                                           isEqualTo:
-                                                              userSnapshot[
+                                                              userSnapshot.data()[
                                                                   'uid'])
                                                       .where('isCitationed',
                                                           isEqualTo: false)
@@ -123,7 +123,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                             40,
                                                                         decoration: BoxDecoration(
                                                                             color:
-                                                                                theme.getUserColor(userSnapshot['age']),
+                                                                                theme.getUserColor(userSnapshot.data()['age']),
                                                                             shape: BoxShape.circle),
                                                                         child:
                                                                             Icon(
@@ -139,7 +139,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                                   10),
                                                                           child:
                                                                               Text(
-                                                                            userSnapshot['name'],
+                                                                            userSnapshot.data()['name'],
                                                                             style:
                                                                                 TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                           )),
@@ -165,7 +165,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                             .documents[index];
                                                                     Map taskInfo = task.getPartMap(
                                                                         'challenge',
-                                                                        snapshot[
+                                                                        snapshot.data()[
                                                                             'page']);
                                                                     return Padding(
                                                                       padding:
@@ -184,8 +184,8 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                               InkWell(
                                                                             onTap:
                                                                                 () async {
-                                                                              print(snapshot['page']);
-                                                                              Navigator.of(context).push<dynamic>(MyPageRoute(page: showTaskConfirmView(snapshot['page'], 'challenge', snapshot['uid'], 0), dismissible: true));
+                                                                              print(snapshot.data()['page']);
+                                                                              Navigator.of(context).push<dynamic>(MyPageRoute(page: showTaskConfirmView(snapshot.data()['page'], 'challenge', snapshot.data()['uid'], 0), dismissible: true));
                                                                             },
                                                                             child:
                                                                                 Padding(
@@ -220,7 +220,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                                           label: '表彰済みにする',
                                                                                           child: IconButton(
                                                                                             onPressed: () {
-                                                                                              model.onTapCititation(snapshot.documentID, context_builder, userSnapshot['name'] + userSnapshot['call'], taskInfo['title'], isDark);
+                                                                                              model.onTapCititation(snapshot.id, context_builder, userSnapshot.data()['name'] + userSnapshot.data()['call'], taskInfo['title'], isDark);
                                                                                             },
                                                                                             icon: Icon(
                                                                                               Icons.check,

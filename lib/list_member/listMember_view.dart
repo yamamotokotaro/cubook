@@ -77,27 +77,28 @@ class ListMemberView extends StatelessWidget {
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data.documents.length != 0) {
+                                    if (snapshot.data.docs.length != 0) {
                                       QuerySnapshot querySnapshot =
                                           snapshot.data;
                                       String team_last = '';
                                       return ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
-                                          itemCount:
-                                              querySnapshot.documents.length,
+                                          itemCount: querySnapshot.docs.length,
                                           shrinkWrap: true,
                                           itemBuilder: (BuildContext context,
                                               int index) {
                                             DocumentSnapshot snapshot =
-                                                querySnapshot.documents[index];
+                                                querySnapshot.docs[index];
                                             bool isFirst;
                                             String team;
-                                            if (snapshot['team'] is int) {
-                                              team =
-                                                  snapshot['team'].toString();
+                                            if (snapshot.data()['team']
+                                                is int) {
+                                              team = snapshot
+                                                  .data()['team']
+                                                  .toString();
                                             } else {
-                                              team = snapshot['team'];
+                                              team = snapshot.data()['team'];
                                             }
                                             if (team_last != team) {
                                               isFirst = true;
@@ -105,7 +106,8 @@ class ListMemberView extends StatelessWidget {
                                             } else {
                                               isFirst = false;
                                             }
-                                            String grade = snapshot['grade'];
+                                            String grade =
+                                                snapshot.data()['grade'];
                                             String team_call;
                                             if (grade == 'cub') {
                                               team_call = '組';
@@ -161,7 +163,7 @@ class ListMemberView extends StatelessWidget {
                                                                       (BuildContext
                                                                           context) {
                                                             return SelectBookView(
-                                                                snapshot[
+                                                                snapshot.data()[
                                                                     'uid']);
                                                           }));
                                                         },
@@ -176,7 +178,7 @@ class ListMemberView extends StatelessWidget {
                                                                 height: 40,
                                                                 decoration: BoxDecoration(
                                                                     color: theme.getUserColor(
-                                                                        snapshot[
+                                                                        snapshot.data()[
                                                                             'age']),
                                                                     shape: BoxShape
                                                                         .circle),
@@ -192,7 +194,7 @@ class ListMemberView extends StatelessWidget {
                                                                           left:
                                                                               10),
                                                                   child: Text(
-                                                                    snapshot[
+                                                                    snapshot.data()[
                                                                         'name'],
                                                                     style: TextStyle(
                                                                         fontWeight:
@@ -235,20 +237,20 @@ class ListMemberView extends StatelessWidget {
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data.documents.length != 0) {
+                                    if (snapshot.data.docs.length != 0) {
                                       QuerySnapshot querySnapshot =
                                           snapshot.data;
                                       return ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
-                                          itemCount:
-                                              querySnapshot.documents.length,
+                                          itemCount: querySnapshot.docs.length,
                                           shrinkWrap: true,
                                           itemBuilder: (BuildContext context,
                                               int index) {
                                             DocumentSnapshot snapshot =
-                                                querySnapshot.documents[index];
-                                            if (snapshot['team'] == null) {
+                                                querySnapshot.docs[index];
+                                            if (snapshot.data()['team'] ==
+                                                null) {
                                               return Padding(
                                                   padding: EdgeInsets.all(5),
                                                   child: Container(
@@ -269,7 +271,7 @@ class ListMemberView extends StatelessWidget {
                                                                       (BuildContext
                                                                           context) {
                                                             return SelectBookView(
-                                                                snapshot[
+                                                                snapshot.data()[
                                                                     'uid']);
                                                           }));
                                                         },
@@ -284,7 +286,7 @@ class ListMemberView extends StatelessWidget {
                                                                 height: 40,
                                                                 decoration: BoxDecoration(
                                                                     color: theme.getThemeColor(
-                                                                        snapshot[
+                                                                        snapshot.data()[
                                                                             'age']),
                                                                     shape: BoxShape
                                                                         .circle),
@@ -300,7 +302,7 @@ class ListMemberView extends StatelessWidget {
                                                                           left:
                                                                               10),
                                                                   child: Text(
-                                                                    snapshot[
+                                                                    snapshot.data()[
                                                                         'name'],
                                                                     style: TextStyle(
                                                                         fontWeight:
@@ -316,7 +318,8 @@ class ListMemberView extends StatelessWidget {
                                                                           left:
                                                                               10),
                                                                   child: Text(
-                                                                    snapshot['team']
+                                                                    snapshot
+                                                                            .data()['team']
                                                                             .toString() +
                                                                         '組未設定',
                                                                     style: TextStyle(
@@ -415,7 +418,7 @@ class ListMemberView extends StatelessWidget {
                                                 snapshot) {
                                           if (snapshot.hasData) {
                                             if (snapshot
-                                                    .data.documents.length !=
+                                                    .data.docs.length !=
                                                 0) {
                                               QuerySnapshot querySnapshot =
                                                   snapshot.data;
@@ -423,14 +426,14 @@ class ListMemberView extends StatelessWidget {
                                                   physics:
                                                       const NeverScrollableScrollPhysics(),
                                                   itemCount: querySnapshot
-                                                      .documents.length,
+                                                      .docs.length,
                                                   shrinkWrap: true,
                                                   itemBuilder:
                                                       (BuildContext context,
                                                           int index) {
                                                     DocumentSnapshot snapshot =
                                                         querySnapshot
-                                                            .documents[index];
+                                                            .docs[index];
                                                     return Padding(
                                                         padding:
                                                             EdgeInsets.all(5),
@@ -476,7 +479,7 @@ class ListMemberView extends StatelessWidget {
                                                                                 10),
                                                                         child:
                                                                             Text(
-                                                                          snapshot[
+                                                                          snapshot.data()[
                                                                               'name'],
                                                                           style: TextStyle(
                                                                               fontWeight: FontWeight.bold,

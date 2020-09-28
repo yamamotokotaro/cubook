@@ -31,22 +31,21 @@ class ListTaskWaitingView extends StatelessWidget {
                             AsyncSnapshot<QuerySnapshot> snapshot_get) {
                           if (snapshot_get.hasData) {
                             return ListView.builder(
-                                itemCount: snapshot_get.data.documents.length,
+                                itemCount: snapshot_get.data.docs.length,
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
                                   DocumentSnapshot snapshot =
-                                      snapshot_get.data.documents[index];
+                                      snapshot_get.data.docs[index];
                                   Map<String, dynamic> map_task =
-                                      task.getPartMap(
-                                          snapshot['type'], snapshot['page']);
+                                      task.getPartMap(snapshot.data()['type'],
+                                          snapshot.data()['page']);
                                   return Padding(
                                     padding: EdgeInsets.only(
                                         top: 10, left: 10, right: 10),
                                     child: Container(
                                       child: Hero(
                                           tag: 'detailTask' +
-                                              snapshot_get.data.documents[index]
-                                                  .documentID,
+                                              snapshot_get.data.docs[index].id,
                                           child: SingleChildScrollView(
                                             child: Card(
                                               shape: RoundedRectangleBorder(
@@ -54,11 +53,13 @@ class ListTaskWaitingView extends StatelessWidget {
                                                     BorderRadius.circular(10),
                                               ),
                                               color: theme.getThemeColor(
-                                                  snapshot['type']),
+                                                  snapshot.data()['type']),
                                               child: InkWell(
-                                                customBorder: RoundedRectangleBorder(
+                                                customBorder:
+                                                    RoundedRectangleBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(10.0),
+                                                      BorderRadius.circular(
+                                                          10.0),
                                                 ),
                                                 onTap: () {
                                                   Navigator.push(context,
@@ -67,24 +68,27 @@ class ListTaskWaitingView extends StatelessWidget {
                                                           builder: (BuildContext
                                                               context) {
                                                     return DetailTaskWaitingView_old(
-                                                        snapshot_get
-                                                            .data
-                                                            .documents[index]
-                                                            .documentID,
-                                                        snapshot['family'] +
-                                                            snapshot['first'],
-                                                        theme.getTitle(snapshot[
-                                                                'type']) +
+                                                        snapshot_get.data
+                                                            .docs[index].id,
+                                                        snapshot.data()[
+                                                                'family'] +
+                                                            snapshot.data()[
+                                                                'first'],
+                                                        theme.getTitle(
+                                                                snapshot.data()[
+                                                                    'type']) +
                                                             ' ' +
                                                             map_task['number'] +
                                                             ' ' +
                                                             map_task['title'] +
                                                             ' (' +
-                                                            (snapshot['number'] +
+                                                            (snapshot.data()[
+                                                                        'number'] +
                                                                     1)
                                                                 .toString() +
                                                             ')',
-                                                        snapshot['type']);
+                                                        snapshot
+                                                            .data()['type']);
                                                   }));
                                                 },
                                                 child: Padding(
@@ -96,9 +100,9 @@ class ListTaskWaitingView extends StatelessWidget {
                                                             type: MaterialType
                                                                 .transparency,
                                                             child: Text(
-                                                              snapshot[
+                                                              snapshot.data()[
                                                                       'family'] +
-                                                                  snapshot[
+                                                                  snapshot.data()[
                                                                       'first'],
                                                               style: TextStyle(
                                                                   fontWeight:
@@ -119,7 +123,7 @@ class ListTaskWaitingView extends StatelessWidget {
                                                                             10),
                                                                 child: Text(
                                                                   theme.getTitle(
-                                                                          snapshot[
+                                                                          snapshot.data()[
                                                                               'type']) +
                                                                       ' ' +
                                                                       map_task[
@@ -128,7 +132,7 @@ class ListTaskWaitingView extends StatelessWidget {
                                                                       map_task[
                                                                           'title'] +
                                                                       ' (' +
-                                                                      (snapshot['number'] +
+                                                                      (snapshot.data()['number'] +
                                                                               1)
                                                                           .toString() +
                                                                       ')',

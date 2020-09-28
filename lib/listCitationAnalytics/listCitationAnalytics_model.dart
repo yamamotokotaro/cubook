@@ -14,42 +14,41 @@ class ListCitationAnalyticsModel extends ChangeNotifier {
 
   void getGroup() async {
     String group_before = group;
-    FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance
+    User user = await FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
           .collection('user')
           .where('uid', isEqualTo: user.uid)
-          .getDocuments()
+          .get()
           .then((snapshot) {
-        group = snapshot.documents[0]['group'];
+        group = snapshot.docs[0].data()['group'];
         if (group != group_before) {
           notifyListeners();
         }
-        user.getIdToken(refresh: true).then((value) {
+        /*user.getIdToken(refresh: true).then((value) {
           String group_claim_before = group_claim;
           group_claim = value.claims['group'];
           if (group_claim_before != group_claim) {
             notifyListeners();
           }
-        });
+        });*/
       });
-    });
   }
 
   void onTapCititation(String documentID, BuildContext context, String name, String title, bool isDark) {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('challenge')
-        .document(documentID)
-        .updateData(<String, dynamic>{'isCitationed': true}).then((value) {
+        .doc(documentID)
+        .update(<String, dynamic>{'isCitationed': true}).then((value) {
       final snackBar = SnackBar(
         content: Text(name + ' の'+title+'を表彰済みにしました'),
         action: SnackBarAction(
           label: '取り消し',
           textColor: isDark ? Colors.blue[900] : Colors.blue[400],
           onPressed: () {
-            Firestore.instance
+            FirebaseFirestore.instance
                 .collection('challenge')
-                .document(documentID)
-                .updateData(<String, dynamic>{'isCitationed': false});
+                .doc(documentID)
+                .update(<String, dynamic>{'isCitationed': false});
           },
         ),
         duration: Duration(seconds: 3),

@@ -81,7 +81,7 @@ class ListActivityView extends StatelessWidget {
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              snapshot['title'],
+                                                              snapshot.data()['title'],
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
@@ -102,7 +102,7 @@ class ListActivityView extends StatelessWidget {
                                                             child: Text(
                                                               DateFormat(
                                                                       'yyyy/MM/dd')
-                                                                  .format(snapshot[
+                                                                  .format(snapshot.data()[
                                                                           'date']
                                                                       .toDate())
                                                                   .toString(),

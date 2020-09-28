@@ -19,23 +19,23 @@ class HomeLeaderModel extends ChangeNotifier {
   void getSnapshot(BuildContext context) async {
     String group_before = group;
     String teamPosition_before = teamPosition;
-    FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance
-          .collection('user')
-          .where('uid', isEqualTo: user.uid)
-          .getDocuments()
-          .then((snapshot) async {
-        DocumentSnapshot userSnapshot = snapshot.documents[0];
-        group = userSnapshot['group'];
-        team = userSnapshot['team'];
-        teamPosition = userSnapshot['teamPosition'];
-        if (group != group_before || teamPosition != teamPosition_before) {
-          notifyListeners();
-          final RemoteConfig remoteConfig = await RemoteConfig.instance;
-          await remoteConfig.fetch(expiration: const Duration(seconds: 1));
-          await remoteConfig.activateFetched();
-          print('term = ' + remoteConfig.getString('version_term'));
-          /*await showModalBottomSheet<int>(
+    User user = await FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .get()
+        .then((snapshot) async {
+      DocumentSnapshot userSnapshot = snapshot.docs[0];
+      group = userSnapshot.data()['group'];
+      team = userSnapshot.data()['team'];
+      teamPosition = userSnapshot.data()['teamPosition'];
+      if (group != group_before || teamPosition != teamPosition_before) {
+        notifyListeners();
+        final RemoteConfig remoteConfig = await RemoteConfig.instance;
+        await remoteConfig.fetch(expiration: const Duration(seconds: 1));
+        await remoteConfig.activateFetched();
+        print('term = ' + remoteConfig.getString('version_term'));
+        /*await showModalBottomSheet<int>(
             context: context,
             isDismissible: false,
             enableDrag: false,
@@ -101,29 +101,28 @@ class HomeLeaderModel extends ChangeNotifier {
                       )));
             },
           );*/
-        }
-      });
+      }
     });
   }
 
   Stream<QuerySnapshot> getTaskSnapshot(String group) {
     if (teamPosition != null) {
-      if(teamPosition == 'teamLeader') {
-        return Firestore.instance
+      if (teamPosition == 'teamLeader') {
+        return FirebaseFirestore.instance
             .collection('task')
             .where('group', isEqualTo: group)
             .where('team', isEqualTo: team)
             .where('phase', isEqualTo: 'wait')
             .snapshots();
       } else {
-        return Firestore.instance
+        return FirebaseFirestore.instance
             .collection('task')
             .where('group', isEqualTo: group)
             .where('phase', isEqualTo: 'wait')
             .snapshots();
       }
     } else {
-      return Firestore.instance
+      return FirebaseFirestore.instance
           .collection('task')
           .where('group', isEqualTo: group)
           .where('phase', isEqualTo: 'wait')

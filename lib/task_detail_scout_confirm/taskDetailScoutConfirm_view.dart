@@ -89,9 +89,9 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                       if (model.isExit == true) {
                         var message = '';
                         DocumentSnapshot snapshot = model.stepSnapshot;
-                        if (snapshot['end'] != null) {
-                          if (snapshot['phase'] != null) {
-                            if (snapshot['phase'] == 'not examined') {
+                        if (snapshot.data()['end'] != null) {
+                          if (snapshot.data()['phase'] != null) {
+                            if (snapshot.data()['phase'] == 'not examined') {
                               message = '技能考査が必要です';
                             } else {
                               message = '完修済み';
@@ -138,8 +138,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                         decoration: TextDecoration.none),
                                   ),
                                 ),
-                                model.stepSnapshot['phase'] != null
-                                    ? model.stepSnapshot['phase'] ==
+                                model.stepSnapshot.data()['phase'] != null
+                                    ? model.stepSnapshot.data()['phase'] ==
                                             'not examined'
                                         ? Container(
                                             child: Column(
@@ -152,8 +152,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                     child: RaisedButton.icon(
                                                       onPressed: () async {
                                                         model.onTapExamination(
-                                                            snapshot
-                                                                .documentID);
+                                                            snapshot.id);
                                                       },
                                                       color: themeColor,
                                                       icon: Icon(
@@ -174,7 +173,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           )
                                         : Container()
                                     : Container(),
-                                model.stepSnapshot['start'] != null
+                                model.stepSnapshot.data()['start'] != null
                                     ? Container(
                                         child: Column(
                                           children: <Widget>[
@@ -194,7 +193,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                               child: FlatButton(
                                                 child: Text(
                                                   DateFormat('yyyy/MM/dd')
-                                                      .format(snapshot['start']
+                                                      .format(snapshot
+                                                          .data()['start']
                                                           .toDate())
                                                       .toString(),
                                                   style: TextStyle(
@@ -206,10 +206,11 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 ),
                                                 onPressed: () {
                                                   model.changeTime(
-                                                      snapshot['start']
+                                                      snapshot
+                                                          .data()['start']
                                                           .toDate(),
                                                       context,
-                                                      snapshot.documentID,
+                                                      snapshot.id,
                                                       'start');
                                                 },
                                               ),
@@ -218,7 +219,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                         ),
                                       )
                                     : Container(),
-                                model.stepSnapshot['end'] != null
+                                model.stepSnapshot.data()['end'] != null
                                     ? Container(
                                         child: Column(
                                           children: <Widget>[
@@ -238,7 +239,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                               child: FlatButton(
                                                 child: Text(
                                                   DateFormat('yyyy/MM/dd')
-                                                      .format(snapshot['end']
+                                                      .format(snapshot
+                                                          .data()['end']
                                                           .toDate())
                                                       .toString(),
                                                   style: TextStyle(
@@ -250,9 +252,11 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 ),
                                                 onPressed: () {
                                                   model.changeTime(
-                                                      snapshot['end'].toDate(),
+                                                      snapshot
+                                                          .data()['end']
+                                                          .toDate(),
                                                       context,
-                                                      snapshot.documentID,
+                                                      snapshot.id,
                                                       'end');
                                                 },
                                               ),
@@ -261,7 +265,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                         ),
                                       )
                                     : Container(),
-                                model.stepSnapshot['date_examination'] != null
+                                model.stepSnapshot.data()['date_examination'] !=
+                                        null
                                     ? Container(
                                         child: Column(
                                           children: <Widget>[
@@ -281,7 +286,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                               child: FlatButton(
                                                 child: Text(
                                                   DateFormat('yyyy/MM/dd')
-                                                      .format(snapshot[
+                                                      .format(snapshot
+                                                          .data()[
                                                               'date_examination']
                                                           .toDate())
                                                       .toString(),
@@ -294,11 +300,12 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 ),
                                                 onPressed: () {
                                                   model.changeTime(
-                                                      snapshot[
+                                                      snapshot
+                                                          .data()[
                                                               'date_examination']
                                                           .toDate(),
                                                       context,
-                                                      snapshot.documentID,
+                                                      snapshot.id,
                                                       'date_examination');
                                                 },
                                               ),
@@ -311,7 +318,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 child: FlatButton.icon(
                                                   onPressed: () async {
                                                     model.onTapNotExamination(
-                                                        snapshot.documentID);
+                                                        snapshot.id);
                                                   },
                                                   icon: Icon(
                                                     Icons.close,
@@ -580,19 +587,20 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                   }
                                   if (model.isLoaded) {
                                     if (model.isExit) {
-                                      if (model.stepSnapshot['signed']
+                                      if (model.stepSnapshot.data()['signed']
                                               [index_page.toString()] ==
                                           null) {
                                         return Container(
                                           child: TaskDetailScoutConfirmAddView(
                                               index_page, type, ''),
                                         );
-                                      } else if (model.stepSnapshot['signed']
+                                      } else if (model.stepSnapshot
+                                                      .data()['signed']
                                                   [index_page.toString()]
                                               ['phaze'] ==
                                           'signed') {
                                         Map<String, dynamic> snapshot =
-                                            model.stepSnapshot['signed']
+                                            model.stepSnapshot.data()['signed']
                                                 [index_page.toString()];
                                         return Column(children: <Widget>[
                                           Container(
@@ -639,8 +647,9 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                               ),
                                               onPressed: () {
                                                 model.openTimePicker(
-                                                    model.stepSnapshot['signed']
-                                                            [index_page
+                                                    model.stepSnapshot
+                                                        .data()['signed'][
+                                                            index_page
                                                                 .toString()]
                                                             ['time']
                                                         .toDate(),
@@ -992,7 +1001,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                                     leading: Icon(Icons.delete),
                                                                                     title: Text('画像を削除する'),
                                                                                     onTap: () {
-                                                                                      //model.deleteEffort(documentID);
+                                                                                      //model.deleteEffort(id);
                                                                                       model.deleteFile(index_page, index);
                                                                                       Navigator.pop(context);
                                                                                     },
@@ -1044,7 +1053,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                                         leading: Icon(Icons.delete),
                                                                                         title: Text('動画を削除する'),
                                                                                         onTap: () {
-                                                                                          //model.deleteEffort(documentID);
+                                                                                          //model.deleteEffort(id);
                                                                                           model.deleteFile(index_page, index);
                                                                                           Navigator.pop(context);
                                                                                         },
@@ -1105,7 +1114,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                 )
                                               : Container(),
                                         ]);
-                                      } else if (model.stepSnapshot['signed']
+                                      } else if (model.stepSnapshot.data()['signed']
                                                   [index_page.toString()]
                                               ['phaze'] ==
                                           'wait') {
@@ -1150,7 +1159,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                             ),
                                           ),
                                         ]);
-                                      } else if (model.stepSnapshot['signed']
+                                      } else if (model.stepSnapshot
+                                                      .data()['signed']
                                                   [index_page.toString()]
                                               ['phaze'] ==
                                           'reject') {
@@ -1159,11 +1169,13 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                               index_page,
                                               type,
                                               'やりなおし： ' +
-                                                  model.stepSnapshot['signed'][
+                                                  model.stepSnapshot
+                                                              .data()['signed'][
                                                           index_page.toString()]
                                                       ['feedback'])
                                         ]);
-                                      } else if (model.stepSnapshot['signed']
+                                      } else if (model.stepSnapshot
+                                                      .data()['signed']
                                                   [index_page.toString()]
                                               ['phaze'] ==
                                           'withdraw') {

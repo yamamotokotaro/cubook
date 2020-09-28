@@ -13,37 +13,37 @@ class ListEffortModel extends ChangeNotifier {
   void getSnapshot() async {
     String group_before = group;
     String position_before = position;
-    FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
-        DocumentSnapshot documentSnapshot = snapshot.documents[0];
-        group = documentSnapshot['group'];
-        position = documentSnapshot['position'];
-        if(group != group_before || position != position_before) {
+    User user = await FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .get()
+        .then((snapshot) {
+      DocumentSnapshot documentSnapshot = snapshot.docs[0];
+      group = documentSnapshot.data()['group'];
+      position = documentSnapshot.data()['position'];
+      if (group != group_before || position != position_before) {
+        notifyListeners();
+      }
+      /*user.getIdToken(refresh: true).then((value) {
+        print(value.claims);
+        String group_claim_before = group_claim;
+        group_claim = value.claims['group'];
+        if (group_claim_before != group_claim) {
           notifyListeners();
         }
-        user.getIdToken(refresh: true).then((value) {
-          print(value.claims);
-          String group_claim_before = group_claim;
-          group_claim = value.claims['group'];
-          if(group_claim_before != group_claim) {
-            notifyListeners();
-          }
-        });
-      });
+      });*/
     });
   }
 
   void increaseCount(String documentID) async {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('effort')
-        .document(documentID)
-        .updateData(<String, dynamic>{'congrats': FieldValue.increment(1)});
+        .doc(documentID)
+        .update(<String, dynamic>{'congrats': FieldValue.increment(1)});
   }
 
   void deleteEffort(String documentID) async {
-    Firestore.instance
-        .collection('effort')
-        .document(documentID)
-        .delete();
+    FirebaseFirestore.instance.collection('effort').doc(documentID).delete();
   }
 }

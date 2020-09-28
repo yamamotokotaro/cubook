@@ -4,7 +4,7 @@ class Task {
   // implict-dynamicをどうにかしなきゃいけないらしいがよくわからないので放置なう
 
   List<Map<String, dynamic>> usagi = [
-    {'number': '1', 'title': '笑顔', 'hasItem': 2},
+    <String, dynamic>{'number': '1', 'title': '笑顔', 'hasItem': 2},
     {'number': '2', 'title': '運動', 'hasItem': 1},
     {'number': '3', 'title': '安全', 'hasItem': 1},
     {'number': '4', 'title': '清潔', 'hasItem': 1},

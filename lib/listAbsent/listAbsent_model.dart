@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class ListAbsentModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
   String group;
   String position;
@@ -16,22 +16,21 @@ class ListAbsentModel extends ChangeNotifier {
   void getGroup() async {
     String group_before = group;
     String position_before = position;
-    FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
-        DocumentSnapshot documentSnapshot = snapshot.documents[0];
-        group = documentSnapshot['group'];
-        position = documentSnapshot['position'];
+    User user = await FirebaseAuth.instance.currentUser;
+      FirebaseFirestore.instance.collection('user').where('uid', isEqualTo: user.uid).get().then((snapshot) {
+        DocumentSnapshot documentSnapshot = snapshot.docs[0];
+        group = documentSnapshot.data()['group'];
+        position = documentSnapshot.data()['position'];
         if (group != group_before || position != position_before) {
           notifyListeners();
         }
       });
-      user.getIdToken(refresh: true).then((value) {
+      /*user.getIdToken(refresh: true).then((value) {
         String group_claim_before = group_claim;
         group_claim = value.claims['group'];
         if(group_claim_before != group_claim) {
           notifyListeners();
         }
-      });
-    });
+      });*/
   }
 }

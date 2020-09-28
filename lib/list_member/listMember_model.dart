@@ -16,35 +16,34 @@ class ListMemberModel extends ChangeNotifier {
   void getGroup() async {
     String group_before = group;
     String teamPosition_before = teamPosition;
-    FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance
-          .collection('user')
-          .where('uid', isEqualTo: user.uid)
-          .getDocuments()
-          .then((snapshot) {
-        DocumentSnapshot userSnapshot = snapshot.documents[0];
-        group = userSnapshot['group'];
-        team = userSnapshot['team'];
-        position = userSnapshot['position'];
-        teamPosition = userSnapshot['teamPosition'];
-        if (group != group_before || teamPosition != teamPosition_before) {
-          notifyListeners();
-        }
-      });
-      user.getIdToken(refresh: true).then((value) {
-        String group_claim_before = group_claim;
-        group_claim = value.claims['group'];
-        if (group_claim_before != group_claim) {
-          notifyListeners();
-        }
-      });
+    User user = await FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .get()
+        .then((snapshot) {
+      DocumentSnapshot userSnapshot = snapshot.documents[0];
+      group = userSnapshot.data()['group'];
+      team = userSnapshot.data()['team'];
+      position = userSnapshot.data()['position'];
+      teamPosition = userSnapshot.data()['teamPosition'];
+      if (group != group_before || teamPosition != teamPosition_before) {
+        notifyListeners();
+      }
     });
+    /*user.getIdToken(refresh: true).then((value) {
+      String group_claim_before = group_claim;
+      group_claim = value.claims['group'];
+      if (group_claim_before != group_claim) {
+        notifyListeners();
+      }
+    });*/
   }
 
   Stream<QuerySnapshot> getUserSnapshot() {
     if (teamPosition != null) {
       if (teamPosition == 'teamLeader') {
-        return Firestore.instance
+        return FirebaseFirestore.instance
             .collection('user')
             .where('group', isEqualTo: group)
             .where('position', isEqualTo: 'scout')
@@ -53,7 +52,7 @@ class ListMemberModel extends ChangeNotifier {
             .orderBy('name')
             .snapshots();
       } else {
-        return Firestore.instance
+        return FirebaseFirestore.instance
             .collection('user')
             .where('group', isEqualTo: group)
             .where('position', isEqualTo: 'scout')

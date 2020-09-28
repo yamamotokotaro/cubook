@@ -53,7 +53,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                     if (snapshot.hasData) {
                                       int userCount = 0;
                                       List<DocumentSnapshot> listSnapshot =
-                                          snapshot.data.documents;
+                                          snapshot.data.docs;
                                       List<String> listUid = new List<String>();
                                       if (type == 'challenge' ||
                                           type == 'gino') {
@@ -61,15 +61,15 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                       } else {
                                         for (DocumentSnapshot documentSnapshot
                                             in listSnapshot) {
-                                          if (documentSnapshot['age'] == type) {
+                                          if (documentSnapshot.data()['age'] == type) {
                                             userCount++;
                                             listUid
-                                                .add(documentSnapshot['uid']);
+                                                .add(documentSnapshot.data()['uid']);
                                           }
                                         }
                                       }
                                       return StreamBuilder<QuerySnapshot>(
-                                        stream: Firestore.instance
+                                        stream: FirebaseFirestore.instance
                                             .collection(type)
                                             .where('group',
                                                 isEqualTo: model.group)
@@ -83,24 +83,24 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                 type, page)['hasItem'];
                                             List<DocumentSnapshot>
                                                 list_documentSnapshot =
-                                                snapshot_task.data.documents;
+                                                snapshot_task.data.docs;
                                             List<int> countItem =
                                                 new List<int>.generate(
                                                     quant, (index) => 0);
                                             int countEnd = 0;
                                             for (DocumentSnapshot documentSnapshot
                                                 in list_documentSnapshot) {
-                                              if (documentSnapshot['end'] !=
+                                              if (documentSnapshot.data()['end'] !=
                                                       null &&
                                                   (listUid.contains(
-                                                          documentSnapshot[
+                                                          documentSnapshot.data()[
                                                               'uid']) ||
                                                       type == 'challenge' ||
                                                       type == 'gino')) {
                                                 countEnd++;
                                               }
                                               Map<dynamic, dynamic> signed =
-                                                  documentSnapshot['signed'];
+                                                  documentSnapshot.data()['signed'];
                                               for (int i = 0; i < quant; i++) {
                                                 Map<dynamic, dynamic>
                                                     signed_part =
@@ -109,7 +109,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                   if (signed_part['phaze'] ==
                                                           'signed' &&
                                                       (listUid.contains(
-                                                              documentSnapshot[
+                                                              documentSnapshot.data()[
                                                                   'uid']) ||
                                                           type == 'challenge' ||
                                                           type == 'gino')) {

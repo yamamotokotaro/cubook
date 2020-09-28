@@ -35,7 +35,7 @@ class NotificationView extends StatelessWidget {
                         }
                         if (model.uid != null) {
                           return StreamBuilder<QuerySnapshot>(
-                            stream: Firestore.instance
+                            stream: FirebaseFirestore.instance
                                 .collection('notification')
                                 .where('uid', isEqualTo: model.uid)
                                 .orderBy('time', descending: true)
@@ -43,22 +43,22 @@ class NotificationView extends StatelessWidget {
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
-                                if (snapshot.data.documents.length != 0) {
+                                if (snapshot.data.docs.length != 0) {
                                   QuerySnapshot querySnapshot = snapshot.data;
                                   return ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemCount: querySnapshot.documents.length,
+                                      itemCount: querySnapshot.docs.length,
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         DocumentSnapshot snapshot =
-                                            querySnapshot.documents[index];
-                                        String type = snapshot['type'];
-                                        int page = snapshot['page'];
-                                        int number = snapshot['number'];
+                                            querySnapshot.docs[index];
+                                        String type = snapshot.data()['type'];
+                                        int page = snapshot.data()['page'];
+                                        int number = snapshot.data()['number'];
                                         Color color = theme
-                                            .getThemeColor(snapshot['type']);
+                                            .getThemeColor(snapshot.data()['type']);
                                         return Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Container(
@@ -97,7 +97,7 @@ class NotificationView extends StatelessWidget {
                                                               alignment: Alignment
                                                                   .centerLeft,
                                                               child: Text(
-                                                                snapshot[
+                                                                snapshot.data()[
                                                                     'body'],
                                                                 textAlign:
                                                                     TextAlign
@@ -122,7 +122,7 @@ class NotificationView extends StatelessWidget {
                                                               child: Text(
                                                                 DateFormat(
                                                                         'yyyy/MM/dd hh:mm')
-                                                                    .format(snapshot[
+                                                                    .format(snapshot.data()[
                                                                             'time']
                                                                         .toDate())
                                                                     .toString(),

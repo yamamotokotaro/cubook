@@ -103,7 +103,7 @@ class SelectBookView extends StatelessWidget {
                                                 snapshot) {
                                           if (snapshot.hasData) {
                                             DocumentSnapshot userSnapshot =
-                                                snapshot.data.documents[0];
+                                                snapshot.data.docs[0];
                                             return Column(
                                               children: <Widget>[
                                                 Padding(
@@ -115,7 +115,7 @@ class SelectBookView extends StatelessWidget {
                                                     decoration: BoxDecoration(
                                                         color:
                                                             theme.getUserColor(
-                                                                userSnapshot[
+                                                                userSnapshot.data()[
                                                                     'age']),
                                                         shape: BoxShape.circle),
                                                     child: Icon(
@@ -129,7 +129,7 @@ class SelectBookView extends StatelessWidget {
                                                     padding: EdgeInsets.only(
                                                         bottom: 10),
                                                     child: Text(
-                                                      userSnapshot['name'],
+                                                      userSnapshot.data()['name'],
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(

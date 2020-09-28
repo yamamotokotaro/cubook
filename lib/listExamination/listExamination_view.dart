@@ -43,7 +43,7 @@ class ListExaminationView extends StatelessWidget {
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
-                                if (snapshot.data.documents.length != 0) {
+                                if (snapshot.data.docs.length != 0) {
                                   QuerySnapshot querySnapshot = snapshot.data;
                                   return ListView.builder(
                                       physics: const NeverScrollableScrollPhysics(),
@@ -53,8 +53,8 @@ class ListExaminationView extends StatelessWidget {
                                           (BuildContext context, int index) {
                                         String absence;
                                         DocumentSnapshot snapshot =
-                                        querySnapshot.documents[index];
-                                        if (snapshot['absent']) {
+                                        querySnapshot.docs[index];
+                                        if (snapshot.data()['absent']) {
                                           absence = '出席';
                                         } else {
                                           absence = '欠席';
@@ -75,7 +75,7 @@ class ListExaminationView extends StatelessWidget {
                                                       Navigator.of(context)
                                                           .pushNamed(
                                                           '/detailActivity',
-                                                          arguments: snapshot[
+                                                          arguments: snapshot.data()[
                                                           'activity']);
                                                     }
                                                   },
@@ -136,7 +136,7 @@ class ListExaminationView extends StatelessWidget {
                                                                           width: double
                                                                               .infinity,
                                                                           child: Text(
-                                                                            snapshot[
+                                                                            snapshot.data()[
                                                                             'title'],
                                                                             textAlign:
                                                                             TextAlign
@@ -163,7 +163,7 @@ class ListExaminationView extends StatelessWidget {
                                                                             DateFormat(
                                                                                 'yyyy/MM/dd')
                                                                                 .format(
-                                                                                snapshot['date']
+                                                                                snapshot.data()['date']
                                                                                     .toDate())
                                                                                 .toString(),
                                                                             textAlign:

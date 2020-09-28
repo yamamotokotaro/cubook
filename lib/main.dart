@@ -2,8 +2,6 @@ import 'package:cubook/Analytics/analytics_model.dart';
 import 'package:cubook/Analytics/analytics_view.dart';
 import 'package:cubook/Support/Support_view.dart';
 import 'package:cubook/Support/Support_model.dart';
-import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
-import 'package:cubook/addLump_ScoutList/addLumpScoutList_view.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
 import 'package:cubook/community/community_model.dart';
@@ -21,7 +19,6 @@ import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
-import 'package:cubook/home_lump/homeLump_view.dart';
 import 'package:cubook/invite/invite_model.dart';
 import 'package:cubook/invite/invite_view.dart';
 import 'package:cubook/listAbsent/listAbsent_model.dart';
@@ -48,6 +45,7 @@ import 'package:cubook/setting_account_group/widget/changeName.dart';
 import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -66,10 +64,9 @@ void main() {
   // This is only to be used for confirming that reports are being
   // submitted as expected. It is not intended to be used for everyday
   // development.
-  Crashlytics.instance.enableInDevMode = false;
+  //FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
 
   // Pass all uncaught errors from the framework to Crashlytics.
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
 
   runApp(MyApp());
 }
@@ -77,6 +74,7 @@ void main() {
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
+    Firebase.initializeApp();
     return _MyAppState();
   }
 }
@@ -117,6 +115,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => HomeModel()),
@@ -131,7 +130,6 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => ListMemberModel()),
           ChangeNotifierProvider(
               create: (context) => TaskListScoutConfirmModel()),
-          ChangeNotifierProvider(create: (context) => AddLumpScoutListModel()),
           ChangeNotifierProvider(create: (context) => AddLumpSelectItemModel()),
           ChangeNotifierProvider(
               create: (context) => SettingAccountGroupModel()),
@@ -173,9 +171,6 @@ class _MyAppState extends State<MyApp> {
           ),
           routes: <String, WidgetBuilder>{
             '/listMember': (BuildContext context) => ListMemberView(),
-            '/homeLump': (BuildContext context) => HomeLumpView(),
-            '/addLumpScoutList': (BuildContext context) =>
-                AddLumpScoutListView(),
             '/addLumpSelectItem': (BuildContext context) =>
                 AddLumpSelectItemView(),
             '/changeName': (BuildContext context) => ChangeNameView(),

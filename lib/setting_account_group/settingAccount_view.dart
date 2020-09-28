@@ -90,7 +90,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                         'うさぎ',
                                         'しか',
                                         'くま',
-                                        /*'ボーイスカウトバッジ',
+/*                                        'ボーイスカウトバッジ',
                                         '初級スカウト',
                                         '2級スカウト',
                                         '1級スカウト',

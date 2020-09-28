@@ -85,18 +85,18 @@ class listEffort extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             DocumentSnapshot documentSnapshot =
                                 listSnapshot[index];
-                            final String body = documentSnapshot['family'] +
-                                documentSnapshot['first'] +
-                                documentSnapshot['call'] +
+                            final String body = documentSnapshot.data()['family'] +
+                                documentSnapshot.data()['first'] +
+                                documentSnapshot.data()['call'] +
                                 'が' +
-                                documentSnapshot['body'];
-                            final int congrats = documentSnapshot['congrats'];
+                                documentSnapshot.data()['body'];
+                            final int congrats = documentSnapshot.data()['congrats'];
                             final String documentID =
-                                documentSnapshot.documentID;
-                            final int page = documentSnapshot['page'];
-                            final String type = documentSnapshot['type'];
-                            final String uid = documentSnapshot['uid'];
-                            final String taskid = documentSnapshot['taskID'];
+                                documentSnapshot.id;
+                            final int page = documentSnapshot.data()['page'];
+                            final String type = documentSnapshot.data()['type'];
+                            final String uid = documentSnapshot.data()['uid'];
+                            final String taskid = documentSnapshot.data()['taskID'];
                             Color color;
                             color = theme.getThemeColor(type);
                             return Column(
@@ -177,13 +177,13 @@ class listEffort extends StatelessWidget {
                                                 arguments: Community(
                                                     type: type,
                                                     page: page,
-                                                    name: documentSnapshot[
+                                                    name: documentSnapshot.data()[
                                                             'family'] +
-                                                        documentSnapshot[
+                                                        documentSnapshot.data()[
                                                             'first'],
                                                     taskid: taskid,
                                                     effortid: documentSnapshot
-                                                        .documentID));
+                                                        .id));
                                           }
                                         },
                                         onLongPress: () {
@@ -193,9 +193,9 @@ class listEffort extends StatelessWidget {
                                                 arguments: Community(
                                                     type: type,
                                                     page: page,
-                                                    name: documentSnapshot[
+                                                    name: documentSnapshot.data()[
                                                             'family'] +
-                                                        documentSnapshot[
+                                                        documentSnapshot.data()[
                                                             'first'],
                                                     taskid: taskid,
                                                     effortid: documentSnapshot
@@ -225,11 +225,11 @@ class listEffort extends StatelessWidget {
                                                                 left: 5,
                                                                 bottom: 3),
                                                         child: Text(
-                                                          documentSnapshot[
+                                                          documentSnapshot.data()[
                                                                   'family'] +
-                                                              documentSnapshot[
+                                                              documentSnapshot.data()[
                                                                   'first'] +
-                                                              documentSnapshot[
+                                                              documentSnapshot.data()[
                                                                   'call'],
                                                           textAlign:
                                                               TextAlign.center,
@@ -249,7 +249,7 @@ class listEffort extends StatelessWidget {
                                                       Text(
                                                         DateFormat('MM/dd')
                                                             .format(
-                                                                documentSnapshot[
+                                                                documentSnapshot.data()[
                                                                         'time']
                                                                     .toDate())
                                                             .toString(),
@@ -276,7 +276,7 @@ class listEffort extends StatelessWidget {
                                                           left: 10,
                                                           right: 10),
                                                   child: Text(
-                                                    documentSnapshot['body'],
+                                                    documentSnapshot.data()['body'],
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         color: Colors.white,

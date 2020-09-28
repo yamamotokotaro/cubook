@@ -34,7 +34,7 @@ class ListAbsentView extends StatelessWidget {
                     print(uid);
                     if (model.group != null) {
                       return StreamBuilder<QuerySnapshot>(
-                        stream: Firestore.instance
+                        stream: FirebaseFirestore.instance
                             .collection('activity_personal')
                             .where('group', isEqualTo: model.group)
                             .where('uid', isEqualTo: uid)
@@ -43,18 +43,18 @@ class ListAbsentView extends StatelessWidget {
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.hasData) {
-                            if (snapshot.data.documents.length != 0) {
+                            if (snapshot.data.docs.length != 0) {
                               QuerySnapshot querySnapshot = snapshot.data;
                               return ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: querySnapshot.documents.length,
+                                  itemCount: querySnapshot.docs.length,
                                   shrinkWrap: true,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     String absence;
                                     DocumentSnapshot snapshot =
-                                        querySnapshot.documents[index];
-                                    if (snapshot['absent']) {
+                                        querySnapshot.docs[index];
+                                    if (snapshot.data()['absent']) {
                                       absence = '出席';
                                     } else {
                                       absence = '欠席';
@@ -77,7 +77,7 @@ class ListAbsentView extends StatelessWidget {
                                                 Navigator.of(context).pushNamed(
                                                     '/detailActivity',
                                                     arguments:
-                                                        snapshot['activity']);
+                                                        snapshot.data()['activity']);
                                               },
                                               child: Row(
                                                 children: <Widget>[
@@ -132,7 +132,7 @@ class ListAbsentView extends StatelessWidget {
                                                                   child: Container(
                                                                       width: double.infinity,
                                                                       child: Text(
-                                                                        snapshot[
+                                                                        snapshot.data()[
                                                                             'title'],
                                                                         textAlign:
                                                                             TextAlign.left,
@@ -154,7 +154,7 @@ class ListAbsentView extends StatelessWidget {
                                                                       width: double.infinity,
                                                                       child: Text(
                                                                         DateFormat('yyyy/MM/dd')
-                                                                            .format(snapshot['date'].toDate())
+                                                                            .format(snapshot.data()['date'].toDate())
                                                                             .toString(),
                                                                         textAlign:
                                                                             TextAlign.left,

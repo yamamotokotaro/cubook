@@ -49,8 +49,11 @@ class CreateActivityModel extends ChangeNotifier {
             bool isCheck = numberItem[l];
             if (isCheck) {
               numbers.add(l);
-              list_selected
-                  .add(<String, dynamic>{'type': listCategory[i], 'page': k, 'number': l});
+              list_selected.add(<String, dynamic>{
+                'type': listCategory[i],
+                'page': k,
+                'number': l
+              });
             }
           }
           if (numbers.length != 0) {
@@ -67,26 +70,25 @@ class CreateActivityModel extends ChangeNotifier {
 
   void getGroup() async {
     String group_before = group;
-    FirebaseAuth.instance.currentUser().then((user) {
-      user.getIdToken(refresh: true);
-      Firestore.instance
-          .collection('user')
-          .where('uid', isEqualTo: user.uid)
-          .getDocuments()
-          .then((snapshot) {
-        group = snapshot.documents[0]['group'];
-        if (group != group_before) {
-          group_before = group;
+    User user = await FirebaseAuth.instance.currentUser;
+    //user.getIdToken(refresh: true);
+    FirebaseFirestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .get()
+        .then((snapshot) {
+      group = snapshot.docs[0].data()['group'];
+      if (group != group_before) {
+        group_before = group;
+        notifyListeners();
+      }
+      /*user.getIdToken(refresh: true).then((value) {
+        String group_claim_before = group_claim;
+        group_claim = value.claims['group'];
+        if (group_claim_before != group_claim) {
           notifyListeners();
         }
-        user.getIdToken(refresh: true).then((value) {
-          String group_claim_before = group_claim;
-          group_claim = value.claims['group'];
-          if (group_claim_before != group_claim) {
-            notifyListeners();
-          }
-        });
-      });
+      });*/
     });
   }
 
@@ -155,131 +157,129 @@ class CreateActivityModel extends ChangeNotifier {
       var list_absent = new List<dynamic>();
       var list_uid = new List<dynamic>();
       int count = 0;
-      FirebaseAuth.instance.currentUser().then((user) {
-        String userUid = user.uid;
-        Firestore.instance
-            .collection('user')
-            .where('uid', isEqualTo: user.uid)
-            .getDocuments()
-            .then((userDatas) async {
-          {
-            DocumentSnapshot userData = userDatas.documents[0];
-            String userGroup = userData['group'];
-            Firestore.instance
-                .collection('user')
-                .where('group', isEqualTo: userGroup)
-                .where('position', isEqualTo: 'scout')
-                .getDocuments()
-                .then((user) async {
-              for (int i = 0; i < user.documents.length; i++) {
-                DocumentSnapshot snapshot = user.documents[i];
-                if(snapshot['team'] != null) {
-                  String uid_user = snapshot['uid'];
-                  bool isCheck = true;
-                  if (uid_check[uid_user] != null) {
-                    isCheck = uid_check[uid_user];
-                  }
-                  if (isCheck) {
-                    list_uid.add(uid_user);
-                    count++;
-                  }
-                  Map<String, dynamic> userInfo = new Map<String, dynamic>();
-                  userInfo['title'] = titleController.text;
-                  userInfo['date'] = date;
-                  userInfo['uid'] = uid_user;
-                  userInfo['name'] = snapshot['name'];
-                  userInfo['absent'] = isCheck;
-                  userInfo['age'] = snapshot['age'];
-                  userInfo['age_turn'] = snapshot['age_turn'];
-                  userInfo['team'] = snapshot['team'];
-                  userInfo['group'] = userGroup;
-                  list_absent.add(userInfo);
+      User user = await FirebaseAuth.instance.currentUser;
+      String userUid = user.uid;
+      FirebaseFirestore.instance
+          .collection('user')
+          .where('uid', isEqualTo: user.uid)
+          .getDocuments()
+          .then((userDatas) async {
+        {
+          DocumentSnapshot userData = userDatas.docs[0];
+          String userGroup = userData.data()['group'];
+          FirebaseFirestore.instance
+              .collection('user')
+              .where('group', isEqualTo: userGroup)
+              .where('position', isEqualTo: 'scout')
+              .getDocuments()
+              .then((user) async {
+            for (int i = 0; i < user.docs.length; i++) {
+              DocumentSnapshot snapshot = user.docs[i];
+              if (snapshot.data()['team'] != null) {
+                String uid_user = snapshot.data()['uid'];
+                bool isCheck = true;
+                if (uid_check[uid_user] != null) {
+                  isCheck = uid_check[uid_user];
                 }
+                if (isCheck) {
+                  list_uid.add(uid_user);
+                  count++;
+                }
+                Map<String, dynamic> userInfo = new Map<String, dynamic>();
+                userInfo['title'] = titleController.text;
+                userInfo['date'] = date;
+                userInfo['uid'] = uid_user;
+                userInfo['name'] = snapshot.data()['name'];
+                userInfo['absent'] = isCheck;
+                userInfo['age'] = snapshot.data()['age'];
+                userInfo['age_turn'] = snapshot.data()['age_turn'];
+                userInfo['team'] = snapshot.data()['team'];
+                userInfo['group'] = userGroup;
+                list_absent.add(userInfo);
               }
-              Map<String, dynamic> activityInfo = new Map<String, dynamic>();
-              activityInfo['group'] = userGroup;
-              activityInfo['count_absent'] = count;
-              activityInfo['count_user'] = user.documents.length;
-              activityInfo['title'] = titleController.text;
-              activityInfo['date'] = date;
-              activityInfo['uid'] = userUid;
-              activityInfo['list_item'] = list_selected;
+            }
+            Map<String, dynamic> activityInfo = new Map<String, dynamic>();
+            activityInfo['group'] = userGroup;
+            activityInfo['count_absent'] = count;
+            activityInfo['count_user'] = user.documents.length;
+            activityInfo['title'] = titleController.text;
+            activityInfo['date'] = date;
+            activityInfo['uid'] = userUid;
+            activityInfo['list_item'] = list_selected;
 
-              Firestore.instance
-                  .collection('activity')
-                  .add(activityInfo)
-                  .then((document) async {
-                String docID = document.documentID;
-                for (int i = 0; i < list_absent.length; i++) {
-                  Map<String, dynamic> userInfo = list_absent[i];
-                  userInfo['activity'] = docID;
-                  await Firestore.instance
-                      .collection('activity_personal')
-                      .add(userInfo);
-                }
+            FirebaseFirestore.instance
+                .collection('activity')
+                .add(activityInfo)
+                .then((document) async {
+              String docID = document.id;
+              for (int i = 0; i < list_absent.length; i++) {
+                Map<String, dynamic> userInfo = list_absent[i];
+                userInfo['activity'] = docID;
+                await FirebaseFirestore.instance
+                    .collection('activity_personal')
+                    .add(userInfo);
+              }
 
-                Map<String, dynamic> data = new Map<String, dynamic>();
-                data['start'] = Timestamp.now();
-                data['uid'] = userUid;
-                data['group'] = userGroup;
-                data['family'] = userData['family'];
-                data['feedback'] = '「' + titleController.text + '」でサイン';
-                data['activity'] = titleController.text;
-                data['type'] = 'activity';
-                data['activityID'] = docID;
-                data['uid_toAdd'] = list_uid;
-                var listCategory = ['usagi', 'sika', 'kuma', 'challenge'];
-                if(itemSelected != null) {
-                  for (int i = 0; i < listCategory.length; i++) {
-                    List<dynamic> data_item = new List<dynamic>();
-                    if (itemSelected[listCategory[i]] != null) {
-                      List<dynamic> pageItem = itemSelected[listCategory[i]];
-                      for (int k = 0; k < pageItem.length; k++) {
-                        List<dynamic> numberItem = pageItem[k];
-                        Map<String, dynamic> toAdd =
-                        new Map<String, dynamic>();
-                        List<dynamic> numbers = new List<dynamic>();
-                        toAdd['page'] = k;
-                        for (int l = 0; l < numberItem.length; l++) {
-                          bool isCheck = numberItem[l];
-                          if (isCheck) {
-                            numbers.add(l);
-                          }
-                        }
-                        if (numbers.length != 0) {
-                          toAdd['numbers'] = numbers;
-                          data_item.add(toAdd);
+              Map<String, dynamic> data = new Map<String, dynamic>();
+              data['start'] = Timestamp.now();
+              data['uid'] = userUid;
+              data['group'] = userGroup;
+              data['family'] = userData.data()['family'];
+              data['feedback'] = '「' + titleController.text + '」でサイン';
+              data['activity'] = titleController.text;
+              data['type'] = 'activity';
+              data['activityID'] = docID;
+              data['uid_toAdd'] = list_uid;
+              var listCategory = ['usagi', 'sika', 'kuma', 'challenge'];
+              if (itemSelected != null) {
+                for (int i = 0; i < listCategory.length; i++) {
+                  List<dynamic> data_item = new List<dynamic>();
+                  if (itemSelected[listCategory[i]] != null) {
+                    List<dynamic> pageItem = itemSelected[listCategory[i]];
+                    for (int k = 0; k < pageItem.length; k++) {
+                      List<dynamic> numberItem = pageItem[k];
+                      Map<String, dynamic> toAdd = new Map<String, dynamic>();
+                      List<dynamic> numbers = new List<dynamic>();
+                      toAdd['page'] = k;
+                      for (int l = 0; l < numberItem.length; l++) {
+                        bool isCheck = numberItem[l];
+                        if (isCheck) {
+                          numbers.add(l);
                         }
                       }
+                      if (numbers.length != 0) {
+                        toAdd['numbers'] = numbers;
+                        data_item.add(toAdd);
+                      }
                     }
-                    data[listCategory[i]] = data_item;
                   }
+                  data[listCategory[i]] = data_item;
                 }
-                await Firestore.instance
-                    .collection('lump')
-                    .add(data)
-                    .then((value) {
-                  var rand = new math.Random();
-                  if (rand.nextDouble() < 0.7) {
-                    interstitialAd
-                      ..show(
-                        anchorType: AnchorType.bottom,
-                        anchorOffset: 0.0,
-                        horizontalCenterOffset: 0.0,
-                      ).then((value) => isLoaded = false);
-                  }
-                  Navigator.pop(context);
-                  date = DateTime.now();
-                  titleController.text = '';
-                  uid_check = new Map<String, bool>();
-                  EmptyError = false;
-                  isLoading = false;
-                });
-                print(data);
+              }
+              await FirebaseFirestore.instance
+                  .collection('lump')
+                  .add(data)
+                  .then((value) {
+                var rand = new math.Random();
+                if (rand.nextDouble() < 0.7) {
+                  interstitialAd
+                    ..show(
+                      anchorType: AnchorType.bottom,
+                      anchorOffset: 0.0,
+                      horizontalCenterOffset: 0.0,
+                    ).then((value) => isLoaded = false);
+                }
+                Navigator.pop(context);
+                date = DateTime.now();
+                titleController.text = '';
+                uid_check = new Map<String, bool>();
+                EmptyError = false;
+                isLoading = false;
               });
+              print(data);
             });
-          }
-        });
+          });
+        }
       });
     } else {
       EmptyError = true;

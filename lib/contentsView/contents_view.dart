@@ -33,7 +33,7 @@ class ContentsView extends StatelessWidget {
                                 alignment: Alignment.topLeft,
                                 child: ConstrainedBox(
                                   constraints: BoxConstraints(maxWidth: 1900.0),
-                                  child: Text(model.contentSnapshot['title'],
+                                  child: Text(model.contentSnapshot.data()['title'],
                                       style: TextStyle(
                                         fontSize: 21.0,
                                         fontWeight: FontWeight.bold,
@@ -46,7 +46,7 @@ class ContentsView extends StatelessWidget {
                             width: 685,
                             child: Align(
                               alignment: Alignment.topLeft,
-                              child: Text(model.contentSnapshot['body'],
+                              child: Text(model.contentSnapshot.data()['body'],
                                   style: TextStyle(
                                     fontSize: 15.0,
                                     fontWeight: FontWeight.w500,
