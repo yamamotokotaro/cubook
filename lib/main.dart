@@ -59,7 +59,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'community/comment_view.dart';
 import 'task_detail_analytics/taskDetailAnalytics_view.dart';
 
-void main() {
+void main() async {
   // Set `enableInDevMode` to true to see reports while in debug mode
   // This is only to be used for confirming that reports are being
   // submitted as expected. It is not intended to be used for everyday
@@ -68,13 +68,15 @@ void main() {
 
   // Pass all uncaught errors from the framework to Crashlytics.
 
+  WidgetsFlutterBinding.ensureInitialized();
+  // Firebaseの各サービスを使う前に初期化を済ませておく必要がある
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    Firebase.initializeApp();
     return _MyAppState();
   }
 }
