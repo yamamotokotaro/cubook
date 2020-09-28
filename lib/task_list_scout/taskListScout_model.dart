@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
-class TaskListScoutModel extends ChangeNotifier{
+class TaskListScoutModel extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   DocumentSnapshot userSnapshot;
   QuerySnapshot effortSnapshot;
@@ -13,17 +13,17 @@ class TaskListScoutModel extends ChangeNotifier{
   bool isGet = false;
 
   void getSnapshot() async {
-    currentUser = await _auth.currentUser();
-    currentUser?.getIdToken(refresh: true);
+    currentUser = await FirebaseAuth.instance.currentUser;
 
-    _listener = _auth.onAuthStateChanged.listen((FirebaseUser user) {
-      currentUser = user;
-      Firestore.instance.collection('user').where('uid', isEqualTo: currentUser.uid).snapshots().listen((data) {
-        userSnapshot = data.documents[0];
-        notifyListeners();
-      });
-      isGet = true;
+    FirebaseFirestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: currentUser.uid)
+        .snapshots()
+        .listen((data) {
+      userSnapshot = data.documents[0];
       notifyListeners();
     });
+    isGet = true;
+    notifyListeners();
   }
 }

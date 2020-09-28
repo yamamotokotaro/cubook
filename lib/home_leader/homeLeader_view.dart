@@ -3,7 +3,6 @@ import 'package:cubook/home_leader/homeLeader_model.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,52 +25,50 @@ class HomeLeaderView extends StatelessWidget {
                       padding: EdgeInsets.all(10),
                       child: Container(
                           child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            elevation: 8,
-                            color: Colors.blue[900],
-                            child: InkWell(
-                              customBorder: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute<ListTaskWaitingView>(
-                                        builder: (BuildContext context) {
-                                          return ListTaskWaitingView();
-                                        }));
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
-                                        size: 35,
-                                      ),
-                                      Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Material(
-                                              type: MaterialType.transparency,
-                                              child: Text(
-                                                'サイン待ち' +
-                                                    snapshot.data.documents
-                                                        .length
-                                                        .toString() +
-                                                    '件',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight
-                                                        .normal,
-                                                    fontSize: 30,
-                                                    color: Colors.white),
-                                              ))),
-                                    ]),
-                              ),
-                            ),
-                          )),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 8,
+                        color: Colors.blue[900],
+                        child: InkWell(
+                          customBorder: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute<ListTaskWaitingView>(
+                                    builder: (BuildContext context) {
+                              return ListTaskWaitingView();
+                            }));
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(15),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                    size: 35,
+                                  ),
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Material(
+                                          type: MaterialType.transparency,
+                                          child: Text(
+                                            'サイン待ち' +
+                                                snapshot.data.documents.length
+                                                    .toString() +
+                                                '件',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 30,
+                                                color: Colors.white),
+                                          ))),
+                                ]),
+                          ),
+                        ),
+                      )),
                     );
                   } else {
                     return Container();
@@ -95,129 +92,137 @@ class HomeLeaderView extends StatelessWidget {
         padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
         child: Container(
             child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: InkWell(
-                customBorder: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                onTap: () {
-                  Navigator.of(context).pushNamed('/listMember');
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.people,
-                          color: Theme
-                              .of(context)
-                              .accentColor,
-                          size: 35,
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: Text(
-                                ' メンバーリスト',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 30),
-                              ),
-                            )),
-                      ]),
-                ),
-              ),
-            )),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            onTap: () {
+              Navigator.of(context).pushNamed('/listMember');
+            },
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.people,
+                      color: Theme.of(context).accentColor,
+                      size: 35,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: Text(
+                            ' メンバーリスト',
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal, fontSize: 30),
+                          ),
+                        )),
+                  ]),
+            ),
+          ),
+        )),
       ),
-      Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
-        child: Container(
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: InkWell(
-                customBorder: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+      Selector<HomeLeaderModel, String>(
+          selector: (context, model) => model.teamPosition,
+          builder: (context, teamPosition, child) {
+            if (teamPosition == null) {
+              return Padding(
+                padding:
+                    EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
+                child: Container(
+                    child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/listActivity');
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.event,
+                              color: Theme.of(context).accentColor,
+                              size: 35,
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Material(
+                                  type: MaterialType.transparency,
+                                  child: Text(
+                                    '活動記録',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 30),
+                                  ),
+                                )),
+                          ]),
+                    ),
+                  ),
+                )),
+              );
+            } else {
+              return Container();
+            }
+          }),
+      Selector<HomeLeaderModel, String>(
+          selector: (context, model) => model.teamPosition,
+          builder: (context, teamPosition, child) {
+            return Padding(
+              padding: teamPosition != null
+                  ? EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5)
+                  : EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
+              child: Container(
+                  child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                onTap: () {
-                  Navigator.of(context).pushNamed('/listActivity');
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.event,
-                          color: Theme
-                              .of(context)
-                              .accentColor,
-                          size: 35,
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: Text(
-                                '活動記録',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 30),
-                              ),
-                            )),
-                      ]),
+                child: InkWell(
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  onTap: () async {
+                    // final Future<PermissionStatus> permissionStatus = NotificationPermissions.requestNotificationPermissions();
+                    Navigator.of(context).pushNamed('/analytics');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.insert_chart,
+                            color: Theme.of(context).accentColor,
+                            size: 35,
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Material(
+                                type: MaterialType.transparency,
+                                child: Text(
+                                  'アナリティクス',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 30),
+                                ),
+                              )),
+                        ]),
+                  ),
                 ),
-              ),
-            )),
-      ),
-      Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
-        child: Container(
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: InkWell(
-                customBorder: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                onTap: () async {
-                  // final Future<PermissionStatus> permissionStatus = NotificationPermissions.requestNotificationPermissions();
-                  Navigator.of(context).pushNamed('/analytics');
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.insert_chart,
-                          color: Theme
-                              .of(context)
-                              .accentColor,
-                          size: 35,
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: Text(
-                                'アナリティクス',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 30),
-                              ),
-                            )),
-                      ]),
-                ),
-              ),
-            )),
-      ),
+              )),
+            );
+          }),
       /*Padding(
         padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 15),
         child: Container(

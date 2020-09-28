@@ -9,46 +9,38 @@ class UserDetailModel extends ChangeNotifier {
   String group;
   String group_before = '';
   String group_claim;
+  String teamPosition;
   Map<String, dynamic> claims = new Map<String, dynamic>();
-
-  void getSnapshot(String uid) async {
-    FirebaseAuth.instance.currentUser().then((user) {
-      currentUser = user;
-      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
-        Firestore.instance
-            .collection('user')
-            .where('group', isEqualTo: snapshot.documents[0]['group'])
-            .where('uid', isEqualTo: uid)
-            .getDocuments()
-            .then((data) {
-          userSnapshot = data.documents[0];
-          notifyListeners();
-        });
-        isGet = true;
-      });
-    });
-  }
 
   void getGroup() async {
     String group_before = group;
-    FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
-        group = snapshot.documents[0]['group'];
-        if(group != group_before) {
+    String teamPosition_before = teamPosition;
+    User user = await FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .get()
+        .then((snapshot) {
+      userSnapshot = snapshot.docs[0];
+      group = userSnapshot.data()['group'];
+      teamPosition = userSnapshot.data()['teamPosition'];
+      if (group != group_before || teamPosition != teamPosition_before) {
+        notifyListeners();
+      }
+      user.getIdTokenResult().then((value) {
+        String group_claim_before = group_claim;
+        group_claim = value.claims['group'];
+        if (group_claim_before != group_claim) {
           notifyListeners();
         }
-        user.getIdToken(refresh: true).then((value) {
-          String group_claim_before = group_claim;
-          group_claim = value.claims['group'];
-          if(group_claim_before != group_claim) {
-            notifyListeners();
-          }
-        });
       });
     });
   }
 
-  void onTapCititation(String documentID){
-    Firestore.instance.collection('challenge').document(documentID).updateData(<String, dynamic>{'isCitationed': true});
+  void onTapCititation(String documentID) {
+    FirebaseFirestore.instance
+        .collection('challenge')
+        .doc(documentID)
+        .update(<String, dynamic>{'isCitationed': true});
   }
 }

@@ -5,47 +5,60 @@ import 'package:flutter/material.dart';
 class ListTaskWaitingModel extends ChangeNotifier {
   QuerySnapshot taskSnapshot;
   String group;
+  String team;
+  String teamPosition;
   String group_claim;
   bool isGet = false;
   bool isLoaded = false;
 
   void getSnapshot() async {
     String group_before = group;
-    FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance.collection('user').where('uid', isEqualTo: user.uid).getDocuments().then((snapshot) {
-        group = snapshot.documents[0]['group'];
-        if(group != group_before) {
+    String teamPosition_before = teamPosition;
+    User user = await FirebaseAuth.instance.currentUser;
+    Firestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .getDocuments()
+        .then((snapshot) {
+      DocumentSnapshot userSnapshot = snapshot.documents[0];
+      group = userSnapshot.data()['group'];
+      team = userSnapshot.data()['team'];
+      teamPosition = userSnapshot.data()['teamPosition'];
+      if (group != group_before || teamPosition != teamPosition_before) {
+        notifyListeners();
+      }
+      /*user.getIdToken(refresh: true).then((value) {
+        String group_claim_before = group_claim;
+        group_claim = value.claims['group'];
+        if (group_claim_before != group_claim) {
           notifyListeners();
         }
-        user.getIdToken(refresh: true).then((value) {
-          String group_claim_before = group_claim;
-          group_claim = value.claims['group'];
-          if(group_claim_before != group_claim) {
-            notifyListeners();
-          }
-        });
-      });
+      });*/
     });
   }
 
-  Future getTaskSnapshot() async {
-    FirebaseAuth.instance.currentUser().then((user) {
-      user.getIdToken().then((token) async {
-        isLoaded = false;
-        notifyListeners();
-        Firestore.instance
+  Stream<QuerySnapshot> getTaskSnapshot() {
+    if (teamPosition != null) {
+      if (teamPosition == 'teamLeader') {
+        return Firestore.instance
             .collection('task')
-            .where('group', isEqualTo: token.claims['group'])
-            .orderBy('date', descending: false)
-            .snapshots()
-            .listen((data) {
-          taskSnapshot = data;
-          notifyListeners();
-        });
-        isGet = true;
-        isLoaded = true;
-        notifyListeners();
-      });
-    });
+            .where('group', isEqualTo: group)
+            .where('team', isEqualTo: team)
+            .where('phase', isEqualTo: 'wait')
+            .snapshots();
+      } else {
+        return Firestore.instance
+            .collection('task')
+            .where('group', isEqualTo: group)
+            .where('phase', isEqualTo: 'wait')
+            .snapshots();
+      }
+    } else {
+      return Firestore.instance
+          .collection('task')
+          .where('group', isEqualTo: group)
+          .where('phase', isEqualTo: 'wait')
+          .snapshots();
+    }
   }
 }

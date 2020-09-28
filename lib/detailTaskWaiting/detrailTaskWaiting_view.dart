@@ -84,10 +84,10 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                           model.getTaskSnapshot(documentID);
                         }
                         if (model.isLoaded) {
-                          if (model.taskSnapshot.data['phase'] == 'wait') {
+                          if (model.taskSnapshot.data()['phase'] == 'wait') {
                             DocumentSnapshot snapshot = model.taskSnapshot;
                             Map<String, dynamic> map_task = task.getPartMap(
-                                snapshot['type'], snapshot['page']);
+                                snapshot.data()['type'], snapshot.data()['page']);
                             return Column(
                               children: <Widget>[
                                 Row(
@@ -248,11 +248,11 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                   NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
                                               itemCount:
-                                                  snapshot['data'].length,
+                                                  snapshot.data()['data'].length,
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                String type = snapshot['data']
+                                                String type = snapshot.data()['data']
                                                     [index]['type'];
                                                 if (type == 'image') {
                                                   return Padding(

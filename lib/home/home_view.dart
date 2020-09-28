@@ -21,7 +21,6 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     DateTime now = DateTime.now();
     String greet = '';
     String emoji = '';
@@ -76,15 +75,18 @@ class HomeView extends StatelessWidget {
                 alignment: Alignment.bottomLeft,
                 child: Padding(
                     padding: EdgeInsets.only(top: 10, left: 15),
-                    child: IconButton(
-                      onPressed: () async {
-                        PackageInfo packageInfo =
-                            await PackageInfo.fromPlatform();
-                        await showDialog<int>(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                /*title: Padding(
+                    child: Semantics(
+                        label: 'メニュー',
+                        hint: 'ログアウトなどの操作を行います',
+                        child: IconButton(
+                          onPressed: () async {
+                            PackageInfo packageInfo =
+                                await PackageInfo.fromPlatform();
+                            await showDialog<int>(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    /*title: Padding(
                                   padding: EdgeInsets.only(left: 15),
                                     child: Text(
                                   "cubook",
@@ -92,58 +94,61 @@ class HomeView extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 )),*/
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0))),
-                                content: SingleChildScrollView(child:
-                                    Consumer<HomeModel>(
-                                        builder: (context, model, child) {
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      model.age != 'usagi' &&
-                                              model.age != 'sika' &&
-                                              model.age != 'kuma'
-                                          ? ListTile(
-                                              leading: Icon(Icons.star_border),
-                                              title: Text('スペシャルコンテンツ'),
-                                              onTap: () {
-                                                Navigator.of(context)
-                                                    .pushNamed('/support');
-                                              },
-                                            )
-                                          : Container(),
-                                      ListTile(
-                                        leading: Icon(Icons.help_outline),
-                                        title: Text('ヘルプ'),
-                                        onTap: () => launchURL(),
-                                      ),
-                                      ListTile(
-                                        leading: Icon(Icons.list),
-                                        title: Text('ライセンスを表示'),
-                                        onTap: () => showLicensePage(
-                                          context: context,
-                                          applicationName: 'cubook',
-                                          applicationVersion:
-                                              packageInfo.version,
-                                          applicationLegalese: '©︎ 2020 山本虎太郎',
-                                        ),
-                                      ),
-                                      ListTile(
-                                        leading: Icon(Icons.exit_to_app),
-                                        title: Text('ログアウト'),
-                                        onTap: () {
-                                          model.logout();
-                                          Navigator.pushReplacement(context,
-                                              MaterialPageRoute<HomeController>(
-                                                  builder:
-                                                      (BuildContext context) {
-                                            return HomeController();
-                                          }));
-                                        },
-                                      ),
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20.0))),
+                                    content: SingleChildScrollView(child:
+                                        Consumer<HomeModel>(
+                                            builder: (context, model, child) {
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          model.age != 'usagi' &&
+                                                  model.age != 'sika' &&
+                                                  model.age != 'kuma'
+                                              ? ListTile(
+                                                  leading:
+                                                      Icon(Icons.star_border),
+                                                  title: Text('スペシャルコンテンツ'),
+                                                  onTap: () {
+                                                    Navigator.of(context)
+                                                        .pushNamed('/support');
+                                                  },
+                                                )
+                                              : Container(),
+                                          ListTile(
+                                            leading: Icon(Icons.help_outline),
+                                            title: Text('ヘルプ'),
+                                            onTap: () => launchURL(),
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.list),
+                                            title: Text('ライセンスを表示'),
+                                            onTap: () => showLicensePage(
+                                              context: context,
+                                              applicationName: 'cubook',
+                                              applicationVersion:
+                                                  packageInfo.version,
+                                              applicationLegalese:
+                                                  '©︎ 2020 山本虎太郎',
+                                            ),
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.exit_to_app),
+                                            title: Text('ログアウト'),
+                                            onTap: () {
+                                              model.logout();
+                                              Navigator.pushReplacement(context,
+                                                  MaterialPageRoute<
+                                                          HomeController>(
+                                                      builder: (BuildContext
+                                                          context) {
+                                                return HomeController();
+                                              }));
+                                            },
+                                          ),
 //                                      Divider(color: Colors.grey),
-                                      /*Row(
+                                          /*Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         mainAxisAlignment:
@@ -165,7 +170,7 @@ class HomeView extends StatelessWidget {
                                           )
                                         ],
                                       ),*/
-                                      /*
+                                          /*
                                       Center(
                                         child: Text(
                                           'cubook',
@@ -175,17 +180,17 @@ class HomeView extends StatelessWidget {
                                           ),
                                         ),
                                       )*/
-                                    ],
+                                        ],
+                                      );
+                                    })),
                                   );
-                                })),
-                              );
-                            });
-                      },
-                      icon: Icon(
-                        Icons.dehaze,
-                        size: 30,
-                      ),
-                    ))),
+                                });
+                          },
+                          icon: Icon(
+                            Icons.dehaze,
+                            size: 30,
+                          ),
+                        )))),
             Spacer(),
             Selector<HomeModel, String>(
               selector: (context, model) => model.groupName,

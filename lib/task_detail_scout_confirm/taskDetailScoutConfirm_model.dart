@@ -22,7 +22,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   DocumentSnapshot stepSnapshot;
   DocumentReference documentReference;
   QuerySnapshot effortSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
   int page = 0;
   int quant = 0;
@@ -60,8 +60,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   void getSnapshot() async {
-    currentUser = await _auth.currentUser();
-    currentUser?.getIdToken(refresh: true);
+    currentUser = await FirebaseAuth.instance.currentUser;
 
     list_snapshot = new List<bool>.generate(page, (index) => false);
 
@@ -87,73 +86,73 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
 
     count_toSend = new List<dynamic>.generate(quant, (index) => 0);
 
-    FirebaseAuth.instance.currentUser().then((user) {
-      currentUser = user;
-      user.getIdToken().then((token) async {
-        tokenMap = token.claims;
-        Firestore.instance
-            .collection(type)
-            .where('group', isEqualTo: tokenMap['group'])
-            .where('page', isEqualTo: page)
-            .where('uid', isEqualTo: uid)
-            .snapshots()
-            .listen((data) async {
-          if (data.documents.length != 0) {
-            stepSnapshot = data.documents[0];
-            documentID_exit = data.documents[0].documentID;
-            isExit = true;
-            for (int i = 0; i < quant; i++) {
-              if (stepSnapshot['signed'][i.toString()] != null) {
-                Map<String, dynamic> doc = stepSnapshot['signed'][i.toString()];
-                if (doc != null) {
-                  if (doc['phaze'] == 'signed') {
-                    dateSelected[i] = doc['time'].toDate();
-                    textField_signature[i] =
-                        TextEditingController(text: doc['family']);
-                    textField_feedback[i] =
-                        TextEditingController(text: doc['feedback']);
-                    dataMap = doc['data'];
-                    if (dataMap != null) {
-                      List<dynamic> body = List<dynamic>();
-                      for (int j = 0; j < dataMap.length; j++) {
-                        if (dataMap[j]['type'] == 'text') {
-                          body.add(dataMap[j]['body']);
-                        } else if (dataMap[j]['type'] == 'image') {
-                          final StorageReference ref =
-                              FirebaseStorage().ref().child(dataMap[j]['body']);
-                          final String url = await ref.getDownloadURL();
-                          body.add(url);
-                        } else {
-                          final StorageReference ref =
-                              FirebaseStorage().ref().child(dataMap[j]['body']);
-                          final String url = await ref.getDownloadURL();
-                          final videoPlayerController =
-                              VideoPlayerController.network(url);
-                          await videoPlayerController.initialize();
-                          final chewieController = ChewieController(
-                              videoPlayerController: videoPlayerController,
-                              aspectRatio:
-                                  videoPlayerController.value.aspectRatio,
-                              autoPlay: false,
-                              looping: false);
-                          body.add(chewieController);
-                        }
-                        dataList[i] = body;
+    User user = await FirebaseAuth.instance.currentUser;
+    currentUser = user;
+    user.getIdTokenResult().then((token) async {
+      tokenMap = token.claims;
+      FirebaseFirestore.instance
+          .collection(type)
+          .where('group', isEqualTo: tokenMap['group'])
+          .where('page', isEqualTo: page)
+          .where('uid', isEqualTo: uid)
+          .snapshots()
+          .listen((data) async {
+        if (data.docs.length != 0) {
+          stepSnapshot = data.docs[0];
+          documentID_exit = data.docs[0].id;
+          isExit = true;
+          for (int i = 0; i < quant; i++) {
+            if (stepSnapshot.data()['signed'][i.toString()] != null) {
+              Map<String, dynamic> doc =
+                  stepSnapshot.data()['signed'][i.toString()];
+              if (doc != null) {
+                if (doc['phaze'] == 'signed') {
+                  dateSelected[i] = doc['time'].toDate();
+                  textField_signature[i] =
+                      TextEditingController(text: doc['family']);
+                  textField_feedback[i] =
+                      TextEditingController(text: doc['feedback']);
+                  dataMap = doc['data'];
+                  if (dataMap != null) {
+                    List<dynamic> body = List<dynamic>();
+                    for (int j = 0; j < dataMap.length; j++) {
+                      if (dataMap[j]['type'] == 'text') {
+                        body.add(dataMap[j]['body']);
+                      } else if (dataMap[j]['type'] == 'image') {
+                        final StorageReference ref =
+                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final String url = await ref.getDownloadURL();
+                        body.add(url);
+                      } else {
+                        final StorageReference ref =
+                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final String url = await ref.getDownloadURL();
+                        final videoPlayerController =
+                            VideoPlayerController.network(url);
+                        await videoPlayerController.initialize();
+                        final chewieController = ChewieController(
+                            videoPlayerController: videoPlayerController,
+                            aspectRatio:
+                                videoPlayerController.value.aspectRatio,
+                            autoPlay: false,
+                            looping: false);
+                        body.add(chewieController);
                       }
+                      dataList[i] = body;
                     }
                   }
                 }
               }
             }
-          } else {
-            isExit = false;
           }
-          isLoaded = true;
-          notifyListeners();
-        });
-        isGet = true;
+        } else {
+          isExit = false;
+        }
+        isLoaded = true;
         notifyListeners();
       });
+      isGet = true;
+      notifyListeners();
     });
   }
 
@@ -179,10 +178,10 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       initialDate: dateTime,
     );
     if (date != null) {
-      Firestore.instance
+      FirebaseFirestore.instance
           .collection(type)
-          .document(documentID)
-          .updateData(<String, dynamic>{type_time: date});
+          .doc(documentID)
+          .update(<String, dynamic>{type_time: date});
       notifyListeners();
     }
   }
@@ -195,44 +194,42 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   void onTapSend(int number) async {
     isLoading[number] = true;
     notifyListeners();
-    FirebaseAuth.instance.currentUser().then((user) async {
-      currentUser = user;
-      currentUser.getIdToken().then((token) async {
-        tokenMap = token.claims;
-        await updateUserInfo(number);
-        isLoading[number] = false;
-      });
+    User user = await FirebaseAuth.instance.currentUser;
+    currentUser = user;
+    currentUser.getIdTokenResult().then((token) async {
+      tokenMap = token.claims;
+      await updateUserInfo(number);
+      isLoading[number] = false;
     });
   }
 
   void onTapCancel(int number) async {
     isLoading[number] = true;
     notifyListeners();
-    FirebaseAuth.instance.currentUser().then((user) async {
-      currentUser = user;
-      currentUser.getIdToken().then((token) async {
-        tokenMap = token.claims;
-        await updateDocumentInfo_cancel(number);
-        isLoading[number] = false;
-      });
+    User user = await FirebaseAuth.instance.currentUser;
+    currentUser = user;
+    currentUser.getIdTokenResult().then((token) async {
+      tokenMap = token.claims;
+      await updateDocumentInfo_cancel(number);
+      isLoading[number] = false;
     });
   }
 
   void onTapExamination(String documentID) async {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('gino')
-        .document(documentID)
-        .updateData(<String, dynamic>{
+        .doc(documentID)
+        .update(<String, dynamic>{
       'phase': 'complete',
       'date_examination': DateTime.now()
     });
   }
 
   void onTapNotExamination(String documentID) async {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('gino')
-        .document(documentID)
-        .updateData(<String, dynamic>{
+        .doc(documentID)
+        .update(<String, dynamic>{
       'phase': 'not examined',
       'date_examination': FieldValue.delete()
     });
@@ -243,20 +240,20 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     var task = new Task();
     int count = 0;
 
-    FirebaseUser user = await auth.currentUser();
+    User user = await FirebaseAuth.instance.currentUser;
     Map<String, dynamic> data_signed = Map<String, dynamic>();
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection(type)
         .where('group', isEqualTo: tokenMap['group'])
         .where('uid', isEqualTo: uid)
         .where('page', isEqualTo: page)
-        .getDocuments()
+        .get()
         .then((data) async {
-      if (data.documents.length != 0) {
-        DocumentSnapshot snapshot = data.documents[0];
+      if (data.docs.length != 0) {
+        DocumentSnapshot snapshot = data.docs[0];
         Map<String, dynamic> map = Map<String, dynamic>();
         Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-        map = snapshot['signed'];
+        map = snapshot.data()['signed'];
         data_toAdd['phaze'] = 'signed';
         data_toAdd['family'] = tokenMap['family'];
         data_toAdd['uid'] = currentUser.uid;
@@ -285,10 +282,10 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
             }
           }
         }
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection(type)
-            .document(snapshot.documentID)
-            .updateData(data_signed);
+            .doc(snapshot.id)
+            .update(data_signed);
       } else {
         Map<String, dynamic> data_toAdd = Map<String, dynamic>();
         data_toAdd['phaze'] = 'signed';
@@ -316,29 +313,29 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
           }
         }
         DocumentReference documentReference_add =
-            await Firestore.instance.collection(type).add(data_signed);
-        documentID_exit = documentReference_add.documentID;
+            await FirebaseFirestore.instance.collection(type).add(data_signed);
+        documentID_exit = documentReference_add.id;
       }
 
-      Firestore.instance
+      FirebaseFirestore.instance
           .collection('user')
           .where('uid', isEqualTo: uid)
           .where('group', isEqualTo: tokenMap['group'])
-          .getDocuments()
+          .get()
           .then((data) {
-        DocumentSnapshot snapshot = data.documents[0];
+        DocumentSnapshot snapshot = data.docs[0];
         Map<String, dynamic> map = Map<String, int>();
-        if (snapshot[type] != null) {
-          map = snapshot[type];
+        if (snapshot.data()[type] != null) {
+          map = snapshot.data()[type];
           map[page.toString()] = count;
         } else {
           map[page.toString()] = count;
         }
         var mapSend = {type: map};
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection('user')
-            .document(snapshot.documentID)
-            .updateData(mapSend);
+            .doc(snapshot.id)
+            .update(mapSend);
 
         if (map[page.toString()] == task.getPartMap(type, page)['hasItem'] &&
             !isComplete) {
@@ -349,20 +346,20 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   Future<void> updateDocumentInfo(int number, bool isComplete) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = await FirebaseAuth.instance.currentUser;
     Map<String, dynamic> data_signed = Map<String, dynamic>();
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection(type)
         .where('group', isEqualTo: tokenMap['group'])
         .where('uid', isEqualTo: uid)
         .where('page', isEqualTo: page)
-        .getDocuments()
+        .get()
         .then((data) async {
-      if (data.documents.length != 0) {
-        DocumentSnapshot snapshot = data.documents[0];
+      if (data.docs.length != 0) {
+        DocumentSnapshot snapshot = data.docs[0];
         Map<String, dynamic> map = Map<String, dynamic>();
         Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-        map = snapshot['signed'];
+        map = snapshot.data()['signed'];
         data_toAdd['phaze'] = 'signed';
         data_toAdd['family'] = tokenMap['family'];
         data_toAdd['uid'] = currentUser.uid;
@@ -374,10 +371,10 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
           data_signed['end'] = Timestamp.now();
         }
         documentID_task = snapshot.documentID;
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection(type)
-            .document(snapshot.documentID)
-            .updateData(data_signed);
+            .doc(snapshot.id)
+            .update(data_signed);
       } else {
         Map<String, dynamic> data_toAdd = Map<String, dynamic>();
         data_toAdd['phaze'] = 'signed';
@@ -394,29 +391,29 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
           data_signed['end'] = Timestamp.now();
         }
         DocumentReference documentReference_add =
-            await Firestore.instance.collection(type).add(data_signed);
-        documentID_exit = documentReference_add.documentID;
+            await FirebaseFirestore.instance.collection(type).add(data_signed);
+        documentID_exit = documentReference_add.id;
       }
     });
   }
 
   Future<void> updateDocumentInfo_cancel(int number) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = await FirebaseAuth.instance.currentUser;
     Map<String, dynamic> data_signed = Map<String, dynamic>();
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection(type)
         .where('group', isEqualTo: tokenMap['group'])
         .where('uid', isEqualTo: uid)
         .where('page', isEqualTo: page)
-        .getDocuments()
+        .get()
         .then((data) async {
-      if (data.documents.length != 0) {
+      if (data.docs.length != 0) {
         int count = 0;
-        DocumentSnapshot snapshot = data.documents[0];
-        if (snapshot['signed'].length - 1 != 0) {
+        DocumentSnapshot snapshot = data.docs[0];
+        if (snapshot.data()['signed'].length - 1 != 0) {
           Map<String, dynamic> map = Map<String, dynamic>();
           Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-          map = snapshot['signed'];
+          map = snapshot.data()['signed'];
           map.remove(number.toString());
           data_signed['signed'] = map;
           data_signed['end'] = FieldValue.delete();
@@ -428,16 +425,13 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
               count++;
             }
           });
-          Firestore.instance
+          FirebaseFirestore.instance
               .collection(type)
-              .document(snapshot.documentID)
-              .updateData(data_signed);
+              .doc(snapshot.id)
+              .update(data_signed);
         } else {
           count = 0;
-          Firestore.instance
-              .collection(type)
-              .document(snapshot.documentID)
-              .delete();
+          FirebaseFirestore.instance.collection(type).doc(snapshot.id).delete();
         }
         updateUserInfo_cancel(page, count);
       }
@@ -445,29 +439,29 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   Future<void> updateUserInfo_cancel(int page, int count) async {
-    FirebaseUser user = await auth.currentUser();
+    User user = await FirebaseAuth.instance.currentUser;
     Map<String, dynamic> data_signed = Map<String, dynamic>();
     Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('user')
         .where('group', isEqualTo: tokenMap['group'])
         .where('uid', isEqualTo: uid)
-        .getDocuments()
+        .get()
         .then((data) async {
-      if (data.documents.length != 0) {
-        DocumentSnapshot snapshot = data.documents[0];
+      if (data.docs.length != 0) {
+        DocumentSnapshot snapshot = data.docs[0];
         Map<String, dynamic> map = Map<String, dynamic>();
-        map = snapshot[type];
+        map = snapshot.data()[type];
         if (count != 0) {
           map[page.toString()] = count;
         } else {
           map.remove(page.toString());
         }
         data_signed[type] = map;
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection('user')
-            .document(snapshot.documentID)
-            .updateData(data_signed);
+            .doc(snapshot.id)
+            .update(data_signed);
       }
     });
   }
@@ -475,21 +469,21 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   Future<void> recordEndTime() async {
     Map<String, dynamic> data = Map<String, dynamic>();
     data['end'] = Timestamp.now();
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection(type)
-        .document(documentID_exit)
-        .updateData(data);
+        .doc(documentID_exit)
+        .update(data);
   }
 
   Future<void> onFinish() async {
     var task = new Task();
     var theme = new ThemeInfo();
-    QuerySnapshot data = await Firestore.instance
+    QuerySnapshot data = await FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: uid)
         .where('group', isEqualTo: tokenMap['group'])
-        .getDocuments();
-    DocumentSnapshot snapshot = data.documents[0];
+        .get();
+    DocumentSnapshot snapshot = data.docs[0];
     Map<String, dynamic> map = Map<String, dynamic>();
     Map<String, dynamic> taskMap = task.getPartMap(type, page);
     String body = theme.getTitle(type) +
@@ -498,17 +492,18 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         ' ' +
         taskMap['title'] +
         'を完修！';
-    map['family'] = snapshot['family'];
-    map['first'] = snapshot['first'];
-    map['call'] = snapshot['call'];
-    map['uid'] = snapshot['uid'];
+    map['family'] = snapshot.data()['family'];
+    map['first'] = snapshot.data()['first'];
+    map['call'] = snapshot.data()['call'];
+    map['uid'] = snapshot.data()['uid'];
     map['congrats'] = 0;
     map['body'] = body;
     map['type'] = type;
-    map['group'] = snapshot['group'];
+    map['group'] = snapshot.data()['group'];
     map['time'] = Timestamp.now();
     map['page'] = page;
-    if(snapshot['group'] == ' j27DETWHGYEfpyp2Y292' || snapshot['group'] == ' z4pkBhhgr0fUMN4evr5z') {
+    if (snapshot.data()['group'] == ' j27DETWHGYEfpyp2Y292' ||
+        snapshot.data()['group'] == ' z4pkBhhgr0fUMN4evr5z') {
       map['taskID'] = documentID_exit;
       map['enable_community'] = true;
     }
@@ -523,40 +518,39 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   void onTapSave(int number, BuildContext context) async {
     isLoading[number] = true;
     notifyListeners();
-    FirebaseAuth.instance.currentUser().then((user) async {
-      currentUser = user;
-      currentUser.getIdToken().then((token) async {
-        tokenMap = token.claims;
-        await updateData(number, context);
-        isLoading[number] = false;
-        notifyListeners();
-      });
+    User user = await FirebaseAuth.instance.currentUser;
+    currentUser = user;
+    currentUser.getIdTokenResult().then((token) async {
+      tokenMap = token.claims;
+      await updateData(number, context);
+      isLoading[number] = false;
+      notifyListeners();
     });
   }
 
   Future<void> updateData(int number, BuildContext context) async {
     Map<String, dynamic> data_signed = Map<String, dynamic>();
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection(type)
         .where('group', isEqualTo: tokenMap['group'])
         .where('uid', isEqualTo: uid)
         .where('page', isEqualTo: page)
-        .getDocuments()
+        .get()
         .then((data) async {
       DocumentSnapshot snapshot = data.documents[0];
       Map<String, dynamic> map = Map<String, dynamic>();
       Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-      map = snapshot['signed'];
+      map = snapshot.data()['signed'];
       data_toAdd = map[number.toString()];
       data_toAdd['family'] = textField_signature[number].text;
       data_toAdd['feedback'] = textField_feedback[number].text;
       data_toAdd['time'] = dateSelected[number];
       map[number.toString()] = data_toAdd;
       data_signed['signed'] = map;
-      Firestore.instance
+      FirebaseFirestore.instance
           .collection(type)
-          .document(snapshot.documentID)
-          .updateData(data_signed);
+          .doc(snapshot.id)
+          .update(data_signed);
       Scaffold.of(context).showSnackBar(new SnackBar(
         duration: const Duration(seconds: 1),
         content: new Text('変更を保存しました'),
@@ -570,12 +564,12 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     bool isStart = true;
     bool isEnd = true;
     DateTime dateStart;
-    if (snapshot['start'] is Timestamp) {
-      dateStart = snapshot['start'].toDate();
+    if (snapshot.data()['start'] is Timestamp) {
+      dateStart = snapshot.data()['start'].toDate();
     } else {
-      dateStart = snapshot['start'];
+      dateStart = snapshot.data()['start'];
     }
-    Map map = snapshot['signed'];
+    Map map = snapshot.data()['signed'];
     for (int i = 0; i < map.length; i++) {
       if (map[i.toString()] != null) {
         DateTime date_toComparison;
@@ -596,48 +590,46 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     if (isStart) {
       data_toChange['start'] = time;
     }
-    if (isEnd && snapshot['end'] != null) {
+    if (isEnd && snapshot.data()['end'] != null) {
       data_toChange['end'] = time;
     }
     if (quant == 1 && dateStart != time) {
       data_toChange['start'] = time;
       data_toChange['end'] = time;
     }
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection(type)
-        .document(documentID)
-        .updateData(data_toChange);
+        .doc(documentID)
+        .update(data_toChange);
   }
 
   void onImagePressPick(int number, int index) async {
     File file = await ImagePicker.pickImage(
         source: ImageSource.gallery, imageQuality: 50);
-    sendFile(file, index,'image');
+    sendFile(file, index, 'image');
     // notifyListeners();
   }
 
   void onImagePressCamera(int number, int index) async {
     File file = await ImagePicker.pickImage(
         source: ImageSource.camera, imageQuality: 50);
-    sendFile(file, index,'image');
+    sendFile(file, index, 'image');
     // notifyListeners();
   }
 
   void onVideoPressPick(int number, int index) async {
-    File file = await ImagePicker.pickVideo(
-        source: ImageSource.gallery);
+    File file = await ImagePicker.pickVideo(source: ImageSource.gallery);
     sendFile(file, index, 'video');
     // notifyListeners();
   }
 
   void onVideoPressCamera(int number, int index) async {
-    File file = await ImagePicker.pickVideo(
-        source: ImageSource.camera);
+    File file = await ImagePicker.pickVideo(source: ImageSource.camera);
     sendFile(file, index, 'video');
     // notifyListeners();
   }
 
-  void sendFile(File file, int index,String type_file) async {
+  void sendFile(File file, int index, String type_file) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
     String subDirectoryName = tokenMap['group'] + '/' + uid;
     final StorageReference ref =
@@ -649,7 +641,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       Map<String, dynamic> data = Map<String, dynamic>();
       data.putIfAbsent('body', () => path);
       data.putIfAbsent('type', () => type_file);
-      Map<String, dynamic> signed = stepSnapshot['signed'];
+      Map<String, dynamic> signed = stepSnapshot.data()['signed'];
       if (signed[index.toString()]['data'] != null) {
         signed[index.toString()]['data'].add(data);
       } else {
@@ -657,10 +649,10 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         dataList.add(data);
         signed[index.toString()]['data'] = dataList;
       }
-      Firestore.instance
+      FirebaseFirestore.instance
           .collection(type)
-          .document(stepSnapshot.documentID)
-          .updateData(<String, dynamic>{'signed': signed});
+          .doc(stepSnapshot.id)
+          .update(<String, dynamic>{'signed': signed});
       print(signed);
     } else {
       //return 'Something goes wrong';
@@ -668,13 +660,13 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   Future<void> deleteFile(int number, int index) async {
-    Map<String, dynamic> signed = stepSnapshot['signed'];
+    Map<String, dynamic> signed = stepSnapshot.data()['signed'];
     String path = signed[number.toString()]['data'][index]['body'];
     signed[number.toString()]['data'].removeAt(index);
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection(type)
-        .document(stepSnapshot.documentID)
-        .updateData(<String, dynamic>{'signed': signed}).then((value) {
+        .doc(stepSnapshot.id)
+        .update(<String, dynamic>{'signed': signed}).then((value) {
       final StorageReference ref = FirebaseStorage().ref().child(path);
       ref.delete();
     });

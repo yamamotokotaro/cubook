@@ -28,49 +28,48 @@ class SupportModel with ChangeNotifier {
   var isRelease = const bool.fromEnvironment('dart.vm.product');
 
   void getUser() async {
-    FirebaseAuth.instance.currentUser().then((user) {
-      if (uid != user.uid) {
-        uid = user.uid;
-        documentID = null;
-        notifyListeners();
-      }
-    });
+    User user = await FirebaseAuth.instance.currentUser;
+    if (uid != user.uid) {
+      uid = user.uid;
+      documentID = null;
+      notifyListeners();
+    }
   }
 
   void unlock(String type, String id) async {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: uid)
-        .getDocuments()
+        .get()
         .then((snapshot) {
       documentID = snapshot.documents[0].documentID;
-      Firestore.instance
+      FirebaseFirestore.instance
           .collection('user')
-          .document(documentID)
-          .updateData(<String, dynamic>{type: FieldValue.increment(-1)});
+          .doc(documentID)
+          .update(<String, dynamic>{type: FieldValue.increment(-1)});
     });
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('contents_unlocked')
         .where('uid', isEqualTo: uid)
-        .getDocuments()
+        .get()
         .then((snapshot) {
-      if (snapshot.documents.length != 0) {
+      if (snapshot.docs.length != 0) {
         List<dynamic> unlock_list = new List<dynamic>();
         DocumentSnapshot unlockSnapshot = snapshot.documents[0];
-        if (unlockSnapshot['unlocked'] != null) {
-          unlock_list = unlockSnapshot['unlocked'];
+        if (unlockSnapshot.data()['unlocked'] != null) {
+          unlock_list = unlockSnapshot.data()['unlocked'];
           unlock_list.add(id);
         } else {
           unlock_list.add(id);
         }
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection('contents_unlocked')
-            .document(unlockSnapshot.documentID)
-            .updateData(<String, dynamic>{'unlocked': unlock_list});
+            .doc(unlockSnapshot.id)
+            .update(<String, dynamic>{'unlocked': unlock_list});
       } else {
         List<dynamic> unlock_list = new List<dynamic>();
         unlock_list.add(id);
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection('contents_unlocked')
             .add(<String, dynamic>{'uid': uid, 'unlocked': unlock_list});
       }
@@ -154,7 +153,7 @@ class SupportModel with ChangeNotifier {
               : null // Android emulators are considered test devices
           );
       String adunitID;
-      if(isRelease) {
+      if (isRelease) {
         if (Platform.isAndroid) {
           adunitID = 'ca-app-pub-9318890511624941/8096138050';
           // Android-specific code
@@ -171,9 +170,7 @@ class SupportModel with ChangeNotifier {
         isLoaded = false;
         notifyListeners();
         videoAd
-            .load(
-                adUnitId: adunitID,
-                targetingInfo: targetingInfo)
+            .load(adUnitId: adunitID, targetingInfo: targetingInfo)
             .then((value) {
           isLoaded = true;
           notifyListeners();
@@ -225,9 +222,7 @@ class SupportModel with ChangeNotifier {
         }
       };
       videoAd
-          .load(
-              adUnitId: adunitID,
-              targetingInfo: targetingInfo)
+          .load(adUnitId: adunitID, targetingInfo: targetingInfo)
           .then((value) {
         isLoaded = true;
         notifyListeners();

@@ -24,27 +24,26 @@ class EditActivityModel extends ChangeNotifier {
 
   void getGroup() async {
     String group_before = group;
-    FirebaseAuth.instance.currentUser().then((user) {
-      Firestore.instance
-          .collection('user')
-          .where('uid', isEqualTo: user.uid)
-          .getDocuments()
-          .then((snapshot) {
-        DocumentSnapshot documentSnapshot = snapshot.documents[0];
-        group = documentSnapshot['group'];
-        position = documentSnapshot['position'];
-        age = documentSnapshot['age'];
-        if (group != group_before) {
+    User user = await FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .get()
+        .then((snapshot) {
+      DocumentSnapshot documentSnapshot = snapshot.documents[0];
+      group = documentSnapshot.data()['group'];
+      position = documentSnapshot.data()['position'];
+      age = documentSnapshot.data()['age'];
+      if (group != group_before) {
+        notifyListeners();
+      }
+     /* user.getIdToken(refresh: true).then((value) {
+        String group_claim_before = group_claim;
+        group_claim = value.claims['group'];
+        if (group_claim_before != group_claim) {
           notifyListeners();
         }
-        user.getIdToken(refresh: true).then((value) {
-          String group_claim_before = group_claim;
-          group_claim = value.claims['group'];
-          if (group_claim_before != group_claim) {
-            notifyListeners();
-          }
-        });
-      });
+      });*/
     });
   }
 
@@ -62,35 +61,37 @@ class EditActivityModel extends ChangeNotifier {
   }
 
   void getInfo(DocumentSnapshot documentSnapshot) {
-    if (documentID != documentSnapshot.documentID) {
+    if (documentID != documentSnapshot.id) {
       activitySnapshot = documentSnapshot;
       checkAbsents.clear();
       isGet = false;
-      titleController.text = documentSnapshot['title'];
-      date = documentSnapshot['date'].toDate();
+      titleController.text = documentSnapshot.data()['title'];
+      date = documentSnapshot.data()['date'].toDate();
       isGet = true;
-      documentID = documentSnapshot.documentID;
+      documentID = documentSnapshot.id;
       notifyListeners();
     }
   }
 
   void getAbsents(QuerySnapshot querySnapshot) {
     if (checkAbsents.length == 0 ||
-        querySnapshot.documents.length != countSnapshot) {
-      for (int i = 0; i < querySnapshot.documents.length; i++) {
-        DocumentSnapshot documentSnapshot = querySnapshot.documents[i];
-        checkAbsents[documentSnapshot.documentID] = documentSnapshot['absent'];
+        querySnapshot.docs.length != countSnapshot) {
+      for (int i = 0; i < querySnapshot.docs.length; i++) {
+        DocumentSnapshot documentSnapshot = querySnapshot.docs[i];
+        checkAbsents[documentSnapshot.id] = documentSnapshot.data()['absent'];
       }
-      countSnapshot = querySnapshot.documents.length;
+      countSnapshot = querySnapshot.docs.length;
       notifyListeners();
     }
   }
 
-  void onCheckMember(String documentID) {
+  void onCheckMember(String documentID) async {
     if (checkAbsents[documentID] != null) {
       checkAbsents[documentID] = !checkAbsents[documentID];
+      notifyListeners();
     } else {
       checkAbsents[documentID] = false;
+      notifyListeners();
     }
     notifyListeners();
   }
@@ -99,25 +100,24 @@ class EditActivityModel extends ChangeNotifier {
     int count_user = 0;
     int count_absent = 0;
     isLoading = true;
-    notifyListeners();
     checkAbsents.forEach((key, absent) async {
       count_user++;
       if (absent) {
         count_absent++;
       }
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('activity_personal')
-          .document(key)
-          .updateData(<String, dynamic>{
+          .doc(key)
+          .update(<String, dynamic>{
         'absent': absent,
         'date': date,
         'title': titleController.text
       });
     });
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('activity')
-        .document(documentID)
-        .updateData(<String, dynamic>{
+        .doc(documentID)
+        .update(<String, dynamic>{
       'count_absent': count_absent,
       'count_user': count_user,
       'date': date,
@@ -131,17 +131,19 @@ class EditActivityModel extends ChangeNotifier {
 
   void onPressAdd(
       DocumentSnapshot userSnapshot, BuildContext context, bool isDark) {
-    Firestore.instance.collection('activity_personal').add(<String, dynamic>{
+    FirebaseFirestore.instance
+        .collection('activity_personal')
+        .add(<String, dynamic>{
       'absent': true,
-      'activity': activitySnapshot.documentID,
-      'age': userSnapshot['age'],
-      'age_turn': userSnapshot['age_turn'],
-      'date': activitySnapshot['date'],
-      'group': activitySnapshot['group'],
-      'name': userSnapshot['name'],
-      'team': userSnapshot['team'],
-      'title': activitySnapshot['title'],
-      'uid': userSnapshot['uid']
+      'activity': activitySnapshot.id,
+      'age': userSnapshot.data()['age'],
+      'age_turn': userSnapshot.data()['age_turn'],
+      'date': activitySnapshot.data()['date'],
+      'group': activitySnapshot.data()['group'],
+      'name': userSnapshot.data()['name'],
+      'team': userSnapshot.data()['team'],
+      'title': activitySnapshot.data()['title'],
+      'uid': userSnapshot.data()['uid']
     }).then((value) {
       final snackBar = SnackBar(
         content: Text('出席者リストに追加しました'),
@@ -149,9 +151,9 @@ class EditActivityModel extends ChangeNotifier {
           label: '取り消し',
           textColor: isDark ? Colors.blue[900] : Colors.blue[400],
           onPressed: () {
-            Firestore.instance
+            FirebaseFirestore.instance
                 .collection('activity_personal')
-                .document(value.documentID)
+                .doc(value.id)
                 .delete();
           },
         ),

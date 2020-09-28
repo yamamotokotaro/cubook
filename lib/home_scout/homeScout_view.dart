@@ -294,7 +294,7 @@ class HomeScoutView extends StatelessWidget {
                                           ))),
                                   Padding(
                                       padding: EdgeInsets.all(20),
-                                      child: model.userSnapshot[model.age] !=
+                                      child: model.userSnapshot.data()[model.age] !=
                                           null
                                           ? LinearProgressIndicator(
                                           backgroundColor: theme
@@ -303,7 +303,7 @@ class HomeScoutView extends StatelessWidget {
                                           new AlwaysStoppedAnimation<
                                               Color>(Colors.white),
                                           value: model
-                                              .userSnapshot[model.age]
+                                              .userSnapshot.data()[model.age]
                                               .length /
                                               task
                                                   .getAllMap(model.age)
@@ -362,7 +362,7 @@ class HomeScoutView extends StatelessWidget {
                                       model.userSnapshot,
                                       builder: (context, snapshot, child) =>
                                       snapshot != null
-                                          ? snapshot['challenge'] != null
+                                          ? snapshot.data()['challenge'] != null
                                           ? LinearProgressIndicator(
                                           backgroundColor:
                                           Colors.green[700],
@@ -370,7 +370,7 @@ class HomeScoutView extends StatelessWidget {
                                           new AlwaysStoppedAnimation<
                                               Color>(
                                               Colors.white),
-                                          value: snapshot['challenge']
+                                          value: snapshot.data()['challenge']
                                               .length /
                                               task
                                                   .getAllMap(

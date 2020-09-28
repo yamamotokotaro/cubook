@@ -18,7 +18,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   DocumentSnapshot stepSnapshot;
   DocumentReference documentReference;
   QuerySnapshot effortSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   StreamSubscription<FirebaseUser> _listener;
   bool isGet = false;
   int numberPushed = 0;
@@ -49,8 +49,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   void getSnapshot() async {
-    currentUser = await _auth.currentUser();
-    currentUser?.getIdToken(refresh: true);
+    currentUser = await FirebaseAuth.instance.currentUser;
 
     list_snapshot = new List<bool>.generate(numberPushed, (index) => false);
 
@@ -73,107 +72,102 @@ class TaskDetailScoutModel extends ChangeNotifier {
         quant, (index) => new List<Map<String, dynamic>>());
 
     count_toSend = new List<dynamic>.generate(quant, (index) => 0);
-
-    _listener = _auth.onAuthStateChanged.listen((FirebaseUser user) {
-      currentUser = user;
-      Firestore.instance
-          .collection(type)
-          .where('page', isEqualTo: numberPushed)
-          .where('uid', isEqualTo: currentUser.uid)
-          .snapshots()
-          .listen((data) async {
-        if (data.documents.length != 0) {
-          stepSnapshot = data.documents[0];
-          documentID_exit = data.documents[0].documentID;
-          isExit = true;
-          for (int i = 0; i < quant; i++) {
-            if (stepSnapshot['signed'][i.toString()] != null) {
-              Map<String, dynamic> doc = stepSnapshot['signed'][i.toString()];
-              if (doc != null) {
-                if (doc['phaze'] == 'signed') {
-                  dataMap = doc['data'];
-                  if (dataMap != null) {
-                    List<dynamic> body = List<dynamic>();
-                    for (int j = 0; j < dataMap.length; j++) {
-                      if (dataMap[j]['type'] == 'text') {
-                        body.add(dataMap[j]['body']);
-                      } else if (dataMap[j]['type'] == 'image') {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
-                        final String url = await ref.getDownloadURL();
-                        body.add(url);
-                      } else {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
-                        final String url = await ref.getDownloadURL();
-                        final videoPlayerController =
-                            VideoPlayerController.network(url);
-                        await videoPlayerController.initialize();
-                        final chewieController = ChewieController(
-                            videoPlayerController: videoPlayerController,
-                            aspectRatio:
-                                videoPlayerController.value.aspectRatio,
-                            autoPlay: false,
-                            looping: false);
-                        body.add(chewieController);
-                      }
-                      dataList[i] = body;
+    FirebaseFirestore.instance
+        .collection(type)
+        .where('page', isEqualTo: numberPushed)
+        .where('uid', isEqualTo: currentUser.uid)
+        .snapshots()
+        .listen((data) async {
+      if (data.docs.length != 0) {
+        stepSnapshot = data.docs[0];
+        documentID_exit = data.docs[0].id;
+        isExit = true;
+        for (int i = 0; i < quant; i++) {
+          if (stepSnapshot.data()['signed'][i.toString()] != null) {
+            Map<String, dynamic> doc =
+                stepSnapshot.data()['signed'][i.toString()];
+            if (doc != null) {
+              if (doc['phaze'] == 'signed') {
+                dataMap = doc['data'];
+                if (dataMap != null) {
+                  List<dynamic> body = List<dynamic>();
+                  for (int j = 0; j < dataMap.length; j++) {
+                    if (dataMap[j]['type'] == 'text') {
+                      body.add(dataMap[j]['body']);
+                    } else if (dataMap[j]['type'] == 'image') {
+                      final StorageReference ref =
+                          FirebaseStorage().ref().child(dataMap[j]['body']);
+                      final String url = await ref.getDownloadURL();
+                      body.add(url);
+                    } else {
+                      final StorageReference ref =
+                          FirebaseStorage().ref().child(dataMap[j]['body']);
+                      final String url = await ref.getDownloadURL();
+                      final videoPlayerController =
+                          VideoPlayerController.network(url);
+                      await videoPlayerController.initialize();
+                      final chewieController = ChewieController(
+                          videoPlayerController: videoPlayerController,
+                          aspectRatio: videoPlayerController.value.aspectRatio,
+                          autoPlay: false,
+                          looping: false);
+                      body.add(chewieController);
                     }
+                    dataList[i] = body;
                   }
-                } else if (doc['phaze'] == 'reject' ||
-                    doc['phaze'] == 'withdraw') {
-                  dataMap = doc['data'];
-                  if (dataMap != null) {
-                    List<dynamic> body = List<dynamic>();
-                    for (int j = 0; j < dataMap.length; j++) {
-                      list_attach[i].add(dataMap[j]['type']);
-                      if (dataMap[j]['type'] == 'text') {
-                        map_attach[i][j] =
-                            TextEditingController(text: dataMap[j]['body']);
-                      } else if (dataMap[j]['type'] == 'image') {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
-                        final String url = await ref.getDownloadURL();
-                        map_attach[i][j] = dataMap[j]['body'];
-                        map_show[i][j] = url;
-                      } else {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
-                        final String url = await ref.getDownloadURL();
-                        final videoPlayerController =
-                            VideoPlayerController.network(url);
-                        await videoPlayerController.initialize();
-                        final chewieController = ChewieController(
-                            videoPlayerController: videoPlayerController,
-                            aspectRatio:
-                                videoPlayerController.value.aspectRatio,
-                            autoPlay: false,
-                            looping: false);
-                        map_attach[i][j] = dataMap[j]['body'];
-                        map_show[i][j] = chewieController;
-                      }
-//                      dataList[i] = body;
+                }
+              } else if (doc['phaze'] == 'reject' ||
+                  doc['phaze'] == 'withdraw') {
+                dataMap = doc['data'];
+                if (dataMap != null) {
+                  List<dynamic> body = List<dynamic>();
+                  for (int j = 0; j < dataMap.length; j++) {
+                    list_attach[i].add(dataMap[j]['type']);
+                    if (dataMap[j]['type'] == 'text') {
+                      map_attach[i][j] =
+                          TextEditingController(text: dataMap[j]['body']);
+                    } else if (dataMap[j]['type'] == 'image') {
+                      final StorageReference ref =
+                          FirebaseStorage().ref().child(dataMap[j]['body']);
+                      final String url = await ref.getDownloadURL();
+                      map_attach[i][j] = dataMap[j]['body'];
+                      map_show[i][j] = url;
+                    } else {
+                      final StorageReference ref =
+                          FirebaseStorage().ref().child(dataMap[j]['body']);
+                      final String url = await ref.getDownloadURL();
+                      final videoPlayerController =
+                          VideoPlayerController.network(url);
+                      await videoPlayerController.initialize();
+                      final chewieController = ChewieController(
+                          videoPlayerController: videoPlayerController,
+                          aspectRatio: videoPlayerController.value.aspectRatio,
+                          autoPlay: false,
+                          looping: false);
+                      map_attach[i][j] = dataMap[j]['body'];
+                      map_show[i][j] = chewieController;
                     }
+//                      dataList[i] = body;
                   }
                 }
               }
             }
           }
-          isExit = true;
-        } else {
-          isExit = false;
         }
-        isLoaded = true;
-        notifyListeners();
-      });
-      isGet = true;
+        isExit = true;
+      } else {
+        isExit = false;
+      }
+      isLoaded = true;
       notifyListeners();
     });
+    isGet = true;
+    notifyListeners();
   }
 
   void onTapSend(int number) async {
-    FirebaseUser user = await auth.currentUser();
-    Firestore.instance
+    User user = await FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .getDocuments()
@@ -213,7 +207,8 @@ class TaskDetailScoutModel extends ChangeNotifier {
 
   Future<dynamic> fileSend(int index, File file, int number) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
-    String subDirectoryName = userSnapshot['group'] + '/' + currentUser.uid;
+    String subDirectoryName =
+        userSnapshot.data()['group'] + '/' + currentUser.uid;
     final StorageReference ref =
         FirebaseStorage().ref().child(subDirectoryName).child('${timestamp}');
     final StorageUploadTask uploadTask = ref.putFile(file);
@@ -241,31 +236,33 @@ class TaskDetailScoutModel extends ChangeNotifier {
 
   Future addDocument(List list, int number) async {
     Map<String, dynamic> data = Map<String, dynamic>();
-    FirebaseUser user = await auth.currentUser();
+    User user = await FirebaseAuth.instance.currentUser;
     data["uid"] = user.uid;
     data["date"] = Timestamp.now();
     data["type"] = type;
     data['page'] = numberPushed;
     data['number'] = number;
     data['data'] = list;
-    data['family'] = userSnapshot['family'];
-    data['first'] = userSnapshot['first'];
-    data['call'] = userSnapshot['call'];
-    data['group'] = userSnapshot['group'];
+    data['family'] = userSnapshot.data()['family'];
+    data['first'] = userSnapshot.data()['first'];
+    data['call'] = userSnapshot.data()['call'];
+    data['group'] = userSnapshot.data()['group'];
+    data['team'] = userSnapshot.data()['team'];
     data['phase'] = 'wait';
     isAdded[number] = true;
-    documentReference = await Firestore.instance.collection('task').add(data);
-    documentID = documentReference.documentID;
+    documentReference =
+        await FirebaseFirestore.instance.collection('task').add(data);
+    documentID = documentReference.id;
     Map<String, dynamic> data_signed = Map<String, dynamic>();
     if (isExit) {
       Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-      data_toAdd = stepSnapshot['signed'];
+      data_toAdd = stepSnapshot.data()['signed'];
       data_toAdd[number.toString()] = {'phaze': 'wait', 'data': list};
       data_signed['signed'] = data_toAdd;
-      Firestore.instance
+      FirebaseFirestore.instance
           .collection(type)
-          .document(documentID_exit)
-          .updateData(data_signed);
+          .doc(documentID_exit)
+          .update(data_signed);
     } else {
       Map<String, dynamic> data_toAdd = Map<String, dynamic>();
       data_toAdd['phaze'] = 'wait';
@@ -274,10 +271,10 @@ class TaskDetailScoutModel extends ChangeNotifier {
       data_signed['uid'] = user.uid;
       data_signed['start'] = Timestamp.now();
       data_signed['signed'] = {number.toString(): data_toAdd};
-      data_signed['group'] = userSnapshot['group'];
+      data_signed['group'] = userSnapshot.data()['group'];
       DocumentReference documentReference_add =
-          await Firestore.instance.collection(type).add(data_signed);
-      documentID_exit = documentReference_add.documentID;
+          await FirebaseFirestore.instance.collection(type).add(data_signed);
+      documentID_exit = documentReference_add.id;
     }
 
     list_attach =
@@ -292,38 +289,35 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   Future updateDocument(Map data) async {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('task')
-        .document(documentReference.documentID)
-        .updateData(data);
+        .doc(documentReference.id)
+        .update(data);
   }
 
   Future withdraw(int number) async {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('task')
         .where('uid', isEqualTo: currentUser.uid)
         .where('page', isEqualTo: numberPushed)
         .where('number', isEqualTo: number)
-        .getDocuments()
+        .get()
         .then((documents) {
-      for (int i = 0; i < documents.documents.length; i++) {
-        DocumentSnapshot snapshot = documents.documents[i];
-        Firestore.instance
-            .collection('task')
-            .document(snapshot.documentID)
-            .delete();
+      for (int i = 0; i < documents.docs.length; i++) {
+        DocumentSnapshot snapshot = documents.docs[i];
+        FirebaseFirestore.instance.collection('task').doc(snapshot.id).delete();
       }
-      Firestore.instance
+      FirebaseFirestore.instance
           .collection(type)
-          .document(stepSnapshot.documentID)
+          .doc(stepSnapshot.id)
           .get()
           .then((document) {
-        Map<String, dynamic> sign_get = document['signed'];
+        Map<String, dynamic> sign_get = document.data()['signed'];
         sign_get[number.toString()]['phaze'] = 'withdraw';
-        Firestore.instance
+        FirebaseFirestore.instance
             .collection(type)
-            .document(stepSnapshot.documentID)
-            .updateData(<String, dynamic>{'signed': sign_get});
+            .doc(stepSnapshot.id)
+            .update(<String, dynamic>{'signed': sign_get});
       });
     });
   }

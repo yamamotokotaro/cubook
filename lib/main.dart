@@ -2,8 +2,6 @@ import 'package:cubook/Analytics/analytics_model.dart';
 import 'package:cubook/Analytics/analytics_view.dart';
 import 'package:cubook/Support/Support_view.dart';
 import 'package:cubook/Support/Support_model.dart';
-import 'package:cubook/addLump_ScoutList/addLumpScoutList_model.dart';
-import 'package:cubook/addLump_ScoutList/addLumpScoutList_view.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
 import 'package:cubook/community/community_model.dart';
@@ -21,7 +19,6 @@ import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
-import 'package:cubook/home_lump/homeLump_view.dart';
 import 'package:cubook/invite/invite_model.dart';
 import 'package:cubook/invite/invite_view.dart';
 import 'package:cubook/listAbsent/listAbsent_model.dart';
@@ -37,6 +34,8 @@ import 'package:cubook/list_member/listMember_view.dart';
 import 'package:cubook/model/arguments.dart';
 import 'package:cubook/notification/notification_model.dart';
 import 'package:cubook/setting_account/settingAccount_model.dart';
+import 'package:cubook/task_detail_analytics/taskDetailAnalytics_model.dart';
+import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_model.dart';
 import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_view.dart';
 import 'package:cubook/task_list_analytics/taskListAnalytics_model.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
@@ -46,6 +45,7 @@ import 'package:cubook/setting_account_group/widget/changeName.dart';
 import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,16 +59,18 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'community/comment_view.dart';
 import 'task_detail_analytics/taskDetailAnalytics_view.dart';
 
-void main() {
+void main() async {
   // Set `enableInDevMode` to true to see reports while in debug mode
   // This is only to be used for confirming that reports are being
   // submitted as expected. It is not intended to be used for everyday
   // development.
-  Crashlytics.instance.enableInDevMode = false;
+  //FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
 
   // Pass all uncaught errors from the framework to Crashlytics.
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
 
+  WidgetsFlutterBinding.ensureInitialized();
+  // Firebaseの各サービスを使う前に初期化を済ませておく必要がある
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -115,6 +117,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => HomeModel()),
@@ -129,7 +132,6 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => ListMemberModel()),
           ChangeNotifierProvider(
               create: (context) => TaskListScoutConfirmModel()),
-          ChangeNotifierProvider(create: (context) => AddLumpScoutListModel()),
           ChangeNotifierProvider(create: (context) => AddLumpSelectItemModel()),
           ChangeNotifierProvider(
               create: (context) => SettingAccountGroupModel()),
@@ -145,6 +147,10 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => ContentsModel()),
           ChangeNotifierProvider(create: (context) => AnalyticsModel()),
           ChangeNotifierProvider(create: (context) => TaskListAnalyticsModel()),
+          ChangeNotifierProvider(
+              create: (context) => TaskDetailAnalyticsModel()),
+          ChangeNotifierProvider(
+              create: (context) => TaskDetailAnalyticsMemberModel()),
           ChangeNotifierProvider(create: (context) => CommunityModel()),
           ChangeNotifierProvider(
               create: (context) => ListCitationAnalyticsModel()),
@@ -167,9 +173,6 @@ class _MyAppState extends State<MyApp> {
           ),
           routes: <String, WidgetBuilder>{
             '/listMember': (BuildContext context) => ListMemberView(),
-            '/homeLump': (BuildContext context) => HomeLumpView(),
-            '/addLumpScoutList': (BuildContext context) =>
-                AddLumpScoutListView(),
             '/addLumpSelectItem': (BuildContext context) =>
                 AddLumpSelectItemView(),
             '/changeName': (BuildContext context) => ChangeNameView(),

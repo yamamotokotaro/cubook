@@ -60,26 +60,22 @@ class TaskListAnalyticsView extends StatelessWidget {
                       model.getGroup();
                       if (model.group != null) {
                         return StreamBuilder<QuerySnapshot>(
-                            stream: Firestore.instance
-                                .collection('user')
-                                .where('group', isEqualTo: model.group)
-                                .where('position', isEqualTo: 'scout')
-                                .snapshots(),
+                            stream: model.getUserSnapshot(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
                                 int userCount = 0;
                                 List<DocumentSnapshot> listSnapshot =
-                                    snapshot.data.documents;
+                                    snapshot.data.docs;
                                 List<String> listUid = new List<String>();
                                 if (type == 'challenge' || type == 'gino') {
                                   userCount = listSnapshot.length;
                                 } else {
                                   for (DocumentSnapshot documentSnapshot
                                       in listSnapshot) {
-                                    if (documentSnapshot['age'] == type) {
+                                    if (documentSnapshot.data()['age'] == type) {
                                       userCount++;
-                                      listUid.add(documentSnapshot['uid']);
+                                      listUid.add(documentSnapshot.data()['uid']);
                                     }
                                   }
                                 }
@@ -217,7 +213,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                         listSnapshot =
                                                                         snapshot_task
                                                                             .data
-                                                                            .documents;
+                                                                            .docs;
                                                                     for (DocumentSnapshot documentSnapshot
                                                                         in listSnapshot) {
                                                                       if (type ==
@@ -227,7 +223,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                         itemCount++;
                                                                       } else if (listUid
                                                                           .contains(
-                                                                              documentSnapshot['uid'])) {
+                                                                              documentSnapshot.data()['uid'])) {
                                                                         itemCount++;
                                                                       }
                                                                     }

@@ -50,19 +50,19 @@ class ListNotCititationed extends StatelessWidget {
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
-                                if (snapshot.data.documents.length != 0) {
+                                if (snapshot.data.docs.length != 0) {
                                   QuerySnapshot querySnapshot = snapshot.data;
                                   return ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemCount: querySnapshot.documents.length,
+                                      itemCount: querySnapshot.docs.length,
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         DocumentSnapshot snapshot =
-                                            querySnapshot.documents[index];
+                                            querySnapshot.docs[index];
                                         Map taskInfo = task.getPartMap(
-                                            'challenge', snapshot['page']);
+                                            'challenge', snapshot.data()['page']);
                                         return Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Container(
@@ -107,7 +107,7 @@ class ListNotCititationed extends StatelessWidget {
                                                               child: Text(
                                                                 DateFormat('yyyy/MM/dd')
                                                                         .format(
-                                                                            snapshot['end'].toDate())
+                                                                            snapshot.data()['end'].toDate())
                                                                         .toString() +
                                                                     ' 完修',
                                                                 textAlign:

@@ -89,7 +89,7 @@ class CommentView extends StatelessWidget {
                                                         },
                                                         onLongPress: () async {
                                                           if (model.user.uid ==
-                                                              snapshot['uid']) {
+                                                              snapshot.data()['uid']) {
                                                             await showModalBottomSheet<
                                                                 int>(
                                                               context: context,
@@ -143,7 +143,7 @@ class CommentView extends StatelessWidget {
                                                                   height: 40,
                                                                   decoration: BoxDecoration(
                                                                       color: theme.getUserColor(
-                                                                          snapshot[
+                                                                          snapshot.data()[
                                                                               'age']),
                                                                       shape: BoxShape
                                                                           .circle),
@@ -173,7 +173,7 @@ class CommentView extends StatelessWidget {
                                                                                 5),
                                                                         child:
                                                                             Text(
-                                                                          snapshot[
+                                                                          snapshot.data()[
                                                                               'name'],
                                                                           style:
                                                                               TextStyle(
@@ -202,7 +202,7 @@ class CommentView extends StatelessWidget {
                                                                         bottom:
                                                                             5),
                                                                     child: Text(
-                                                                      snapshot[
+                                                                      snapshot.data()[
                                                                           'body'],
                                                                       style:
                                                                           TextStyle(

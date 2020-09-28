@@ -135,7 +135,7 @@ class SupportView extends StatelessWidget {
                               selector: (context, model) => model.uid,
                               builder: (context, uid, child) => uid != null
                                   ? StreamBuilder<QuerySnapshot>(
-                                      stream: Firestore.instance
+                                      stream: FirebaseFirestore.instance
                                           .collection('user')
                                           .where('uid', isEqualTo: uid)
                                           .snapshots(),
@@ -143,7 +143,7 @@ class SupportView extends StatelessWidget {
                                           AsyncSnapshot<QuerySnapshot>
                                               snapshot) {
                                         DocumentSnapshot userSnapshot =
-                                            snapshot.data.documents[0];
+                                            snapshot.data.docs[0];
                                         return Align(
                                             alignment: Alignment.center,
                                             child: Padding(
@@ -159,11 +159,11 @@ class SupportView extends StatelessWidget {
                                                         (BuildContext context,
                                                             int index) {
                                                       int count = 0;
-                                                      if (userSnapshot[
+                                                      if (userSnapshot.data()[
                                                               list_type[
                                                                   index]] !=
                                                           null) {
-                                                        count = userSnapshot[
+                                                        count = userSnapshot.data()[
                                                             list_type[index]];
                                                       }
                                                       count_color[index] =
@@ -264,7 +264,7 @@ class SupportView extends StatelessWidget {
                                                         if (snapshot.hasData) {
                                                           if (snapshot_contents
                                                                   .data
-                                                                  .documents
+                                                                  .docs
                                                                   .length !=
                                                               0) {
                                                             List<dynamic>
@@ -273,15 +273,15 @@ class SupportView extends StatelessWidget {
                                                                     String>();
                                                             if (snapshot
                                                                     .data
-                                                                    .documents
+                                                                    .docs
                                                                     .length !=
                                                                 0) {
                                                               DocumentSnapshot
                                                                   userSnapshot =
                                                                   snapshot.data
-                                                                      .documents[0];
+                                                                      .docs[0];
                                                               unlocked =
-                                                                  userSnapshot[
+                                                                  userSnapshot.data()[
                                                                       'unlocked'];
                                                               print('kita');
                                                             }
@@ -291,7 +291,7 @@ class SupportView extends StatelessWidget {
                                                                         const NeverScrollableScrollPhysics(),
                                                                     itemCount: snapshot_contents
                                                                         .data
-                                                                        .documents
+                                                                        .docs
                                                                         .length,
                                                                     shrinkWrap:
                                                                         true,
@@ -303,7 +303,7 @@ class SupportView extends StatelessWidget {
                                                                           snapshot =
                                                                           snapshot_contents
                                                                               .data
-                                                                              .documents[index];
+                                                                              .docs[index];
                                                                       return Column(
                                                                           children: <
                                                                               Widget>[
@@ -316,8 +316,8 @@ class SupportView extends StatelessWidget {
                                                                                     ),
                                                                                     child: InkWell(
                                                                                       onTap: () async {
-                                                                                        if (unlocked.contains(snapshot.documentID)) {
-                                                                                          Navigator.of(context).pushNamed('/contentsView', arguments: snapshot.documentID);
+                                                                                        if (unlocked.contains(snapshot.id)) {
+                                                                                          Navigator.of(context).pushNamed('/contentsView', arguments: snapshot.id);
                                                                                         } else {
                                                                                           await showDialog<int>(
                                                                                               context: context,
@@ -342,9 +342,9 @@ class SupportView extends StatelessWidget {
                                                                                                         return FlatButton(
                                                                                                           child: Text("OK"),
                                                                                                           onPressed: () {
-                                                                                                            model.unlock(list_type[index_color], snapshot.documentID);
+                                                                                                            model.unlock(list_type[index_color], snapshot.id);
                                                                                                             Navigator.pop(context);
-                                                                                                            Navigator.of(context).pushNamed('/contentsView', arguments: snapshot.documentID);
+                                                                                                            Navigator.of(context).pushNamed('/contentsView', arguments: snapshot.id);
                                                                                                           },
                                                                                                         );
                                                                                                       })
@@ -379,11 +379,11 @@ class SupportView extends StatelessWidget {
                                                                                             Padding(
                                                                                                 padding: EdgeInsets.only(left: 0),
                                                                                                 child: Text(
-                                                                                                  snapshot['title'],
+                                                                                                  snapshot.data()['title'],
                                                                                                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                                                                                                 )),
                                                                                             Spacer(),
-                                                                                            unlocked.contains(snapshot.documentID) ? Container() : Icon(Icons.https)
+                                                                                            unlocked.contains(snapshot.id) ? Container() : Icon(Icons.https)
                                                                                           ],
                                                                                         ),
                                                                                       ),

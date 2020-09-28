@@ -61,7 +61,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                           builder: (context, model, child) {
                         if (model.userSnapshot == null) {
                           model.getSnapshot(uid);
-                        } else if (model.userSnapshot.data['uid'] != uid) {
+                        } else if (model.userSnapshot.data()['uid'] != uid) {
                           model.getSnapshot(uid);
                           model.userSnapshot = null;
                         }
@@ -71,12 +71,12 @@ class TaskListScoutConfirmView extends StatelessWidget {
                               map_task.length, (index) => false);
                           var list_percentage = new List.generate(
                               map_task.length, (index) => 0.0);
-                          if (model.userSnapshot[type] != null) {
+                          if (model.userSnapshot.data()[type] != null) {
                             final Map map = new Map<String, dynamic>.from(
-                                model.userSnapshot[type]);
+                                model.userSnapshot.data()[type]);
                             for (int i = 0; i < map_task.length; i++) {
                               if (map.containsKey(i.toString())) {
-                                list_percentage[i] = (model.userSnapshot[type]
+                                list_percentage[i] = (model.userSnapshot.data()[type]
                                         [i.toString()] /
                                     map_task[i]['hasItem'].toDouble());
                               }

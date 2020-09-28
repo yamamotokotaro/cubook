@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/detailActivity/detailActivity_model.dart';
-import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
@@ -24,108 +23,123 @@ class DetailActivityView extends StatelessWidget {
           Selector<DetailActivityModel, String>(
               selector: (context, model) => model.position,
               builder: (context, position, child) => position == 'leader'
-                  ? IconButton(
-                      icon: Icon(Icons.more_vert),
-                      onPressed: () async {
-                        await showModalBottomSheet<int>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Padding(
-                                padding: EdgeInsets.only(top: 10, bottom: 10),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Consumer<DetailActivityModel>(
-                                        builder: (context, model, child) {
-                                      return Column(
-                                        children: [
-                                          ListTile(
-                                            leading: Icon(Icons.edit),
-                                            title: Text('編集する'),
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                              Navigator.of(context).pushNamed(
-                                                  '/editActivity',
-                                                  arguments: documentID);
-                                            },
-                                          ),
-                                          ListTile(
-                                            leading: Icon(Icons.delete),
-                                            title: Text('削除する'),
-                                            onTap: () async {
-                                              Navigator.pop(
-                                                  context);
-                                              await showModalBottomSheet<int>(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10, bottom: 10),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: <Widget>[
-                                                          Consumer<
-                                                                  DetailActivityModel>(
-                                                              builder: (context,
-                                                                  model,
-                                                                  child) {
-                                                            return Column(
-                                                              children: [
-                                                                Padding(
-                                                                    padding: EdgeInsets.only(top:5,left:17,bottom: 17),
-                                                                    child: Container(
-                                                                        width: double.infinity,
-                                                                        child: Text(
-                                                                          '本当に削除しますか？',
-                                                                          style: TextStyle(
-                                                                            fontWeight: FontWeight.bold,
-                                                                            fontSize: 22,
-                                                                          ),
-                                                                          textAlign: TextAlign.left,
-                                                                        ))),
-                                                                ListTile(
-                                                                  leading: Icon(
-                                                                      Icons.delete),
-                                                                  title: Text(
-                                                                      'はい'),
-                                                                  onTap: () {
-                                                                    model.deleteActivity(documentID);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                    Navigator.pop(context);
-                                                                  },
-                                                                ),
-                                                                ListTile(
-                                                                  leading: Icon(
-                                                                      Icons
-                                                                          .arrow_back),
-                                                                  title: Text(
-                                                                      'いいえ'),
-                                                                  onTap: () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                )
-                                                              ],
-                                                            );
-                                                          })
-                                                        ],
-                                                      ));
-                                                },
-                                              );
-                                            },
-                                          )
-                                        ],
-                                      );
-                                    })
-                                  ],
-                                ));
-                          },
-                        );
-                      },
-                    )
+                  ? Semantics(
+                      label: '活動記録の編集か削除操作が行えます',
+                      child: IconButton(
+                        icon: Icon(Icons.more_vert),
+                        onPressed: () async {
+                          await showModalBottomSheet<int>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Padding(
+                                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      Consumer<DetailActivityModel>(
+                                          builder: (context, model, child) {
+                                        return Column(
+                                          children: [
+                                            ListTile(
+                                              leading: Icon(Icons.edit),
+                                              title: Text('編集する'),
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                                Navigator.of(context).pushNamed(
+                                                    '/editActivity',
+                                                    arguments: documentID);
+                                              },
+                                            ),
+                                            ListTile(
+                                              leading: Icon(Icons.delete),
+                                              title: Text('削除する'),
+                                              onTap: () async {
+                                                Navigator.pop(context);
+                                                await showModalBottomSheet<int>(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10,
+                                                                bottom: 10),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            Consumer<
+                                                                    DetailActivityModel>(
+                                                                builder:
+                                                                    (context,
+                                                                        model,
+                                                                        child) {
+                                                              return Column(
+                                                                children: [
+                                                                  Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          top:
+                                                                              5,
+                                                                          left:
+                                                                              17,
+                                                                          bottom:
+                                                                              17),
+                                                                      child: Container(
+                                                                          width: double.infinity,
+                                                                          child: Text(
+                                                                            '本当に削除しますか？',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 22,
+                                                                            ),
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                          ))),
+                                                                  ListTile(
+                                                                    leading: Icon(
+                                                                        Icons
+                                                                            .delete),
+                                                                    title: Text(
+                                                                        'はい'),
+                                                                    onTap: () {
+                                                                      model.deleteActivity(
+                                                                          documentID);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                  ),
+                                                                  ListTile(
+                                                                    leading: Icon(
+                                                                        Icons
+                                                                            .arrow_back),
+                                                                    title: Text(
+                                                                        'いいえ'),
+                                                                    onTap: () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                  )
+                                                                ],
+                                                              );
+                                                            })
+                                                          ],
+                                                        ));
+                                                  },
+                                                );
+                                              },
+                                            )
+                                          ],
+                                        );
+                                      })
+                                    ],
+                                  ));
+                            },
+                          );
+                        },
+                      ))
                   : Container())
         ],
       ),
@@ -145,9 +159,9 @@ class DetailActivityView extends StatelessWidget {
                           return Column(
                             children: <Widget>[
                               StreamBuilder<DocumentSnapshot>(
-                                stream: Firestore.instance
+                                stream: FirebaseFirestore.instance
                                     .collection('activity')
-                                    .document(documentID)
+                                    .doc(documentID)
                                     .snapshots(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -161,7 +175,7 @@ class DetailActivityView extends StatelessWidget {
                                           child: Container(
                                               width: double.infinity,
                                               child: Text(
-                                                documentSnapshot['title'],
+                                                documentSnapshot.data()['title'],
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 32,
@@ -176,7 +190,7 @@ class DetailActivityView extends StatelessWidget {
                                               child: Text(
                                                 DateFormat('yyyy年MM月dd日')
                                                     .format(
-                                                        documentSnapshot['date']
+                                                        documentSnapshot.data()['date']
                                                             .toDate())
                                                     .toString(),
                                                 style: TextStyle(
@@ -185,8 +199,8 @@ class DetailActivityView extends StatelessWidget {
                                                 ),
                                                 textAlign: TextAlign.left,
                                               ))),
-                                      documentSnapshot['list_item'] != null
-                                          ? documentSnapshot['list_item']
+                                      documentSnapshot.data()['list_item'] != null
+                                          ? documentSnapshot.data()['list_item']
                                                       .length !=
                                                   0
                                               ? Column(
@@ -216,7 +230,7 @@ class DetailActivityView extends StatelessWidget {
                                                         physics:
                                                             const NeverScrollableScrollPhysics(),
                                                         itemCount:
-                                                            documentSnapshot[
+                                                            documentSnapshot.data()[
                                                                     'list_item']
                                                                 .length,
                                                         shrinkWrap: true,
@@ -226,7 +240,7 @@ class DetailActivityView extends StatelessWidget {
                                                                 int index) {
                                                           Map<String, dynamic>
                                                               part_selected =
-                                                              documentSnapshot[
+                                                              documentSnapshot.data()[
                                                                       'list_item']
                                                                   [index];
                                                           String type =
@@ -354,7 +368,7 @@ class DetailActivityView extends StatelessWidget {
                                 },
                               ),
                               StreamBuilder<QuerySnapshot>(
-                                stream: Firestore.instance
+                                stream: FirebaseFirestore.instance
                                     .collection('activity_personal')
                                     .where('group', isEqualTo: model.group)
                                     .where('activity', isEqualTo: documentID)
@@ -365,38 +379,38 @@ class DetailActivityView extends StatelessWidget {
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data.documents.length != 0) {
+                                    if (snapshot.data.docs.length != 0) {
                                       QuerySnapshot querySnapshot =
                                           snapshot.data;
                                       DocumentSnapshot documentSnapshot =
-                                          querySnapshot.documents[0];
+                                          querySnapshot.docs[0];
                                       String team_last = '';
                                       return Column(children: <Widget>[
                                         ListView.builder(
                                             physics:
                                                 const NeverScrollableScrollPhysics(),
                                             itemCount:
-                                                querySnapshot.documents.length,
+                                                querySnapshot.docs.length,
                                             shrinkWrap: true,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               String uid;
                                               DocumentSnapshot snapshot =
                                                   querySnapshot
-                                                      .documents[index];
-                                              uid = snapshot['uid'];
+                                                      .docs[index];
+                                              uid = snapshot.data()['uid'];
                                               bool isCheck = true;
                                               if (model.uid_check[uid] !=
                                                   null) {
                                                 isCheck = model.uid_check[uid];
                                               }
                                               String team = '';
-                                              if (snapshot['team'] != null) {
-                                                if (snapshot['team'] is int) {
-                                                  team = snapshot['team']
+                                              if (snapshot.data()['team'] != null) {
+                                                if (snapshot.data()['team'] is int) {
+                                                  team = snapshot.data()['team']
                                                       .toString();
                                                 } else {
-                                                  team = snapshot['team'];
+                                                  team = snapshot.data()['team'];
                                                 }
                                               } else {
                                                 team = 'null';
@@ -409,12 +423,12 @@ class DetailActivityView extends StatelessWidget {
                                               } else {
                                                 isFirst = false;
                                               }
-                                              if (snapshot['absent']) {
+                                              if (snapshot.data()['absent']) {
                                                 absence = '出席';
                                               } else {
                                                 absence = '欠席';
                                               }
-                                              String age = snapshot['age'];
+                                              String age = snapshot.data()['age'];
                                               String team_call;
                                               if (age == 'usagi' ||
                                                   age == 'sika' ||
@@ -469,7 +483,7 @@ class DetailActivityView extends StatelessWidget {
                                                                   height: 40,
                                                                   decoration: BoxDecoration(
                                                                       color: theme.getUserColor(
-                                                                          snapshot[
+                                                                          snapshot.data()[
                                                                               'age']),
                                                                       shape: BoxShape
                                                                           .circle),
@@ -486,7 +500,7 @@ class DetailActivityView extends StatelessWidget {
                                                                             left:
                                                                                 10),
                                                                     child: Text(
-                                                                      snapshot[
+                                                                      snapshot.data()[
                                                                           'name'],
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight

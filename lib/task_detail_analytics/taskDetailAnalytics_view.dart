@@ -3,6 +3,7 @@ import 'package:cubook/detailActivity/detailActivity_model.dart';
 import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
+import 'package:cubook/task_detail_analytics/taskDetailAnalytics_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,25 +40,20 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                       padding: EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<DetailActivityModel>(
+                      child: Consumer<TaskDetailAnalyticsModel>(
                           builder: (context, model, child) {
                         model.getGroup();
                         if (model.group != null) {
                           return Column(
                             children: <Widget>[
                               StreamBuilder<QuerySnapshot>(
-                                  stream: Firestore.instance
-                                      .collection('user')
-                                      .where('group', isEqualTo: model.group)
-                                      .where('position', isEqualTo: 'scout')
-                                      .orderBy('name')
-                                      .snapshots(),
+                                  stream: model.getUserSnapshot(),
                                   builder: (BuildContext context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasData) {
                                       int userCount = 0;
                                       List<DocumentSnapshot> listSnapshot =
-                                          snapshot.data.documents;
+                                          snapshot.data.docs;
                                       List<String> listUid = new List<String>();
                                       if (type == 'challenge' ||
                                           type == 'gino') {
@@ -65,15 +61,15 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                       } else {
                                         for (DocumentSnapshot documentSnapshot
                                             in listSnapshot) {
-                                          if (documentSnapshot['age'] == type) {
+                                          if (documentSnapshot.data()['age'] == type) {
                                             userCount++;
                                             listUid
-                                                .add(documentSnapshot['uid']);
+                                                .add(documentSnapshot.data()['uid']);
                                           }
                                         }
                                       }
                                       return StreamBuilder<QuerySnapshot>(
-                                        stream: Firestore.instance
+                                        stream: FirebaseFirestore.instance
                                             .collection(type)
                                             .where('group',
                                                 isEqualTo: model.group)
@@ -87,24 +83,24 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                 type, page)['hasItem'];
                                             List<DocumentSnapshot>
                                                 list_documentSnapshot =
-                                                snapshot_task.data.documents;
+                                                snapshot_task.data.docs;
                                             List<int> countItem =
                                                 new List<int>.generate(
                                                     quant, (index) => 0);
                                             int countEnd = 0;
                                             for (DocumentSnapshot documentSnapshot
                                                 in list_documentSnapshot) {
-                                              if (documentSnapshot['end'] !=
+                                              if (documentSnapshot.data()['end'] !=
                                                       null &&
                                                   (listUid.contains(
-                                                          documentSnapshot[
+                                                          documentSnapshot.data()[
                                                               'uid']) ||
                                                       type == 'challenge' ||
                                                       type == 'gino')) {
                                                 countEnd++;
                                               }
                                               Map<dynamic, dynamic> signed =
-                                                  documentSnapshot['signed'];
+                                                  documentSnapshot.data()['signed'];
                                               for (int i = 0; i < quant; i++) {
                                                 Map<dynamic, dynamic>
                                                     signed_part =
@@ -113,7 +109,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                   if (signed_part['phaze'] ==
                                                           'signed' &&
                                                       (listUid.contains(
-                                                              documentSnapshot[
+                                                              documentSnapshot.data()[
                                                                   'uid']) ||
                                                           type == 'challenge' ||
                                                           type == 'gino')) {
@@ -375,31 +371,35 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                           bordercolor = Colors.grey[300];
                                         }
                                         return Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: 10, right: 5, left: 5),
-                                          child: Card(
-                                              color: Color(0x00000000),
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                  color: bordercolor,
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                              ),
-                                              elevation: 0,
-                                              child: InkWell(
-                                                customBorder:
-                                                    RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                child: Padding(
-                                                    padding: EdgeInsets.all(8),
-                                                    child: Text(content)),
-                                              )),
-                                        );
+                                            padding: EdgeInsets.only(
+                                                bottom: 10, right: 5, left: 5),
+                                            child: Card(
+                                                  color: Color(0x00000000),
+                                                  shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                      color: bordercolor,
+                                                      width: 2.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  elevation: 0,
+                                                  child: InkWell(
+                                                    customBorder:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ),
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8),
+                                                        child: Semantics(
+                                                            label: 'さいもく' + (index+1).toString() + '、',
+                                                            child: Text(content)),
+                                                  )),
+                                            ));
                                       })),
                               Padding(
                                   padding: EdgeInsets.only(

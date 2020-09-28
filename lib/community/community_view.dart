@@ -152,7 +152,7 @@ class CommunityView extends StatelessWidget {
                                                             int index_number) {
                                                       Map<String, dynamic>
                                                           numberSnapshot =
-                                                          snapshot['signed'][
+                                                          snapshot.data()['signed'][
                                                               index_number
                                                                   .toString()];
                                                       print(numberSnapshot);

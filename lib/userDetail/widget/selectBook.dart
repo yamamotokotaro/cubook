@@ -45,12 +45,6 @@ class SelectBook extends StatelessWidget {
         child: Column(
       children: <Widget>[
         Consumer<UserDetailModel>(builder: (context, model, child) {
-          if (model.userSnapshot == null) {
-            model.getSnapshot(uid);
-          } else if (model.userSnapshot.data['uid'] != uid) {
-            model.getSnapshot(uid);
-            model.userSnapshot = null;
-          }
           return ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               itemCount: type.length,
@@ -103,7 +97,7 @@ class SelectBook extends StatelessWidget {
                                               model.userSnapshot,
                                           builder: (context, snapshot, child) => snapshot !=
                                                   null
-                                              ? snapshot[type[index]] != null
+                                              ? snapshot.data()[type[index]] != null
                                                   ? LinearProgressIndicator(
                                                       backgroundColor: theme
                                                           .getIndicatorColor(
@@ -111,8 +105,8 @@ class SelectBook extends StatelessWidget {
                                                       valueColor:
                                                           new AlwaysStoppedAnimation<Color>(
                                                               Colors.white),
-                                                      value: snapshot[type[index]]
-                                                              .length /
+                                                      value: snapshot.data()[type[index]]
+                                                              .length/
                                                           task
                                                               .getAllMap(
                                                                   type[index])

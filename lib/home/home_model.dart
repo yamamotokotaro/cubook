@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_view.dart';
@@ -9,17 +8,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart' show FirebaseAuthUi;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 import 'package:notification_permissions/notification_permissions.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeModel extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleAuthProvider _authProvider = GoogleAuthProvider();
   DocumentSnapshot userSnapshot;
   QuerySnapshot effortSnapshot;
-  FirebaseUser currentUser;
-  StreamSubscription<FirebaseUser> _listener;
+  User currentUser;
   bool isGet = false;
   bool isLoaded = false;
   bool isLoading_join = false;
@@ -30,6 +26,7 @@ class HomeModel extends ChangeNotifier {
   String username = '';
   String usercall = '';
   String groupName;
+  String teamPosition;
   String age = '';
   String permission;
   Map<dynamic, dynamic> tokenMap;
@@ -43,117 +40,121 @@ class HomeModel extends ChangeNotifier {
     isLoaded = false;
     userSnapshot = null;
     currentUser = null;
-    FirebaseAuth.instance.currentUser().then((user) {
-      if (user != null) {
-        currentUser = user;
-        Firestore.instance
-            .collection('user')
-            .where('uid', isEqualTo: currentUser.uid)
-            .snapshots()
-            .listen((data) {
-          if (data.documents.length != 0) {
-            userSnapshot = data.documents[0];
-            username = userSnapshot['name'] + userSnapshot['call'];
-            usercall = userSnapshot['call'];
-            groupName = userSnapshot['groupName'];
-            position = userSnapshot['position'];
-            grade = userSnapshot['grade'];
-            age = userSnapshot['age'];
-            if (userSnapshot['token_notification'] != null) {
-              _token_notification = userSnapshot['token_notification'];
+    User user = await FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      currentUser = user;
+      FirebaseFirestore.instance
+          .collection('user')
+          .where('uid', isEqualTo: currentUser.uid)
+          .snapshots()
+          .listen((data) {
+        if (data.docs.length != 0) {
+          userSnapshot = data.docs[0];
+          username = userSnapshot.data()['name'] + userSnapshot.data()['call'];
+          usercall = userSnapshot.data()['call'];
+          groupName = userSnapshot.data()['groupName'];
+          teamPosition = userSnapshot.data()['teamPosition'];
+          position = userSnapshot.data()['position'];
+          grade = userSnapshot.data()['grade'];
+          age = userSnapshot.data()['age'];
+          if (userSnapshot.data()['token_notification'] != null) {
+            _token_notification = userSnapshot.data()['token_notification'];
+          }
+          NotificationPermissions.getNotificationPermissionStatus()
+              .then((status) {
+            switch (status) {
+              case PermissionStatus.denied:
+                permission = 'denied';
+                break;
+              case PermissionStatus.granted:
+                permission = 'granted';
+                break;
+              case PermissionStatus.unknown:
+                permission = 'unknown';
+                break;
+              default:
+                return null;
             }
-            NotificationPermissions.getNotificationPermissionStatus()
-                .then((status) {
-              switch (status) {
-                case PermissionStatus.denied:
-                  permission = 'denied';
-                  break;
-                case PermissionStatus.granted:
-                  permission = 'granted';
-                  break;
-                case PermissionStatus.unknown:
-                  permission = 'unknown';
-                  break;
-                default:
-                  return null;
-              }
-            });
-            if (position == 'scout') {
-              if (grade != null) {
-                if (grade == 'cub') {
-                  toShow = HomeScoutView();
-                } else if (grade == 'boy') {
+          });
+          if (position == 'scout') {
+            if (grade != null) {
+              if (grade == 'cub') {
+                toShow = HomeScoutView();
+              } else if (grade == 'boy') {
+                if (teamPosition != null) {
+                  if (teamPosition == 'teamLeader') {
+                    toShow = Column(
+                      children: <Widget>[HomeLeaderView(), HomeBSView()],
+                    );
+                  } else {
+                    toShow = Column(
+                      children: <Widget>[HomeBSView()],
+                    );
+                  }
+                } else {
                   toShow = Column(
                     children: <Widget>[HomeBSView()],
                   );
-                } else if (grade == 'venture') {
-                  toShow = Column(
-                    children: <Widget>[
-                      HomeBSView(),
-                    ],
-                  );
                 }
-              } else {
-                toShow = HomeScoutView();
+              } else if (grade == 'venture') {
+                toShow = Column(
+                  children: <Widget>[
+                    HomeBSView(),
+                  ],
+                );
               }
-              getSnapshot();
-            } else if (position == 'boyscout') {
-              toShow = HomeBSView();
-            } else if (position == 'groupleader') {
-              toShow = Column(
-                children: <Widget>[HomeBSView(), HomeLeaderView()],
-              );
-            } else if (position == 'leader') {
-              toShow = HomeLeaderView();
             } else {
-              toShow = Center(
-                child: Text('エラーが発生しました'),
-              );
+              toShow = HomeScoutView();
             }
-            if (!isSended) {
-              FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-              _firebaseMessaging.getToken().then((String token_get) {
-                assert(token_get != null);
-                token = token_get;
-                if (_token_notification.length != 0) {
-                  if (!_token_notification.contains(token_get)) {
-                    _token_notification.add(token_get);
-                    Firestore.instance
-                        .collection('user')
-                        .document(userSnapshot.documentID)
-                        .updateData(<String, dynamic>
-                            {'token_notification': _token_notification});
-                  }
-                } else {
-                  _token_notification.add(token_get);
-                  Firestore.instance
-                      .collection('user')
-                      .document(userSnapshot.documentID)
-                      .updateData(<String, dynamic>{'token_notification': _token_notification});
-                }
-              });
-              isSended = true;
-            }
-            isLoaded = true;
-            notifyListeners();
+            getSnapshot();
+          } else if (position == 'boyscout') {
+            toShow = HomeBSView();
+          } else if (position == 'groupleader') {
+            toShow = Column(
+              children: <Widget>[HomeLeaderView(), HomeBSView()],
+            );
+          } else if (position == 'leader') {
+            toShow = HomeLeaderView();
           } else {
-            isLoaded = true;
+            toShow = Center(
+              child: Text('エラーが発生しました'),
+            );
           }
-        });
-      } else {
-        isLoaded = true;
-      }
-      notifyListeners();
-    });
+          if (!isSended) {
+            FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+            _firebaseMessaging.getToken().then((String token_get) {
+              assert(token_get != null);
+              token = token_get;
+            });
+            isSended = true;
+          }
+          isLoaded = true;
+          notifyListeners();
+        } else {
+          isLoaded = true;
+        }
+      });
+    } else {
+      isLoaded = true;
+    }
+    notifyListeners();
   }
 
   void logout() async {
+    final result = await FirebaseAuthUi.instance().logout();
+    currentUser = null;
+    notifyListeners();
+    login();
+  }
+
+  /*void logout() async {
     _token_notification.removeWhere((dynamic item) => item == token);
     Firestore.instance
         .collection('user')
         .document(userSnapshot.documentID)
-        .updateData(<String, dynamic>{'token_notification': _token_notification}).then(
-            (value) async {
+        .updateData(<String, dynamic>{
+      'token_notification': _token_notification
+    }).then((value) async {
       final result = await FirebaseAuthUi.instance().logout();
       currentUser = null;
       login();
@@ -166,27 +167,23 @@ class HomeModel extends ChangeNotifier {
       notifyListeners();
       isSended = false;
     });
-  }
+  }*/
 
   void getUserSnapshot() async {}
 
   void getSnapshot() async {
-    currentUser = await _auth.currentUser();
-    currentUser?.getIdToken(refresh: true);
-
-    _listener = _auth.onAuthStateChanged.listen((FirebaseUser user) {
-      currentUser = user;
-      Firestore.instance
-          .collection('user')
-          .where('uid', isEqualTo: currentUser.uid)
-          .snapshots()
-          .listen((data) {
-        userSnapshot = data.documents[0];
-        notifyListeners();
-      });
-      isGet = true;
+    User user = await FirebaseAuth.instance.currentUser;
+    currentUser = user;
+    FirebaseFirestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: currentUser.uid)
+        .snapshots()
+        .listen((data) {
+      userSnapshot = data.documents[0];
       notifyListeners();
     });
+    isGet = true;
+    notifyListeners();
   }
 
   void increaseCount(String documentID) async {
@@ -197,8 +194,7 @@ class HomeModel extends ChangeNotifier {
   }
 
   Future<void> getCheckNotificationPermStatus() {
-    NotificationPermissions.getNotificationPermissionStatus()
-        .then((status) {
+    NotificationPermissions.getNotificationPermissionStatus().then((status) {
       switch (status) {
         case PermissionStatus.denied:
           permission = 'denied';
@@ -216,7 +212,7 @@ class HomeModel extends ChangeNotifier {
     });
   }
 
-  void onStatusChange(PermissionStatus status){
+  void onStatusChange(PermissionStatus status) {
     switch (status) {
       case PermissionStatus.denied:
         permission = 'denied';

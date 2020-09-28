@@ -7,7 +7,7 @@ import 'package:video_player/video_player.dart';
 
 class CommunityModel extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseUser user;
+  User user;
   bool isLoading_comment = false;
   String documentID;
   bool isGet = false;
@@ -26,30 +26,29 @@ class CommunityModel extends ChangeNotifier {
 
   void getGroup() async {
     String group_before = group;
-    FirebaseAuth.instance.currentUser().then((user) {
-      this.user = user;
-      Firestore.instance
-          .collection('user')
-          .where('uid', isEqualTo: user.uid)
-          .getDocuments()
-          .then((snapshot) {
-        group = snapshot.documents[0]['group'];
-        if (group != group_before) {
+    User user = await FirebaseAuth.instance.currentUser;
+    this.user = user;
+    FirebaseFirestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .get()
+        .then((snapshot) {
+      group = snapshot.docs[0].data()['group'];
+      if (group != group_before) {
+        notifyListeners();
+      }
+      /*user.getIdToken(refresh: true).then((value) {
+        String group_claim_before = group_claim;
+        group_claim = value.claims['group'];
+        if (group_claim_before != group_claim) {
           notifyListeners();
         }
-        user.getIdToken(refresh: true).then((value) {
-          String group_claim_before = group_claim;
-          group_claim = value.claims['group'];
-          if (group_claim_before != group_claim) {
-            notifyListeners();
-          }
-        });
-      });
+      });*/
     });
   }
 
   void getData(DocumentSnapshot snapshot, int quant) async {
-    String documentID_before = snapshot.documentID;
+    String documentID_before = snapshot.id;
     if (documentID != documentID_before) {
       isGet = false;
       dataList =
@@ -57,8 +56,8 @@ class CommunityModel extends ChangeNotifier {
       dateSelected = new List<dynamic>.generate(quant, (index) => null);
 
       for (int i = 0; i < quant; i++) {
-        if (snapshot['signed'][i.toString()] != null) {
-          Map<String, dynamic> doc = snapshot['signed'][i.toString()];
+        if (snapshot.data()['signed'][i.toString()] != null) {
+          Map<String, dynamic> doc = snapshot.data()['signed'][i.toString()];
           if (doc != null) {
             if (doc['phaze'] == 'signed') {
               dateSelected[i] = doc['time'].toDate();
@@ -95,51 +94,52 @@ class CommunityModel extends ChangeNotifier {
         }
       }
       isGet = true;
-      documentID = snapshot.documentID;
+      documentID = snapshot.id;
       notifyListeners();
     }
   }
 
-  void sendComment(String effortID, BuildContext context) {
+  void sendComment(String effortID, BuildContext context) async {
     if (commentController.text != '') {
       isLoading_comment = true;
       notifyListeners();
-      FirebaseAuth.instance.currentUser().then((user) {
-        if (user != null) {
-          Firestore.instance
-              .collection('user')
-              .where('uid', isEqualTo: user.uid)
-              .where('group', isEqualTo: group)
-              .getDocuments()
-              .then((data) {
-            DocumentSnapshot snapshot = data.documents[0];
-            Firestore.instance.collection('comment').add(<String, dynamic>{
-              'group': group,
-              'uid': user.uid,
-              'body': commentController.text,
-              'effortID': effortID,
-              'name': snapshot['name'],
-              'age': snapshot['age'],
-              'time': Timestamp.now()
-            }).then((value) {
-              commentController.clear();
-              FocusScope.of(context).unfocus();
-              isLoading_comment = false;
-              scrollController.animateTo(
-                  scrollController.position.maxScrollExtent,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeOut);
-              notifyListeners();
-            });
+      User user = await FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        FirebaseFirestore.instance
+            .collection('user')
+            .where('uid', isEqualTo: user.uid)
+            .where('group', isEqualTo: group)
+            .get()
+            .then((data) {
+          DocumentSnapshot snapshot = data.docs[0];
+          FirebaseFirestore.instance
+              .collection('comment')
+              .add(<String, dynamic>{
+            'group': group,
+            'uid': user.uid,
+            'body': commentController.text,
+            'effortID': effortID,
+            'name': snapshot.data()['name'],
+            'age': snapshot.data()['age'],
+            'time': Timestamp.now()
+          }).then((value) {
+            commentController.clear();
+            FocusScope.of(context).unfocus();
+            isLoading_comment = false;
+            scrollController.animateTo(
+                scrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOut);
+            notifyListeners();
           });
-        }
-      });
+        });
+      }
     } else {
       notifyListeners();
     }
   }
 
   void deleteComent(String documentID) {
-    Firestore.instance.collection('comment').document(documentID).delete();
+    FirebaseFirestore.instance.collection('comment').doc(documentID).delete();
   }
 }

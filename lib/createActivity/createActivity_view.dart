@@ -209,7 +209,7 @@ class CreateActivityView extends StatelessWidget {
                           Padding(
                               padding: EdgeInsets.only(bottom: 70),
                               child: StreamBuilder<QuerySnapshot>(
-                                stream: Firestore.instance
+                                stream: FirebaseFirestore.instance
                                     .collection('user')
                                     .where('group', isEqualTo: model.group)
                                     .where('position', isEqualTo: 'scout')
@@ -220,7 +220,7 @@ class CreateActivityView extends StatelessWidget {
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data.documents.length != 0) {
+                                    if (snapshot.data.docs.length != 0) {
                                       QuerySnapshot querySnapshot =
                                           snapshot.data;
                                       String team_last = '';
@@ -234,18 +234,18 @@ class CreateActivityView extends StatelessWidget {
                                               int index) {
                                             String uid;
                                             DocumentSnapshot snapshot =
-                                                querySnapshot.documents[index];
-                                            uid = snapshot['uid'];
+                                                querySnapshot.docs[index];
+                                            uid = snapshot.data()['uid'];
                                             bool isCheck = true;
                                             if (model.uid_check[uid] != null) {
                                               isCheck = model.uid_check[uid];
                                             }
                                             String team;
-                                            if (snapshot['team'] is int) {
+                                            if (snapshot.data()['team'] is int) {
                                               team =
-                                                  snapshot['team'].toString();
+                                                  snapshot.data()['team'].toString();
                                             } else {
-                                              team = snapshot['team'];
+                                              team = snapshot.data()['team'];
                                             }
                                             bool isFirst;
                                             if (team_last != team) {
@@ -254,7 +254,7 @@ class CreateActivityView extends StatelessWidget {
                                             } else {
                                               isFirst = false;
                                             }
-                                            String grade = snapshot['grade'];
+                                            String grade = snapshot.data()['grade'];
                                             String team_call;
                                             if (grade == 'cub') {
                                               team_call = '組';
@@ -308,7 +308,7 @@ class CreateActivityView extends StatelessWidget {
                                                                 height: 40,
                                                                 decoration: BoxDecoration(
                                                                     color: theme.getUserColor(
-                                                                        snapshot[
+                                                                        snapshot.data()[
                                                                             'age']),
                                                                     shape: BoxShape
                                                                         .circle),
@@ -324,7 +324,7 @@ class CreateActivityView extends StatelessWidget {
                                                                           left:
                                                                               10),
                                                                   child: Text(
-                                                                    snapshot[
+                                                                    snapshot.data()[
                                                                         'name'],
                                                                     style: TextStyle(
                                                                         fontWeight:
