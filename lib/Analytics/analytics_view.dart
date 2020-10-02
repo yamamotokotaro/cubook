@@ -14,13 +14,13 @@ class AnalyticsView extends StatelessWidget {
     'sika',
     'kuma',
     'challenge',
-    /*'syokyu',
+    'syokyu',
     'nikyu',
     'ikkyu',
     'kiku',
     'hayabusa',
     'fuji',
-    'gino'*/
+    'gino'
   ];
 
   @override
