@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 
 class TaskListScoutConfirmModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
 
   void getSnapshot(String uid) async {

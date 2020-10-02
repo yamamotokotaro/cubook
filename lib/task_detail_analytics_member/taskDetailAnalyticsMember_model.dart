@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 
 class TaskDetailAnalyticsMemberModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   String group;
   String team;
   String group_claim;
@@ -21,7 +21,7 @@ class TaskDetailAnalyticsMemberModel extends ChangeNotifier {
         .where('uid', isEqualTo: user.uid)
         .get()
         .then((snapshot) {
-      DocumentSnapshot userSnapshot = snapshot.documents[0];
+      DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot.data()['group'];
       team = userSnapshot.data()['team'];
       teamPosition = userSnapshot.data()['teamPosition'];
@@ -56,28 +56,72 @@ class TaskDetailAnalyticsMemberModel extends ChangeNotifier {
     });
   }
 
-  Stream<QuerySnapshot> getUserSnapshot() {
-    if (teamPosition != null) {
-      if (teamPosition == 'teamLeader') {
-        return FirebaseFirestore.instance
-            .collection('user')
-            .where('group', isEqualTo: group)
-            .where('position', isEqualTo: 'scout')
-            .where('team', isEqualTo: team)
-            .snapshots();
+  Stream<QuerySnapshot> getUserSnapshot(String type) {
+    if (type == 'challenge' || type == 'gino') {
+      if (teamPosition != null) {
+        if (teamPosition == 'teamLeader') {
+          return FirebaseFirestore.instance
+              .collection('user')
+              .where('group', isEqualTo: group)
+              .where('position', isEqualTo: 'scout')
+              .where('team', isEqualTo: team)
+              .orderBy('age_turn', descending: true)
+              .orderBy('name')
+              .snapshots();
+        } else {
+          return FirebaseFirestore.instance
+              .collection('user')
+              .where('group', isEqualTo: group)
+              .where('position', isEqualTo: 'scout')
+              .orderBy('team')
+              .orderBy('age_turn', descending: true)
+              .orderBy('name')
+              .snapshots();
+        }
       } else {
         return FirebaseFirestore.instance
             .collection('user')
             .where('group', isEqualTo: group)
             .where('position', isEqualTo: 'scout')
+            .orderBy('team')
+            .orderBy('age_turn', descending: true)
+            .orderBy('name')
             .snapshots();
       }
     } else {
-      return FirebaseFirestore.instance
-          .collection('user')
-          .where('group', isEqualTo: group)
-          .where('position', isEqualTo: 'scout')
-          .snapshots();
+      if (teamPosition != null) {
+        if (teamPosition == 'teamLeader') {
+          return FirebaseFirestore.instance
+              .collection('user')
+              .where('group', isEqualTo: group)
+              .where('position', isEqualTo: 'scout')
+              .where('age', isEqualTo: type)
+              .where('team', isEqualTo: team)
+              .orderBy('age_turn', descending: true)
+              .orderBy('name')
+              .snapshots();
+        } else {
+          return FirebaseFirestore.instance
+              .collection('user')
+              .where('group', isEqualTo: group)
+              .where('position', isEqualTo: 'scout')
+              .where('age', isEqualTo: type)
+              .orderBy('team')
+              .orderBy('age_turn', descending: true)
+              .orderBy('name')
+              .snapshots();
+        }
+      } else {
+        return FirebaseFirestore.instance
+            .collection('user')
+            .where('group', isEqualTo: group)
+            .where('position', isEqualTo: 'scout')
+            .where('age', isEqualTo: type)
+            .orderBy('team')
+            .orderBy('age_turn', descending: true)
+            .orderBy('name')
+            .snapshots();
+      }
     }
   }
 }
