@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class ListMemberModel extends ChangeNotifier {
   QuerySnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
   String group;
   dynamic team;
@@ -22,7 +22,7 @@ class ListMemberModel extends ChangeNotifier {
         .where('uid', isEqualTo: user.uid)
         .get()
         .then((snapshot) {
-      DocumentSnapshot userSnapshot = snapshot.documents[0];
+      DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot.data()['group'];
       team = userSnapshot.data()['team'];
       position = userSnapshot.data()['position'];
@@ -62,7 +62,7 @@ class ListMemberModel extends ChangeNotifier {
             .snapshots();
       }
     } else {
-      return Firestore.instance
+      return FirebaseFirestore.instance
           .collection('user')
           .where('group', isEqualTo: group)
           .where('position', isEqualTo: 'scout')

@@ -7,7 +7,7 @@ import 'package:video_player/video_player.dart';
 
 class AnalyticsModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
   String group;
   String group_before = '';

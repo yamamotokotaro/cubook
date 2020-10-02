@@ -84,7 +84,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
               age = '1級スカウト';
               break;
             case 'hayabusa':
-              age = '菊スカウト';
+              age = '菊スカウト（隼を目指すスカウト）';
               break;
             case 'fuji':
               age = '隼スカウト';
