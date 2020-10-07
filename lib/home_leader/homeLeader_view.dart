@@ -57,7 +57,7 @@ class HomeLeaderView extends StatelessWidget {
                                           type: MaterialType.transparency,
                                           child: Text(
                                             'サイン待ち' +
-                                                snapshot.data.documents.length
+                                                snapshot.data.docs.length
                                                     .toString() +
                                                 '件',
                                             style: TextStyle(
