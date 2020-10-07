@@ -9,21 +9,6 @@ import 'package:excel/excel.dart';
 class AnalyticsView extends StatelessWidget {
   var theme = new ThemeInfo();
 
-  var type = [
-//    'beaver',
-    'usagi',
-    'sika',
-    'kuma',
-    'challenge',
-    'syokyu',
-    'nikyu',
-    'ikkyu',
-    'kiku',
-    'hayabusa',
-    'fuji',
-    'gino'
-  ];
-
   @override
   Widget build(BuildContext context) {
     bool isDark;
@@ -32,6 +17,7 @@ class AnalyticsView extends StatelessWidget {
     } else {
       isDark = false;
     }
+    var type = theme.type;
     return Scaffold(
       appBar: AppBar(
         title: Text('アナリティクス'),

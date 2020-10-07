@@ -162,7 +162,9 @@ class AnalyticsModel extends ChangeNotifier {
         excel.delete('Sheet1');
         excel.encode().then((onValue) async {
           Directory appDocDir = await getTemporaryDirectory();
-          file_dir = appDocDir.path + "/cubook.xlsx";
+          file_dir = appDocDir.path + "/cubook_" + DateFormat('yyyyMMddhhmm')
+              .format(DateTime.now())
+              .toString() + ".xlsx";
           File(file_dir)
             ..createSync(recursive: true)
             ..writeAsBytesSync(onValue);

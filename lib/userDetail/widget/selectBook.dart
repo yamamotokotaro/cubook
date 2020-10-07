@@ -20,27 +20,13 @@ class SelectBook extends StatelessWidget {
   var theme = new ThemeInfo();
   String uid;
 
-  var type = [
-//    'beaver',
-    'usagi',
-    'sika',
-    'kuma',
-    'challenge',
-    'syokyu',
-    'nikyu',
-    'ikkyu',
-    'kiku',
-    'hayabusa',
-    'fuji',
-    'gino'
-  ];
-
   SelectBook(String uid) {
     this.uid = uid;
   }
 
   @override
   Widget build(BuildContext context) {
+    var type = theme.type;
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
