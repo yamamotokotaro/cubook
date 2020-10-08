@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 
 class TaskDetailAnalyticsModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   String group;
   String team;
   String group_claim;
@@ -59,21 +59,21 @@ class TaskDetailAnalyticsModel extends ChangeNotifier {
   Stream<QuerySnapshot> getUserSnapshot() {
     if (teamPosition != null) {
       if (teamPosition == 'teamLeader') {
-        return Firestore.instance
+        return FirebaseFirestore.instance
             .collection('user')
             .where('group', isEqualTo: group)
             .where('position', isEqualTo: 'scout')
             .where('team', isEqualTo: team)
             .snapshots();
       } else {
-        return Firestore.instance
+        return FirebaseFirestore.instance
             .collection('user')
             .where('group', isEqualTo: group)
             .where('position', isEqualTo: 'scout')
             .snapshots();
       }
     } else {
-      return Firestore.instance
+      return FirebaseFirestore.instance
           .collection('user')
           .where('group', isEqualTo: group)
           .where('position', isEqualTo: 'scout')

@@ -45,6 +45,21 @@ class ThemeInfo {
     '技能章'
   ];
 
+  List<String> type = [
+//    'beaver',
+    'usagi',
+    'sika',
+    'kuma',
+    'challenge',
+    /*'syokyu',
+    'nikyu',
+    'ikkyu',
+    'kiku',
+    'hayabusa',
+    'fuji',
+    'gino'*/
+  ];
+
   Color getThemeColor(String type) {
     Color color;
     switch (type) {
