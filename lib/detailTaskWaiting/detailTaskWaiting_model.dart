@@ -10,7 +10,7 @@ import 'package:video_player/video_player.dart';
 
 class DetailTaskWaitingModel extends ChangeNotifier {
   DocumentSnapshot taskSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   String documentID;
   String documentID_type;
   String feedback = '';
@@ -30,9 +30,9 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   Future<void> getTaskSnapshot(String _documentID) async {
     documentID = _documentID;
     isLoaded = false;
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('task')
-        .document(documentID)
+        .doc(documentID)
         .snapshots()
         .listen((data) async {
       taskSnapshot = data;
@@ -134,9 +134,8 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       notifyListeners();
       User user = await FirebaseAuth.instance.currentUser;
       currentUser = user;
-      currentUser.getIdToken().then((token) async {
-        //tokenMap = token.claims;
-        // await updateUserInfo();
+      currentUser.getIdTokenResult().then((token) async {
+        tokenMap = token.claims;
         await updateDocumentInfo();
         await addEffort();
         await addNotification('signed');
@@ -155,11 +154,11 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       notifyListeners();
       User user = await FirebaseAuth.instance.currentUser;
       currentUser = user;
-      /*currentUser.getIdToken().then((token) async {
+      currentUser.getIdTokenResult().then((token) async {
         tokenMap = token.claims;
         await updateDocumentInfo_reject();
         await addNotification('reject');
-      });*/
+      });
       isLoading = false;
     } else {
       EmptyError = true;
@@ -209,8 +208,8 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         .where('group', isEqualTo: tokenMap['group'])
         .get()
         .then((data) {
-      DocumentSnapshot snapshot = data.documents[0];
-      documentID_type = snapshot.documentID;
+      DocumentSnapshot snapshot = data.docs[0];
+      documentID_type = snapshot.id;
       Map<String, dynamic> map = Map<String, dynamic>();
       map = snapshot.data()['signed'];
       map[number.toString()]['data'] = taskSnapshot.data()['data'];
