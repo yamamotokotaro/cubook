@@ -30,80 +30,67 @@ class SelectBook extends StatelessWidget {
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
-        Consumer<UserDetailModel>(builder: (context, model, child) {if (model.userSnapshot == null) {
-          model.getSnapshot(uid);
-        } else if (model.userSnapshot.data()['uid'] != uid) {
-          model.getSnapshot(uid);
-          model.userSnapshot = null;
-        }
-          return ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: type.length,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Container(
-                      height: 180,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        elevation: 8,
-                        color: theme.getThemeColor(type[index]),
-                        child: InkWell(
-                          customBorder: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+        Consumer<UserDetailModel>(builder: (context, model, child) {
+          if (model.userSnapshot == null) {
+            model.getSnapshot(uid);
+          } else if (model.userSnapshot.data()['uid'] != uid) {
+            model.getSnapshot(uid);
+            model.userSnapshot = null;
+          }
+          return Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: type.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Card(
+                          color: theme.getThemeColor(type[index]),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute<TaskView>(
-                                builder: (BuildContext context) {
-                              return TaskListScoutConfirmView(type[index], uid);
-                            }));
-                          },
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                          child: InkWell(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute<TaskView>(
+                                        builder: (BuildContext context) {
+                                  return TaskListScoutConfirmView(
+                                      type[index], uid);
+                                }));
+                              },
+                              child: Row(
                                 children: <Widget>[
-                                  Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 13),
-                                        child: Material(
-                                            type: MaterialType.transparency,
-                                            child: Text(
-                                              theme.getTitle(type[index]),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 30,
-                                                  color: Colors.white),
-                                            )),
-                                      )),
                                   Padding(
-                                      padding: EdgeInsets.all(20),
+                                      padding: EdgeInsets.only(
+                                          top: 15,
+                                          bottom: 15,
+                                          left: 12,
+                                          right: 10),
                                       child: Selector<UserDetailModel,
                                               DocumentSnapshot>(
                                           selector: (context, model) =>
                                               model.userSnapshot,
                                           builder: (context, snapshot, child) => snapshot !=
                                                   null
-                                              ? snapshot.data()[type[index]] != null
-                                                  ? LinearProgressIndicator(
-                                                      backgroundColor: theme
-                                                          .getIndicatorColor(
-                                                              type[index]),
-                                                      valueColor:
-                                                          new AlwaysStoppedAnimation<Color>(
-                                                              Colors.white),
-                                                      value: snapshot.data()[type[index]]
-                                                              .length/
+                                              ? snapshot.data()[type[index]] !=
+                                                      null
+                                                  ? CircularProgressIndicator(
+                                                      backgroundColor: theme.getIndicatorColor(
+                                                          type[index]),
+                                                      valueColor: new AlwaysStoppedAnimation<Color>(
+                                                          Colors.white),
+                                                      value: snapshot.data()[type[index]].length /
                                                           task
                                                               .getAllMap(
                                                                   type[index])
                                                               .length)
-                                                  : Container()
-                                              : LinearProgressIndicator(
+                                                  : CircularProgressIndicator(
+                                                      backgroundColor: theme.getIndicatorColor(type[index]),
+                                                      valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                                                      value: 0)
+                                              : CircularProgressIndicator(
                                                   backgroundColor:
                                                       theme.getIndicatorColor(
                                                           type[index]),
@@ -111,12 +98,29 @@ class SelectBook extends StatelessWidget {
                                                       new AlwaysStoppedAnimation<
                                                           Color>(Colors.white),
                                                 ))),
-                                ]),
-                          ),
-                        ),
-                      ),
-                    ));
-              });
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, bottom: 10),
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    theme.getTitle(type[index]),
+                                                    style:
+                                                        TextStyle(fontSize: 23,color: Colors.white),
+                                                  ))),
+                                        ],
+                                      )),
+                                ],
+                              )),
+                        ));
+                  }));
         }),
       ],
     ));

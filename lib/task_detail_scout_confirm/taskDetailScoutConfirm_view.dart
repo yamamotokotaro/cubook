@@ -273,6 +273,59 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                             Padding(
                                               padding: EdgeInsets.all(10),
                                               child: Text(
+                                                '考査面接日',
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(top: 5),
+                                              child: FlatButton(
+                                                child: Text(
+                                                  model.stepSnapshot.data()[
+                                                              'date_interview'] !=
+                                                          null
+                                                      ? DateFormat('yyyy/MM/dd')
+                                                          .format(snapshot
+                                                              .data()[
+                                                                  'date_interview']
+                                                              .toDate())
+                                                          .toString()
+                                                      : 'タップして追加',
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                                onPressed: () {
+                                                  model.changeTime(
+                                                      snapshot
+                                                          .data()[
+                                                              'date_examination']
+                                                          .toDate(),
+                                                      context,
+                                                      snapshot.id,
+                                                      'date_interview');
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Container(),
+                                model.stepSnapshot.data()['date_examination'] !=
+                                        null
+                                    ? Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
                                                 '考査認定日',
                                                 style: TextStyle(
                                                     fontSize: 20.0,
@@ -1114,7 +1167,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                 )
                                               : Container(),
                                         ]);
-                                      } else if (model.stepSnapshot.data()['signed']
+                                      } else if (model.stepSnapshot
+                                                      .data()['signed']
                                                   [index_page.toString()]
                                               ['phaze'] ==
                                           'wait') {

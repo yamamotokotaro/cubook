@@ -7,7 +7,7 @@ class EditActivityModel extends ChangeNotifier {
   QuerySnapshot userSnapshot;
   DocumentSnapshot activitySnapshot;
   int countSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
   String group;
   String position;
@@ -30,7 +30,7 @@ class EditActivityModel extends ChangeNotifier {
         .where('uid', isEqualTo: user.uid)
         .get()
         .then((snapshot) {
-      DocumentSnapshot documentSnapshot = snapshot.documents[0];
+      DocumentSnapshot documentSnapshot = snapshot.docs[0];
       group = documentSnapshot.data()['group'];
       position = documentSnapshot.data()['position'];
       age = documentSnapshot.data()['age'];
@@ -88,12 +88,11 @@ class EditActivityModel extends ChangeNotifier {
   void onCheckMember(String documentID) async {
     if (checkAbsents[documentID] != null) {
       checkAbsents[documentID] = !checkAbsents[documentID];
-      notifyListeners();
     } else {
       checkAbsents[documentID] = false;
-      notifyListeners();
     }
     notifyListeners();
+    print(checkAbsents[documentID]);
   }
 
   void onPressSend(BuildContext context) async {
