@@ -123,7 +123,7 @@ class CreateActivityView extends StatelessWidget {
                               child: Container(
                                   width: double.infinity,
                                   child: Text(
-                                    '選択した項目は一括でサインされます\n現時点では検証が不十分なので、数分後に適切にサインされているか確認下さい',
+                                    '選択した項目は一括でサインされます',
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 12
@@ -228,7 +228,7 @@ class CreateActivityView extends StatelessWidget {
                                           physics:
                                               const NeverScrollableScrollPhysics(),
                                           itemCount:
-                                              querySnapshot.documents.length,
+                                              querySnapshot.docs.length,
                                           shrinkWrap: true,
                                           itemBuilder: (BuildContext context,
                                               int index) {
@@ -346,21 +346,6 @@ class CreateActivityView extends StatelessWidget {
                                                                     Colors.blue[
                                                                         600],
                                                               )
-                                                              /*Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left: 10),
-                                                              child: Text(
-                                                                snapshot['team']
-                                                                        .toString() +
-                                                                    '組',
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        15),
-                                                              ))*/
                                                             ],
                                                           ),
                                                         ),

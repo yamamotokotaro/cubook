@@ -64,7 +64,7 @@ class listEffort extends StatelessWidget {
           model.getSnapshot();
           if (model.group != null) {
             return StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance
+              stream: FirebaseFirestore.instance
                   .collection('effort')
                   .where('group', isEqualTo: model.group)
                   .where('time', isGreaterThanOrEqualTo: date)
@@ -74,7 +74,7 @@ class listEffort extends StatelessWidget {
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
                   final List<DocumentSnapshot> listSnapshot =
-                      snapshot.data.documents;
+                      snapshot.data.docs;
                   if (listSnapshot.length != 0) {
                     return Padding(
                       padding: const EdgeInsets.only(top: 10),
@@ -432,9 +432,9 @@ class listEffort extends StatelessWidget {
   }
 
   void increaseCount(String documentID) async {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('effort')
-        .document(documentID)
-        .updateData(<String, dynamic>{'congrats': FieldValue.increment(1)});
+        .doc(documentID)
+        .update(<String, dynamic>{'congrats': FieldValue.increment(1)});
   }
 }

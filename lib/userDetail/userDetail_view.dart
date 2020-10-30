@@ -66,7 +66,7 @@ class SelectBookView extends StatelessWidget {
                       } else {
                         _tabs = [
                           TabInfo("進歩", SelectBook(uid)),
-                          TabInfo("表彰待ち", ListNotCititationed(uid)),
+                          //TabInfo("表彰待ち", ListNotCititationed(uid)),
                           TabInfo("出欠", ListAbsentView(uid)),
                           TabInfo("設定", SettingAccountGroupView(uid)),
                         ];
@@ -74,7 +74,7 @@ class SelectBookView extends StatelessWidget {
                     } else {
                       _tabs = [
                         TabInfo("進歩", SelectBook(uid)),
-                        TabInfo("表彰待ち", ListNotCititationed(uid)),
+                        //TabInfo("表彰待ち", ListNotCititationed(uid)),
                         TabInfo("出欠", ListAbsentView(uid)),
                         TabInfo("設定", SettingAccountGroupView(uid)),
                       ];
@@ -92,7 +92,7 @@ class SelectBookView extends StatelessWidget {
                                     model.getGroup();
                                     if (model.group != null) {
                                       return StreamBuilder<QuerySnapshot>(
-                                        stream: Firestore.instance
+                                        stream: FirebaseFirestore.instance
                                             .collection('user')
                                             .where('group',
                                                 isEqualTo: model.group)

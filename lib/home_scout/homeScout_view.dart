@@ -383,44 +383,71 @@ class HomeScoutView extends StatelessWidget {
                     ),
                   ),
                 ))),
-        /*Padding(
-          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
-          child: Container(
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/listAbsentScout');
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.assignment,
-                            color: Theme.of(context).accentColor,
-                            size: 35,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: Text(
-                                  'スカウティングの履歴',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 25,
-                                  ),
-                                ),
-                              )),
-                        ]),
+        Padding(
+            padding: EdgeInsets.all(10),
+            child: Container(
+                height: 180,
+                child: Hero(
+                  tag: 'card_tin',
+                  child: Card(
+                    elevation: 8,
+                    color: Colors.blue[900],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute<TaskView>(
+                            builder: (BuildContext context) {
+                              return TaskView('tin');
+                            }));
+                      },
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 13),
+                                    child: Material(
+                                        type: MaterialType.transparency,
+                                        child: Text(
+                                          '珍チャレンジ章',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 30,
+                                              color: Colors.white),
+                                        )),
+                                  )),
+                              Padding(
+                                  padding: EdgeInsets.all(20),
+                                  child: Selector<HomeModel, DocumentSnapshot>(
+                                      selector: (context, model) =>
+                                      model.userSnapshot,
+                                      builder: (context, snapshot, child) => snapshot !=
+                                          null
+                                          ? snapshot.data()['challenge'] != null
+                                          ? LinearProgressIndicator(
+                                          backgroundColor:
+                                          Colors.blue[700],
+                                          valueColor:
+                                          new AlwaysStoppedAnimation<
+                                              Color>(Colors.white),
+                                          value: snapshot
+                                              .data()['challenge']
+                                              .length /
+                                              task
+                                                  .getAllMap('challenge')
+                                                  .length)
+                                          : Container()
+                                          : Container())),
+                            ]),
+                      ),
+                    ),
                   ),
-                ),
-              )),
-        ),*/
+                ))),
       ],
     );
   }

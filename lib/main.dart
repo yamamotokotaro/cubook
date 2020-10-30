@@ -13,8 +13,8 @@ import 'package:cubook/createActivity/createActivity_view.dart';
 import 'package:cubook/detailActivity/detailActivity_model.dart';
 import 'package:cubook/detailActivity/detailActivity_view.dart';
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
-import 'package:cubook/editAntivity/editActivity_model.dart';
-import 'package:cubook/editAntivity/editActivity_view.dart';
+import 'package:cubook/editActivity/editActivity_model.dart';
+import 'package:cubook/editActivity/editActivity_view.dart';
 import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
@@ -49,6 +49,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:notification_permissions/notification_permissions.dart';
@@ -69,6 +70,7 @@ void main() async {
   // Pass all uncaught errors from the framework to Crashlytics.
 
   WidgetsFlutterBinding.ensureInitialized();
+  GestureBinding.instance.resamplingEnabled = true;
   // Firebaseの各サービスを使う前に初期化を済ませておく必要がある
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -113,7 +115,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<PermissionStatus> permissionStatus =
-      NotificationPermissions.getNotificationPermissionStatus();
+  NotificationPermissions.getNotificationPermissionStatus();
 
   @override
   Widget build(BuildContext context) {

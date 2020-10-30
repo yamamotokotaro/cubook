@@ -131,6 +131,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                                 fontWeight: FontWeight.bold,),
                           ),
                         )),
+                    model.isLast ?
                     Padding(
                       padding: EdgeInsets.only(top: 10),
                       child: Row(
@@ -141,10 +142,10 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                             activeColor: themeColor,
                             value: model.checkCitation,
                           ),
-                          Text('過去に表彰済み')
+                          Text('表彰待ちリストに追加しない')
                         ],
                       ),
-                    ),
+                    ):Container(),
                     !model.isLoading[index_page]
                         ? RaisedButton.icon(
                       onPressed: () {
