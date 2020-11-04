@@ -110,51 +110,86 @@ class HomeScoutView extends StatelessWidget {
             return Container(child: Text('通知は設定済みです'));
           }
         }),*/
-        Padding(
-          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
-          child: Container(
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: InkWell(
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute<InviteView>(
-                        builder: (BuildContext context) {
-                          return NotificationView();
-                        }));
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.notifications,
-                            color: Theme
-                                .of(context)
-                                .accentColor,
-                            size: 35,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: Text(
-                                  'お知らせ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 30,
-                                  ),
-                                ),
-                              )),
-                        ]),
-                  ),
-                ),
-              )),
+
+        Selector<HomeModel, DocumentSnapshot>(
+          selector: (context, model) => model.userSnapshot,
+          builder: (context, userSnapshot, child) {
+            DateTime timeChecked;
+            if (userSnapshot.data()['time_notificationChecked'] != null) {
+              timeChecked =
+                  userSnapshot.data()['time_notificationChecked'].toDate();
+            }
+            return StreamBuilder<QuerySnapshot>(
+                stream: timeChecked != null
+                    ? FirebaseFirestore.instance
+                    .collection('notification')
+                    .where('uid', isEqualTo: userSnapshot.data()['uid'])
+                    .where('time', isGreaterThan: timeChecked)
+                    .snapshots()
+                    : FirebaseFirestore.instance
+                    .collection('notification')
+                    .where('uid', isEqualTo: userSnapshot.data()['uid'])
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    int snapshotLength = snapshot.data.docs.length;
+                    return Padding(
+                      padding: EdgeInsets.only(
+                          top: 5, left: 10, right: 10, bottom: 5),
+                      child: Container(
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute<InviteView>(
+                                        builder: (BuildContext context) {
+                                          return NotificationView();
+                                        }));
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.notifications,
+                                        color: Theme.of(context).accentColor,
+                                        size: 35,
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(left: 10),
+                                          child: Material(
+                                            type: MaterialType.transparency,
+                                            child: Text(
+                                              snapshotLength != 0
+                                                  ? 'お知らせ ' +
+                                                  snapshotLength.toString() +
+                                                  '件'
+                                                  : 'お知らせ',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 30,
+                                              ),
+                                            ),
+                                          )),
+                                    ]),
+                              ),
+                            ),
+                          )),
+                    );
+                  } else {
+                    return Center(
+                      child: Padding(
+                          padding: EdgeInsets.all(5),
+                          child: CircularProgressIndicator()),
+                    );
+                  }
+                });
+          },
         ),
         Padding(
           padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
@@ -375,71 +410,6 @@ class HomeScoutView extends StatelessWidget {
                                               task
                                                   .getAllMap(
                                                   'challenge')
-                                                  .length)
-                                          : Container()
-                                          : Container())),
-                            ]),
-                      ),
-                    ),
-                  ),
-                ))),
-        Padding(
-            padding: EdgeInsets.all(10),
-            child: Container(
-                height: 180,
-                child: Hero(
-                  tag: 'card_tin',
-                  child: Card(
-                    elevation: 8,
-                    color: Colors.blue[900],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute<TaskView>(
-                            builder: (BuildContext context) {
-                              return TaskView('tin');
-                            }));
-                      },
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 13),
-                                    child: Material(
-                                        type: MaterialType.transparency,
-                                        child: Text(
-                                          '珍チャレンジ章',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 30,
-                                              color: Colors.white),
-                                        )),
-                                  )),
-                              Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: Selector<HomeModel, DocumentSnapshot>(
-                                      selector: (context, model) =>
-                                      model.userSnapshot,
-                                      builder: (context, snapshot, child) => snapshot !=
-                                          null
-                                          ? snapshot.data()['challenge'] != null
-                                          ? LinearProgressIndicator(
-                                          backgroundColor:
-                                          Colors.blue[700],
-                                          valueColor:
-                                          new AlwaysStoppedAnimation<
-                                              Color>(Colors.white),
-                                          value: snapshot
-                                              .data()['challenge']
-                                              .length /
-                                              task
-                                                  .getAllMap('challenge')
                                                   .length)
                                           : Container()
                                           : Container())),

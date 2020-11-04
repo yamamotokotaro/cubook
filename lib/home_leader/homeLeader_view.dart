@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
-import 'package:cubook/listTaskWaiting/listTaskWaiting_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,7 @@ class HomeLeaderView extends StatelessWidget {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
-                  if (snapshot.data.documents.length != 0) {
+                  if (snapshot.data.docs.length != 0) {
                     return Padding(
                       padding: EdgeInsets.all(10),
                       child: Container(
@@ -35,11 +34,7 @@ class HomeLeaderView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute<ListTaskWaitingView>(
-                                    builder: (BuildContext context) {
-                              return ListTaskWaitingView();
-                            }));
+                            Navigator.of(context).pushNamed('/listTaskWaiting');
                           },
                           child: Padding(
                             padding: EdgeInsets.all(15),

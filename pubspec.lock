@@ -7,7 +7,7 @@ packages:
       name: admob_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   archive:
     dependency: transitive
     description:
@@ -70,21 +70,21 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.14.0+2"
+    version: "0.14.2"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.1.3"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0+1"
+    version: "0.2.0+5"
   cloud_functions:
     dependency: "direct main"
     description:
@@ -175,14 +175,14 @@ packages:
       name: firebase_admob
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.0-dev.1"
+    version: "0.10.1"
   firebase_analytics:
     dependency: "direct main"
     description:
       name: firebase_analytics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0"
+    version: "6.1.0"
   firebase_analytics_platform_interface:
     dependency: transitive
     description:
@@ -203,14 +203,14 @@ packages:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.18.0+1"
+    version: "0.18.2"
   firebase_auth_platform_interface:
     dependency: transitive
     description:
       name: firebase_auth_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.1.2"
   firebase_auth_ui:
     dependency: "direct main"
     description:
@@ -224,14 +224,14 @@ packages:
       name: firebase_auth_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0+1"
+    version: "0.3.1+2"
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0"
+    version: "0.5.1"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -252,14 +252,14 @@ packages:
       name: firebase_crashlytics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.0"
+    version: "0.2.2"
   firebase_crashlytics_platform_interface:
     dependency: transitive
     description:
       name: firebase_crashlytics_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.1.2"
   firebase_messaging:
     dependency: "direct main"
     description:
@@ -273,7 +273,7 @@ packages:
       name: firebase_performance
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0"
+    version: "0.4.1"
   firebase_remote_config:
     dependency: "direct main"
     description:
@@ -287,7 +287,7 @@ packages:
       name: firebase_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.0.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -440,7 +440,7 @@ packages:
       name: package_info
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3"
+    version: "0.4.3+2"
   path:
     dependency: transitive
     description:
@@ -613,7 +613,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.7.2"
+    version: "5.7.10"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -634,14 +634,14 @@ packages:
       name: url_launcher_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.8"
+    version: "1.0.9"
   url_launcher_web:
     dependency: transitive
     description:
       name: url_launcher_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.4+1"
+    version: "0.1.5"
   url_launcher_windows:
     dependency: transitive
     description:
@@ -714,4 +714,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.10.0-110 <2.11.0"
-  flutter: ">=1.18.0-6.0.pre <2.0.0"
+  flutter: ">=1.22.0 <2.0.0"

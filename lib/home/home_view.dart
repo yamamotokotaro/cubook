@@ -103,16 +103,14 @@ class HomeView extends StatelessWidget {
                                       return Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
-                                          model.age != 'usagi' &&
-                                                  model.age != 'sika' &&
-                                                  model.age != 'kuma'
+                                          model.providerID == 'password'
                                               ? ListTile(
-                                                  leading:
-                                                      Icon(Icons.star_border),
-                                                  title: Text('スペシャルコンテンツ'),
+                                                  leading: Icon(Icons.person),
+                                                  title: Text('アカウント設定'),
                                                   onTap: () {
                                                     Navigator.of(context)
-                                                        .pushNamed('/support');
+                                                        .pushNamed(
+                                                            '/settingView');
                                                   },
                                                 )
                                               : Container(),
@@ -147,29 +145,31 @@ class HomeView extends StatelessWidget {
                                               }));
                                             },
                                           ),
-//                                      Divider(color: Colors.grey),
-                                          /*Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          FlatButton(
-                                            onPressed: () {},
-                                            child: Text(
-                                              'プライバシーポリシー',
-                                              style: TextStyle(fontSize: 12),
-                                            ),
-                                          ),
-                                          FlatButton(
-                                            onPressed: () {},
-                                            child: Text(
-                                              '利用規約',
-                                              style: TextStyle(fontSize: 12),
-                                            ),
-                                          )
-                                        ],
-                                      ),*/
+                                          /*Divider(color: Colors.grey),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              FlatButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  'プライバシーポリシー',
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                ),
+                                              ),
+                                              FlatButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  '利用規約',
+                                                  style:
+                                                      TextStyle(fontSize: 12),
+                                                ),
+                                              )
+                                            ],
+                                          ),*/
                                           /*
                                       Center(
                                         child: Text(
