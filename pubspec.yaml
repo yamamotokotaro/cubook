@@ -43,7 +43,7 @@ dependencies:
   firebase_analytics: ^6.0.0
   firebase_crashlytics: ^0.2.0
   cloud_functions: ^0.6.0
-  firebase_admob: ^0.10.0-dev.1
+  firebase_admob: ^0.10.1
   package_info: ^0.4.3
   flutter_svg: ^0.19.0
   native_ads: ^0.5.0
