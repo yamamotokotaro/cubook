@@ -29,11 +29,14 @@ import 'package:cubook/listActivity/listActivity_view.dart';
 import 'package:cubook/listCitationAnalytics/listCitationAnalytics_model.dart';
 import 'package:cubook/listCitationAnalytics/listCitationAnalytics_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
+import 'package:cubook/listTaskWaiting/listTaskWaiting_view.dart';
 import 'package:cubook/list_member/listMember_model.dart';
 import 'package:cubook/list_member/listMember_view.dart';
-import 'package:cubook/model/arguments.dart';
 import 'package:cubook/notification/notification_model.dart';
 import 'package:cubook/setting_account/settingAccount_model.dart';
+import 'package:cubook/setting_account/settingAccount_view.dart';
+import 'package:cubook/setting_account/widget/changeMailAddress.dart';
+import 'package:cubook/setting_account/widget/changePassword.dart';
 import 'package:cubook/task_detail_analytics/taskDetailAnalytics_model.dart';
 import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_model.dart';
 import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_view.dart';
@@ -55,7 +58,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'community/comment_view.dart';
 import 'task_detail_analytics/taskDetailAnalytics_view.dart';
@@ -149,6 +151,7 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => ContentsModel()),
           ChangeNotifierProvider(create: (context) => AnalyticsModel()),
           ChangeNotifierProvider(create: (context) => TaskListAnalyticsModel()),
+          ChangeNotifierProvider(create: (context) => SettingAccountModel()),
           ChangeNotifierProvider(
               create: (context) => TaskDetailAnalyticsModel()),
           ChangeNotifierProvider(
@@ -174,6 +177,7 @@ class _MyAppState extends State<MyApp> {
             accentColor: Colors.white,
           ),
           routes: <String, WidgetBuilder>{
+            '/listTaskWaiting': (BuildContext context) => ListTaskWaitingView(),
             '/listMember': (BuildContext context) => ListMemberView(),
             '/addLumpSelectItem': (BuildContext context) =>
                 AddLumpSelectItemView(),
@@ -195,7 +199,10 @@ class _MyAppState extends State<MyApp> {
             '/listCitationAnalyticsView': (BuildContext context) =>
                 ListCitationAnalyticsView(),
             '/communityView': (BuildContext context) => CommunityView(),
-            '/commentView': (BuildContext context) => CommentView()
+            '/commentView': (BuildContext context) => CommentView(),
+            '/settingView': (BuildContext context) => SettingAccountView(),
+            '/changeMailAddressView': (BuildContext context) => ChangeMailAddressView(),
+            '/changePasswordView': (BuildContext context) => ChangePasswordView()
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

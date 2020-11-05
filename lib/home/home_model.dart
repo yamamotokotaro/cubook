@@ -29,6 +29,7 @@ class HomeModel extends ChangeNotifier {
   String teamPosition;
   String age = '';
   String permission;
+  String providerID;
   Map<dynamic, dynamic> tokenMap;
   String token;
   List<dynamic> _token_notification = new List<dynamic>();
@@ -43,6 +44,7 @@ class HomeModel extends ChangeNotifier {
     User user = await FirebaseAuth.instance.currentUser;
     if (user != null) {
       currentUser = user;
+      providerID = currentUser.providerData[0].providerId;
       FirebaseFirestore.instance
           .collection('user')
           .where('uid', isEqualTo: currentUser.uid)

@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/notification/notification_model.dart';
-import 'package:cubook/task_detail_scout/taskDetailScout_model.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
 import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,9 +28,7 @@ class NotificationView extends StatelessWidget {
                       padding: EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<NotificationModel>(
                           builder: (context, model, child) {
-                        if (model.uid == null) {
-                          model.getUser();
-                        }
+                        model.getUser();
                         if (model.uid != null) {
                           return StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
@@ -57,22 +53,23 @@ class NotificationView extends StatelessWidget {
                                         String type = snapshot.data()['type'];
                                         int page = snapshot.data()['page'];
                                         int number = snapshot.data()['number'];
-                                        Color color = theme
-                                            .getThemeColor(snapshot.data()['type']);
+                                        Color color = theme.getThemeColor(
+                                            snapshot.data()['type']);
                                         return Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Container(
                                             child: Card(
                                               color: color,
-                                              shape:
-                                              RoundedRectangleBorder(
+                                              shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                BorderRadius.circular(
-                                                    10.0),
+                                                    BorderRadius.circular(10.0),
                                               ),
                                               child: InkWell(
-                                                customBorder: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10.0),
+                                                customBorder:
+                                                    RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
                                                 ),
                                                 onTap: () {
                                                   Navigator.of(context).push<
@@ -122,7 +119,8 @@ class NotificationView extends StatelessWidget {
                                                               child: Text(
                                                                 DateFormat(
                                                                         'yyyy/MM/dd hh:mm')
-                                                                    .format(snapshot.data()[
+                                                                    .format(snapshot
+                                                                        .data()[
                                                                             'time']
                                                                         .toDate())
                                                                     .toString(),
