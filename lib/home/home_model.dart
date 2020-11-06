@@ -11,8 +11,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 
 class HomeModel extends ChangeNotifier {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  GoogleAuthProvider _authProvider = GoogleAuthProvider();
   DocumentSnapshot userSnapshot;
   QuerySnapshot effortSnapshot;
   User currentUser;
@@ -181,7 +179,7 @@ class HomeModel extends ChangeNotifier {
         .where('uid', isEqualTo: currentUser.uid)
         .snapshots()
         .listen((data) {
-      userSnapshot = data.documents[0];
+      userSnapshot = data.docs[0];
       notifyListeners();
     });
     isGet = true;
@@ -189,10 +187,10 @@ class HomeModel extends ChangeNotifier {
   }
 
   void increaseCount(String documentID) async {
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('efforts')
-        .document(documentID)
-        .updateData(<String, dynamic>{'congrats': FieldValue.increment(1)});
+        .doc(documentID)
+        .update(<String, dynamic>{'congrats': FieldValue.increment(1)});
   }
 
   Future<void> getCheckNotificationPermStatus() {

@@ -29,49 +29,5 @@ class AddLumpSelectItemModel extends ChangeNotifier {
 
   Future<void> onPressedSend(List<String> uids, BuildContext context) async {
     Navigator.of(context).pop(itemSelected);
-    /*var task = new Task();
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    Firestore.instance
-        .collection('user')
-        .where('uid', isEqualTo: user.uid)
-        .getDocuments()
-        .then((userDatas) async {
-      DocumentSnapshot userData = userDatas.documents[0];
-      Map<String, dynamic> data = new Map<String, dynamic>();
-      data['start'] = Timestamp.now();
-      data['uid'] = user.uid;
-      data['group'] = userData['group'];
-      data['family'] = userData['family'];
-      data['feedback'] = '';
-      data['uid_toAdd'] = uids;
-      var listCategory = ['usagi', 'sika', 'kuma', 'challenge'];
-      for (int i = 0; i < listCategory.length; i++) {
-        List<dynamic> data_item = new List<dynamic>();
-        if (itemSelected[listCategory[i]] != null) {
-          List<dynamic> pageItem = itemSelected[listCategory[i]];
-          for (int k = 0; k < pageItem.length; k++) {
-            List<dynamic> numberItem = pageItem[k];
-            Map<String, dynamic> toAdd = new Map<String, dynamic>();
-            List<dynamic> numbers = new List<dynamic>();
-            toAdd['page'] = k;
-            for (int l = 0; l < numberItem.length; l++) {
-              bool isCheck = numberItem[l];
-              if (isCheck) {
-                numbers.add(l);
-              }
-            }
-            if (numbers.length != 0) {
-              toAdd['numbers'] = numbers;
-              data_item.add(toAdd);
-            }
-          }
-        }
-        data[listCategory[i]] = data_item;
-      }
-      print(data);
-
-      Firestore.instance.collection('lump').add(data).then((value) =>
-          Navigator.popUntil(context, ModalRoute.withName('/homeLump')));
-    });*/
   }
 }

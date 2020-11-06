@@ -21,95 +21,6 @@ class HomeScoutView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        /*Consumer<HomeModel>(builder: (context, model, child) {
-          if (model.permission == 'unknown') {
-            return Padding(
-              padding:
-              EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
-              child: Container(
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: InkWell(
-                      customBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.notifications,
-                                      color: Theme
-                                          .of(context)
-                                          .accentColor,
-                                      size: 28,
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Material(
-                                          type: MaterialType.transparency,
-                                          child: Text(
-                                            '通知の設定',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 23,
-                                            ),
-                                          ),
-                                        )),
-                                  ]),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 5, top: 10),
-                                  child: Material(
-                                    type: MaterialType.transparency,
-                                    child: Text(
-                                      '通知をオンにすることで、cubookからのお知らせ（サイン申請に関するサイン・やり直しのお知らせなど）を受け取ることができます',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  )),
-                              Padding(
-                                  padding: EdgeInsets.only(top: 5),
-                                  child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: FlatButton(
-                                        onPressed: () async {
-                                          NotificationPermissions
-                                              .getNotificationPermissionStatus()
-                                              .then((PermissionStatus status) {
-                                            model.onStatusChange(status);
-                                            *//*switch (status) {
-                                              case PermissionStatus.denied:
-                                                return permDenied;
-                                              case PermissionStatus.granted:
-                                                return permGranted;
-                                              case PermissionStatus.unknown:
-                                                return permUnknown;
-                                              default:
-                                                return null;
-                                            }*//*
-                                          });
-                                        },
-                                        *//*final Future<
-                                          PermissionStatus> permissionStatus = await NotificationPermissions
-                                          .requestNotificationPermissions();*//*
-                                        child: Text('設定する'),
-                                      ))),
-                            ],
-                          )),
-                    ),
-                  )),
-            );
-          } else {
-            return Container(child: Text('通知は設定済みです'));
-          }
-        }),*/
 
         Selector<HomeModel, DocumentSnapshot>(
           selector: (context, model) => model.userSnapshot,
@@ -233,35 +144,6 @@ class HomeScoutView extends StatelessWidget {
                 ),
               )),
         ),
-        /*Center(
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(right: 5, top: 4),
-                child: Icon(
-                  Icons.directions_run,
-                  color: Theme.of(context).accentColor,
-                  size: 32,
-                ),
-              ),
-              Text(
-                'もうすぐ完修！',
-                style: TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.none),
-              ),
-            ])),
-        Consumer<HomeModel>(builder: (context, model, child) {
-          return Padding(
-              padding: EdgeInsets.all(10),
-              child: ListView.builder(
-                  itemBuilder: (BuildContext context, int index) {
-
-                  }));
-        }),*/
         Center(
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
