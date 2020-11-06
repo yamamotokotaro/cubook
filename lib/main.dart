@@ -1,13 +1,9 @@
 import 'package:cubook/Analytics/analytics_model.dart';
 import 'package:cubook/Analytics/analytics_view.dart';
-import 'package:cubook/Support/Support_view.dart';
-import 'package:cubook/Support/Support_model.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
 import 'package:cubook/community/community_model.dart';
 import 'package:cubook/community/community_view.dart';
-import 'package:cubook/contentsView/contents_model.dart';
-import 'package:cubook/contentsView/contents_view.dart';
 import 'package:cubook/createActivity/createActivity_model.dart';
 import 'package:cubook/createActivity/createActivity_view.dart';
 import 'package:cubook/detailActivity/detailActivity_model.dart';
@@ -141,14 +137,12 @@ class _MyAppState extends State<MyApp> {
               create: (context) => SettingAccountGroupModel()),
           ChangeNotifierProvider(create: (context) => SettingAccountModel()),
           ChangeNotifierProvider(create: (context) => NotificationModel()),
-          ChangeNotifierProvider(create: (context) => SupportModel()),
           ChangeNotifierProvider(create: (context) => ListActivityModel()),
           ChangeNotifierProvider(create: (context) => CreateActivityModel()),
           ChangeNotifierProvider(create: (context) => DetailActivityModel()),
           ChangeNotifierProvider(create: (context) => EditActivityModel()),
           ChangeNotifierProvider(create: (context) => ListAbsentModel()),
           ChangeNotifierProvider(create: (context) => ListAbsentScoutModel()),
-          ChangeNotifierProvider(create: (context) => ContentsModel()),
           ChangeNotifierProvider(create: (context) => AnalyticsModel()),
           ChangeNotifierProvider(create: (context) => TaskListAnalyticsModel()),
           ChangeNotifierProvider(create: (context) => SettingAccountModel()),
@@ -183,14 +177,12 @@ class _MyAppState extends State<MyApp> {
                 AddLumpSelectItemView(),
             '/changeName': (BuildContext context) => ChangeNameView(),
             '/changeAge': (BuildContext context) => ChangeAgeView(),
-            '/support': (BuildContext context) => SupportView(),
             '/invite': (BuildContext context) => InviteView(),
             '/listActivity': (BuildContext context) => ListActivityView(),
             '/createActivity': (BuildContext context) => CreateActivityView(),
             '/detailActivity': (BuildContext context) => DetailActivityView(),
             '/editActivity': (BuildContext context) => EditActivityView(),
             '/listAbsentScout': (BuildContext context) => ListAbsentScoutView(),
-            '/contentsView': (BuildContext context) => ContentsView(),
             '/analytics': (BuildContext context) => AnalyticsView(),
             '/taskDetailAnalytics': (BuildContext context) =>
                 TaskDetailAnalyticsView(),
