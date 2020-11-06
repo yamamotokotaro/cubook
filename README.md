@@ -22,6 +22,11 @@ cubookでは以下のプラットフォームに対応しています
 アプリについての情報は[このページ](https://sites.google.com/view/cubookinfo/)をご覧ください
 
 
+## 開発への参加
+
+問題の報告や提案・開発への参加はいつでもウェルカムです！
+詳しくは[このページ](https://github.com/yamamotokotaro/cubook/blob/master/CONTRIBUTING.md)をご覧ください
+
 ## ライセンス
 
 このソフトウェアは [MIT License](https://github.com/yamamotokotaro/cubook/blob/master/LICENSE)の下にリリースしています
