@@ -1,29 +1,27 @@
 # cubook
 [![Codemagic build status](https://api.codemagic.io/apps/5ec49c4343c930081bdd10a9/5ec49c4343c930081bdd10a8/status_badge.svg)](https://codemagic.io/apps/5ec49c4343c930081bdd10a9/5ec49c4343c930081bdd10a8/latest_build)
 
-The goal of this project is to reduce the time it takes to review a Scout's progress as much as possible, which in turn reduces the burden on leaders to provide more accurate feedback.
+cubookはオンラインでカブブックのサインと管理が行えるアプリです
 
 ![Screenshot](https://user-images.githubusercontent.com/25360586/80860683-3f22ec80-8ca4-11ea-87d9-b4cf2ccdc434.png)
 
-## Environmental construction
+## 開発環境の準備
 
-In this project we are using Flutter.
-Please refer to the information on building the environment for Flutter [here](https://flutter.dev/docs/get-started/install).
+このプロジェクトではFlutterを用いています
+[このページ](https://flutter.dev/docs/get-started/install)を参考に環境を構築してください
 
-## Supported Platforms
+## 対応するプラットフォーム
 
-cubook has been built to support two platforms.
-This includes:
+cubookでは以下のプラットフォームに対応しています
 
 - Android
 - iOS
 
-## Usage
+## アプリについての情報
 
-Information on how to use the app is summarized in the following sites.
-[https://sites.google.com/view/cubookinfo/](
-https://sites.google.com/view/cubookinfo/)
+アプリについての情報は[このページ](https://sites.google.com/view/cubookinfo/)をご覧ください
 
-## Licence
 
-This software is released under the [MIT License](https://github.com/yamamotokotaro/cubook/blob/master/LICENSE).
+## ライセンス
+
+このソフトウェアは [MIT License](https://github.com/yamamotokotaro/cubook/blob/master/LICENSE)の下にリリースしています
