@@ -14,12 +14,11 @@ class TaskDetailScoutModel extends ChangeNotifier {
   var list_isSelected = new List<bool>();
   String documentID;
   bool checkParent = false;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   DocumentSnapshot stepSnapshot;
   DocumentReference documentReference;
   QuerySnapshot effortSnapshot;
   User currentUser;
-  StreamSubscription<FirebaseUser> _listener;
+  StreamSubscription<User> _listener;
   bool isGet = false;
   int numberPushed = 0;
   int quant = 0;
@@ -87,7 +86,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
             Map<String, dynamic> doc =
                 stepSnapshot.data()['signed'][i.toString()];
             if (doc != null) {
-              if (doc['phaze'] == 'signed') {
+              if (doc['phaze'] == 'signed' || doc['phaze'] == 'wait') {
                 dataMap = doc['data'];
                 if (dataMap != null) {
                   List<dynamic> body = List<dynamic>();
@@ -170,9 +169,9 @@ class TaskDetailScoutModel extends ChangeNotifier {
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
-        .getDocuments()
+        .get()
         .then((userDatas) async {
-      userSnapshot = userDatas.documents[0];
+      userSnapshot = userDatas.docs[0];
       if (((type != 'usagi' &&
                   type != 'sika' &&
                   type != 'kuma' &&

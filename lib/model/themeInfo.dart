@@ -51,13 +51,13 @@ class ThemeInfo {
     'sika',
     'kuma',
     'challenge',
-    'syokyu',
+    /*'syokyu',
     'nikyu',
     'ikkyu',
     'kiku',
     'hayabusa',
     'fuji',
-    'gino'
+    'gino'*/
   ];
 
   Color getThemeColor(String type) {
