@@ -175,7 +175,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         .where('group', isEqualTo: tokenMap['group'])
         .get()
         .then((data) {
-      DocumentSnapshot snapshot = data.documents[0];
+      DocumentSnapshot snapshot = data.docs[0];
       Map<String, dynamic> map = Map<String, dynamic>();
       map = snapshot.data()['signed'];
       map[number.toString()]['phaze'] = 'reject';

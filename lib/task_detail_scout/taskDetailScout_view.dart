@@ -153,8 +153,8 @@ class TaskScoutDetailView extends StatelessWidget {
                                                     child: Text(
                                                       DateFormat('yyyy/MM/dd')
                                                           .format(model
-                                                              .stepSnapshot.data()[
-                                                                  'start']
+                                                              .stepSnapshot
+                                                              .data()['start']
                                                               .toDate())
                                                           .toString(),
                                                       style: TextStyle(
@@ -192,8 +192,8 @@ class TaskScoutDetailView extends StatelessWidget {
                                                     child: Text(
                                                       DateFormat('yyyy/MM/dd')
                                                           .format(model
-                                                              .stepSnapshot.data()[
-                                                                  'end']
+                                                              .stepSnapshot
+                                                              .data()['end']
                                                               .toDate()),
                                                       style: TextStyle(
                                                           fontSize: 20.0,
@@ -503,15 +503,16 @@ class TaskScoutAddView extends StatelessWidget {
                                               child: Text(
                                                 DateFormat('yyyy/MM/dd')
                                                         .format(model
-                                                            .stepSnapshot.data()[
-                                                                'signed'][
+                                                            .stepSnapshot
+                                                            .data()['signed'][
                                                                 index_page
                                                                     .toString()]
                                                                 ['time']
                                                             .toDate())
                                                         .toString() +
-                                                    model.stepSnapshot.data()['signed']
-                                                            [index_page
+                                                    model.stepSnapshot.data()[
+                                                                'signed'][
+                                                            index_page
                                                                 .toString()]
                                                         ['family'],
                                                 style: TextStyle(
@@ -524,7 +525,8 @@ class TaskScoutAddView extends StatelessWidget {
                                             Padding(
                                               padding: EdgeInsets.all(5),
                                               child: Text(
-                                                model.stepSnapshot.data()['signed']
+                                                model.stepSnapshot
+                                                            .data()['signed']
                                                         [index_page.toString()]
                                                     ['feedback'],
                                                 textAlign: TextAlign.center,
@@ -639,6 +641,9 @@ class TaskScoutAddView extends StatelessWidget {
                                 } else if (model.stepSnapshot.data()['signed']
                                         [index_page.toString()]['phaze'] ==
                                     'wait') {
+                                  Map<String, dynamic> snapshot =
+                                      model.stepSnapshot.data()['signed']
+                                          [index_page.toString()];
                                   return Column(children: <Widget>[
                                     Container(
                                       decoration: BoxDecoration(
@@ -663,37 +668,164 @@ class TaskScoutAddView extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Text(
-                                        'ちょっと待っててね⏰',
-                                        style: TextStyle(
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.bold,
-                                            decoration: TextDecoration.none),
-                                      ),
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 10, left: 20, right: 20),
-                                        child: FlatButton.icon(
-                                          onPressed: () async {
-                                            model.withdraw(index_page);
-                                          },
-                                          icon: Icon(
-                                            Icons.close,
-                                            size: 20,
-                                            color: Colors.red,
-                                          ),
-                                          label: Text(
-                                            'サイン申請を取り下げる',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.red,
+                                    Container(
+                                        height: MediaQuery.of(context)
+                                                    .size
+                                                    .height >
+                                                700
+                                            ? MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                334
+                                            : MediaQuery.of(context)
+                                                    .size
+                                                    .height -
+                                                228,
+                                        child: SingleChildScrollView(
+                                            child: Column(children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Text(
+                                              'ちょっと待っててね⏰',
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration:
+                                                      TextDecoration.none),
                                             ),
                                           ),
-                                        )),
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10, left: 20, right: 20),
+                                              child: FlatButton.icon(
+                                                onPressed: () async {
+                                                  model.withdraw(index_page);
+                                                },
+                                                icon: const Icon(
+                                                  Icons.close,
+                                                  size: 20,
+                                                  color: Colors.red,
+                                                ),
+                                                label: const Text(
+                                                  'お願いを取り消し',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.red,
+                                                  ),
+                                                ),
+                                              )),
+                                          snapshot['data'] != null
+                                              ? Column(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                        padding:
+                                                            EdgeInsets.all(10),
+                                                        child: ListView.builder(
+                                                            physics:
+                                                                NeverScrollableScrollPhysics(),
+                                                            shrinkWrap: true,
+                                                            itemCount:
+                                                                snapshot['data']
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (BuildContext
+                                                                        context,
+                                                                    int index) {
+                                                              print(snapshot[
+                                                                  'data']);
+                                                              print(model
+                                                                  .dataList);
+                                                              String type =
+                                                                  snapshot['data']
+                                                                          [
+                                                                          index]
+                                                                      ['type'];
+                                                              if (type ==
+                                                                  'image') {
+                                                                return Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5),
+                                                                  child:
+                                                                      Container(
+                                                                    child: Card(
+                                                                      color: Colors
+                                                                          .green,
+                                                                      child:
+                                                                          Column(
+                                                                        children: <
+                                                                            Widget>[
+                                                                          Image.network(model.dataList[index_page]
+                                                                              [
+                                                                              index])
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              } else if (type ==
+                                                                  'video') {
+                                                                return Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5),
+                                                                  child:
+                                                                      Container(
+                                                                    child: Card(
+                                                                      child:
+                                                                          Column(
+                                                                        children: <
+                                                                            Widget>[
+                                                                          Chewie(
+                                                                            controller:
+                                                                                model.dataList[index_page][index],
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              } else if (type ==
+                                                                  'text') {
+                                                                return Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5),
+                                                                  child:
+                                                                      Container(
+                                                                    child: Card(
+                                                                        child:
+                                                                            Padding(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              0),
+                                                                      child:
+                                                                          Column(
+                                                                        children: <
+                                                                            Widget>[
+                                                                          Padding(
+                                                                              padding: EdgeInsets.all(10),
+                                                                              child: Text(
+                                                                                model.dataList[index_page][index],
+                                                                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                              ))
+                                                                        ],
+                                                                      ),
+                                                                    )),
+                                                                  ),
+                                                                );
+                                                              } else {
+                                                                return Container();
+                                                              }
+                                                            }))
+                                                  ],
+                                                )
+                                              : Container(),
+                                        ])))
                                   ]);
                                 } else if (model.stepSnapshot.data()['signed']
                                         [index_page.toString()]['phaze'] ==
