@@ -95,11 +95,20 @@ Future<void> signItem(String uid, String type, int page, int number,
         Map<String, dynamic> map = Map<String, dynamic>();
         Map<String, dynamic> data_toAdd = Map<String, dynamic>();
         map = snapshot.data()['signed'];
-        map[number.toString()]['phaze'] = 'signed';
-        map[number.toString()]['family'] = userInfo['family'];
-        map[number.toString()]['uid'] = uid;
-        map[number.toString()]['feedback'] = feedback;
-        map[number.toString()]['time'] = Timestamp.now();
+        if(map[number.toString()] == null){
+          data_toAdd['phaze'] = 'signed';
+          data_toAdd['family'] = userInfo['family'];
+          data_toAdd['uid'] = uid;
+          data_toAdd['feedback'] = feedback;
+          data_toAdd['time'] = Timestamp.now();
+          map[number.toString()] = data_toAdd;
+        } else {
+          map[number.toString()]['phaze'] = 'signed';
+          map[number.toString()]['family'] = userInfo['family'];
+          map[number.toString()]['uid'] = uid;
+          map[number.toString()]['feedback'] = feedback;
+          map[number.toString()]['time'] = Timestamp.now();
+        }
         data_signed['signed'] = map;
         map.forEach((key, dynamic values) {
           Map<String, dynamic> partData = map[key.toString()];
@@ -130,7 +139,7 @@ Future<void> signItem(String uid, String type, int page, int number,
         Map<String, dynamic> data_toAdd = Map<String, dynamic>();
         data_toAdd['phaze'] = 'signed';
         data_toAdd['family'] = userInfo['family'];
-        data_toAdd['uid'] = uid;
+        data_toAdd['uid'] = userInfo['uid'];
         data_toAdd['feedback'] = feedback;
         data_toAdd['time'] = Timestamp.now();
         data_signed['page'] = page;
