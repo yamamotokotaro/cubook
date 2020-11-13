@@ -20,7 +20,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   User currentUser;
   StreamSubscription<User> _listener;
   bool isGet = false;
-  int numberPushed = 0;
+  int page = 0;
   int quant = 0;
   int countToSend = 0;
   String documentID_exit;
@@ -42,7 +42,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   String type;
 
   TaskDetailScoutModel(int number, int quant, String _type) {
-    numberPushed = number;
+    page = number;
     this.quant = quant;
     type = _type;
   }
@@ -50,7 +50,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   void getSnapshot() async {
     currentUser = await FirebaseAuth.instance.currentUser;
 
-    list_snapshot = new List<bool>.generate(numberPushed, (index) => false);
+    list_snapshot = new List<bool>.generate(page, (index) => false);
 
     list_attach =
         new List<dynamic>.generate(quant, (index) => new List<dynamic>());
@@ -73,7 +73,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     count_toSend = new List<dynamic>.generate(quant, (index) => 0);
     FirebaseFirestore.instance
         .collection(type)
-        .where('page', isEqualTo: numberPushed)
+        .where('page', isEqualTo: page)
         .where('uid', isEqualTo: currentUser.uid)
         .snapshots()
         .listen((data) async {
@@ -239,7 +239,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     data["uid"] = user.uid;
     data["date"] = Timestamp.now();
     data["type"] = type;
-    data['page'] = numberPushed;
+    data['page'] = page;
     data['number'] = number;
     data['data'] = list;
     data['family'] = userSnapshot.data()['family'];
@@ -266,7 +266,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
       Map<String, dynamic> data_toAdd = Map<String, dynamic>();
       data_toAdd['phaze'] = 'wait';
       data_toAdd['data'] = list;
-      data_signed['page'] = numberPushed;
+      data_signed['page'] = page;
       data_signed['uid'] = user.uid;
       data_signed['start'] = Timestamp.now();
       data_signed['signed'] = {number.toString(): data_toAdd};
@@ -298,7 +298,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     FirebaseFirestore.instance
         .collection('task')
         .where('uid', isEqualTo: currentUser.uid)
-        .where('page', isEqualTo: numberPushed)
+        .where('page', isEqualTo: page)
         .where('number', isEqualTo: number)
         .get()
         .then((documents) {

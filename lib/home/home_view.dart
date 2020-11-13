@@ -1,6 +1,7 @@
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_view.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info/package_info.dart';
@@ -85,6 +86,10 @@ class HomeView extends StatelessWidget {
                             await showDialog<int>(
                                 context: context,
                                 builder: (context) {
+
+                                  LicenseRegistry.addLicense(() async* {
+                                    yield LicenseEntryWithLineBreaks(['令和2年版 諸規定'], '公財ボーイスカウト日本連盟');
+                                  });
                                   return AlertDialog(
                                     /*title: Padding(
                                   padding: EdgeInsets.only(left: 15),

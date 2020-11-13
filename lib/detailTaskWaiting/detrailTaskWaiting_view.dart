@@ -5,7 +5,6 @@ import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
-import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +14,8 @@ class DetailTaskWaitingView_old extends StatelessWidget {
   String name;
   String item;
   String type;
+  Map<String, dynamic> taskInfo;
+  Map<String, dynamic> content;
   var task = new Task();
   var theme = new ThemeInfo();
 
@@ -85,6 +86,11 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                         }
                         if (model.isLoaded) {
                           if (model.taskSnapshot.data()['phase'] == 'wait') {
+                            content = task.getContent(type, model.page, model.number);
+                            if (content['common'] != null) {
+                              taskInfo = task.getPartMap(
+                                  content['common']['type'], content['common']['page']);
+                            }
                             DocumentSnapshot snapshot = model.taskSnapshot;
                             Map<String, dynamic> map_task = task.getPartMap(
                                 snapshot.data()['type'], snapshot.data()['page']);
@@ -124,7 +130,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                                       model
                                                                           .page,
                                                                       model
-                                                                          .number),
+                                                                          .number)['body'],
                                                                   style:
                                                                       TextStyle(
                                                                     fontSize:
@@ -348,6 +354,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                       Padding(
                                         padding: EdgeInsets.all(10),
                                         child: TextField(
+                                          controller: model.feedbackController,
                                           enabled: true,
                                           // 入力数
                                           keyboardType: TextInputType.multiline,
@@ -355,14 +362,29 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                           maxLengthEnforced: false,
                                           decoration: InputDecoration(
                                               labelText: "フィードバックを入力",
+                                              suffixIcon: IconButton(
+                                                onPressed: () => model.feedbackController.clear(),
+                                                icon: Icon(Icons.clear),
+                                              ),
                                               errorText: model.EmptyError
                                                   ? 'フィードバックを入力してください'
                                                   : null),
-                                          onChanged: (text) {
-                                            model.onTextChanged(text);
-                                          },
                                         ),
                                       ),
+                                      content['common'] != null
+                                          ? Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 5, bottom: 10, right: 10, left: 10),
+                                          child: Text(
+                                            theme.getTitle(content['common']['type']) +
+                                                ' ' +
+                                                taskInfo['title'] +
+                                                ' (' +
+                                                task.getNumber(content['common']['type'], content['common']['page'], content['common']['number']) +
+                                                ')\nもサインされます',
+                                            textAlign: TextAlign.center,
+                                          ))
+                                          : Container(),
                                       !model.isLoading
                                           ? RaisedButton.icon(
                                               onPressed: () {
@@ -394,7 +416,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                 model.onTapReject();
                                               },
                                               icon: Icon(
-                                                Icons.close,
+                                                Icons.reply,
                                                 size: 20,
                                                 color: Colors.red,
                                               ),
@@ -480,7 +502,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                                       model
                                                                           .page,
                                                                       model
-                                                                          .number),
+                                                                          .number)['body'],
                                                                   style:
                                                                       TextStyle(
                                                                     fontSize:
@@ -566,6 +588,20 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                             ))),
                                   ],
                                 ),
+                                content['common'] != null
+                                    ? Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 5, bottom: 10, right: 10, left: 10),
+                                    child: Text(
+                                      theme.getTitle(content['common']['type']) +
+                                          ' ' +
+                                          taskInfo['title'] +
+                                          ' (' +
+                                          task.getNumber(content['common']['type'], content['common']['page'], content['common']['number']) +
+                                          ')\nもサインされます',
+                                      textAlign: TextAlign.center,
+                                    ))
+                                    : Container(),
                               ],
                             );
                           }

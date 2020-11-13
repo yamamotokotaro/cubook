@@ -14,9 +14,9 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   User currentUser;
   String documentID;
   String documentID_type;
-  String feedback = '';
   String uid_get;
   String type;
+  TextEditingController feedbackController = new TextEditingController();
   int page;
   int number;
   bool isGet = false;
@@ -125,19 +125,15 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     isLoaded = true;
   }
 
-  void onTextChanged(String text) async {
-    feedback = text;
-  }
-
   void onTapSend() async {
-    if (feedback != '') {
+    if (feedbackController.text != '') {
       isLoading = true;
       notifyListeners();
       User user = await FirebaseAuth.instance.currentUser;
       currentUser = user;
       currentUser.getIdTokenResult().then((token) async {
         tokenMap = token.claims;
-        signItem(uid_get, type, page, number, feedback, false);
+        signItem(uid_get, type, page, number, feedbackController.text, false, false);
         await addNotification('signed');
         await deleteTask();
       });
@@ -149,7 +145,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   }
 
   void onTapReject() async {
-    if (feedback != '') {
+    if (feedbackController.text != '') {
       isLoading = true;
       notifyListeners();
       User user = await FirebaseAuth.instance.currentUser;
@@ -179,7 +175,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       Map<String, dynamic> map = Map<String, dynamic>();
       map = snapshot.data()['signed'];
       map[number.toString()]['phaze'] = 'reject';
-      map[number.toString()]['feedback'] = feedback;
+      map[number.toString()]['feedback'] = feedbackController.text;
       Map<String, dynamic> mapSend = Map<String, dynamic>();
       mapSend['signed'] = map;
       FirebaseFirestore.instance

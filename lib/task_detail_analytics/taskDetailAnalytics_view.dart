@@ -18,7 +18,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
     String type = info.type;
     int page = info.page;
     Color themeColor = theme.getThemeColor(type);
-    List<String> contents = task.getContentList(type, page);
+    List<Map<String,dynamic>> contents = task.getContentList(type, page);
     var map_task = task.getPartMap(type, page);
     bool isDark;
     if (Theme.of(context).accentColor == Colors.white) {
@@ -362,7 +362,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        String content = contents[index];
+                                        String content = contents[index]['body'];
                                         Color bordercolor;
                                         if (Theme.of(context).accentColor ==
                                             Colors.white) {

@@ -22,7 +22,6 @@ class CommunityView extends StatelessWidget {
     String taskid = info.taskid;
     String effortid = info.effortid;
     Color themeColor = theme.getThemeColor(type);
-    List<String> contents = task.getContentList(type, page);
     var map_task = task.getPartMap(type, page);
     int quant = map_task['hasItem'];
     bool isDark;
@@ -46,7 +45,7 @@ class CommunityView extends StatelessWidget {
             builder: (context, group, child) {
               if (group != null) {
                 return StreamBuilder<QuerySnapshot>(
-                    stream: Firestore.instance
+                    stream: FirebaseFirestore.instance
                         .collection('comment')
                         .where('group', isEqualTo: group)
                         .where('effortID', isEqualTo: effortid)
@@ -54,9 +53,9 @@ class CommunityView extends StatelessWidget {
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> querySnapshot) {
                       if (querySnapshot.hasData) {
-                        if (querySnapshot.data.documents.length != 0) {
+                        if (querySnapshot.data.docs.length != 0) {
                           return Text('コメント ' +
-                              querySnapshot.data.documents.length.toString() +
+                              querySnapshot.data.docs.length.toString() +
                               '件');
                         } else {
                           return Text('コメント');

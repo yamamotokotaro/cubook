@@ -24,13 +24,13 @@ class ListCitationAnalyticsModel extends ChangeNotifier {
         if (group != group_before) {
           notifyListeners();
         }
-        /*user.getIdToken(refresh: true).then((value) {
+        user.getIdTokenResult(true).then((value) {
           String group_claim_before = group_claim;
           group_claim = value.claims['group'];
           if (group_claim_before != group_claim) {
             notifyListeners();
           }
-        });*/
+        });
       });
   }
 

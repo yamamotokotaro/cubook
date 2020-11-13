@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cubook/model/task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
   Map<String, dynamic> claims = new Map<String, dynamic>();
 
   void getSnapshot(String uid) async {
+    var task = new Task();
     if (uid != uid_before) {
       uid_before = uid;
       User user = await FirebaseAuth.instance.currentUser;

@@ -5,7 +5,6 @@ import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
-import 'package:cubook/model/themeInfo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -157,8 +156,6 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         } else {
           isLast = false;
         }
-        print(isLast);
-        print(count_signed);
         isLoaded = true;
         notifyListeners();
       });
@@ -205,7 +202,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   void onTapSend(int number) async {
     isLoading[number] = true;
     notifyListeners();
-    await signItem(uid, type, page, number, '', checkCitation);
+    await signItem(uid, type, page, number, '', checkCitation, false);
     isLoading[number] = false;
   }
 
@@ -216,7 +213,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     currentUser = user;
     currentUser.getIdTokenResult().then((token) async {
       tokenMap = token.claims;
-      await updateDocumentInfo_cancel(number);
+      await cancelItem(uid, type, page, number, false);
       isLoading[number] = false;
     });
   }
@@ -239,127 +236,6 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       'phase': 'not examined',
       'date_examination': FieldValue.delete(),
       'date_interview': FieldValue.delete()
-    });
-  }
-
-  Future<void> updateDocumentInfo(int number, bool isComplete) async {
-    User user = await FirebaseAuth.instance.currentUser;
-    Map<String, dynamic> data_signed = Map<String, dynamic>();
-    FirebaseFirestore.instance
-        .collection(type)
-        .where('group', isEqualTo: tokenMap['group'])
-        .where('uid', isEqualTo: uid)
-        .where('page', isEqualTo: page)
-        .get()
-        .then((data) async {
-      if (data.docs.length != 0) {
-        DocumentSnapshot snapshot = data.docs[0];
-        Map<String, dynamic> map = Map<String, dynamic>();
-        Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-        map = snapshot.data()['signed'];
-        data_toAdd['phaze'] = 'signed';
-        data_toAdd['family'] = tokenMap['family'];
-        data_toAdd['uid'] = currentUser.uid;
-        data_toAdd['feedback'] = '';
-        data_toAdd['time'] = Timestamp.now();
-        map[number.toString()] = data_toAdd;
-        data_signed['signed'] = map;
-        if (isComplete) {
-          data_signed['end'] = Timestamp.now();
-        }
-        documentID_task = snapshot.id;
-        FirebaseFirestore.instance
-            .collection(type)
-            .doc(snapshot.id)
-            .update(data_signed);
-      } else {
-        Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-        data_toAdd['phaze'] = 'signed';
-        data_toAdd['family'] = tokenMap['family'];
-        data_toAdd['uid'] = uid;
-        data_toAdd['feedback'] = '';
-        data_toAdd['time'] = Timestamp.now();
-        data_signed['page'] = page;
-        data_signed['uid'] = uid;
-        data_signed['start'] = Timestamp.now();
-        data_signed['signed'] = {number.toString(): data_toAdd};
-        data_signed['group'] = tokenMap['group'];
-        if (isComplete) {
-          data_signed['end'] = Timestamp.now();
-        }
-        DocumentReference documentReference_add =
-            await FirebaseFirestore.instance.collection(type).add(data_signed);
-        documentID_exit = documentReference_add.id;
-      }
-    });
-  }
-
-  Future<void> updateDocumentInfo_cancel(int number) async {
-    User user = await FirebaseAuth.instance.currentUser;
-    Map<String, dynamic> data_signed = Map<String, dynamic>();
-    FirebaseFirestore.instance
-        .collection(type)
-        .where('group', isEqualTo: tokenMap['group'])
-        .where('uid', isEqualTo: uid)
-        .where('page', isEqualTo: page)
-        .get()
-        .then((data) async {
-      if (data.docs.length != 0) {
-        int count = 0;
-        DocumentSnapshot snapshot = data.docs[0];
-        if (snapshot.data()['signed'].length - 1 != 0) {
-          Map<String, dynamic> map = Map<String, dynamic>();
-          Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-          map = snapshot.data()['signed'];
-          map.remove(number.toString());
-          data_signed['signed'] = map;
-          data_signed['end'] = FieldValue.delete();
-          map.forEach((key, dynamic values) {
-            Map<String, dynamic> partData = map[key.toString()];
-            print(map);
-            print(partData['phaze']);
-            if (partData['phaze'] == 'signed') {
-              count++;
-            }
-          });
-          FirebaseFirestore.instance
-              .collection(type)
-              .doc(snapshot.id)
-              .update(data_signed);
-        } else {
-          count = 0;
-          FirebaseFirestore.instance.collection(type).doc(snapshot.id).delete();
-        }
-        updateUserInfo_cancel(page, count);
-      }
-    });
-  }
-
-  Future<void> updateUserInfo_cancel(int page, int count) async {
-    User user = await FirebaseAuth.instance.currentUser;
-    Map<String, dynamic> data_signed = Map<String, dynamic>();
-    Map<String, dynamic> data_toAdd = Map<String, dynamic>();
-    FirebaseFirestore.instance
-        .collection('user')
-        .where('group', isEqualTo: tokenMap['group'])
-        .where('uid', isEqualTo: uid)
-        .get()
-        .then((data) async {
-      if (data.docs.length != 0) {
-        DocumentSnapshot snapshot = data.docs[0];
-        Map<String, dynamic> map = Map<String, dynamic>();
-        map = snapshot.data()[type];
-        if (count != 0) {
-          map[page.toString()] = count;
-        } else {
-          map.remove(page.toString());
-        }
-        data_signed[type] = map;
-        FirebaseFirestore.instance
-            .collection('user')
-            .doc(snapshot.id)
-            .update(data_signed);
-      }
     });
   }
 
@@ -501,7 +377,6 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
           .collection(type)
           .doc(stepSnapshot.id)
           .update(<String, dynamic>{'signed': signed});
-      print(signed);
     } else {
       //return 'Something goes wrong';
     }

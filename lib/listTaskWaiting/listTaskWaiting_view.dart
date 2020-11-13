@@ -82,10 +82,7 @@ class ListTaskWaitingView extends StatelessWidget {
                                                             ' ' +
                                                             map_task['title'] +
                                                             ' (' +
-                                                            (snapshot.data()[
-                                                                        'number'] +
-                                                                    1)
-                                                                .toString() +
+                                                            task.getNumber(snapshot['type'], snapshot['page'], snapshot['number']) +
                                                             ')',
                                                         snapshot
                                                             .data()['type']);
@@ -132,9 +129,7 @@ class ListTaskWaitingView extends StatelessWidget {
                                                                       map_task[
                                                                           'title'] +
                                                                       ' (' +
-                                                                      (snapshot.data()['number'] +
-                                                                              1)
-                                                                          .toString() +
+                                                                      task.getNumber(snapshot['type'], snapshot['page'], snapshot['number']) +
                                                                       ')',
                                                                   style: TextStyle(
                                                                       fontWeight:

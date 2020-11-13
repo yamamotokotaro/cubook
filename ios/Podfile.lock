@@ -273,9 +273,6 @@ PODS:
   - Firebase/Performance (6.33.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 3.3.0)
-  - Firebase/RemoteConfig (6.33.0):
-    - Firebase/CoreOnly
-    - FirebaseRemoteConfig (~> 4.9.0)
   - Firebase/Storage (6.33.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 3.9.0)
@@ -320,11 +317,6 @@ PODS:
   - firebase_performance (0.4.1):
     - Firebase/CoreOnly (~> 6.33.0)
     - Firebase/Performance (~> 6.33.0)
-    - firebase_core
-    - Flutter
-  - firebase_remote_config (0.4.1):
-    - Firebase/CoreOnly (~> 6.33.0)
-    - Firebase/RemoteConfig (~> 6.33.0)
     - firebase_core
     - Flutter
   - firebase_storage (4.0.1):
@@ -546,7 +538,6 @@ DEPENDENCIES:
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_performance (from `.symlinks/plugins/firebase_performance/ios`)
-  - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
@@ -621,8 +612,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   firebase_performance:
     :path: ".symlinks/plugins/firebase_performance/ios"
-  firebase_remote_config:
-    :path: ".symlinks/plugins/firebase_remote_config/ios"
   firebase_storage:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
@@ -664,7 +653,6 @@ SPEC CHECKSUMS:
   firebase_crashlytics: cfc7c75663b1c05d2db68d9026a2c59bf2f15a98
   firebase_messaging: 0aea2cd5885b65e19ede58ee3507f485c992cc75
   firebase_performance: 7303593ad390443d3c0b8dc7ab846504b62fe231
-  firebase_remote_config: 1b484c04953387d654ce99295a8f2aacb85c30ad
   firebase_storage: 7ab602a75a80cab746f4f31c98a4927f9f376e92
   FirebaseABTesting: 8a9d8df3acc2b43f4a22014ddf9f601bca6af699
   FirebaseAnalytics: 5dd088bd2e67bb9d13dbf792d1164ceaf3052193

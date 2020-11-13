@@ -44,7 +44,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                               return Column(
                                 children: <Widget>[
                                   StreamBuilder<QuerySnapshot>(
-                                      stream: Firestore.instance
+                                      stream: FirebaseFirestore.instance
                                           .collection('user')
                                           .where('group',
                                               isEqualTo: model.group)
@@ -60,7 +60,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                         if (snapshot.hasData) {
                                           int userCount = 0;
                                           List<DocumentSnapshot> listSnapshot =
-                                              snapshot.data.documents;
+                                              snapshot.data.docs;
                                           return ListView.builder(
                                               physics:
                                                   const NeverScrollableScrollPhysics(),
@@ -73,14 +73,16 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                     listSnapshot[index];
                                                 return StreamBuilder<
                                                     QuerySnapshot>(
-                                                  stream: Firestore.instance
+                                                  stream: FirebaseFirestore
+                                                      .instance
                                                       .collection('challenge')
                                                       .where('group',
-                                                          isEqualTo:
-                                                              model.group)
+                                                          isEqualTo: model
+                                                              .group)
                                                       .where('uid',
                                                           isEqualTo:
-                                                              userSnapshot.data()[
+                                                              userSnapshot
+                                                                      .data()[
                                                                   'uid'])
                                                       .where('isCitationed',
                                                           isEqualTo: false)
@@ -151,7 +153,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                       const NeverScrollableScrollPhysics(),
                                                                   itemCount:
                                                                       querySnapshot
-                                                                          .documents
+                                                                          .docs
                                                                           .length,
                                                                   shrinkWrap:
                                                                       true,
@@ -162,11 +164,11 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                     DocumentSnapshot
                                                                         snapshot =
                                                                         querySnapshot
-                                                                            .documents[index];
+                                                                            .docs[index];
                                                                     Map taskInfo = task.getPartMap(
                                                                         'challenge',
-                                                                        snapshot.data()[
-                                                                            'page']);
+                                                                        snapshot
+                                                                            .data()['page']);
                                                                     return Padding(
                                                                       padding:
                                                                           EdgeInsets.all(

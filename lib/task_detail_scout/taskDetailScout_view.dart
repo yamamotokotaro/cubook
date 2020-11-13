@@ -66,7 +66,7 @@ class TaskScoutDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> contents = task.getContentList(type, number);
+    List<Map<String, dynamic>> contents = task.getContentList(type, number);
     return Container(
         width: 280,
         child: GestureDetector(
@@ -215,7 +215,8 @@ class TaskScoutDetailView extends StatelessWidget {
                                           shrinkWrap: true,
                                           itemBuilder: (BuildContext context,
                                               int index) {
-                                            String content = contents[index];
+                                            String content =
+                                                contents[index]['body'];
                                             Color bordercolor;
                                             if (Theme.of(context).accentColor ==
                                                 Colors.white) {
@@ -319,7 +320,8 @@ class TaskScoutDetailView extends StatelessWidget {
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        String content = contents[index];
+                                        String content =
+                                            contents[index]['body'];
                                         Color bordercolor;
                                         if (Theme.of(context).accentColor ==
                                             Colors.white) {
@@ -408,14 +410,17 @@ class TaskScoutDetailView extends StatelessWidget {
 
 class TaskScoutAddView extends StatelessWidget {
   int index_page;
+  int page;
   String type;
+  var task = new Task();
   var theme = new ThemeInfo();
   Color themeColor;
 
-  TaskScoutAddView(int _index, String _type) {
+  TaskScoutAddView(String _type, int _page, int _index) {
     themeColor = theme.getThemeColor(_type);
-    index_page = _index;
     type = _type;
+    page = _page;
+    index_page = _index;
   }
 
   @override
@@ -874,26 +879,27 @@ class TaskScoutAddView extends StatelessWidget {
                     ),
                   ))),
           Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                height: 70,
-                width: 70,
-                child: Card(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0)),
-                  elevation: 7,
-                  child: Center(
+            alignment: Alignment.topCenter,
+            child: Card(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(35.0)),
+              elevation: 7,
+              child: ConstrainedBox(
+                  constraints: BoxConstraints(minWidth: 61, minHeight: 61),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 8, right: 8, top:5, bottom:5),
                     child: Text(
-                      (index_page + 1).toString(),
+                      task.getNumber(type, page, index_page),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
                           color: themeColor),
                     ),
-                  ),
-                ),
-              ))
+                  )),
+            ),
+          )
         ]));
   }
 }
