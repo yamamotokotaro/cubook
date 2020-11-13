@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chewie/chewie.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
+import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
   String mes;
   Color themeColor;
   int countChewie;
+  Map<String, dynamic> content;
   var task = new Task();
   var theme = new ThemeInfo();
 
@@ -29,6 +31,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<TaskDetailScoutModel>(builder: (context, model, _) {
+      content = task.getContent(type, model.page, index_page);
       countChewie = 0;
       return Column(children: <Widget>[
         Container(
@@ -58,74 +61,25 @@ class TaskDetailScoutAddView extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Column(
               children: <Widget>[
-                Padding(
+                type != 'usagi' && type != 'sika' && type != 'kuma' && type != 'challenge' ? Padding(
+                    padding: EdgeInsets.all(15),
+                    child: ExpandText(
+                      content['body'],
+                      maxLines: 3,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.justify,
+                    )):Container(),
+                type == 'usagi' || type == 'sika' || type == 'kuma' || type == 'challenge' ? Padding(
                     padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                     child: Text(
                       mes,
                       textAlign: TextAlign.center,
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-                    child: FlatButton.icon(
-                      onPressed: () async {
-                        var result = await showModalBottomSheet<int>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Padding(
-                                        padding: EdgeInsets.all(0),
-                                        child: Container(
-                                          width: double.infinity,
-                                          child: Text(
-                                            task
-                                                .getContent(
-                                                    type,
-                                                    model.numberPushed,
-                                                    index_page)
-                                                .toString(),
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        )),
-                                    Padding(
-                                        padding: EdgeInsets.all(0),
-                                        child: Container(
-                                          width: double.infinity,
-                                          child: Text(
-                                            '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        )),
-                                  ],
-                                ));
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.sort,
-                        size: 20,
-                      ),
-                      label: Text(
-                        '内容を見る',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )),
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    )):Container(),
                 Padding(
                     padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                     child: ListView.builder(

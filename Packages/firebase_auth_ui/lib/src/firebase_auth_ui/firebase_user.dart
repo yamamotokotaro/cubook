@@ -14,7 +14,7 @@ class FirebaseUser {
       {this.isAnonymous = false, this.isNewUser});
 
   Map<String, dynamic> toJSON() {
-    return {
+    return <String, dynamic>{
       "uid": uid,
       "displayName": displayName,
       "email": email,
@@ -38,7 +38,7 @@ class MetaData {
   });
 
   Map<String, dynamic> toJSON() {
-    return {
+    return <String, dynamic>{
       "creationTimestamp": creationTimestamp,
       "lastSignInTimestamp": lastSignInTimestamp
     };

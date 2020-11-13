@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,6 +10,7 @@ class HomeLeaderModel extends ChangeNotifier {
   bool isLoaded = false;
   bool isGet = false;
   String group;
+  String group_claim;
   dynamic team;
   String teamPosition;
   String uid;
@@ -29,13 +29,21 @@ class HomeLeaderModel extends ChangeNotifier {
       group = userSnapshot.data()['group'];
       team = userSnapshot.data()['team'];
       teamPosition = userSnapshot.data()['teamPosition'];
+      user.getIdTokenResult(true).then((value) {
+        print(value.claims);
+        String group_claim_before = group_claim;
+        group_claim = value.claims['group'];
+        if (group_claim_before != group_claim) {
+          notifyListeners();
+        }
+      });
       if (group != group_before || teamPosition != teamPosition_before) {
         notifyListeners();
-        final RemoteConfig remoteConfig = await RemoteConfig.instance;
+        /*final RemoteConfig remoteConfig = await RemoteConfig.instance;
         await remoteConfig.fetch(expiration: const Duration(seconds: 1));
         await remoteConfig.activateFetched();
         print('term = ' + remoteConfig.getString('version_term'));
-        /*await showModalBottomSheet<int>(
+        await showModalBottomSheet<int>(
             context: context,
             isDismissible: false,
             enableDrag: false,

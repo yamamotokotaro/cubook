@@ -249,7 +249,7 @@ class showTaskView extends StatelessWidget {
     initialPage = _initialPage;
     pages.add(TaskScoutDetailView(type, _number),);
     for (int i = 0; i < task.getPartMap(type, _number)['hasItem']; i++) {
-      pages.add(TaskScoutAddView(i, type));
+      pages.add(TaskScoutAddView(type, _number, i));
     }
   }
 

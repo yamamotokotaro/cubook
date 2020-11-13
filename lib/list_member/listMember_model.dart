@@ -31,13 +31,13 @@ class ListMemberModel extends ChangeNotifier {
         notifyListeners();
       }
     });
-    /*user.getIdToken(refresh: true).then((value) {
+    user.getIdTokenResult(true).then((value) {
       String group_claim_before = group_claim;
       group_claim = value.claims['group'];
       if (group_claim_before != group_claim) {
         notifyListeners();
       }
-    });*/
+    });
   }
 
   Stream<QuerySnapshot> getUserSnapshot() {

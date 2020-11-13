@@ -5,7 +5,7 @@ class FacebookProvider extends AuthProvider {
 
   @override
   Map<String, dynamic> getMap() {
-    return {
+    return <String, dynamic>{
       'providerId': providerId,
     };
   }

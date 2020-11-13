@@ -25,14 +25,14 @@ class ListEffortModel extends ChangeNotifier {
       if (group != group_before || position != position_before) {
         notifyListeners();
       }
-      /*user.getIdToken(refresh: true).then((value) {
+      user.getIdTokenResult(true).then((value) {
         print(value.claims);
         String group_claim_before = group_claim;
         group_claim = value.claims['group'];
         if (group_claim_before != group_claim) {
           notifyListeners();
         }
-      });*/
+      });
     });
   }
 

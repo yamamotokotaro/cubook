@@ -313,7 +313,7 @@ class DetailActivityView extends StatelessWidget {
                                                                                           child: Container(
                                                                                             width: double.infinity,
                                                                                             child: Text(
-                                                                                              task.getContent(type, page, number),
+                                                                                              task.getContent(type, page, number)['body'],
                                                                                               style: TextStyle(
                                                                                                 fontSize: 18,
                                                                                                 fontWeight: FontWeight.bold,
