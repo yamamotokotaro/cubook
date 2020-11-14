@@ -16,6 +16,7 @@ class EditActivityModel extends ChangeNotifier {
   TextEditingController titleController = TextEditingController();
   bool isLoading = false;
   bool EmptyError = false;
+  List<Map<String, dynamic>> listMemberAbsent = new List<Map<String, dynamic>>();
   Map<String, bool> uid_check = new Map<String, bool>();
   Map<String, dynamic> claims = new Map<String, dynamic>();
   Map<String, bool> checkAbsents = new Map<String, bool>();
@@ -37,7 +38,7 @@ class EditActivityModel extends ChangeNotifier {
       if (group != group_before) {
         notifyListeners();
       }
-     /* user.getIdToken(refresh: true).then((value) {
+      /* user.getIdToken(refresh: true).then((value) {
         String group_claim_before = group_claim;
         group_claim = value.claims['group'];
         if (group_claim_before != group_claim) {
@@ -69,7 +70,7 @@ class EditActivityModel extends ChangeNotifier {
       date = documentSnapshot.data()['date'].toDate();
       isGet = true;
       documentID = documentSnapshot.id;
-      notifyListeners();
+      //notifyListeners();
     }
   }
 
@@ -81,7 +82,7 @@ class EditActivityModel extends ChangeNotifier {
         checkAbsents[documentSnapshot.id] = documentSnapshot.data()['absent'];
       }
       countSnapshot = querySnapshot.docs.length;
-      notifyListeners();
+      //notifyListeners();
     }
   }
 
@@ -92,7 +93,24 @@ class EditActivityModel extends ChangeNotifier {
       checkAbsents[documentID] = false;
     }
     notifyListeners();
+    print('notifyListners');
     print(checkAbsents[documentID]);
+  }
+
+  void dismissUser(String id) async {
+    await FirebaseFirestore.instance
+        .collection('activity_personal')
+        .doc(id)
+        .delete();
+    notifyListeners();
+  }
+
+  void cancelDismiss(String id, Map<String, dynamic> data) async {
+    await FirebaseFirestore.instance
+        .collection('activity_personal')
+        .doc(id)
+        .set(data);
+    notifyListeners();
   }
 
   void onPressSend(BuildContext context) async {

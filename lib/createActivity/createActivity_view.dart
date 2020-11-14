@@ -14,10 +14,16 @@ class CreateActivityView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color color_ring;
-    if(Theme.of(context).accentColor == Colors.white){
+    if (Theme.of(context).accentColor == Colors.white) {
       color_ring = Colors.blue[900];
     } else {
       color_ring = Colors.white;
+    }
+    bool isDark;
+    if (Theme.of(context).accentColor == Colors.white) {
+      isDark = true;
+    } else {
+      isDark = false;
     }
     return Scaffold(
         appBar: AppBar(
@@ -28,20 +34,19 @@ class CreateActivityView extends StatelessWidget {
           if (model.isLoading) {
             return FloatingActionButton(
               child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(color_ring ),
+                valueColor: new AlwaysStoppedAnimation<Color>(color_ring),
               ),
             );
           } else {
             return FloatingActionButton.extended(
-              onPressed: () {
-                model.onSend(context);
-              },
-              label: Text('記録'),
-              icon: Icon(Icons.save)
-            );
+                onPressed: () {
+                  model.onSend(context);
+                },
+                label: Text('記録'),
+                icon: Icon(Icons.save));
           }
         }),
-        body: Builder(builder: (BuildContext context) {
+        body: Builder(builder: (BuildContext context_builder) {
           return GestureDetector(
               onTap: () {
                 FocusScope.of(context).unfocus();
@@ -118,26 +123,25 @@ class CreateActivityView extends StatelessWidget {
                                     textAlign: TextAlign.left,
                                   ))),
                           Padding(
-                              padding: EdgeInsets.only(
-                                  top: 5, bottom: 15, left: 10),
+                              padding:
+                                  EdgeInsets.only(top: 5, bottom: 15, left: 10),
                               child: Container(
                                   width: double.infinity,
                                   child: Text(
                                     '選択した項目は一括でサインされます',
                                     style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 12
-                                    ),
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 12),
                                     textAlign: TextAlign.left,
                                   ))),
                           Align(
-                            alignment: Alignment.centerLeft,
-                          child:FlatButton.icon(
-                              onPressed: () {
-                                model.onPressedSelectItem(context);
-                              },
-                              icon: Icon(Icons.list),
-                              label: Text('項目を選択'))),
+                              alignment: Alignment.centerLeft,
+                              child: FlatButton.icon(
+                                  onPressed: () {
+                                    model.onPressedSelectItem(context);
+                                  },
+                                  icon: Icon(Icons.list),
+                                  label: Text('項目を選択'))),
                           Selector<CreateActivityModel,
                               List<Map<String, dynamic>>>(
                             selector: (context, model) => model.list_selected,
@@ -172,7 +176,8 @@ class CreateActivityView extends StatelessWidget {
                                                       Text(
                                                           theme.getTitle(type) +
                                                               ' ' +
-                                                              map_task['number'] +
+                                                              map_task[
+                                                                  'number'] +
                                                               ' ' +
                                                               map_task[
                                                                   'title'] +
@@ -193,12 +198,13 @@ class CreateActivityView extends StatelessWidget {
                                   });
                             },
                           ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  top: 15, bottom: 15, left: 10),
-                              child: Container(
-                                  width: double.infinity,
-                                  child: Text(
+                          Row(
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 15, bottom: 15, left: 10),
+                                  child: Container(
+                                      child: Text(
                                     '出席者',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -206,6 +212,25 @@ class CreateActivityView extends StatelessWidget {
                                     ),
                                     textAlign: TextAlign.left,
                                   ))),
+                              Spacer(),
+                              FlatButton.icon(
+                                onPressed: () {
+                                  model.resetUser();
+                                },
+                                icon: Icon(
+                                  Icons.replay,
+                                  size: 20,
+                                ),
+                                label: Text(
+                                  'リセット',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                           Padding(
                               padding: EdgeInsets.only(bottom: 70),
                               child: StreamBuilder<QuerySnapshot>(
@@ -227,8 +252,7 @@ class CreateActivityView extends StatelessWidget {
                                       return ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
-                                          itemCount:
-                                              querySnapshot.docs.length,
+                                          itemCount: querySnapshot.docs.length,
                                           shrinkWrap: true,
                                           itemBuilder: (BuildContext context,
                                               int index) {
@@ -236,123 +260,177 @@ class CreateActivityView extends StatelessWidget {
                                             DocumentSnapshot snapshot =
                                                 querySnapshot.docs[index];
                                             uid = snapshot.data()['uid'];
-                                            bool isCheck = true;
-                                            if (model.uid_check[uid] != null) {
-                                              isCheck = model.uid_check[uid];
-                                            }
-                                            String team;
-                                            if (snapshot.data()['team'] is int) {
-                                              team =
-                                                  snapshot.data()['team'].toString();
-                                            } else {
-                                              team = snapshot.data()['team'];
-                                            }
-                                            bool isFirst;
-                                            if (team_last != team) {
-                                              isFirst = true;
-                                              team_last = team;
-                                            } else {
-                                              isFirst = false;
-                                            }
-                                            String grade = snapshot.data()['grade'];
-                                            String team_call;
-                                            if (grade == 'cub') {
-                                              team_call = '組';
-                                            } else {
-                                              team_call = '班';
-                                            }
-                                            print(model.uid_check);
-                                            return Column(children: <Widget>[
-                                              isFirst && team != ''
-                                                  ? Padding(
-                                                      padding:
-                                                          EdgeInsets.all(10),
-                                                      child: Container(
-                                                          width:
-                                                              double.infinity,
-                                                          child: Text(
-                                                            team + team_call,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 23,
+                                            if (!model.list_notApplicable
+                                                .contains(uid)) {
+                                              bool isCheck = true;
+                                              if (model.uid_check[uid] !=
+                                                  null) {
+                                                isCheck = model.uid_check[uid];
+                                              }
+                                              String team;
+                                              if (snapshot.data()['team']
+                                                  is int) {
+                                                team = snapshot
+                                                    .data()['team']
+                                                    .toString();
+                                              } else {
+                                                team = snapshot.data()['team'];
+                                              }
+                                              bool isFirst;
+                                              if (team_last != team) {
+                                                isFirst = true;
+                                                team_last = team;
+                                              } else {
+                                                isFirst = false;
+                                              }
+                                              String grade =
+                                                  snapshot.data()['grade'];
+                                              String team_call;
+                                              if (grade == 'cub') {
+                                                team_call = '組';
+                                              } else {
+                                                team_call = '班';
+                                              }
+                                              print(model.uid_check);
+                                              return Column(children: <Widget>[
+                                                isFirst && team != ''
+                                                    ? Padding(
+                                                        padding:
+                                                            EdgeInsets.all(10),
+                                                        child: Container(
+                                                            width:
+                                                                double.infinity,
+                                                            child: Text(
+                                                              team + team_call,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 23,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                            )))
+                                                    : Container(),
+                                                Dismissible(
+                                                    key: Key(snapshot
+                                                        .data()['name']),
+                                                    onDismissed: (direction) {
+                                                      model.dismissUser(uid);
+                                                      final snackBar = SnackBar(
+                                                        content: Text(
+                                                            snapshot.data()[
+                                                                    'name'] +
+                                                                'を対象外にしました'),
+                                                        action: SnackBarAction(
+                                                          label: '取り消し',
+                                                          textColor: isDark
+                                                              ? Colors.blue[900]
+                                                              : Colors
+                                                                  .blue[400],
+                                                          onPressed: () {
+                                                            model.cancelDismiss(
+                                                                uid);
+                                                          },
+                                                        ),
+                                                        duration: Duration(
+                                                            seconds: 1),
+                                                      );
+                                                      Scaffold.of(
+                                                          context_builder)
+                                                        .showSnackBar(
+                                                            snackBar);
+                                                    },
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(5),
+                                                        child: Container(
+                                                          child: Card(
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
                                                             ),
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                          )))
-                                                  : Container(),
-                                              Padding(
-                                                  padding: EdgeInsets.all(5),
-                                                  child: Container(
-                                                    child: Card(
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                      ),
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          model.onCheckMember(
-                                                              uid);
-                                                        },
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  10),
-                                                          child: Row(
-                                                            children: <Widget>[
-                                                              Container(
-                                                                width: 40,
-                                                                height: 40,
-                                                                decoration: BoxDecoration(
-                                                                    color: theme.getUserColor(
-                                                                        snapshot.data()[
-                                                                            'age']),
-                                                                    shape: BoxShape
-                                                                        .circle),
-                                                                child: Icon(
-                                                                  Icons.person,
-                                                                  color: Colors
-                                                                      .white,
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                model
+                                                                    .onCheckMember(
+                                                                        uid);
+                                                              },
+                                                              child: Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top: 10,
+                                                                        bottom:
+                                                                            10,
+                                                                        right:
+                                                                            10,
+                                                                        left:
+                                                                            10),
+                                                                child: Row(
+                                                                  children: <
+                                                                      Widget>[
+                                                                    /*IconButton(
+                                                                  icon: Icon(Icons
+                                                                      .clear),
+                                                                  onPressed:
+                                                                      () {}),*/
+                                                                    Container(
+                                                                      width: 40,
+                                                                      height:
+                                                                          40,
+                                                                      decoration: BoxDecoration(
+                                                                          color: theme.getUserColor(snapshot.data()[
+                                                                              'age']),
+                                                                          shape:
+                                                                              BoxShape.circle),
+                                                                      child:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .person,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                        padding: EdgeInsets.only(
+                                                                            left:
+                                                                                10),
+                                                                        child:
+                                                                            Text(
+                                                                          snapshot
+                                                                              .data()['name'],
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 25),
+                                                                        )),
+                                                                    Spacer(),
+                                                                    Checkbox(
+                                                                      value:
+                                                                          isCheck,
+                                                                      onChanged:
+                                                                          (bool
+                                                                              e) {
+                                                                        model.onCheckMember(
+                                                                            uid);
+                                                                      },
+                                                                      activeColor:
+                                                                          Colors
+                                                                              .blue[600],
+                                                                    )
+                                                                  ],
                                                                 ),
                                                               ),
-                                                              Padding(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                          left:
-                                                                              10),
-                                                                  child: Text(
-                                                                    snapshot.data()[
-                                                                        'name'],
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                        fontSize:
-                                                                            25),
-                                                                  )),
-                                                              Spacer(),
-                                                              Checkbox(
-                                                                value: isCheck,
-                                                                onChanged:
-                                                                    (bool e) {
-                                                                  model
-                                                                      .onCheckMember(
-                                                                          uid);
-                                                                },
-                                                                activeColor:
-                                                                    Colors.blue[
-                                                                        600],
-                                                              )
-                                                            ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ))
-                                            ]);
+                                                        )))
+                                              ]);
+                                            } else {
+                                              return Container();
+                                            }
                                           });
                                     } else {
                                       return Padding(

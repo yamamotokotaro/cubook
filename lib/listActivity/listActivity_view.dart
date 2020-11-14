@@ -35,7 +35,7 @@ class ListActivityView extends StatelessWidget {
                           builder: (context, model, child) {
                         model.getGroup();
                         return StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance
+                          stream: FirebaseFirestore.instance
                               .collection('activity')
                               .where('group', isEqualTo: model.group)
                               .orderBy('date', descending: true)
@@ -43,17 +43,17 @@ class ListActivityView extends StatelessWidget {
                           builder: (BuildContext context,
                               AsyncSnapshot<QuerySnapshot> snapshot) {
                             if (snapshot.hasData) {
-                              if (snapshot.data.documents.length != 0) {
+                              if (snapshot.data.docs.length != 0) {
                                 QuerySnapshot querySnapshot = snapshot.data;
                                 return ListView.builder(
                                     physics:
                                         const NeverScrollableScrollPhysics(),
-                                    itemCount: querySnapshot.documents.length,
+                                    itemCount: querySnapshot.docs.length,
                                     shrinkWrap: true,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       DocumentSnapshot snapshot =
-                                          querySnapshot.documents[index];
+                                          querySnapshot.docs[index];
                                       return Padding(
                                         padding: EdgeInsets.all(5),
                                         child: Container(
@@ -66,7 +66,7 @@ class ListActivityView extends StatelessWidget {
                                                 Navigator.of(context).pushNamed(
                                                     '/detailActivity',
                                                     arguments:
-                                                        snapshot.documentID);
+                                                        snapshot.id);
                                               },
                                               child: Padding(
                                                 padding: EdgeInsets.all(10),

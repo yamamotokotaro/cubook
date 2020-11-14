@@ -125,6 +125,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                               value: model.isTeamLeader,
                                               onChanged: model
                                                   .onCheckboxTeamLeaderChanged,
+                                              activeColor: Colors.blue[600],
                                             ),
                                             Text('班長')
                                           ],

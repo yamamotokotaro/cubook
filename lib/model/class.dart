@@ -184,9 +184,10 @@ Future<void> signItem(String uid, String type, int page, int number,
             .doc(snapshot.id)
             .update(mapSend);
 
-        if (map[page.toString()] == task.getPartMap(type, page)['hasItem'] &&
-            !checkCitation) {
-          onFinish(uid, type, page, documentID);
+        if (map[page.toString()] == task.getPartMap(type, page)['hasItem']) {
+          if (!checkCitation) {
+            onFinish(uid, type, page, documentID);
+          }
           Map<String, dynamic> finishCommon =
               task.getPartMap(type, page)['common'];
           if (finishCommon != null) {
