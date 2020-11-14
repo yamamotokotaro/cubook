@@ -79,7 +79,9 @@ class EditActivityModel extends ChangeNotifier {
         querySnapshot.docs.length != countSnapshot) {
       for (int i = 0; i < querySnapshot.docs.length; i++) {
         DocumentSnapshot documentSnapshot = querySnapshot.docs[i];
-        checkAbsents[documentSnapshot.id] = documentSnapshot.data()['absent'];
+        if(checkAbsents[documentSnapshot.id] == null) {
+          checkAbsents[documentSnapshot.id] = documentSnapshot.data()['absent'];
+        }
       }
       countSnapshot = querySnapshot.docs.length;
       //notifyListeners();
