@@ -24,6 +24,7 @@ class CreateActivityModel extends ChangeNotifier {
   InterstitialAd interstitialAd;
   var isRelease = const bool.fromEnvironment('dart.vm.product');
   dynamic itemSelected;
+  List<String> list_notApplicable = new List<String>();
   List<Map<String, dynamic>> list_selected = new List<Map<String, dynamic>>();
 
   void onPressedSelectItem(BuildContext context) async {
@@ -88,6 +89,21 @@ class CreateActivityModel extends ChangeNotifier {
         }
       });*/
     });
+  }
+
+  void dismissUser(String uid) {
+    list_notApplicable.add(uid);
+    notifyListeners();
+  }
+
+  void cancelDismiss(String uid) {
+    list_notApplicable.removeWhere((item) => item == uid);
+    notifyListeners();
+  }
+
+  void resetUser() {
+    list_notApplicable.clear();
+    notifyListeners();
   }
 
   void getAdmob(BuildContext context) {
@@ -160,7 +176,7 @@ class CreateActivityModel extends ChangeNotifier {
       FirebaseFirestore.instance
           .collection('user')
           .where('uid', isEqualTo: user.uid)
-          .getDocuments()
+          .get()
           .then((userDatas) async {
         {
           DocumentSnapshot userData = userDatas.docs[0];
@@ -169,37 +185,39 @@ class CreateActivityModel extends ChangeNotifier {
               .collection('user')
               .where('group', isEqualTo: userGroup)
               .where('position', isEqualTo: 'scout')
-              .getDocuments()
+              .get()
               .then((user) async {
             for (int i = 0; i < user.docs.length; i++) {
               DocumentSnapshot snapshot = user.docs[i];
               if (snapshot.data()['team'] != null) {
                 String uid_user = snapshot.data()['uid'];
-                bool isCheck = true;
-                if (uid_check[uid_user] != null) {
-                  isCheck = uid_check[uid_user];
+                if (!list_notApplicable.contains(uid_user)) {
+                  bool isCheck = true;
+                  if (uid_check[uid_user] != null) {
+                    isCheck = uid_check[uid_user];
+                  }
+                  if (isCheck) {
+                    list_uid.add(uid_user);
+                    count++;
+                  }
+                  Map<String, dynamic> userInfo = new Map<String, dynamic>();
+                  userInfo['title'] = titleController.text;
+                  userInfo['date'] = date;
+                  userInfo['uid'] = uid_user;
+                  userInfo['name'] = snapshot.data()['name'];
+                  userInfo['absent'] = isCheck;
+                  userInfo['age'] = snapshot.data()['age'];
+                  userInfo['age_turn'] = snapshot.data()['age_turn'];
+                  userInfo['team'] = snapshot.data()['team'];
+                  userInfo['group'] = userGroup;
+                  list_absent.add(userInfo);
                 }
-                if (isCheck) {
-                  list_uid.add(uid_user);
-                  count++;
-                }
-                Map<String, dynamic> userInfo = new Map<String, dynamic>();
-                userInfo['title'] = titleController.text;
-                userInfo['date'] = date;
-                userInfo['uid'] = uid_user;
-                userInfo['name'] = snapshot.data()['name'];
-                userInfo['absent'] = isCheck;
-                userInfo['age'] = snapshot.data()['age'];
-                userInfo['age_turn'] = snapshot.data()['age_turn'];
-                userInfo['team'] = snapshot.data()['team'];
-                userInfo['group'] = userGroup;
-                list_absent.add(userInfo);
               }
             }
             Map<String, dynamic> activityInfo = new Map<String, dynamic>();
             activityInfo['group'] = userGroup;
             activityInfo['count_absent'] = count;
-            activityInfo['count_user'] = user.documents.length;
+            activityInfo['count_user'] = user.docs.length;
             activityInfo['title'] = titleController.text;
             activityInfo['date'] = date;
             activityInfo['uid'] = userUid;
@@ -270,6 +288,7 @@ class CreateActivityModel extends ChangeNotifier {
                 Navigator.pop(context);
                 date = DateTime.now();
                 titleController.text = '';
+                list_notApplicable.clear();
                 uid_check = new Map<String, bool>();
                 EmptyError = false;
                 isLoading = false;

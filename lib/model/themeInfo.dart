@@ -13,6 +13,8 @@ class ThemeInfo {
     Colors.blue[900],
     Colors.green[600],
     Colors.red[900],
+    Colors.yellow[800],
+    Colors.indigo[900],
     Colors.green[900],
   ];
   List<Color> colors_indicator = [
@@ -27,6 +29,8 @@ class ThemeInfo {
     Colors.blue[700],
     Colors.green[400],
     Colors.red[700],
+    Colors.yellow[700],
+    Colors.indigo[800],
     Colors.green[800],
   ];
 
@@ -42,6 +46,8 @@ class ThemeInfo {
     '菊スカウト章',
     '隼スカウト章',
     '富士スカウト章',
+    '信仰奨励章',
+    '宗教章',
     '技能章'
   ];
 
@@ -57,6 +63,8 @@ class ThemeInfo {
     'kiku',
     'hayabusa',
     'fuji',
+    'syorei',
+    'syukyo',
     'gino'*/
   ];
 
@@ -96,8 +104,14 @@ class ThemeInfo {
       case 'fuji':
         color = colors[10];
         break;
-      case 'gino':
+      case 'syorei':
         color = colors[11];
+        break;
+      case 'syukyo':
+        color = colors[12];
+        break;
+      case 'gino':
+        color = colors[13];
         break;
     }
     return color;
@@ -185,8 +199,14 @@ class ThemeInfo {
       case 'fuji':
         color = colors_indicator[10];
         break;
-      case 'gino':
+      case 'syorei':
         color = colors_indicator[11];
+        break;
+      case 'syukyo':
+        color = colors_indicator[12];
+        break;
+      case 'gino':
+        color = colors_indicator[13];
         break;
     }
     return color;
@@ -228,8 +248,14 @@ class ThemeInfo {
       case 'fuji':
         title = titles[10];
         break;
-      case 'gino':
+      case 'syorei':
         title = titles[11];
+        break;
+      case 'syukyo':
+        title = titles[12];
+        break;
+      case 'gino':
+        title = titles[13];
         break;
     }
     return title;

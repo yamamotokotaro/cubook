@@ -146,6 +146,12 @@ class Task {
     <String, dynamic>{'number': '5', 'title': '信仰奨励', 'hasItem': 1},
     <String, dynamic>{'number': '6', 'title': '成長と貢献', 'hasItem': 1},
   ];
+  List<Map<String, dynamic>> syorei = [
+    <String, dynamic>{'number': '', 'title': '信仰奨励章', 'hasItem': 9},
+  ];
+  List<Map<String, dynamic>> syukyo = [
+    <String, dynamic>{'number': '1', 'title': '宗教章', 'hasItem': 6},
+  ];
   List<Map<String, dynamic>> gino = [
     <String, dynamic>{
       'number': '1',
@@ -1125,7 +1131,8 @@ class Task {
     ],
     [
       <String, dynamic>{
-        'body': '隊集会やキャンプ、ハイキングで行うスカウツオウン・サービスに参加する。【信仰奨励章（2）と共通】'
+        'body': '隊集会やキャンプ、ハイキングで行うスカウツオウン・サービスに参加する。【信仰奨励章（2）と共通】',
+        'common': {'type': 'syorei', 'page': 0, 'number': 1}
       },
     ],
     [
@@ -1233,7 +1240,8 @@ class Task {
     [
       <String, dynamic>{
         'body':
-            'スカウツオウン・サービスで、自分ができる役割を果たし、「ちかい」と「おきて」を日常で実践したこと、感じたことを発表する。【信仰奨励章（3）と共通】'
+            'スカウツオウン・サービスで、自分ができる役割を果たし、「ちかい」と「おきて」を日常で実践したこと、感じたことを発表する。【信仰奨励章（3）と共通】',
+        'common': {'type': 'syorei', 'page': 0, 'number': 2}
       },
     ],
     [
@@ -1350,7 +1358,8 @@ class Task {
     ],
     [
       <String, dynamic>{
-        'body': '隊集会やキャンプ、ハイキングで行うスカウツオウン・サービスで、主要な役割を果たす。【信仰奨励章（4）と共通】'
+        'body': '隊集会やキャンプ、ハイキングで行うスカウツオウン・サービスで、主要な役割を果たす。【信仰奨励章（4）と共通】',
+        'common': {'type': 'syorei', 'page': 0, 'number': 3}
       },
     ],
     [
@@ -1469,6 +1478,37 @@ class Task {
     ],
   ];
 
+  List<List<Map<String, dynamic>>> content_syorei = [
+    [
+      <String, dynamic>{'body': '初級以上のボーイスカウト、またはベンチャースカウトであること'},
+      <String, dynamic>{'body': '隊集会やキャンプ・ハイキングでスカウツオウン・サービスに参加する\n【初級章課目「信仰奨励」と共通】',
+        'common': {'type': 'syokyu', 'page': 4, 'number': 0}},
+      <String, dynamic>{
+        'body':
+            'スカウツオウン・サービスで、自分ができる役割を果たし、「ちかい」と「おきて」を日常で実践したこと、感じたことを発表する\n【2級章課目「信仰奨励」と共通】',
+      'common': {'type': 'nikyu', 'page': 4, 'number': 0}
+      },
+      <String, dynamic>{'body': '隊集会やキャンプ・ハイキングでのスカウツオウン・サービスで主要な役割を果たす\n【1級章課目「信仰奨励」と共通】',
+        'common': {'type': 'ikkyu', 'page': 4, 'number': 0}},
+      <String, dynamic>{'body': '「アンノウンスカウト」の逸話を調べ、適切な表現形式（劇、紙芝居など）で隊の仲間や他の人々に伝え、「日々の善行」の実践のようすについて話す'},
+      <String, dynamic>{'body': '隊で年間を通じて行える奉仕活動を考え、隊長の指導のもとに実施する'},
+      <String, dynamic>{'body': '自分の家の宗教（派）か、興味を持った宗教（派）の宗教儀礼、宗教行事、またはスカウツオウン・サービスに参加する'},
+      <String, dynamic>{'body': '自分の家の宗教（派）か、興味を持った宗教（派）の教導職から信仰や宗教について話を聞く'},
+      <String, dynamic>{'body': 'B-Pのラストメッセージを読んで、半集会で話し合う'},
+    ]
+  ];
+
+  List<List<Map<String, dynamic>>> content_syukyo = [
+    [
+      <String, dynamic>{'body': '登録完了の1級以上のボーイスカウト・ベンチャースカウト及びローバースカウトであること'},
+      <String, dynamic>{'body': '自分の所属している教宗派の歴史と恐れを知ること'},
+      <String, dynamic>{'body': '自分の所属している教宗派の宗教行事について知ること'},
+      <String, dynamic>{'body': '礼拝の作法について知ること'},
+      <String, dynamic>{'body': '信仰に基づき、地域社会のために奉仕すること'},
+      <String, dynamic>{'body': '自分の生活の中に教えをどのように実践しているか記録を提出すること'},
+    ]
+  ];
+
   List<List<Map<String, dynamic>>> content_gino = [
     //野営章
     [
@@ -1585,7 +1625,9 @@ class Task {
         'body': '隊長の助言を得て、地域社会での指導的立場にある人を訪問し、仕事や任務について学び、集会で話す。'
       },
       <String, dynamic>{'body': '郷土の歴史、伝統行事、文化遺産について調べ、報告書を提出する。'},
-      <String, dynamic>{'body': '隊長の助言を得て、地域社会での指導的立場にある人を訪問し、仕事や任務について学び、集会で話す。'},
+      <String, dynamic>{
+        'body': '隊長の助言を得て、地域社会での指導的立場にある人を訪問し、仕事や任務について学び、集会で話す。'
+      },
     ],
 //パイオニアリング章
     [
@@ -1835,13 +1877,13 @@ class Task {
         'body':
             '次のことがらについて研究し、簡単な報告書を提出すること。\nア) 5か国以上の外国の地理、歴史、民族および文化\nイ) 3人以上の外国の国家的英雄、偉人\nウ) 国連憲章と世界人権宣言の主旨\nエ) 国連の組織、機構、機能及びおもな活動15か国以上の外国旗を描き、その各々の制定の由来、象徴されている精神などについて、簡単に報告すること。'
       },
-      <String, dynamic>{'body': '15か国以上の外国旗を描き、その各々の制定の由来、象徴されている精神などについて、簡単に報告すること。'},
+      <String, dynamic>{
+        'body': '15か国以上の外国旗を描き、その各々の制定の由来、象徴されている精神などについて、簡単に報告すること。'
+      },
+      <String, dynamic>{'body': '5か国以上の外国スカウト章を描くか、または収集して提示すること。'},
       <String, dynamic>{
         'body':
-            '5か国以上の外国スカウト章を描くか、または収集して提示すること。'
-      },
-      <String, dynamic>{
-        'body': '外国スカウトと外国で3か月以上文通し、相互理解と友情の促進に努力し、3回以上便りのやりとりがあること。（さしつかえないかぎり、便りを考査時に提示する）'
+            '外国スカウトと外国で3か月以上文通し、相互理解と友情の促進に努力し、3回以上便りのやりとりがあること。（さしつかえないかぎり、便りを考査時に提示する）'
       },
       <String, dynamic>{
         'body': '上記(5)の外国語について、興味あることがらをテーマにして資料を収集し、研究結果を簡単に報告すること。'
@@ -2441,7 +2483,9 @@ class Task {
         'body':
             'アマチュア無線技士の資格があること。和文通話表により、電文を送話できるとともに、欧文通話表を用いてアルファベットを言えること。'
       },
-      <String, dynamic>{'body': '和文通話表により、電文を送話できるとともに、欧文通話表を用いてアルファベットを言えること。'},
+      <String, dynamic>{
+        'body': '和文通話表により、電文を送話できるとともに、欧文通話表を用いてアルファベットを言えること。'
+      },
       <String, dynamic>{'body': '国内10局以上の交信記録と交信証（QSL カード）5枚以上を提示すること。'},
     ],
 //有線通信章
@@ -2920,6 +2964,9 @@ class Task {
       case 'fuji':
         list_info = fuji;
         break;
+      case 'syorei':
+        list_info = syorei;
+        break;
       case 'gino':
         list_info = gino;
         break;
@@ -2959,6 +3006,9 @@ class Task {
         break;
       case 'fuji':
         map_info = fuji[number];
+        break;
+      case 'syorei':
+        map_info = syorei[number];
         break;
       case 'gino':
         map_info = gino[number];
@@ -3003,6 +3053,9 @@ class Task {
         break;
       case 'fuji':
         content = content_fuji[page][number];
+        break;
+      case 'syorei':
+        content = content_syorei[page][number];
         break;
       case 'gino':
         content = content_gino[page][number];
@@ -3051,6 +3104,9 @@ class Task {
         break;
       case 'fuji':
         content = content_fuji[page];
+        break;
+      case 'syorei':
+        content = content_syorei[page];
         break;
       case 'gino':
         content = content_gino[page];
@@ -3110,6 +3166,11 @@ class Task {
       case 'fuji':
         if (content_fuji[page][number]['number'] != null) {
           numberShow = content_fuji[page][number]['number'];
+        }
+        break;
+      case 'syorei':
+        if (content_syorei[page][number]['number'] != null) {
+          numberShow = content_syorei[page][number]['number'];
         }
         break;
       case 'gino':
