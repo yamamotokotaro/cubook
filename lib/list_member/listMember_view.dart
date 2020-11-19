@@ -223,15 +223,6 @@ class ListMemberView extends StatelessWidget {
                                   }
                                 },
                               ),
-                              model.position == 'leader'
-                                  ? Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: AdmobBanner(
-                                        adUnitId: adunitID,
-                                        adSize: AdmobBannerSize.LARGE_BANNER,
-                                      ),
-                                    )
-                                  : Container(),
                               StreamBuilder<QuerySnapshot>(
                                 stream: model.getUserSnapshot(),
                                 builder: (BuildContext context,
@@ -406,7 +397,7 @@ class ListMemberView extends StatelessWidget {
                                   ? Padding(
                                       padding: EdgeInsets.only(bottom: 55),
                                       child: StreamBuilder<QuerySnapshot>(
-                                        stream: Firestore.instance
+                                        stream: FirebaseFirestore.instance
                                             .collection('user')
                                             .where('group',
                                                 isEqualTo: model.group)
@@ -417,16 +408,15 @@ class ListMemberView extends StatelessWidget {
                                             AsyncSnapshot<QuerySnapshot>
                                                 snapshot) {
                                           if (snapshot.hasData) {
-                                            if (snapshot
-                                                    .data.docs.length !=
+                                            if (snapshot.data.docs.length !=
                                                 0) {
                                               QuerySnapshot querySnapshot =
                                                   snapshot.data;
                                               return ListView.builder(
                                                   physics:
                                                       const NeverScrollableScrollPhysics(),
-                                                  itemCount: querySnapshot
-                                                      .docs.length,
+                                                  itemCount:
+                                                      querySnapshot.docs.length,
                                                   shrinkWrap: true,
                                                   itemBuilder:
                                                       (BuildContext context,
@@ -448,6 +438,13 @@ class ListMemberView extends StatelessWidget {
                                                             ),
                                                             child: InkWell(
                                                               onTap: () {},
+                                                              customBorder:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
                                                               child: Padding(
                                                                 padding:
                                                                     EdgeInsets
@@ -479,8 +476,8 @@ class ListMemberView extends StatelessWidget {
                                                                                 10),
                                                                         child:
                                                                             Text(
-                                                                          snapshot.data()[
-                                                                              'name'],
+                                                                          snapshot
+                                                                              .data()['name'],
                                                                           style: TextStyle(
                                                                               fontWeight: FontWeight.bold,
                                                                               fontSize: 25),

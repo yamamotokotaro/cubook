@@ -17,6 +17,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   var task = new Task();
   var list_isSelected = new List<bool>();
   String documentID;
+  String group;
   bool checkCitation = false;
   DocumentSnapshot stepSnapshot;
   DocumentReference documentReference;
@@ -90,6 +91,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     currentUser = user;
     user.getIdTokenResult().then((token) async {
       tokenMap = token.claims;
+      group = tokenMap['group'];
       FirebaseFirestore.instance
           .collection(type)
           .where('group', isEqualTo: tokenMap['group'])

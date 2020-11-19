@@ -53,6 +53,7 @@ class InviteView extends StatelessWidget {
                                 hint: Text('立場を選択'),
                                 value: model.dropdown_text,
                                 items: <String>[
+                                  'りす',
                                   'うさぎ',
                                   'しか',
                                   'くま',

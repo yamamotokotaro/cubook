@@ -61,25 +61,39 @@ class TaskDetailScoutAddView extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Column(
               children: <Widget>[
-                type != 'usagi' && type != 'sika' && type != 'kuma' && type != 'challenge' ? Padding(
-                    padding: EdgeInsets.all(15),
-                    child: ExpandText(
-                      content['body'],
-                      maxLines: 3,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.justify,
-                    )):Container(),
-                type == 'usagi' || type == 'sika' || type == 'kuma' || type == 'challenge' ? Padding(
-                    padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-                    child: Text(
-                      mes,
-                      textAlign: TextAlign.center,
-                      style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    )):Container(),
+                (type != 'risu' &&
+                    type != 'usagi' &&
+                    type != 'sika' &&
+                    type != 'kuma' &&
+                    type != 'challenge' &&
+                    type != 'tukinowa') ||
+                        model.group == ' j27DETWHGYEfpyp2Y292' ||
+                        model.group == ' z4pkBhhgr0fUMN4evr5z'
+                    ? Padding(
+                        padding: EdgeInsets.all(15),
+                        child: ExpandText(
+                          content['body'],
+                          maxLines: 3,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ))
+                    : Container(),
+                type == 'usagi' ||
+                        type == 'sika' ||
+                        type == 'kuma' ||
+                        type == 'challenge'
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                        child: Text(
+                          mes,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ))
+                    : Container(),
                 Padding(
                     padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                     child: ListView.builder(
@@ -472,7 +486,8 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         color: Colors.white),
                   ),
                 ),
-                type == 'usagi' ||
+                type == 'risu' ||
+                        type == 'usagi' ||
                         type == 'sika' ||
                         type == 'kuma' ||
                         type == 'challenge'
@@ -493,25 +508,25 @@ class TaskDetailScoutAddView extends StatelessWidget {
                     : Container(),
                 !model.isLoading[index_page]
                     ? Padding(
-                  padding: EdgeInsets.only(top: 5),
+                        padding: EdgeInsets.only(top: 5),
                         child: RaisedButton.icon(
-                        onPressed: () {
-                          model.onTapSend(index_page);
-                        },
-                        icon: Icon(
-                          Icons.edit,
-                          size: 20,
-                          color: Colors.white,
-                        ),
-                        color: themeColor,
-                        label: Text(
-                          'リーダーにサインをお願いする',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ))
+                          onPressed: () {
+                            model.onTapSend(index_page);
+                          },
+                          icon: Icon(
+                            Icons.edit,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                          color: themeColor,
+                          label: Text(
+                            'リーダーにサインをお願いする',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ))
                     : Container(
                         child: Container(
                           child: Center(

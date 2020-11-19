@@ -32,7 +32,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark;
-    if(Theme.of(context).accentColor == Colors.white){
+    if (Theme.of(context).accentColor == Colors.white) {
       isDark = true;
     } else {
       isDark = false;
@@ -75,8 +75,8 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                 model.userSnapshot.data()[type]);
                             for (int i = 0; i < map_task.length; i++) {
                               if (map.containsKey(i.toString())) {
-                                list_percentage[i] = (model.userSnapshot.data()[type]
-                                        [i.toString()] /
+                                list_percentage[i] = (model.userSnapshot
+                                        .data()[type][i.toString()] /
                                     map_task[i]['hasItem'].toDouble());
                               }
                             }
@@ -96,17 +96,19 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                     child: Container(
                                       child: Card(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                         child: InkWell(
                                           customBorder: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
                                           ),
                                           onTap: () {
                                             Navigator.of(context).push<dynamic>(
                                                 MyPageRoute(
-                                                    page: showTaskConfirmView(index,
-                                                        type, uid,0),
+                                                    page: showTaskConfirmView(
+                                                        index, type, uid, 0),
                                                     dismissible: true));
                                           },
                                           child: Row(
@@ -118,7 +120,8 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                               .circular(10),
                                                           bottomLeft:
                                                               const Radius
-                                                                  .circular(10)),
+                                                                      .circular(
+                                                                  10)),
                                                       color: themeColor),
                                                   height: 120,
                                                   child: ConstrainedBox(
@@ -203,8 +206,12 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                                                 10),
                                                                         child:
                                                                             CircularProgressIndicator(
-                                                                              backgroundColor: isDark ? Colors.grey[700]: Colors.grey[300],
-                                                                              valueColor: new AlwaysStoppedAnimation<Color>(isDark ?Colors.white: theme.getThemeColor(type)),
+                                                                          backgroundColor: isDark
+                                                                              ? Colors.grey[700]
+                                                                              : Colors.grey[300],
+                                                                          valueColor: new AlwaysStoppedAnimation<Color>(isDark
+                                                                              ? Colors.white
+                                                                              : theme.getThemeColor(type)),
                                                                           value:
                                                                               list_percentage[index],
                                                                         ))

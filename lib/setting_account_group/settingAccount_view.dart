@@ -87,6 +87,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                       hint: Text('役割を選択'),
                                       value: model.dropdown_text,
                                       items: <String>[
+                                        'りす',
                                         'うさぎ',
                                         'しか',
                                         'くま',

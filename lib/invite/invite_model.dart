@@ -34,6 +34,11 @@ class InviteModel with ChangeNotifier {
     String position;
     String team;
     switch (dropdown_text) {
+      case 'りす':
+        age = 'risu';
+        position = 'scout';
+        team = teamController.text;
+        break;
       case 'うさぎ':
         age = 'usagi';
         position = 'scout';

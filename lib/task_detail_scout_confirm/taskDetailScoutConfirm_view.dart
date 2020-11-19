@@ -390,73 +390,111 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                         ),
                                       )
                                     : Container(),
-                                ListView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: contents.length,
-                                    shrinkWrap: true,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      String content = contents[index]['body'];
-                                      Color bordercolor;
-                                      if (Theme.of(context).accentColor ==
-                                          Colors.white) {
-                                        bordercolor = Colors.grey[700];
-                                      } else {
-                                        bordercolor = Colors.grey[300];
-                                      }
-                                      return Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: 10, right: 10, left: 10),
-                                        child: Card(
-                                            color: Color(0x00000000),
-                                            shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                color: bordercolor,
-                                                width: 2.0,
+                                (type != 'risu' &&
+                                            type != 'usagi' &&
+                                            type != 'sika' &&
+                                            type != 'kuma' &&
+                                            type != 'challenge' &&
+                                            type != 'tukinowa') ||
+                                        model.group ==
+                                            ' j27DETWHGYEfpyp2Y292' ||
+                                        model.group == ' z4pkBhhgr0fUMN4evr5z'
+                                    ? Column(children: [
+                                        ListView.builder(
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemCount: contents.length,
+                                            shrinkWrap: true,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              String content =
+                                                  contents[index]['body'];
+                                              Color bordercolor;
+                                              if (Theme.of(context)
+                                                      .accentColor ==
+                                                  Colors.white) {
+                                                bordercolor = Colors.grey[700];
+                                              } else {
+                                                bordercolor = Colors.grey[300];
+                                              }
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                    bottom: 10,
+                                                    right: 10,
+                                                    left: 10),
+                                                child: Card(
+                                                    color: Color(0x00000000),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      side: BorderSide(
+                                                        color: bordercolor,
+                                                        width: 2.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ),
+                                                    elevation: 0,
+                                                    child: InkWell(
+                                                      customBorder:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                      ),
+                                                      child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(8),
+                                                          child: Text(content)),
+                                                    )),
+                                              );
+                                            }),
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 15,
+                                                bottom: 10,
+                                                right: 15),
+                                            child: Container(
+                                              width: double.infinity,
+                                              child: Text(
+                                                '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                textAlign: TextAlign.left,
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                            elevation: 0,
-                                            child: InkWell(
-                                              customBorder:
-                                                  RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                              ),
-                                              onTap: () {
-                                                if (model
-                                                    .controller.hasClients) {
-                                                  model.controller
-                                                      .animateToPage(index + 1,
-                                                          duration:
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      1000),
-                                                          curve: Curves.ease);
-                                                }
-                                              },
-                                              child: Padding(
-                                                  padding: EdgeInsets.all(8),
-                                                  child: Text(content)),
                                             )),
-                                      );
-                                    }),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 15, bottom: 10, right: 15),
-                                    child: Container(
-                                      width: double.infinity,
-                                      child: Text(
-                                        '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    )),
+                                      ])
+                                    : Padding(
+                                        padding: EdgeInsets.only(top: 5),
+                                        child: Center(
+                                            child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 5, top: 4),
+                                                child: Icon(
+                                                  //ああああ
+                                                  Icons.chrome_reader_mode,
+                                                  color: themeColor,
+                                                  size: 22,
+                                                ),
+                                              ),
+                                              Text(
+                                                '内容はカブブックで確認しよう',
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ]))),
                               ],
                             ))));
                       } else if (model.isExit != true &&
@@ -495,67 +533,105 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                       decoration: TextDecoration.none),
                                 ),
                               ),
-                              ListView.builder(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: contents.length,
-                                  shrinkWrap: true,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    String content = contents[index]['body'];
-                                    Color bordercolor;
-                                    if (Theme.of(context).accentColor ==
-                                        Colors.white) {
-                                      bordercolor = Colors.grey[700];
-                                    } else {
-                                      bordercolor = Colors.grey[300];
-                                    }
-                                    return Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: 10, right: 10, left: 10),
-                                      child: Card(
-                                          color: Color(0x00000000),
-                                          shape: RoundedRectangleBorder(
-                                            side: BorderSide(
-                                              color: bordercolor,
-                                              width: 2.0,
+                              (type != 'risu' &&
+                                          type != 'usagi' &&
+                                          type != 'sika' &&
+                                          type != 'kuma' &&
+                                          type != 'challenge' &&
+                                          type != 'tukinowa') ||
+                                      model.group == ' j27DETWHGYEfpyp2Y292' ||
+                                      model.group == ' z4pkBhhgr0fUMN4evr5z'
+                                  ? Column(children: [
+                                      ListView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: contents.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            String content =
+                                                contents[index]['body'];
+                                            Color bordercolor;
+                                            if (Theme.of(context).accentColor ==
+                                                Colors.white) {
+                                              bordercolor = Colors.grey[700];
+                                            } else {
+                                              bordercolor = Colors.grey[300];
+                                            }
+                                            return Padding(
+                                              padding: EdgeInsets.only(
+                                                  bottom: 10,
+                                                  right: 10,
+                                                  left: 10),
+                                              child: Card(
+                                                  color: Color(0x00000000),
+                                                  shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                      color: bordercolor,
+                                                      width: 2.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  elevation: 0,
+                                                  child: InkWell(
+                                                    customBorder:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ),
+                                                    child: Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8),
+                                                        child: Text(content)),
+                                                  )),
+                                            );
+                                          }),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 15, bottom: 10, right: 15),
+                                          child: Container(
+                                            width: double.infinity,
+                                            child: Text(
+                                              '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.left,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          elevation: 0,
-                                          child: InkWell(
-                                            customBorder:
-                                                RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                            onTap: () {
-                                              model.controller.animateToPage(
-                                                  index + 1,
-                                                  duration: const Duration(
-                                                      milliseconds: 1000),
-                                                  curve: Curves.ease);
-                                            },
-                                            child: Padding(
-                                                padding: EdgeInsets.all(8),
-                                                child: Text(content)),
                                           )),
-                                    );
-                                  }),
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 15, bottom: 10, right: 15),
-                                  child: Container(
-                                    width: double.infinity,
-                                    child: Text(
-                                      '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  )),
+                                    ])
+                                  : Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Center(
+                                          child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: 5, top: 4),
+                                              child: Icon(
+                                                //ああああ
+                                                Icons.chrome_reader_mode,
+                                                color: themeColor,
+                                                size: 22,
+                                              ),
+                                            ),
+                                            Text(
+                                              '内容はカブブックで確認しよう',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.normal,
+                                                  decoration:
+                                                      TextDecoration.none),
+                                            ),
+                                          ]))),
                             ]))));
                       } else {
                         return Container(
@@ -600,7 +676,11 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   var task = new Task();
   var theme = new ThemeInfo();
 
-  TaskScoutAddConfirmView(String _type, int _page, int _index, ) {
+  TaskScoutAddConfirmView(
+    String _type,
+    int _page,
+    int _index,
+  ) {
     themeColor = theme.getThemeColor(_type);
     page = _page;
     index_page = _index;
@@ -1278,7 +1358,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
               child: ConstrainedBox(
                   constraints: BoxConstraints(minWidth: 61, minHeight: 61),
                   child: Padding(
-                    padding: EdgeInsets.only(left: 8, right: 8, top:5, bottom:5),
+                    padding:
+                        EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
                     child: Text(
                       task.getNumber(type, page, index_page),
                       textAlign: TextAlign.center,
