@@ -1,12 +1,14 @@
 import 'package:cubook/Analytics/analytics_model.dart';
+import 'package:cubook/model/arguments.dart';
+import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_list_analytics/taskListAnalytics_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:excel/excel.dart';
 
 class AnalyticsView extends StatelessWidget {
+  var task = new Task();
   var theme = new ThemeInfo();
 
   @override
@@ -213,35 +215,77 @@ class AnalyticsView extends StatelessWidget {
                                                 child: Consumer<AnalyticsModel>(
                                                     builder: (context, model,
                                                         child) {
-                                                      model.export();
-                                                      if(model.isExporting) {
-                                                        return Column(
-                                                          mainAxisSize: MainAxisSize
-                                                              .min,
-                                                          children: <Widget>[
-                                                            Text('エクセルに出力中'),
-                                                            Padding(
-                                                                padding: EdgeInsets.only(top: 15, bottom: 12),
-                                                                child: Container(
-                                                                    width: 200,
-                                                                    child: LinearProgressIndicator(
-                                                                      backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                                                      valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : Colors.blue[900]),
-                                                                      value: model.count_userAll == 0 ? 0 : model.count_userProgress / model.count_userAll,
-                                                                    )))
-                                                          ],
-                                                        );
-                                                      } else {
-                                                        return Column(
-                                                          mainAxisSize: MainAxisSize
-                                                              .min,
-                                                          children: <Widget>[
-                                                            Text('出力が完了しました'),
-                                                            Padding(padding: EdgeInsets.only(top:20), child:FlatButton(onPressed: (){model.openFile();}, color:Theme.of(context).accentColor, child: Text('アプリで開く', style: TextStyle(color: isDark? Colors.black:Colors.white),))),
-                                                            FlatButton(onPressed: (){model.reExport();}, child:Text('再出力'))
-                                                          ],
-                                                        );
-                                                      }
+                                              model.export();
+                                              if (model.isExporting) {
+                                                return Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    Text('エクセルに出力中'),
+                                                    Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 15,
+                                                                bottom: 12),
+                                                        child: Container(
+                                                            width: 200,
+                                                            child:
+                                                                LinearProgressIndicator(
+                                                              backgroundColor: isDark
+                                                                  ? Colors
+                                                                      .grey[700]
+                                                                  : Colors.grey[
+                                                                      300],
+                                                              valueColor: new AlwaysStoppedAnimation<
+                                                                      Color>(
+                                                                  isDark
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors.blue[
+                                                                          900]),
+                                                              value: model.count_userAll ==
+                                                                      0
+                                                                  ? 0
+                                                                  : model.count_userProgress /
+                                                                      model
+                                                                          .count_userAll,
+                                                            )))
+                                                  ],
+                                                );
+                                              } else {
+                                                return Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: <Widget>[
+                                                    Text('出力が完了しました'),
+                                                    Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 20),
+                                                        child: FlatButton(
+                                                            onPressed: () {
+                                                              model.openFile();
+                                                            },
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .accentColor,
+                                                            child: Text(
+                                                              'アプリで開く',
+                                                              style: TextStyle(
+                                                                  color: isDark
+                                                                      ? Colors
+                                                                          .black
+                                                                      : Colors
+                                                                          .white),
+                                                            ))),
+                                                    FlatButton(
+                                                        onPressed: () {
+                                                          model.reExport();
+                                                        },
+                                                        child: Text('再出力'))
+                                                  ],
+                                                );
+                                              }
                                             })),
                                           );
                                         });
@@ -369,11 +413,22 @@ class AnalyticsView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute<
-                                            TaskListAnalyticsView>(
-                                        builder: (BuildContext context) {
-                                      return TaskListAnalyticsView(type[index]);
-                                    }));
+                                    if (task.getAllMap(type[index]).length !=
+                                        1) {
+                                      Navigator.push(context, MaterialPageRoute<
+                                              TaskListAnalyticsView>(
+                                          builder: (BuildContext context) {
+                                        return TaskListAnalyticsView(
+                                            type[index]);
+                                      }));
+                                    } else {
+                                      Navigator.of(context)
+                                          .pushNamed(
+                                          '/taskDetailAnalytics',
+                                          arguments: TaskDetail(
+                                              type: type[index],
+                                              page: 0));
+                                    }
                                   },
                                   child: Align(
                                     alignment: Alignment.bottomLeft,

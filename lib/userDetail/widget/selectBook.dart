@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
+import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_view.dart';
@@ -52,13 +54,24 @@ class SelectBook extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: InkWell(
+                              customBorder: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
                               onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute<TaskView>(
-                                        builder: (BuildContext context) {
-                                  return TaskListScoutConfirmView(
-                                      type[index], uid);
-                                }));
+                                if (task.getAllMap(type[index]).length != 1) {
+                                  Navigator.push(context,
+                                      MaterialPageRoute<TaskListScoutConfirmView>(
+                                          builder: (BuildContext context) {
+                                    return TaskListScoutConfirmView(
+                                        type[index], uid);
+                                  }));
+                                } else {
+                                  Navigator.of(context).push<dynamic>(
+                                      MyPageRoute(
+                                          page: showTaskConfirmView(
+                                              0, type[index], uid, 0),
+                                          dismissible: true));
+                                }
                               },
                               child: Row(
                                 children: <Widget>[
@@ -112,8 +125,9 @@ class SelectBook extends StatelessWidget {
                                                       Alignment.centerLeft,
                                                   child: Text(
                                                     theme.getTitle(type[index]),
-                                                    style:
-                                                        TextStyle(fontSize: 23,color: Colors.white),
+                                                    style: TextStyle(
+                                                        fontSize: 23,
+                                                        color: Colors.white),
                                                   ))),
                                         ],
                                       )),

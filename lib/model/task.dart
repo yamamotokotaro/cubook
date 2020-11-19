@@ -1,6 +1,9 @@
 import 'dart:core';
 
 class Task {
+  List<Map<String, dynamic>> risu = [
+    <String, dynamic>{'number': '', 'title': 'リスの道', 'hasItem': 7},
+  ];
   List<Map<String, dynamic>> usagi = [
     <String, dynamic>{'number': '1', 'title': '笑顔', 'hasItem': 2},
     <String, dynamic>{'number': '2', 'title': '運動', 'hasItem': 1},
@@ -49,6 +52,15 @@ class Task {
     <String, dynamic>{'number': '12', 'title': '役に立つ', 'hasItem': 1},
     <String, dynamic>{'number': '13', 'title': '日本の国旗', 'hasItem': 1},
     <String, dynamic>{'number': '14', 'title': '世界の国々', 'hasItem': 1},
+  ];
+
+  List<Map<String, dynamic>> tukinowa = [
+    <String, dynamic>{'number': '1', 'title': '基本', 'hasItem': 6},
+    <String, dynamic>{'number': '2', 'title': '健康と発達', 'hasItem': 1},
+    <String, dynamic>{'number': '3', 'title': 'スカウト技能', 'hasItem': 3},
+    <String, dynamic>{'number': '4', 'title': '善行', 'hasItem': 1},
+    <String, dynamic>{'number': '5', 'title': '信仰奨励', 'hasItem': 1},
+    <String, dynamic>{'number': '6', 'title': '班長会議', 'hasItem': 1},
   ];
 
   List<Map<String, dynamic>> challnege = [
@@ -662,6 +674,18 @@ class Task {
     },
   ];
 
+  List<List<Map<String, dynamic>>> content_risu = [
+    [
+      <String, dynamic>{'body': 'ボーイスカウトうんどうおよびカブスカウトかつどうがどのようにはじまったかを知る'},
+      <String, dynamic>{'body': 'カブスカウトのやくそくをおぼえる'},
+      <String, dynamic>{'body': 'カブ隊のさだめをおぼえる'},
+      <String, dynamic>{'body': 'カブスカウトのサインができ、そのいみがいえる', 'number': '4'},
+      <String, dynamic>{'body': 'カブスカウトのあくしゅができ、そのいみがいえる', 'number': '4'},
+      <String, dynamic>{'body': 'カブスカウトのモットーをおぼえる', 'number': '5'},
+      <String, dynamic>{'body': 'カブスカウトのけいれいができ、そのいみがいえる', 'number': '6'},
+    ]
+  ];
+
   List<List<Map<String, dynamic>>> content_usagi = [
     [
       <String, dynamic>{'body': '食事の時に、感謝を言葉で表す'},
@@ -805,6 +829,40 @@ class Task {
     ],
     [
       <String, dynamic>{'body': '自分の知っている国の中から、1つの国を選んで、その国について発表する'},
+    ],
+  ];
+
+  List<List<Map<String, dynamic>>> content_tukinowa = [
+    [
+      <String, dynamic>{'body': '「ちかい」と「おきて」が言える。そのうえで、隊長と話し合う。'},
+      <String, dynamic>{
+        'body': '「スカウト章」、「モットー」、「スローガン」の意味を説明できる。',
+      },
+      <String, dynamic>{'body': '日本の国旗の正しい様式を知り、周回で掲揚柱に掲揚する。'},
+      <String, dynamic>{'body': '「連盟歌」を歌える。'},
+      <String, dynamic>{'body': '普段の集会で必要なもの（訓練用具）を知り、携行する。'},
+      <String, dynamic>{'body': 'スカウトサイン、敬礼、スカウトの握手ができる'},
+    ],
+    [
+      <String, dynamic>{'body': '体温と脈拍を正しく測ることができる。'},
+    ],
+    [
+      <String, dynamic>{'body': '自分の体や身近にあるものを用いて簡単な計測を行う'},
+      <String, dynamic>{
+        'body': '集会で使う身ぶり信号（気をつけ、休め、すわれ、分れと集合隊形の各種サイン）、笛の合図を覚える'
+      },
+      <String, dynamic>{
+        'body': '次のロープ結びの使い道を理解し、実際に使う\n①本結び ②一重つぎ ③ふた結び ④もやい結び ⑤8の字結び'
+      },
+    ],
+    [
+      <String, dynamic>{'body': '集会などで行う社会奉仕活動へ積極的に参加する。'},
+    ],
+    [
+      <String, dynamic>{'body': '隊集会やキャンプ、ハイキングで行う「スカウツオウン・サービス」に参加する。'},
+    ],
+    [
+      <String, dynamic>{'body': '初級スカウトとして進級することを、班長会議で認めてもらう'},
     ],
   ];
 
@@ -1481,18 +1539,27 @@ class Task {
   List<List<Map<String, dynamic>>> content_syorei = [
     [
       <String, dynamic>{'body': '初級以上のボーイスカウト、またはベンチャースカウトであること'},
-      <String, dynamic>{'body': '隊集会やキャンプ・ハイキングでスカウツオウン・サービスに参加する\n【初級章課目「信仰奨励」と共通】',
-        'common': {'type': 'syokyu', 'page': 4, 'number': 0}},
+      <String, dynamic>{
+        'body': '隊集会やキャンプ・ハイキングでスカウツオウン・サービスに参加する\n【初級章課目「信仰奨励」と共通】',
+        'common': {'type': 'syokyu', 'page': 4, 'number': 0}
+      },
       <String, dynamic>{
         'body':
             'スカウツオウン・サービスで、自分ができる役割を果たし、「ちかい」と「おきて」を日常で実践したこと、感じたことを発表する\n【2級章課目「信仰奨励」と共通】',
-      'common': {'type': 'nikyu', 'page': 4, 'number': 0}
+        'common': {'type': 'nikyu', 'page': 4, 'number': 0}
       },
-      <String, dynamic>{'body': '隊集会やキャンプ・ハイキングでのスカウツオウン・サービスで主要な役割を果たす\n【1級章課目「信仰奨励」と共通】',
-        'common': {'type': 'ikkyu', 'page': 4, 'number': 0}},
-      <String, dynamic>{'body': '「アンノウンスカウト」の逸話を調べ、適切な表現形式（劇、紙芝居など）で隊の仲間や他の人々に伝え、「日々の善行」の実践のようすについて話す'},
+      <String, dynamic>{
+        'body': '隊集会やキャンプ・ハイキングでのスカウツオウン・サービスで主要な役割を果たす\n【1級章課目「信仰奨励」と共通】',
+        'common': {'type': 'ikkyu', 'page': 4, 'number': 0}
+      },
+      <String, dynamic>{
+        'body':
+            '「アンノウンスカウト」の逸話を調べ、適切な表現形式（劇、紙芝居など）で隊の仲間や他の人々に伝え、「日々の善行」の実践のようすについて話す'
+      },
       <String, dynamic>{'body': '隊で年間を通じて行える奉仕活動を考え、隊長の指導のもとに実施する'},
-      <String, dynamic>{'body': '自分の家の宗教（派）か、興味を持った宗教（派）の宗教儀礼、宗教行事、またはスカウツオウン・サービスに参加する'},
+      <String, dynamic>{
+        'body': '自分の家の宗教（派）か、興味を持った宗教（派）の宗教儀礼、宗教行事、またはスカウツオウン・サービスに参加する'
+      },
       <String, dynamic>{'body': '自分の家の宗教（派）か、興味を持った宗教（派）の教導職から信仰や宗教について話を聞く'},
       <String, dynamic>{'body': 'B-Pのラストメッセージを読んで、半集会で話し合う'},
     ]
@@ -2934,6 +3001,9 @@ class Task {
   List<Map<String, dynamic>> getAllMap(String type) {
     List<Map<String, dynamic>> list_info;
     switch (type) {
+      case 'risu':
+        list_info = risu;
+        break;
       case 'usagi':
         list_info = usagi;
         break;
@@ -2942,6 +3012,9 @@ class Task {
         break;
       case 'kuma':
         list_info = kuma;
+        break;
+      case 'tukinowa':
+        list_info = tukinowa;
         break;
       case 'challenge':
         list_info = challnege;
@@ -2977,6 +3050,9 @@ class Task {
   Map<String, dynamic> getPartMap(String type, int number) {
     Map<String, dynamic> map_info;
     switch (type) {
+      case 'risu':
+        map_info = risu[number];
+        break;
       case 'usagi':
         map_info = usagi[number];
         break;
@@ -2985,6 +3061,9 @@ class Task {
         break;
       case 'kuma':
         map_info = kuma[number];
+        break;
+      case 'tukinowa':
+        map_info = tukinowa[number];
         break;
       case 'challenge':
         map_info = challnege[number];
@@ -3020,21 +3099,29 @@ class Task {
   Map<String, dynamic> getContent(String type, int page, int number) {
     Map<String, dynamic> content;
     switch (type) {
+      case 'risu':
+        content = content_risu[page][number];
+        //content = <String, dynamic>{'body': '表示について調整中です'};
+        break;
       case 'usagi':
-        //content = content_usagi[page][number];
-        content = <String, dynamic>{'body': '表示について調整中です'};
+        content = content_usagi[page][number];
+        //content = <String, dynamic>{'body': '表示について調整中です'};
         break;
       case 'sika':
-        //content = content_sika[page][number];
-        content = <String, dynamic>{'body': '表示について調整中です'};
+        content = content_sika[page][number];
+        //content = <String, dynamic>{'body': '表示について調整中です'};
         break;
       case 'kuma':
-        //content = content_kuma[page][number];
-        content = <String, dynamic>{'body': '表示について調整中です'};
+        content = content_kuma[page][number];
+        //content = <String, dynamic>{'body': '表示について調整中です'};
+        break;
+      case 'tukinowa':
+        content = content_tukinowa[page][number];
+        //content = <String, dynamic>{'body': '表示について調整中です'};
         break;
       case 'challenge':
-        //content = content_challenge[page][number];
-        content = <String, dynamic>{'body': '表示について調整中です'};
+        content = content_challenge[page][number];
+        //content = <String, dynamic>{'body': '表示について調整中です'};
         break;
       case 'syokyu':
         content = content_syokyu[page][number];
@@ -3071,21 +3158,29 @@ class Task {
   List<Map<String, dynamic>> getContentList(String type, int page) {
     List<Map<String, dynamic>> content;
     switch (type) {
+      case 'risu':
+        content = content_risu[page];
+        //content = [];
+        break;
       case 'usagi':
         content = content_usagi[page];
-        content = [];
+        //content = [];
         break;
       case 'sika':
         content = content_sika[page];
-        content = [];
+        //content = [];
         break;
       case 'kuma':
         content = content_kuma[page];
-        content = [];
+        //content = [];
+        break;
+      case 'tukinowa':
+        content = content_tukinowa[page];
+        //content = [];
         break;
       case 'challenge':
         content = content_challenge[page];
-        content = [];
+        //content = [];
         break;
       case 'syokyu':
         content = content_syokyu[page];
@@ -3118,6 +3213,11 @@ class Task {
   String getNumber(String type, int page, int number) {
     String numberShow = (number + 1).toString();
     switch (type) {
+      case 'risu':
+        if (content_risu[page][number]['number'] != null) {
+          numberShow = content_risu[page][number]['number'];
+        }
+        break;
       case 'usagi':
         if (content_usagi[page][number]['number'] != null) {
           numberShow = content_usagi[page][number]['number'];

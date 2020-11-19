@@ -13,6 +13,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
   var list_isSelected = new List<bool>();
   String documentID;
+  String group;
   bool checkParent = false;
   DocumentSnapshot stepSnapshot;
   DocumentReference documentReference;
@@ -71,97 +72,107 @@ class TaskDetailScoutModel extends ChangeNotifier {
         quant, (index) => new List<Map<String, dynamic>>());
 
     count_toSend = new List<dynamic>.generate(quant, (index) => 0);
+
     FirebaseFirestore.instance
-        .collection(type)
-        .where('page', isEqualTo: page)
+        .collection('user')
         .where('uid', isEqualTo: currentUser.uid)
-        .snapshots()
-        .listen((data) async {
-      if (data.docs.length != 0) {
-        stepSnapshot = data.docs[0];
-        documentID_exit = data.docs[0].id;
-        isExit = true;
-        for (int i = 0; i < quant; i++) {
-          if (stepSnapshot.data()['signed'][i.toString()] != null) {
-            Map<String, dynamic> doc =
-                stepSnapshot.data()['signed'][i.toString()];
-            if (doc != null) {
-              if (doc['phaze'] == 'signed' || doc['phaze'] == 'wait') {
-                dataMap = doc['data'];
-                if (dataMap != null) {
-                  List<dynamic> body = List<dynamic>();
-                  for (int j = 0; j < dataMap.length; j++) {
-                    if (dataMap[j]['type'] == 'text') {
-                      body.add(dataMap[j]['body']);
-                    } else if (dataMap[j]['type'] == 'image') {
-                      final StorageReference ref =
-                          FirebaseStorage().ref().child(dataMap[j]['body']);
-                      final String url = await ref.getDownloadURL();
-                      body.add(url);
-                    } else {
-                      final StorageReference ref =
-                          FirebaseStorage().ref().child(dataMap[j]['body']);
-                      final String url = await ref.getDownloadURL();
-                      final videoPlayerController =
-                          VideoPlayerController.network(url);
-                      await videoPlayerController.initialize();
-                      final chewieController = ChewieController(
-                          videoPlayerController: videoPlayerController,
-                          aspectRatio: videoPlayerController.value.aspectRatio,
-                          autoPlay: false,
-                          looping: false);
-                      body.add(chewieController);
+        .get()
+        .then((userDatas) async {
+      group = userDatas.docs[0].data()['group'];
+      FirebaseFirestore.instance
+          .collection(type)
+          .where('page', isEqualTo: page)
+          .where('uid', isEqualTo: currentUser.uid)
+          .snapshots()
+          .listen((data) async {
+        if (data.docs.length != 0) {
+          stepSnapshot = data.docs[0];
+          documentID_exit = data.docs[0].id;
+          isExit = true;
+          for (int i = 0; i < quant; i++) {
+            if (stepSnapshot.data()['signed'][i.toString()] != null) {
+              Map<String, dynamic> doc =
+                  stepSnapshot.data()['signed'][i.toString()];
+              if (doc != null) {
+                if (doc['phaze'] == 'signed' || doc['phaze'] == 'wait') {
+                  dataMap = doc['data'];
+                  if (dataMap != null) {
+                    List<dynamic> body = List<dynamic>();
+                    for (int j = 0; j < dataMap.length; j++) {
+                      if (dataMap[j]['type'] == 'text') {
+                        body.add(dataMap[j]['body']);
+                      } else if (dataMap[j]['type'] == 'image') {
+                        final StorageReference ref =
+                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final String url = await ref.getDownloadURL();
+                        body.add(url);
+                      } else {
+                        final StorageReference ref =
+                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final String url = await ref.getDownloadURL();
+                        final videoPlayerController =
+                            VideoPlayerController.network(url);
+                        await videoPlayerController.initialize();
+                        final chewieController = ChewieController(
+                            videoPlayerController: videoPlayerController,
+                            aspectRatio:
+                                videoPlayerController.value.aspectRatio,
+                            autoPlay: false,
+                            looping: false);
+                        body.add(chewieController);
+                      }
+                      dataList[i] = body;
                     }
-                    dataList[i] = body;
                   }
-                }
-              } else if (doc['phaze'] == 'reject' ||
-                  doc['phaze'] == 'withdraw') {
-                dataMap = doc['data'];
-                if (dataMap != null) {
-                  List<dynamic> body = List<dynamic>();
-                  for (int j = 0; j < dataMap.length; j++) {
-                    list_attach[i].add(dataMap[j]['type']);
-                    if (dataMap[j]['type'] == 'text') {
-                      map_attach[i][j] =
-                          TextEditingController(text: dataMap[j]['body']);
-                    } else if (dataMap[j]['type'] == 'image') {
-                      final StorageReference ref =
-                          FirebaseStorage().ref().child(dataMap[j]['body']);
-                      final String url = await ref.getDownloadURL();
-                      map_attach[i][j] = dataMap[j]['body'];
-                      map_show[i][j] = url;
-                    } else {
-                      final StorageReference ref =
-                          FirebaseStorage().ref().child(dataMap[j]['body']);
-                      final String url = await ref.getDownloadURL();
-                      final videoPlayerController =
-                          VideoPlayerController.network(url);
-                      await videoPlayerController.initialize();
-                      final chewieController = ChewieController(
-                          videoPlayerController: videoPlayerController,
-                          aspectRatio: videoPlayerController.value.aspectRatio,
-                          autoPlay: false,
-                          looping: false);
-                      map_attach[i][j] = dataMap[j]['body'];
-                      map_show[i][j] = chewieController;
-                    }
+                } else if (doc['phaze'] == 'reject' ||
+                    doc['phaze'] == 'withdraw') {
+                  dataMap = doc['data'];
+                  if (dataMap != null) {
+                    List<dynamic> body = List<dynamic>();
+                    for (int j = 0; j < dataMap.length; j++) {
+                      list_attach[i].add(dataMap[j]['type']);
+                      if (dataMap[j]['type'] == 'text') {
+                        map_attach[i][j] =
+                            TextEditingController(text: dataMap[j]['body']);
+                      } else if (dataMap[j]['type'] == 'image') {
+                        final StorageReference ref =
+                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final String url = await ref.getDownloadURL();
+                        map_attach[i][j] = dataMap[j]['body'];
+                        map_show[i][j] = url;
+                      } else {
+                        final StorageReference ref =
+                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final String url = await ref.getDownloadURL();
+                        final videoPlayerController =
+                            VideoPlayerController.network(url);
+                        await videoPlayerController.initialize();
+                        final chewieController = ChewieController(
+                            videoPlayerController: videoPlayerController,
+                            aspectRatio:
+                                videoPlayerController.value.aspectRatio,
+                            autoPlay: false,
+                            looping: false);
+                        map_attach[i][j] = dataMap[j]['body'];
+                        map_show[i][j] = chewieController;
+                      }
 //                      dataList[i] = body;
+                    }
                   }
                 }
               }
             }
           }
+          isExit = true;
+        } else {
+          isExit = false;
         }
-        isExit = true;
-      } else {
-        isExit = false;
-      }
-      isLoaded = true;
+        isLoaded = true;
+        notifyListeners();
+      });
+      isGet = true;
       notifyListeners();
     });
-    isGet = true;
-    notifyListeners();
   }
 
   void onTapSend(int number) async {

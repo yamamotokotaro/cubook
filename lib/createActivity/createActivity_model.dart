@@ -106,42 +106,6 @@ class CreateActivityModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getAdmob(BuildContext context) {
-    if (!isLoaded) {
-      const String testDevices = 'Mobile_id';
-      targetingInfo = MobileAdTargetingInfo(
-          keywords: <String>['outdoor', 'scout'],
-          childDirected: false,
-          testDevices: testDevices != null
-              ? <String>[]
-              : null // Android emulators are considered test devices
-          );
-      String adunitID;
-      if (isRelease) {
-        if (Platform.isAndroid) {
-          adunitID = 'ca-app-pub-9318890511624941/3455286517';
-          // Android-specific code
-        } else if (Platform.isIOS) {
-          adunitID = 'ca-app-pub-9318890511624941/7202959836';
-          // iOS-specific code
-        }
-      } else {
-        adunitID = InterstitialAd.testAdUnitId;
-      }
-      interstitialAd = InterstitialAd(
-        // Replace the testAdUnitId with an ad unit id from the AdMob dash.
-        // https://developers.google.com/admob/android/test-ads
-        // https://developers.google.com/admob/ios/test-ads
-        adUnitId: adunitID,
-        targetingInfo: targetingInfo,
-        listener: (MobileAdEvent event) {
-          print("InterstitialAd event is $event");
-        },
-      );
-      interstitialAd..load().then((value) => isLoaded = true);
-    }
-  }
-
   void openTimePicker(DateTime dateTime, BuildContext context) async {
     DateTime date_get = await showDatePicker(
       context: context,
@@ -277,14 +241,6 @@ class CreateActivityModel extends ChangeNotifier {
                   .add(data)
                   .then((value) {
                 var rand = new math.Random();
-                if (rand.nextDouble() < 0.7) {
-                  interstitialAd
-                    ..show(
-                      anchorType: AnchorType.bottom,
-                      anchorOffset: 0.0,
-                      horizontalCenterOffset: 0.0,
-                    ).then((value) => isLoaded = false);
-                }
                 Navigator.pop(context);
                 date = DateTime.now();
                 titleController.text = '';

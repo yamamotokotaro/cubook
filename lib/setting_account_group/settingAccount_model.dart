@@ -64,6 +64,9 @@ class SettingAccountGroupModel extends ChangeNotifier {
             teamController = TextEditingController();
           }
           switch (userSnapshot.data()['age']) {
+            case 'risu':
+              age = 'りす';
+              break;
             case 'usagi':
               age = 'うさぎ';
               break;
@@ -107,7 +110,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
-        .getDocuments()
+        .get()
         .then((snapshot) {
       group = snapshot.docs[0].data()['group'];
       if (group != group_before) {
@@ -145,6 +148,12 @@ class SettingAccountGroupModel extends ChangeNotifier {
     int age_turn;
     String grade;
     switch (dropdown_text) {
+      case 'りす':
+        age = 'risu';
+        position = 'scout';
+        age_turn = 4;
+        grade = 'cub';
+        break;
       case 'うさぎ':
         age = 'usagi';
         position = 'scout';

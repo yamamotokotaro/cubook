@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/invite/invite_view.dart';
+import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/notification/notification_view.dart';
+import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
 import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -167,7 +169,115 @@ class HomeScoutView extends StatelessWidget {
                         decoration: TextDecoration.none),
                   ),
                 ])),
+
         Consumer<HomeModel>(builder: (context, model, child) {
+          List<String> type = new List<String>();
+          String age = model.age;
+          type.add(age);
+          if(age != 'risu'){
+            type.add('challenge');
+          }
+          if(model.age == 'kuma'){
+            type.add('tukinowa');
+          }
+          return Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: type.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Card(
+                          color: theme.getThemeColor(type[index]),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: InkWell(
+                              customBorder: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              onTap: () {
+                                if (task.getAllMap(type[index]).length != 1) {
+                                  Navigator.push(context,
+                                      MaterialPageRoute<TaskListScoutView>(
+                                          builder: (BuildContext context) {
+                                            return TaskListScoutView(
+                                                type[index]);
+                                          }));
+                                } else {
+                                  Navigator.of(context).push<dynamic>(
+                                      MyPageRoute(
+                                          page: showTaskView(
+                                              0, type[index], 0),
+                                          dismissible: true));
+                                }
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 15,
+                                          bottom: 15,
+                                          left: 12,
+                                          right: 10),
+                                      child: Selector<HomeModel,
+                                          DocumentSnapshot>(
+                                          selector: (context, model) =>
+                                          model.userSnapshot,
+                                          builder: (context, snapshot, child) => snapshot !=
+                                              null
+                                              ? snapshot.data()[type[index]] !=
+                                              null
+                                              ? CircularProgressIndicator(
+                                              backgroundColor: theme.getIndicatorColor(
+                                                  type[index]),
+                                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                                  Colors.white),
+                                              value: snapshot.data()[type[index]].length /
+                                                  task
+                                                      .getAllMap(
+                                                      type[index])
+                                                      .length)
+                                              : CircularProgressIndicator(
+                                              backgroundColor: theme.getIndicatorColor(type[index]),
+                                              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                                              value: 0)
+                                              : CircularProgressIndicator(
+                                            backgroundColor:
+                                            theme.getIndicatorColor(
+                                                type[index]),
+                                            valueColor:
+                                            new AlwaysStoppedAnimation<
+                                                Color>(Colors.white),
+                                          ))),
+                                  Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10, bottom: 10),
+                                              child: Align(
+                                                  alignment:
+                                                  Alignment.centerLeft,
+                                                  child: Text(
+                                                    theme.getTitle(type[index]),
+                                                    style: TextStyle(
+                                                        fontSize: 23,
+                                                        color: Colors.white),
+                                                  ))),
+                                        ],
+                                      )),
+                                ],
+                              )),
+                        ));
+                  }));
+        }),
+        /*Consumer<HomeModel>(builder: (context, model, child) {
           return Padding(
               padding: EdgeInsets.all(10),
               child: Container(
@@ -299,7 +409,7 @@ class HomeScoutView extends StatelessWidget {
                       ),
                     ),
                   ),
-                ))),
+                ))),*/
       ],
     );
   }

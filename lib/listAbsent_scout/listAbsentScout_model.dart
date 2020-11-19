@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class ListAbsentScoutModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
   String uid;
   String uid_before = '';

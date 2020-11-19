@@ -1,11 +1,72 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
+import 'package:cubook/task_detail_scout/taskDetailScout_model.dart';
+import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_model.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+
+
+class showTaskView extends StatelessWidget {
+  var task = new Task();
+  int currentPage = 0;
+  int numberPushed;
+  int initialPage;
+  String type;
+  String typeFirestore;
+  bool test = false;
+  List<Widget> pages = <Widget>[
+    /*StepSignView(),*/
+//    StepAddView()
+  ];
+
+  showTaskView(int _number, String _type, int _initialPage) {
+    numberPushed = _number;
+    type = _type;
+    initialPage = _initialPage;
+    pages.add(TaskScoutDetailView(type, _number),);
+    for (int i = 0; i < task.getPartMap(type, _number)['hasItem']; i++) {
+      pages.add(TaskScoutAddView(type, _number, i));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    double setHeight;
+    double setFraction;
+    if(height > 700.0){
+      setHeight = height-200;
+    } else {
+      setHeight = height-90;
+    }
+    if(width > 1000.0){
+      setFraction = 0.6;
+    } else {
+      setFraction = 0.8;
+    }
+    PageController controller =
+    PageController(initialPage: initialPage, viewportFraction: setFraction);
+
+    return ChangeNotifierProvider(
+        create: (context) => TaskDetailScoutModel(numberPushed, task.getPartMap(type, numberPushed)['hasItem'], type),
+        child: Container(
+            height: setHeight,
+            child: PageView(
+              onPageChanged: (index) {
+                FocusScope.of(context).unfocus();
+              },
+              controller: controller,
+              scrollDirection: Axis.horizontal,
+              children: pages,
+            )));
+  }
+}
 
 class showTaskConfirmView extends StatelessWidget {
   var task = new Task();

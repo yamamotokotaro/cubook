@@ -1,4 +1,3 @@
-
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_model.dart';
@@ -130,17 +129,26 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                         ),
                       ),
                     )),*/
-                Padding(
-                    padding: EdgeInsets.all(15),
-                    child: ExpandText(
-                      content['body'],
-                      maxLines: 3,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.justify,
-                    )),
+                (type != 'risu' &&
+                            type != 'usagi' &&
+                            type != 'sika' &&
+                            type != 'kuma' &&
+                            type != 'challenge' &&
+                            type != 'tukinowa') ||
+                        model.group == ' j27DETWHGYEfpyp2Y292' ||
+                        model.group == ' z4pkBhhgr0fUMN4evr5z'
+                    ? Padding(
+                        padding: EdgeInsets.all(15),
+                        child: ExpandText(
+                          content['body'],
+                          maxLines: 3,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ))
+                    : Container(),
                 content['common'] != null
                     ? Padding(
                         padding: EdgeInsets.only(
@@ -150,7 +158,10 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                               ' ' +
                               taskInfo['title'] +
                               ' (' +
-                              task.getNumber(content['common']['type'], content['common']['page'], content['common']['number']) +
+                              task.getNumber(
+                                  content['common']['type'],
+                                  content['common']['page'],
+                                  content['common']['number']) +
                               ')\nもサインされます',
                           textAlign: TextAlign.center,
                         ))
@@ -172,24 +183,26 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                       )
                     : Container(),
                 !model.isLoading[index_page]
-                    ? RaisedButton.icon(
-                        onPressed: () {
-                          model.onTapSend(index_page);
-                        },
-                        icon: Icon(
-                          Icons.edit,
-                          size: 20,
-                          color: Colors.white,
-                        ),
-                        color: themeColor,
-                        label: Text(
-                          'サインする',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      )
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: RaisedButton.icon(
+                          onPressed: () {
+                            model.onTapSend(index_page);
+                          },
+                          icon: Icon(
+                            Icons.edit,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                          color: themeColor,
+                          label: Text(
+                            'サインする',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ))
                     : Container(
                         child: Container(
                           child: Center(
