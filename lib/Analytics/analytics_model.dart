@@ -53,7 +53,7 @@ class AnalyticsModel extends ChangeNotifier {
   }
 
   void export() async {
-    var task = new Task();
+    var task = new TaskContents();
     var theme = new ThemeInfo();
     var type = [
 //    'beaver',

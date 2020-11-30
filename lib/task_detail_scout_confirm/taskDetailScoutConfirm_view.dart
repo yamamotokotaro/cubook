@@ -54,7 +54,7 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 }
 
 class TaskScoutDetailConfirmView extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   String type;
   int number;
@@ -673,7 +673,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   int index_page;
   String type;
   Color themeColor;
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
 
   TaskScoutAddConfirmView(

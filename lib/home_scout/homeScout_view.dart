@@ -14,7 +14,7 @@ import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 
 class HomeScoutView extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   Future<PermissionStatus> permissionStatus =
   NotificationPermissions.getNotificationPermissionStatus();

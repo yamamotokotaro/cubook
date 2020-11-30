@@ -13,7 +13,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
   String mes;
   Map<String, dynamic> taskInfo;
   Map<String, dynamic> content;
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
 
   TaskDetailScoutConfirmAddView(int _index, String _type, String _mes) {

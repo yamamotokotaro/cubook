@@ -1,19 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/detailActivity/detailActivity_model.dart';
 import 'package:cubook/listCitationAnalytics/listCitationAnalytics_model.dart';
-import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListCitationAnalyticsView extends StatelessWidget {
   var theme = new ThemeInfo();
-  var task = new Task();
+  var task = new TaskContents();
 
   @override
   Widget build(BuildContext context) {

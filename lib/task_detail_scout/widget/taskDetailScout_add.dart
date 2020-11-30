@@ -18,7 +18,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
   Color themeColor;
   int countChewie;
   Map<String, dynamic> content;
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
 
   TaskDetailScoutAddView(int _index, String _type, String _mes) {

@@ -1,6 +1,6 @@
 import 'dart:core';
 
-class Task {
+class TaskContents {
   List<Map<String, dynamic>> risu = [
     <String, dynamic>{'number': '', 'title': 'リスの道', 'hasItem': 7},
   ];

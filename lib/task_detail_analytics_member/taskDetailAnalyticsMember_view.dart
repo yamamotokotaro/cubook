@@ -34,7 +34,7 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
 
 class TaskDetailAnalyticsMemberView extends StatelessWidget {
   var theme = new ThemeInfo();
-  var task = new Task();
+  var task = new TaskContents();
 
   @override
   Widget build(BuildContext context) {

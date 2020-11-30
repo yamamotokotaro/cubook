@@ -68,13 +68,13 @@ class CommunityModel extends ChangeNotifier {
                   if (dataMap[j]['type'] == 'text') {
                     body.add(dataMap[j]['body']);
                   } else if (dataMap[j]['type'] == 'image') {
-                    final StorageReference ref =
-                        FirebaseStorage().ref().child(dataMap[j]['body']);
+                    final ref =
+                        FirebaseStorage.instance.ref().child(dataMap[j]['body']);
                     final String url = await ref.getDownloadURL();
                     body.add(url);
                   } else {
-                    final StorageReference ref =
-                        FirebaseStorage().ref().child(dataMap[j]['body']);
+                    final ref =
+                        FirebaseStorage.instance.ref().child(dataMap[j]['body']);
                     final String url = await ref.getDownloadURL();
                     final videoPlayerController =
                         VideoPlayerController.network(url);

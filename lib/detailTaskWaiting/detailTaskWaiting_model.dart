@@ -50,13 +50,13 @@ class DetailTaskWaitingModel extends ChangeNotifier {
           if (taskSnapshot.data()['data'][i]['type'] == 'text') {
             body.add(taskSnapshot.data()['data'][i]['body']);
           } else if (taskSnapshot.data()['data'][i]['type'] == 'image') {
-            final StorageReference ref = FirebaseStorage()
+            final ref = FirebaseStorage()
                 .ref()
                 .child(taskSnapshot.data()['data'][i]['body']);
             final String url = await ref.getDownloadURL();
             body.add(url);
           } else {
-            final StorageReference ref = FirebaseStorage()
+            final ref = FirebaseStorage()
                 .ref()
                 .child(taskSnapshot.data()['data'][i]['body']);
             final String url = await ref.getDownloadURL();
@@ -94,13 +94,13 @@ class DetailTaskWaitingModel extends ChangeNotifier {
             if (taskSnapshot.data()['data'][i]['type'] == 'text') {
               body.add(taskSnapshot.data()['data'][i]['body']);
             } else if (taskSnapshot.data()['data'][i]['type'] == 'image') {
-              final StorageReference ref = FirebaseStorage()
+              final ref = FirebaseStorage.instance
                   .ref()
                   .child(taskSnapshot.data()['data'][i]['body']);
               final String url = await ref.getDownloadURL();
               body.add(url);
             } else {
-              final StorageReference ref = FirebaseStorage()
+              final ref = FirebaseStorage.instance
                   .ref()
                   .child(taskSnapshot.data()['data'][i]['body']);
               final String url = await ref.getDownloadURL();
@@ -163,7 +163,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   }
 
   Future<void> updateDocumentInfo_reject() async {
-    var task = new Task();
+    var task = new TaskContents();
     FirebaseFirestore.instance
         .collection(type)
         .where('uid', isEqualTo: uid_get)
@@ -187,7 +187,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   }
 
   Future<void> addNotification(String phase) async {
-    var task = new Task();
+    var task = new TaskContents();
     var theme = new ThemeInfo();
     String mes;
     if (phase == 'signed') {

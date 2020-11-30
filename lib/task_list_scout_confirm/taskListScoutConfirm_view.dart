@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'taskListScoutConfirm_model.dart';
 
 class TaskListScoutConfirmView extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   Color themeColor;
   String type;

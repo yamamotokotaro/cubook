@@ -52,7 +52,7 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 }
 
 class TaskScoutDetailView extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   String type;
   int number;
@@ -525,7 +525,7 @@ class TaskScoutAddView extends StatelessWidget {
   int index_page;
   int page;
   String type;
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   Color themeColor;
 

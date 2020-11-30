@@ -4,7 +4,6 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/setting_account_group/settingAccount_view.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
-import 'package:cubook/userDetail/widget/list_notCititationed.dart';
 import 'package:cubook/userDetail/widget/selectBook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +33,7 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class SelectBookView extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   String uid;
 

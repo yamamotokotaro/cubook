@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 
 class showTaskView extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   int currentPage = 0;
   int numberPushed;
   int initialPage;
@@ -69,7 +69,7 @@ class showTaskView extends StatelessWidget {
 }
 
 class showTaskConfirmView extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   int currentPage = 0;
   int page;
   int number;
@@ -132,7 +132,7 @@ class showTaskConfirmView extends StatelessWidget {
 
 Future<void> signItem(String uid, String type, int page, int number,
     String feedback, bool checkCitation, bool isCommon) async {
-  var task = new Task();
+  var task = new TaskContents();
   String documentID;
   int count = 0;
 
@@ -271,7 +271,7 @@ Future<void> signItem(String uid, String type, int page, int number,
 Future<void> cancelItem(
     String uid, String type, int page, int number, bool isCommon) async {
   Map<String, dynamic> data_signed = Map<String, dynamic>();
-  var task = new Task();
+  var task = new TaskContents();
 
   User user = await FirebaseAuth.instance.currentUser;
   FirebaseFirestore.instance
@@ -353,7 +353,7 @@ Future<void> cancelItem(
 
 Future<void> onFinish(
     String uid, String type, int page, String documentID) async {
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   User user = await FirebaseAuth.instance.currentUser;
   FirebaseFirestore.instance

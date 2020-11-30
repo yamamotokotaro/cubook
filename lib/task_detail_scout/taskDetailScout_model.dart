@@ -102,13 +102,13 @@ class TaskDetailScoutModel extends ChangeNotifier {
                       if (dataMap[j]['type'] == 'text') {
                         body.add(dataMap[j]['body']);
                       } else if (dataMap[j]['type'] == 'image') {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final ref =
+                            FirebaseStorage.instance.ref().child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         body.add(url);
                       } else {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final ref =
+                            FirebaseStorage.instance.ref().child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         final videoPlayerController =
                             VideoPlayerController.network(url);
@@ -135,14 +135,14 @@ class TaskDetailScoutModel extends ChangeNotifier {
                         map_attach[i][j] =
                             TextEditingController(text: dataMap[j]['body']);
                       } else if (dataMap[j]['type'] == 'image') {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final ref =
+                            FirebaseStorage.instance.ref().child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         map_attach[i][j] = dataMap[j]['body'];
                         map_show[i][j] = url;
                       } else {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final ref =
+                            FirebaseStorage.instance.ref().child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         final videoPlayerController =
                             VideoPlayerController.network(url);
@@ -219,10 +219,10 @@ class TaskDetailScoutModel extends ChangeNotifier {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
     String subDirectoryName =
         userSnapshot.data()['group'] + '/' + currentUser.uid;
-    final StorageReference ref =
-        FirebaseStorage().ref().child(subDirectoryName).child('${timestamp}');
-    final StorageUploadTask uploadTask = ref.putFile(file);
-    StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+    final ref =
+        FirebaseStorage.instance.ref().child(subDirectoryName).child('${timestamp}');
+    final uploadTask = ref.putFile(file);
+    dynamic snapshot = await uploadTask.whenComplete;
     if (snapshot.error == null) {
       String path = await snapshot.ref.getPath();
       Map<String, dynamic> data = Map<String, dynamic>();
