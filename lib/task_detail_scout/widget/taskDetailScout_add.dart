@@ -6,6 +6,7 @@ import 'package:cubook/model/themeInfo.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -207,9 +208,9 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                           model.map_attach[
                                                                       index_page]
                                                                   [
-                                                                  index] is File
-                                                              ? Image.file(model
-                                                                          .map_attach[
+                                                                  index] is PickedFile
+                                                              ? Image.memory(model
+                                                                          .map_show[
                                                                       index_page]
                                                                   [index])
                                                               : Image.network(

@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:math' as math;
 
 import 'home_controller.dart';
@@ -81,14 +82,16 @@ class HomeView extends StatelessWidget {
                         hint: 'ログアウトなどの操作を行います',
                         child: IconButton(
                           onPressed: () async {
-                            PackageInfo packageInfo =
-                                await PackageInfo.fromPlatform();
+                            PackageInfo packageInfo;
+                            if (!kIsWeb) {
+                              packageInfo = await PackageInfo.fromPlatform();
+                            }
                             await showDialog<int>(
                                 context: context,
                                 builder: (context) {
-
                                   LicenseRegistry.addLicense(() async* {
-                                    yield LicenseEntryWithLineBreaks(['令和2年版 諸規定'], '公財ボーイスカウト日本連盟');
+                                    yield LicenseEntryWithLineBreaks(
+                                        ['令和2年版 諸規定'], '公財ボーイスカウト日本連盟');
                                   });
                                   return AlertDialog(
                                     /*title: Padding(
@@ -127,14 +130,23 @@ class HomeView extends StatelessWidget {
                                           ListTile(
                                             leading: Icon(Icons.list),
                                             title: Text('ライセンスを表示'),
-                                            onTap: () => showLicensePage(
-                                              context: context,
-                                              applicationName: 'cubook',
-                                              applicationVersion:
-                                                  packageInfo.version,
-                                              applicationLegalese:
-                                                  '©︎ 2020 山本虎太郎',
-                                            ),
+                                            onTap: () => kIsWeb
+                                                ? showLicensePage(
+                                                    context: context,
+                                                    applicationName: 'cubook',
+                                                    applicationVersion:
+                                                        'web',
+                                                    applicationLegalese:
+                                                        '©︎ 2020 山本虎太郎',
+                                                  )
+                                                : showLicensePage(
+                                                    context: context,
+                                                    applicationName: 'cubook',
+                                                    applicationVersion:
+                                                        packageInfo.version,
+                                                    applicationLegalese:
+                                                        '©︎ 2020 山本虎太郎',
+                                                  ),
                                           ),
                                           ListTile(
                                             leading: Icon(Icons.exit_to_app),

@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TaskDetailScoutModel extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -215,13 +216,18 @@ class TaskDetailScoutModel extends ChangeNotifier {
     firestoreController(data, number, index);
   }
 
-  Future<dynamic> fileSend(int index, File file, int number) async {
+  Future<dynamic> fileSend(int index, PickedFile file, int number) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
     String subDirectoryName =
         userSnapshot.data()['group'] + '/' + currentUser.uid;
     final ref =
         FirebaseStorage.instance.ref().child(subDirectoryName).child('${timestamp}');
-    final uploadTask = ref.putFile(file);
+    UploadTask uploadTask;
+    if (kIsWeb) {
+      uploadTask = ref.putData(await file.readAsBytes());
+    } else {
+      uploadTask = ref.putFile(File(file.path));
+    }
     dynamic snapshot = await uploadTask.whenComplete;
     if (snapshot.error == null) {
       String path = await snapshot.ref.getPath();
@@ -333,23 +339,25 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   void onImagePressPick(int number, int index) async {
-    File image = await ImagePicker.pickImage(
+    final image = await ImagePicker().getImage(
         source: ImageSource.gallery, imageQuality: 50);
     map_attach[number][index] = image;
+    map_show[number][index] = await image.readAsBytes();
     notifyListeners();
   }
 
   void onImagePressCamera(int number, int index) async {
-    File image = await ImagePicker.pickImage(
+    final image = await ImagePicker().getImage(
         source: ImageSource.camera, imageQuality: 50);
     map_attach[number][index] = image;
+    map_show[number][index] = await image.readAsBytes();
     notifyListeners();
   }
 
   void onVideoPressPick(int number, int index) async {
-    File image = await ImagePicker.pickVideo(source: ImageSource.gallery);
+    final image = await ImagePicker().getVideo(source: ImageSource.gallery);
     map_attach[number][index] = image;
-    final videoPlayerController = VideoPlayerController.file(image);
+    final videoPlayerController = VideoPlayerController.file(File(image.path));
     await videoPlayerController.initialize();
     map_show[number][index] = ChewieController(
         videoPlayerController: videoPlayerController,
@@ -361,11 +369,11 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   void onVideoPressCamera(int number, int index) async {
-    File image = await ImagePicker.pickVideo(
+    final image = await ImagePicker().getVideo(
       source: ImageSource.camera,
     );
     map_attach[number][index] = image;
-    final videoPlayerController = VideoPlayerController.file(image);
+    final videoPlayerController = VideoPlayerController.file(File(image.path));
     await videoPlayerController.initialize();
     map_show[number][index] = ChewieController(
         videoPlayerController: videoPlayerController,

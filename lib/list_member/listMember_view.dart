@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/userDetail/userDetail_view.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,18 +15,6 @@ class ListMemberView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String adunitID;
-    if (isRelease) {
-      if (Platform.isAndroid) {
-        adunitID = 'ca-app-pub-9318890511624941/8410165495';
-        // Android-specific code
-      } else if (Platform.isIOS) {
-        adunitID = 'ca-app-pub-9318890511624941/5503858609';
-        // iOS-specific code
-      }
-    } else {
-      adunitID = BannerAd.testAdUnitId;
-    }
     return Scaffold(
       appBar: AppBar(
         title: Text('メンバーリスト'),

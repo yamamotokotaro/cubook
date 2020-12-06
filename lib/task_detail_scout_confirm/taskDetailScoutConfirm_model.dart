@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TaskDetailScoutConfirmModel extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -332,40 +333,45 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   void onImagePressPick(int number, int index) async {
-    File file = await ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50);
+    final file = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 50);
     sendFile(file, index, 'image');
     // notifyListeners();
   }
 
   void onImagePressCamera(int number, int index) async {
-    File file = await ImagePicker.pickImage(
+    final file = await ImagePicker().getImage(
         source: ImageSource.camera, imageQuality: 50);
     sendFile(file, index, 'image');
     // notifyListeners();
   }
 
   void onVideoPressPick(int number, int index) async {
-    File file = await ImagePicker.pickVideo(source: ImageSource.gallery);
+    final file = await ImagePicker().getVideo(source: ImageSource.gallery);
     sendFile(file, index, 'video');
     // notifyListeners();
   }
 
   void onVideoPressCamera(int number, int index) async {
-    File file = await ImagePicker.pickVideo(source: ImageSource.camera);
+    final file = await ImagePicker().getVideo(source: ImageSource.camera);
     sendFile(file, index, 'video');
     // notifyListeners();
   }
 
-  void sendFile(File file, int index, String type_file) async {
+  void sendFile(PickedFile file, int index, String type_file) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
     String subDirectoryName = tokenMap['group'] + '/' + uid;
     final ref = FirebaseStorage.instance
         .ref()
         .child(subDirectoryName)
         .child('${timestamp}');
-    final uploadTask = ref.putFile(file);
-    dynamic snapshot = await uploadTask.whenComplete;
+    UploadTask uploadTask;
+    if (kIsWeb) {
+      uploadTask = ref.putData(await file.readAsBytes());
+    } else {
+      uploadTask = ref.putFile(File(file.path));
+    }
+    dynamic snapshot = await Future.value(uploadTask);
     String path = await snapshot.ref.getPath();
     Map<String, dynamic> data = Map<String, dynamic>();
     data.putIfAbsent('body', () => path);

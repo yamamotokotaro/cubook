@@ -838,7 +838,7 @@ class TaskContents {
       <String, dynamic>{
         'body': '「スカウト章」、「モットー」、「スローガン」の意味を説明できる。',
       },
-      <String, dynamic>{'body': '日本の国旗の正しい様式を知り、周回で掲揚柱に掲揚する。'},
+      <String, dynamic>{'body': '日本の国旗の正しい様式を知り、集会で掲揚柱に掲揚する。'},
       <String, dynamic>{'body': '「連盟歌」を歌える。'},
       <String, dynamic>{'body': '普段の集会で必要なもの（訓練用具）を知り、携行する。'},
       <String, dynamic>{'body': 'スカウトサイン、敬礼、スカウトの握手ができる'},

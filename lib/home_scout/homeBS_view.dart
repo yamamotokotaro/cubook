@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/addLump_SelectItem/widget/taskList_view.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/invite/invite_view.dart';
 import 'package:cubook/model/task.dart';
@@ -178,9 +177,9 @@ class HomeBSView extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute<TaskView>(
+                          Navigator.push(context, MaterialPageRoute<TaskListScoutView>(
                               builder: (BuildContext context) {
-                                return TaskView(model.age);
+                                return TaskListScoutView(model.age);
                               }));
                         },
                         child: Align(
@@ -239,9 +238,9 @@ class HomeBSView extends StatelessWidget {
                     ),
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute<TaskView>(
+                        Navigator.push(context, MaterialPageRoute<TaskListScoutView>(
                             builder: (BuildContext context) {
-                              return TaskView('gino');
+                              return TaskListScoutView('gino');
                             }));
                       },
                       child: Align(

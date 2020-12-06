@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +103,31 @@ class InviteModel with ChangeNotifier {
       User user = await FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdToken().then((token) async {
-          String url =
+          HttpsCallable callable = FirebaseFunctions.instanceFor(region: 'asia-northeast1').httpsCallable(
+              'inviteGroupCall',
+              options: HttpsCallableOptions(timeout: Duration(seconds: 5), ));
+          final results = await callable(<String, String>{
+            'idToken': token,
+            'address': addressController.text,
+            'family': familyController.text,
+            'first': firstController.text,
+            'call': dropdown_call,
+            'age': age,
+            'position': position,
+            'team': team
+          });
+          String resp = results.data;
+          /*dynamic resp = await callable().then(<String, String>{
+            'idToken': token,
+            'address': addressController.text,
+            'family': familyController.text,
+            'first': firstController.text,
+            'call': dropdown_call,
+            'age': age,
+            'position': position,
+            'team': team
+          });*/
+          /*String url =
               "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
           Map<String, String> headers = {'content-type': 'application/json'};
           String body = json.encode(<String, dynamic>{
@@ -117,18 +142,18 @@ class InviteModel with ChangeNotifier {
           });
 
           http.Response resp =
-              await http.post(url, headers: headers, body: body);
+              await http.post(url, headers: headers, body: body);*/
           isLoading_join = false;
-          if (resp.body == 'success') {
+          if (resp == 'success') {
             mes_join = '';
             addressController.clear();
             familyController.clear();
             firstController.clear();
-            Scaffold.of(context).showSnackBar(new SnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
               content: new Text('送信リクエストが完了しました'),
             ));
-          } else if (resp.body == 'No such document!' ||
-              resp.body == 'not found') {
+          } else if (resp == 'No such document!' ||
+              resp == 'not found') {
             isLoading_join = false;
             mes_join = 'コードが見つかりませんでした';
           } else {
