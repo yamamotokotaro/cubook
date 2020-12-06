@@ -91,13 +91,13 @@ class SettingAccountGroupView extends StatelessWidget {
                                         'うさぎ',
                                         'しか',
                                         'くま',
-                                        'ボーイスカウトバッジ',
+                                        /*'ボーイスカウトバッジ',
                                         '初級スカウト',
                                         '2級スカウト',
                                         '1級スカウト',
                                         '菊スカウト（隼を目指すスカウト）',
                                         '隼スカウト',
-                                        '富士スカウト'
+                                        '富士スカウト'*/
                                       ].map((String value) {
                                         return new DropdownMenuItem<String>(
                                           value: value,

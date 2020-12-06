@@ -4,6 +4,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 
 class InviteModel with ChangeNotifier {
@@ -103,64 +104,76 @@ class InviteModel with ChangeNotifier {
       User user = await FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdToken().then((token) async {
-          HttpsCallable callable = FirebaseFunctions.instanceFor(region: 'asia-northeast1').httpsCallable(
-              'inviteGroupCall',
-              options: HttpsCallableOptions(timeout: Duration(seconds: 5), ));
-          final results = await callable(<String, String>{
-            'idToken': token,
-            'address': addressController.text,
-            'family': familyController.text,
-            'first': firstController.text,
-            'call': dropdown_call,
-            'age': age,
-            'position': position,
-            'team': team
-          });
-          String resp = results.data;
-          /*dynamic resp = await callable().then(<String, String>{
-            'idToken': token,
-            'address': addressController.text,
-            'family': familyController.text,
-            'first': firstController.text,
-            'call': dropdown_call,
-            'age': age,
-            'position': position,
-            'team': team
-          });*/
-          /*String url =
-              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
-          Map<String, String> headers = {'content-type': 'application/json'};
-          String body = json.encode(<String, dynamic>{
-            'idToken': token,
-            'address': addressController.text,
-            'family': familyController.text,
-            'first': firstController.text,
-            'call': dropdown_call,
-            'age': age,
-            'position': position,
-            'team': team
-          });
+          if(!kIsWeb){
+            String url =
+                "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
+            Map<String, String> headers = {'content-type': 'application/json'};
+            String body = json.encode(<String, dynamic>{
+              'idToken': token,
+              'address': addressController.text,
+              'family': familyController.text,
+              'first': firstController.text,
+              'call': dropdown_call,
+              'age': age,
+              'position': position,
+              'team': team
+            });
 
-          http.Response resp =
-              await http.post(url, headers: headers, body: body);*/
-          isLoading_join = false;
-          if (resp == 'success') {
-            mes_join = '';
-            addressController.clear();
-            familyController.clear();
-            firstController.clear();
-            Scaffold.of(context).showSnackBar(new SnackBar(
-              content: new Text('送信リクエストが完了しました'),
-            ));
-          } else if (resp == 'No such document!' ||
-              resp == 'not found') {
+            http.Response resp =
+            await http.post(url, headers: headers, body: body);
             isLoading_join = false;
-            mes_join = 'コードが見つかりませんでした';
+            if (resp.body == 'success') {
+              mes_join = '';
+              addressController.clear();
+              familyController.clear();
+              firstController.clear();
+              Scaffold.of(context).showSnackBar(new SnackBar(
+                content: new Text('送信リクエストが完了しました'),
+              ));
+            } else if (resp.body == 'No such document!' ||
+                resp.body == 'not found') {
+              isLoading_join = false;
+              mes_join = 'コードが見つかりませんでした';
+            } else {
+              isLoading_join = false;
+              mes_join = 'エラーが発生しました';
+            }
+            notifyListeners();
           } else {
+            HttpsCallable callable = FirebaseFunctions.instanceFor(
+                region: 'asia-northeast1').httpsCallable(
+                'inviteGroupCall',
+                options: HttpsCallableOptions(timeout: Duration(seconds: 5),));
+            final results = await callable(<String, String>{
+              'idToken': token,
+              'address': addressController.text,
+              'family': familyController.text,
+              'first': firstController.text,
+              'call': dropdown_call,
+              'age': age,
+              'position': position,
+              'team': team
+            });
+            String resp = results.data;
             isLoading_join = false;
-            mes_join = 'エラーが発生しました';
+            if (resp == 'success') {
+              mes_join = '';
+              addressController.clear();
+              familyController.clear();
+              firstController.clear();
+              Scaffold.of(context).showSnackBar(new SnackBar(
+                content: new Text('送信リクエストが完了しました'),
+              ));
+            } else if (resp == 'No such document!' ||
+                resp == 'not found') {
+              isLoading_join = false;
+              mes_join = 'コードが見つかりませんでした';
+            } else {
+              isLoading_join = false;
+              mes_join = 'エラーが発生しました';
+            }
+            notifyListeners();
           }
-          notifyListeners();
         });
       }
     } else {

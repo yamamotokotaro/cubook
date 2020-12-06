@@ -215,7 +215,7 @@ class LoginView extends StatelessWidget {
                                 child: Padding(
                                     padding: EdgeInsets.all(5),
                                     child: Text(
-                                      'ログインして始める',
+                                      'ログインしてはじめる',
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 20),
                                     )),
