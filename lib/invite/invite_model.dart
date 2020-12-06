@@ -149,7 +149,7 @@ class InviteModel with ChangeNotifier {
             addressController.clear();
             familyController.clear();
             firstController.clear();
-            ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+            Scaffold.of(context).showSnackBar(new SnackBar(
               content: new Text('送信リクエストが完了しました'),
             ));
           } else if (resp == 'No such document!' ||
