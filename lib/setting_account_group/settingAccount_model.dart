@@ -25,7 +25,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
   Map<String, dynamic> claims = new Map<String, dynamic>();
 
   void getSnapshot(String uid) async {
-    var task = new Task();
+    var task = new TaskContents();
     if (uid != uid_before) {
       uid_before = uid;
       User user = await FirebaseAuth.instance.currentUser;

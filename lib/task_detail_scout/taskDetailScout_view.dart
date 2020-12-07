@@ -52,7 +52,7 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 }
 
 class TaskScoutDetailView extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   String type;
   int number;
@@ -209,11 +209,11 @@ class TaskScoutDetailView extends StatelessWidget {
                                             )
                                           : Container(),
                                       (type != 'risu' &&
-                                          type != 'usagi' &&
-                                          type != 'sika' &&
-                                          type != 'kuma' &&
-                                          type != 'challenge' &&
-                                          type != 'tukinowa') ||
+                                                  type != 'usagi' &&
+                                                  type != 'sika' &&
+                                                  type != 'kuma' &&
+                                                  type != 'challenge' &&
+                                                  type != 'tukinowa') ||
                                               model.group ==
                                                   ' j27DETWHGYEfpyp2Y292' ||
                                               model.group ==
@@ -372,12 +372,12 @@ class TaskScoutDetailView extends StatelessWidget {
                                           decoration: TextDecoration.none),
                                     ),
                                   ),
-                                      (type != 'risu' &&
-                                          type != 'usagi' &&
-                                          type != 'sika' &&
-                                          type != 'kuma' &&
-                                          type != 'challenge' &&
-                                          type != 'tukinowa') ||
+                                  (type != 'risu' &&
+                                              type != 'usagi' &&
+                                              type != 'sika' &&
+                                              type != 'kuma' &&
+                                              type != 'challenge' &&
+                                              type != 'tukinowa') ||
                                           model.group ==
                                               ' j27DETWHGYEfpyp2Y292' ||
                                           model.group == ' z4pkBhhgr0fUMN4evr5z'
@@ -525,7 +525,7 @@ class TaskScoutAddView extends StatelessWidget {
   int index_page;
   int page;
   String type;
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   Color themeColor;
 
@@ -538,6 +538,7 @@ class TaskScoutAddView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String numberShow = task.getNumber(type, page, index_page);
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -991,29 +992,52 @@ class TaskScoutAddView extends StatelessWidget {
 //                      ),
                     ),
                   ))),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Card(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(35.0)),
-              elevation: 7,
-              child: ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: 61, minHeight: 61),
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
-                    child: Text(
-                      task.getNumber(type, page, index_page),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: themeColor),
+          numberShow.length == 0
+              ? Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height: 70,
+                    width: 70,
+                    child: Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(35.0)),
+                      elevation: 7,
+                      child: Center(
+                        child: Text(
+                          numberShow,
+                          style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                              color: themeColor),
+                        ),
+                      ),
                     ),
-                  )),
-            ),
-          )
+                  ))
+              : Align(
+                  alignment: Alignment.topCenter,
+                  child: Card(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(35.0)),
+                    elevation: 7,
+                    child: ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minWidth: 61, minHeight: 61),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 8, right: 8, top: 5, bottom: 5),
+                          child: Text(
+                            numberShow,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                                color: themeColor),
+                          ),
+                        )),
+                  ),
+                )
         ]));
   }
 }

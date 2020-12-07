@@ -12,6 +12,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:requestLegacyExternalStorage="true"
         android:label="cubook"
+        android:usesCleartextTraffic="true"
         android:icon="@drawable/icon">
         <activity
             android:name=".MainActivity"

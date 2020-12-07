@@ -2,15 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/listAbsent/listAbsent_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:cubook/notification/notification_model.dart';
-import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListExaminationView extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   String uid;
 

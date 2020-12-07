@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TaskListAnalyticsView extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   Color themeColor;
   String type;

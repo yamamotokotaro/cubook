@@ -16,7 +16,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
   String type;
   Map<String, dynamic> taskInfo;
   Map<String, dynamic> content;
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
 
   DetailTaskWaitingView_old(

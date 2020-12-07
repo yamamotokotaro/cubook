@@ -4,7 +4,6 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
-import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class TabInfo {
 }
 
 class SelectBook extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
   String uid;
 

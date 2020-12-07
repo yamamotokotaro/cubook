@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SettingAccountGroupView extends StatelessWidget {
-  var task = new Task();
+  var task = new TaskContents();
   var theme = new ThemeInfo();
 
   String uid;

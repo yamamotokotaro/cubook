@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TaskDetailScoutModel extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -102,13 +103,15 @@ class TaskDetailScoutModel extends ChangeNotifier {
                       if (dataMap[j]['type'] == 'text') {
                         body.add(dataMap[j]['body']);
                       } else if (dataMap[j]['type'] == 'image') {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final ref = FirebaseStorage.instance
+                            .ref()
+                            .child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         body.add(url);
                       } else {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final ref = FirebaseStorage.instance
+                            .ref()
+                            .child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         final videoPlayerController =
                             VideoPlayerController.network(url);
@@ -135,14 +138,16 @@ class TaskDetailScoutModel extends ChangeNotifier {
                         map_attach[i][j] =
                             TextEditingController(text: dataMap[j]['body']);
                       } else if (dataMap[j]['type'] == 'image') {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final ref = FirebaseStorage.instance
+                            .ref()
+                            .child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         map_attach[i][j] = dataMap[j]['body'];
                         map_show[i][j] = url;
                       } else {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final ref = FirebaseStorage.instance
+                            .ref()
+                            .child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         final videoPlayerController =
                             VideoPlayerController.network(url);
@@ -201,7 +206,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
             await textSend(i, MapDatas[i].text, number);
           } else if (MapDatas[i] is String) {
             await textSend(i, MapDatas[i], number);
-          } else if (MapDatas[i] is File) {
+          } else if (MapDatas[i] is PickedFile) {
             await fileSend(i, MapDatas[i], number);
           }
         }
@@ -215,22 +220,25 @@ class TaskDetailScoutModel extends ChangeNotifier {
     firestoreController(data, number, index);
   }
 
-  Future<dynamic> fileSend(int index, File file, int number) async {
+  Future<dynamic> fileSend(int index, PickedFile file, int number) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
     String subDirectoryName =
         userSnapshot.data()['group'] + '/' + currentUser.uid;
-    final StorageReference ref =
-        FirebaseStorage().ref().child(subDirectoryName).child('${timestamp}');
-    final StorageUploadTask uploadTask = ref.putFile(file);
-    StorageTaskSnapshot snapshot = await uploadTask.onComplete;
-    if (snapshot.error == null) {
-      String path = await snapshot.ref.getPath();
-      Map<String, dynamic> data = Map<String, dynamic>();
-      data.putIfAbsent('body', () => path);
-      firestoreController(data, number, index);
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child(subDirectoryName)
+        .child('${timestamp}');
+    UploadTask uploadTask;
+    if (kIsWeb) {
+      uploadTask = ref.putData(await file.readAsBytes());
     } else {
-      //return 'Something goes wrong';
+      uploadTask = ref.putFile(File(file.path));
     }
+    dynamic snapshot = await Future.value(uploadTask);
+    String path = await snapshot.ref.getPath();
+    Map<String, dynamic> data = Map<String, dynamic>();
+    data.putIfAbsent('body', () => path);
+    firestoreController(data, number, index);
   }
 
   void firestoreController(Map data, int number, int index) {
@@ -333,23 +341,25 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   void onImagePressPick(int number, int index) async {
-    File image = await ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50);
+    final image = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 50);
     map_attach[number][index] = image;
+    map_show[number][index] = await image.readAsBytes();
     notifyListeners();
   }
 
   void onImagePressCamera(int number, int index) async {
-    File image = await ImagePicker.pickImage(
-        source: ImageSource.camera, imageQuality: 50);
+    final image = await ImagePicker()
+        .getImage(source: ImageSource.camera, imageQuality: 50);
     map_attach[number][index] = image;
+    map_show[number][index] = await image.readAsBytes();
     notifyListeners();
   }
 
   void onVideoPressPick(int number, int index) async {
-    File image = await ImagePicker.pickVideo(source: ImageSource.gallery);
+    final image = await ImagePicker().getVideo(source: ImageSource.gallery);
     map_attach[number][index] = image;
-    final videoPlayerController = VideoPlayerController.file(image);
+    final videoPlayerController = VideoPlayerController.file(File(image.path));
     await videoPlayerController.initialize();
     map_show[number][index] = ChewieController(
         videoPlayerController: videoPlayerController,
@@ -361,11 +371,11 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   void onVideoPressCamera(int number, int index) async {
-    File image = await ImagePicker.pickVideo(
+    final image = await ImagePicker().getVideo(
       source: ImageSource.camera,
     );
     map_attach[number][index] = image;
-    final videoPlayerController = VideoPlayerController.file(image);
+    final videoPlayerController = VideoPlayerController.file(File(image.path));
     await videoPlayerController.initialize();
     map_show[number][index] = ChewieController(
         videoPlayerController: videoPlayerController,

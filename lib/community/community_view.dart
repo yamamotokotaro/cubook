@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 class CommunityView extends StatelessWidget {
   var theme = new ThemeInfo();
-  var task = new Task();
+  var task = new TaskContents();
 
   @override
   Widget build(BuildContext context) {

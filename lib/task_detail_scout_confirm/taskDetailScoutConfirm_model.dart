@@ -11,10 +11,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TaskDetailScoutConfirmModel extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
-  var task = new Task();
+  var task = new TaskContents();
   var list_isSelected = new List<bool>();
   String documentID;
   String group;
@@ -123,13 +124,15 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
                       if (dataMap[j]['type'] == 'text') {
                         body.add(dataMap[j]['body']);
                       } else if (dataMap[j]['type'] == 'image') {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final ref = FirebaseStorage.instance
+                            .ref()
+                            .child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         body.add(url);
                       } else {
-                        final StorageReference ref =
-                            FirebaseStorage().ref().child(dataMap[j]['body']);
+                        final ref = FirebaseStorage.instance
+                            .ref()
+                            .child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         final videoPlayerController =
                             VideoPlayerController.network(url);
@@ -330,58 +333,61 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   void onImagePressPick(int number, int index) async {
-    File file = await ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50);
+    final file = await ImagePicker()
+        .getImage(source: ImageSource.gallery, imageQuality: 50);
     sendFile(file, index, 'image');
     // notifyListeners();
   }
 
   void onImagePressCamera(int number, int index) async {
-    File file = await ImagePicker.pickImage(
+    final file = await ImagePicker().getImage(
         source: ImageSource.camera, imageQuality: 50);
     sendFile(file, index, 'image');
     // notifyListeners();
   }
 
   void onVideoPressPick(int number, int index) async {
-    File file = await ImagePicker.pickVideo(source: ImageSource.gallery);
+    final file = await ImagePicker().getVideo(source: ImageSource.gallery);
     sendFile(file, index, 'video');
     // notifyListeners();
   }
 
   void onVideoPressCamera(int number, int index) async {
-    File file = await ImagePicker.pickVideo(source: ImageSource.camera);
+    final file = await ImagePicker().getVideo(source: ImageSource.camera);
     sendFile(file, index, 'video');
     // notifyListeners();
   }
 
-  void sendFile(File file, int index, String type_file) async {
+  void sendFile(PickedFile file, int index, String type_file) async {
     int timestamp = DateTime.now().millisecondsSinceEpoch;
     String subDirectoryName = tokenMap['group'] + '/' + uid;
-    final StorageReference ref =
-        FirebaseStorage().ref().child(subDirectoryName).child('${timestamp}');
-    final StorageUploadTask uploadTask = ref.putFile(file);
-    StorageTaskSnapshot snapshot = await uploadTask.onComplete;
-    if (snapshot.error == null) {
-      String path = await snapshot.ref.getPath();
-      Map<String, dynamic> data = Map<String, dynamic>();
-      data.putIfAbsent('body', () => path);
-      data.putIfAbsent('type', () => type_file);
-      Map<String, dynamic> signed = stepSnapshot.data()['signed'];
-      if (signed[index.toString()]['data'] != null) {
-        signed[index.toString()]['data'].add(data);
-      } else {
-        List<dynamic> dataList = new List<dynamic>();
-        dataList.add(data);
-        signed[index.toString()]['data'] = dataList;
-      }
-      FirebaseFirestore.instance
-          .collection(type)
-          .doc(stepSnapshot.id)
-          .update(<String, dynamic>{'signed': signed});
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child(subDirectoryName)
+        .child('${timestamp}');
+    UploadTask uploadTask;
+    if (kIsWeb) {
+      uploadTask = ref.putData(await file.readAsBytes());
     } else {
-      //return 'Something goes wrong';
+      uploadTask = ref.putFile(File(file.path));
     }
+    dynamic snapshot = await Future.value(uploadTask);
+    String path = await snapshot.ref.getPath();
+    Map<String, dynamic> data = Map<String, dynamic>();
+    data.putIfAbsent('body', () => path);
+    data.putIfAbsent('type', () => type_file);
+    Map<String, dynamic> signed = stepSnapshot.data()['signed'];
+    if (signed[index.toString()]['data'] != null) {
+      signed[index.toString()]['data'].add(data);
+    } else {
+      List<dynamic> dataList = new List<dynamic>();
+      dataList.add(data);
+      signed[index.toString()]['data'] = dataList;
+    }
+    FirebaseFirestore.instance
+        .collection(type)
+        .doc(stepSnapshot.id)
+        .update(<String, dynamic>{'signed': signed});
   }
 
   Future<void> deleteFile(int number, int index) async {
@@ -392,7 +398,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         .collection(type)
         .doc(stepSnapshot.id)
         .update(<String, dynamic>{'signed': signed}).then((value) {
-      final StorageReference ref = FirebaseStorage().ref().child(path);
+      final ref = FirebaseStorage.instance.ref().child(path);
       ref.delete();
     });
   }
