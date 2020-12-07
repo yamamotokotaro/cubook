@@ -173,11 +173,16 @@ class HomeScoutView extends StatelessWidget {
         Consumer<HomeModel>(builder: (context, model, child) {
           List<String> type = new List<String>();
           String age = model.age;
+          String grade = model.grade;
           type.add(age);
-          if(age != 'risu'){
+          if(age != 'risu' && model.grade == 'cub'){
             type.add('challenge');
           }
-          if(model.age == 'kuma'){
+          if(grade == 'boy' || grade =='venture'){
+            type.add('gino');
+            type.add('syorei');
+          }
+          if(age == 'kuma'){
             type.add('tukinowa');
           }
           return Padding(

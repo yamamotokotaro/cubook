@@ -65,7 +65,7 @@ class ThemeInfo {
     'kuma',
     'tukinowa',
     'challenge',
-    'syokyu',
+    /*'syokyu',
     'nikyu',
     'ikkyu',
     'kiku',
@@ -73,7 +73,7 @@ class ThemeInfo {
     'fuji',
     'syorei',
     'syukyo',
-    'gino'
+    'gino'*/
   ];
 
   Color getThemeColor(String type) {

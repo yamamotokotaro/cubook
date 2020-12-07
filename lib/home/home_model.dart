@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_view.dart';
-import 'package:cubook/home_scout/homeBS_view.dart';
 import 'package:cubook/home_scout/homeScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -89,22 +88,22 @@ class HomeModel extends ChangeNotifier {
                 if (teamPosition != null) {
                   if (teamPosition == 'teamLeader') {
                     toShow = Column(
-                      children: <Widget>[HomeLeaderView(), HomeBSView()],
+                      children: <Widget>[HomeLeaderView(), HomeScoutView()],
                     );
                   } else {
                     toShow = Column(
-                      children: <Widget>[HomeBSView()],
+                      children: <Widget>[HomeScoutView()],
                     );
                   }
                 } else {
                   toShow = Column(
-                    children: <Widget>[HomeBSView()],
+                    children: <Widget>[HomeScoutView()],
                   );
                 }
               } else if (grade == 'venture') {
                 toShow = Column(
                   children: <Widget>[
-                    HomeBSView(),
+                    HomeScoutView(),
                   ],
                 );
               }
@@ -113,10 +112,10 @@ class HomeModel extends ChangeNotifier {
             }
             getSnapshot();
           } else if (position == 'boyscout') {
-            toShow = HomeBSView();
+            toShow = HomeScoutView();
           } else if (position == 'groupleader') {
             toShow = Column(
-              children: <Widget>[HomeLeaderView(), HomeBSView()],
+              children: <Widget>[HomeLeaderView(), HomeScoutView()],
             );
           } else if (position == 'leader') {
             toShow = HomeLeaderView();
@@ -187,22 +186,22 @@ class HomeModel extends ChangeNotifier {
                     if (teamPosition != null) {
                       if (teamPosition == 'teamLeader') {
                         toShow = Column(
-                          children: <Widget>[HomeLeaderView(), HomeBSView()],
+                          children: <Widget>[HomeLeaderView(), HomeScoutView()],
                         );
                       } else {
                         toShow = Column(
-                          children: <Widget>[HomeBSView()],
+                          children: <Widget>[HomeScoutView()],
                         );
                       }
                     } else {
                       toShow = Column(
-                        children: <Widget>[HomeBSView()],
+                        children: <Widget>[HomeScoutView()],
                       );
                     }
                   } else if (grade == 'venture') {
                     toShow = Column(
                       children: <Widget>[
-                        HomeBSView(),
+                        HomeScoutView(),
                       ],
                     );
                   }
@@ -211,10 +210,10 @@ class HomeModel extends ChangeNotifier {
                 }
                 getSnapshot();
               } else if (position == 'boyscout') {
-                toShow = HomeBSView();
+                toShow = HomeScoutView();
               } else if (position == 'groupleader') {
                 toShow = Column(
-                  children: <Widget>[HomeLeaderView(), HomeBSView()],
+                  children: <Widget>[HomeLeaderView(), HomeScoutView()],
                 );
               } else if (position == 'leader') {
                 toShow = HomeLeaderView();
