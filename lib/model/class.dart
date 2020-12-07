@@ -194,6 +194,7 @@ Future<void> signItem(String uid, String type, int page, int number,
             .collection(type)
             .doc(snapshot.id)
             .update(data_signed);
+        documentID = snapshot.id;
       } else {
         Map<String, dynamic> data_toAdd = Map<String, dynamic>();
         data_toAdd['phaze'] = 'signed';

@@ -127,7 +127,7 @@ class CreateActivityView extends StatelessWidget {
                               child: Container(
                                   width: double.infinity,
                                   child: Text(
-                                    '選択した項目は一括でサインされます',
+                                    '選択した項目は一括でサインされます\n反映までに数分要します',
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
                                         fontSize: 12),
