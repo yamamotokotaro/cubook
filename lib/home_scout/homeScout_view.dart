@@ -70,7 +70,9 @@ class HomeScoutView extends StatelessWidget {
                                     children: <Widget>[
                                       Icon(
                                         Icons.notifications,
-                                        color: Theme.of(context).accentColor,
+                                        color: Theme
+                                            .of(context)
+                                            .accentColor,
                                         size: 35,
                                       ),
                                       Padding(
@@ -175,14 +177,14 @@ class HomeScoutView extends StatelessWidget {
           String age = model.age;
           String grade = model.grade;
           type.add(age);
-          if(age != 'risu' && model.grade == 'cub'){
+          if (age != 'risu' && model.grade == 'cub') {
             type.add('challenge');
           }
-          if(grade == 'boy' || grade =='venture'){
+          if (grade == 'boy' || grade == 'venture') {
             type.add('gino');
             type.add('syorei');
           }
-          if(age == 'kuma'){
+          if (age == 'kuma') {
             type.add('tukinowa');
           }
           return Padding(
@@ -204,7 +206,9 @@ class HomeScoutView extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               onTap: () {
-                                if (task.getAllMap(type[index]).length != 1) {
+                                if (task
+                                    .getAllMap(type[index])
+                                    .length != 1) {
                                   Navigator.push(context,
                                       MaterialPageRoute<TaskListScoutView>(
                                           builder: (BuildContext context) {
@@ -231,23 +235,30 @@ class HomeScoutView extends StatelessWidget {
                                           DocumentSnapshot>(
                                           selector: (context, model) =>
                                           model.userSnapshot,
-                                          builder: (context, snapshot, child) => snapshot !=
+                                          builder: (context, snapshot, child) =>
+                                          snapshot !=
                                               null
                                               ? snapshot.data()[type[index]] !=
                                               null
                                               ? CircularProgressIndicator(
-                                              backgroundColor: theme.getIndicatorColor(
+                                              backgroundColor: theme
+                                                  .getIndicatorColor(
                                                   type[index]),
-                                              valueColor: new AlwaysStoppedAnimation<Color>(
+                                              valueColor: new AlwaysStoppedAnimation<
+                                                  Color>(
                                                   Colors.white),
-                                              value: snapshot.data()[type[index]].length /
+                                              value: snapshot
+                                                  .data()[type[index]].length /
                                                   task
                                                       .getAllMap(
                                                       type[index])
                                                       .length)
                                               : CircularProgressIndicator(
-                                              backgroundColor: theme.getIndicatorColor(type[index]),
-                                              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                                              backgroundColor: theme
+                                                  .getIndicatorColor(
+                                                  type[index]),
+                                              valueColor: new AlwaysStoppedAnimation<
+                                                  Color>(Colors.white),
                                               value: 0)
                                               : CircularProgressIndicator(
                                             backgroundColor:
@@ -282,139 +293,6 @@ class HomeScoutView extends StatelessWidget {
                         ));
                   }));
         }),
-        /*Consumer<HomeModel>(builder: (context, model, child) {
-          return Padding(
-              padding: EdgeInsets.all(10),
-              child: Container(
-                height: 180,
-                child: Hero(
-                    tag: 'card_step',
-                    child: Card(
-                      elevation: 8,
-                      color: theme.getThemeColor(model.age),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: InkWell(
-                        customBorder: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute<TaskView>(
-                              builder: (BuildContext context) {
-                                return TaskView(model.age);
-                              }));
-                        },
-                        child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Padding(
-                                          padding: EdgeInsets.only(left: 13),
-                                          child: Material(
-                                            type: MaterialType.transparency,
-                                            child: Text(
-                                              theme.getTitle(model.age),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 30,
-                                                  color: Colors.white),
-                                            ),
-                                          ))),
-                                  Padding(
-                                      padding: EdgeInsets.all(20),
-                                      child: model.userSnapshot.data()[model.age] !=
-                                          null
-                                          ? LinearProgressIndicator(
-                                          backgroundColor: theme
-                                              .getIndicatorColor(model.age),
-                                          valueColor:
-                                          new AlwaysStoppedAnimation<
-                                              Color>(Colors.white),
-                                          value: model
-                                              .userSnapshot.data()[model.age]
-                                              .length /
-                                              task
-                                                  .getAllMap(model.age)
-                                                  .length)
-                                          : Container())
-                                ])),
-                      ),
-                    )),
-              ));
-        }),
-        Padding(
-            padding: EdgeInsets.all(10),
-            child: Container(
-                height: 180,
-                child: Hero(
-                  tag: 'card_challenge',
-                  child: Card(
-                    elevation: 8,
-                    color: Colors.green[900],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: InkWell(
-                      customBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute<TaskView>(
-                            builder: (BuildContext context) {
-                              return TaskView('challenge');
-                            }));
-                      },
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 13),
-                                    child: Material(
-                                        type: MaterialType.transparency,
-                                        child: Text(
-                                          'チャレンジ章',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 30,
-                                              color: Colors.white),
-                                        )),
-                                  )),
-                              Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: Selector<HomeModel, DocumentSnapshot>(
-                                      selector: (context, model) =>
-                                      model.userSnapshot,
-                                      builder: (context, snapshot, child) =>
-                                      snapshot != null
-                                          ? snapshot.data()['challenge'] != null
-                                          ? LinearProgressIndicator(
-                                          backgroundColor:
-                                          Colors.green[700],
-                                          valueColor:
-                                          new AlwaysStoppedAnimation<
-                                              Color>(
-                                              Colors.white),
-                                          value: snapshot.data()['challenge']
-                                              .length /
-                                              task
-                                                  .getAllMap(
-                                                  'challenge')
-                                                  .length)
-                                          : Container()
-                                          : Container())),
-                            ]),
-                      ),
-                    ),
-                  ),
-                ))),*/
       ],
     );
   }

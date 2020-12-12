@@ -218,42 +218,6 @@ class HomeLeaderView extends StatelessWidget {
               )),
             );
           }),
-      /*Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 15),
-        child: Container(
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed('/homeLump');
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.list,
-                          color: Theme.of(context).accentColor,
-                          size: 35,
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: Text(
-                                ' 一括サイン',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal, fontSize: 30),
-                              ),
-                            )),
-                      ]),
-                ),
-              ),
-            )),
-      ),*/
     ]);
   }
 
