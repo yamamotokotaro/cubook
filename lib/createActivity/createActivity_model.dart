@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +18,7 @@ class CreateActivityModel extends ChangeNotifier {
   Map<String, bool> uid_check = new Map<String, bool>();
   bool EmptyError = false;
   Map<String, dynamic> claims = new Map<String, dynamic>();
-  MobileAdTargetingInfo targetingInfo;
   bool isLoaded = false;
-  InterstitialAd interstitialAd;
   var isRelease = const bool.fromEnvironment('dart.vm.product');
   dynamic itemSelected;
   List<String> list_notApplicable = new List<String>();
@@ -129,9 +126,9 @@ class CreateActivityModel extends ChangeNotifier {
   }
 
   void onSend(BuildContext context) async {
-    isLoading = true;
-    notifyListeners();
     if (titleController.text != '') {
+      isLoading = true;
+      notifyListeners();
       var list_absent = new List<dynamic>();
       var list_uid = new List<dynamic>();
       int count = 0;

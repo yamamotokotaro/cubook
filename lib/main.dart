@@ -51,7 +51,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -198,16 +198,16 @@ class _MyAppState extends State<MyApp> {
             '/changeMailAddressView': (BuildContext context) => ChangeMailAddressView(),
             '/changePasswordView': (BuildContext context) => ChangePasswordView()
           },
-          /*localizationsDelegates: [
+          localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
             DefaultCupertinoLocalizations.delegate
-          ],*/
-          /*supportedLocales: [
+          ],
+          supportedLocales: [
             const Locale("en"),
             const Locale("ja"),
-          ],*/
+          ],
         ));
   }
 }
