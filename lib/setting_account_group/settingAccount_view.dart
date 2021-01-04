@@ -189,7 +189,28 @@ class SettingAccountGroupView extends StatelessWidget {
                                                 padding: EdgeInsets.all(5),
                                                 child:
                                                     CircularProgressIndicator()),
-                                          ))
+                                          )),
+                                /*Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Divider(color: Colors.grey)),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 5, bottom: 0, left: 30, right: 30),
+                                    child: FlatButton.icon(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.delete,
+                                        size: 20,
+                                        color: Colors.red,
+                                      ),
+                                      label: Text(
+                                        'ユーザーを削除する',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.red),
+                                      ),
+                                    ))*/
                               ],
                             );
                           } else {
