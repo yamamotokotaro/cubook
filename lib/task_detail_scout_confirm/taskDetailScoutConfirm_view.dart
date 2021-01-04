@@ -690,6 +690,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark;
+    String numberShow = task.getNumber(type, page, index_page);
     if (Theme.of(context).accentColor == Colors.white) {
       isDark = true;
     } else {
@@ -1348,7 +1349,29 @@ class TaskScoutAddConfirmView extends StatelessWidget {
 //                      ),
                         ),
                   ))),
-          Align(
+          numberShow.length == 1
+              ? Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                height: 70,
+                width: 70,
+                child: Card(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35.0)),
+                  elevation: 7,
+                  child: Center(
+                    child: Text(
+                      numberShow,
+                      style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: themeColor),
+                    ),
+                  ),
+                ),
+              ))
+              : Align(
             alignment: Alignment.topCenter,
             child: Card(
               color: Colors.white,
@@ -1356,12 +1379,13 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(35.0)),
               elevation: 7,
               child: ConstrainedBox(
-                  constraints: BoxConstraints(minWidth: 61, minHeight: 61),
+                  constraints:
+                  BoxConstraints(minWidth: 61, minHeight: 61),
                   child: Padding(
-                    padding:
-                        EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+                    padding: EdgeInsets.only(
+                        left: 8, right: 8, top: 5, bottom: 5),
                     child: Text(
-                      task.getNumber(type, page, index_page),
+                      numberShow,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 40,

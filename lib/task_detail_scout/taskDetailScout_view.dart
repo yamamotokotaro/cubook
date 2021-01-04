@@ -992,7 +992,7 @@ class TaskScoutAddView extends StatelessWidget {
 //                      ),
                     ),
                   ))),
-          numberShow.length == 0
+          numberShow.length == 1
               ? Align(
                   alignment: Alignment.topCenter,
                   child: Container(
