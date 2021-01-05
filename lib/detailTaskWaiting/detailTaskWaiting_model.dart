@@ -50,13 +50,13 @@ class DetailTaskWaitingModel extends ChangeNotifier {
           if (taskSnapshot.data()['data'][i]['type'] == 'text') {
             body.add(taskSnapshot.data()['data'][i]['body']);
           } else if (taskSnapshot.data()['data'][i]['type'] == 'image') {
-            final ref = FirebaseStorage()
+            final ref = FirebaseStorage.instance
                 .ref()
                 .child(taskSnapshot.data()['data'][i]['body']);
             final String url = await ref.getDownloadURL();
             body.add(url);
           } else {
-            final ref = FirebaseStorage()
+            final ref = FirebaseStorage.instance
                 .ref()
                 .child(taskSnapshot.data()['data'][i]['body']);
             final String url = await ref.getDownloadURL();
@@ -66,6 +66,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
                 videoPlayerController: videoPlayerController,
                 aspectRatio: videoPlayerController.value.aspectRatio,
                 autoPlay: false,
+                allowPlaybackSpeedChanging: false,
                 looping: false);
             body.add(chewieController);
           }
@@ -76,53 +77,6 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       isLoaded = true;
       notifyListeners();
     });
-  }
-
-  void onSnapshotHasData(DocumentSnapshot taskSnapshot) async {
-    isLoaded = false;
-    if (taskSnapshot != null) {
-      if (taskSnapshot.id != documentID) {
-        body = List<dynamic>();
-        documentID = taskSnapshot.id;
-        uid_get = taskSnapshot.data()['uid'];
-        type = taskSnapshot.data()['type'];
-        page = taskSnapshot.data()['page'];
-        number = taskSnapshot.data()['number'];
-        dataMap = taskSnapshot.data()['data'];
-        if (taskSnapshot != null) {
-          for (int i = 0; i < taskSnapshot.data()['data'].length; i++) {
-            if (taskSnapshot.data()['data'][i]['type'] == 'text') {
-              body.add(taskSnapshot.data()['data'][i]['body']);
-            } else if (taskSnapshot.data()['data'][i]['type'] == 'image') {
-              final ref = FirebaseStorage.instance
-                  .ref()
-                  .child(taskSnapshot.data()['data'][i]['body']);
-              final String url = await ref.getDownloadURL();
-              body.add(url);
-            } else {
-              final ref = FirebaseStorage.instance
-                  .ref()
-                  .child(taskSnapshot.data()['data'][i]['body']);
-              final String url = await ref.getDownloadURL();
-              final videoPlayerController = VideoPlayerController.network(url);
-              await videoPlayerController.initialize();
-              final chewieController = ChewieController(
-                  videoPlayerController: videoPlayerController,
-                  aspectRatio: 16 / 9,
-                  autoPlay: false,
-                  looping: false);
-              body.add(chewieController);
-            }
-          }
-          notifyListeners();
-        } else {
-          taskFinished = true;
-        }
-      }
-    } else {
-      taskFinished = true;
-    }
-    isLoaded = true;
   }
 
   void onTapSend() async {

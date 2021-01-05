@@ -142,6 +142,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
                             aspectRatio:
                                 videoPlayerController.value.aspectRatio,
                             autoPlay: false,
+                            allowPlaybackSpeedChanging: false,
                             looping: false);
                         body.add(chewieController);
                       }

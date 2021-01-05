@@ -55,17 +55,17 @@ class TaskDetailScoutModel extends ChangeNotifier {
     list_snapshot = new List<bool>.generate(page, (index) => false);
 
     list_attach =
-        new List<dynamic>.generate(quant, (index) => new List<dynamic>());
+    new List<dynamic>.generate(quant, (index) => new List<dynamic>());
 
     map_attach =
-        new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
+    new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
 
     map_show =
-        new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
+    new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
 
     isAdded = new List<dynamic>.generate(quant, (index) => false);
     dataList =
-        new List<dynamic>.generate(quant, (index) => new List<dynamic>());
+    new List<dynamic>.generate(quant, (index) => new List<dynamic>());
 
     isLoading = new List<dynamic>.generate(quant, (index) => false);
 
@@ -93,7 +93,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
           for (int i = 0; i < quant; i++) {
             if (stepSnapshot.data()['signed'][i.toString()] != null) {
               Map<String, dynamic> doc =
-                  stepSnapshot.data()['signed'][i.toString()];
+              stepSnapshot.data()['signed'][i.toString()];
               if (doc != null) {
                 if (doc['phaze'] == 'signed' || doc['phaze'] == 'wait') {
                   dataMap = doc['data'];
@@ -114,12 +114,14 @@ class TaskDetailScoutModel extends ChangeNotifier {
                             .child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         final videoPlayerController =
-                            VideoPlayerController.network(url);
+                        VideoPlayerController.network(url);
                         await videoPlayerController.initialize();
                         final chewieController = ChewieController(
                             videoPlayerController: videoPlayerController,
                             aspectRatio:
-                                videoPlayerController.value.aspectRatio,
+                            videoPlayerController.value.aspectRatio,
+                            allowPlaybackSpeedChanging: false,
+                            allowFullScreen: false,
                             autoPlay: false,
                             looping: false);
                         body.add(chewieController);
@@ -150,13 +152,15 @@ class TaskDetailScoutModel extends ChangeNotifier {
                             .child(dataMap[j]['body']);
                         final String url = await ref.getDownloadURL();
                         final videoPlayerController =
-                            VideoPlayerController.network(url);
+                        VideoPlayerController.network(url);
                         await videoPlayerController.initialize();
                         final chewieController = ChewieController(
                             videoPlayerController: videoPlayerController,
                             aspectRatio:
-                                videoPlayerController.value.aspectRatio,
+                            videoPlayerController.value.aspectRatio,
                             autoPlay: false,
+                            allowPlaybackSpeedChanging: false,
+                            allowFullScreen: false,
                             looping: false);
                         map_attach[i][j] = dataMap[j]['body'];
                         map_show[i][j] = chewieController;
@@ -189,17 +193,17 @@ class TaskDetailScoutModel extends ChangeNotifier {
         .then((userDatas) async {
       userSnapshot = userDatas.docs[0];
       if (((type != 'usagi' &&
-                  type != 'sika' &&
-                  type != 'kuma' &&
-                  type != 'challenge') ||
-              checkParent) &&
+          type != 'sika' &&
+          type != 'kuma' &&
+          type != 'challenge') ||
+          checkParent) &&
           map_attach[number].length != 0) {
         isLoading[number] = true;
         notifyListeners();
         print(map_attach);
         Map<int, dynamic> MapDatas = map_attach[number];
         list_toSend[number] =
-            new List<dynamic>.generate(MapDatas.length, (index) => null);
+        new List<dynamic>.generate(MapDatas.length, (index) => null);
         count_toSend[number] = MapDatas.length;
         for (int i = 0; i < MapDatas.length; i++) {
           if (MapDatas[i] is TextEditingController) {
@@ -221,7 +225,9 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   Future<dynamic> fileSend(int index, PickedFile file, int number) async {
-    int timestamp = DateTime.now().millisecondsSinceEpoch;
+    int timestamp = DateTime
+        .now()
+        .millisecondsSinceEpoch;
     String subDirectoryName =
         userSnapshot.data()['group'] + '/' + currentUser.uid;
     final ref = FirebaseStorage.instance
@@ -269,7 +275,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     data['phase'] = 'wait';
     isAdded[number] = true;
     documentReference =
-        await FirebaseFirestore.instance.collection('task').add(data);
+    await FirebaseFirestore.instance.collection('task').add(data);
     documentID = documentReference.id;
     Map<String, dynamic> data_signed = Map<String, dynamic>();
     if (isExit) {
@@ -291,18 +297,18 @@ class TaskDetailScoutModel extends ChangeNotifier {
       data_signed['signed'] = {number.toString(): data_toAdd};
       data_signed['group'] = userSnapshot.data()['group'];
       DocumentReference documentReference_add =
-          await FirebaseFirestore.instance.collection(type).add(data_signed);
+      await FirebaseFirestore.instance.collection(type).add(data_signed);
       documentID_exit = documentReference_add.id;
     }
 
     list_attach =
-        new List<dynamic>.generate(quant, (index) => new List<dynamic>());
+    new List<dynamic>.generate(quant, (index) => new List<dynamic>());
 
     map_attach =
-        new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
+    new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
 
     map_show =
-        new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
+    new List<dynamic>.generate(quant, (index) => new Map<int, dynamic>());
     isLoading[number] = false;
   }
 
@@ -366,7 +372,8 @@ class TaskDetailScoutModel extends ChangeNotifier {
         aspectRatio: videoPlayerController.value.aspectRatio,
         autoPlay: false,
         looping: false,
-        allowFullScreen: false);
+        allowFullScreen: false,
+        allowPlaybackSpeedChanging: false);
     notifyListeners();
   }
 
@@ -382,7 +389,8 @@ class TaskDetailScoutModel extends ChangeNotifier {
         aspectRatio: videoPlayerController.value.aspectRatio,
         autoPlay: false,
         looping: false,
-        allowFullScreen: false);
+        allowFullScreen: false,
+        allowPlaybackSpeedChanging: false);
     notifyListeners();
   }
 

@@ -714,9 +714,11 @@ class TaskScoutAddView extends StatelessWidget {
                                                                             child:
                                                                                 Column(
                                                                               children: <Widget>[
-                                                                                Chewie(
-                                                                                  controller: model.dataList[index_page][index],
-                                                                                )
+                                                                                AspectRatio(
+                                                                                    aspectRatio: model.dataList[index_page][index].aspectRatio,
+                                                                                    child: Chewie(
+                                                                                      controller: model.dataList[index_page][index],
+                                                                                    ))
                                                                               ],
                                                                             ),
                                                                           ),
@@ -898,10 +900,11 @@ class TaskScoutAddView extends StatelessWidget {
                                                                           Column(
                                                                         children: <
                                                                             Widget>[
-                                                                          Chewie(
-                                                                            controller:
-                                                                                model.dataList[index_page][index],
-                                                                          )
+                                                                          AspectRatio(
+                                                                              aspectRatio: model.dataList[index_page][index].aspectRatio,
+                                                                              child: Chewie(
+                                                                                controller: model.dataList[index_page][index],
+                                                                              ))
                                                                         ],
                                                                       ),
                                                                     ),

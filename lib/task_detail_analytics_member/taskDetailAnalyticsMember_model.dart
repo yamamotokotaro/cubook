@@ -88,6 +88,40 @@ class TaskDetailAnalyticsMemberModel extends ChangeNotifier {
             .orderBy('name')
             .snapshots();
       }
+    } else if (type == 'tukinowa') {
+      if (teamPosition != null) {
+        if (teamPosition == 'teamLeader') {
+          return FirebaseFirestore.instance
+              .collection('user')
+              .where('group', isEqualTo: group)
+              .where('position', isEqualTo: 'scout')
+              .where('age', isEqualTo: 'kuma')
+              .where('team', isEqualTo: team)
+              .orderBy('age_turn', descending: true)
+              .orderBy('name')
+              .snapshots();
+        } else {
+          return FirebaseFirestore.instance
+              .collection('user')
+              .where('group', isEqualTo: group)
+              .where('position', isEqualTo: 'scout')
+              .where('age', isEqualTo: 'kuma')
+              .orderBy('team')
+              .orderBy('age_turn', descending: true)
+              .orderBy('name')
+              .snapshots();
+        }
+      } else {
+        return FirebaseFirestore.instance
+            .collection('user')
+            .where('group', isEqualTo: group)
+            .where('position', isEqualTo: 'scout')
+            .where('age', isEqualTo: 'kuma')
+            .orderBy('team')
+            .orderBy('age_turn', descending: true)
+            .orderBy('name')
+            .snapshots();
+      }
     } else {
       if (teamPosition != null) {
         if (teamPosition == 'teamLeader') {

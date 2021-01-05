@@ -212,9 +212,6 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
-  - admob_flutter (1.0.0):
-    - Flutter
-    - Google-Mobile-Ads-SDK (~> 7.64)
   - AppAuth (1.4.0):
     - AppAuth/Core (= 1.4.0)
     - AppAuth/ExternalUserAgent (= 1.4.0)
@@ -276,11 +273,6 @@ PODS:
   - Firebase/Storage (6.33.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 3.9.0)
-  - firebase_admob (0.10.1):
-    - Firebase/CoreOnly (~> 6.33.0)
-    - firebase_core
-    - Flutter
-    - Google-Mobile-Ads-SDK
   - firebase_analytics (6.3.0):
     - Firebase/Analytics (~> 6.33.0)
     - Firebase/CoreOnly (~> 6.33.0)
@@ -425,9 +417,6 @@ PODS:
   - FirebaseUI/Phone (9.0.0):
     - FirebaseUI/Auth
   - Flutter (1.0.0)
-  - Google-Mobile-Ads-SDK (7.67.0):
-    - GoogleAppMeasurement (~> 6.0)
-    - GoogleUserMessagingPlatform (~> 1.1)
   - google_sign_in (0.0.1):
     - Flutter
     - GoogleSignIn (~> 5.0)
@@ -448,7 +437,6 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.3.0)
   - "GoogleToolboxForMac/NSData+zlib (2.3.0)":
     - GoogleToolboxForMac/Defines (= 2.3.0)
-  - GoogleUserMessagingPlatform (1.3.0)
   - GoogleUtilities/AppDelegateSwizzler (6.7.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -509,9 +497,6 @@ PODS:
     - nanopb/encode (= 1.30906.0)
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
-  - native_ads (0.5.0):
-    - Flutter
-    - Google-Mobile-Ads-SDK
   - notification_permissions (0.4.4):
     - Flutter
   - open_file (0.0.1):
@@ -530,10 +515,8 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - admob_flutter (from `.symlinks/plugins/admob_flutter/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
-  - firebase_admob (from `.symlinks/plugins/firebase_admob/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_auth_ui (from `.symlinks/plugins/firebase_auth_ui/ios`)
@@ -545,7 +528,6 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
-  - native_ads (from `.symlinks/plugins/native_ads/ios`)
   - notification_permissions (from `.symlinks/plugins/notification_permissions/ios`)
   - open_file (from `.symlinks/plugins/open_file/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
@@ -577,12 +559,10 @@ SPEC REPOS:
     - FirebaseRemoteConfig
     - FirebaseStorage
     - FirebaseUI
-    - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleSignIn
     - GoogleToolboxForMac
-    - GoogleUserMessagingPlatform
     - GoogleUtilities
     - "gRPC-C++"
     - gRPC-Core
@@ -594,14 +574,10 @@ SPEC REPOS:
     - Protobuf
 
 EXTERNAL SOURCES:
-  admob_flutter:
-    :path: ".symlinks/plugins/admob_flutter/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   cloud_functions:
     :path: ".symlinks/plugins/cloud_functions/ios"
-  firebase_admob:
-    :path: ".symlinks/plugins/firebase_admob/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
@@ -624,8 +600,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_sign_in/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
-  native_ads:
-    :path: ".symlinks/plugins/native_ads/ios"
   notification_permissions:
     :path: ".symlinks/plugins/notification_permissions/ios"
   open_file:
@@ -643,7 +617,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
-  admob_flutter: 370023e0bc3f49a44ba94f14009e0728bffe43e8
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: b8c0e15fa49dfff87c2817d288b577e5dca2df13
@@ -651,7 +624,6 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: b46507dc8b8cefed31d644e74d7cc30e2a715ef8
   FBSDKLoginKit: 1a61d79e2b25e2fc0d03dccab1e34b38bbdf2546
   Firebase: 8db6f2d1b2c5e2984efba4949a145875a8f65fe5
-  firebase_admob: f26a3bdf09152e1ddb05ff6921b3cacb8572e69e
   firebase_analytics: 36a619088c46224900829f14f4daa71585693a6f
   firebase_auth: 53a0ad0f20e9316e7d386759e579ab81c2b21e16
   firebase_auth_ui: 01517d0bcdc078de1d2d3dd37d9543adfb43e1f0
@@ -676,13 +648,11 @@ SPEC CHECKSUMS:
   FirebaseStorage: 15e0f15ef3c7fec3d1899d68623e47d4447066b4
   FirebaseUI: f0677a1cc235f6da602cbd5c9b5fbbd24544a6b3
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  Google-Mobile-Ads-SDK: 8b58584890539de4527c47ef01e4da941a10bc8a
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   GoogleAppMeasurement: 966e88df9d19c15715137bb2ddaf52373f111436
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GoogleToolboxForMac: 1350d40e86a76f7863928d63bcb0b89c84c521c5
-  GoogleUserMessagingPlatform: 1d4b6946710d18cec34742054092e2c2bddae61f
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
@@ -691,7 +661,6 @@ SPEC CHECKSUMS:
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
-  native_ads: 43642f0e6410d746898d325c4148c0c740a7980e
   notification_permissions: b74860c2967c1579243a675e63cd55e0ae75cef7
   open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62

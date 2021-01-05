@@ -2,7 +2,7 @@ import 'dart:core';
 
 class TaskContents {
   List<Map<String, dynamic>> risu = [
-    <String, dynamic>{'number': '', 'title': 'リスの道', 'hasItem': 7},
+    <String, dynamic>{'number': '', 'title': 'りすの道', 'hasItem': 7},
   ];
   List<Map<String, dynamic>> usagi = [
     <String, dynamic>{'number': '1', 'title': '笑顔', 'hasItem': 2},

@@ -63,11 +63,11 @@ class TaskDetailScoutAddView extends StatelessWidget {
                 child: Column(
               children: <Widget>[
                 (type != 'risu' &&
-                    type != 'usagi' &&
-                    type != 'sika' &&
-                    type != 'kuma' &&
-                    type != 'challenge' &&
-                    type != 'tukinowa') ||
+                            type != 'usagi' &&
+                            type != 'sika' &&
+                            type != 'kuma' &&
+                            type != 'challenge' &&
+                            type != 'tukinowa') ||
                         model.group == ' j27DETWHGYEfpyp2Y292' ||
                         model.group == ' z4pkBhhgr0fUMN4evr5z'
                     ? Padding(
@@ -205,14 +205,13 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                       color: Colors.green,
                                                       child: Column(
                                                         children: <Widget>[
-                                                          model.map_attach[
-                                                                      index_page]
-                                                                  [
-                                                                  index] is PickedFile
-                                                              ? Image.memory(model
-                                                                          .map_show[
-                                                                      index_page]
-                                                                  [index])
+                                                          model.map_attach[index_page]
+                                                                      [index]
+                                                                  is PickedFile
+                                                              ? Image.memory(
+                                                                  model.map_show[
+                                                                          index_page]
+                                                                      [index])
                                                               : Image.network(
                                                                   model.map_show[
                                                                           index_page]
@@ -341,12 +340,17 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                     child: Card(
                                                       child: Column(
                                                         children: <Widget>[
-                                                          Chewie(
-                                                            controller: model
+                                                          AspectRatio(
+                                                              aspectRatio: model
+                                                                  .map_show[
+                                                                      index_page]
+                                                                      [index]
+                                                                  .aspectRatio,
+                                                              child: Chewie(
+                                                                controller: model
                                                                         .map_show[
-                                                                    index_page]
-                                                                [index],
-                                                          )
+                                                                    index_page][index],
+                                                              ))
                                                         ],
                                                       ),
                                                     ),

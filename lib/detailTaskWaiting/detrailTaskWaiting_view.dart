@@ -86,14 +86,17 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                         }
                         if (model.isLoaded) {
                           if (model.taskSnapshot.data()['phase'] == 'wait') {
-                            content = task.getContent(type, model.page, model.number);
+                            content =
+                                task.getContent(type, model.page, model.number);
                             if (content['common'] != null) {
                               taskInfo = task.getPartMap(
-                                  content['common']['type'], content['common']['page']);
+                                  content['common']['type'],
+                                  content['common']['page']);
                             }
                             DocumentSnapshot snapshot = model.taskSnapshot;
                             Map<String, dynamic> map_task = task.getPartMap(
-                                snapshot.data()['type'], snapshot.data()['page']);
+                                snapshot.data()['type'],
+                                snapshot.data()['page']);
                             return Column(
                               children: <Widget>[
                                 Row(
@@ -196,7 +199,8 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                       page: showTaskConfirmView(
                                                           model.page,
                                                           type,
-                                                          model.uid_get,0),
+                                                          model.uid_get,
+                                                          0),
                                                       dismissible: true));
                                             },
                                             child: Padding(
@@ -253,13 +257,15 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                               physics:
                                                   NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
-                                              itemCount:
-                                                  snapshot.data()['data'].length,
+                                              itemCount: snapshot
+                                                  .data()['data']
+                                                  .length,
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                String type = snapshot.data()['data']
-                                                    [index]['type'];
+                                                String type =
+                                                    snapshot.data()['data']
+                                                        [index]['type'];
                                                 if (type == 'image') {
                                                   return Padding(
                                                     padding: EdgeInsets.all(5),
@@ -279,10 +285,15 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                       child: Card(
                                                         child: Column(
                                                           children: <Widget>[
-                                                            Chewie(
-                                                              controller: model
-                                                                  .body[index],
-                                                            )
+                                                            AspectRatio(
+                                                                aspectRatio: model
+                                                                    .body[index]
+                                                                    .aspectRatio,
+                                                                child: Chewie(
+                                                                  controller:
+                                                                      model.body[
+                                                                          index],
+                                                                ))
                                                           ],
                                                         ),
                                                       ),
@@ -363,7 +374,9 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                           decoration: InputDecoration(
                                               labelText: "フィードバックを入力",
                                               suffixIcon: IconButton(
-                                                onPressed: () => model.feedbackController.clear(),
+                                                onPressed: () => model
+                                                    .feedbackController
+                                                    .clear(),
                                                 icon: Icon(Icons.clear),
                                               ),
                                               errorText: model.EmptyError
@@ -373,17 +386,27 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                       ),
                                       content['common'] != null
                                           ? Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 5, bottom: 10, right: 10, left: 10),
-                                          child: Text(
-                                            theme.getTitle(content['common']['type']) +
-                                                ' ' +
-                                                taskInfo['title'] +
-                                                ' (' +
-                                                task.getNumber(content['common']['type'], content['common']['page'], content['common']['number']) +
-                                                ')\nもサインされます',
-                                            textAlign: TextAlign.center,
-                                          ))
+                                              padding: EdgeInsets.only(
+                                                  top: 5,
+                                                  bottom: 10,
+                                                  right: 10,
+                                                  left: 10),
+                                              child: Text(
+                                                theme.getTitle(content['common']
+                                                        ['type']) +
+                                                    ' ' +
+                                                    taskInfo['title'] +
+                                                    ' (' +
+                                                    task.getNumber(
+                                                        content['common']
+                                                            ['type'],
+                                                        content['common']
+                                                            ['page'],
+                                                        content['common']
+                                                            ['number']) +
+                                                    ')\nもサインされます',
+                                                textAlign: TextAlign.center,
+                                              ))
                                           : Container(),
                                       !model.isLoading
                                           ? RaisedButton.icon(
@@ -445,29 +468,29 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                     child: Center(
                                         child: Row(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                                CrossAxisAlignment.center,
                                             mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                                MainAxisAlignment.center,
                                             children: <Widget>[
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 5, top: 4),
-                                                child: Icon(
-                                                  Icons.check,
-                                                  color:
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                right: 5, top: 4),
+                                            child: Icon(
+                                              Icons.check,
+                                              color:
                                                   Theme.of(context).accentColor,
-                                                  size: 32,
-                                                ),
-                                              ),
-                                              Text(
-                                                'このタスクは完了しました',
-                                                style: TextStyle(
-                                                    fontSize: 23.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
+                                              size: 32,
+                                            ),
+                                          ),
+                                          Text(
+                                            'このタスクは完了しました',
+                                            style: TextStyle(
+                                                fontSize: 23.0,
+                                                fontWeight: FontWeight.bold,
+                                                decoration:
                                                     TextDecoration.none),
-                                              ),
-                                            ]))),
+                                          ),
+                                        ]))),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -568,7 +591,8 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                       page: showTaskConfirmView(
                                                           model.page,
                                                           type,
-                                                          model.uid_get,0),
+                                                          model.uid_get,
+                                                          0),
                                                       dismissible: true));
                                             },
                                             child: Padding(
@@ -590,17 +614,24 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                 ),
                                 content['common'] != null
                                     ? Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 5, bottom: 10, right: 10, left: 10),
-                                    child: Text(
-                                      theme.getTitle(content['common']['type']) +
-                                          ' ' +
-                                          taskInfo['title'] +
-                                          ' (' +
-                                          task.getNumber(content['common']['type'], content['common']['page'], content['common']['number']) +
-                                          ')\nもサインされます',
-                                      textAlign: TextAlign.center,
-                                    ))
+                                        padding: EdgeInsets.only(
+                                            top: 5,
+                                            bottom: 10,
+                                            right: 10,
+                                            left: 10),
+                                        child: Text(
+                                          theme.getTitle(
+                                                  content['common']['type']) +
+                                              ' ' +
+                                              taskInfo['title'] +
+                                              ' (' +
+                                              task.getNumber(
+                                                  content['common']['type'],
+                                                  content['common']['page'],
+                                                  content['common']['number']) +
+                                              ')\nもサインされます',
+                                          textAlign: TextAlign.center,
+                                        ))
                                     : Container(),
                               ],
                             );

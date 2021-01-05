@@ -89,6 +89,14 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                           List<String> listUid_toShow = new List<String>();
                           if (type == 'challenge' || type == 'gino') {
                             userCount = listSnapshot.length;
+                          } else if (type == 'tukinowa') {
+                            for (DocumentSnapshot documentSnapshot
+                                in listSnapshot) {
+                              if (documentSnapshot.data()['age'] == 'kuma') {
+                                userCount++;
+                                listUid.add(documentSnapshot.data()['uid']);
+                              }
+                            }
                           } else {
                             for (DocumentSnapshot documentSnapshot
                                 in listSnapshot) {
@@ -117,9 +125,17 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                         (listUid.contains(documentSnapshot
                                                 .data()['uid']) ||
                                             type == 'challenge' ||
-                                            type == 'gino')) {
+                                            type == 'gino' ||
+                                            type == 'tukinowa')) {
                                       listUid_toShow
                                           .add(documentSnapshot.data()['uid']);
+                                    } else if (type == 'tukinowa') {
+                                      if (documentSnapshot.data()['age'] ==
+                                          'kuma') {
+                                        userCount++;
+                                        listUid_toShow.add(
+                                            documentSnapshot.data()['uid']);
+                                      }
                                     }
                                   }
                                   if (phase == 'number') {
@@ -176,7 +192,6 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                 int index) {
                                               DocumentSnapshot snapshot =
                                                   listSnapshot[index];
-                                              //team_last = '';
                                               if (listUid_toShow.contains(
                                                   snapshot.data()['uid'])) {
                                                 bool isFirst;
@@ -324,7 +339,6 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                 int index) {
                                               DocumentSnapshot snapshot =
                                                   listSnapshot[index];
-                                              //team_last = '';
                                               if (!listUid_toShow.contains(
                                                   snapshot.data()['uid'])) {
                                                 bool isFirst;
