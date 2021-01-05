@@ -1205,9 +1205,13 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                           child:
                                                                               Column(
                                                                             children: <Widget>[
-                                                                              Chewie(
+                                                                              AspectRatio(
+                                                                              aspectRatio: model
+                                                                                  .dataList[index_page][index]
+                                                                                .aspectRatio,
+                                                                                child: Chewie(
                                                                                 controller: model.dataList[index_page][index],
-                                                                              )
+                                                                              ))
                                                                             ],
                                                                           ),
                                                                         ),

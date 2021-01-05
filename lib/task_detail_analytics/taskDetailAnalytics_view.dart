@@ -58,6 +58,14 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                       if (type == 'challenge' ||
                                           type == 'gino') {
                                         userCount = listSnapshot.length;
+                                      } else if (type=='tukinowa') {
+                                        for (DocumentSnapshot documentSnapshot
+                                        in listSnapshot) {
+                                          if (documentSnapshot.data()['age'] == 'kuma') {
+                                            userCount++;
+                                            listUid.add(documentSnapshot.data()['uid']);
+                                          }
+                                        }
                                       } else {
                                         for (DocumentSnapshot documentSnapshot
                                             in listSnapshot) {

@@ -19,9 +19,9 @@ class TaskListAnalyticsModel extends ChangeNotifier {
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
-        .getDocuments()
+        .get()
         .then((snapshot) {
-      DocumentSnapshot userSnapshot = snapshot.documents[0];
+      DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot.data()['group'];
       team = userSnapshot.data()['team'];
       teamPosition = userSnapshot.data()['teamPosition'];
@@ -49,7 +49,7 @@ class TaskListAnalyticsModel extends ChangeNotifier {
           .where('uid', isEqualTo: uid)
           .snapshots()
           .listen((data) {
-        userSnapshot = data.documents[0];
+        userSnapshot = data.docs[0];
         notifyListeners();
       });
       isGet = true;
