@@ -19,6 +19,7 @@ class AddLumpSelectItemView extends StatelessWidget {
     TabInfo("うさぎのカブブック", TaskView('usagi')),
     TabInfo("しかのカブブック", TaskView('sika')),
     TabInfo("くまのカブブック", TaskView('kuma')),
+    TabInfo("月の輪", TaskView('tukinowa')),
     TabInfo("チャレンジ章", TaskView('challenge')),
   ];
 

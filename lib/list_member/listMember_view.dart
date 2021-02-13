@@ -43,7 +43,6 @@ class ListMemberView extends StatelessWidget {
                           builder: (context, model, child) {
                         model.getGroup();
                         if (model.group != null) {
-                          print(model.team);
                           return Column(
                             children: <Widget>[
                               Padding(

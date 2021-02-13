@@ -22,6 +22,8 @@ import 'package:cubook/listAbsent_scout/listAbsentScout_model.dart';
 import 'package:cubook/listAbsent_scout/listAbsentScout_view.dart';
 import 'package:cubook/listActivity/listActivity_model.dart';
 import 'package:cubook/listActivity/listActivity_view.dart';
+import 'package:cubook/listAssignment/listAssignment_model.dart';
+import 'package:cubook/listAssignment/listAssignment_view.dart';
 import 'package:cubook/listCitationAnalytics/listCitationAnalytics_model.dart';
 import 'package:cubook/listCitationAnalytics/listCitationAnalytics_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
@@ -57,6 +59,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'community/comment_view.dart';
+import 'createAssignment/createAssignment_view.dart';
 import 'task_detail_analytics/taskDetailAnalytics_view.dart';
 
 void main() async {
@@ -114,7 +117,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<PermissionStatus> permissionStatus =
-  NotificationPermissions.getNotificationPermissionStatus();
+      NotificationPermissions.getNotificationPermissionStatus();
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +150,7 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (context) => AnalyticsModel()),
           ChangeNotifierProvider(create: (context) => TaskListAnalyticsModel()),
           ChangeNotifierProvider(create: (context) => SettingAccountModel()),
+          ChangeNotifierProvider(create: (context) => ListAssignmentModel()),
           ChangeNotifierProvider(
               create: (context) => TaskDetailAnalyticsModel()),
           ChangeNotifierProvider(
@@ -181,10 +185,13 @@ class _MyAppState extends State<MyApp> {
             '/changeAge': (BuildContext context) => ChangeAgeView(),
             '/invite': (BuildContext context) => InviteView(),
             '/listActivity': (BuildContext context) => ListActivityView(),
+            '/listAssignment': (BuildContext context) => ListAssignmentView(),
             '/createActivity': (BuildContext context) => CreateActivityView(),
+            '/createAssignment': (BuildContext context) => CreateAssignmentView(),
             '/detailActivity': (BuildContext context) => DetailActivityView(),
             '/editActivity': (BuildContext context) => EditActivityView(),
             '/listAbsentScout': (BuildContext context) => ListAbsentScoutView(),
+            '/listAssignment': (BuildContext context) => ListAssignmentView(),
             '/analytics': (BuildContext context) => AnalyticsView(),
             '/taskDetailAnalytics': (BuildContext context) =>
                 TaskDetailAnalyticsView(),
@@ -195,8 +202,10 @@ class _MyAppState extends State<MyApp> {
             '/communityView': (BuildContext context) => CommunityView(),
             '/commentView': (BuildContext context) => CommentView(),
             '/settingView': (BuildContext context) => SettingAccountView(),
-            '/changeMailAddressView': (BuildContext context) => ChangeMailAddressView(),
-            '/changePasswordView': (BuildContext context) => ChangePasswordView()
+            '/changeMailAddressView': (BuildContext context) =>
+                ChangeMailAddressView(),
+            '/changePasswordView': (BuildContext context) =>
+                ChangePasswordView()
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cubook/home/home_view.dart';
 import 'package:cubook/home_leader/homeLeader_view.dart';
 import 'package:cubook/home_scout/homeScout_view.dart';
+import 'package:cubook/listActivity/listActivity_view.dart';
+import 'package:cubook/listAssignment/listAssignment_view.dart';
+import 'package:cubook/list_member/listMember_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart' show FirebaseAuthUi;
@@ -21,6 +25,8 @@ class HomeModel extends ChangeNotifier {
   bool isLoaded = false;
   bool isLoading_join = false;
   bool isConsent = false;
+  int _currentIndex = 0;
+  String group;
   String position;
   String grade;
   Widget toShow;
@@ -31,14 +37,36 @@ class HomeModel extends ChangeNotifier {
   String age = '';
   String permission;
   String providerID;
+  PageController pageController = PageController();
   Map<dynamic, dynamic> tokenMap;
   String token;
+  List<Widget> navigatePages = new List<Widget>();
   List<dynamic> _token_notification = new List<dynamic>();
   bool isSended = false;
   Future<PermissionStatus> permissionStatus =
       NotificationPermissions.getNotificationPermissionStatus();
 
+  get currentIndex => _currentIndex;
+
+  set currentIndex(int index) {
+    _currentIndex = index;
+    notifyListeners(); // View側に変更を通知
+  }
+
+  void changePage(int index){
+    _currentIndex = index;
+    pageController.animateToPage(index,
+        duration: Duration(milliseconds: 200), curve: Curves.ease);
+    notifyListeners(); // View側に変更を通知
+  }
+
   void login() async {
+    navigatePages = [
+      HomeView(group, position),
+      ListMemberView(),
+      ListActivityView(),
+      // ListAssignmentView()
+    ];
     isLoaded = false;
     userSnapshot = null;
     currentUser = null;
@@ -58,6 +86,7 @@ class HomeModel extends ChangeNotifier {
           usercall = userSnapshot.data()['call'];
           groupName = userSnapshot.data()['groupName'];
           teamPosition = userSnapshot.data()['teamPosition'];
+          group = userSnapshot.data()['group'];
           position = userSnapshot.data()['position'];
           grade = userSnapshot.data()['grade'];
           age = userSnapshot.data()['age'];

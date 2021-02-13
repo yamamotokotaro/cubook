@@ -225,7 +225,7 @@ class listEffort extends StatelessWidget {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(top: 5),
+                                                      EdgeInsets.only(top: 5, bottom: 30),
                                                   child: Align(
                                                     alignment:
                                                         Alignment.centerLeft,
@@ -252,7 +252,7 @@ class listEffort extends StatelessWidget {
                                                     ),
                                                   ),
                                                 ),
-                                                Padding(
+                                                /*Padding(
                                                     padding: EdgeInsets.only(
                                                         top: 5, bottom: 2),
                                                     child: Row(
@@ -327,7 +327,7 @@ class listEffort extends StatelessWidget {
                                                                 ))
                                                             : Container()
                                                       ],
-                                                    ))
+                                                    ))*/
                                               ],
                                             ),
                                           ),
