@@ -30,7 +30,7 @@ class CreateActivityModel extends ChangeNotifier {
       list_selected = new List<Map<String, dynamic>>();
     }
     list_selected = new List<Map<String, dynamic>>();
-    var listCategory = ['usagi', 'sika', 'kuma', 'challenge'];
+    var listCategory = ['usagi', 'sika', 'kuma', 'tukinowa', 'challenge'];
     for (int i = 0; i < listCategory.length; i++) {
       List<dynamic> data_item = new List<dynamic>();
       print(itemSelected);
@@ -207,7 +207,7 @@ class CreateActivityModel extends ChangeNotifier {
               data['type'] = 'activity';
               data['activityID'] = docID;
               data['uid_toAdd'] = list_uid;
-              var listCategory = ['usagi', 'sika', 'kuma', 'challenge'];
+              var listCategory = ['usagi', 'sika', 'kuma', 'tukinowa', 'challenge'];
               if (itemSelected != null) {
                 for (int i = 0; i < listCategory.length; i++) {
                   List<dynamic> data_item = new List<dynamic>();
