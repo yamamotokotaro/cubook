@@ -210,7 +210,7 @@ class ListMemberView extends StatelessWidget {
                                 },
                               ),
                               StreamBuilder<QuerySnapshot>(
-                                stream: model.getUserSnapshot(),
+                                stream: model.getUserSnapshot_less_team(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (snapshot.hasData) {
@@ -295,10 +295,7 @@ class ListMemberView extends StatelessWidget {
                                                                           left:
                                                                               10),
                                                                   child: Text(
-                                                                    snapshot
-                                                                            .data()['team']
-                                                                            .toString() +
-                                                                        '組未設定',
+                                                                    '組未設定',
                                                                     style: TextStyle(
                                                                         fontWeight:
                                                                             FontWeight

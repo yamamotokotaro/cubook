@@ -72,4 +72,31 @@ class ListMemberModel extends ChangeNotifier {
           .snapshots();
     }
   }
+
+  Stream<QuerySnapshot> getUserSnapshot_less_team() {
+    if (teamPosition != null) {
+      if (teamPosition == 'teamLeader') {
+        return FirebaseFirestore.instance
+            .collection('user')
+            .where('group', isEqualTo: group)
+            .where('position', isEqualTo: 'scout')
+            .orderBy('name')
+            .snapshots();
+      } else {
+        return FirebaseFirestore.instance
+            .collection('user')
+            .where('group', isEqualTo: group)
+            .where('position', isEqualTo: 'scout')
+            .orderBy('name')
+            .snapshots();
+      }
+    } else {
+      return FirebaseFirestore.instance
+          .collection('user')
+          .where('group', isEqualTo: group)
+          .where('position', isEqualTo: 'scout')
+          .orderBy('name')
+          .snapshots();
+    }
+  }
 }
