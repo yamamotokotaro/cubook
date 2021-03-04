@@ -6,7 +6,7 @@ import 'package:cubook/home_scout/homeScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart' show FirebaseAuthUi;
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -125,11 +125,11 @@ class HomeModel extends ChangeNotifier {
             );
           }
           if (!isSended) {
-            FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+            /*FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
             _firebaseMessaging.getToken().then((String token_get) {
               assert(token_get != null);
               token = token_get;
-            });
+            });*/
             isSended = true;
           }
           isLoaded = true;
@@ -223,11 +223,11 @@ class HomeModel extends ChangeNotifier {
                 );
               }
               if (!isSended) {
-                FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+                /*FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
                 _firebaseMessaging.getToken().then((String token_get) {
                   assert(token_get != null);
                   token = token_get;
-                });
+                });*/
                 isSended = true;
               }
               isLoaded = true;

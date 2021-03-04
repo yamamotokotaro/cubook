@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class DetailActivityModel extends ChangeNotifier {
   QuerySnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
   String group;
   String position;
@@ -24,7 +24,7 @@ class DetailActivityModel extends ChangeNotifier {
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
-        .getDocuments()
+        .get()
         .then((snapshot) {
       DocumentSnapshot documentSnapshot = snapshot.docs[0];
       group = documentSnapshot.data()['group'];
@@ -60,7 +60,7 @@ class DetailActivityModel extends ChangeNotifier {
     });
     FirebaseFirestore.instance
         .collection('activity')
-        .document(documentID)
+        .doc(documentID)
         .delete();
   }
 }

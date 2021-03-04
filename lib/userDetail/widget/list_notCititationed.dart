@@ -39,7 +39,7 @@ class ListNotCititationed extends StatelessWidget {
                       return Column(
                         children: <Widget>[
                           StreamBuilder<QuerySnapshot>(
-                            stream: Firestore.instance
+                            stream: FirebaseFirestore.instance
                                 .collection('challenge')
                                 .where('group', isEqualTo: model.group)
                                 .where('uid', isEqualTo: uid)
@@ -62,7 +62,8 @@ class ListNotCititationed extends StatelessWidget {
                                         DocumentSnapshot snapshot =
                                             querySnapshot.docs[index];
                                         Map taskInfo = task.getPartMap(
-                                            'challenge', snapshot.data()['page']);
+                                            'challenge',
+                                            snapshot.data()['page']);
                                         return Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Container(
@@ -106,8 +107,9 @@ class ListNotCititationed extends StatelessWidget {
                                                                   .infinity,
                                                               child: Text(
                                                                 DateFormat('yyyy/MM/dd')
-                                                                        .format(
-                                                                            snapshot.data()['end'].toDate())
+                                                                        .format(snapshot
+                                                                            .data()['end']
+                                                                            .toDate())
                                                                         .toString() +
                                                                     ' 完修',
                                                                 textAlign:
@@ -135,7 +137,7 @@ class ListNotCititationed extends StatelessWidget {
                                                                 onPressed: () {
                                                                   model.onTapCititation(
                                                                       snapshot
-                                                                          .documentID);
+                                                                          .id);
                                                                 },
                                                                 child: Text(
                                                                   '表彰済みにする',

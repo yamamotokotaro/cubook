@@ -126,9 +126,9 @@ class CommunityView extends StatelessWidget {
                               return Column(
                                 children: <Widget>[
                                   StreamBuilder<DocumentSnapshot>(
-                                      stream: Firestore.instance
+                                      stream: FirebaseFirestore.instance
                                           .collection(type)
-                                          .document(taskid)
+                                          .doc(taskid)
                                           .snapshots(),
                                       builder: (BuildContext context,
                                           AsyncSnapshot<DocumentSnapshot>

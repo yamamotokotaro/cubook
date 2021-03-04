@@ -32,7 +32,8 @@ class TaskDetailAnalyticsView extends StatelessWidget {
         backgroundColor: themeColor,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Scrollbar(
+        child:SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 600),
@@ -437,7 +438,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )),
       ),
     );
   }

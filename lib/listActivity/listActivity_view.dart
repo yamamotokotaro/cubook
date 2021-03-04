@@ -23,7 +23,8 @@ class ListActivityView extends StatelessWidget {
         icon: Icon(Icons.add),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Scrollbar(
+            child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 600),
@@ -59,14 +60,15 @@ class ListActivityView extends StatelessWidget {
                                         child: Container(
                                           child: Card(
                                             child: InkWell(
-                                              customBorder: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(10.0),
+                                              customBorder:
+                                                  RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
                                               ),
                                               onTap: () {
                                                 Navigator.of(context).pushNamed(
                                                     '/detailActivity',
-                                                    arguments:
-                                                        snapshot.id);
+                                                    arguments: snapshot.id);
                                               },
                                               child: Padding(
                                                 padding: EdgeInsets.all(10),
@@ -81,7 +83,8 @@ class ListActivityView extends StatelessWidget {
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              snapshot.data()['title'],
+                                                              snapshot.data()[
+                                                                  'title'],
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
@@ -102,7 +105,8 @@ class ListActivityView extends StatelessWidget {
                                                             child: Text(
                                                               DateFormat(
                                                                       'yyyy/MM/dd')
-                                                                  .format(snapshot.data()[
+                                                                  .format(snapshot
+                                                                      .data()[
                                                                           'date']
                                                                       .toDate())
                                                                   .toString(),
@@ -173,7 +177,7 @@ class ListActivityView extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )),
       ),
     );
   }

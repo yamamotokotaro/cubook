@@ -145,7 +145,8 @@ class DetailActivityView extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Scrollbar(
+            child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 600),
@@ -176,7 +177,8 @@ class DetailActivityView extends StatelessWidget {
                                           child: Container(
                                               width: double.infinity,
                                               child: Text(
-                                                documentSnapshot.data()['title'],
+                                                documentSnapshot
+                                                    .data()['title'],
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 32,
@@ -190,9 +192,9 @@ class DetailActivityView extends StatelessWidget {
                                               width: double.infinity,
                                               child: Text(
                                                 DateFormat('yyyy年MM月dd日')
-                                                    .format(
-                                                        documentSnapshot.data()['date']
-                                                            .toDate())
+                                                    .format(documentSnapshot
+                                                        .data()['date']
+                                                        .toDate())
                                                     .toString(),
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -200,8 +202,10 @@ class DetailActivityView extends StatelessWidget {
                                                 ),
                                                 textAlign: TextAlign.left,
                                               ))),
-                                      documentSnapshot.data()['list_item'] != null
-                                          ? documentSnapshot.data()['list_item']
+                                      documentSnapshot.data()['list_item'] !=
+                                              null
+                                          ? documentSnapshot
+                                                      .data()['list_item']
                                                       .length !=
                                                   0
                                               ? Column(
@@ -231,7 +235,8 @@ class DetailActivityView extends StatelessWidget {
                                                         physics:
                                                             const NeverScrollableScrollPhysics(),
                                                         itemCount:
-                                                            documentSnapshot.data()[
+                                                            documentSnapshot
+                                                                .data()[
                                                                     'list_item']
                                                                 .length,
                                                         shrinkWrap: true,
@@ -241,7 +246,8 @@ class DetailActivityView extends StatelessWidget {
                                                                 int index) {
                                                           Map<String, dynamic>
                                                               part_selected =
-                                                              documentSnapshot.data()[
+                                                              documentSnapshot
+                                                                          .data()[
                                                                       'list_item']
                                                                   [index];
                                                           String type =
@@ -397,8 +403,7 @@ class DetailActivityView extends StatelessWidget {
                                                 int index) {
                                               String uid;
                                               DocumentSnapshot snapshot =
-                                                  querySnapshot
-                                                      .docs[index];
+                                                  querySnapshot.docs[index];
                                               uid = snapshot.data()['uid'];
                                               bool isCheck = true;
                                               if (model.uid_check[uid] !=
@@ -406,12 +411,16 @@ class DetailActivityView extends StatelessWidget {
                                                 isCheck = model.uid_check[uid];
                                               }
                                               String team = '';
-                                              if (snapshot.data()['team'] != null) {
-                                                if (snapshot.data()['team'] is int) {
-                                                  team = snapshot.data()['team']
+                                              if (snapshot.data()['team'] !=
+                                                  null) {
+                                                if (snapshot.data()['team']
+                                                    is int) {
+                                                  team = snapshot
+                                                      .data()['team']
                                                       .toString();
                                                 } else {
-                                                  team = snapshot.data()['team'];
+                                                  team =
+                                                      snapshot.data()['team'];
                                                 }
                                               } else {
                                                 team = 'null';
@@ -429,7 +438,8 @@ class DetailActivityView extends StatelessWidget {
                                               } else {
                                                 absence = '欠席';
                                               }
-                                              String age = snapshot.data()['age'];
+                                              String age =
+                                                  snapshot.data()['age'];
                                               String team_call;
                                               if (age == 'usagi' ||
                                                   age == 'sika' ||
@@ -611,7 +621,7 @@ class DetailActivityView extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )),
       ),
     );
   }

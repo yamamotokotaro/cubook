@@ -45,8 +45,8 @@ import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_analytics/observer.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_analytics/observer.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -54,7 +54,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:firebase_analytics/firebase_analytics.dart';
 
 import 'community/comment_view.dart';
 import 'task_detail_analytics/taskDetailAnalytics_view.dart';
@@ -86,16 +86,16 @@ class _MyAppState extends State<MyApp> {
   String title = "Title";
   String helper = "helper";
   final boyColor = Colors.orange;
-  FirebaseAnalytics analytics = FirebaseAnalytics();
+  // FirebaseAnalytics analytics = FirebaseAnalytics();
 
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  // FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    _firebaseMessaging.configure(
+    /*_firebaseMessaging.configure(
       onMessage: (message) async {
         setState(() {
           title = message["notification"]["title"];
@@ -110,7 +110,7 @@ class _MyAppState extends State<MyApp> {
           print(message.toString());
         });
       },
-    );
+    );*/
   }
 
   Future<PermissionStatus> permissionStatus =
@@ -158,9 +158,9 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           title: "cubook",
           home: HomeController(),
-          navigatorObservers: [
+          /*navigatorObservers: [
             FirebaseAnalyticsObserver(analytics: analytics),
-          ],
+          ],*/
           debugShowCheckedModeBanner: false,
           theme: new ThemeData(
               fontFamily: 'NotoSansJP',

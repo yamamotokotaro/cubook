@@ -285,7 +285,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         duration: const Duration(seconds: 1),
         content: new Text('変更を保存しました'),
       ));
-      checkDate(snapshot, dateSelected[number], snapshot.documentID, quant);
+      checkDate(snapshot, dateSelected[number], snapshot.id, quant);
     });
   }
 

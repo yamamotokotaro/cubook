@@ -32,7 +32,7 @@ class ListExaminationView extends StatelessWidget {
                         print(uid);
                         if(model.group != null) {
                           return StreamBuilder<QuerySnapshot>(
-                            stream: Firestore.instance
+                            stream: FirebaseFirestore.instance
                                 .collection('activity_personal')
                                 .where('group', isEqualTo: model.group)
                                 .where('uid', isEqualTo: uid)
@@ -45,7 +45,7 @@ class ListExaminationView extends StatelessWidget {
                                   QuerySnapshot querySnapshot = snapshot.data;
                                   return ListView.builder(
                                       physics: const NeverScrollableScrollPhysics(),
-                                      itemCount: querySnapshot.documents.length,
+                                      itemCount: querySnapshot.docs.length,
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class ListCitationAnalyticsModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
   String group;
   String group_before = '';

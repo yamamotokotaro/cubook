@@ -3,7 +3,6 @@ import 'package:cubook/home/widget/listEffort_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -134,10 +133,9 @@ class HomeView extends StatelessWidget {
                                                 ? showLicensePage(
                                                     context: context,
                                                     applicationName: 'cubook',
-                                                    applicationVersion:
-                                                        'web',
+                                                    applicationVersion: 'web',
                                                     applicationLegalese:
-                                                        '©︎ 2020 山本虎太郎',
+                                                        '©︎ 2020-2021 山本虎太郎',
                                                   )
                                                 : showLicensePage(
                                                     context: context,
@@ -145,7 +143,7 @@ class HomeView extends StatelessWidget {
                                                     applicationVersion:
                                                         packageInfo.version,
                                                     applicationLegalese:
-                                                        '©︎ 2020 山本虎太郎',
+                                                        '©︎ 2020-2021 山本虎太郎',
                                                   ),
                                           ),
                                           ListTile(
@@ -215,11 +213,10 @@ class HomeView extends StatelessWidget {
                 padding: EdgeInsets.only(top: 12, right: 15),
                 child: Text(
                   name,
-                  style: GoogleFonts.notoSans(
-                      textStyle: TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
-                  )),
+                  ),
                 ),
               ),
             ),
@@ -231,11 +228,10 @@ class HomeView extends StatelessWidget {
             padding: EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
             child: Text(
               name + '、' + greet,
-              style: GoogleFonts.notoSans(
-                  textStyle: TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
-              )),
+              ),
             ),
           ),
         ),

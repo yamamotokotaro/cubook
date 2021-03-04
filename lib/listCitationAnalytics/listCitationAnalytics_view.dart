@@ -26,7 +26,8 @@ class ListCitationAnalyticsView extends StatelessWidget {
         ),
         body: Builder(builder: (BuildContext context_builder) {
           return SafeArea(
-            child: SingleChildScrollView(
+            child: Scrollbar(
+                child: SingleChildScrollView(
               child: Center(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 600),
@@ -93,9 +94,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                   QuerySnapshot>
                                                               snapshot) {
                                                     if (snapshot.hasData) {
-                                                      if (snapshot
-                                                              .data
-                                                              .documents
+                                                      if (snapshot.data.docs
                                                               .length !=
                                                           0) {
                                                         QuerySnapshot
@@ -277,7 +276,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            )),
           );
         }));
   }

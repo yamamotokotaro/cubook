@@ -15,12 +15,12 @@ class ListTaskWaitingModel extends ChangeNotifier {
     String group_before = group;
     String teamPosition_before = teamPosition;
     User user = await FirebaseAuth.instance.currentUser;
-    Firestore.instance
+    FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
-        .getDocuments()
+        .get()
         .then((snapshot) {
-      DocumentSnapshot userSnapshot = snapshot.documents[0];
+      DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot.data()['group'];
       team = userSnapshot.data()['team'];
       teamPosition = userSnapshot.data()['teamPosition'];
@@ -40,21 +40,21 @@ class ListTaskWaitingModel extends ChangeNotifier {
   Stream<QuerySnapshot> getTaskSnapshot() {
     if (teamPosition != null) {
       if (teamPosition == 'teamLeader') {
-        return Firestore.instance
+        return FirebaseFirestore.instance
             .collection('task')
             .where('group', isEqualTo: group)
             .where('team', isEqualTo: team)
             .where('phase', isEqualTo: 'wait')
             .snapshots();
       } else {
-        return Firestore.instance
+        return FirebaseFirestore.instance
             .collection('task')
             .where('group', isEqualTo: group)
             .where('phase', isEqualTo: 'wait')
             .snapshots();
       }
     } else {
-      return Firestore.instance
+      return FirebaseFirestore.instance
           .collection('task')
           .where('group', isEqualTo: group)
           .where('phase', isEqualTo: 'wait')

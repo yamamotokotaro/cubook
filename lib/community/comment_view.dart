@@ -54,7 +54,7 @@ class CommentView extends StatelessWidget {
                                 return Column(
                                   children: <Widget>[
                                     StreamBuilder<QuerySnapshot>(
-                                        stream: Firestore.instance
+                                        stream: FirebaseFirestore.instance
                                             .collection('comment')
                                             .where('group',
                                                 isEqualTo: model.group)
@@ -72,14 +72,14 @@ class CommentView extends StatelessWidget {
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
                                                 itemCount: querySnapshot
-                                                    .data.documents.length,
+                                                    .data.docs.length,
                                                 shrinkWrap: true,
                                                 itemBuilder:
                                                     (BuildContext context,
                                                         int index) {
                                                   DocumentSnapshot snapshot =
                                                       querySnapshot.data
-                                                          .documents[index];
+                                                          .docs[index];
                                                   return Padding(
                                                     padding: EdgeInsets.all(5),
                                                     child: InkWell(
@@ -115,7 +115,7 @@ class CommentView extends StatelessWidget {
                                                                               Text('コメントを削除する'),
                                                                           onTap:
                                                                               () {
-                                                                            model.deleteComent(snapshot.documentID);
+                                                                            model.deleteComent(snapshot.id);
                                                                             Navigator.pop(context);
                                                                           },
                                                                         ),

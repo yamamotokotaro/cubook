@@ -46,7 +46,8 @@ class TaskListAnalyticsView extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Scrollbar(
+            child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 600),
@@ -66,22 +67,28 @@ class TaskListAnalyticsView extends StatelessWidget {
                                 List<DocumentSnapshot> listSnapshot =
                                     snapshot.data.docs;
                                 List<String> listUid = new List<String>();
-                                if (type == 'challenge' || type == 'gino' || type == 'syorei') {
+                                if (type == 'challenge' ||
+                                    type == 'gino' ||
+                                    type == 'syorei') {
                                   userCount = listSnapshot.length;
-                                } else if (type=='tukinowa') {
+                                } else if (type == 'tukinowa') {
                                   for (DocumentSnapshot documentSnapshot
-                                  in listSnapshot) {
-                                    if (documentSnapshot.data()['age'] == 'kuma') {
+                                      in listSnapshot) {
+                                    if (documentSnapshot.data()['age'] ==
+                                        'kuma') {
                                       userCount++;
-                                      listUid.add(documentSnapshot.data()['uid']);
+                                      listUid
+                                          .add(documentSnapshot.data()['uid']);
                                     }
                                   }
                                 } else {
                                   for (DocumentSnapshot documentSnapshot
                                       in listSnapshot) {
-                                    if (documentSnapshot.data()['age'] == type) {
+                                    if (documentSnapshot.data()['age'] ==
+                                        type) {
                                       userCount++;
-                                      listUid.add(documentSnapshot.data()['uid']);
+                                      listUid
+                                          .add(documentSnapshot.data()['uid']);
                                     }
                                   }
                                 }
@@ -222,8 +229,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                             .docs;
                                                                     for (DocumentSnapshot documentSnapshot
                                                                         in listSnapshot) {
-                                                                      if (type ==
-                                                                              'challenge' ||
+                                                                      if (type == 'challenge' ||
                                                                           type ==
                                                                               'gino' ||
                                                                           type ==
@@ -258,13 +264,22 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                         ));
                                                                   } else {
                                                                     return Padding(
-                                                                      padding: EdgeInsets.only(left: 5, right: 10),
+                                                                      padding: EdgeInsets.only(
+                                                                          left:
+                                                                              5,
+                                                                          right:
+                                                                              10),
                                                                       child: Container(
                                                                           height: 30,
                                                                           width: 30,
                                                                           child: CircularProgressIndicator(
-                                                                            backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                                                            valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
+                                                                            backgroundColor: isDark
+                                                                                ? Colors.grey[700]
+                                                                                : Colors.grey[300],
+                                                                            valueColor: new AlwaysStoppedAnimation<Color>(isDark
+                                                                                ? Colors.white
+                                                                                : theme.getThemeColor(type)),
+                                                                          )),
                                                                     );
                                                                   }
                                                                 })
@@ -283,8 +298,16 @@ class TaskListAnalyticsView extends StatelessWidget {
                                       height: 30,
                                       width: 30,
                                       child: CircularProgressIndicator(
-                                        backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                        valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
+                                        backgroundColor: isDark
+                                            ? Colors.grey[700]
+                                            : Colors.grey[300],
+                                        valueColor:
+                                            new AlwaysStoppedAnimation<Color>(
+                                                isDark
+                                                    ? Colors.white
+                                                    : theme
+                                                        .getThemeColor(type)),
+                                      )),
                                 );
                               }
                             });
@@ -295,15 +318,21 @@ class TaskListAnalyticsView extends StatelessWidget {
                               height: 30,
                               width: 30,
                               child: CircularProgressIndicator(
-                                backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
+                                backgroundColor: isDark
+                                    ? Colors.grey[700]
+                                    : Colors.grey[300],
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    isDark
+                                        ? Colors.white
+                                        : theme.getThemeColor(type)),
+                              )),
                         );
                       }
                     }))
               ]),
             ),
           ),
-        ),
+        )),
       ),
     );
   }

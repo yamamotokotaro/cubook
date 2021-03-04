@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 
 class AddLumpSelectItemModel extends ChangeNotifier {
   List<DocumentSnapshot> userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   DocumentSnapshot userData;
   bool isGet = false;
   Map<dynamic, dynamic> itemSelected = new Map<dynamic, dynamic>();

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class ListExaminationModel extends ChangeNotifier {
   QuerySnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
   String group;
   Map<String, dynamic> claims = new Map<String, dynamic>();

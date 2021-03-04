@@ -15,7 +15,7 @@ class ListAbsentScoutView extends StatelessWidget {
             Consumer<ListAbsentScoutModel>(builder: (context, model, child) {
           model.getUser();
           if (model.uid != null) {
-            return ListAbsentView(model.uid);
+            return Scrollbar(child: ListAbsentView(model.uid));
           } else {
             return const Center(
               child: Padding(

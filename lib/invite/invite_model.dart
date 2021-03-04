@@ -119,8 +119,8 @@ class InviteModel with ChangeNotifier {
               'team': team
             });
 
-            http.Response resp =
-            await http.post(url, headers: headers, body: body);
+            http.Response resp = null
+            /*await http.post(url, headers: headers, body: body)*/;
             isLoading_join = false;
             if (resp.body == 'success') {
               mes_join = '';

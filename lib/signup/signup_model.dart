@@ -33,8 +33,8 @@ class SignupModel with ChangeNotifier {
           String body =
               json.encode({'idToken': token.token, 'joinCode': joinCode});
 
-          http.Response resp =
-              await http.post(url, headers: headers, body: body);
+          http.Response resp = null
+              /*await http.post(url, headers: headers, body: body)*/;
           Map<dynamic, dynamic> tokenMap = token.claims;
           isLoading_join = false;
           if (resp.body == 'success') {
@@ -89,8 +89,8 @@ class SignupModel with ChangeNotifier {
             'grade': grade
           });
 
-          http.Response resp =
-              await http.post(url, headers: headers, body: body);
+          http.Response resp = null
+              /*await http.post(url, headers: headers, body: body)*/;
           print(resp.body);
           print(token.claims);
           isLoading_join = false;

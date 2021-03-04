@@ -25,7 +25,8 @@ class AnalyticsView extends StatelessWidget {
         title: Text('アナリティクス'),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Scrollbar(
+            child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 600),
@@ -422,12 +423,10 @@ class AnalyticsView extends StatelessWidget {
                                             type[index]);
                                       }));
                                     } else {
-                                      Navigator.of(context)
-                                          .pushNamed(
+                                      Navigator.of(context).pushNamed(
                                           '/taskDetailAnalytics',
                                           arguments: TaskDetail(
-                                              type: type[index],
-                                              page: 0));
+                                              type: type[index], page: 0));
                                     }
                                   },
                                   child: Align(
@@ -467,7 +466,7 @@ class AnalyticsView extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )),
       ),
     );
   }
