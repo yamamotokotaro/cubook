@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cubook/model/task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -234,10 +235,12 @@ class SettingAccountGroupModel extends ChangeNotifier {
       User user = await FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((token) async {
-          String url =
-              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/changeUserInfo_group";
-          Map<String, String> headers = {'content-type': 'application/json'};
-          String body = json.encode(<String,dynamic>{
+          HttpsCallable callable = FirebaseFunctions.instanceFor(
+              region: 'asia-northeast1')
+              .httpsCallable('changeGroupUserInfo',
+              options: HttpsCallableOptions(timeout: Duration(seconds: 5)));
+
+          await callable(<String, dynamic>{
             'idToken': token.token,
             'family': familyController.text,
             'first': firstController.text,
@@ -248,27 +251,16 @@ class SettingAccountGroupModel extends ChangeNotifier {
             'age_turn': age_turn,
             'uid': uid,
             'grade': grade
-          });
-
-          http.Response resp = null
-              /*await http.post(url, headers: headers, body: body)*/;
-          isLoading = false;
-          if (resp.body == 'success') {
-            Scaffold.of(context).showSnackBar(new SnackBar(
+          }).then((v) {
+            ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
               content: new Text('変更を保存しました'),
             ));
-          } else if (resp.body == 'No such document!' ||
-              resp.body == 'not found') {
-            isLoading = false;
-            Scaffold.of(context).showSnackBar(new SnackBar(
-              content: new Text('ユーザーが見つかりませんでした'),
+          }).catchError((dynamic e) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('ERROR: $e'),
             ));
-          } else {
-            isLoading = false;
-            Scaffold.of(context).showSnackBar(new SnackBar(
-              content: new Text('エラーが発生しました'),
-            ));
-          }
+          });
+          isLoading = false;
           notifyListeners();
         });
       }

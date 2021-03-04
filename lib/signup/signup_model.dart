@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,27 +28,20 @@ class SignupModel with ChangeNotifier {
       User user = await FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((token) async {
-          String url =
-              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup";
-          Map<String, String> headers = {'content-type': 'application/json'};
-          String body =
-              json.encode({'idToken': token.token, 'joinCode': joinCode});
+          HttpsCallable callable = FirebaseFunctions.instanceFor(
+              region: 'asia-northeast1')
+              .httpsCallable('joinGroupCall',
+              options: HttpsCallableOptions(timeout: Duration(seconds: 5)));
 
-          http.Response resp = null
-              /*await http.post(url, headers: headers, body: body)*/;
-          Map<dynamic, dynamic> tokenMap = token.claims;
-          isLoading_join = false;
-          if (resp.body == 'success') {
+          await callable(<String, String>{
+            'idToken': token.token,
+            'joinCode': joinCode
+          }).then((v) {
             mes_join = '';
-            Timer _timer;
-          } else if (resp.body == 'No such document!' ||
-              resp.body == 'not found') {
-            isLoading_join = false;
-            mes_join = 'コードが見つかりませんでした';
-          } else {
-            isLoading_join = false;
+          }).catchError((dynamic e) {
             mes_join = 'エラーが発生しました';
-          }
+          });
+          isLoading_join = false;
           notifyListeners();
         });
       }
@@ -77,34 +71,23 @@ class SignupModel with ChangeNotifier {
       User user = await FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((token) async {
-          print(token.claims);
-          String url =
-              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/createGroup";
-          Map<String, String> headers = {'content-type': 'application/json'};
-          String body = json.encode({
+          HttpsCallable callable = FirebaseFunctions.instanceFor(
+              region: 'asia-northeast1')
+              .httpsCallable('createGroupCall',
+              options: HttpsCallableOptions(timeout: Duration(seconds: 5)));
+
+          await callable(<String, String>{
             'idToken': token.token,
             'groupName': groupController.text,
             'family': familyController.text,
             'first': firstController.text,
             'grade': grade
-          });
-
-          http.Response resp = null
-              /*await http.post(url, headers: headers, body: body)*/;
-          print(resp.body);
-          print(token.claims);
-          isLoading_join = false;
-          if (resp.body == 'success') {
+          }).then((v) {
             mes_join = '';
-            Timer _timer;
-          } else if (resp.body == 'No such document!' ||
-              resp.body == 'not found') {
-            isLoading_join = false;
-            mes_join = 'コードが見つかりませんでした';
-          } else {
-            isLoading_join = false;
+          }).catchError((dynamic e) {
             mes_join = 'エラーが発生しました';
-          }
+          });
+          isLoading_join = false;
           notifyListeners();
         });
       }
