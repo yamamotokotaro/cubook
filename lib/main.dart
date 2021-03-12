@@ -33,6 +33,7 @@ import 'package:cubook/setting_account/settingAccount_model.dart';
 import 'package:cubook/setting_account/settingAccount_view.dart';
 import 'package:cubook/setting_account/widget/changeMailAddress.dart';
 import 'package:cubook/setting_account/widget/changePassword.dart';
+import 'package:cubook/setting_account_group/widget/editProfile.dart';
 import 'package:cubook/task_detail_analytics/taskDetailAnalytics_model.dart';
 import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_model.dart';
 import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_view.dart';
@@ -196,7 +197,8 @@ class _MyAppState extends State<MyApp> {
             '/commentView': (BuildContext context) => CommentView(),
             '/settingView': (BuildContext context) => SettingAccountView(),
             '/changeMailAddressView': (BuildContext context) => ChangeMailAddressView(),
-            '/changePasswordView': (BuildContext context) => ChangePasswordView()
+            '/changePasswordView': (BuildContext context) => ChangePasswordView(),
+            '/editProfile': (BuildContext context) => EditProfile()
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

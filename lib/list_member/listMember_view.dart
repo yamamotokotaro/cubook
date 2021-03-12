@@ -393,6 +393,8 @@ class ListMemberView extends StatelessWidget {
                                                   isEqualTo: model.group)
                                               .where('position',
                                                   isEqualTo: 'leader')
+                                              .orderBy('admin', descending: true)
+                                              .orderBy('name')
                                               .snapshots(),
                                           builder: (BuildContext context,
                                               AsyncSnapshot<QuerySnapshot>
@@ -471,6 +473,16 @@ class ListMemberView extends StatelessWidget {
                                                                             style:
                                                                                 TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                           )),
+                                                                      Spacer(),
+                                                                      snapshot.data()[
+                                                                              'admin']
+                                                                          ? Padding(
+                                                                              padding: EdgeInsets.only(left: 10),
+                                                                              child: Text(
+                                                                                '管理者',
+                                                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                                                              ))
+                                                                          : Container()
                                                                     ],
                                                                   ),
                                                                 ),
