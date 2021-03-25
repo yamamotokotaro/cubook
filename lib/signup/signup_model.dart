@@ -28,20 +28,27 @@ class SignupModel with ChangeNotifier {
       User user = await FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((token) async {
-          HttpsCallable callable = FirebaseFunctions.instanceFor(
-              region: 'asia-northeast1')
-              .httpsCallable('joinGroupCall',
-              options: HttpsCallableOptions(timeout: Duration(seconds: 5)));
+          String url =
+              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup";
+          Map<String, String> headers = {'content-type': 'application/json'};
+          String body =
+          json.encode({'idToken': token.token, 'joinCode': joinCode});
 
-          await callable(<String, String>{
-            'idToken': token.token,
-            'joinCode': joinCode
-          }).then((v) {
-            mes_join = '';
-          }).catchError((dynamic e) {
-            mes_join = 'エラーが発生しました';
-          });
+          http.Response resp =
+          await http.post(Uri.parse(url), headers: headers, body: body);
+          Map<dynamic, dynamic> tokenMap = token.claims;
           isLoading_join = false;
+          if (resp.body == 'success') {
+            mes_join = '';
+            Timer _timer;
+          } else if (resp.body == 'No such document!' ||
+              resp.body == 'not found') {
+            isLoading_join = false;
+            mes_join = 'コードが見つかりませんでした';
+          } else {
+            isLoading_join = false;
+            mes_join = 'エラーが発生しました';
+          }
           notifyListeners();
         });
       }
@@ -71,28 +78,113 @@ class SignupModel with ChangeNotifier {
       User user = await FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((token) async {
-          HttpsCallable callable = FirebaseFunctions.instanceFor(
-              region: 'asia-northeast1')
-              .httpsCallable('createGroupCall',
-              options: HttpsCallableOptions(timeout: Duration(seconds: 5)));
-
-          await callable(<String, String>{
+          print(token.claims);
+          String url =
+              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/createGroup";
+          Map<String, String> headers = {'content-type': 'application/json'};
+          String body = json.encode({
             'idToken': token.token,
             'groupName': groupController.text,
             'family': familyController.text,
             'first': firstController.text,
             'grade': grade
-          }).then((v) {
-            mes_join = '';
-          }).catchError((dynamic e) {
-            mes_join = 'エラーが発生しました';
           });
+
+          http.Response resp =
+          await http.post(Uri.parse(url), headers: headers, body: body);
+          print(resp.body);
+          print(token.claims);
           isLoading_join = false;
+          if (resp.body == 'success') {
+            mes_join = '';
+            Timer _timer;
+          } else if (resp.body == 'No such document!' ||
+              resp.body == 'not found') {
+            isLoading_join = false;
+            mes_join = 'コードが見つかりませんでした';
+          } else {
+            isLoading_join = false;
+            mes_join = 'エラーが発生しました';
+          }
           notifyListeners();
         });
       }
     }
   }
+
+  // void joinRequest() async {
+  //   if (isConsent && joinCode != '') {
+  //     isLoading_join = true;
+  //     notifyListeners();
+  //
+  //     User user = await FirebaseAuth.instance.currentUser;
+  //     if (user != null) {
+  //       user.getIdTokenResult().then((token) async {
+  //         HttpsCallable callable = FirebaseFunctions.instanceFor(
+  //             region: 'asia-northeast1')
+  //             .httpsCallable('joinGroupCall',
+  //             options: HttpsCallableOptions(timeout: Duration(seconds: 5)));
+  //
+  //         await callable(<String, String>{
+  //           'idToken': token.token,
+  //           'joinCode': joinCode
+  //         }).then((v) {
+  //           mes_join = '';
+  //         }).catchError((dynamic e) {
+  //           mes_join = 'エラーが発生しました';
+  //         });
+  //         isLoading_join = false;
+  //         notifyListeners();
+  //       });
+  //     }
+  //   }
+  // }
+  //
+  // void createRequest() async {
+  //   String grade = '';
+  //   switch (dropdown_text) {
+  //     case 'ビーバー隊':
+  //       grade = 'beaver';
+  //       break;
+  //     case 'カブ隊':
+  //       grade = 'cub';
+  //       break;
+  //     case 'ボーイ隊':
+  //       grade = 'boy';
+  //       break;
+  //     case 'ベンチャー隊':
+  //       grade = 'venture';
+  //       break;
+  //   }
+  //   if (isConsent && joinCode != '' && grade != '') {
+  //     isLoading_join = true;
+  //     notifyListeners();
+  //
+  //     User user = await FirebaseAuth.instance.currentUser;
+  //     if (user != null) {
+  //       user.getIdTokenResult().then((token) async {
+  //         HttpsCallable callable = FirebaseFunctions.instanceFor(
+  //             region: 'asia-northeast1')
+  //             .httpsCallable('createGroupCall',
+  //             options: HttpsCallableOptions(timeout: Duration(seconds: 5)));
+  //
+  //         await callable(<String, String>{
+  //           'idToken': token.token,
+  //           'groupName': groupController.text,
+  //           'family': familyController.text,
+  //           'first': firstController.text,
+  //           'grade': grade
+  //         }).then((v) {
+  //           mes_join = '';
+  //         }).catchError((dynamic e) {
+  //           mes_join = 'エラーが発生しました';
+  //         });
+  //         isLoading_join = false;
+  //         notifyListeners();
+  //       });
+  //     }
+  //   }
+  // }
 
   void clickPublicButton(int index) {
     if (isSelect_type[0] == false && isSelect_type[1] == false) {

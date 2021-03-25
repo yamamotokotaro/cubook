@@ -57,12 +57,12 @@ class InviteView extends StatelessWidget {
                                   'うさぎ',
                                   'しか',
                                   'くま',
-                                  'ボーイスカウトバッジ',
+                                  /*'ボーイスカウトバッジ',
                                   '初級スカウト',
                                   '2級スカウト',
                                   '1級スカウト',
                                   '菊スカウト',
-                                  '隼スカウト',
+                                  '隼スカウト',*/
                                   //'富士スカウト',
                                   'リーダー'
                                 ].map((String value) {
@@ -130,7 +130,8 @@ class InviteView extends StatelessWidget {
                                     // 入力数
                                     maxLines: null,
                                     maxLengthEnforced: false,
-                                    decoration: InputDecoration(labelText: "組・班（オプション）"),
+                                    decoration: InputDecoration(
+                                        labelText: "組・班（オプション）"),
                                     onChanged: (text) {},
                                   ),
                                 )
@@ -161,8 +162,10 @@ class InviteView extends StatelessWidget {
                                 ? Padding(
                                     padding: EdgeInsets.all(10),
                                     child: CircularProgressIndicator())
-                                : RaisedButton(
-                                    color: Colors.blue[900],
+                                : ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.blue[900], //ボタンの背景色
+                                    ),
                                     onPressed: () {
                                       model.inviteRequest(context);
                                     },

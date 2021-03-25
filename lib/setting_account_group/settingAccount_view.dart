@@ -87,10 +87,11 @@ class SettingAccountGroupView extends StatelessWidget {
                                                         child: Text(
                                                           '名前・組・進歩の変更',
                                                           style: TextStyle(
-                                                            color: Colors.grey,
+                                                              color:
+                                                                  Colors.grey,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .normal,
+                                                                  FontWeight
+                                                                      .normal,
                                                               fontSize: 15),
                                                         ),
                                                       )),
@@ -107,22 +108,51 @@ class SettingAccountGroupView extends StatelessWidget {
                                       child: Card(
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                         ),
                                         child: InkWell(
                                           customBorder: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(10.0),
+                                                BorderRadius.circular(10.0),
                                           ),
-                                          onTap: () {
-                                            Navigator.of(context)
-                                                .pushNamed('/listMember');
+                                          onTap: () async {
+                                            await showDialog<int>(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    shape: const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    20.0))),
+                                                    content:
+                                                        SingleChildScrollView(
+                                                            child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Container(
+                                                            width: double.infinity,
+                                                            child: Text('現在この機能は利用できません',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                    fontSize: 18)),),
+
+                                                            Padding(
+                                                              padding: EdgeInsets.only(top:5),
+                                                              child: Text('4月前半に配信のアップデートで対応予定です'))
+                                                      ],
+                                                    )),
+                                                  );
+                                                });
                                           },
                                           child: Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Column(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                                    MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Icon(
                                                     Icons.emoji_people,
@@ -137,11 +167,11 @@ class SettingAccountGroupView extends StatelessWidget {
                                                         type: MaterialType
                                                             .transparency,
                                                         child: Text(
-                                                          '他グループへの移動',
+                                                          'アカウントを移行',
                                                           style: TextStyle(
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .bold,
+                                                                  FontWeight
+                                                                      .bold,
                                                               fontSize: 21),
                                                         ),
                                                       )),
@@ -152,12 +182,13 @@ class SettingAccountGroupView extends StatelessWidget {
                                                         type: MaterialType
                                                             .transparency,
                                                         child: Text(
-                                                          '転団・上進',
+                                                          '他グループへ移行',
                                                           style: TextStyle(
-                                                              color: Colors.grey,
+                                                              color:
+                                                                  Colors.grey,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .normal,
+                                                                  FontWeight
+                                                                      .normal,
                                                               fontSize: 15),
                                                         ),
                                                       )),
@@ -174,22 +205,22 @@ class SettingAccountGroupView extends StatelessWidget {
                                       child: Card(
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                         ),
                                         child: InkWell(
                                           customBorder: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(10.0),
+                                                BorderRadius.circular(10.0),
                                           ),
                                           onTap: () {
-                                            Navigator.of(context)
-                                                .pushNamed('/listMember');
+                                            Navigator.of(context).pushNamed(
+                                                '/deleteGroupAccount');
                                           },
                                           child: Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Column(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                                    MainAxisAlignment.center,
                                                 children: <Widget>[
                                                   Icon(
                                                     Icons.cancel,
@@ -207,8 +238,8 @@ class SettingAccountGroupView extends StatelessWidget {
                                                           'アカウントを削除',
                                                           style: TextStyle(
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .bold,
+                                                                  FontWeight
+                                                                      .bold,
                                                               fontSize: 21),
                                                         ),
                                                       )),
@@ -219,12 +250,13 @@ class SettingAccountGroupView extends StatelessWidget {
                                                         type: MaterialType
                                                             .transparency,
                                                         child: Text(
-                                                          '個別アカウントへの移行・完全削除',
+                                                          '完全削除',
                                                           style: TextStyle(
-                                                              color: Colors.grey,
+                                                              color:
+                                                                  Colors.grey,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .normal,
+                                                                  FontWeight
+                                                                      .normal,
                                                               fontSize: 15),
                                                         ),
                                                       )),

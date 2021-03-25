@@ -9,7 +9,6 @@ import '../settingAccount_model.dart';
 class EditProfile extends StatelessWidget {
   var task = new TaskContents();
   var theme = new ThemeInfo();
-  String uid;
 
   @override
   Widget build(BuildContext context) {
@@ -156,16 +155,18 @@ class EditProfile extends StatelessWidget {
                               Padding(
                                   padding: EdgeInsets.only(top: 10),
                                   child: !model.isLoading
-                                      ? RaisedButton.icon(
+                                      ? ElevatedButton.icon(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.blue[900], //ボタンの背景色
+                                          ),
                                           onPressed: () {
-                                            model.changeRequest(context, uid);
+                                            model.changeRequest(context);
                                           },
                                           icon: Icon(
                                             Icons.save,
                                             size: 20,
                                             color: Colors.white,
                                           ),
-                                          color: Colors.blue[900],
                                           label: Text(
                                             '変更を保存',
                                             style: TextStyle(

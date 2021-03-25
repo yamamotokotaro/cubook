@@ -1,5 +1,5 @@
 name: cubook
-description: A new Flutter application.
+description: カブブックサインアプリ
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -11,7 +11,7 @@ description: A new Flutter application.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.　
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.0.0+141
+version: 2.0.0+142
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -27,7 +27,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   firebase_core: ^1.0.0
   cloud_firestore: ^1.0.0
-  provider: ^5.0.0-nullsafety.5
+  provider: ^5.0.0
   firebase_auth: ^1.0.0
   firebase_auth_ui:
     path: Packages/firebase_auth_ui
@@ -62,7 +62,7 @@ dev_dependencies:
 flutter:
 
   assets:
-    - assets/svg/
+    - assets/images/
 
   fonts:
     - family: NotoSansJP

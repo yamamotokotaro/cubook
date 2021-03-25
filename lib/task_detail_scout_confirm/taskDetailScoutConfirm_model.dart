@@ -373,7 +373,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       uploadTask = ref.putFile(File(file.path));
     }
     dynamic snapshot = await Future.value(uploadTask);
-    String path = await snapshot.ref.getPath();
+    String path = await snapshot.ref.fullPath;
     Map<String, dynamic> data = Map<String, dynamic>();
     data.putIfAbsent('body', () => path);
     data.putIfAbsent('type', () => type_file);

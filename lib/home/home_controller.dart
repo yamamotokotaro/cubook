@@ -23,9 +23,7 @@ class HomeController extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
                 body: AnnotatedRegion<SystemUiOverlayStyle>(
-                    value: Theme
-                        .of(context)
-                        .accentColor == Colors.white
+                    value: Theme.of(context).accentColor == Colors.white
                         ? SystemUiOverlayStyle.light
                         : SystemUiOverlayStyle.dark, // Detect dark mode
                     child: SafeArea(
@@ -36,37 +34,31 @@ class HomeController extends StatelessWidget {
                                     constraints: BoxConstraints(maxWidth: 800),
                                     child: Consumer<HomeModel>(
                                         builder: (context, model, child) {
-                                          if (model.isLoaded) {
-                                            if (model.currentUser != null) {
-                                              if (model.userSnapshot != null) {
-                                                if (model.userSnapshot
-                                                    .data()['group'] != null) {
-                                                  return HomeView(
-                                                      model.userSnapshot
-                                                          .data()['group'],
-                                                      model.userSnapshot
-                                                          .data()['position']);
-                                                } else {
-                                                  return JoinGroup();
-                                                }
-                                              } else {
-                                                return SignupView();
-                                              }
-                                            } else {
-                                              return LoginView();
-                                            }
+                                      if (model.isLoaded) {
+                                        if (model.currentUser != null) {
+                                          if (model.userSnapshot != null) {
+                                            return HomeView(
+                                                model.userSnapshot
+                                                    .data()['group'],
+                                                model.userSnapshot
+                                                    .data()['position']);
                                           } else {
-                                            model.login();
-                                            return Padding(
-                                                padding: EdgeInsets.all(20),
-                                                child: Center(
-                                                    child: Padding(
-                                                        padding: EdgeInsets.all(
-                                                            10),
-                                                        child:
-                                                        CircularProgressIndicator())));
+                                            return SignupView();
                                           }
-                                        })))))));
+                                        } else {
+                                          return LoginView();
+                                        }
+                                      } else {
+                                        model.login();
+                                        return Padding(
+                                            padding: EdgeInsets.all(20),
+                                            child: Center(
+                                                child: Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child:
+                                                        CircularProgressIndicator())));
+                                      }
+                                    })))))));
           }
 
           return Container();
