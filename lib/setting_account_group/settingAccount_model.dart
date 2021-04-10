@@ -1,16 +1,19 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cubook/model/task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class SettingAccountGroupModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
   User currentUser;
   bool isGet = false;
+  bool isFinish = false;
   bool isLoading = false;
   bool isTeamLeader;
   String group;
@@ -21,13 +24,13 @@ class SettingAccountGroupModel extends ChangeNotifier {
   String dropdown_text;
   String age;
   String call;
-  String uid_before;
+  String uid;
   Map<String, dynamic> claims = new Map<String, dynamic>();
 
-  void getSnapshot(String uid) async {
+  void getSnapshot(String uid_toShow) async {
     var task = new TaskContents();
-    if (uid != uid_before) {
-      uid_before = uid;
+    if (uid_toShow != uid) {
+      uid = uid_toShow;
       User user = await FirebaseAuth.instance.currentUser;
       currentUser = user;
       user.getIdTokenResult().then((token) async {
@@ -39,6 +42,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
             .listen((data) {
           userSnapshot = data.docs[0];
           String family = userSnapshot.data()['family'];
+          group = userSnapshot.data()['group'];
           familyController =
               TextEditingController(text: userSnapshot.data()['family']);
           firstController =
@@ -141,7 +145,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeRequest(BuildContext context, String uid) async {
+  void changeRequest(BuildContext context) async {
     String age;
     String position;
     String teamPosition;
@@ -237,7 +241,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
           String url =
               "https://asia-northeast1-cubook-3c960.cloudfunctions.net/changeUserInfo_group";
           Map<String, String> headers = {'content-type': 'application/json'};
-          String body = json.encode(<String,dynamic>{
+          String body = json.encode(<String, dynamic>{
             'idToken': token.token,
             'family': familyController.text,
             'first': firstController.text,
@@ -251,7 +255,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
           });
 
           http.Response resp =
-              await http.post(url, headers: headers, body: body);
+              await http.post(Uri.parse(url), headers: headers, body: body);
           isLoading = false;
           if (resp.body == 'success') {
             Scaffold.of(context).showSnackBar(new SnackBar(
@@ -266,14 +270,173 @@ class SettingAccountGroupModel extends ChangeNotifier {
           } else {
             isLoading = false;
             Scaffold.of(context).showSnackBar(new SnackBar(
-              content: new Text('エラーが発生しました'),
+              content: new Text('エラーが発生しました' + resp.body),
             ));
           }
           notifyListeners();
         });
+        /*user.getIdTokenResult().then((token) async {
+          HttpsCallable callable = FirebaseFunctions.instanceFor(
+              region: 'asia-northeast1')
+              .httpsCallable('changeGroupUserInfo',
+              options: HttpsCallableOptions(timeout: Duration(seconds: 5)));
+
+          await callable(<String, dynamic>{
+            'idToken': token.token,
+            'family': familyController.text,
+            'first': firstController.text,
+            'call': call,
+            'team': teamController.text,
+            'teamPosition': teamPosition,
+            'age': age,
+            'age_turn': age_turn,
+            'uid': uid,
+            'grade': grade
+          }).then((v) {
+            ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+              content: new Text('変更を保存しました¥n' + v.toString()),
+            ));
+          }).catchError((dynamic e) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('ERROR: $e'),
+            ));
+          });
+          isLoading = false;
+          notifyListeners();
+        });*/
       }
     } else {
       notifyListeners();
     }
+  }
+
+  void showDeleteSheet(BuildContext context) async {
+    isFinish = false;
+    notifyListeners();
+    await showModalBottomSheet<int>(
+        context: context,
+        builder: (BuildContext context) {
+          return Consumer<SettingAccountGroupModel>(
+            builder: (context, model, child) {
+              return Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      model.isFinish
+                          ? Column(
+                              children: [
+                                Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    child: Text(
+                                      '👋',
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                      ),
+                                    )),
+                                Text(
+                                  'アカウントを削除しました',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        model.backToList(context);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.blue[900], //ボタンの背景色
+                                      ),
+                                      child: Text(
+                                        "一覧に戻る",
+                                      ),
+                                    )),
+                              ],
+                            )
+                          : !model.isLoading
+                              ? Column(
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 5, left: 17, bottom: 17),
+                                        child: Container(
+                                            width: double.infinity,
+                                            child: Text(
+                                              '本当に削除しますか？',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 22,
+                                              ),
+                                              textAlign: TextAlign.left,
+                                            ))),
+                                    ListTile(
+                                      leading: Icon(Icons.delete),
+                                      title: Text('はい'),
+                                      onTap: () {
+                                        model.deleteAccount(context);
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: Icon(Icons.arrow_back),
+                                      title: Text('いいえ'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  ],
+                                )
+                              : Center(
+                                  child: Padding(
+                                      padding: EdgeInsets.all(15),
+                                      child: CircularProgressIndicator()),
+                                )
+                    ],
+                  ));
+            },
+          );
+        });
+  }
+
+  void deleteAccount(BuildContext context) async {
+    print('start deleting...');
+    isLoading = true;
+    notifyListeners();
+    User user = await FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      user.getIdTokenResult().then((token) async {
+        String url =
+            "https://asia-northeast1-cubook-3c960.cloudfunctions.net/deleteGroupAccount_https";
+        Map<String, String> headers = {'content-type': 'application/json'};
+        String body = json.encode(<String, dynamic>{
+          'idToken': token.token,
+          'uid': uid,
+        });
+
+        http.Response resp =
+            await http.post(Uri.parse(url), headers: headers, body: body);
+        isLoading = false;
+        print('end');
+        print(resp.body);
+        if (resp.body == 'sucess') {
+          isFinish = true;
+        }
+        isLoading = false;
+        notifyListeners();
+      });
+    }
+  }
+
+  void backToList(BuildContext context) {
+    Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.pop(context);
+    isFinish = false;
+    notifyListeners();
   }
 }

@@ -122,6 +122,15 @@ class HomeView extends StatelessWidget {
                                                   },
                                                 )
                                               : Container(),
+                                          /*ListTile(
+                                            leading: Icon(Icons.people),
+                                            title: Text('グループ設定'),
+                                            onTap: () {
+                                              Navigator.of(context)
+                                                  .pushNamed(
+                                                  '/settingGroupView');
+                                            },
+                                          ),*/
                                           ListTile(
                                             leading: Icon(Icons.help_outline),
                                             title: Text('ヘルプ'),

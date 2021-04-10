@@ -33,184 +33,246 @@ class SettingAccountGroupView extends StatelessWidget {
                             return Column(
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: TextField(
-                                    controller: model.familyController,
-                                    enabled: true,
-                                    decoration: InputDecoration(labelText: "姓"),
-                                    onChanged: (text) {
-                                      //model.joinCode = text;
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: TextField(
-                                    controller: model.firstController,
-                                    enabled: true,
-                                    decoration: InputDecoration(labelText: "名"),
-                                    onChanged: (text) {
-                                      //model.joinCode = text;
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: TextField(
-                                    controller: model.teamController,
-                                    enabled: true,
-                                    // 入力数
-                                    maxLines: null,
-                                    maxLengthEnforced: false,
-                                    decoration: InputDecoration(
-                                        labelText: "組・班（オプション）"),
-                                    onChanged: (text) {},
-                                  ),
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(top: 10, left: 10),
-                                    child: Container(
-                                        width: double.infinity,
-                                        child: Text(
-                                          '進歩',
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              color:
-                                                  Theme.of(context).hintColor),
-                                          textAlign: TextAlign.left,
-                                        ))),
-                                Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 10, right: 10),
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      hint: Text('役割を選択'),
-                                      value: model.dropdown_text,
-                                      items: <String>[
-                                        'りす',
-                                        'うさぎ',
-                                        'しか',
-                                        'くま',
-                                        /*'ボーイスカウトバッジ',
-                                        '初級スカウト',
-                                        '2級スカウト',
-                                        '1級スカウト',
-                                        '菊スカウト（隼を目指すスカウト）',
-                                        '隼スカウト',
-                                        '富士スカウト'*/
-                                      ].map((String value) {
-                                        return new DropdownMenuItem<String>(
-                                          value: value,
-                                          child: new Text(value),
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        model.onDropdownChanged(value);
-                                      },
-                                    )),
-                                model.dropdown_text == 'ボーイスカウトバッジ' ||
-                                        model.dropdown_text == '初級スカウト' ||
-                                        model.dropdown_text == '2級スカウト' ||
-                                        model.dropdown_text == '1級スカウト' ||
-                                        model.dropdown_text ==
-                                            '菊スカウト（隼を目指すスカウト）' ||
-                                        model.dropdown_text == '隼スカウト' ||
-                                        model.dropdown_text == '富士スカウト'
-                                    ? Padding(
-                                        padding: EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Checkbox(
-                                              value: model.isTeamLeader,
-                                              onChanged: model
-                                                  .onCheckboxTeamLeaderChanged,
-                                              activeColor: Colors.blue[600],
-                                            ),
-                                            Text('班長')
-                                          ],
+                                  padding: EdgeInsets.only(
+                                      top: 25, left: 10, right: 10, bottom: 5),
+                                  child: Container(
+                                      width: double.infinity,
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
-                                      )
-                                    : Container(),
+                                        child: InkWell(
+                                          customBorder: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .pushNamed('/editProfile');
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.edit,
+                                                    color: Theme.of(context)
+                                                        .accentColor,
+                                                    size: 35,
+                                                  ),
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10),
+                                                      child: Material(
+                                                        type: MaterialType
+                                                            .transparency,
+                                                        child: Text(
+                                                          'プロフィールの編集',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 21),
+                                                        ),
+                                                      )),
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10),
+                                                      child: Material(
+                                                        type: MaterialType
+                                                            .transparency,
+                                                        child: Text(
+                                                          '名前・組・進歩の変更',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                        ),
+                                                      )),
+                                                ]),
+                                          ),
+                                        ),
+                                      )),
+                                ),
                                 Padding(
-                                    padding: EdgeInsets.only(top: 10, left: 10),
-                                    child: Container(
-                                        width: double.infinity,
-                                        child: Text(
-                                          '呼称',
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              color:
-                                                  Theme.of(context).hintColor),
-                                          textAlign: TextAlign.left,
-                                        ))),
+                                  padding: EdgeInsets.only(
+                                      top: 5, left: 10, right: 10, bottom: 5),
+                                  child: Container(
+                                      width: double.infinity,
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: InkWell(
+                                          customBorder: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          onTap: () async {
+                                            await showDialog<int>(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    shape: const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    20.0))),
+                                                    content:
+                                                        SingleChildScrollView(
+                                                            child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          width:
+                                                              double.infinity,
+                                                          child: Text(
+                                                              '現在この機能は利用できません',
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize:
+                                                                      18)),
+                                                        ),
+                                                        Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 5),
+                                                            child: Text(
+                                                                '4月前半に配信のアップデートで対応予定です'))
+                                                      ],
+                                                    )),
+                                                  );
+                                                });
+                                            // Navigator.of(context)
+                                            //     .pushNamed('/accountMigration');
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.emoji_people,
+                                                    color: Theme.of(context)
+                                                        .accentColor,
+                                                    size: 35,
+                                                  ),
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10),
+                                                      child: Material(
+                                                        type: MaterialType
+                                                            .transparency,
+                                                        child: Text(
+                                                          'アカウントを移行',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 21),
+                                                        ),
+                                                      )),
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10),
+                                                      child: Material(
+                                                        type: MaterialType
+                                                            .transparency,
+                                                        child: Text(
+                                                          '他グループへ移行',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                        ),
+                                                      )),
+                                                ]),
+                                          ),
+                                        ),
+                                      )),
+                                ),
                                 Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 10, right: 10),
-                                    child: DropdownButton<String>(
-                                      isExpanded: true,
-                                      hint: Text('呼称'),
-                                      value: model.call,
-                                      items: <String>['くん', 'さん']
-                                          .map((String value) {
-                                        return new DropdownMenuItem<String>(
-                                          value: value,
-                                          child: new Text(value),
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        model.onDropdownCallChanged(value);
-                                      },
-                                    )),
-                                Padding(
-                                    padding: EdgeInsets.only(top: 10),
-                                    child: !model.isLoading
-                                        ? RaisedButton.icon(
-                                            onPressed: () {
-                                              model.changeRequest(context, uid);
-                                            },
-                                            icon: Icon(
-                                              Icons.save,
-                                              size: 20,
-                                              color: Colors.white,
-                                            ),
-                                            color: Colors.blue[900],
-                                            label: Text(
-                                              '変更を保存',
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          )
-                                        : Center(
-                                            child: Padding(
-                                                padding: EdgeInsets.all(5),
-                                                child:
-                                                    CircularProgressIndicator()),
-                                          )),
-                                /*Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Divider(color: Colors.grey)),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 5, bottom: 0, left: 30, right: 30),
-                                    child: FlatButton.icon(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.delete,
-                                        size: 20,
-                                        color: Colors.red,
-                                      ),
-                                      label: Text(
-                                        'ユーザーを削除する',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.red),
-                                      ),
-                                    ))*/
+                                  padding: EdgeInsets.only(
+                                      top: 5, left: 10, right: 10, bottom: 5),
+                                  child: Container(
+                                      width: double.infinity,
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: InkWell(
+                                          customBorder: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(context).pushNamed(
+                                                '/deleteGroupAccount');
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.cancel,
+                                                    color: Theme.of(context)
+                                                        .accentColor,
+                                                    size: 35,
+                                                  ),
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10),
+                                                      child: Material(
+                                                        type: MaterialType
+                                                            .transparency,
+                                                        child: Text(
+                                                          'アカウントを削除',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 21),
+                                                        ),
+                                                      )),
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10),
+                                                      child: Material(
+                                                        type: MaterialType
+                                                            .transparency,
+                                                        child: Text(
+                                                          '完全削除',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontSize: 15),
+                                                        ),
+                                                      )),
+                                                ]),
+                                          ),
+                                        ),
+                                      )),
+                                ),
                               ],
                             );
                           } else {
