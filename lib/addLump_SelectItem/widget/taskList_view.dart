@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TaskView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   Color themeColor;
   String type;
   String typeFireStore;
@@ -37,20 +37,20 @@ class TaskView extends StatelessWidget {
                   padding: EdgeInsets.only(top: 20, bottom: 70),
                   child: Consumer<AddLumpSelectItemModel>(
                       builder: (context, model, child) {
-                    var map_task = task.getAllMap(type);
-                    int task_length = map_task.length;
+                    final mapTask = task.getAllMap(type);
+                    final int taskLength = mapTask.length;
                     if (model.itemSelected[type] == null) {
-                      model.createList(type, task_length);
+                      model.createList(type, taskLength);
                     }
                     if (model.itemSelected[type] != null) {
-                      List<dynamic> list_itemCheck = model.itemSelected[type];
+                      final List<dynamic> listItemCheck = model.itemSelected[type];
                       return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: task_length,
+                          itemCount: taskLength,
                           shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index_page) {
-                            Map<String, dynamic> map_item =
-                                map_task[index_page];
+                          itemBuilder: (BuildContext context, int indexPage) {
+                            final Map<String, dynamic> mapItem =
+                                mapTask[indexPage];
                             return Padding(
                                 padding: EdgeInsets.all(5),
                                 child: Container(
@@ -75,7 +75,7 @@ class TaskView extends StatelessWidget {
                                             child: Padding(
                                               padding: EdgeInsets.all(20),
                                               child: Text(
-                                                map_item['number'],
+                                                mapItem['number'],
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 30,
@@ -96,7 +96,7 @@ class TaskView extends StatelessWidget {
                                                   alignment:
                                                       Alignment.centerLeft,
                                                   child: Text(
-                                                    map_item['title'],
+                                                    mapItem['title'],
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -111,7 +111,7 @@ class TaskView extends StatelessWidget {
                                                     width: 250,
                                                     child: ListView.builder(
                                                         itemCount:
-                                                            map_item['hasItem'],
+                                                            mapItem['hasItem'],
                                                         scrollDirection:
                                                             Axis.horizontal,
                                                         itemBuilder:
@@ -119,19 +119,19 @@ class TaskView extends StatelessWidget {
                                                                     context,
                                                                 int index) {
                                                           index_number++;
-                                                          if (list_itemCheck[
-                                                                      index_page]
+                                                          if (listItemCheck[
+                                                                      indexPage]
                                                                   .length ==
                                                               0) {
                                                             model.createbool(
                                                                 type,
-                                                                index_page,
-                                                                map_item[
+                                                                indexPage,
+                                                                mapItem[
                                                                     'hasItem']);
                                                           }
 
-                                                          if (list_itemCheck[
-                                                                      index_page]
+                                                          if (listItemCheck[
+                                                                      indexPage]
                                                                   .length !=
                                                               0) {
                                                             return Padding(
@@ -149,10 +149,10 @@ class TaskView extends StatelessWidget {
                                                                         onTap: () {
                                                                           model.onPressedCheck(
                                                                               type,
-                                                                              index_page,
+                                                                              indexPage,
                                                                               index);
                                                                         },
-                                                                        child: list_itemCheck[index_page][index]
+                                                                        child: listItemCheck[indexPage][index]
                                                                             ? Container(
                                                                                 height: 37,
                                                                                 width: 37,

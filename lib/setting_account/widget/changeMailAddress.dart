@@ -2,10 +2,11 @@ import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/setting_account/settingAccount_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ChangeMailAddressView extends StatelessWidget {
-  var theme = new ThemeInfo();
+  var theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +36,13 @@ class ChangeMailAddressView extends StatelessWidget {
                                     Padding(
                                       padding: EdgeInsets.all(10),
                                       child: TextField(
-                                        controller: model.addressController,
+                                        maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.addressController,
                                         enabled: true,
                                         // 入力数
                                         keyboardType: TextInputType.multiline,
                                         maxLines: null,
-                                        maxLengthEnforced: false,
                                         decoration: InputDecoration(
-                                          labelText: "メールアドレス",
+                                          labelText: 'メールアドレス',
                                         ),
                                       ),
                                     ),

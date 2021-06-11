@@ -4,6 +4,7 @@ import 'package:firebase_auth_ui/firebase_auth_ui.dart';
 import 'package:firebase_auth_ui/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -54,28 +55,26 @@ class LoginView extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.all(10),
                                   child: TextField(
-                                    controller: model.mailAddressController,
+                                    maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.mailAddressController,
                                     enabled: true,
                                     // 入力数
                                     keyboardType: TextInputType.multiline,
                                     maxLines: null,
-                                    maxLengthEnforced: false,
                                     decoration:
-                                        InputDecoration(labelText: "メールアドレス"),
+                                        InputDecoration(labelText: 'メールアドレス'),
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.all(10),
                                   child: TextField(
-                                    obscureText: true,
+                                    maxLengthEnforcement: MaxLengthEnforcement.none, obscureText: true,
                                     controller: model.passwordController,
                                     enabled: true,
                                     // 入力数
                                     keyboardType: TextInputType.multiline,
                                     maxLines: 1,
-                                    maxLengthEnforced: false,
                                     decoration:
-                                        InputDecoration(labelText: "パスワード"),
+                                        InputDecoration(labelText: 'パスワード'),
                                   ),
                                 ),
                                 Padding(
@@ -88,7 +87,7 @@ class LoginView extends StatelessWidget {
                                             GoogleSignIn();
                                         final FirebaseAuth _auth =
                                             FirebaseAuth.instance;
-                                        GoogleSignInAccount googleCurrentUser =
+                                        final GoogleSignInAccount googleCurrentUser =
                                             _googleSignIn.currentUser;
                                         try {
                                           final result = await FirebaseAuth
@@ -101,7 +100,7 @@ class LoginView extends StatelessWidget {
                                                       .passwordController.text);
                                           final User user = result.user;
                                           print(
-                                              "signed in " + user.displayName);
+                                              'signed in ' + user.displayName);
                                           model.login();
                                           return user;
                                         } catch (e) {
@@ -129,17 +128,13 @@ class LoginView extends StatelessWidget {
                                       GoogleSignInAccount googleCurrentUser =
                                           _googleSignIn.currentUser;
                                       try {
-                                        if (googleCurrentUser == null)
-                                          googleCurrentUser =
-                                              await _googleSignIn
+                                        googleCurrentUser ??= await _googleSignIn
                                                   .signInSilently();
-                                        if (googleCurrentUser == null)
-                                          googleCurrentUser =
-                                              await _googleSignIn.signIn();
+                                        googleCurrentUser ??= await _googleSignIn.signIn();
                                         if (googleCurrentUser == null)
                                           return null;
 
-                                        GoogleSignInAuthentication googleAuth =
+                                        final GoogleSignInAuthentication googleAuth =
                                             await googleCurrentUser
                                                 .authentication;
                                         final AuthCredential credential =
@@ -151,7 +146,7 @@ class LoginView extends StatelessWidget {
                                             (await _auth.signInWithCredential(
                                                     credential))
                                                 .user;
-                                        print("signed in " + user.displayName);
+                                        print('signed in ' + user.displayName);
 
                                         model.login();
                                         return user;
@@ -169,10 +164,10 @@ class LoginView extends StatelessWidget {
                                               // Login with Google
                                             ],
                                             tosUrl:
-                                                "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md",
+                                                'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md',
                                             // Optional
                                             privacyPolicyUrl:
-                                                "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md", // Optional,
+                                                'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md', // Optional,
                                           )
                                           .then((firebaseUser) =>
                                               model.login())
@@ -202,10 +197,10 @@ class LoginView extends StatelessWidget {
                                       // Login with Google
                                     ],
                                     tosUrl:
-                                    "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md",
+                                    'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md',
                                     // Optional
                                     privacyPolicyUrl:
-                                    "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md", // Optional,
+                                    'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md', // Optional,
                                   )
                                       .then((firebaseUser) =>
                                       model.login())

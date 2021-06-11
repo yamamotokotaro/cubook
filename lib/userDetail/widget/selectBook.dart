@@ -17,8 +17,8 @@ class TabInfo {
 }
 
 class SelectBook extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   String uid;
 
   SelectBook(String uid) {
@@ -27,14 +27,14 @@ class SelectBook extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var type = theme.type;
+    final type = theme.type;
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
         Consumer<UserDetailModel>(builder: (context, model, child) {
           if (model.userSnapshot == null) {
             model.getSnapshot(uid);
-          } else if (model.userSnapshot.data()['uid'] != uid) {
+          } else if (model.userSnapshot.get('uid') != uid) {
             model.getSnapshot(uid);
             model.userSnapshot = null;
           }
@@ -86,28 +86,28 @@ class SelectBook extends StatelessWidget {
                                               model.userSnapshot,
                                           builder: (context, snapshot, child) => snapshot !=
                                                   null
-                                              ? snapshot.data()[type[index]] !=
+                                              ? snapshot.get(type[index]) !=
                                                       null
                                                   ? CircularProgressIndicator(
                                                       backgroundColor: theme.getIndicatorColor(
                                                           type[index]),
-                                                      valueColor: new AlwaysStoppedAnimation<Color>(
+                                                      valueColor: AlwaysStoppedAnimation<Color>(
                                                           Colors.white),
-                                                      value: snapshot.data()[type[index]].length /
+                                                      value: snapshot.get(type[index]).length /
                                                           task
                                                               .getAllMap(
                                                                   type[index])
                                                               .length)
                                                   : CircularProgressIndicator(
                                                       backgroundColor: theme.getIndicatorColor(type[index]),
-                                                      valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                                       value: 0)
                                               : CircularProgressIndicator(
                                                   backgroundColor:
                                                       theme.getIndicatorColor(
                                                           type[index]),
                                                   valueColor:
-                                                      new AlwaysStoppedAnimation<
+                                                      AlwaysStoppedAnimation<
                                                           Color>(Colors.white),
                                                 ))),
                                   Padding(

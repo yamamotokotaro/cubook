@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SettingAccountModel extends ChangeNotifier {
@@ -10,21 +11,21 @@ class SettingAccountModel extends ChangeNotifier {
   bool isGet = false;
   bool isLoading = false;
   bool passwordError = false;
-  TextEditingController addressController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   String uid;
   String mailAddress;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  Map<String, dynamic> claims = <String, dynamic>{};
 
   void getUser() async {
-    String uid_before = uid;
-    String mailAddress_before = mailAddress;
-    User user = await FirebaseAuth.instance.currentUser;
+    final String uidBefore = uid;
+    final String mailAddressBefore = mailAddress;
+    final User user = FirebaseAuth.instance.currentUser;
     currentUser = user;
     uid = currentUser.uid;
     mailAddress = currentUser.email;
     addressController.text = currentUser.email;
-    if (uid == null || uid != uid_before || mailAddress != mailAddress_before) {
+    if (uid == null || uid != uidBefore || mailAddress != mailAddressBefore) {
       notifyListeners();
     }
   }
@@ -35,8 +36,8 @@ class SettingAccountModel extends ChangeNotifier {
         .hasMatch(addressController.text)) {
       try {
         await currentUser.updateEmail(addressController.text);
-        Scaffold.of(context).showSnackBar(new SnackBar(
-          content: new Text('メールアドレスを変更しました'),
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text('メールアドレスを変更しました'),
         ));
       } catch (error) {
         await showDialog<int>(
@@ -50,7 +51,7 @@ class SettingAccountModel extends ChangeNotifier {
                     title: Padding(
                         padding: EdgeInsets.only(left: 15),
                         child: Text(
-                          "パスワードを入力してください",
+                          'パスワードを入力してください',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -66,12 +67,11 @@ class SettingAccountModel extends ChangeNotifier {
                           Padding(
                             padding: EdgeInsets.all(0),
                             child: TextField(
-                              controller: model.passwordController,
+                              maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.passwordController,
                               enabled: true,
-                              maxLengthEnforced: false,
                               obscureText: true,
                               decoration: InputDecoration(
-                                  labelText: "パスワード",
+                                  labelText: 'パスワード',
                                   errorText: model.passwordError
                                       ? 'パスワードが確認できません'
                                       : null),
@@ -82,10 +82,10 @@ class SettingAccountModel extends ChangeNotifier {
                     })),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text("認証"),
+                        child: Text('認証'),
                         onPressed: () async {
                           FocusScope.of(context).unfocus();
-                          var credential = EmailAuthProvider.credential(
+                          final credential = EmailAuthProvider.credential(
                               email: mailAddress,
                               password: passwordController.text);
                           try {
@@ -111,12 +111,12 @@ class SettingAccountModel extends ChangeNotifier {
   void sendPasswordResetEmail(BuildContext context) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: mailAddress);
-      Scaffold.of(context).showSnackBar(new SnackBar(
-        content: new Text('送信リクエストが完了しました'),
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('送信リクエストが完了しました'),
       ));
     } catch (error) {
-      Scaffold.of(context).showSnackBar(new SnackBar(
-        content: new Text('エラーが発生しました'),
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('エラーが発生しました'),
       ));
     }
   }

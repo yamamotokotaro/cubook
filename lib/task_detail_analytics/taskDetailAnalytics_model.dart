@@ -14,24 +14,24 @@ class TaskDetailAnalyticsModel extends ChangeNotifier {
   bool isGet = false;
 
   void getGroup() async {
-    String group_before = group;
-    User user = await FirebaseAuth.instance.currentUser;
+    final String groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
         .then((snapshot) {
-      DocumentSnapshot userSnapshot = snapshot.docs[0];
-      group = userSnapshot.data()['group'];
-      team = userSnapshot.data()['team'];
-      teamPosition = userSnapshot.data()['teamPosition'];
-      if (group != group_before) {
+      final DocumentSnapshot userSnapshot = snapshot.docs[0];
+      group = userSnapshot.get('group');
+      team = userSnapshot.get('team');
+      teamPosition = userSnapshot.get('teamPosition');
+      if (group != groupBefore) {
         notifyListeners();
       }
       user.getIdTokenResult().then((value) {
-        String group_claim_before = group_claim;
+        final String groupClaimBefore = group_claim;
         group_claim = value.claims['group'];
-        if (group_claim_before != group_claim) {
+        if (groupClaimBefore != group_claim) {
           notifyListeners();
         }
       });
@@ -40,7 +40,7 @@ class TaskDetailAnalyticsModel extends ChangeNotifier {
 
   void getSnapshot(String uid) async {
     print(uid);
-    User user = await FirebaseAuth.instance.currentUser;
+    final User user = FirebaseAuth.instance.currentUser;
     currentUser = user;
     user.getIdTokenResult().then((token) async {
       FirebaseFirestore.instance

@@ -4,20 +4,21 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CreateActivityView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
-    Color color_ring;
+    Color colorRing;
     if (Theme.of(context).accentColor == Colors.white) {
-      color_ring = Colors.blue[900];
+      colorRing = Colors.blue[900];
     } else {
-      color_ring = Colors.white;
+      colorRing = Colors.white;
     }
     bool isDark;
     if (Theme.of(context).accentColor == Colors.white) {
@@ -34,7 +35,7 @@ class CreateActivityView extends StatelessWidget {
           if (model.isLoading) {
             return FloatingActionButton(
               child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(color_ring),
+                valueColor: AlwaysStoppedAnimation<Color>(colorRing),
               ),
             );
           } else {
@@ -46,7 +47,7 @@ class CreateActivityView extends StatelessWidget {
                 icon: Icon(Icons.save));
           }
         }),
-        body: Builder(builder: (BuildContext context_builder) {
+        body: Builder(builder: (BuildContext contextBuilder) {
           return GestureDetector(
               onTap: () {
                 FocusScope.of(context).unfocus();
@@ -63,13 +64,12 @@ class CreateActivityView extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.all(10),
                             child: TextField(
-                                controller: model.titleController,
+                                maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.titleController,
                                 enabled: true,
                                 keyboardType: TextInputType.multiline,
                                 maxLines: null,
-                                maxLengthEnforced: false,
                                 decoration: InputDecoration(
-                                    labelText: "活動タイトルを追加",
+                                    labelText: '活動タイトルを追加',
                                     hintText: '〇〇ハイク',
                                     errorText: model.EmptyError
                                         ? 'タイトルを入力してください　'
@@ -144,19 +144,19 @@ class CreateActivityView extends StatelessWidget {
                           Selector<CreateActivityModel,
                               List<Map<String, dynamic>>>(
                             selector: (context, model) => model.list_selected,
-                            builder: (context, list_selected, child) {
+                            builder: (context, listSelected, child) {
                               return ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: list_selected.length,
+                                  itemCount: listSelected.length,
                                   shrinkWrap: true,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    Map<String, dynamic> part_selected =
-                                        list_selected[index];
-                                    String type = part_selected['type'];
-                                    int page = part_selected['page'];
-                                    int number = part_selected['number'];
-                                    Map<String, dynamic> map_task =
+                                    final Map<String, dynamic> partSelected =
+                                        listSelected[index];
+                                    final String type = partSelected['type'];
+                                    final int page = partSelected['page'];
+                                    final int number = partSelected['number'];
+                                    final Map<String, dynamic> mapTask =
                                         task.getPartMap(type, page);
                                     return Padding(
                                         padding: EdgeInsets.all(5),
@@ -175,10 +175,10 @@ class CreateActivityView extends StatelessWidget {
                                                       Text(
                                                           theme.getTitle(type) +
                                                               ' ' +
-                                                              map_task[
+                                                              mapTask[
                                                                   'number'] +
                                                               ' ' +
-                                                              map_task[
+                                                              mapTask[
                                                                   'title'] +
                                                               ' (' +
                                                               (number + 1)
@@ -244,10 +244,10 @@ class CreateActivityView extends StatelessWidget {
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data.docs.length != 0) {
-                                      QuerySnapshot querySnapshot =
+                                    if (snapshot.data.docs.isNotEmpty) {
+                                      final QuerySnapshot querySnapshot =
                                           snapshot.data;
-                                      String team_last = '';
+                                      String teamLast = '';
                                       return ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
@@ -256,9 +256,9 @@ class CreateActivityView extends StatelessWidget {
                                           itemBuilder: (BuildContext context,
                                               int index) {
                                             String uid;
-                                            DocumentSnapshot snapshot =
+                                            final DocumentSnapshot snapshot =
                                                 querySnapshot.docs[index];
-                                            uid = snapshot.data()['uid'];
+                                            uid = snapshot.get('uid');
                                             if (!model.list_notApplicable
                                                 .contains(uid)) {
                                               bool isCheck = true;
@@ -267,23 +267,23 @@ class CreateActivityView extends StatelessWidget {
                                                 isCheck = model.uid_check[uid];
                                               }
                                               String team;
-                                              if (snapshot.data()['team']
+                                              if (snapshot.get('team')
                                                   is int) {
                                                 team = snapshot
-                                                    .data()['team']
+                                                    .get('team')
                                                     .toString();
                                               } else {
-                                                team = snapshot.data()['team'];
+                                                team = snapshot.get('team');
                                               }
                                               bool isFirst;
-                                              if (team_last != team) {
+                                              if (teamLast != team) {
                                                 isFirst = true;
-                                                team_last = team;
+                                                teamLast = team;
                                               } else {
                                                 isFirst = false;
                                               }
-                                              String grade =
-                                                  snapshot.data()['grade'];
+                                              final String grade =
+                                                  snapshot.get('grade');
                                               String team_call;
                                               if (grade == 'cub') {
                                                 team_call = '組';
@@ -292,8 +292,7 @@ class CreateActivityView extends StatelessWidget {
                                               }
                                               print(model.uid_check);
                                               return Column(children: <Widget>[
-                                                isFirst && team != ''
-                                                    ? Padding(
+                                                if (isFirst && team != '') Padding(
                                                         padding:
                                                             EdgeInsets.all(10),
                                                         child: Container(
@@ -310,17 +309,16 @@ class CreateActivityView extends StatelessWidget {
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
-                                                            )))
-                                                    : Container(),
+                                                            ))) else Container(),
                                                 Dismissible(
                                                     key: Key(snapshot
-                                                        .data()['name']),
+                                                        .get('name')),
                                                     onDismissed: (direction) {
                                                       model.dismissUser(uid);
                                                       final snackBar = SnackBar(
                                                         content: Text(
-                                                            snapshot.data()[
-                                                                    'name'] +
+                                                            snapshot.get(
+                                                                    'name') +
                                                                 'を対象外にしました'),
                                                         action: SnackBarAction(
                                                           label: '取り消し',
@@ -337,7 +335,7 @@ class CreateActivityView extends StatelessWidget {
                                                             seconds: 1),
                                                       );
                                                       Scaffold.of(
-                                                          context_builder)
+                                                          contextBuilder)
                                                         .showSnackBar(
                                                             snackBar);
                                                     },
@@ -382,8 +380,8 @@ class CreateActivityView extends StatelessWidget {
                                                                       height:
                                                                           40,
                                                                       decoration: BoxDecoration(
-                                                                          color: theme.getUserColor(snapshot.data()[
-                                                                              'age']),
+                                                                          color: theme.getUserColor(snapshot.get(
+                                                                              'age')),
                                                                           shape:
                                                                               BoxShape.circle),
                                                                       child:
@@ -401,7 +399,7 @@ class CreateActivityView extends StatelessWidget {
                                                                         child:
                                                                             Text(
                                                                           snapshot
-                                                                              .data()['name'],
+                                                                              .get('name'),
                                                                           style: TextStyle(
                                                                               fontWeight: FontWeight.bold,
                                                                               fontSize: 25),

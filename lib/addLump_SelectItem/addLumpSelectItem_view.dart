@@ -13,19 +13,19 @@ class TabInfo {
 }
 
 class AddLumpSelectItemView extends StatelessWidget {
-  var theme = new ThemeInfo();
+  var theme = ThemeInfo();
 
   final List<TabInfo> _tabs = [
-    TabInfo("うさぎのカブブック", TaskView('usagi')),
-    TabInfo("しかのカブブック", TaskView('sika')),
-    TabInfo("くまのカブブック", TaskView('kuma')),
-    TabInfo("月の輪", TaskView('tukinowa')),
-    TabInfo("チャレンジ章", TaskView('challenge')),
+    TabInfo('うさぎのカブブック', TaskView('usagi')),
+    TabInfo('しかのカブブック', TaskView('sika')),
+    TabInfo('くまのカブブック', TaskView('kuma')),
+    TabInfo('月の輪', TaskView('tukinowa')),
+    TabInfo('チャレンジ章', TaskView('challenge')),
   ];
 
   @override
   Widget build(BuildContext context) {
-    List<String> uids = ModalRoute.of(context).settings.arguments;
+    final List<String> uids = ModalRoute.of(context).settings.arguments;
     return DefaultTabController(
         length: _tabs.length,
         child: Scaffold(

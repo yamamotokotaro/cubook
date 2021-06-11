@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AnalyticsView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class AnalyticsView extends StatelessWidget {
     } else {
       isDark = false;
     }
-    var type = theme.type;
+    final type = theme.type;
     return Scaffold(
       appBar: AppBar(
         title: Text('アナリティクス'),
@@ -236,7 +236,7 @@ class AnalyticsView extends StatelessWidget {
                                                                       .grey[700]
                                                                   : Colors.grey[
                                                                       300],
-                                                              valueColor: new AlwaysStoppedAnimation<
+                                                              valueColor: AlwaysStoppedAnimation<
                                                                       Color>(
                                                                   isDark
                                                                       ? Colors

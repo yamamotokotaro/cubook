@@ -8,8 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListNotCititationed extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   String uid;
 
   ListNotCititationed(String _uid) {
@@ -33,13 +33,13 @@ class ListNotCititationed extends StatelessWidget {
                     }
                     if (model.group != null) {
                       print(uid);
-                      DateTime date = DateTime.now();
-                      DateTime newDate =
-                          new DateTime(date.year, date.month + 1, date.day);
+                      final DateTime date = DateTime.now();
+                      final DateTime newDate =
+                          DateTime(date.year, date.month + 1, date.day);
                       return Column(
                         children: <Widget>[
                           StreamBuilder<QuerySnapshot>(
-                            stream: Firestore.instance
+                            stream: FirebaseFirestore.instance
                                 .collection('challenge')
                                 .where('group', isEqualTo: model.group)
                                 .where('uid', isEqualTo: uid)
@@ -50,8 +50,8 @@ class ListNotCititationed extends StatelessWidget {
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
-                                if (snapshot.data.docs.length != 0) {
-                                  QuerySnapshot querySnapshot = snapshot.data;
+                                if (snapshot.data.docs.isNotEmpty) {
+                                  final QuerySnapshot querySnapshot = snapshot.data;
                                   return ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
@@ -59,10 +59,10 @@ class ListNotCititationed extends StatelessWidget {
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        DocumentSnapshot snapshot =
+                                        final DocumentSnapshot snapshot =
                                             querySnapshot.docs[index];
-                                        Map taskInfo = task.getPartMap(
-                                            'challenge', snapshot.data()['page']);
+                                        final Map taskInfo = task.getPartMap(
+                                            'challenge', snapshot.get('page'));
                                         return Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Container(
@@ -107,7 +107,7 @@ class ListNotCititationed extends StatelessWidget {
                                                               child: Text(
                                                                 DateFormat('yyyy/MM/dd')
                                                                         .format(
-                                                                            snapshot.data()['end'].toDate())
+                                                                            snapshot.get('end').toDate())
                                                                         .toString() +
                                                                     ' 完修',
                                                                 textAlign:
@@ -135,7 +135,7 @@ class ListNotCititationed extends StatelessWidget {
                                                                 onPressed: () {
                                                                   model.onTapCititation(
                                                                       snapshot
-                                                                          .documentID);
+                                                                          .id);
                                                                 },
                                                                 child: Text(
                                                                   '表彰済みにする',

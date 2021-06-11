@@ -19,7 +19,7 @@ class HomeLeaderView extends StatelessWidget {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
-                  if (snapshot.data.docs.length != 0) {
+                  if (snapshot.data.docs.isNotEmpty) {
                     return Padding(
                       padding: EdgeInsets.all(10),
                       child: Container(

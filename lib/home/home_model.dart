@@ -14,8 +14,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class HomeModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
   QuerySnapshot effortSnapshot;
-  TextEditingController mailAddressController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController mailAddressController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   User currentUser;
   bool isGet = false;
   bool isLoaded = false;
@@ -33,7 +33,7 @@ class HomeModel extends ChangeNotifier {
   String providerID;
   Map<dynamic, dynamic> tokenMap;
   String token;
-  List<dynamic> _token_notification = new List<dynamic>();
+  List<dynamic> _token_notification = List<dynamic>();
   bool isSended = false;
   Future<PermissionStatus> permissionStatus =
       NotificationPermissions.getNotificationPermissionStatus();
@@ -42,7 +42,7 @@ class HomeModel extends ChangeNotifier {
     isLoaded = false;
     userSnapshot = null;
     currentUser = null;
-    User user = await FirebaseAuth.instance.currentUser;
+    final User user = FirebaseAuth.instance.currentUser;
     print(user);
     if (user != null) {
       currentUser = user;
@@ -52,17 +52,17 @@ class HomeModel extends ChangeNotifier {
           .where('uid', isEqualTo: currentUser.uid)
           .snapshots()
           .listen((data) {
-        if (data.docs.length != 0) {
+        if (data.docs.isNotEmpty) {
           userSnapshot = data.docs[0];
-          username = userSnapshot.data()['name'] + userSnapshot.data()['call'];
-          usercall = userSnapshot.data()['call'];
-          groupName = userSnapshot.data()['groupName'];
-          teamPosition = userSnapshot.data()['teamPosition'];
-          position = userSnapshot.data()['position'];
-          grade = userSnapshot.data()['grade'];
-          age = userSnapshot.data()['age'];
-          if (userSnapshot.data()['token_notification'] != null) {
-            _token_notification = userSnapshot.data()['token_notification'];
+          username = userSnapshot.get('name') + userSnapshot.get('call');
+          usercall = userSnapshot.get('call');
+          groupName = userSnapshot.get('groupName');
+          teamPosition = userSnapshot.get('teamPosition');
+          position = userSnapshot.get('position');
+          grade = userSnapshot.get('grade');
+          age = userSnapshot.get('age');
+          if (userSnapshot.get('token_notification') != null) {
+            _token_notification = userSnapshot.get('token_notification');
           }
           NotificationPermissions.getNotificationPermissionStatus()
               .then((status) {
@@ -124,14 +124,15 @@ class HomeModel extends ChangeNotifier {
               child: Text('エラーが発生しました'),
             );
           }
-          if (!isSended) {
-            FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-            _firebaseMessaging.getToken().then((String token_get) {
-              assert(token_get != null);
-              token = token_get;
+          // 通知関係
+          /*if (!isSended) {
+            final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+            _firebaseMessaging.getToken().then((String tokenGet) {
+              assert(tokenGet != null);
+              token = tokenGet;
             });
             isSended = true;
-          }
+          }*/
           isLoaded = true;
           notifyListeners();
         } else {
@@ -140,27 +141,27 @@ class HomeModel extends ChangeNotifier {
       });
     } else {
       isLoaded = true;
-      FirebaseAuth.instance.authStateChanges().listen((user_get) {
-        if (user_get != null) {
-          currentUser = user_get;
+      FirebaseAuth.instance.authStateChanges().listen((userGet) {
+        if (userGet != null) {
+          currentUser = userGet;
           providerID = currentUser.providerData[0].providerId;
           FirebaseFirestore.instance
               .collection('user')
               .where('uid', isEqualTo: currentUser.uid)
               .snapshots()
               .listen((data) {
-            if (data.docs.length != 0) {
+            if (data.docs.isNotEmpty) {
               userSnapshot = data.docs[0];
               username =
-                  userSnapshot.data()['name'] + userSnapshot.data()['call'];
-              usercall = userSnapshot.data()['call'];
-              groupName = userSnapshot.data()['groupName'];
-              teamPosition = userSnapshot.data()['teamPosition'];
-              position = userSnapshot.data()['position'];
-              grade = userSnapshot.data()['grade'];
-              age = userSnapshot.data()['age'];
-              if (userSnapshot.data()['token_notification'] != null) {
-                _token_notification = userSnapshot.data()['token_notification'];
+                  userSnapshot.get('name') + userSnapshot.get('call');
+              usercall = userSnapshot.get('call');
+              groupName = userSnapshot.get('groupName');
+              teamPosition = userSnapshot.get('teamPosition');
+              position = userSnapshot.get('position');
+              grade = userSnapshot.get('grade');
+              age = userSnapshot.get('age');
+              if (userSnapshot.get('token_notification') != null) {
+                _token_notification = userSnapshot.get('token_notification');
               }
               NotificationPermissions.getNotificationPermissionStatus()
                   .then((status) {
@@ -223,10 +224,10 @@ class HomeModel extends ChangeNotifier {
                 );
               }
               if (!isSended) {
-                FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-                _firebaseMessaging.getToken().then((String token_get) {
-                  assert(token_get != null);
-                  token = token_get;
+                final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+                _firebaseMessaging.getToken().then((String tokenGet) {
+                  assert(tokenGet != null);
+                  token = tokenGet;
                 });
                 isSended = true;
               }
@@ -279,7 +280,7 @@ class HomeModel extends ChangeNotifier {
   void getUserSnapshot() async {}
 
   void getSnapshot() async {
-    User user = await FirebaseAuth.instance.currentUser;
+    final User user = FirebaseAuth.instance.currentUser;
     currentUser = user;
     FirebaseFirestore.instance
         .collection('user')

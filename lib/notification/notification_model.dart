@@ -9,14 +9,14 @@ class NotificationModel extends ChangeNotifier {
   String group_before;
 
   void getUser() async {
-    User user = await FirebaseAuth.instance.currentUser;
+    final User user = FirebaseAuth.instance.currentUser;
     uid = user.uid;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: uid)
         .get()
         .then((value) {
-      DocumentSnapshot documentSnapshot = value.docs[0];
+      final DocumentSnapshot documentSnapshot = value.docs[0];
       FirebaseFirestore.instance
           .collection('user')
           .doc(documentSnapshot.id)

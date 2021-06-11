@@ -5,29 +5,29 @@ import 'package:flutter/material.dart';
 
 class ListCitationAnalyticsModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
   String group;
   String group_before = '';
   String group_claim;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  Map<String, dynamic> claims = <String, dynamic>{};
 
   void getGroup() async {
-    String group_before = group;
-    User user = await FirebaseAuth.instance.currentUser;
+    final String groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
           .collection('user')
           .where('uid', isEqualTo: user.uid)
           .get()
           .then((snapshot) {
-        group = snapshot.docs[0].data()['group'];
-        if (group != group_before) {
+        group = snapshot.docs[0].get('group');
+        if (group != groupBefore) {
           notifyListeners();
         }
         user.getIdTokenResult(true).then((value) {
-          String group_claim_before = group_claim;
+          final String groupClaimBefore = group_claim;
           group_claim = value.claims['group'];
-          if (group_claim_before != group_claim) {
+          if (groupClaimBefore != group_claim) {
             notifyListeners();
           }
         });

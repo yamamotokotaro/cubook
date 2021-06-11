@@ -54,8 +54,8 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 }
 
 class TaskScoutDetailConfirmView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   String type;
   int number;
   Color themeColor;
@@ -68,7 +68,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> contents = task.getContentList(type, number);
+    final List<Map<String, dynamic>> contents = task.getContentList(type, number);
     return Container(
         width: 280,
         child: GestureDetector(
@@ -88,10 +88,10 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                         builder: (context, model, _) {
                       if (model.isExit == true) {
                         var message = '';
-                        DocumentSnapshot snapshot = model.stepSnapshot;
-                        if (snapshot.data()['end'] != null) {
-                          if (snapshot.data()['phase'] != null) {
-                            if (snapshot.data()['phase'] == 'not examined') {
+                        final DocumentSnapshot snapshot = model.stepSnapshot;
+                        if (snapshot.get('end') != null) {
+                          if (snapshot.get('phase') != null) {
+                            if (snapshot.get('phase') == 'not examined') {
                               message = '技能考査が必要です';
                             } else {
                               message = '完修済み';
@@ -138,8 +138,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                         decoration: TextDecoration.none),
                                   ),
                                 ),
-                                model.stepSnapshot.data()['phase'] != null
-                                    ? model.stepSnapshot.data()['phase'] ==
+                                if (model.stepSnapshot.get('phase') != null) model.stepSnapshot.get('phase') ==
                                             'not examined'
                                         ? Container(
                                             child: Column(
@@ -171,10 +170,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                               ],
                                             ),
                                           )
-                                        : Container()
-                                    : Container(),
-                                model.stepSnapshot.data()['start'] != null
-                                    ? Container(
+                                        : Container() else Container(),
+                                if (model.stepSnapshot.get('start') != null) Container(
                                         child: Column(
                                           children: <Widget>[
                                             Padding(
@@ -194,7 +191,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 child: Text(
                                                   DateFormat('yyyy/MM/dd')
                                                       .format(snapshot
-                                                          .data()['start']
+                                                          .get('start')
                                                           .toDate())
                                                       .toString(),
                                                   style: TextStyle(
@@ -207,7 +204,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 onPressed: () {
                                                   model.changeTime(
                                                       snapshot
-                                                          .data()['start']
+                                                          .get('start')
                                                           .toDate(),
                                                       context,
                                                       snapshot.id,
@@ -217,10 +214,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                      )
-                                    : Container(),
-                                model.stepSnapshot.data()['end'] != null
-                                    ? Container(
+                                      ) else Container(),
+                                if (model.stepSnapshot.get('end') != null) Container(
                                         child: Column(
                                           children: <Widget>[
                                             Padding(
@@ -240,7 +235,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 child: Text(
                                                   DateFormat('yyyy/MM/dd')
                                                       .format(snapshot
-                                                          .data()['end']
+                                                          .get('end')
                                                           .toDate())
                                                       .toString(),
                                                   style: TextStyle(
@@ -253,7 +248,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 onPressed: () {
                                                   model.changeTime(
                                                       snapshot
-                                                          .data()['end']
+                                                          .get('end')
                                                           .toDate(),
                                                       context,
                                                       snapshot.id,
@@ -263,11 +258,9 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                      )
-                                    : Container(),
-                                model.stepSnapshot.data()['date_examination'] !=
-                                        null
-                                    ? Container(
+                                      ) else Container(),
+                                if (model.stepSnapshot.get('date_examination') !=
+                                        null) Container(
                                         child: Column(
                                           children: <Widget>[
                                             Padding(
@@ -285,13 +278,13 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                               padding: EdgeInsets.only(top: 5),
                                               child: FlatButton(
                                                 child: Text(
-                                                  model.stepSnapshot.data()[
-                                                              'date_interview'] !=
+                                                  model.stepSnapshot.get(
+                                                              'date_interview') !=
                                                           null
                                                       ? DateFormat('yyyy/MM/dd')
                                                           .format(snapshot
-                                                              .data()[
-                                                                  'date_interview']
+                                                              .get(
+                                                                  'date_interview')
                                                               .toDate())
                                                           .toString()
                                                       : 'タップして追加',
@@ -305,8 +298,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 onPressed: () {
                                                   model.changeTime(
                                                       snapshot
-                                                          .data()[
-                                                              'date_examination']
+                                                          .get(
+                                                              'date_examination')
                                                           .toDate(),
                                                       context,
                                                       snapshot.id,
@@ -316,11 +309,9 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                      )
-                                    : Container(),
-                                model.stepSnapshot.data()['date_examination'] !=
-                                        null
-                                    ? Container(
+                                      ) else Container(),
+                                if (model.stepSnapshot.get('date_examination') !=
+                                        null) Container(
                                         child: Column(
                                           children: <Widget>[
                                             Padding(
@@ -340,8 +331,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 child: Text(
                                                   DateFormat('yyyy/MM/dd')
                                                       .format(snapshot
-                                                          .data()[
-                                                              'date_examination']
+                                                          .get(
+                                                              'date_examination')
                                                           .toDate())
                                                       .toString(),
                                                   style: TextStyle(
@@ -354,8 +345,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 onPressed: () {
                                                   model.changeTime(
                                                       snapshot
-                                                          .data()[
-                                                              'date_examination']
+                                                          .get(
+                                                              'date_examination')
                                                           .toDate(),
                                                       context,
                                                       snapshot.id,
@@ -388,9 +379,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 )),
                                           ],
                                         ),
-                                      )
-                                    : Container(),
-                                (type != 'risu' &&
+                                      ) else Container(),
+                                if ((type != 'risu' &&
                                             type != 'usagi' &&
                                             type != 'sika' &&
                                             type != 'kuma' &&
@@ -398,8 +388,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                             type != 'tukinowa') ||
                                         model.group ==
                                             ' j27DETWHGYEfpyp2Y292' ||
-                                        model.group == ' z4pkBhhgr0fUMN4evr5z'
-                                    ? Column(children: [
+                                        model.group == ' z4pkBhhgr0fUMN4evr5z') Column(children: [
                                         ListView.builder(
                                             physics:
                                                 const NeverScrollableScrollPhysics(),
@@ -465,8 +454,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 textAlign: TextAlign.left,
                                               ),
                                             )),
-                                      ])
-                                    : Padding(
+                                      ]) else Padding(
                                         padding: EdgeInsets.only(top: 5),
                                         child: Center(
                                             child: Row(
@@ -549,7 +537,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           shrinkWrap: true,
                                           itemBuilder: (BuildContext context,
                                               int index) {
-                                            String content =
+                                            final String content =
                                                 contents[index]['body'];
                                             Color bordercolor;
                                             if (Theme.of(context).accentColor ==
@@ -673,8 +661,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   int index_page;
   String type;
   Color themeColor;
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
 
   TaskScoutAddConfirmView(
     String _type,
@@ -690,7 +678,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark;
-    String numberShow = task.getNumber(type, page, index_page);
+    final String numberShow = task.getNumber(type, page, index_page);
     if (Theme.of(context).accentColor == Colors.white) {
       isDark = true;
     } else {
@@ -724,7 +712,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                   }
                                   if (model.isLoaded) {
                                     if (model.isExit) {
-                                      if (model.stepSnapshot.data()['signed']
+                                      if (model.stepSnapshot.get('signed')
                                               [index_page.toString()] ==
                                           null) {
                                         return Container(
@@ -732,12 +720,12 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                               index_page, type, ''),
                                         );
                                       } else if (model.stepSnapshot
-                                                      .data()['signed']
+                                                      .get('signed')
                                                   [index_page.toString()]
                                               ['phaze'] ==
                                           'signed') {
-                                        Map<String, dynamic> snapshot =
-                                            model.stepSnapshot.data()['signed']
+                                        final Map<String, dynamic> snapshot =
+                                            model.stepSnapshot.get('signed')
                                                 [index_page.toString()];
                                         return Column(children: <Widget>[
                                           Container(
@@ -785,7 +773,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                               onPressed: () {
                                                 model.openTimePicker(
                                                     model.stepSnapshot
-                                                        .data()['signed'][
+                                                        .get('signed')[
                                                             index_page
                                                                 .toString()]
                                                             ['time']
@@ -803,7 +791,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                   model.textField_signature[
                                                       index_page],
                                               decoration: InputDecoration(
-                                                  labelText: "署名"),
+                                                  labelText: '署名'),
                                             ),
                                           ),
                                           Padding(
@@ -820,7 +808,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                               keyboardType:
                                                   TextInputType.multiline,
                                               decoration: InputDecoration(
-                                                  labelText: "フィードバック"),
+                                                  labelText: 'フィードバック'),
                                             ),
                                           ),
                                           if (!model.isLoading[index_page])
@@ -938,7 +926,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                     )),
                                                 FlatButton.icon(
                                                   onPressed: () async {
-                                                    var result =
+                                                    final result =
                                                         await showModalBottomSheet<
                                                             int>(
                                                       context: context,
@@ -1086,8 +1074,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
-                                          snapshot['data'] != null
-                                              ? Column(
+                                          if (snapshot['data'] != null) Column(
                                                   children: <Widget>[
                                                     Padding(
                                                         padding:
@@ -1252,11 +1239,10 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                               }
                                                             }))
                                                   ],
-                                                )
-                                              : Container(),
+                                                ) else Container(),
                                         ]);
                                       } else if (model.stepSnapshot
-                                                      .data()['signed']
+                                                      .get('signed')
                                                   [index_page.toString()]
                                               ['phaze'] ==
                                           'wait') {
@@ -1302,7 +1288,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                           ),
                                         ]);
                                       } else if (model.stepSnapshot
-                                                      .data()['signed']
+                                                      .get('signed')
                                                   [index_page.toString()]
                                               ['phaze'] ==
                                           'reject') {
@@ -1312,12 +1298,12 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                               type,
                                               'やりなおし： ' +
                                                   model.stepSnapshot
-                                                              .data()['signed'][
+                                                              .get('signed')[
                                                           index_page.toString()]
                                                       ['feedback'])
                                         ]);
                                       } else if (model.stepSnapshot
-                                                      .data()['signed']
+                                                      .get('signed')
                                                   [index_page.toString()]
                                               ['phaze'] ==
                                           'withdraw') {
@@ -1353,8 +1339,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
 //                      ),
                         ),
                   ))),
-          numberShow.length == 1
-              ? Align(
+          if (numberShow.length == 1) Align(
               alignment: Alignment.topCenter,
               child: Container(
                 height: 70,
@@ -1374,8 +1359,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                     ),
                   ),
                 ),
-              ))
-              : Align(
+              )) else Align(
             alignment: Alignment.topCenter,
             child: Card(
               color: Colors.white,

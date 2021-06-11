@@ -12,19 +12,19 @@ class ListTaskWaitingModel extends ChangeNotifier {
   bool isLoaded = false;
 
   void getSnapshot() async {
-    String group_before = group;
-    String teamPosition_before = teamPosition;
-    User user = await FirebaseAuth.instance.currentUser;
-    Firestore.instance
+    final String groupBefore = group;
+    final String teamPositionBefore = teamPosition;
+    final User user = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
-        .getDocuments()
+        .get()
         .then((snapshot) {
-      DocumentSnapshot userSnapshot = snapshot.documents[0];
-      group = userSnapshot.data()['group'];
-      team = userSnapshot.data()['team'];
-      teamPosition = userSnapshot.data()['teamPosition'];
-      if (group != group_before || teamPosition != teamPosition_before) {
+      final DocumentSnapshot userSnapshot = snapshot.docs[0];
+      group = userSnapshot.get('group');
+      team = userSnapshot.get('team');
+      teamPosition = userSnapshot.get('teamPosition');
+      if (group != groupBefore || teamPosition != teamPositionBefore) {
         notifyListeners();
       }
       /*user.getIdToken(refresh: true).then((value) {
@@ -40,21 +40,21 @@ class ListTaskWaitingModel extends ChangeNotifier {
   Stream<QuerySnapshot> getTaskSnapshot() {
     if (teamPosition != null) {
       if (teamPosition == 'teamLeader') {
-        return Firestore.instance
+        return FirebaseFirestore.instance
             .collection('task')
             .where('group', isEqualTo: group)
             .where('team', isEqualTo: team)
             .where('phase', isEqualTo: 'wait')
             .snapshots();
       } else {
-        return Firestore.instance
+        return FirebaseFirestore.instance
             .collection('task')
             .where('group', isEqualTo: group)
             .where('phase', isEqualTo: 'wait')
             .snapshots();
       }
     } else {
-      return Firestore.instance
+      return FirebaseFirestore.instance
           .collection('task')
           .where('group', isEqualTo: group)
           .where('phase', isEqualTo: 'wait')

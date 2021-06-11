@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'listMember_model.dart';
 
 class ListMemberView extends StatelessWidget {
-  var theme = new ThemeInfo();
+  var theme = ThemeInfo();
   var isRelease = const bool.fromEnvironment('dart.vm.product');
 
   @override
@@ -64,10 +64,10 @@ class ListMemberView extends StatelessWidget {
                                   builder: (BuildContext context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasData) {
-                                      if (snapshot.data.docs.length != 0) {
-                                        QuerySnapshot querySnapshot =
+                                      if (snapshot.data.docs.isNotEmpty) {
+                                        final QuerySnapshot querySnapshot =
                                             snapshot.data;
-                                        String team_last = '';
+                                        String teamLast = '';
                                         return ListView.builder(
                                             physics:
                                                 const NeverScrollableScrollPhysics(),
@@ -76,26 +76,26 @@ class ListMemberView extends StatelessWidget {
                                             shrinkWrap: true,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              DocumentSnapshot snapshot =
+                                              final DocumentSnapshot snapshot =
                                                   querySnapshot.docs[index];
                                               bool isFirst;
                                               String team;
-                                              if (snapshot.data()['team']
+                                              if (snapshot.get('team')
                                                   is int) {
                                                 team = snapshot
-                                                    .data()['team']
+                                                    .get('team')
                                                     .toString();
                                               } else {
-                                                team = snapshot.data()['team'];
+                                                team = snapshot.get('team');
                                               }
-                                              if (team_last != team) {
+                                              if (teamLast != team) {
                                                 isFirst = true;
-                                                team_last = team;
+                                                teamLast = team;
                                               } else {
                                                 isFirst = false;
                                               }
-                                              String grade =
-                                                  snapshot.data()['grade'];
+                                              final String grade =
+                                                  snapshot.get('grade');
                                               String team_call;
                                               if (grade == 'cub') {
                                                 team_call = '組';
@@ -103,8 +103,7 @@ class ListMemberView extends StatelessWidget {
                                                 team_call = '班';
                                               }
                                               return Column(children: <Widget>[
-                                                isFirst && team != ''
-                                                    ? Padding(
+                                                if (isFirst && team != '') Padding(
                                                         padding:
                                                             EdgeInsets.only(
                                                                 top: 10,
@@ -124,8 +123,7 @@ class ListMemberView extends StatelessWidget {
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
-                                                            )))
-                                                    : Container(),
+                                                            ))) else Container(),
                                                 Padding(
                                                     padding: EdgeInsets.all(5),
                                                     child: Container(
@@ -153,8 +151,8 @@ class ListMemberView extends StatelessWidget {
                                                                         (BuildContext
                                                                             context) {
                                                               return SelectBookView(
-                                                                  snapshot.data()[
-                                                                      'uid']);
+                                                                  snapshot.get(
+                                                                      'uid'));
                                                             }));
                                                           },
                                                           child: Padding(
@@ -169,8 +167,8 @@ class ListMemberView extends StatelessWidget {
                                                                   height: 40,
                                                                   decoration: BoxDecoration(
                                                                       color: theme.getUserColor(
-                                                                          snapshot.data()[
-                                                                              'age']),
+                                                                          snapshot.get(
+                                                                              'age')),
                                                                       shape: BoxShape
                                                                           .circle),
                                                                   child: Icon(
@@ -186,8 +184,8 @@ class ListMemberView extends StatelessWidget {
                                                                             left:
                                                                                 10),
                                                                     child: Text(
-                                                                      snapshot.data()[
-                                                                          'name'],
+                                                                      snapshot.get(
+                                                                          'name'),
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .bold,
@@ -219,8 +217,8 @@ class ListMemberView extends StatelessWidget {
                                   builder: (BuildContext context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasData) {
-                                      if (snapshot.data.docs.length != 0) {
-                                        QuerySnapshot querySnapshot =
+                                      if (snapshot.data.docs.isNotEmpty) {
+                                        final QuerySnapshot querySnapshot =
                                             snapshot.data;
                                         return ListView.builder(
                                             physics:
@@ -230,9 +228,9 @@ class ListMemberView extends StatelessWidget {
                                             shrinkWrap: true,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              DocumentSnapshot snapshot =
+                                              final DocumentSnapshot snapshot =
                                                   querySnapshot.docs[index];
-                                              if (snapshot.data()['team'] ==
+                                              if (snapshot.get('team') ==
                                                   null) {
                                                 return Padding(
                                                     padding: EdgeInsets.all(5),
@@ -254,8 +252,8 @@ class ListMemberView extends StatelessWidget {
                                                                         (BuildContext
                                                                             context) {
                                                               return SelectBookView(
-                                                                  snapshot.data()[
-                                                                      'uid']);
+                                                                  snapshot.get(
+                                                                      'uid'));
                                                             }));
                                                           },
                                                           child: Padding(
@@ -270,8 +268,8 @@ class ListMemberView extends StatelessWidget {
                                                                   height: 40,
                                                                   decoration: BoxDecoration(
                                                                       color: theme.getThemeColor(
-                                                                          snapshot.data()[
-                                                                              'age']),
+                                                                          snapshot.get(
+                                                                              'age')),
                                                                       shape: BoxShape
                                                                           .circle),
                                                                   child: Icon(
@@ -287,8 +285,8 @@ class ListMemberView extends StatelessWidget {
                                                                             left:
                                                                                 10),
                                                                     child: Text(
-                                                                      snapshot.data()[
-                                                                          'name'],
+                                                                      snapshot.get(
+                                                                          'name'),
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .bold,
@@ -369,8 +367,7 @@ class ListMemberView extends StatelessWidget {
                                     }
                                   },
                                 ),
-                                model.position == 'leader'
-                                    ? Padding(
+                                if (model.position == 'leader') Padding(
                                         padding: EdgeInsets.all(17),
                                         child: Container(
                                             width: double.infinity,
@@ -381,10 +378,8 @@ class ListMemberView extends StatelessWidget {
                                                 fontSize: 28,
                                               ),
                                               textAlign: TextAlign.left,
-                                            )))
-                                    : Container(),
-                                model.position == 'leader'
-                                    ? Padding(
+                                            ))) else Container(),
+                                if (model.position == 'leader') Padding(
                                         padding: EdgeInsets.only(bottom: 55),
                                         child: StreamBuilder<QuerySnapshot>(
                                           stream: FirebaseFirestore.instance
@@ -469,13 +464,13 @@ class ListMemberView extends StatelessWidget {
                                                                                   10),
                                                                           child:
                                                                               Text(
-                                                                            snapshot.data()['name'],
+                                                                            snapshot.get('name'),
                                                                             style:
                                                                                 TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                           )),
                                                                       Spacer(),
-                                                                      snapshot.data()[
-                                                                              'admin']
+                                                                      snapshot.get(
+                                                                              'admin')
                                                                           ? Padding(
                                                                               padding: EdgeInsets.only(left: 10),
                                                                               child: Text(
@@ -550,8 +545,7 @@ class ListMemberView extends StatelessWidget {
                                             }
                                           },
                                         ),
-                                      )
-                                    : Container(),
+                                      ) else Container(),
                               ],
                             );
                           } else {

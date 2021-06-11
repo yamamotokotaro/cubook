@@ -14,27 +14,27 @@ class CommunityModel extends ChangeNotifier {
   String documentID_exit;
   List<dynamic> dataMap;
   TextEditingController commentController = TextEditingController();
-  ScrollController scrollController = new ScrollController();
+  ScrollController scrollController = ScrollController();
 
-  var dateSelected = new List<dynamic>();
-  var dataList = new List<dynamic>();
+  var dateSelected = List<dynamic>();
+  var dataList = <dynamic>[];
 
   QuerySnapshot userSnapshot;
   String group;
   String group_claim;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  Map<String, dynamic> claims = <String, dynamic>{};
 
   void getGroup() async {
-    String group_before = group;
-    User user = await FirebaseAuth.instance.currentUser;
+    final String groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser;
     this.user = user;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
         .then((snapshot) {
-      group = snapshot.docs[0].data()['group'];
-      if (group != group_before) {
+      group = snapshot.docs[0].get('group');
+      if (group != groupBefore) {
         notifyListeners();
       }
       /*user.getIdToken(refresh: true).then((value) {
@@ -48,22 +48,22 @@ class CommunityModel extends ChangeNotifier {
   }
 
   void getData(DocumentSnapshot snapshot, int quant) async {
-    String documentID_before = snapshot.id;
-    if (documentID != documentID_before) {
+    final String documentIDBefore = snapshot.id;
+    if (documentID != documentIDBefore) {
       isGet = false;
       dataList =
-          new List<dynamic>.generate(quant, (index) => new List<dynamic>());
-      dateSelected = new List<dynamic>.generate(quant, (index) => null);
+          List<dynamic>.generate(quant, (index) => List<dynamic>());
+      dateSelected = List<dynamic>.generate(quant, (index) => null);
 
       for (int i = 0; i < quant; i++) {
-        if (snapshot.data()['signed'][i.toString()] != null) {
-          Map<String, dynamic> doc = snapshot.data()['signed'][i.toString()];
+        if (snapshot.get('signed')[i.toString()] != null) {
+          final Map<String, dynamic> doc = snapshot.get('signed')[i.toString()];
           if (doc != null) {
             if (doc['phaze'] == 'signed') {
               dateSelected[i] = doc['time'].toDate();
               dataMap = doc['data'];
               if (dataMap != null) {
-                List<dynamic> body = List<dynamic>();
+                final List<dynamic> body = <dynamic>[];
                 for (int j = 0; j < dataMap.length; j++) {
                   if (dataMap[j]['type'] == 'text') {
                     body.add(dataMap[j]['body']);
@@ -103,7 +103,7 @@ class CommunityModel extends ChangeNotifier {
     if (commentController.text != '') {
       isLoading_comment = true;
       notifyListeners();
-      User user = await FirebaseAuth.instance.currentUser;
+      final User user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         FirebaseFirestore.instance
             .collection('user')
@@ -111,7 +111,7 @@ class CommunityModel extends ChangeNotifier {
             .where('group', isEqualTo: group)
             .get()
             .then((data) {
-          DocumentSnapshot snapshot = data.docs[0];
+          final DocumentSnapshot snapshot = data.docs[0];
           FirebaseFirestore.instance
               .collection('comment')
               .add(<String, dynamic>{
@@ -119,8 +119,8 @@ class CommunityModel extends ChangeNotifier {
             'uid': user.uid,
             'body': commentController.text,
             'effortID': effortID,
-            'name': snapshot.data()['name'],
-            'age': snapshot.data()['age'],
+            'name': snapshot.get('name'),
+            'age': snapshot.get('age'),
             'time': Timestamp.now()
           }).then((value) {
             commentController.clear();

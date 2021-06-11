@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListActivityView extends StatelessWidget {
-  var theme = new ThemeInfo();
+  var theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +43,8 @@ class ListActivityView extends StatelessWidget {
                           builder: (BuildContext context,
                               AsyncSnapshot<QuerySnapshot> snapshot) {
                             if (snapshot.hasData) {
-                              if (snapshot.data.docs.length != 0) {
-                                QuerySnapshot querySnapshot = snapshot.data;
+                              if (snapshot.data.docs.isNotEmpty) {
+                                final QuerySnapshot querySnapshot = snapshot.data;
                                 return ListView.builder(
                                     physics:
                                         const NeverScrollableScrollPhysics(),
@@ -52,7 +52,7 @@ class ListActivityView extends StatelessWidget {
                                     shrinkWrap: true,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      DocumentSnapshot snapshot =
+                                      final DocumentSnapshot snapshot =
                                           querySnapshot.docs[index];
                                       return Padding(
                                         padding: EdgeInsets.all(5),
@@ -81,7 +81,7 @@ class ListActivityView extends StatelessWidget {
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              snapshot.data()['title'],
+                                                              snapshot.get('title'),
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
@@ -102,8 +102,8 @@ class ListActivityView extends StatelessWidget {
                                                             child: Text(
                                                               DateFormat(
                                                                       'yyyy/MM/dd')
-                                                                  .format(snapshot.data()[
-                                                                          'date']
+                                                                  .format(snapshot.get(
+                                                                          'date')
                                                                       .toDate())
                                                                   .toString(),
                                                               style: TextStyle(

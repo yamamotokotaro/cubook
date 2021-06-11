@@ -87,12 +87,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String title = "Title";
-  String helper = "helper";
+  String title = 'Title';
+  String helper = 'helper';
   final boyColor = Colors.orange;
   FirebaseAnalytics analytics = FirebaseAnalytics();
 
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
@@ -102,15 +102,15 @@ class _MyAppState extends State<MyApp> {
     _firebaseMessaging.configure(
       onMessage: (message) async {
         setState(() {
-          title = message["notification"]["title"];
-          helper = "You have recieved a new notification";
+          title = message['notification']['title'];
+          helper = 'You have recieved a new notification';
           print(title);
         });
       },
       onResume: (message) async {
         setState(() {
-          title = message["data"]["title"];
-          helper = "You have open the application from notification";
+          title = message['data']['title'];
+          helper = 'You have open the application from notification';
           print(message.toString());
         });
       },
@@ -160,18 +160,18 @@ class _MyAppState extends State<MyApp> {
               create: (context) => ListCitationAnalyticsModel()),
         ],
         child: MaterialApp(
-          title: "cubook",
+          title: 'cubook',
           home: HomeController(),
           navigatorObservers: [
             FirebaseAnalyticsObserver(analytics: analytics),
           ],
           debugShowCheckedModeBanner: false,
-          theme: new ThemeData(
+          theme: ThemeData(
               fontFamily: 'NotoSansJP',
               brightness: Brightness.light,
               primaryColor: Colors.blue[900],
               accentColor: Colors.blue[900]),
-          darkTheme: new ThemeData(
+          darkTheme: ThemeData(
             brightness: Brightness.dark,
             primaryColor: Colors.blue[900],
             accentColor: Colors.white,
@@ -213,8 +213,8 @@ class _MyAppState extends State<MyApp> {
             DefaultCupertinoLocalizations.delegate
           ],
           supportedLocales: [
-            const Locale("en"),
-            const Locale("ja"),
+            const Locale('en'),
+            const Locale('ja'),
           ],
         ));
   }

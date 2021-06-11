@@ -12,7 +12,7 @@ class ListAbsentScoutModel extends ChangeNotifier {
   void getUser() async {
     if (uid != uid_before) {
       uid_before = uid;
-      User user = await FirebaseAuth.instance.currentUser;
+      final User user = FirebaseAuth.instance.currentUser;
       uid = user.uid;
       notifyListeners();
     }

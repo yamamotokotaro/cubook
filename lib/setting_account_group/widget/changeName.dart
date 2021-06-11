@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChangeNameView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   String uid;
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ChangeNameView extends StatelessWidget {
                               EdgeInsets.only(left: 10, right: 10),
                               child: TextField(
                                 decoration:
-                                InputDecoration(labelText: "姓"),
+                                InputDecoration(labelText: '姓'),
                               ),
                             ),
                             Padding(
@@ -33,7 +33,7 @@ class ChangeNameView extends StatelessWidget {
                               EdgeInsets.only(left: 10, right: 10),
                               child: TextField(
                                 decoration:
-                                InputDecoration(labelText: "名"),
+                                InputDecoration(labelText: '名'),
                               ),
                             ),
                             RaisedButton.icon(

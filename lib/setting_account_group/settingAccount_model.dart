@@ -25,13 +25,13 @@ class SettingAccountGroupModel extends ChangeNotifier {
   String age;
   String call;
   String uid;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  Map<String, dynamic> claims = Map<String, dynamic>();
 
-  void getSnapshot(String uid_toShow) async {
-    var task = new TaskContents();
-    if (uid_toShow != uid) {
-      uid = uid_toShow;
-      User user = await FirebaseAuth.instance.currentUser;
+  void getSnapshot(String uidToShow) async {
+    final task = TaskContents();
+    if (uidToShow != uid) {
+      uid = uidToShow;
+      final User user = FirebaseAuth.instance.currentUser;
       currentUser = user;
       user.getIdTokenResult().then((token) async {
         FirebaseFirestore.instance
@@ -41,14 +41,14 @@ class SettingAccountGroupModel extends ChangeNotifier {
             .snapshots()
             .listen((data) {
           userSnapshot = data.docs[0];
-          String family = userSnapshot.data()['family'];
-          group = userSnapshot.data()['group'];
+          final String family = userSnapshot.get('family');
+          group = userSnapshot.get('group');
           familyController =
-              TextEditingController(text: userSnapshot.data()['family']);
+              TextEditingController(text: userSnapshot.get('family'));
           firstController =
-              TextEditingController(text: userSnapshot.data()['first']);
-          if (userSnapshot.data()['teamPosition'] != null) {
-            if (userSnapshot.data()['teamPosition'] == 'teamLeader') {
+              TextEditingController(text: userSnapshot.get('first'));
+          if (userSnapshot.get('teamPosition') != null) {
+            if (userSnapshot.get('teamPosition') == 'teamLeader') {
               isTeamLeader = true;
             } else {
               isTeamLeader = false;
@@ -57,17 +57,17 @@ class SettingAccountGroupModel extends ChangeNotifier {
             isTeamLeader = false;
           }
           String team;
-          if (userSnapshot.data()['team'] is int) {
-            team = userSnapshot.data()['team'].toString();
+          if (userSnapshot.get('team') is int) {
+            team = userSnapshot.get('team').toString();
           } else {
-            team = userSnapshot.data()['team'];
+            team = userSnapshot.get('team');
           }
-          if (userSnapshot.data()['team'] != null) {
+          if (userSnapshot.get('team') != null) {
             teamController = TextEditingController(text: team);
           } else {
             teamController = TextEditingController();
           }
-          switch (userSnapshot.data()['age']) {
+          switch (userSnapshot.get('age')) {
             case 'risu':
               age = 'りす';
               break;
@@ -100,7 +100,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
               break;
           }
           dropdown_text = age;
-          call = userSnapshot.data()['call'];
+          call = userSnapshot.get('call');
           notifyListeners();
         });
         isGet = true;
@@ -109,21 +109,21 @@ class SettingAccountGroupModel extends ChangeNotifier {
   }
 
   void getGroup() async {
-    String group_before = group;
-    User user = await FirebaseAuth.instance.currentUser;
+    final String groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
         .then((snapshot) {
-      group = snapshot.docs[0].data()['group'];
-      if (group != group_before) {
+      group = snapshot.docs[0].get('group');
+      if (group != groupBefore) {
         notifyListeners();
       }
       user.getIdTokenResult().then((value) {
-        String group_claim_before = group_claim;
+        final String groupClaimBefore = group_claim;
         group_claim = value.claims['group'];
-        if (group_claim_before != group_claim) {
+        if (groupClaimBefore != group_claim) {
           notifyListeners();
         }
       });
@@ -149,31 +149,31 @@ class SettingAccountGroupModel extends ChangeNotifier {
     String age;
     String position;
     String teamPosition;
-    int age_turn;
+    int ageTurn;
     String grade;
     switch (dropdown_text) {
       case 'りす':
         age = 'risu';
         position = 'scout';
-        age_turn = 4;
+        ageTurn = 4;
         grade = 'cub';
         break;
       case 'うさぎ':
         age = 'usagi';
         position = 'scout';
-        age_turn = 7;
+        ageTurn = 7;
         grade = 'cub';
         break;
       case 'しか':
         age = 'sika';
         position = 'scout';
-        age_turn = 8;
+        ageTurn = 8;
         grade = 'cub';
         break;
       case 'くま':
         age = 'kuma';
         position = 'scout';
-        age_turn = 9;
+        ageTurn = 9;
         grade = 'cub';
         break;
       case 'リーダー':
@@ -184,37 +184,37 @@ class SettingAccountGroupModel extends ChangeNotifier {
       case 'ボーイスカウトバッジ':
         age = 'syokyu';
         position = 'scout';
-        age_turn = 12;
+        ageTurn = 12;
         grade = 'boy';
         break;
       case '初級スカウト':
         age = 'nikyu';
         position = 'scout';
-        age_turn = 13;
+        ageTurn = 13;
         grade = 'boy';
         break;
       case '2級スカウト':
         age = 'ikkyu';
         position = 'scout';
-        age_turn = 14;
+        ageTurn = 14;
         grade = 'boy';
         break;
       case '1級スカウト':
         age = 'kiku';
         position = 'scout';
-        age_turn = 15;
+        ageTurn = 15;
         grade = 'boy';
         break;
       case '菊スカウト（隼を目指すスカウト）':
         age = 'hayabusa';
         position = 'scout';
-        age_turn = 16;
+        ageTurn = 16;
         grade = 'boy';
         break;
       case '隼スカウト':
         age = 'fuji';
         position = 'scout';
-        age_turn = 17;
+        ageTurn = 17;
         grade = 'boy';
         break;
     }
@@ -235,13 +235,13 @@ class SettingAccountGroupModel extends ChangeNotifier {
         call != null) {
       isLoading = true;
       notifyListeners();
-      User user = await FirebaseAuth.instance.currentUser;
+      final User user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((token) async {
-          String url =
-              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/changeUserInfo_group";
-          Map<String, String> headers = {'content-type': 'application/json'};
-          String body = json.encode(<String, dynamic>{
+          final String url =
+              'https://asia-northeast1-cubook-3c960.cloudfunctions.net/changeUserInfo_group';
+          final Map<String, String> headers = {'content-type': 'application/json'};
+          final String body = json.encode(<String, dynamic>{
             'idToken': token.token,
             'family': familyController.text,
             'first': firstController.text,
@@ -249,28 +249,28 @@ class SettingAccountGroupModel extends ChangeNotifier {
             'team': teamController.text,
             'teamPosition': teamPosition,
             'age': age,
-            'age_turn': age_turn,
+            'age_turn': ageTurn,
             'uid': uid,
             'grade': grade
           });
 
-          http.Response resp =
+          final http.Response resp =
               await http.post(Uri.parse(url), headers: headers, body: body);
           isLoading = false;
           if (resp.body == 'success') {
-            Scaffold.of(context).showSnackBar(new SnackBar(
-              content: new Text('変更を保存しました'),
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text('変更を保存しました'),
             ));
           } else if (resp.body == 'No such document!' ||
               resp.body == 'not found') {
             isLoading = false;
-            Scaffold.of(context).showSnackBar(new SnackBar(
-              content: new Text('ユーザーが見つかりませんでした'),
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text('ユーザーが見つかりませんでした'),
             ));
           } else {
             isLoading = false;
-            Scaffold.of(context).showSnackBar(new SnackBar(
-              content: new Text('エラーが発生しました' + resp.body),
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text('エラーが発生しました' + resp.body),
             ));
           }
           notifyListeners();
@@ -354,7 +354,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
                                         primary: Colors.blue[900], //ボタンの背景色
                                       ),
                                       child: Text(
-                                        "一覧に戻る",
+                                        '一覧に戻る',
                                       ),
                                     )),
                               ],
@@ -407,18 +407,18 @@ class SettingAccountGroupModel extends ChangeNotifier {
     print('start deleting...');
     isLoading = true;
     notifyListeners();
-    User user = await FirebaseAuth.instance.currentUser;
+    final User user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       user.getIdTokenResult().then((token) async {
-        String url =
-            "https://asia-northeast1-cubook-3c960.cloudfunctions.net/deleteGroupAccount_https";
-        Map<String, String> headers = {'content-type': 'application/json'};
-        String body = json.encode(<String, dynamic>{
+        final String url =
+            'https://asia-northeast1-cubook-3c960.cloudfunctions.net/deleteGroupAccount_https';
+        final Map<String, String> headers = {'content-type': 'application/json'};
+        final String body = json.encode(<String, dynamic>{
           'idToken': token.token,
           'uid': uid,
         });
 
-        http.Response resp =
+        final http.Response resp =
             await http.post(Uri.parse(url), headers: headers, body: body);
         isLoading = false;
         print('end');

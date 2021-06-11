@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../signup_model.dart';
@@ -22,8 +23,7 @@ class CreateGroupView extends StatelessWidget {
                 fontSize: 20, fontWeight: FontWeight.bold,),
           ),
         ),
-        model.mes_join != ''
-            ? Padding(
+        if (model.mes_join != '') Padding(
                 padding: EdgeInsets.only(top: 30),
                 child: Text(
                   model.mes_join,
@@ -32,8 +32,7 @@ class CreateGroupView extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Colors.red),
                 ),
-              )
-            : Container(),
+              ) else Container(),
             Padding(
                 padding:
                 EdgeInsets.only(left: 10, right: 10),
@@ -43,9 +42,9 @@ class CreateGroupView extends StatelessWidget {
                   hint: Text('隊を選択'),
                   items: <String>[/*'ビーバー隊', */'カブ隊', /*'ボーイ隊', 'ベンチャー隊'*/]
                       .map((String value) {
-                    return new DropdownMenuItem<String>(
+                    return DropdownMenuItem<String>(
                       value: value,
-                      child: new Text(value),
+                      child: Text(value),
                     );
                   }).toList(),
                   onChanged: (value) {
@@ -55,14 +54,13 @@ class CreateGroupView extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(10),
           child: TextField(
-            controller: model.groupController,
+            maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.groupController,
             enabled: true,
             // 入力数
             keyboardType: TextInputType.multiline,
             maxLines: null,
-            maxLengthEnforced: false,
             decoration:
-                InputDecoration(labelText: "グループの名前", hintText: '例）杉並〇〇団'),
+                InputDecoration(labelText: 'グループの名前', hintText: '例）杉並〇〇団'),
             onChanged: (text) {
               model.joinCode = text;
             },
@@ -71,13 +69,12 @@ class CreateGroupView extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(10),
           child: TextField(
-            controller: model.familyController,
+            maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.familyController,
             enabled: true,
             // 入力数
             keyboardType: TextInputType.multiline,
             maxLines: null,
-            maxLengthEnforced: false,
-            decoration: InputDecoration(labelText: "あなたの名字"),
+            decoration: InputDecoration(labelText: 'あなたの名字'),
             onChanged: (text) {
               model.joinCode = text;
             },
@@ -86,13 +83,12 @@ class CreateGroupView extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(10),
           child: TextField(
-            controller: model.firstController,
+            maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.firstController,
             enabled: true,
             // 入力数
             keyboardType: TextInputType.multiline,
             maxLines: null,
-            maxLengthEnforced: false,
-            decoration: InputDecoration(labelText: "あなたの名前"),
+            decoration: InputDecoration(labelText: 'あなたの名前'),
             onChanged: (text) {
               model.joinCode = text;
             },

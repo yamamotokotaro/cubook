@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TaskListAnalyticsView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   Color themeColor;
   String type;
   String typeFireStore;
@@ -28,7 +28,7 @@ class TaskListAnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var map_task = task.getAllMap(type);
+    final mapTask = task.getAllMap(type);
     bool isDark;
     if (Theme.of(context).accentColor == Colors.white) {
       isDark = true;
@@ -63,32 +63,32 @@ class TaskListAnalyticsView extends StatelessWidget {
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
                                 int userCount = 0;
-                                List<DocumentSnapshot> listSnapshot =
+                                final List<DocumentSnapshot> listSnapshot =
                                     snapshot.data.docs;
-                                List<String> listUid = new List<String>();
+                                final List<String> listUid = <String>[];
                                 if (type == 'challenge' || type == 'gino' || type == 'syorei') {
                                   userCount = listSnapshot.length;
                                 } else if (type=='tukinowa') {
                                   for (DocumentSnapshot documentSnapshot
                                   in listSnapshot) {
-                                    if (documentSnapshot.data()['age'] == 'kuma') {
+                                    if (documentSnapshot.get('age') == 'kuma') {
                                       userCount++;
-                                      listUid.add(documentSnapshot.data()['uid']);
+                                      listUid.add(documentSnapshot.get('uid'));
                                     }
                                   }
                                 } else {
                                   for (DocumentSnapshot documentSnapshot
                                       in listSnapshot) {
-                                    if (documentSnapshot.data()['age'] == type) {
+                                    if (documentSnapshot.get('age') == type) {
                                       userCount++;
-                                      listUid.add(documentSnapshot.data()['uid']);
+                                      listUid.add(documentSnapshot.get('uid'));
                                     }
                                   }
                                 }
                                 return ListView.builder(
                                     physics:
                                         const NeverScrollableScrollPhysics(),
-                                    itemCount: map_task.length,
+                                    itemCount: mapTask.length,
                                     shrinkWrap: true,
                                     itemBuilder:
                                         (BuildContext context, int index) {
@@ -145,7 +145,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                   EdgeInsets
                                                                       .all(20),
                                                               child: Text(
-                                                                map_task[index]
+                                                                mapTask[index]
                                                                     ['number'],
                                                                 style: TextStyle(
                                                                     fontWeight:
@@ -178,7 +178,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                         Alignment
                                                                             .centerLeft,
                                                                     child: Text(
-                                                                      map_task[
+                                                                      mapTask[
                                                                               index]
                                                                           [
                                                                           'title'],
@@ -210,14 +210,14 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                         context,
                                                                     AsyncSnapshot<
                                                                             QuerySnapshot>
-                                                                        snapshot_task) {
-                                                                  if (snapshot_task
+                                                                        snapshotTask) {
+                                                                  if (snapshotTask
                                                                       .hasData) {
                                                                     int itemCount =
                                                                         0;
-                                                                    List<DocumentSnapshot>
+                                                                    final List<DocumentSnapshot>
                                                                         listSnapshot =
-                                                                        snapshot_task
+                                                                        snapshotTask
                                                                             .data
                                                                             .docs;
                                                                     for (DocumentSnapshot documentSnapshot
@@ -231,7 +231,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                         itemCount++;
                                                                       } else if (listUid
                                                                           .contains(
-                                                                              documentSnapshot.data()['uid'])) {
+                                                                              documentSnapshot.get('uid'))) {
                                                                         itemCount++;
                                                                       }
                                                                     }
@@ -249,7 +249,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                                     width: 30,
                                                                                     child: CircularProgressIndicator(
                                                                                       backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                                                                      valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),
+                                                                                      valueColor: AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),
                                                                                       value: userCount == 0 ? 0 : itemCount / userCount,
                                                                                     ))),
                                                                             Text('完修者 ' + itemCount.toString() + '/' + userCount.toString(),
@@ -264,7 +264,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                           width: 30,
                                                                           child: CircularProgressIndicator(
                                                                             backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                                                            valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
+                                                                            valueColor: AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
                                                                     );
                                                                   }
                                                                 })
@@ -284,7 +284,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                       width: 30,
                                       child: CircularProgressIndicator(
                                         backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                        valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
+                                        valueColor: AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
                                 );
                               }
                             });
@@ -296,7 +296,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                               width: 30,
                               child: CircularProgressIndicator(
                                 backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
+                                valueColor: AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
                         );
                       }
                     }))

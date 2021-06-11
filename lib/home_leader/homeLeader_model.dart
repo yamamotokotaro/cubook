@@ -14,30 +14,30 @@ class HomeLeaderModel extends ChangeNotifier {
   dynamic team;
   String teamPosition;
   String uid;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  Map<String, dynamic> claims = <String, dynamic>{};
 
   void getSnapshot(BuildContext context) async {
-    String group_before = group;
-    String teamPosition_before = teamPosition;
-    User user = await FirebaseAuth.instance.currentUser;
+    final String groupBefore = group;
+    final String teamPositionBefore = teamPosition;
+    final User user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
         .then((snapshot) async {
-      DocumentSnapshot userSnapshot = snapshot.docs[0];
-      group = userSnapshot.data()['group'];
-      team = userSnapshot.data()['team'];
-      teamPosition = userSnapshot.data()['teamPosition'];
+      final DocumentSnapshot userSnapshot = snapshot.docs[0];
+      group = userSnapshot.get('group');
+      team = userSnapshot.get('team');
+      teamPosition = userSnapshot.get('teamPosition');
       user.getIdTokenResult(true).then((value) {
         print(value.claims);
-        String group_claim_before = group_claim;
+        final String groupClaimBefore = group_claim;
         group_claim = value.claims['group'];
-        if (group_claim_before != group_claim) {
+        if (groupClaimBefore != group_claim) {
           notifyListeners();
         }
       });
-      if (group != group_before || teamPosition != teamPosition_before) {
+      if (group != groupBefore || teamPosition != teamPositionBefore) {
         notifyListeners();
         /*final RemoteConfig remoteConfig = await RemoteConfig.instance;
         await remoteConfig.fetch(expiration: const Duration(seconds: 1));

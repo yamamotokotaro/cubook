@@ -14,8 +14,8 @@ import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 
 class HomeScoutView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   Future<PermissionStatus> permissionStatus =
   NotificationPermissions.getNotificationPermissionStatus();
 
@@ -28,25 +28,25 @@ class HomeScoutView extends StatelessWidget {
           selector: (context, model) => model.userSnapshot,
           builder: (context, userSnapshot, child) {
             DateTime timeChecked;
-            if (userSnapshot.data()['time_notificationChecked'] != null) {
+            if (userSnapshot.get('time_notificationChecked') != null) {
               timeChecked =
-                  userSnapshot.data()['time_notificationChecked'].toDate();
+                  userSnapshot.get('time_notificationChecked').toDate();
             }
             return StreamBuilder<QuerySnapshot>(
                 stream: timeChecked != null
                     ? FirebaseFirestore.instance
                     .collection('notification')
-                    .where('uid', isEqualTo: userSnapshot.data()['uid'])
+                    .where('uid', isEqualTo: userSnapshot.get('uid'))
                     .where('time', isGreaterThan: timeChecked)
                     .snapshots()
                     : FirebaseFirestore.instance
                     .collection('notification')
-                    .where('uid', isEqualTo: userSnapshot.data()['uid'])
+                    .where('uid', isEqualTo: userSnapshot.get('uid'))
                     .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData) {
-                    int snapshotLength = snapshot.data.docs.length;
+                    final int snapshotLength = snapshot.data.docs.length;
                     return Padding(
                       padding: EdgeInsets.only(
                           top: 5, left: 10, right: 10, bottom: 5),
@@ -173,9 +173,9 @@ class HomeScoutView extends StatelessWidget {
                 ])),
 
         Consumer<HomeModel>(builder: (context, model, child) {
-          List<String> type = new List<String>();
-          String age = model.age;
-          String grade = model.grade;
+          final List<String> type = List<String>();
+          final String age = model.age;
+          final String grade = model.grade;
           type.add(age);
           if (age != 'risu' && model.grade == 'cub') {
             type.add('challenge');
@@ -238,17 +238,17 @@ class HomeScoutView extends StatelessWidget {
                                           builder: (context, snapshot, child) =>
                                           snapshot !=
                                               null
-                                              ? snapshot.data()[type[index]] !=
+                                              ? snapshot.get(type[index]) !=
                                               null
                                               ? CircularProgressIndicator(
                                               backgroundColor: theme
                                                   .getIndicatorColor(
                                                   type[index]),
-                                              valueColor: new AlwaysStoppedAnimation<
+                                              valueColor: AlwaysStoppedAnimation<
                                                   Color>(
                                                   Colors.white),
                                               value: snapshot
-                                                  .data()[type[index]].length /
+                                                  .get(type[index]).length /
                                                   task
                                                       .getAllMap(
                                                       type[index])
@@ -257,7 +257,7 @@ class HomeScoutView extends StatelessWidget {
                                               backgroundColor: theme
                                                   .getIndicatorColor(
                                                   type[index]),
-                                              valueColor: new AlwaysStoppedAnimation<
+                                              valueColor: AlwaysStoppedAnimation<
                                                   Color>(Colors.white),
                                               value: 0)
                                               : CircularProgressIndicator(
@@ -265,7 +265,7 @@ class HomeScoutView extends StatelessWidget {
                                             theme.getIndicatorColor(
                                                 type[index]),
                                             valueColor:
-                                            new AlwaysStoppedAnimation<
+                                            AlwaysStoppedAnimation<
                                                 Color>(Colors.white),
                                           ))),
                                   Padding(

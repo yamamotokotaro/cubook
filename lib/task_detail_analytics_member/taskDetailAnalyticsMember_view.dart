@@ -33,17 +33,17 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class TaskDetailAnalyticsMemberView extends StatelessWidget {
-  var theme = new ThemeInfo();
-  var task = new TaskContents();
+  var theme = ThemeInfo();
+  var task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
-    TaskDetailMember info = ModalRoute.of(context).settings.arguments;
-    String type = info.type;
-    int page = info.page;
-    String phase = info.phase;
-    int number = info.number;
-    Color themeColor = theme.getThemeColor(type);
+    final TaskDetailMember info = ModalRoute.of(context).settings.arguments;
+    final String type = info.type;
+    final int page = info.page;
+    final String phase = info.phase;
+    final int number = info.number;
+    final Color themeColor = theme.getThemeColor(type);
     List<String> tabs;
     if (phase == 'end') {
       tabs = ['完修済み', '未完修'];
@@ -80,29 +80,29 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                       stream: model.getUserSnapshot(type),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
-                        String team_last = '';
+                        String teamLast = '';
                         if (snapshot.hasData) {
                           int userCount = 0;
-                          List<DocumentSnapshot> listSnapshot =
+                          final List<DocumentSnapshot> listSnapshot =
                               snapshot.data.docs;
-                          List<String> listUid = new List<String>();
-                          List<String> listUid_toShow = new List<String>();
+                          final List<String> listUid = List<String>();
+                          final List<String> listUidToShow = <String>[];
                           if (type == 'challenge' || type == 'gino') {
                             userCount = listSnapshot.length;
                           } else if (type == 'tukinowa') {
                             for (DocumentSnapshot documentSnapshot
                                 in listSnapshot) {
-                              if (documentSnapshot.data()['age'] == 'kuma') {
+                              if (documentSnapshot.get('age') == 'kuma') {
                                 userCount++;
-                                listUid.add(documentSnapshot.data()['uid']);
+                                listUid.add(documentSnapshot.get('uid'));
                               }
                             }
                           } else {
                             for (DocumentSnapshot documentSnapshot
                                 in listSnapshot) {
-                              if (documentSnapshot.data()['age'] == type) {
+                              if (documentSnapshot.get('age') == type) {
                                 userCount++;
-                                listUid.add(documentSnapshot.data()['uid']);
+                                listUid.add(documentSnapshot.get('uid'));
                               }
                             }
                           }
@@ -113,44 +113,44 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                 .where('page', isEqualTo: page)
                                 .snapshots(),
                             builder: (BuildContext context,
-                                AsyncSnapshot<QuerySnapshot> snapshot_task) {
-                              if (snapshot_task.hasData) {
-                                List<DocumentSnapshot> list_documentSnapshot =
-                                    snapshot_task.data.docs;
+                                AsyncSnapshot<QuerySnapshot> snapshotTask) {
+                              if (snapshotTask.hasData) {
+                                final List<DocumentSnapshot> listDocumentSnapshot =
+                                    snapshotTask.data.docs;
                                 for (DocumentSnapshot documentSnapshot
-                                    in list_documentSnapshot) {
+                                    in listDocumentSnapshot) {
                                   if (phase == 'end') {
-                                    if (documentSnapshot.data()['end'] !=
+                                    if (documentSnapshot.get('end') !=
                                             null &&
                                         (listUid.contains(documentSnapshot
-                                                .data()['uid']) ||
+                                                .get('uid')) ||
                                             type == 'challenge' ||
                                             type == 'gino' ||
                                             type == 'tukinowa')) {
-                                      listUid_toShow
-                                          .add(documentSnapshot.data()['uid']);
+                                      listUidToShow
+                                          .add(documentSnapshot.get('uid'));
                                     } else if (type == 'tukinowa') {
-                                      if (documentSnapshot.data()['age'] ==
+                                      if (documentSnapshot.get('age') ==
                                           'kuma') {
                                         userCount++;
-                                        listUid_toShow.add(
-                                            documentSnapshot.data()['uid']);
+                                        listUidToShow.add(
+                                            documentSnapshot.get('uid'));
                                       }
                                     }
                                   }
                                   if (phase == 'number') {
-                                    Map<dynamic, dynamic> signed =
-                                        documentSnapshot.data()['signed'];
-                                    Map<dynamic, dynamic> signed_part =
+                                    final Map<dynamic, dynamic> signed =
+                                        documentSnapshot.get('signed');
+                                    final Map<dynamic, dynamic> signedPart =
                                         signed[number.toString()];
-                                    if (signed_part != null) {
-                                      if (signed_part['phaze'] == 'signed' &&
+                                    if (signedPart != null) {
+                                      if (signedPart['phaze'] == 'signed' &&
                                           (listUid.contains(documentSnapshot
-                                                  .data()['uid']) ||
+                                                  .get('uid')) ||
                                               type == 'challenge' ||
                                               type == 'gino')) {
-                                        listUid_toShow.add(
-                                            documentSnapshot.data()['uid']);
+                                        listUidToShow.add(
+                                            documentSnapshot.get('uid'));
                                       }
                                     }
                                   }
@@ -190,34 +190,34 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                             shrinkWrap: true,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              DocumentSnapshot snapshot =
+                                              final DocumentSnapshot snapshot =
                                                   listSnapshot[index];
-                                              if (listUid_toShow.contains(
-                                                  snapshot.data()['uid'])) {
+                                              if (listUidToShow.contains(
+                                                  snapshot.get('uid'))) {
                                                 bool isFirst;
                                                 String team;
-                                                if (snapshot.data()['team']
+                                                if (snapshot.get('team')
                                                     is int) {
                                                   team = snapshot
-                                                      .data()['team']
+                                                      .get('team')
                                                       .toString();
                                                 } else {
                                                   team =
-                                                      snapshot.data()['team'];
+                                                      snapshot.get('team');
                                                 }
-                                                if (team_last != team) {
+                                                if (teamLast != team) {
                                                   isFirst = true;
-                                                  team_last = team;
+                                                  teamLast = team;
                                                 } else {
                                                   isFirst = false;
                                                 }
-                                                String grade =
-                                                    snapshot.data()['grade'];
-                                                String team_call;
+                                                final String grade =
+                                                    snapshot.get('grade');
+                                                String teamCall;
                                                 if (grade == 'cub') {
-                                                  team_call = '組';
+                                                  teamCall = '組';
                                                 } else {
-                                                  team_call = '班';
+                                                  teamCall = '班';
                                                 }
                                                 return Column(
                                                     children: <Widget>[
@@ -234,7 +234,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                       .infinity,
                                                                   child: Text(
                                                                     team +
-                                                                        team_call,
+                                                                        teamCall,
                                                                     style:
                                                                         TextStyle(
                                                                       fontWeight:
@@ -274,8 +274,8 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                       page: showTaskConfirmView(
                                                                           page,
                                                                           type,
-                                                                          snapshot.data()[
-                                                                              'uid'],
+                                                                          snapshot.get(
+                                                                              'uid'),
                                                                           phase == 'end'
                                                                               ? 0
                                                                               : number +
@@ -298,7 +298,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                             40,
                                                                         decoration: BoxDecoration(
                                                                             color:
-                                                                                theme.getUserColor(snapshot.data()['age']),
+                                                                                theme.getUserColor(snapshot.get('age')),
                                                                             shape: BoxShape.circle),
                                                                         child:
                                                                             Icon(
@@ -314,7 +314,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                                   10),
                                                                           child:
                                                                               Text(
-                                                                            snapshot.data()['name'],
+                                                                            snapshot.get('name'),
                                                                             style:
                                                                                 TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                           )),
@@ -337,34 +337,34 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                             shrinkWrap: true,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              DocumentSnapshot snapshot =
+                                              final DocumentSnapshot snapshot =
                                                   listSnapshot[index];
-                                              if (!listUid_toShow.contains(
-                                                  snapshot.data()['uid'])) {
+                                              if (!listUidToShow.contains(
+                                                  snapshot.get('uid'))) {
                                                 bool isFirst;
                                                 String team;
-                                                if (snapshot.data()['team']
+                                                if (snapshot.get('team')
                                                     is int) {
                                                   team = snapshot
-                                                      .data()['team']
+                                                      .get('team')
                                                       .toString();
                                                 } else {
                                                   team =
-                                                      snapshot.data()['team'];
+                                                      snapshot.get('team');
                                                 }
-                                                if (team_last != team) {
+                                                if (teamLast != team) {
                                                   isFirst = true;
-                                                  team_last = team;
+                                                  teamLast = team;
                                                 } else {
                                                   isFirst = false;
                                                 }
-                                                String grade =
-                                                    snapshot.data()['grade'];
-                                                String team_call;
+                                                final String grade =
+                                                    snapshot.get('grade');
+                                                String teamCall;
                                                 if (grade == 'cub') {
-                                                  team_call = '組';
+                                                  teamCall = '組';
                                                 } else {
-                                                  team_call = '班';
+                                                  teamCall = '班';
                                                 }
                                                 return Column(
                                                     children: <Widget>[
@@ -381,7 +381,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                       .infinity,
                                                                   child: Text(
                                                                     team +
-                                                                        team_call,
+                                                                        teamCall,
                                                                     style:
                                                                         TextStyle(
                                                                       fontWeight:
@@ -421,8 +421,8 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                       page: showTaskConfirmView(
                                                                           page,
                                                                           type,
-                                                                          snapshot.data()[
-                                                                              'uid'],
+                                                                          snapshot.get(
+                                                                              'uid'),
                                                                           phase == 'end'
                                                                               ? 0
                                                                               : number +
@@ -445,7 +445,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                             40,
                                                                         decoration: BoxDecoration(
                                                                             color:
-                                                                                theme.getUserColor(snapshot.data()['age']),
+                                                                                theme.getUserColor(snapshot.get('age')),
                                                                             shape: BoxShape.circle),
                                                                         child:
                                                                             Icon(
@@ -461,7 +461,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                                   10),
                                                                           child:
                                                                               Text(
-                                                                            snapshot.data()['name'],
+                                                                            snapshot.get('name'),
                                                                             style:
                                                                                 TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                           )),

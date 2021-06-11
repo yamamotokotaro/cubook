@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class NotificationView extends StatelessWidget {
-  var theme = new ThemeInfo();
+  var theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,8 @@ class NotificationView extends StatelessWidget {
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
-                                if (snapshot.data.docs.length != 0) {
-                                  QuerySnapshot querySnapshot = snapshot.data;
+                                if (snapshot.data.docs.isNotEmpty) {
+                                  final QuerySnapshot querySnapshot = snapshot.data;
                                   return ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
@@ -49,13 +49,13 @@ class NotificationView extends StatelessWidget {
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        DocumentSnapshot snapshot =
+                                        final DocumentSnapshot snapshot =
                                             querySnapshot.docs[index];
-                                        String type = snapshot.data()['type'];
-                                        int page = snapshot.data()['page'];
-                                        int number = snapshot.data()['number'];
-                                        Color color = theme.getThemeColor(
-                                            snapshot.data()['type']);
+                                        final String type = snapshot.get('type');
+                                        final int page = snapshot.get('page');
+                                        final int number = snapshot.get('number');
+                                        final Color color = theme.getThemeColor(
+                                            snapshot.get('type'));
                                         return Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Container(
@@ -95,8 +95,8 @@ class NotificationView extends StatelessWidget {
                                                               alignment: Alignment
                                                                   .centerLeft,
                                                               child: Text(
-                                                                snapshot.data()[
-                                                                    'body'],
+                                                                snapshot.get(
+                                                                    'body'),
                                                                 textAlign:
                                                                     TextAlign
                                                                         .left,
@@ -121,8 +121,8 @@ class NotificationView extends StatelessWidget {
                                                                 DateFormat(
                                                                         'yyyy/MM/dd hh:mm')
                                                                     .format(snapshot
-                                                                        .data()[
-                                                                            'time']
+                                                                        .get(
+                                                                            'time')
                                                                         .toDate())
                                                                     .toString(),
                                                                 style: TextStyle(

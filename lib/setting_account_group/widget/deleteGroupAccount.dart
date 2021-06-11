@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 import '../settingAccount_model.dart';
 
 class DeleteGroupAccount extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +50,8 @@ class DeleteGroupAccount extends StatelessWidget {
                                           AsyncSnapshot<QuerySnapshot>
                                               querysnapshot) {
                                         if (querysnapshot.hasData) {
-                                          if (querysnapshot.data.docs.length !=
-                                              0) {
-                                            DocumentSnapshot snapshot =
+                                          if (querysnapshot.data.docs.isNotEmpty) {
+                                            final DocumentSnapshot snapshot =
                                                 querysnapshot.data.docs[0];
                                             return Row(
                                               mainAxisAlignment:
@@ -64,8 +63,8 @@ class DeleteGroupAccount extends StatelessWidget {
                                                   decoration: BoxDecoration(
                                                       color:
                                                           theme.getThemeColor(
-                                                              snapshot.data()[
-                                                                  'age']),
+                                                              snapshot.get(
+                                                                  'age')),
                                                       shape: BoxShape.circle),
                                                   child: Icon(
                                                     Icons.person,
@@ -76,7 +75,7 @@ class DeleteGroupAccount extends StatelessWidget {
                                                     padding: EdgeInsets.only(
                                                         left: 10),
                                                     child: Text(
-                                                      snapshot.data()['name'],
+                                                      snapshot.get('name'),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,

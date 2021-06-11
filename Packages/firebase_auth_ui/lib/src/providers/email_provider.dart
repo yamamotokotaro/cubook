@@ -1,7 +1,7 @@
 import '../../providers.dart';
 
 class EmailProvider extends AuthProvider {
-  EmailProvider({this.permissions}) : super(providerId: "password");
+  EmailProvider({this.permissions}) : super(providerId: 'password');
 
   List<String> permissions;
 

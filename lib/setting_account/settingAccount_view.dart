@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SettingAccountView extends StatelessWidget {
-  var theme = new ThemeInfo();
+  var theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {

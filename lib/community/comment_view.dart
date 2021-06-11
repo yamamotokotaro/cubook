@@ -7,19 +7,20 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CommentView extends StatelessWidget {
-  var theme = new ThemeInfo();
-  var task = new TaskContents();
+  var theme = ThemeInfo();
+  var task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
-    Comment info = ModalRoute.of(context).settings.arguments;
-    String type = info.type;
-    String effortid = info.effortid;
-    Color themeColor = theme.getThemeColor(type);
+    final Comment info = ModalRoute.of(context).settings.arguments;
+    final String type = info.type;
+    final String effortid = info.effortid;
+    final Color themeColor = theme.getThemeColor(type);
     bool isDark;
     if (Theme.of(context).accentColor == Colors.white) {
       isDark = true;
@@ -54,7 +55,7 @@ class CommentView extends StatelessWidget {
                                 return Column(
                                   children: <Widget>[
                                     StreamBuilder<QuerySnapshot>(
-                                        stream: Firestore.instance
+                                        stream: FirebaseFirestore.instance
                                             .collection('comment')
                                             .where('group',
                                                 isEqualTo: model.group)
@@ -72,14 +73,14 @@ class CommentView extends StatelessWidget {
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
                                                 itemCount: querySnapshot
-                                                    .data.documents.length,
+                                                    .data.docs.length,
                                                 shrinkWrap: true,
                                                 itemBuilder:
                                                     (BuildContext context,
                                                         int index) {
-                                                  DocumentSnapshot snapshot =
+                                                  final DocumentSnapshot snapshot =
                                                       querySnapshot.data
-                                                          .documents[index];
+                                                          .docs[index];
                                                   return Padding(
                                                     padding: EdgeInsets.all(5),
                                                     child: InkWell(
@@ -89,7 +90,7 @@ class CommentView extends StatelessWidget {
                                                         },
                                                         onLongPress: () async {
                                                           if (model.user.uid ==
-                                                              snapshot.data()['uid']) {
+                                                              snapshot.get('uid')) {
                                                             await showModalBottomSheet<
                                                                 int>(
                                                               context: context,
@@ -115,7 +116,7 @@ class CommentView extends StatelessWidget {
                                                                               Text('コメントを削除する'),
                                                                           onTap:
                                                                               () {
-                                                                            model.deleteComent(snapshot.documentID);
+                                                                            model.deleteComent(snapshot.id);
                                                                             Navigator.pop(context);
                                                                           },
                                                                         ),
@@ -143,8 +144,8 @@ class CommentView extends StatelessWidget {
                                                                   height: 40,
                                                                   decoration: BoxDecoration(
                                                                       color: theme.getUserColor(
-                                                                          snapshot.data()[
-                                                                              'age']),
+                                                                          snapshot.get(
+                                                                              'age')),
                                                                       shape: BoxShape
                                                                           .circle),
                                                                   child: Icon(
@@ -173,8 +174,8 @@ class CommentView extends StatelessWidget {
                                                                                 5),
                                                                         child:
                                                                             Text(
-                                                                          snapshot.data()[
-                                                                              'name'],
+                                                                          snapshot.get(
+                                                                              'name'),
                                                                           style:
                                                                               TextStyle(
                                                                             fontWeight:
@@ -202,8 +203,8 @@ class CommentView extends StatelessWidget {
                                                                         bottom:
                                                                             5),
                                                                     child: Text(
-                                                                      snapshot.data()[
-                                                                          'body'],
+                                                                      snapshot.get(
+                                                                          'body'),
                                                                       style:
                                                                           TextStyle(
                                                                         fontSize:
@@ -263,30 +264,27 @@ class CommentView extends StatelessWidget {
                                 children: [
                                   Flexible(
                                     child: TextField(
-                                      controller: model.commentController,
+                                      maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.commentController,
                                       enabled: true,
                                       // 入力数
                                       keyboardType: TextInputType.multiline,
                                       maxLines: null,
-                                      maxLengthEnforced: false,
                                       decoration: InputDecoration(
-                                          labelText: "コメントを入力",
+                                          labelText: 'コメントを入力',
                                           hintText: 'きれいな言葉を使いましょう'),
                                       onChanged: (text) {
                                         //model.joinCode = text;
                                       },
                                     ),
                                   ),
-                                  model.isLoading_comment
-                                      ? Padding(
+                                  if (model.isLoading_comment) Padding(
                                           padding: EdgeInsets.only(
                                               bottom: 5, left: 10, right: 6),
                                           child: Container(
                                               width: 32,
                                               height: 32,
                                               child:
-                                                  CircularProgressIndicator()))
-                                      : Padding(
+                                                  CircularProgressIndicator())) else Padding(
                                           padding: EdgeInsets.only(top: 13),
                                           child: IconButton(
                                             onPressed: () {

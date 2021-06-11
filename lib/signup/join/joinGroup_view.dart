@@ -1,6 +1,7 @@
 import 'package:cubook/signup/signup_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class JoinGroup extends StatelessWidget {
@@ -21,8 +22,7 @@ class JoinGroup extends StatelessWidget {
                         fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                model.mes_join != ''
-                    ? Padding(
+                if (model.mes_join != '') Padding(
                   padding: EdgeInsets.only(top: 30),
                   child: Text(
                     model.mes_join,
@@ -31,17 +31,15 @@ class JoinGroup extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Colors.red),
                   ),
-                )
-                    : Container(),
+                ) else Container(),
                 Padding(
                   padding: EdgeInsets.all(10),
                   child: TextField(
-                    enabled: true,
+                    maxLengthEnforcement: MaxLengthEnforcement.none, enabled: true,
                     // 入力数
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
-                    maxLengthEnforced: false,
-                    decoration: InputDecoration(labelText: "登録コード"),
+                    decoration: InputDecoration(labelText: '登録コード'),
                     onChanged: (text) {
                       model.joinCode = text;
                     },

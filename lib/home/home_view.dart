@@ -15,7 +15,7 @@ import 'home_controller.dart';
 class HomeView extends StatelessWidget {
   String group;
   String position;
-  var random = new math.Random();
+  var random = math.Random();
 
   HomeView(String _group, String _position) {
     group = _group;
@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
+    final DateTime now = DateTime.now();
     String greet = '';
     String emoji = '';
     List<String> emojis;
@@ -111,8 +111,7 @@ class HomeView extends StatelessWidget {
                                       return Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
-                                          model.providerID == 'password'
-                                              ? ListTile(
+                                          if (model.providerID == 'password') ListTile(
                                                   leading: Icon(Icons.person),
                                                   title: Text('アカウント設定'),
                                                   onTap: () {
@@ -120,8 +119,7 @@ class HomeView extends StatelessWidget {
                                                         .pushNamed(
                                                             '/settingView');
                                                   },
-                                                )
-                                              : Container(),
+                                                ) else Container(),
                                           /*ListTile(
                                             leading: Icon(Icons.people),
                                             title: Text('グループ設定'),

@@ -25,21 +25,21 @@ class AnalyticsModel extends ChangeNotifier {
   String group_before = '';
   String group_claim;
   String teamPosition;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  Map<String, dynamic> claims = Map<String, dynamic>();
 
   void getGroup() async {
-    String group_before = group;
-    String teamPosition_before = teamPosition;
-    User user = FirebaseAuth.instance.currentUser;
+    final String groupBefore = group;
+    final String teamPositionBefore = teamPosition;
+    final User user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
         .then((snapshot) {
       userSnapshot = snapshot.docs[0];
-      group = userSnapshot.data()['group'];
-      teamPosition = userSnapshot.data()['teamPosition'];
-      if (group != group_before || teamPosition != teamPosition_before) {
+      group = userSnapshot.get('group');
+      teamPosition = userSnapshot.get('teamPosition');
+      if (group != groupBefore || teamPosition != teamPositionBefore) {
         notifyListeners();
       }
       /*user.getIdTokenResult().then((value) {
@@ -53,9 +53,9 @@ class AnalyticsModel extends ChangeNotifier {
   }
 
   void export() async {
-    var task = new TaskContents();
-    var theme = new ThemeInfo();
-    var type = [
+    final task = TaskContents();
+    final theme = ThemeInfo();
+    final type = [
 //    'beaver',
       'usagi',
       'sika',
@@ -69,10 +69,10 @@ class AnalyticsModel extends ChangeNotifier {
       'fuji',
       'gino'
     ];
-    if(!isExported && !isExporting) {
+    if (!isExported && !isExporting) {
       isExporting = true;
       notifyListeners();
-      var excel = Excel.createExcel();
+      final excel = Excel.createExcel();
       FirebaseFirestore.instance
           .collection('user')
           .where('group', isEqualTo: group)
@@ -82,99 +82,96 @@ class AnalyticsModel extends ChangeNotifier {
           .orderBy('name')
           .get()
           .then((QuerySnapshot querySnapshots) async {
-        List<DocumentSnapshot> list_documentsnapshot = querySnapshots.docs;
+        final List<DocumentSnapshot> listDocumentsnapshot = querySnapshots.docs;
         Sheet sheetObject;
-        String age_last;
+        String ageLast;
         count_user = 0;
-        count_userAll = list_documentsnapshot.length;
-        List<int> count_item = new List<int>();
-        for (DocumentSnapshot documentSnapshot in list_documentsnapshot) {
-          if (age_last != documentSnapshot.data()['age']) {
+        count_userAll = listDocumentsnapshot.length;
+        final List<int> countItem = <int>[];
+        for (DocumentSnapshot documentSnapshot in listDocumentsnapshot) {
+          if (ageLast != documentSnapshot.get('age')) {
             int row = 0;
             count_user = 0;
-            age_last = documentSnapshot.data()['age'];
-            sheetObject = excel[age_last];
+            ageLast = documentSnapshot.get('age');
+            sheetObject = excel[ageLast];
             for (int i = 0; i < type.length; i++) {
-              CellStyle cellStyle = CellStyle(
+              final CellStyle cellStyle = CellStyle(
                   backgroundColorHex:
-                  theme
-                      .getThemeColor(type[i])
-                      .value
-                      .toRadixString(16),
+                      theme.getThemeColor(type[i]).value.toRadixString(16),
                   fontColorHex: '#FFFFFF',
                   textWrapping: TextWrapping.WrapText,
                   verticalAlign: VerticalAlign.Center,
                   horizontalAlign: HorizontalAlign.Center);
-              var map_task = task.getAllMap(type[i]);
-              if (count_item.length < type.length + 1) {
+              final mapTask = task.getAllMap(type[i]);
+              if (countItem.length < type.length + 1) {
                 if (i == 0) {
-                  count_item.add(0);
-                  count_item.add(count_item[0] + map_task.length);
+                  countItem.add(0);
+                  countItem.add(countItem[0] + mapTask.length);
                 } else {
-                  count_item.add(count_item[i] + map_task.length);
+                  countItem.add(countItem[i] + mapTask.length);
                 }
               }
-              for (int j = 0; j < map_task.length; j++) {
-                var cell = sheetObject.cell(CellIndex.indexByColumnRow(
+              for (int j = 0; j < mapTask.length; j++) {
+                final cell = sheetObject.cell(CellIndex.indexByColumnRow(
                     columnIndex: row + 1, rowIndex: 0));
-                cell.value = map_task[j]['title'];
+                cell.value = mapTask[j]['title'];
                 cell.cellStyle = cellStyle;
                 row++;
               }
             }
           }
-          CellStyle cellStyle = CellStyle(
+          final CellStyle cellStyle = CellStyle(
               textWrapping: TextWrapping.WrapText,
               verticalAlign: VerticalAlign.Center,
               horizontalAlign: HorizontalAlign.Center);
-          var cell = sheetObject.cell(CellIndex.indexByColumnRow(
+          final cell = sheetObject.cell(CellIndex.indexByColumnRow(
               columnIndex: 0, rowIndex: count_user + 1));
-          cell.value = documentSnapshot.data()['name'];
-          cell.style = cellStyle;
+          cell.value = documentSnapshot.get('name');
+          cell.cellStyle = cellStyle;
           count_user++;
           count_userProgress++;
           for (int i = 0; i < type.length; i++) {
-            QuerySnapshot querySnapshot_task = await FirebaseFirestore.instance
+            final QuerySnapshot querySnapshotTask = await FirebaseFirestore
+                .instance
                 .collection(type[i])
                 .where('group', isEqualTo: group)
-                .where('uid', isEqualTo: documentSnapshot.data()['uid'])
+                .where('uid', isEqualTo: documentSnapshot.get('uid'))
                 .orderBy('end')
                 .get();
 
             for (DocumentSnapshot documentSnapshot_task
-            in querySnapshot_task.docs) {
-              int page = documentSnapshot_task.data()['page'];
-              CellStyle cellStyle = CellStyle(
+                in querySnapshotTask.docs) {
+              final int page = documentSnapshot_task.get('page');
+              final CellStyle cellStyle = CellStyle(
                   textWrapping: TextWrapping.WrapText,
                   verticalAlign: VerticalAlign.Center,
                   horizontalAlign: HorizontalAlign.Center);
-              var cell = sheetObject.cell(CellIndex.indexByColumnRow(
-                  columnIndex: page + count_item[i] + 1,
-                  rowIndex: count_user));
+              final cell = sheetObject.cell(CellIndex.indexByColumnRow(
+                  columnIndex: page + countItem[i] + 1, rowIndex: count_user));
               cell.value = DateFormat('yyyy/MM/dd')
-                  .format(documentSnapshot_task.data()['end'].toDate())
+                  .format(documentSnapshot_task.get('end').toDate())
                   .toString();
-              cell.style = cellStyle;
+              cell.cellStyle = cellStyle;
             }
           }
           notifyListeners();
         }
         excel.delete('Sheet1');
-        excel.encode().then((onValue) async {
-          Directory appDocDir = await getTemporaryDirectory();
-          file_dir = appDocDir.path + "/cubook_" + DateFormat('yyyyMMddhhmm')
-              .format(DateTime.now())
-              .toString() + ".xlsx";
-          File(file_dir)
-            ..createSync(recursive: true)
-            ..writeAsBytesSync(onValue);
-          isExporting = false;
-          isExported = true;
-          count_user = 0;
-          count_userAll = 0;
-          count_userProgress = 0;
-          notifyListeners();
-        });
+        final onValue = excel.encode();
+        final Directory appDocDir = await getTemporaryDirectory();
+        file_dir = appDocDir.path +
+            '/cubook_' +
+            DateFormat('yyyyMMddhhmm').format(DateTime.now()).toString() +
+            '.xlsx';
+        File(file_dir)
+          ..createSync(recursive: true)
+          ..writeAsBytesSync(onValue);
+        isExporting = false;
+        isExported = true;
+        count_user = 0;
+        count_userAll = 0;
+        count_userProgress = 0;
+        notifyListeners();
       });
     }
   }

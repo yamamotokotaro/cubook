@@ -9,17 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TaskDetailAnalyticsView extends StatelessWidget {
-  var theme = new ThemeInfo();
-  var task = new TaskContents();
+  var theme = ThemeInfo();
+  var task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
-    TaskDetail info = ModalRoute.of(context).settings.arguments;
-    String type = info.type;
-    int page = info.page;
-    Color themeColor = theme.getThemeColor(type);
-    List<Map<String,dynamic>> contents = task.getContentList(type, page);
-    var map_task = task.getPartMap(type, page);
+    final TaskDetail info = ModalRoute.of(context).settings.arguments;
+    final String type = info.type;
+    final int page = info.page;
+    final Color themeColor = theme.getThemeColor(type);
+    final List<Map<String,dynamic>> contents = task.getContentList(type, page);
+    final mapTask = task.getPartMap(type, page);
     bool isDark;
     if (Theme.of(context).accentColor == Colors.white) {
       isDark = true;
@@ -28,7 +28,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(map_task['title']),
+        title: Text(mapTask['title']),
         backgroundColor: themeColor,
       ),
       body: SafeArea(
@@ -52,27 +52,27 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasData) {
                                       int userCount = 0;
-                                      List<DocumentSnapshot> listSnapshot =
+                                      final List<DocumentSnapshot> listSnapshot =
                                           snapshot.data.docs;
-                                      List<String> listUid = new List<String>();
+                                      final List<String> listUid = <String>[];
                                       if (type == 'challenge' ||
                                           type == 'gino') {
                                         userCount = listSnapshot.length;
                                       } else if (type=='tukinowa') {
                                         for (DocumentSnapshot documentSnapshot
                                         in listSnapshot) {
-                                          if (documentSnapshot.data()['age'] == 'kuma') {
+                                          if (documentSnapshot.get('age') == 'kuma') {
                                             userCount++;
-                                            listUid.add(documentSnapshot.data()['uid']);
+                                            listUid.add(documentSnapshot.get('uid'));
                                           }
                                         }
                                       } else {
                                         for (DocumentSnapshot documentSnapshot
                                             in listSnapshot) {
-                                          if (documentSnapshot.data()['age'] == type) {
+                                          if (documentSnapshot.get('age') == type) {
                                             userCount++;
                                             listUid
-                                                .add(documentSnapshot.data()['uid']);
+                                                .add(documentSnapshot.get('uid'));
                                           }
                                         }
                                       }
@@ -85,40 +85,40 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                             .snapshots(),
                                         builder: (BuildContext context,
                                             AsyncSnapshot<QuerySnapshot>
-                                                snapshot_task) {
-                                          if (snapshot_task.hasData) {
-                                            int quant = task.getPartMap(
+                                                snapshotTask) {
+                                          if (snapshotTask.hasData) {
+                                            final int quant = task.getPartMap(
                                                 type, page)['hasItem'];
-                                            List<DocumentSnapshot>
-                                                list_documentSnapshot =
-                                                snapshot_task.data.docs;
-                                            List<int> countItem =
-                                                new List<int>.generate(
+                                            final List<DocumentSnapshot>
+                                                listDocumentSnapshot =
+                                                snapshotTask.data.docs;
+                                            final List<int> countItem =
+                                                List<int>.generate(
                                                     quant, (index) => 0);
                                             int countEnd = 0;
                                             for (DocumentSnapshot documentSnapshot
-                                                in list_documentSnapshot) {
-                                              if (documentSnapshot.data()['end'] !=
+                                                in listDocumentSnapshot) {
+                                              if (documentSnapshot.get('end') !=
                                                       null &&
                                                   (listUid.contains(
-                                                          documentSnapshot.data()[
-                                                              'uid']) ||
+                                                          documentSnapshot.get(
+                                                              'uid')) ||
                                                       type == 'challenge' ||
                                                       type == 'gino')) {
                                                 countEnd++;
                                               }
-                                              Map<dynamic, dynamic> signed =
-                                                  documentSnapshot.data()['signed'];
+                                              final Map<dynamic, dynamic> signed =
+                                                  documentSnapshot.get('signed');
                                               for (int i = 0; i < quant; i++) {
-                                                Map<dynamic, dynamic>
-                                                    signed_part =
+                                                final Map<dynamic, dynamic>
+                                                    signedPart =
                                                     signed[i.toString()];
-                                                if (signed_part != null) {
-                                                  if (signed_part['phaze'] ==
+                                                if (signedPart != null) {
+                                                  if (signedPart['phaze'] ==
                                                           'signed' &&
                                                       (listUid.contains(
-                                                              documentSnapshot.data()[
-                                                                  'uid']) ||
+                                                              documentSnapshot.get(
+                                                                  'uid')) ||
                                                           type == 'challenge' ||
                                                           type == 'gino')) {
                                                     countItem[i]++;
@@ -168,7 +168,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                           700]
                                                                       : Colors.grey[
                                                                           300],
-                                                                  valueColor: new AlwaysStoppedAnimation<Color>(isDark
+                                                                  valueColor: AlwaysStoppedAnimation<Color>(isDark
                                                                       ? Colors
                                                                           .white
                                                                       : theme.getThemeColor(
@@ -316,7 +316,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                                   width: 200,
                                                                                   child: LinearProgressIndicator(
                                                                                     backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                                                                    valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),
+                                                                                    valueColor: AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),
                                                                                     value: userCount == 0 ? 0 : countItem[index] / userCount,
                                                                                   )))
                                                                         ],
@@ -370,7 +370,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        String content = contents[index]['body'];
+                                        final String content = contents[index]['body'];
                                         Color bordercolor;
                                         if (Theme.of(context).accentColor ==
                                             Colors.white) {

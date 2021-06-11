@@ -10,20 +10,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CommunityView extends StatelessWidget {
-  var theme = new ThemeInfo();
-  var task = new TaskContents();
+  var theme = ThemeInfo();
+  var task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
-    Community info = ModalRoute.of(context).settings.arguments;
-    String type = info.type;
-    int page = info.page;
-    String name = info.name;
-    String taskid = info.taskid;
-    String effortid = info.effortid;
-    Color themeColor = theme.getThemeColor(type);
-    var map_task = task.getPartMap(type, page);
-    int quant = map_task['hasItem'];
+    final Community info = ModalRoute.of(context).settings.arguments;
+    final String type = info.type;
+    final int page = info.page;
+    final String name = info.name;
+    final String taskid = info.taskid;
+    final String effortid = info.effortid;
+    final Color themeColor = theme.getThemeColor(type);
+    final mapTask = task.getPartMap(type, page);
+    final int quant = mapTask['hasItem'];
     bool isDark;
     if (Theme.of(context).accentColor == Colors.white) {
       isDark = true;
@@ -32,7 +32,7 @@ class CommunityView extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(map_task['title']),
+        title: Text(mapTask['title']),
         backgroundColor: themeColor,
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -53,7 +53,7 @@ class CommunityView extends StatelessWidget {
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> querySnapshot) {
                       if (querySnapshot.hasData) {
-                        if (querySnapshot.data.docs.length != 0) {
+                        if (querySnapshot.data.docs.isNotEmpty) {
                           return Text('コメント ' +
                               querySnapshot.data.docs.length.toString() +
                               '件');
@@ -126,15 +126,15 @@ class CommunityView extends StatelessWidget {
                               return Column(
                                 children: <Widget>[
                                   StreamBuilder<DocumentSnapshot>(
-                                      stream: Firestore.instance
+                                      stream: FirebaseFirestore.instance
                                           .collection(type)
-                                          .document(taskid)
+                                          .doc(taskid)
                                           .snapshots(),
                                       builder: (BuildContext context,
                                           AsyncSnapshot<DocumentSnapshot>
                                               asyncSnapshot) {
                                         if (asyncSnapshot.hasData) {
-                                          DocumentSnapshot snapshot =
+                                          final DocumentSnapshot snapshot =
                                               asyncSnapshot.data;
                                           return Consumer<CommunityModel>(
                                               builder: (context, model, child) {
@@ -145,13 +145,13 @@ class CommunityView extends StatelessWidget {
                                                         NeverScrollableScrollPhysics(),
                                                     shrinkWrap: true,
                                                     itemCount:
-                                                        map_task['hasItem'],
+                                                        mapTask['hasItem'],
                                                     itemBuilder:
                                                         (BuildContext context,
                                                             int index_number) {
-                                                      Map<String, dynamic>
+                                                      final Map<String, dynamic>
                                                           numberSnapshot =
-                                                          snapshot.data()['signed'][
+                                                          snapshot.get('signed')[
                                                               index_number
                                                                   .toString()];
                                                       print(numberSnapshot);
@@ -200,7 +200,7 @@ class CommunityView extends StatelessWidget {
                                                                           itemBuilder: (BuildContext context,
                                                                               int
                                                                                   index) {
-                                                                            String
+                                                                            final String
                                                                                 type =
                                                                                 numberSnapshot['data'][index]['type'];
                                                                             if (type ==
@@ -212,7 +212,7 @@ class CommunityView extends StatelessWidget {
                                                                                   child: Container(
                                                                                     child: Column(
                                                                                       children: <Widget>[
-                                                                                        model.dataList[index_number][index] != null ? Image.network(model.dataList[index_number][index]) : Container()
+                                                                                        if (model.dataList[index_number][index] != null) Image.network(model.dataList[index_number][index]) else Container()
                                                                                       ],
                                                                                     ),
                                                                                   ),
@@ -227,11 +227,9 @@ class CommunityView extends StatelessWidget {
                                                                                       child: Container(
                                                                                         child: Column(
                                                                                           children: <Widget>[
-                                                                                            model.dataList[index_number][index] != null
-                                                                                                ? Chewie(
+                                                                                            if (model.dataList[index_number][index] != null) Chewie(
                                                                                                     controller: model.dataList[index_number][index],
-                                                                                                  )
-                                                                                                : Container()
+                                                                                                  ) else Container()
                                                                                           ],
                                                                                         ),
                                                                                       ),

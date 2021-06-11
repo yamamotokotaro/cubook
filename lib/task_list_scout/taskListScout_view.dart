@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 
 class TaskListScoutView extends StatelessWidget {
 
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   Color themeColor;
   String type;
   String typeFireStore;
@@ -60,20 +60,20 @@ class TaskListScoutView extends StatelessWidget {
                           model.getSnapshot();
                         }
                         if (model.userSnapshot != null) {
-                          var map_task = task.getAllMap(type);
-                          var list_isCompleted =
-                          new List.generate(map_task.length, (index) => false);
-                          var list_percentage = new List.generate(
-                              map_task.length, (index) => 0.0);
-                          if(model.userSnapshot.data()[type] != null) {
-                            final Map map = new Map<String, dynamic>.from(
-                                model.userSnapshot.data()[type]);
-                            for (int i = 0; i < map_task.length; i++) {
+                          final mapTask = task.getAllMap(type);
+                          final list_isCompleted =
+                          List.generate(mapTask.length, (index) => false);
+                          final list_percentage = List.generate(
+                              mapTask.length, (index) => 0.0);
+                          if(model.userSnapshot.get(type) != null) {
+                            final Map map = Map<String, dynamic>.from(
+                                model.userSnapshot.get(type));
+                            for (int i = 0; i < mapTask.length; i++) {
                               if (map.containsKey(i.toString())) {
                                 list_percentage[i] =
-                                (model.userSnapshot.data()[type]
+                                model.userSnapshot.get(type)
                                 [i.toString()] /
-                                    map_task[i]['hasItem'].toDouble());
+                                    mapTask[i]['hasItem'].toDouble();
                               }
                             }
                           }
@@ -84,7 +84,7 @@ class TaskListScoutView extends StatelessWidget {
                           }
                           return ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: map_task.length,
+                              itemCount: mapTask.length,
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
                                 return Padding(
@@ -124,7 +124,7 @@ class TaskListScoutView extends StatelessWidget {
                                                         padding:
                                                         EdgeInsets.all(20),
                                                         child: Text(
-                                                          map_task[index]['number'],
+                                                          mapTask[index]['number'],
                                                           style: TextStyle(
                                                               fontWeight:
                                                               FontWeight
@@ -152,7 +152,7 @@ class TaskListScoutView extends StatelessWidget {
                                                               alignment: Alignment
                                                                   .centerLeft,
                                                               child: Text(
-                                                                map_task[
+                                                                mapTask[
                                                                 index]['title'],
                                                                 style: TextStyle(
                                                                     fontWeight:
@@ -161,8 +161,7 @@ class TaskListScoutView extends StatelessWidget {
                                                                     fontSize:
                                                                     25),
                                                               ))),
-                                                      list_isCompleted[index]
-                                                          ? Padding(
+                                                      if (list_isCompleted[index]) Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 20),
@@ -179,8 +178,7 @@ class TaskListScoutView extends StatelessWidget {
                                                                   fontSize:
                                                                   20),
                                                             )),
-                                                      )
-                                                          : Padding(
+                                                      ) else Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 10),

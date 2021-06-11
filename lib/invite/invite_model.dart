@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 
 class InviteModel with ChangeNotifier {
-  var isSelect_type = new List.generate(2, (index) => false);
+  var isSelect_type = List.generate(2, (index) => false);
   bool isLoading_join = false;
   bool isConsent = false;
   String joinCode = '';
@@ -101,14 +101,14 @@ class InviteModel with ChangeNotifier {
         dropdown_call != null) {
       isLoading_join = true;
       notifyListeners();
-      User user = await FirebaseAuth.instance.currentUser;
+      final User user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdToken().then((token) async {
           if(!kIsWeb){
-            String url =
-                "https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup";
-            Map<String, String> headers = {'content-type': 'application/json'};
-            String body = json.encode(<String, dynamic>{
+            final String url =
+                'https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup';
+            final Map<String, String> headers = {'content-type': 'application/json'};
+            final String body = json.encode(<String, dynamic>{
               'idToken': token,
               'address': addressController.text,
               'family': familyController.text,
@@ -119,16 +119,16 @@ class InviteModel with ChangeNotifier {
               'team': team
             });
 
-            http.Response resp =
-            await http.post(url, headers: headers, body: body);
+            final http.Response resp =
+            await http.post(Uri.parse(url), headers: headers, body: body);
             isLoading_join = false;
             if (resp.body == 'success') {
               mes_join = '';
               addressController.clear();
               familyController.clear();
               firstController.clear();
-              Scaffold.of(context).showSnackBar(new SnackBar(
-                content: new Text('送信リクエストが完了しました'),
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text('送信リクエストが完了しました'),
               ));
             } else if (resp.body == 'No such document!' ||
                 resp.body == 'not found') {
@@ -140,7 +140,7 @@ class InviteModel with ChangeNotifier {
             }
             notifyListeners();
           } else {
-            HttpsCallable callable = FirebaseFunctions.instanceFor(
+            final HttpsCallable callable = FirebaseFunctions.instanceFor(
                 region: 'asia-northeast1').httpsCallable(
                 'inviteGroupCall',
                 options: HttpsCallableOptions(timeout: Duration(seconds: 5),));
@@ -154,15 +154,15 @@ class InviteModel with ChangeNotifier {
               'position': position,
               'team': team
             });
-            String resp = results.data;
+            final String resp = results.data;
             isLoading_join = false;
             if (resp == 'success') {
               mes_join = '';
               addressController.clear();
               familyController.clear();
               firstController.clear();
-              Scaffold.of(context).showSnackBar(new SnackBar(
-                content: new Text('送信リクエストが完了しました'),
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text('送信リクエストが完了しました'),
               ));
             } else if (resp == 'No such document!' ||
                 resp == 'not found') {

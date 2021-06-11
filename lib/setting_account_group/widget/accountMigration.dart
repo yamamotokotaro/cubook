@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AccountMigrationView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   String uid;
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class AccountMigrationView extends StatelessWidget {
                               child: TextField(
                                 // controller: model.familyController,
                                 enabled: true,
-                                decoration: InputDecoration(labelText: "グループID"),
+                                decoration: InputDecoration(labelText: 'グループID'),
                                 onChanged: (text) {
                                   //model.joinCode = text;
                                 },

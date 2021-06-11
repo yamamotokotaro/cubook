@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ListTaskWaitingView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -28,24 +28,24 @@ class ListTaskWaitingView extends StatelessWidget {
                     return StreamBuilder<QuerySnapshot>(
                         stream: model.getTaskSnapshot(),
                         builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot_get) {
-                          if (snapshot_get.hasData) {
+                            AsyncSnapshot<QuerySnapshot> snapshotGet) {
+                          if (snapshotGet.hasData) {
                             return ListView.builder(
-                                itemCount: snapshot_get.data.docs.length,
+                                itemCount: snapshotGet.data.docs.length,
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
-                                  DocumentSnapshot snapshot =
-                                      snapshot_get.data.docs[index];
-                                  Map<String, dynamic> map_task =
-                                      task.getPartMap(snapshot.data()['type'],
-                                          snapshot.data()['page']);
+                                  final DocumentSnapshot snapshot =
+                                      snapshotGet.data.docs[index];
+                                  final Map<String, dynamic> mapTask =
+                                      task.getPartMap(snapshot.get('type'),
+                                          snapshot.get('page'));
                                   return Padding(
                                     padding: EdgeInsets.only(
                                         top: 10, left: 10, right: 10),
                                     child: Container(
                                       child: Hero(
                                           tag: 'detailTask' +
-                                              snapshot_get.data.docs[index].id,
+                                              snapshotGet.data.docs[index].id,
                                           child: SingleChildScrollView(
                                             child: Card(
                                               shape: RoundedRectangleBorder(
@@ -53,7 +53,7 @@ class ListTaskWaitingView extends StatelessWidget {
                                                     BorderRadius.circular(10),
                                               ),
                                               color: theme.getThemeColor(
-                                                  snapshot.data()['type']),
+                                                  snapshot.get('type')),
                                               child: InkWell(
                                                 customBorder:
                                                     RoundedRectangleBorder(
@@ -63,29 +63,29 @@ class ListTaskWaitingView extends StatelessWidget {
                                                 ),
                                                 onTap: () {
                                                   Navigator.push(context,
-                                                      new MaterialPageRoute<
+                                                      MaterialPageRoute<
                                                               DetailTaskWaitingView_old>(
                                                           builder: (BuildContext
                                                               context) {
                                                     return DetailTaskWaitingView_old(
-                                                        snapshot_get.data
+                                                        snapshotGet.data
                                                             .docs[index].id,
-                                                        snapshot.data()[
-                                                                'family'] +
-                                                            snapshot.data()[
-                                                                'first'],
+                                                        snapshot.get(
+                                                                'family') +
+                                                            snapshot.get(
+                                                                'first'),
                                                         theme.getTitle(
-                                                                snapshot.data()[
-                                                                    'type']) +
+                                                                snapshot.get(
+                                                                    'type')) +
                                                             ' ' +
-                                                            map_task['number'] +
+                                                            mapTask['number'] +
                                                             ' ' +
-                                                            map_task['title'] +
+                                                            mapTask['title'] +
                                                             ' (' +
                                                             task.getNumber(snapshot['type'], snapshot['page'], snapshot['number']) +
                                                             ')',
                                                         snapshot
-                                                            .data()['type']);
+                                                            .get('type'));
                                                   }));
                                                 },
                                                 child: Padding(
@@ -97,10 +97,10 @@ class ListTaskWaitingView extends StatelessWidget {
                                                             type: MaterialType
                                                                 .transparency,
                                                             child: Text(
-                                                              snapshot.data()[
-                                                                      'family'] +
-                                                                  snapshot.data()[
-                                                                      'first'],
+                                                              snapshot.get(
+                                                                      'family') +
+                                                                  snapshot.get(
+                                                                      'first'),
                                                               style: TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
@@ -120,13 +120,13 @@ class ListTaskWaitingView extends StatelessWidget {
                                                                             10),
                                                                 child: Text(
                                                                   theme.getTitle(
-                                                                          snapshot.data()[
-                                                                              'type']) +
+                                                                          snapshot.get(
+                                                                              'type')) +
                                                                       ' ' +
-                                                                      map_task[
+                                                                      mapTask[
                                                                           'number'] +
                                                                       ' ' +
-                                                                      map_task[
+                                                                      mapTask[
                                                                           'title'] +
                                                                       ' (' +
                                                                       task.getNumber(snapshot['type'], snapshot['page'], snapshot['number']) +

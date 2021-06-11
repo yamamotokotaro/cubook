@@ -11,12 +11,12 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class DetailActivityView extends StatelessWidget {
-  var theme = new ThemeInfo();
-  var task = new TaskContents();
+  var theme = ThemeInfo();
+  var task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
-    String documentID = ModalRoute.of(context).settings.arguments;
+    final String documentID = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text('記録詳細'),
@@ -167,16 +167,16 @@ class DetailActivityView extends StatelessWidget {
                                 builder: (BuildContext context,
                                     AsyncSnapshot<DocumentSnapshot> snapshot) {
                                   if (snapshot.hasData) {
-                                    DocumentSnapshot documentSnapshot =
+                                    final DocumentSnapshot documentSnapshot =
                                         snapshot.data;
-                                    String team_last = '';
+                                    final String teamLast = '';
                                     return Column(children: <Widget>[
                                       Padding(
                                           padding: EdgeInsets.all(17),
                                           child: Container(
                                               width: double.infinity,
                                               child: Text(
-                                                documentSnapshot.data()['title'],
+                                                documentSnapshot.get('title'),
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 32,
@@ -191,7 +191,7 @@ class DetailActivityView extends StatelessWidget {
                                               child: Text(
                                                 DateFormat('yyyy年MM月dd日')
                                                     .format(
-                                                        documentSnapshot.data()['date']
+                                                        documentSnapshot.get('date')
                                                             .toDate())
                                                     .toString(),
                                                 style: TextStyle(
@@ -200,8 +200,8 @@ class DetailActivityView extends StatelessWidget {
                                                 ),
                                                 textAlign: TextAlign.left,
                                               ))),
-                                      documentSnapshot.data()['list_item'] != null
-                                          ? documentSnapshot.data()['list_item']
+                                      documentSnapshot.get('list_item') != null
+                                          ? documentSnapshot.get('list_item')
                                                       .length !=
                                                   0
                                               ? Column(
@@ -231,32 +231,32 @@ class DetailActivityView extends StatelessWidget {
                                                         physics:
                                                             const NeverScrollableScrollPhysics(),
                                                         itemCount:
-                                                            documentSnapshot.data()[
-                                                                    'list_item']
+                                                            documentSnapshot.get(
+                                                                    'list_item')
                                                                 .length,
                                                         shrinkWrap: true,
                                                         itemBuilder:
                                                             (BuildContext
                                                                     context,
                                                                 int index) {
-                                                          Map<String, dynamic>
-                                                              part_selected =
-                                                              documentSnapshot.data()[
-                                                                      'list_item']
+                                                          final Map<String, dynamic>
+                                                              partSelected =
+                                                              documentSnapshot.get(
+                                                                      'list_item')
                                                                   [index];
-                                                          String type =
-                                                              part_selected[
+                                                          final String type =
+                                                              partSelected[
                                                                   'type'];
-                                                          int page =
-                                                              part_selected[
+                                                          final int page =
+                                                              partSelected[
                                                                   'page'];
-                                                          int number =
-                                                              part_selected[
+                                                          final int number =
+                                                              partSelected[
                                                                   'number'];
-                                                          String position =
+                                                          final String position =
                                                               model.position;
-                                                          Map<String, dynamic>
-                                                              map_task =
+                                                          final Map<String, dynamic>
+                                                              mapTask =
                                                               task.getPartMap(
                                                                   type, page);
                                                           bool toShow = false;
@@ -346,7 +346,7 @@ class DetailActivityView extends StatelessWidget {
                                                                               padding: EdgeInsets.only(top: 5, bottom: 5),
                                                                               child: Column(
                                                                                 children: [
-                                                                                  Text(theme.getTitle(type) + ' ' + map_task['number'] + ' ' + map_task['title'] + ' (' + (number + 1).toString() + ')', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white))
+                                                                                  Text(theme.getTitle(type) + ' ' + mapTask['number'] + ' ' + mapTask['title'] + ' (' + (number + 1).toString() + ')', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white))
                                                                                 ],
                                                                               )))),
                                                                 ));
@@ -380,12 +380,12 @@ class DetailActivityView extends StatelessWidget {
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data.docs.length != 0) {
-                                      QuerySnapshot querySnapshot =
+                                    if (snapshot.data.docs.isNotEmpty) {
+                                      final QuerySnapshot querySnapshot =
                                           snapshot.data;
-                                      DocumentSnapshot documentSnapshot =
+                                      final DocumentSnapshot documentSnapshot =
                                           querySnapshot.docs[0];
-                                      String team_last = '';
+                                      String teamLast = '';
                                       return Column(children: <Widget>[
                                         ListView.builder(
                                             physics:
@@ -396,40 +396,40 @@ class DetailActivityView extends StatelessWidget {
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               String uid;
-                                              DocumentSnapshot snapshot =
+                                              final DocumentSnapshot snapshot =
                                                   querySnapshot
                                                       .docs[index];
-                                              uid = snapshot.data()['uid'];
+                                              uid = snapshot.get('uid');
                                               bool isCheck = true;
                                               if (model.uid_check[uid] !=
                                                   null) {
                                                 isCheck = model.uid_check[uid];
                                               }
                                               String team = '';
-                                              if (snapshot.data()['team'] != null) {
-                                                if (snapshot.data()['team'] is int) {
-                                                  team = snapshot.data()['team']
+                                              if (snapshot.get('team') != null) {
+                                                if (snapshot.get('team') is int) {
+                                                  team = snapshot.get('team')
                                                       .toString();
                                                 } else {
-                                                  team = snapshot.data()['team'];
+                                                  team = snapshot.get('team');
                                                 }
                                               } else {
                                                 team = 'null';
                                               }
                                               bool isFirst;
                                               String absence;
-                                              if (team_last != team) {
+                                              if (teamLast != team) {
                                                 isFirst = true;
-                                                team_last = team;
+                                                teamLast = team;
                                               } else {
                                                 isFirst = false;
                                               }
-                                              if (snapshot.data()['absent']) {
+                                              if (snapshot.get('absent')) {
                                                 absence = '出席';
                                               } else {
                                                 absence = '欠席';
                                               }
-                                              String age = snapshot.data()['age'];
+                                              final String age = snapshot.get('age');
                                               String team_call;
                                               if (age == 'usagi' ||
                                                   age == 'sika' ||
@@ -440,8 +440,7 @@ class DetailActivityView extends StatelessWidget {
                                               }
                                               print(model.uid_check);
                                               return Column(children: <Widget>[
-                                                isFirst && team != ''
-                                                    ? Padding(
+                                                if (isFirst && team != '') Padding(
                                                         padding:
                                                             EdgeInsets.all(10),
                                                         child: Container(
@@ -458,8 +457,7 @@ class DetailActivityView extends StatelessWidget {
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
-                                                            )))
-                                                    : Container(),
+                                                            ))) else Container(),
                                                 Padding(
                                                     padding: EdgeInsets.all(5),
                                                     child: Container(
@@ -484,8 +482,8 @@ class DetailActivityView extends StatelessWidget {
                                                                   height: 40,
                                                                   decoration: BoxDecoration(
                                                                       color: theme.getUserColor(
-                                                                          snapshot.data()[
-                                                                              'age']),
+                                                                          snapshot.get(
+                                                                              'age')),
                                                                       shape: BoxShape
                                                                           .circle),
                                                                   child: Icon(
@@ -501,8 +499,8 @@ class DetailActivityView extends StatelessWidget {
                                                                             left:
                                                                                 10),
                                                                     child: Text(
-                                                                      snapshot.data()[
-                                                                          'name'],
+                                                                      snapshot.get(
+                                                                          'name'),
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .bold,

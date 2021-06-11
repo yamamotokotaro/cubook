@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ListCitationAnalyticsView extends StatelessWidget {
-  var theme = new ThemeInfo();
-  var task = new TaskContents();
+  var theme = ThemeInfo();
+  var task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
         appBar: AppBar(
           title: Text('表彰待ちリスト'),
         ),
-        body: Builder(builder: (BuildContext context_builder) {
+        body: Builder(builder: (BuildContext contextBuilder) {
           return SafeArea(
             child: SingleChildScrollView(
               child: Center(
@@ -53,10 +53,10 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                       builder: (BuildContext context,
                                           AsyncSnapshot<QuerySnapshot>
                                               snapshot) {
-                                        String team_last = '';
+                                        final String teamLast = '';
                                         if (snapshot.hasData) {
-                                          int userCount = 0;
-                                          List<DocumentSnapshot> listSnapshot =
+                                          final int userCount = 0;
+                                          final List<DocumentSnapshot> listSnapshot =
                                               snapshot.data.docs;
                                           return ListView.builder(
                                               physics:
@@ -66,7 +66,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                DocumentSnapshot userSnapshot =
+                                                final DocumentSnapshot userSnapshot =
                                                     listSnapshot[index];
                                                 return StreamBuilder<
                                                     QuerySnapshot>(
@@ -79,8 +79,8 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                       .where('uid',
                                                           isEqualTo:
                                                               userSnapshot
-                                                                      .data()[
-                                                                  'uid'])
+                                                                      .get(
+                                                                  'uid'))
                                                       .where('isCitationed',
                                                           isEqualTo: false)
                                                       .orderBy('page',
@@ -95,10 +95,10 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                     if (snapshot.hasData) {
                                                       if (snapshot
                                                               .data
-                                                              .documents
+                                                              .docs
                                                               .length !=
                                                           0) {
-                                                        QuerySnapshot
+                                                        final QuerySnapshot
                                                             querySnapshot =
                                                             snapshot.data;
                                                         return Column(
@@ -122,7 +122,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                             40,
                                                                         decoration: BoxDecoration(
                                                                             color:
-                                                                                theme.getUserColor(userSnapshot.data()['age']),
+                                                                                theme.getUserColor(userSnapshot.get('age')),
                                                                             shape: BoxShape.circle),
                                                                         child:
                                                                             Icon(
@@ -138,7 +138,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                                   10),
                                                                           child:
                                                                               Text(
-                                                                            userSnapshot.data()['name'],
+                                                                            userSnapshot.get('name'),
                                                                             style:
                                                                                 TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                           )),
@@ -158,14 +158,14 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                       (BuildContext
                                                                               context,
                                                                           int index) {
-                                                                    DocumentSnapshot
+                                                                    final DocumentSnapshot
                                                                         snapshot =
                                                                         querySnapshot
                                                                             .docs[index];
-                                                                    Map taskInfo = task.getPartMap(
+                                                                    final Map taskInfo = task.getPartMap(
                                                                         'challenge',
                                                                         snapshot
-                                                                            .data()['page']);
+                                                                            .get('page'));
                                                                     return Padding(
                                                                       padding:
                                                                           EdgeInsets.all(
@@ -183,8 +183,8 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                               InkWell(
                                                                             onTap:
                                                                                 () async {
-                                                                              print(snapshot.data()['page']);
-                                                                              Navigator.of(context).push<dynamic>(MyPageRoute(page: showTaskConfirmView(snapshot.data()['page'], 'challenge', snapshot.data()['uid'], 0), dismissible: true));
+                                                                              print(snapshot.get('page'));
+                                                                              Navigator.of(context).push<dynamic>(MyPageRoute(page: showTaskConfirmView(snapshot.get('page'), 'challenge', snapshot.get('uid'), 0), dismissible: true));
                                                                             },
                                                                             child:
                                                                                 Padding(
@@ -219,7 +219,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                                           label: '表彰済みにする',
                                                                                           child: IconButton(
                                                                                             onPressed: () {
-                                                                                              model.onTapCititation(snapshot.id, context_builder, userSnapshot.data()['name'] + userSnapshot.data()['call'], taskInfo['title'], isDark);
+                                                                                              model.onTapCititation(snapshot.id, contextBuilder, userSnapshot.get('name') + userSnapshot.get('call'), taskInfo['title'], isDark);
                                                                                             },
                                                                                             icon: Icon(
                                                                                               Icons.check,

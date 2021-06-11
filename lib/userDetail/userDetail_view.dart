@@ -33,8 +33,8 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class SelectBookView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   String uid;
 
   List<TabInfo> _tabs;
@@ -59,23 +59,23 @@ class SelectBookView extends StatelessWidget {
                     if (model.teamPosition != null) {
                       if (model.teamPosition == 'teamLeader') {
                         _tabs = [
-                          TabInfo("進歩", SelectBook(uid)),
-                          TabInfo("出欠", ListAbsentView(uid)),
+                          TabInfo('進歩', SelectBook(uid)),
+                          TabInfo('出欠', ListAbsentView(uid)),
                         ];
                       } else {
                         _tabs = [
-                          TabInfo("進歩", SelectBook(uid)),
+                          TabInfo('進歩', SelectBook(uid)),
                           //TabInfo("表彰待ち", ListNotCititationed(uid)),
-                          TabInfo("出欠", ListAbsentView(uid)),
-                          TabInfo("設定", SettingAccountGroupView(uid)),
+                          TabInfo('出欠', ListAbsentView(uid)),
+                          TabInfo('設定', SettingAccountGroupView(uid)),
                         ];
                       }
                     } else {
                       _tabs = [
-                        TabInfo("進歩", SelectBook(uid)),
+                        TabInfo('進歩', SelectBook(uid)),
                         //TabInfo("表彰待ち", ListNotCititationed(uid)),
-                        TabInfo("出欠", ListAbsentView(uid)),
-                        TabInfo("設定", SettingAccountGroupView(uid)),
+                        TabInfo('出欠', ListAbsentView(uid)),
+                        TabInfo('設定', SettingAccountGroupView(uid)),
                       ];
                     }
                     return DefaultTabController(
@@ -101,7 +101,7 @@ class SelectBookView extends StatelessWidget {
                                             AsyncSnapshot<QuerySnapshot>
                                                 snapshot) {
                                           if (snapshot.hasData) {
-                                            DocumentSnapshot userSnapshot =
+                                            final DocumentSnapshot userSnapshot =
                                                 snapshot.data.docs[0];
                                             return Column(
                                               children: <Widget>[
@@ -114,8 +114,8 @@ class SelectBookView extends StatelessWidget {
                                                     decoration: BoxDecoration(
                                                         color:
                                                             theme.getUserColor(
-                                                                userSnapshot.data()[
-                                                                    'age']),
+                                                                userSnapshot.get(
+                                                                    'age')),
                                                         shape: BoxShape.circle),
                                                     child: Icon(
                                                       Icons.person,
@@ -128,7 +128,7 @@ class SelectBookView extends StatelessWidget {
                                                     padding: EdgeInsets.only(
                                                         bottom: 10),
                                                     child: Text(
-                                                      userSnapshot.data()['name'],
+                                                      userSnapshot.get('name'),
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(

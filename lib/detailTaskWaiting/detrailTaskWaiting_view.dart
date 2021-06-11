@@ -7,6 +7,7 @@ import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class DetailTaskWaitingView_old extends StatelessWidget {
@@ -16,8 +17,8 @@ class DetailTaskWaitingView_old extends StatelessWidget {
   String type;
   Map<String, dynamic> taskInfo;
   Map<String, dynamic> content;
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
 
   DetailTaskWaitingView_old(
       String _documentID, String _name, String _item, String _type) {
@@ -85,7 +86,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                           model.getTaskSnapshot(documentID);
                         }
                         if (model.isLoaded) {
-                          if (model.taskSnapshot.data()['phase'] == 'wait') {
+                          if (model.taskSnapshot.get('phase') == 'wait') {
                             content =
                                 task.getContent(type, model.page, model.number);
                             if (content['common'] != null) {
@@ -93,10 +94,10 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                   content['common']['type'],
                                   content['common']['page']);
                             }
-                            DocumentSnapshot snapshot = model.taskSnapshot;
-                            Map<String, dynamic> map_task = task.getPartMap(
-                                snapshot.data()['type'],
-                                snapshot.data()['page']);
+                            final DocumentSnapshot snapshot = model.taskSnapshot;
+                            final Map<String, dynamic> mapTask = task.getPartMap(
+                                snapshot.get('type'),
+                                snapshot.get('page'));
                             return Column(
                               children: <Widget>[
                                 Row(
@@ -107,7 +108,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                             top: 10, left: 20, right: 20),
                                         child: FlatButton(
                                             onPressed: () async {
-                                              var result =
+                                              final result =
                                                   await showModalBottomSheet<
                                                       int>(
                                                 context: context,
@@ -181,7 +182,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                 // Replace with a Row for horizontal icon + text
                                                 children: <Widget>[
                                                   Icon(Icons.sort),
-                                                  Text("細目",
+                                                  Text('細目',
                                                       style: TextStyle(
                                                           fontSize: 18.0,
                                                           fontWeight:
@@ -210,7 +211,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                 // Replace with a Row for horizontal icon + text
                                                 children: <Widget>[
                                                   Icon(Icons.view_carousel),
-                                                  Text("該当ページ",
+                                                  Text('該当ページ',
                                                       style: TextStyle(
                                                           fontSize: 18.0,
                                                           fontWeight:
@@ -258,13 +259,13 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                   NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
                                               itemCount: snapshot
-                                                  .data()['data']
+                                                  .get('data')
                                                   .length,
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                String type =
-                                                    snapshot.data()['data']
+                                                final String type =
+                                                    snapshot.get('data')
                                                         [index]['type'];
                                                 if (type == 'image') {
                                                   return Padding(
@@ -365,14 +366,13 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                       Padding(
                                         padding: EdgeInsets.all(10),
                                         child: TextField(
-                                          controller: model.feedbackController,
+                                          maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.feedbackController,
                                           enabled: true,
                                           // 入力数
                                           keyboardType: TextInputType.multiline,
                                           maxLines: null,
-                                          maxLengthEnforced: false,
                                           decoration: InputDecoration(
-                                              labelText: "フィードバックを入力",
+                                              labelText: 'フィードバックを入力',
                                               suffixIcon: IconButton(
                                                 onPressed: () => model
                                                     .feedbackController
@@ -384,8 +384,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                   : null),
                                         ),
                                       ),
-                                      content['common'] != null
-                                          ? Padding(
+                                      if (content['common'] != null) Padding(
                                               padding: EdgeInsets.only(
                                                   top: 5,
                                                   bottom: 10,
@@ -406,10 +405,8 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                             ['number']) +
                                                     ')\nもサインされます',
                                                 textAlign: TextAlign.center,
-                                              ))
-                                          : Container(),
-                                      !model.isLoading
-                                          ? RaisedButton.icon(
+                                              )) else Container(),
+                                      if (!model.isLoading) RaisedButton.icon(
                                               onPressed: () {
                                                 model.onTapSend();
                                               },
@@ -426,15 +423,13 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.white),
                                               ),
-                                            )
-                                          : Container(
+                                            ) else Container(
                                               child: Padding(
                                                 padding: EdgeInsets.all(5),
                                                 child: Center(),
                                               ),
                                             ),
-                                      !model.isLoading
-                                          ? FlatButton.icon(
+                                      if (!model.isLoading) FlatButton.icon(
                                               onPressed: () {
                                                 model.onTapReject();
                                               },
@@ -450,8 +445,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.red),
                                               ),
-                                            )
-                                          : Container(
+                                            ) else Container(
                                               child: Padding(
                                                 padding: EdgeInsets.all(5),
                                                 child: Center(),
@@ -499,7 +493,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                             top: 10, left: 20, right: 20),
                                         child: FlatButton(
                                             onPressed: () async {
-                                              var result =
+                                              final result =
                                                   await showModalBottomSheet<
                                                       int>(
                                                 context: context,
@@ -573,7 +567,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                 // Replace with a Row for horizontal icon + text
                                                 children: <Widget>[
                                                   Icon(Icons.sort),
-                                                  Text("細目",
+                                                  Text('細目',
                                                       style: TextStyle(
                                                           fontSize: 18.0,
                                                           fontWeight:
@@ -602,7 +596,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                 // Replace with a Row for horizontal icon + text
                                                 children: <Widget>[
                                                   Icon(Icons.view_carousel),
-                                                  Text("該当ページ",
+                                                  Text('該当ページ',
                                                       style: TextStyle(
                                                           fontSize: 18.0,
                                                           fontWeight:
@@ -612,8 +606,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                             ))),
                                   ],
                                 ),
-                                content['common'] != null
-                                    ? Padding(
+                                if (content['common'] != null) Padding(
                                         padding: EdgeInsets.only(
                                             top: 5,
                                             bottom: 10,
@@ -631,8 +624,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                   content['common']['number']) +
                                               ')\nもサインされます',
                                           textAlign: TextAlign.center,
-                                        ))
-                                    : Container(),
+                                        )) else Container(),
                               ],
                             );
                           }

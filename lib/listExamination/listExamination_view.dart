@@ -8,8 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListExaminationView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   String uid;
 
   ListExaminationView(String _uid) {
@@ -32,7 +32,7 @@ class ListExaminationView extends StatelessWidget {
                         print(uid);
                         if(model.group != null) {
                           return StreamBuilder<QuerySnapshot>(
-                            stream: Firestore.instance
+                            stream: FirebaseFirestore.instance
                                 .collection('activity_personal')
                                 .where('group', isEqualTo: model.group)
                                 .where('uid', isEqualTo: uid)
@@ -41,18 +41,18 @@ class ListExaminationView extends StatelessWidget {
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
-                                if (snapshot.data.docs.length != 0) {
-                                  QuerySnapshot querySnapshot = snapshot.data;
+                                if (snapshot.data.docs.isNotEmpty) {
+                                  final QuerySnapshot querySnapshot = snapshot.data;
                                   return ListView.builder(
                                       physics: const NeverScrollableScrollPhysics(),
-                                      itemCount: querySnapshot.documents.length,
+                                      itemCount: querySnapshot.docs.length,
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         String absence;
-                                        DocumentSnapshot snapshot =
+                                        final DocumentSnapshot snapshot =
                                         querySnapshot.docs[index];
-                                        if (snapshot.data()['absent']) {
+                                        if (snapshot.get('absent')) {
                                           absence = '出席';
                                         } else {
                                           absence = '欠席';
@@ -73,8 +73,8 @@ class ListExaminationView extends StatelessWidget {
                                                       Navigator.of(context)
                                                           .pushNamed(
                                                           '/detailActivity',
-                                                          arguments: snapshot.data()[
-                                                          'activity']);
+                                                          arguments: snapshot.get(
+                                                          'activity'));
                                                     }
                                                   },
                                                   child: Row(
@@ -134,8 +134,8 @@ class ListExaminationView extends StatelessWidget {
                                                                           width: double
                                                                               .infinity,
                                                                           child: Text(
-                                                                            snapshot.data()[
-                                                                            'title'],
+                                                                            snapshot.get(
+                                                                            'title'),
                                                                             textAlign:
                                                                             TextAlign
                                                                                 .left,
@@ -161,7 +161,7 @@ class ListExaminationView extends StatelessWidget {
                                                                             DateFormat(
                                                                                 'yyyy/MM/dd')
                                                                                 .format(
-                                                                                snapshot.data()['date']
+                                                                                snapshot.get('date')
                                                                                     .toDate())
                                                                                 .toString(),
                                                                             textAlign:

@@ -8,28 +8,28 @@ class ListEffortModel extends ChangeNotifier {
   String group;
   String position;
   String group_claim;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  Map<String, dynamic> claims = Map<String, dynamic>();
 
   void getSnapshot() async {
-    String group_before = group;
-    String position_before = position;
-    User user = await FirebaseAuth.instance.currentUser;
+    final String groupBefore = group;
+    final String positionBefore = position;
+    final User user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
         .then((snapshot) {
-      DocumentSnapshot documentSnapshot = snapshot.docs[0];
-      group = documentSnapshot.data()['group'];
-      position = documentSnapshot.data()['position'];
-      if (group != group_before || position != position_before) {
+      final DocumentSnapshot documentSnapshot = snapshot.docs[0];
+      group = documentSnapshot.get('group');
+      position = documentSnapshot.get('position');
+      if (group != groupBefore || position != positionBefore) {
         notifyListeners();
       }
       user.getIdTokenResult(true).then((value) {
         print(value.claims);
-        String group_claim_before = group_claim;
+        final String groupClaimBefore = group_claim;
         group_claim = value.claims['group'];
-        if (group_claim_before != group_claim) {
+        if (groupClaimBefore != group_claim) {
           notifyListeners();
         }
       });

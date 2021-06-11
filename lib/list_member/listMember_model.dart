@@ -11,30 +11,30 @@ class ListMemberModel extends ChangeNotifier {
   String position;
   String teamPosition;
   String group_claim;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  Map<String, dynamic> claims = Map<String, dynamic>();
 
   void getGroup() async {
-    String group_before = group;
-    String teamPosition_before = teamPosition;
-    User user = await FirebaseAuth.instance.currentUser;
+    final String groupBefore = group;
+    final String teamPositionBefore = teamPosition;
+    final User user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
         .then((snapshot) {
-      DocumentSnapshot userSnapshot = snapshot.docs[0];
-      group = userSnapshot.data()['group'];
-      team = userSnapshot.data()['team'];
-      position = userSnapshot.data()['position'];
-      teamPosition = userSnapshot.data()['teamPosition'];
-      if (group != group_before || teamPosition != teamPosition_before) {
+      final DocumentSnapshot userSnapshot = snapshot.docs[0];
+      group = userSnapshot.get('group');
+      team = userSnapshot.get('team');
+      position = userSnapshot.get('position');
+      teamPosition = userSnapshot.get('teamPosition');
+      if (group != groupBefore || teamPosition != teamPositionBefore) {
         notifyListeners();
       }
     });
     user.getIdTokenResult(true).then((value) {
-      String group_claim_before = group_claim;
+      final String groupClaimBefore = group_claim;
       group_claim = value.claims['group'];
-      if (group_claim_before != group_claim) {
+      if (groupClaimBefore != group_claim) {
         notifyListeners();
       }
     });

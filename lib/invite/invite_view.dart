@@ -1,6 +1,7 @@
 import 'package:cubook/invite/invite_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class InviteView extends StatelessWidget {
@@ -33,8 +34,7 @@ class InviteView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          model.mes_join != ''
-                              ? Padding(
+                          if (model.mes_join != '') Padding(
                                   padding: EdgeInsets.only(top: 30),
                                   child: Text(
                                     model.mes_join,
@@ -43,8 +43,7 @@ class InviteView extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                         color: Colors.red),
                                   ),
-                                )
-                              : Container(),
+                                ) else Container(),
                           Padding(
                               padding:
                                   EdgeInsets.only(top: 15, left: 10, right: 10),
@@ -66,9 +65,9 @@ class InviteView extends StatelessWidget {
                                   //'富士スカウト',
                                   'リーダー'
                                 ].map((String value) {
-                                  return new DropdownMenuItem<String>(
+                                  return DropdownMenuItem<String>(
                                     value: value,
-                                    child: new Text(value),
+                                    child: Text(value),
                                   );
                                 }).toList(),
                                 onChanged: (value) {
@@ -78,13 +77,12 @@ class InviteView extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.all(10),
                             child: TextField(
-                              controller: model.addressController,
+                              maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.addressController,
                               enabled: true,
                               // 入力数
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
-                              maxLengthEnforced: false,
-                              decoration: InputDecoration(labelText: "メールアドレス"),
+                              decoration: InputDecoration(labelText: 'メールアドレス'),
                               onChanged: (text) {
                                 model.joinCode = text;
                               },
@@ -93,13 +91,12 @@ class InviteView extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.all(10),
                             child: TextField(
-                              controller: model.familyController,
+                              maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.familyController,
                               enabled: true,
                               // 入力数
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
-                              maxLengthEnforced: false,
-                              decoration: InputDecoration(labelText: "姓"),
+                              decoration: InputDecoration(labelText: '姓'),
                               onChanged: (text) {
                                 model.joinCode = text;
                               },
@@ -108,13 +105,12 @@ class InviteView extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.all(10),
                             child: TextField(
-                              controller: model.firstController,
+                              maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.firstController,
                               enabled: true,
                               // 入力数
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
-                              maxLengthEnforced: false,
-                              decoration: InputDecoration(labelText: "名"),
+                              decoration: InputDecoration(labelText: '名'),
                               onChanged: (text) {
                                 model.joinCode = text;
                               },
@@ -125,12 +121,11 @@ class InviteView extends StatelessWidget {
                                   padding: EdgeInsets.only(
                                       top: 0, left: 10, right: 10),
                                   child: TextField(
-                                    controller: model.teamController,
+                                    maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.teamController,
                                     enabled: true,
                                     // 入力数
                                     maxLines: null,
-                                    maxLengthEnforced: false,
-                                    decoration: InputDecoration(labelText: "組・班（オプション）"),
+                                    decoration: InputDecoration(labelText: '組・班（オプション）'),
                                     onChanged: (text) {},
                                   ),
                                 )
@@ -145,9 +140,9 @@ class InviteView extends StatelessWidget {
                                     value: model.dropdown_call,
                                     items: <String>['くん', 'さん']
                                         .map((String value) {
-                                      return new DropdownMenuItem<String>(
+                                      return DropdownMenuItem<String>(
                                         value: value,
-                                        child: new Text(value),
+                                        child: Text(value),
                                       );
                                     }).toList(),
                                     onChanged: (value) {

@@ -15,13 +15,13 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class listEffort extends StatelessWidget {
   String group;
-  var theme = new ThemeInfo();
+  var theme = ThemeInfo();
   var isRelease = const bool.fromEnvironment('dart.vm.product');
   DateTime now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    DateTime date = DateTime(now.year, now.month, now.day - 28);
+    final DateTime date = DateTime(now.year, now.month, now.day - 28);
     return Column(
       children: <Widget>[
         Center(
@@ -60,7 +60,7 @@ class listEffort extends StatelessWidget {
                 if (snapshot.hasData) {
                   final List<DocumentSnapshot> listSnapshot =
                       snapshot.data.docs;
-                  if (listSnapshot.length != 0) {
+                  if (listSnapshot.isNotEmpty) {
                     ScrollController _controller;
                     return Padding(
                         padding: const EdgeInsets.only(top: 10),
@@ -70,19 +70,19 @@ class listEffort extends StatelessWidget {
                               physics: const NeverScrollableScrollPhysics(),
                               scrollDirection: Axis.vertical,
                               itemBuilder: (BuildContext context, int index) {
-                                DocumentSnapshot documentSnapshot =
+                                final DocumentSnapshot documentSnapshot =
                                     listSnapshot[index];
                                 final int congrats =
-                                    documentSnapshot.data()['congrats'];
+                                    documentSnapshot.get('congrats');
                                 final String documentID = documentSnapshot.id;
                                 final int page =
-                                    documentSnapshot.data()['page'];
+                                    documentSnapshot.get('page');
                                 final String type =
-                                    documentSnapshot.data()['type'];
+                                    documentSnapshot.get('type');
                                 final String uid =
-                                    documentSnapshot.data()['uid'];
+                                    documentSnapshot.get('uid');
                                 final String taskid =
-                                    documentSnapshot.data()['taskID'];
+                                    documentSnapshot.get('taskID');
                                 Color color;
                                 color = theme.getThemeColor(type);
                                 return Column(
@@ -122,11 +122,11 @@ class listEffort extends StatelessWidget {
                                                         type: type,
                                                         page: page,
                                                         name: documentSnapshot
-                                                                    .data()[
-                                                                'family'] +
+                                                                    .get(
+                                                                'family') +
                                                             documentSnapshot
-                                                                    .data()[
-                                                                'first'],
+                                                                    .get(
+                                                                'first'),
                                                         taskid: taskid,
                                                         effortid:
                                                             documentSnapshot
@@ -141,11 +141,11 @@ class listEffort extends StatelessWidget {
                                                         type: type,
                                                         page: page,
                                                         name: documentSnapshot
-                                                                    .data()[
-                                                                'family'] +
+                                                                    .get(
+                                                                'family') +
                                                             documentSnapshot
-                                                                    .data()[
-                                                                'first'],
+                                                                    .get(
+                                                                'first'),
                                                         taskid: taskid,
                                                         effortid:
                                                             documentSnapshot
@@ -177,14 +177,14 @@ class listEffort extends StatelessWidget {
                                                                     bottom: 3),
                                                             child: Text(
                                                               documentSnapshot
-                                                                          .data()[
-                                                                      'family'] +
+                                                                          .get(
+                                                                      'family') +
                                                                   documentSnapshot
-                                                                          .data()[
-                                                                      'first'] +
+                                                                          .get(
+                                                                      'first') +
                                                                   documentSnapshot
-                                                                          .data()[
-                                                                      'call'],
+                                                                          .get(
+                                                                      'call'),
                                                               textAlign:
                                                                   TextAlign
                                                                       .center,
@@ -205,8 +205,8 @@ class listEffort extends StatelessWidget {
                                                           Text(
                                                             DateFormat('MM/dd')
                                                                 .format(documentSnapshot
-                                                                    .data()[
-                                                                        'time']
+                                                                    .get(
+                                                                        'time')
                                                                     .toDate())
                                                                 .toString(),
                                                             style: TextStyle(
@@ -237,7 +237,7 @@ class listEffort extends StatelessWidget {
                                                               right: 10),
                                                       child: Text(
                                                         documentSnapshot
-                                                            .data()['body'],
+                                                            .get('body'),
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
@@ -290,7 +290,7 @@ class listEffort extends StatelessWidget {
                                                                     IconButton(
                                                                   onPressed:
                                                                       () async {
-                                                                    var result =
+                                                                    final result =
                                                                         await showModalBottomSheet<
                                                                             int>(
                                                                       context:

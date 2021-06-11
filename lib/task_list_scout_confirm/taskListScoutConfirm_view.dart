@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 import 'taskListScoutConfirm_model.dart';
 
 class TaskListScoutConfirmView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   Color themeColor;
   String type;
   String typeFireStore;
@@ -60,35 +60,35 @@ class TaskListScoutConfirmView extends StatelessWidget {
                           builder: (context, model, child) {
                         if (model.userSnapshot == null) {
                           model.getSnapshot(uid);
-                        } else if (model.userSnapshot.data()['uid'] != uid) {
+                        } else if (model.userSnapshot.get('uid') != uid) {
                           model.getSnapshot(uid);
                           model.userSnapshot = null;
                         }
                         if (model.userSnapshot != null) {
-                          var map_task = task.getAllMap(type);
-                          var list_isCompleted = new List.generate(
-                              map_task.length, (index) => false);
-                          var list_percentage = new List.generate(
-                              map_task.length, (index) => 0.0);
-                          if (model.userSnapshot.data()[type] != null) {
-                            final Map map = new Map<String, dynamic>.from(
-                                model.userSnapshot.data()[type]);
-                            for (int i = 0; i < map_task.length; i++) {
+                          final mapTask = task.getAllMap(type);
+                          final listIsCompleted = List.generate(
+                              mapTask.length, (index) => false);
+                          final listPercentage = List.generate(
+                              mapTask.length, (index) => 0.0);
+                          if (model.userSnapshot.get(type) != null) {
+                            final Map map = Map<String, dynamic>.from(
+                                model.userSnapshot.get(type));
+                            for (int i = 0; i < mapTask.length; i++) {
                               if (map.containsKey(i.toString())) {
-                                list_percentage[i] = (model.userSnapshot
-                                        .data()[type][i.toString()] /
-                                    map_task[i]['hasItem'].toDouble());
+                                listPercentage[i] = model.userSnapshot
+                                        .get(type)[i.toString()] /
+                                    mapTask[i]['hasItem'].toDouble();
                               }
                             }
                           }
-                          for (int i = 0; i < list_percentage.length; i++) {
-                            if (list_percentage[i] == 1.0) {
-                              list_isCompleted[i] = true;
+                          for (int i = 0; i < listPercentage.length; i++) {
+                            if (listPercentage[i] == 1.0) {
+                              listIsCompleted[i] = true;
                             }
                           }
                           return ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: map_task.length,
+                              itemCount: mapTask.length,
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
                                 return Padding(
@@ -132,7 +132,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                         padding:
                                                             EdgeInsets.all(20),
                                                         child: Text(
-                                                          map_task[index]
+                                                          mapTask[index]
                                                               ['number'],
                                                           style: TextStyle(
                                                               fontWeight:
@@ -161,7 +161,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                               alignment: Alignment
                                                                   .centerLeft,
                                                               child: Text(
-                                                                map_task[index]
+                                                                mapTask[index]
                                                                     ['title'],
                                                                 style: TextStyle(
                                                                     fontWeight:
@@ -170,7 +170,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                                     fontSize:
                                                                         25),
                                                               ))),
-                                                      list_isCompleted[index]
+                                                      listIsCompleted[index]
                                                           ? Padding(
                                                               padding: EdgeInsets
                                                                   .only(
@@ -209,11 +209,11 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                                           backgroundColor: isDark
                                                                               ? Colors.grey[700]
                                                                               : Colors.grey[300],
-                                                                          valueColor: new AlwaysStoppedAnimation<Color>(isDark
+                                                                          valueColor: AlwaysStoppedAnimation<Color>(isDark
                                                                               ? Colors.white
                                                                               : theme.getThemeColor(type)),
                                                                           value:
-                                                                              list_percentage[index],
+                                                                              listPercentage[index],
                                                                         ))
                                                                   ],
                                                                 ),

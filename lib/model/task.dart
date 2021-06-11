@@ -2999,101 +2999,101 @@ class TaskContents {
   }*/
 
   List<Map<String, dynamic>> getAllMap(String type) {
-    List<Map<String, dynamic>> list_info;
+    List<Map<String, dynamic>> listInfo;
     switch (type) {
       case 'risu':
-        list_info = risu;
+        listInfo = risu;
         break;
       case 'usagi':
-        list_info = usagi;
+        listInfo = usagi;
         break;
       case 'sika':
-        list_info = sika;
+        listInfo = sika;
         break;
       case 'kuma':
-        list_info = kuma;
+        listInfo = kuma;
         break;
       case 'tukinowa':
-        list_info = tukinowa;
+        listInfo = tukinowa;
         break;
       case 'challenge':
-        list_info = challnege;
+        listInfo = challnege;
         break;
       case 'syokyu':
-        list_info = syokyu;
+        listInfo = syokyu;
         break;
       case 'nikyu':
-        list_info = nikyu;
+        listInfo = nikyu;
         break;
       case 'ikkyu':
-        list_info = ikkyu;
+        listInfo = ikkyu;
         break;
       case 'kiku':
-        list_info = kiku;
+        listInfo = kiku;
         break;
       case 'hayabusa':
-        list_info = hayabusa;
+        listInfo = hayabusa;
         break;
       case 'fuji':
-        list_info = fuji;
+        listInfo = fuji;
         break;
       case 'syorei':
-        list_info = syorei;
+        listInfo = syorei;
         break;
       case 'gino':
-        list_info = gino;
+        listInfo = gino;
         break;
     }
-    return list_info;
+    return listInfo;
   }
 
   Map<String, dynamic> getPartMap(String type, int number) {
-    Map<String, dynamic> map_info;
+    Map<String, dynamic> mapInfo;
     switch (type) {
       case 'risu':
-        map_info = risu[number];
+        mapInfo = risu[number];
         break;
       case 'usagi':
-        map_info = usagi[number];
+        mapInfo = usagi[number];
         break;
       case 'sika':
-        map_info = sika[number];
+        mapInfo = sika[number];
         break;
       case 'kuma':
-        map_info = kuma[number];
+        mapInfo = kuma[number];
         break;
       case 'tukinowa':
-        map_info = tukinowa[number];
+        mapInfo = tukinowa[number];
         break;
       case 'challenge':
-        map_info = challnege[number];
+        mapInfo = challnege[number];
         break;
       case 'syokyu':
-        map_info = syokyu[number];
+        mapInfo = syokyu[number];
         break;
       case 'nikyu':
-        map_info = nikyu[number];
+        mapInfo = nikyu[number];
         break;
       case 'ikkyu':
-        map_info = ikkyu[number];
+        mapInfo = ikkyu[number];
         break;
       case 'kiku':
-        map_info = kiku[number];
+        mapInfo = kiku[number];
         break;
       case 'hayabusa':
-        map_info = hayabusa[number];
+        mapInfo = hayabusa[number];
         break;
       case 'fuji':
-        map_info = fuji[number];
+        mapInfo = fuji[number];
         break;
       case 'syorei':
-        map_info = syorei[number];
+        mapInfo = syorei[number];
         break;
       case 'gino':
-        map_info = gino[number];
+        mapInfo = gino[number];
         break;
     }
-    return map_info;
+    return mapInfo;
   }
 
   Map<String, dynamic> getContent(String type, int page, int number) {
@@ -3150,7 +3150,6 @@ class TaskContents {
     }
     if (content == null) {
       content = <String, dynamic>{'body': 'エラーが発生しました（内容がありません）'};
-      ;
     }
     return content;
   }

@@ -2,13 +2,14 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../settingAccount_model.dart';
 
 class EditProfile extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class EditProfile extends StatelessWidget {
                                 child: TextField(
                                   controller: model.familyController,
                                   enabled: true,
-                                  decoration: InputDecoration(labelText: "姓"),
+                                  decoration: InputDecoration(labelText: '姓'),
                                   onChanged: (text) {
                                     //model.joinCode = text;
                                   },
@@ -41,7 +42,7 @@ class EditProfile extends StatelessWidget {
                                 child: TextField(
                                   controller: model.firstController,
                                   enabled: true,
-                                  decoration: InputDecoration(labelText: "名"),
+                                  decoration: InputDecoration(labelText: '名'),
                                   onChanged: (text) {
                                     //model.joinCode = text;
                                   },
@@ -50,13 +51,12 @@ class EditProfile extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.all(10),
                                 child: TextField(
-                                  controller: model.teamController,
+                                  maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.teamController,
                                   enabled: true,
                                   // 入力数
                                   maxLines: null,
-                                  maxLengthEnforced: false,
                                   decoration:
-                                      InputDecoration(labelText: "組・班（オプション）"),
+                                      InputDecoration(labelText: '組・班（オプション）'),
                                   onChanged: (text) {},
                                 ),
                               ),
@@ -90,24 +90,23 @@ class EditProfile extends StatelessWidget {
                                       '隼スカウト',
                                       '富士スカウト'
                                     ].map((String value) {
-                                      return new DropdownMenuItem<String>(
+                                      return DropdownMenuItem<String>(
                                         value: value,
-                                        child: new Text(value),
+                                        child: Text(value),
                                       );
                                     }).toList(),
                                     onChanged: (value) {
                                       model.onDropdownChanged(value);
                                     },
                                   )),
-                              model.dropdown_text == 'ボーイスカウトバッジ' ||
+                              if (model.dropdown_text == 'ボーイスカウトバッジ' ||
                                       model.dropdown_text == '初級スカウト' ||
                                       model.dropdown_text == '2級スカウト' ||
                                       model.dropdown_text == '1級スカウト' ||
                                       model.dropdown_text ==
                                           '菊スカウト（隼を目指すスカウト）' ||
                                       model.dropdown_text == '隼スカウト' ||
-                                      model.dropdown_text == '富士スカウト'
-                                  ? Padding(
+                                      model.dropdown_text == '富士スカウト') Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: Row(
                                         mainAxisAlignment:
@@ -122,8 +121,7 @@ class EditProfile extends StatelessWidget {
                                           Text('班長')
                                         ],
                                       ),
-                                    )
-                                  : Container(),
+                                    ) else Container(),
                               Padding(
                                   padding: EdgeInsets.only(top: 10, left: 10),
                                   child: Container(
@@ -143,9 +141,9 @@ class EditProfile extends StatelessWidget {
                                     value: model.call,
                                     items: <String>['くん', 'さん']
                                         .map((String value) {
-                                      return new DropdownMenuItem<String>(
+                                      return DropdownMenuItem<String>(
                                         value: value,
-                                        child: new Text(value),
+                                        child: Text(value),
                                       );
                                     }).toList(),
                                     onChanged: (value) {

@@ -4,16 +4,17 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class EditActivityView extends StatelessWidget {
-  var theme = new ThemeInfo();
-  var task = new TaskContents();
+  var theme = ThemeInfo();
+  var task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
-    String documentID = ModalRoute.of(context).settings.arguments;
+    final String documentID = ModalRoute.of(context).settings.arguments;
     bool isDark;
     if (Theme.of(context).accentColor == Colors.white) {
       isDark = true;
@@ -30,7 +31,7 @@ class EditActivityView extends StatelessWidget {
             return FloatingActionButton(
               onPressed: null,
               child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
+                valueColor: AlwaysStoppedAnimation<Color>(
                     isDark ? Colors.blue[900] : Colors.white),
               ),
             );
@@ -53,7 +54,7 @@ class EditActivityView extends StatelessWidget {
                 child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: 600),
                     child: Consumer<EditActivityModel>(
-                        builder: (context_builder, model, child) {
+                        builder: (contextBuilder, model, child) {
                       print('ページ更新');
                       model.getGroup();
                       if (model.group != null) {
@@ -74,24 +75,23 @@ class EditActivityView extends StatelessWidget {
                                             AsyncSnapshot<DocumentSnapshot>
                                                 snapshot) {
                                           if (snapshot.hasData) {
-                                            DocumentSnapshot documentSnapshot =
+                                            final DocumentSnapshot documentSnapshot =
                                                 snapshot.data;
-                                            String team_last = '';
+                                            final String teamLast = '';
                                             model.getInfo(documentSnapshot);
                                             return Column(children: <Widget>[
                                               Padding(
                                                   padding: EdgeInsets.all(10),
                                                   child: TextField(
-                                                      controller:
+                                                      maxLengthEnforcement: MaxLengthEnforcement.none, controller:
                                                           model.titleController,
                                                       enabled: true,
                                                       keyboardType:
                                                           TextInputType
                                                               .multiline,
                                                       maxLines: null,
-                                                      maxLengthEnforced: false,
                                                       decoration: InputDecoration(
-                                                          labelText: "活動タイトル",
+                                                          labelText: '活動タイトル',
                                                           hintText: '〇〇ハイク',
                                                           errorText: model
                                                                   .EmptyError
@@ -157,24 +157,23 @@ class EditActivityView extends StatelessWidget {
                                                 snapshot) {
                                           if (snapshot.hasData) {
                                             model.getAbsents(snapshot.data);
-                                            if (snapshot.data.docs.length !=
-                                                0) {
-                                              QuerySnapshot querySnapshot =
+                                            if (snapshot.data.docs.isNotEmpty) {
+                                              final QuerySnapshot querySnapshot =
                                                   snapshot.data;
-                                              List<DocumentSnapshot>
-                                                  list_documentSnapshot =
+                                              final List<DocumentSnapshot>
+                                                  listDocumentSnapshot =
                                                   querySnapshot.docs;
-                                              String team_last = '';
-                                              List<String> list_uid =
-                                                  new List<String>();
+                                              String teamLast = '';
+                                              final List<String> listUid =
+                                                  <String>[];
                                               for (int i = 0;
                                                   i <
-                                                      list_documentSnapshot
+                                                      listDocumentSnapshot
                                                           .length;
                                                   i++) {
-                                                list_uid.add(
-                                                    list_documentSnapshot[i]
-                                                        .data()['uid']);
+                                                listUid.add(
+                                                    listDocumentSnapshot[i]
+                                                        .get('uid'));
                                               }
                                               return Column(children: <Widget>[
                                                 Padding(
@@ -204,14 +203,14 @@ class EditActivityView extends StatelessWidget {
                                                         (BuildContext context,
                                                             int index) {
                                                       String uid;
-                                                      DocumentSnapshot
+                                                      final DocumentSnapshot
                                                           snapshot =
                                                           querySnapshot
                                                               .docs[index];
-                                                      String documentID =
+                                                      final String documentID =
                                                           snapshot.id;
                                                       uid = snapshot
-                                                          .data()['uid'];
+                                                          .get('uid');
                                                       bool isCheck = true;
                                                       if (model
                                                               .uid_check[uid] !=
@@ -221,31 +220,31 @@ class EditActivityView extends StatelessWidget {
                                                       }
                                                       String team = '';
                                                       if (snapshot
-                                                              .data()['team'] !=
+                                                              .get('team') !=
                                                           null) {
                                                         if (snapshot
-                                                                .data()['team']
+                                                                .get('team')
                                                             is int) {
                                                           team = snapshot
-                                                              .data()['team']
+                                                              .get('team')
                                                               .toString();
                                                         } else {
                                                           team = snapshot
-                                                              .data()['team'];
+                                                              .get('team');
                                                         }
                                                       } else {
                                                         team = 'null';
                                                       }
                                                       bool isFirst;
                                                       String absence;
-                                                      if (team_last != team) {
+                                                      if (teamLast != team) {
                                                         isFirst = true;
-                                                        team_last = team;
+                                                        teamLast = team;
                                                       } else {
                                                         isFirst = false;
                                                       }
-                                                      String age = snapshot
-                                                          .data()['age'];
+                                                      final String age = snapshot
+                                                          .get('age');
                                                       String team_call;
                                                       if (age == 'usagi' ||
                                                           age == 'sika' ||
@@ -257,9 +256,8 @@ class EditActivityView extends StatelessWidget {
                                                       print(model.uid_check);
                                                       return Column(
                                                           children: <Widget>[
-                                                            isFirst &&
-                                                                    team != ''
-                                                                ? Padding(
+                                                            if (isFirst &&
+                                                                    team != '') Padding(
                                                                     padding:
                                                                         EdgeInsets.all(
                                                                             10),
@@ -277,12 +275,11 @@ class EditActivityView extends StatelessWidget {
                                                                           ),
                                                                           textAlign:
                                                                               TextAlign.left,
-                                                                        )))
-                                                                : Container(),
+                                                                        ))) else Container(),
                                                             Dismissible(
                                                                 key: Key(snapshot
-                                                                        .data()[
-                                                                    'name']),
+                                                                        .get(
+                                                                    'name')),
                                                                 onDismissed:
                                                                     (direction) {
                                                                   model.dismissUser(
@@ -291,7 +288,7 @@ class EditActivityView extends StatelessWidget {
                                                                   final snackBar =
                                                                       SnackBar(
                                                                     content: Text(
-                                                                        snapshot.data()['name'] +
+                                                                        snapshot.get('name') +
                                                                             'を対象外にしました'),
                                                                     action:
                                                                         SnackBarAction(
@@ -314,7 +311,7 @@ class EditActivityView extends StatelessWidget {
                                                                             1),
                                                                   );
                                                                   Scaffold.of(
-                                                                          context_builder)
+                                                                          contextBuilder)
                                                                       .showSnackBar(
                                                                           snackBar);
                                                                 },
@@ -348,7 +345,7 @@ class EditActivityView extends StatelessWidget {
                                                                                 Container(
                                                                                   width: 40,
                                                                                   height: 40,
-                                                                                  decoration: BoxDecoration(color: theme.getUserColor(snapshot.data()['age']), shape: BoxShape.circle),
+                                                                                  decoration: BoxDecoration(color: theme.getUserColor(snapshot.get('age')), shape: BoxShape.circle),
                                                                                   child: Icon(
                                                                                     Icons.person,
                                                                                     color: Colors.white,
@@ -357,7 +354,7 @@ class EditActivityView extends StatelessWidget {
                                                                                 Padding(
                                                                                     padding: EdgeInsets.only(left: 10),
                                                                                     child: Text(
-                                                                                      snapshot.data()['name'],
+                                                                                      snapshot.get('name'),
                                                                                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                                     )),
                                                                                 Spacer(),
@@ -413,13 +410,11 @@ class EditActivityView extends StatelessWidget {
                                                                   QuerySnapshot>
                                                               snapshot) {
                                                     if (snapshot.hasData) {
-                                                      if (snapshot.data.docs
-                                                              .length !=
-                                                          0) {
-                                                        QuerySnapshot
+                                                      if (snapshot.data.docs.isNotEmpty) {
+                                                        final QuerySnapshot
                                                             querySnapshot =
                                                             snapshot.data;
-                                                        String team_last = '';
+                                                        String teamLast = '';
                                                         return ListView.builder(
                                                             physics:
                                                                 const NeverScrollableScrollPhysics(),
@@ -432,50 +427,50 @@ class EditActivityView extends StatelessWidget {
                                                                 (BuildContext
                                                                         context,
                                                                     int index) {
-                                                              DocumentSnapshot
+                                                              final DocumentSnapshot
                                                                   snapshot =
                                                                   querySnapshot
                                                                           .docs[
                                                                       index];
-                                                              if (!list_uid
+                                                              if (!listUid
                                                                   .contains(snapshot
-                                                                          .data()[
-                                                                      'uid'])) {
+                                                                          .get(
+                                                                      'uid'))) {
                                                                 bool isFirst;
                                                                 String team;
-                                                                if (snapshot.data()[
-                                                                        'team']
+                                                                if (snapshot.get(
+                                                                        'team')
                                                                     is int) {
                                                                   team = snapshot
-                                                                      .data()[
-                                                                          'team']
+                                                                      .get(
+                                                                          'team')
                                                                       .toString();
                                                                 } else {
                                                                   team = snapshot
-                                                                          .data()[
-                                                                      'team'];
+                                                                          .get(
+                                                                      'team');
                                                                 }
-                                                                if (team_last !=
+                                                                if (teamLast !=
                                                                     team) {
                                                                   isFirst =
                                                                       true;
-                                                                  team_last =
+                                                                  teamLast =
                                                                       team;
                                                                 } else {
                                                                   isFirst =
                                                                       false;
                                                                 }
-                                                                String grade =
-                                                                    snapshot.data()[
-                                                                        'grade'];
+                                                                final String grade =
+                                                                    snapshot.get(
+                                                                        'grade');
                                                                 String
-                                                                    team_call;
+                                                                    teamCall;
                                                                 if (grade ==
                                                                     'cub') {
-                                                                  team_call =
+                                                                  teamCall =
                                                                       '組';
                                                                 } else {
-                                                                  team_call =
+                                                                  teamCall =
                                                                       '班';
                                                                 }
                                                                 return Column(
@@ -488,7 +483,7 @@ class EditActivityView extends StatelessWidget {
                                                                               child: Container(
                                                                                   width: double.infinity,
                                                                                   child: Text(
-                                                                                    team + team_call,
+                                                                                    team + teamCall,
                                                                                     style: TextStyle(
                                                                                       fontWeight: FontWeight.bold,
                                                                                       fontSize: 23,
@@ -530,7 +525,7 @@ class EditActivityView extends StatelessWidget {
                                                                                       Container(
                                                                                         width: 40,
                                                                                         height: 40,
-                                                                                        decoration: BoxDecoration(color: theme.getUserColor(snapshot.data()['age']), shape: BoxShape.circle),
+                                                                                        decoration: BoxDecoration(color: theme.getUserColor(snapshot.get('age')), shape: BoxShape.circle),
                                                                                         child: Icon(
                                                                                           Icons.person,
                                                                                           color: Colors.white,
@@ -539,13 +534,13 @@ class EditActivityView extends StatelessWidget {
                                                                                       Padding(
                                                                                           padding: EdgeInsets.only(left: 10),
                                                                                           child: Text(
-                                                                                            snapshot.data()['name'],
+                                                                                            snapshot.get('name'),
                                                                                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                                           )),
                                                                                       Spacer(),
                                                                                       IconButton(
                                                                                         onPressed: () {
-                                                                                          model.onPressAdd(snapshot, context_builder, isDark);
+                                                                                          model.onPressAdd(snapshot, contextBuilder, isDark);
                                                                                         },
                                                                                         icon: Icon(Icons.add),
                                                                                         iconSize: 30,

@@ -15,15 +15,15 @@ class FirebaseUser {
 
   Map<String, dynamic> toJSON() {
     return <String, dynamic>{
-      "uid": uid,
-      "displayName": displayName,
-      "email": email,
-      "phoneNumber": phoneNumber,
-      "photoUri": photoUri,
-      "providerId": providerId,
-      "isAnonymous": isAnonymous,
-      "isNewUser": isNewUser,
-      "metaData": metaData.toJSON(),
+      'uid': uid,
+      'displayName': displayName,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'photoUri': photoUri,
+      'providerId': providerId,
+      'isAnonymous': isAnonymous,
+      'isNewUser': isNewUser,
+      'metaData': metaData.toJSON(),
     };
   }
 }
@@ -39,8 +39,8 @@ class MetaData {
 
   Map<String, dynamic> toJSON() {
     return <String, dynamic>{
-      "creationTimestamp": creationTimestamp,
-      "lastSignInTimestamp": lastSignInTimestamp
+      'creationTimestamp': creationTimestamp,
+      'lastSignInTimestamp': lastSignInTimestamp
     };
   }
 }

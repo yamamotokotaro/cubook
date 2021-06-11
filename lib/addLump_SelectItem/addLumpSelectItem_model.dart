@@ -6,19 +6,19 @@ import 'package:flutter/cupertino.dart';
 
 class AddLumpSelectItemModel extends ChangeNotifier {
   List<DocumentSnapshot> userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   DocumentSnapshot userData;
   bool isGet = false;
-  Map<dynamic, dynamic> itemSelected = new Map<dynamic, dynamic>();
+  Map<dynamic, dynamic> itemSelected = Map<dynamic, dynamic>();
 
   void createList(String type, int quant) {
     itemSelected[type] =
-        new List<dynamic>.generate(quant, (index) => new List<bool>());
+        List<dynamic>.generate(quant, (index) => List<bool>());
     notifyListeners();
   }
 
   void createbool(String type, int page, int quant) {
-    itemSelected[type][page] = new List<bool>.generate(quant, (index) => false);
+    itemSelected[type][page] = List<bool>.generate(quant, (index) => false);
     notifyListeners();
   }
 

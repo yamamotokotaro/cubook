@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChangeAgeView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
   String uid;
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,9 @@ class ChangeAgeView extends StatelessWidget {
                               hint: Text('役割を選択'),
                               items: <String>['うさぎ', 'しか', 'くま']
                                   .map((String value) {
-                                return new DropdownMenuItem<String>(
+                                return DropdownMenuItem<String>(
                                   value: value,
-                                  child: new Text(value),
+                                  child: Text(value),
                                 );
                               }).toList(),
                               onChanged: (value) {

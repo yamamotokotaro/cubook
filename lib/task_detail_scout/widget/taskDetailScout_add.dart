@@ -6,6 +6,7 @@ import 'package:cubook/model/themeInfo.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
@@ -19,8 +20,8 @@ class TaskDetailScoutAddView extends StatelessWidget {
   Color themeColor;
   int countChewie;
   Map<String, dynamic> content;
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
 
   TaskDetailScoutAddView(int _index, String _type, String _mes) {
     themeColor = theme.getThemeColor(_type);
@@ -62,15 +63,14 @@ class TaskDetailScoutAddView extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Column(
               children: <Widget>[
-                (type != 'risu' &&
+                if ((type != 'risu' &&
                             type != 'usagi' &&
                             type != 'sika' &&
                             type != 'kuma' &&
                             type != 'challenge' &&
                             type != 'tukinowa') ||
                         model.group == ' j27DETWHGYEfpyp2Y292' ||
-                        model.group == ' z4pkBhhgr0fUMN4evr5z'
-                    ? Padding(
+                        model.group == ' z4pkBhhgr0fUMN4evr5z') Padding(
                         padding: EdgeInsets.all(15),
                         child: ExpandText(
                           content['body'],
@@ -80,21 +80,18 @@ class TaskDetailScoutAddView extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.justify,
-                        ))
-                    : Container(),
-                type == 'usagi' ||
+                        )) else Container(),
+                if (type == 'usagi' ||
                         type == 'sika' ||
                         type == 'kuma' ||
-                        type == 'challenge'
-                    ? Padding(
+                        type == 'challenge') Padding(
                         padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                         child: Text(
                           mes,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
-                        ))
-                    : Container(),
+                        )) else Container(),
                 Padding(
                     padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                     child: ListView.builder(
@@ -102,7 +99,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: model.list_attach[index_page].length,
                         itemBuilder: (BuildContext context, int index) {
-                          String attach = model.list_attach[index_page][index];
+                          final String attach = model.list_attach[index_page][index];
                           if (attach == 'image') {
                             return Padding(
                               padding: EdgeInsets.all(0),
@@ -132,9 +129,8 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      model.map_attach[index_page][index] ==
-                                              null
-                                          ? Row(
+                                      if (model.map_attach[index_page][index] ==
+                                              null) Row(
                                               children: <Widget>[
                                                 Expanded(
                                                   child: SizedBox(
@@ -194,8 +190,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                           ),
                                                         )))
                                               ],
-                                            )
-                                          : Container(
+                                            ) else Container(
                                               child: Column(
                                               children: <Widget>[
                                                 Padding(
@@ -268,9 +263,8 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      model.map_attach[index_page][index] ==
-                                              null
-                                          ? Row(
+                                      if (model.map_attach[index_page][index] ==
+                                              null) Row(
                                               children: <Widget>[
                                                 Expanded(
                                                   child: SizedBox(
@@ -330,8 +324,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                           ),
                                                         )))
                                               ],
-                                            )
-                                          : Container(
+                                            ) else Container(
                                               child: Column(
                                               children: <Widget>[
                                                 Padding(
@@ -407,15 +400,14 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      new TextField(
-                                        enabled: true,
+                                      TextField(
+                                        maxLengthEnforcement: MaxLengthEnforcement.none, enabled: true,
                                         controller: model.map_attach[index_page]
                                             [index],
                                         // 入力数
                                         maxLength: 2000,
                                         keyboardType: TextInputType.multiline,
                                         maxLines: null,
-                                        maxLengthEnforced: false,
                                       ),
                                       /*IconButton(
                                                 padding: EdgeInsets.all(0),
@@ -491,12 +483,11 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         color: Colors.white),
                   ),
                 ),
-                type == 'risu' ||
+                if (type == 'risu' ||
                         type == 'usagi' ||
                         type == 'sika' ||
                         type == 'kuma' ||
-                        type == 'challenge'
-                    ? Padding(
+                        type == 'challenge') Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -509,10 +500,8 @@ class TaskDetailScoutAddView extends StatelessWidget {
                             Text('保護者チェック')
                           ],
                         ),
-                      )
-                    : Container(),
-                !model.isLoading[index_page]
-                    ? Padding(
+                      ) else Container(),
+                if (!model.isLoading[index_page]) Padding(
                         padding: EdgeInsets.only(top: 5),
                         child: RaisedButton.icon(
                           onPressed: () {
@@ -531,8 +520,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                        ))
-                    : Container(
+                        )) else Container(
                         child: Container(
                           child: Center(
                             child: CircularProgressIndicator(

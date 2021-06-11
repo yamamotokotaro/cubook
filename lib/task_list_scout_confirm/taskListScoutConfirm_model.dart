@@ -11,7 +11,7 @@ class TaskListScoutConfirmModel extends ChangeNotifier {
 
   void getSnapshot(String uid) async {
     print(uid);
-    User user = await FirebaseAuth.instance.currentUser;
+    final User user = FirebaseAuth.instance.currentUser;
     currentUser = user;
     user.getIdTokenResult().then((token) async {
       FirebaseFirestore.instance

@@ -13,8 +13,8 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
   String mes;
   Map<String, dynamic> taskInfo;
   Map<String, dynamic> content;
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
+  var task = TaskContents();
+  var theme = ThemeInfo();
 
   TaskDetailScoutConfirmAddView(int _index, String _type, String _mes) {
     themeColor = theme.getThemeColor(_type);
@@ -55,15 +55,13 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                 ),
               ],
             )),
-        mes != ''
-            ? Padding(
+        if (mes != '') Padding(
                 padding: EdgeInsets.only(top: 10, left: 20, right: 20),
                 child: Text(
                   mes,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ))
-            : Container(),
+                )) else Container(),
         Container(
             height: MediaQuery.of(context).size.height > 700
                 ? MediaQuery.of(context).size.height - 334
@@ -129,15 +127,14 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                         ),
                       ),
                     )),*/
-                (type != 'risu' &&
+                if ((type != 'risu' &&
                             type != 'usagi' &&
                             type != 'sika' &&
                             type != 'kuma' &&
                             type != 'challenge' &&
                             type != 'tukinowa') ||
                         model.group == ' j27DETWHGYEfpyp2Y292' ||
-                        model.group == ' z4pkBhhgr0fUMN4evr5z'
-                    ? Padding(
+                        model.group == ' z4pkBhhgr0fUMN4evr5z') Padding(
                         padding: EdgeInsets.all(15),
                         child: ExpandText(
                           content['body'],
@@ -147,10 +144,8 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.justify,
-                        ))
-                    : Container(),
-                content['common'] != null
-                    ? Padding(
+                        )) else Container(),
+                if (content['common'] != null) Padding(
                         padding: EdgeInsets.only(
                             top: 5, bottom: 10, right: 10, left: 10),
                         child: Text(
@@ -164,10 +159,8 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                                   content['common']['number']) +
                               ')\nもサインされます',
                           textAlign: TextAlign.center,
-                        ))
-                    : Container(),
-                model.isLast
-                    ? Padding(
+                        )) else Container(),
+                if (model.isLast) Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -180,10 +173,8 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                             Text('表彰待ちリストに追加しない')
                           ],
                         ),
-                      )
-                    : Container(),
-                !model.isLoading[index_page]
-                    ? Padding(
+                      ) else Container(),
+                if (!model.isLoading[index_page]) Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: RaisedButton.icon(
                           onPressed: () {
@@ -202,8 +193,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                        ))
-                    : Container(
+                        )) else Container(
                         child: Container(
                           child: Center(
                             child: CircularProgressIndicator(

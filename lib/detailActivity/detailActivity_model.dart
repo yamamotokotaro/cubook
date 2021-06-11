@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class DetailActivityModel extends ChangeNotifier {
   QuerySnapshot userSnapshot;
-  FirebaseUser currentUser;
+  User currentUser;
   bool isGet = false;
   String group;
   String position;
@@ -14,23 +14,23 @@ class DetailActivityModel extends ChangeNotifier {
   DateTime date = DateTime.now();
   TextEditingController titleController = TextEditingController();
   bool isLoading = false;
-  Map<String, bool> uid_check = new Map<String, bool>();
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  Map<String, bool> uid_check = <String, bool>{};
+  Map<String, dynamic> claims = Map<String, dynamic>();
   String group_claim;
 
   void getGroup() async {
-    String group_before = group;
-    User user = await FirebaseAuth.instance.currentUser;
+    final String groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
-        .getDocuments()
+        .get()
         .then((snapshot) {
-      DocumentSnapshot documentSnapshot = snapshot.docs[0];
-      group = documentSnapshot.data()['group'];
-      position = documentSnapshot.data()['position'];
-      age = documentSnapshot.data()['age'];
-      if (group != group_before) {
+      final DocumentSnapshot documentSnapshot = snapshot.docs[0];
+      group = documentSnapshot.get('group');
+      position = documentSnapshot.get('position');
+      age = documentSnapshot.get('age');
+      if (group != groupBefore) {
         notifyListeners();
       }
       /*user.getIdToken(refresh: true).then((value) {
@@ -51,7 +51,7 @@ class DetailActivityModel extends ChangeNotifier {
         .get()
         .then((value) {
       for (int i = 0; i < value.docs.length; i++) {
-        DocumentSnapshot documentSnapshot = value.docs[i];
+        final DocumentSnapshot documentSnapshot = value.docs[i];
         FirebaseFirestore.instance
             .collection('activity_personal')
             .doc(documentSnapshot.id)
@@ -60,7 +60,7 @@ class DetailActivityModel extends ChangeNotifier {
     });
     FirebaseFirestore.instance
         .collection('activity')
-        .document(documentID)
+        .doc(documentID)
         .delete();
   }
 }

@@ -24,18 +24,18 @@ class SignupModel with ChangeNotifier {
       isLoading_join = true;
       notifyListeners();
 
-      User user = await FirebaseAuth.instance.currentUser;
+      final User user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((token) async {
-          String url =
-              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup";
-          Map<String, String> headers = {'content-type': 'application/json'};
-          String body =
+          final String url =
+              'https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup';
+          final Map<String, String> headers = {'content-type': 'application/json'};
+          final String body =
               json.encode({'idToken': token.token, 'joinCode': joinCode});
 
-          http.Response resp =
-              await http.post(url, headers: headers, body: body);
-          Map<dynamic, dynamic> tokenMap = token.claims;
+          final http.Response resp =
+              await http.post(Uri.parse(url), headers: headers, body: body);
+          final Map<dynamic, dynamic> tokenMap = token.claims;
           isLoading_join = false;
           if (resp.body == 'success') {
             mes_join = '';
@@ -74,14 +74,14 @@ class SignupModel with ChangeNotifier {
       isLoading_join = true;
       notifyListeners();
 
-      User user = await FirebaseAuth.instance.currentUser;
+      final User user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((token) async {
           print(token.claims);
-          String url =
-              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/createGroup";
-          Map<String, String> headers = {'content-type': 'application/json'};
-          String body = json.encode({
+          final String url =
+              'https://asia-northeast1-cubook-3c960.cloudfunctions.net/createGroup';
+          final Map<String, String> headers = {'content-type': 'application/json'};
+          final String body = json.encode({
             'idToken': token.token,
             'groupName': groupController.text,
             'family': familyController.text,
@@ -89,8 +89,8 @@ class SignupModel with ChangeNotifier {
             'grade': grade
           });
 
-          http.Response resp =
-              await http.post(url, headers: headers, body: body);
+          final http.Response resp =
+              await http.post(Uri.parse(url), headers: headers, body: body);
           print(resp.body);
           print(token.claims);
           isLoading_join = false;
