@@ -92,14 +92,15 @@ class _MyAppState extends State<MyApp> {
   final boyColor = Colors.orange;
   FirebaseAnalytics analytics = FirebaseAnalytics();
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    _firebaseMessaging.configure(
+    // 通信関係
+    /*_firebaseMessaging.configure(
       onMessage: (message) async {
         setState(() {
           title = message['notification']['title'];
@@ -114,7 +115,7 @@ class _MyAppState extends State<MyApp> {
           print(message.toString());
         });
       },
-    );
+    );*/
   }
 
   Future<PermissionStatus> permissionStatus =

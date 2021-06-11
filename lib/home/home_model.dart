@@ -223,14 +223,15 @@ class HomeModel extends ChangeNotifier {
                   child: Text('エラーが発生しました'),
                 );
               }
-              if (!isSended) {
+              // 通知関係
+              /*if (!isSended) {
                 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
                 _firebaseMessaging.getToken().then((String tokenGet) {
                   assert(tokenGet != null);
                   token = tokenGet;
                 });
                 isSended = true;
-              }
+              }*/
               isLoaded = true;
               notifyListeners();
             } else {
