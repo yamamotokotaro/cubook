@@ -153,7 +153,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                     type != "kuma" &&
                                     type != "tukinowa" &&
                                     type != "challenge")
-                                  if (model.stepSnapshot.get('phase') != null)
+                                  if (model.stepData['phase'] != null)
                                     model.stepSnapshot.get('phase') ==
                                             'not examined'
                                         ? Container(
@@ -189,7 +189,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                         : Container()
                                   else
                                     Container(),
-                                if (model.stepSnapshot.get('start') != null)
+                                if (model.stepData['start'] != null)
                                   Container(
                                     child: Column(
                                       children: <Widget>[
@@ -281,8 +281,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   Container(),
 
                                 if(type != "usagi" && type != "sika" && type != "kuma" && type != "tukinowa" && type != "challenge")
-                                if (model.stepSnapshot
-                                        .get('date_examination') !=
+                                if (model.stepData['date_examination'] !=
                                     null)
                                   Container(
                                     child: Column(
@@ -335,8 +334,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   Container(),
 
                                 if(type != "usagi" && type != "sika" && type != "kuma" && type != "tukinowa" && type != "challenge")
-                                if (model.stepSnapshot
-                                        .get('date_examination') !=
+                                if (model.stepData['date_examination'] !=
                                     null)
                                   Container(
                                     child: Column(

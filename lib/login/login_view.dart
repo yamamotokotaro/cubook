@@ -1,10 +1,9 @@
 import 'package:cubook/home/home_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_ui/firebase_auth_ui.dart';
-import 'package:firebase_auth_ui/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_auth_ui/flutter_auth_ui.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -16,7 +15,7 @@ class LoginView extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: Center(
             child: SizedBox(
-                height: kIsWeb ? 400:250,
+                height: kIsWeb ? 400 : 250,
                 child: Column(
                   children: <Widget>[
                     Center(
@@ -49,146 +48,42 @@ class LoginView extends StatelessWidget {
                       padding: EdgeInsets.only(top: 30),
                       child: Container(
                         child: Consumer<HomeModel>(
-                          builder: (context, model, child) {
-                            if (kIsWeb) {
-                              return Column(children: [
-                                Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: TextField(
-                                    maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.mailAddressController,
-                                    enabled: true,
-                                    // 入力数
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: null,
-                                    decoration:
-                                        InputDecoration(labelText: 'メールアドレス'),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: TextField(
-                                    maxLengthEnforcement: MaxLengthEnforcement.none, obscureText: true,
-                                    controller: model.passwordController,
-                                    enabled: true,
-                                    // 入力数
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: 1,
-                                    decoration:
-                                        InputDecoration(labelText: 'パスワード'),
-                                  ),
-                                ),
-                                Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 10, bottom: 14),
-                                    child: RaisedButton(
-                                      color: Colors.blue[900],
-                                      onPressed: () async {
-                                        final GoogleSignIn _googleSignIn =
-                                            GoogleSignIn();
-                                        final FirebaseAuth _auth =
-                                            FirebaseAuth.instance;
-                                        final GoogleSignInAccount googleCurrentUser =
-                                            _googleSignIn.currentUser;
-                                        try {
-                                          final result = await FirebaseAuth
-                                              .instance
-                                              .signInWithEmailAndPassword(
-                                                  email: model
-                                                      .mailAddressController
-                                                      .text,
-                                                  password: model
-                                                      .passwordController.text);
-                                          final User user = result.user;
-                                          print(
-                                              'signed in ' + user.displayName);
-                                          model.login();
-                                          return user;
-                                        } catch (e) {
-                                          print(e);
-                                          return null;
-                                        }
-                                      },
-                                      child: Padding(
-                                          padding: EdgeInsets.all(5),
-                                          child: Text(
-                                            'ログイン',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          )),
-                                    )),
-                                RaisedButton(
-                                  color: Colors.blue[900],
-                                  onPressed: () async {
-                                    if (kIsWeb) {
-                                      final GoogleSignIn _googleSignIn =
-                                          GoogleSignIn();
-                                      final FirebaseAuth _auth =
-                                          FirebaseAuth.instance;
-                                      GoogleSignInAccount googleCurrentUser =
-                                          _googleSignIn.currentUser;
-                                      try {
-                                        googleCurrentUser ??= await _googleSignIn
-                                                  .signInSilently();
-                                        googleCurrentUser ??= await _googleSignIn.signIn();
-                                        if (googleCurrentUser == null)
-                                          return null;
+                            builder: (context, model, child) {
+                          return RaisedButton(
+                            color: Colors.blue[900],
+                            onPressed: () async {
+                              final providers = [
+                                AuthUiProvider.email,
+                                AuthUiProvider.apple,
+                                AuthUiProvider.google,
+                              ];
 
-                                        final GoogleSignInAuthentication googleAuth =
-                                            await googleCurrentUser
-                                                .authentication;
-                                        final AuthCredential credential =
-                                            GoogleAuthProvider.credential(
-                                          accessToken: googleAuth.accessToken,
-                                          idToken: googleAuth.idToken,
-                                        );
-                                        final User user =
-                                            (await _auth.signInWithCredential(
-                                                    credential))
-                                                .user;
-                                        print('signed in ' + user.displayName);
-
-                                        model.login();
-                                        return user;
-                                      } catch (e) {
-                                        print(e);
-                                        return null;
-                                      }
-                                    } else {
-                                      FirebaseAuthUi.instance()
-                                          .launchAuth(
-                                            [
-                                              AuthProvider.email(),
-                                              // Login/Sign up with Email and password
-                                              AuthProvider.google(),
-                                              // Login with Google
-                                            ],
-                                            tosUrl:
-                                                'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md',
-                                            // Optional
-                                            privacyPolicyUrl:
-                                                'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md', // Optional,
-                                          )
-                                          .then((firebaseUser) =>
-                                              model.login())
-                                          .catchError((dynamic error) =>
-                                              print('Error $error'));
-                                    }
-                                  },
-                                  child: Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: Text(
-                                        'Google でログイン',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 20),
-                                      )),
+                              final result = await FlutterAuthUi.startUi(
+                                items: providers,
+                                tosAndPrivacyPolicy: TosAndPrivacyPolicy(
+                                  tosUrl:
+                                      "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md",
+                                  privacyPolicyUrl:
+                                      'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md',
                                 ),
-                              ]);
-                            } else {
-                              return RaisedButton(
-                                color: Colors.blue[900],
-                                onPressed: () async {
-                                  FirebaseAuthUi.instance()
+                                androidOption: AndroidOption(
+                                  enableSmartLock: true, // default true
+                                  showLogo: false, // default false
+                                  overrideTheme: true, // default false
+                                ),
+                                emailAuthOption: EmailAuthOption(
+                                  requireDisplayName: true,
+                                  // default true
+                                  enableMailLink: false,
+                                  // default false
+                                  handleURL: '',
+                                  androidPackageName: '',
+                                  androidMinimumVersion: '',
+                                ),
+                              );
+                              print(result);
+                              model.login();
+                              /*FirebaseAuthUi.instance()
                                       .launchAuth(
                                     [
                                       AuthProvider.email(),
@@ -205,19 +100,17 @@ class LoginView extends StatelessWidget {
                                       .then((firebaseUser) =>
                                       model.login())
                                       .catchError((dynamic error) =>
-                                      print('Error $error'));
-                                },
-                                child: Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: Text(
-                                      'ログインしてはじめる',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
-                                    )),
-                              );
-                            }
-                          },
-                        ),
+                                      print('Error $error'));*/
+                            },
+                            child: Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Text(
+                                  'ログインしてはじめる',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                )),
+                          );
+                        }),
                       ),
                     ),
                   ],

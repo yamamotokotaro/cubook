@@ -28,9 +28,8 @@ dependencies:
   firebase_core: ^1.4.0
   cloud_firestore: ^2.4.0
   provider: ^5.0.0
-  firebase_auth: ^1.4.0
-  firebase_auth_ui:
-    path: Packages/firebase_auth_ui
+  firebase_auth: ^3.0.1
+  flutter_auth_ui: ^2.3.1
   google_sign_in: ^5.0.4
   google_fonts: ^2.1.0
   image_picker: ^0.8.3+2
@@ -50,7 +49,6 @@ dependencies:
   path_provider: ^2.0.2
   open_file: ^3.2.1
   expand_widget: ^2.1.0
-#  flutter_auth_ui: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 
 class TaskListScoutConfirmModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
+  Map<String, dynamic> userData = <String, dynamic>{};
   User currentUser;
   bool isGet = false;
 
@@ -21,6 +22,7 @@ class TaskListScoutConfirmModel extends ChangeNotifier {
           .snapshots()
           .listen((data) {
         userSnapshot = data.docs[0];
+        userData = userSnapshot.data() as Map<String,dynamic>;
         notifyListeners();
       });
       isGet = true;

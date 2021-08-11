@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class TaskListScoutModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
+  Map<String, dynamic> userData = <String, dynamic>{};
   QuerySnapshot effortSnapshot;
   User currentUser;
   bool isGet = false;
@@ -17,6 +18,7 @@ class TaskListScoutModel extends ChangeNotifier {
         .snapshots()
         .listen((data) {
       userSnapshot = data.docs[0];
+      userData = userSnapshot.data() as Map<String,dynamic>;
       notifyListeners();
     });
     isGet = true;

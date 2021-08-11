@@ -235,10 +235,11 @@ class HomeScoutView extends StatelessWidget {
                                           DocumentSnapshot>(
                                           selector: (context, model) =>
                                           model.userSnapshot,
-                                          builder: (context, snapshot, child) =>
-                                          snapshot !=
+                                          builder: (context, snapshot, child) {
+                                            final stepData = snapshot.data() as Map<String, dynamic>;
+                                          return snapshot !=
                                               null
-                                              ? snapshot.get(type[index]) !=
+                                              ? stepData[type[index]] !=
                                               null
                                               ? CircularProgressIndicator(
                                               backgroundColor: theme
@@ -267,7 +268,7 @@ class HomeScoutView extends StatelessWidget {
                                             valueColor:
                                             AlwaysStoppedAnimation<
                                                 Color>(Colors.white),
-                                          ))),
+                                          );})),
                                   Padding(
                                       padding: EdgeInsets.only(left: 10),
                                       child: Column(

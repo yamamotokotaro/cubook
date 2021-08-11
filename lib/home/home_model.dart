@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_view.dart';
 import 'package:cubook/home_scout/homeScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_auth_ui/flutter_auth_ui.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth_ui/firebase_auth_ui.dart' show FirebaseAuthUi;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:notification_permissions/notification_permissions.dart';
@@ -255,7 +255,9 @@ class HomeModel extends ChangeNotifier {
       await FirebaseAuth.instance.signOut();
       await GoogleSignIn().signOut();
     } else {
-      await FirebaseAuthUi.instance().logout();
+      await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
+      // await FirebaseAuthUi.instance().logout();
     }
     currentUser = null;
     notifyListeners();

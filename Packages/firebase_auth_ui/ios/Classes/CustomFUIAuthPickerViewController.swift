@@ -1,5 +1,5 @@
 import UIKit
-import FirebaseUI
+import FirebaseAuthUI
 
 class CustomFUIAuthPickerViewController: FUIAuthPickerViewController {
     

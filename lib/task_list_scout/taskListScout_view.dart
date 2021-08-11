@@ -65,7 +65,7 @@ class TaskListScoutView extends StatelessWidget {
                           List.generate(mapTask.length, (index) => false);
                           final list_percentage = List.generate(
                               mapTask.length, (index) => 0.0);
-                          if(model.userSnapshot.get(type) != null) {
+                          if(model.userData[type] != null) {
                             final Map map = Map<String, dynamic>.from(
                                 model.userSnapshot.get(type));
                             for (int i = 0; i < mapTask.length; i++) {

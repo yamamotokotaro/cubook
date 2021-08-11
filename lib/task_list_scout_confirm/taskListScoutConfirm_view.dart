@@ -70,7 +70,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                               mapTask.length, (index) => false);
                           final listPercentage = List.generate(
                               mapTask.length, (index) => 0.0);
-                          if (model.userSnapshot.get(type) != null) {
+                          if (model.userData[type] != null) {
                             final Map map = Map<String, dynamic>.from(
                                 model.userSnapshot.get(type));
                             for (int i = 0; i < mapTask.length; i++) {

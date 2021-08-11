@@ -131,7 +131,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                               decoration: TextDecoration.none),
                                         ),
                                       ),
-                                      if (model.stepSnapshot.get('start') != null) Container(
+                                      if (model.stepData['start'] != null) Container(
                                               child: Column(
                                                 children: <Widget>[
                                                   Padding(

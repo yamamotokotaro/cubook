@@ -1,7 +1,7 @@
 import Flutter
 import UIKit
 import FirebaseCore
-import FirebaseUI
+import FirebaseAuthUI
 
 public class SwiftFirebaseAuthUiPlugin: NSObject, FlutterPlugin, FUIAuthDelegate {
         private var result: FlutterResult?
