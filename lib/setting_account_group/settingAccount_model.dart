@@ -21,6 +21,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
   TextEditingController familyController;
   TextEditingController firstController;
   TextEditingController teamController;
+  TextEditingController groupIdController;
   String dropdown_text;
   String age;
   String call;
@@ -47,6 +48,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
               TextEditingController(text: userSnapshot.get('family'));
           firstController =
               TextEditingController(text: userSnapshot.get('first'));
+          groupIdController = TextEditingController();
           if (userSnapshot.get('teamPosition') != null) {
             if (userSnapshot.get('teamPosition') == 'teamLeader') {
               isTeamLeader = true;
@@ -275,35 +277,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
           }
           notifyListeners();
         });
-        /*user.getIdTokenResult().then((token) async {
-          HttpsCallable callable = FirebaseFunctions.instanceFor(
-              region: 'asia-northeast1')
-              .httpsCallable('changeGroupUserInfo',
-              options: HttpsCallableOptions(timeout: Duration(seconds: 5)));
-
-          await callable(<String, dynamic>{
-            'idToken': token.token,
-            'family': familyController.text,
-            'first': firstController.text,
-            'call': call,
-            'team': teamController.text,
-            'teamPosition': teamPosition,
-            'age': age,
-            'age_turn': age_turn,
-            'uid': uid,
-            'grade': grade
-          }).then((v) {
-            ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-              content: new Text('変更を保存しました¥n' + v.toString()),
-            ));
-          }).catchError((dynamic e) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('ERROR: $e'),
-            ));
-          });
-          isLoading = false;
-          notifyListeners();
-        });*/
       }
     } else {
       notifyListeners();
@@ -425,6 +398,37 @@ class SettingAccountGroupModel extends ChangeNotifier {
         print(resp.body);
         if (resp.body == 'sucess') {
           isFinish = true;
+        }
+        isLoading = false;
+        notifyListeners();
+      });
+    }
+  }
+
+  void migrateAccount(BuildContext context) async {
+    print('start migrating...');
+    isLoading = true;
+    notifyListeners();
+    final User user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      user.getIdTokenResult().then((token) async {
+        final String url =
+            'https://asia-northeast1-cubook-3c960.cloudfunctions.net/sendMigration';
+        final Map<String, String> headers = {'content-type': 'application/json'};
+        final String body = json.encode(<String, dynamic>{
+          'idToken': token.token,
+          'uid': uid,
+          'groupID': groupIdController.text
+        });
+
+        final http.Response resp =
+        await http.post(Uri.parse(url), headers: headers, body: body);
+        isLoading = false;
+        if (resp.body == 'success') {
+          isFinish = true;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('申請の送信が完了しました'),
+          ));
         }
         isLoading = false;
         notifyListeners();

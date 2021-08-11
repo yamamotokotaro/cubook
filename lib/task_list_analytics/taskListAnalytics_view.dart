@@ -284,7 +284,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                       width: 30,
                                       child: CircularProgressIndicator(
                                         backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                        valueColor: AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
+                                        valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
                                 );
                               }
                             });
@@ -296,7 +296,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                               width: 30,
                               child: CircularProgressIndicator(
                                 backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                valueColor: AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
+                                valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
                         );
                       }
                     }))

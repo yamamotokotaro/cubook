@@ -38,7 +38,9 @@ class AnalyticsModel extends ChangeNotifier {
         .then((snapshot) {
       userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
-      teamPosition = userSnapshot.get('teamPosition');
+      if(userSnapshot.get('position') == "scout") {
+        teamPosition = userSnapshot.get('teamPosition');
+      }
       if (group != groupBefore || teamPosition != teamPositionBefore) {
         notifyListeners();
       }

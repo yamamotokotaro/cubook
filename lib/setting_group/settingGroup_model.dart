@@ -16,23 +16,31 @@ class SettingGroupModel extends ChangeNotifier {
   String uid;
   String mailAddress;
   Map<String, dynamic> claims = <String, dynamic>{};
+  String groupID = "読み込み中";
 
   void getUser() async {
-    final String uidBefore = uid;
-    final String mailAddressBefore = mailAddress;
+    final String groupBefore = groupID;
     final User user = FirebaseAuth.instance.currentUser;
     currentUser = user;
     uid = currentUser.uid;
     mailAddress = currentUser.email;
     addressController.text = currentUser.email;
-    if (uid == null || uid != uidBefore || mailAddress != mailAddressBefore) {
-      notifyListeners();
-    }
+    FirebaseFirestore.instance
+        .collection('user')
+        .where('uid', isEqualTo: user.uid)
+        .get()
+        .then((snapshot) {
+      final DocumentSnapshot documentSnapshot = snapshot.docs[0];
+      groupID = documentSnapshot.get('group');
+      if (groupBefore != groupID) {
+        notifyListeners();
+      }
+    });
   }
 
   void changeEmail(BuildContext context) async {
     if (RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(addressController.text)) {
       try {
         await currentUser.updateEmail(addressController.text);
@@ -59,27 +67,28 @@ class SettingGroupModel extends ChangeNotifier {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     content: SingleChildScrollView(child:
-                    Consumer<SettingGroupModel>(
-                        builder: (context, model, child) {
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(0),
-                                child: TextField(
-                                  maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.passwordController,
-                                  enabled: true,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                      labelText: 'パスワード',
-                                      errorText: model.passwordError
-                                          ? 'パスワードが確認できません'
-                                          : null),
-                                ),
-                              ),
-                            ],
-                          );
-                        })),
+                        Consumer<SettingGroupModel>(
+                            builder: (context, model, child) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(0),
+                            child: TextField(
+                              maxLengthEnforcement: MaxLengthEnforcement.none,
+                              controller: model.passwordController,
+                              enabled: true,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                  labelText: 'パスワード',
+                                  errorText: model.passwordError
+                                      ? 'パスワードが確認できません'
+                                      : null),
+                            ),
+                          ),
+                        ],
+                      );
+                    })),
                     actions: <Widget>[
                       FlatButton(
                         child: Text('認証'),

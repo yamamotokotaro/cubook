@@ -34,16 +34,19 @@ class InviteView extends StatelessWidget {
                               ),
                             ),
                           ),
-                          if (model.mes_join != '') Padding(
-                                  padding: EdgeInsets.only(top: 30),
-                                  child: Text(
-                                    model.mes_join,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red),
-                                  ),
-                                ) else Container(),
+                          if (model.mes_join != '')
+                            Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Text(
+                                model.mes_join,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red),
+                              ),
+                            )
+                          else
+                            Container(),
                           Padding(
                               padding:
                                   EdgeInsets.only(top: 15, left: 10, right: 10),
@@ -56,12 +59,12 @@ class InviteView extends StatelessWidget {
                                   'うさぎ',
                                   'しか',
                                   'くま',
-                                  /*'ボーイスカウトバッジ',
+                                  'ボーイスカウトバッジ',
                                   '初級スカウト',
                                   '2級スカウト',
                                   '1級スカウト',
                                   '菊スカウト',
-                                  '隼スカウト',*/
+                                  '隼スカウト',
                                   //'富士スカウト',
                                   'リーダー'
                                 ].map((String value) {
@@ -77,7 +80,8 @@ class InviteView extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.all(10),
                             child: TextField(
-                              maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.addressController,
+                              maxLengthEnforcement: MaxLengthEnforcement.none,
+                              controller: model.addressController,
                               enabled: true,
                               // 入力数
                               keyboardType: TextInputType.multiline,
@@ -91,7 +95,8 @@ class InviteView extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.all(10),
                             child: TextField(
-                              maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.familyController,
+                              maxLengthEnforcement: MaxLengthEnforcement.none,
+                              controller: model.familyController,
                               enabled: true,
                               // 入力数
                               keyboardType: TextInputType.multiline,
@@ -105,7 +110,8 @@ class InviteView extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.all(10),
                             child: TextField(
-                              maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.firstController,
+                              maxLengthEnforcement: MaxLengthEnforcement.none,
+                              controller: model.firstController,
                               enabled: true,
                               // 入力数
                               keyboardType: TextInputType.multiline,
@@ -116,52 +122,57 @@ class InviteView extends StatelessWidget {
                               },
                             ),
                           ),
-                          model.dropdown_text != 'リーダー'
-                              ? Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 0, left: 10, right: 10),
-                                  child: TextField(
-                                    maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.teamController,
-                                    enabled: true,
-                                    // 入力数
-                                    maxLines: null,
-                                    decoration: InputDecoration(labelText: '組・班（オプション）'),
-                                    onChanged: (text) {},
-                                  ),
-                                )
-                              : Container(),
-                          model.dropdown_text != 'リーダー'
-                              ? Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 20, left: 10, right: 10, bottom: 10),
-                                  child: DropdownButton<String>(
-                                    isExpanded: true,
-                                    hint: Text('呼称'),
-                                    value: model.dropdown_call,
-                                    items: <String>['くん', 'さん']
-                                        .map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                      model.onDropdownCallChanged(value);
-                                    },
-                                  ))
-                              : Container(),
+                          if (model.dropdown_text != 'リーダー')
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(top: 0, left: 10, right: 10),
+                              child: TextField(
+                                maxLengthEnforcement: MaxLengthEnforcement.none,
+                                controller: model.teamController,
+                                enabled: true,
+                                // 入力数
+                                maxLines: null,
+                                decoration:
+                                    InputDecoration(labelText: '組・班（オプション）'),
+                                onChanged: (text) {},
+                              ),
+                            )
+                          else
+                            Container(),
+                          if (model.dropdown_text != 'リーダー')
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 20, left: 10, right: 10, bottom: 10),
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  hint: const Text('呼称'),
+                                  value: model.dropdown_call,
+                                  items:
+                                      <String>['くん', 'さん'].map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    model.onDropdownCallChanged(value);
+                                  },
+                                ))
+                          else
+                            Container(),
                           Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: model.isLoading_join
-                                ? Padding(
+                                ? const Padding(
                                     padding: EdgeInsets.all(10),
                                     child: CircularProgressIndicator())
-                                : RaisedButton(
-                                    color: Colors.blue[900],
+                                : ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.blue[900]),
                                     onPressed: () {
                                       model.inviteRequest(context);
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       '招待を送信',
                                       style: TextStyle(color: Colors.white),
                                     )),

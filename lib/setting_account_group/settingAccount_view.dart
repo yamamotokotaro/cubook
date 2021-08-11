@@ -116,7 +116,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                 BorderRadius.circular(10.0),
                                           ),
                                           onTap: () async {
-                                            await showDialog<int>(
+                                            /*await showDialog<int>(
                                                 context: context,
                                                 builder: (context) {
                                                   return AlertDialog(
@@ -152,9 +152,9 @@ class SettingAccountGroupView extends StatelessWidget {
                                                       ],
                                                     )),
                                                   );
-                                                });
-                                            // Navigator.of(context)
-                                            //     .pushNamed('/accountMigration');
+                                                });*/
+                                            Navigator.of(context)
+                                                .pushNamed('/accountMigration');
                                           },
                                           child: Padding(
                                             padding: EdgeInsets.all(10),

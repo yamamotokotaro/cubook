@@ -63,10 +63,48 @@ class ListActivityView extends StatelessWidget {
                                                 borderRadius: BorderRadius.circular(10.0),
                                               ),
                                               onTap: () {
-                                                Navigator.of(context).pushNamed(
-                                                    '/detailActivity',
-                                                    arguments:
-                                                        snapshot.id);
+                                                final documentData = snapshot.data() as Map<String, dynamic>;
+                                                if(documentData['type'] == 'migration'){
+                                                  return AlertDialog(
+                                                    shape: const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                20.0))),
+                                                    content:
+                                                    SingleChildScrollView(
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                          MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            Container(
+                                                              width:
+                                                              double.infinity,
+                                                              child: Text(
+                                                                  'この活動は表示できません',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                      fontSize:
+                                                                      18)),
+                                                            ),
+                                                            Padding(
+                                                                padding:
+                                                                EdgeInsets.only(
+                                                                    top: 5),
+                                                                child: Text(
+                                                                    '選択された活動は移行元で記録されたものです。移行元の活動詳細は表示することができません。'))
+                                                          ],
+                                                        )),
+                                                  );
+                                                } else {
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                      '/detailActivity',
+                                                      arguments:
+                                                      snapshot.id);
+                                                }
                                               },
                                               child: Padding(
                                                 padding: EdgeInsets.all(10),

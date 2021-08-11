@@ -880,7 +880,7 @@ class TaskContents {
     ],
     [
       <String, dynamic>{'body': '日本の総理大臣、自分が住んでいるところの知事、市町村の名前が言える'},
-      <String, dynamic>{'body': '良い市民位なるためのいくつかの心がまえを説明する'},
+      <String, dynamic>{'body': '良い市民になるためのいくつかの心がまえを説明する'},
       <String, dynamic>{'body': '電車やバスなどを利用するときの心得を知り、実行する'},
       <String, dynamic>{'body': '自分の住んでいる地域内での善行に心がけ、1ヶ月間の実行記録をつける'},
       <String, dynamic>{'body': '自分が住んでいる都道府県の県花、県木、県鳥の名前と由来などについて調べ、説明する'},
@@ -947,7 +947,7 @@ class TaskContents {
       },
     ],
     [
-      <String, dynamic>{'body': 'タイヤ組みのハイキングに3回以上参加する'},
+      <String, dynamic>{'body': '隊や組のハイキングに3回以上参加する'},
       <String, dynamic>{'body': '磁石がどのように役立つかを知り、8方位を覚える'},
       <String, dynamic>{'body': '野や山で道に迷った時に注意することを説明する'},
       <String, dynamic>{'body': '指導者が示した2km以内にある目標地点を、追跡サインを使って見つけることができる'},

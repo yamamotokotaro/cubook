@@ -68,7 +68,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> contents = task.getContentList(type, number);
+    final List<Map<String, dynamic>> contents =
+        task.getContentList(type, number);
     return Container(
         width: 280,
         child: GestureDetector(
@@ -89,10 +90,19 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                       if (model.isExit == true) {
                         var message = '';
                         final DocumentSnapshot snapshot = model.stepSnapshot;
-                        if (snapshot.get('end') != null) {
-                          if (snapshot.get('phase') != null) {
-                            if (snapshot.get('phase') == 'not examined') {
-                              message = '技能考査が必要です';
+                        Map<String, dynamic> documentData = snapshot.data() as Map<String, dynamic>;
+                        if (documentData['end'] != null) {
+                          if (type != "usagi" &&
+                              type != "sika" &&
+                              type != "kuma" &&
+                              type != "tukinowa" &&
+                              type != "challenge") {
+                            if (documentData['phase'] != null) {
+                              if (snapshot.get('phase') == 'not examined') {
+                                message = '技能考査が必要です';
+                              } else {
+                                message = '完修済み';
+                              }
                             } else {
                               message = '完修済み';
                             }
@@ -138,7 +148,13 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                         decoration: TextDecoration.none),
                                   ),
                                 ),
-                                if (model.stepSnapshot.get('phase') != null) model.stepSnapshot.get('phase') ==
+                                if (type != "usagi" &&
+                                    type != "sika" &&
+                                    type != "kuma" &&
+                                    type != "tukinowa" &&
+                                    type != "challenge")
+                                  if (model.stepSnapshot.get('phase') != null)
+                                    model.stepSnapshot.get('phase') ==
                                             'not examined'
                                         ? Container(
                                             child: Column(
@@ -170,319 +186,323 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                               ],
                                             ),
                                           )
-                                        : Container() else Container(),
-                                if (model.stepSnapshot.get('start') != null) Container(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: EdgeInsets.all(10),
-                                              child: Text(
-                                                '開始日',
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
+                                        : Container()
+                                  else
+                                    Container(),
+                                if (model.stepSnapshot.get('start') != null)
+                                  Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            '開始日',
+                                            style: TextStyle(
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold,
+                                                decoration:
+                                                    TextDecoration.none),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 5),
+                                          child: FlatButton(
+                                            child: Text(
+                                              DateFormat('yyyy/MM/dd')
+                                                  .format(snapshot
+                                                      .get('start')
+                                                      .toDate())
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration:
+                                                      TextDecoration.none),
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 5),
-                                              child: FlatButton(
-                                                child: Text(
-                                                  DateFormat('yyyy/MM/dd')
+                                            onPressed: () {
+                                              model.changeTime(
+                                                  snapshot
+                                                      .get('start')
+                                                      .toDate(),
+                                                  context,
+                                                  snapshot.id,
+                                                  'start');
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                else
+                                  Container(),
+                                if (model.stepData['end'] != null)
+                                  Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            '完修日',
+                                            style: TextStyle(
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold,
+                                                decoration:
+                                                    TextDecoration.none),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 5),
+                                          child: FlatButton(
+                                            child: Text(
+                                              DateFormat('yyyy/MM/dd')
+                                                  .format(snapshot
+                                                      .get('end')
+                                                      .toDate())
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration:
+                                                      TextDecoration.none),
+                                            ),
+                                            onPressed: () {
+                                              model.changeTime(
+                                                  snapshot.get('end').toDate(),
+                                                  context,
+                                                  snapshot.id,
+                                                  'end');
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                else
+                                  Container(),
+
+                                if(type != "usagi" && type != "sika" && type != "kuma" && type != "tukinowa" && type != "challenge")
+                                if (model.stepSnapshot
+                                        .get('date_examination') !=
+                                    null)
+                                  Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            '考査面接日',
+                                            style: TextStyle(
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold,
+                                                decoration:
+                                                    TextDecoration.none),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 5),
+                                          child: FlatButton(
+                                            child: Text(
+                                              model.stepSnapshot.get(
+                                                          'date_interview') !=
+                                                      null
+                                                  ? DateFormat('yyyy/MM/dd')
                                                       .format(snapshot
-                                                          .get('start')
+                                                          .get('date_interview')
                                                           .toDate())
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      decoration:
-                                                          TextDecoration.none),
-                                                ),
-                                                onPressed: () {
-                                                  model.changeTime(
-                                                      snapshot
-                                                          .get('start')
-                                                          .toDate(),
-                                                      context,
-                                                      snapshot.id,
-                                                      'start');
-                                                },
-                                              ),
+                                                      .toString()
+                                                  : 'タップして追加',
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration:
+                                                      TextDecoration.none),
                                             ),
-                                          ],
+                                            onPressed: () {
+                                              model.changeTime(
+                                                  snapshot
+                                                      .get('date_examination')
+                                                      .toDate(),
+                                                  context,
+                                                  snapshot.id,
+                                                  'date_interview');
+                                            },
+                                          ),
                                         ),
-                                      ) else Container(),
-                                if (model.stepSnapshot.get('end') != null) Container(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: EdgeInsets.all(10),
-                                              child: Text(
-                                                '完修日',
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 5),
-                                              child: FlatButton(
-                                                child: Text(
-                                                  DateFormat('yyyy/MM/dd')
-                                                      .format(snapshot
-                                                          .get('end')
-                                                          .toDate())
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      decoration:
-                                                          TextDecoration.none),
-                                                ),
-                                                onPressed: () {
-                                                  model.changeTime(
-                                                      snapshot
-                                                          .get('end')
-                                                          .toDate(),
-                                                      context,
-                                                      snapshot.id,
-                                                      'end');
-                                                },
-                                              ),
-                                            ),
-                                          ],
+                                      ],
+                                    ),
+                                  )
+                                else
+                                  Container(),
+
+                                if(type != "usagi" && type != "sika" && type != "kuma" && type != "tukinowa" && type != "challenge")
+                                if (model.stepSnapshot
+                                        .get('date_examination') !=
+                                    null)
+                                  Container(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Text(
+                                            '考査認定日',
+                                            style: TextStyle(
+                                                fontSize: 20.0,
+                                                fontWeight: FontWeight.bold,
+                                                decoration:
+                                                    TextDecoration.none),
+                                          ),
                                         ),
-                                      ) else Container(),
-                                if (model.stepSnapshot.get('date_examination') !=
-                                        null) Container(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: EdgeInsets.all(10),
-                                              child: Text(
-                                                '考査面接日',
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 5),
+                                          child: FlatButton(
+                                            child: Text(
+                                              DateFormat('yyyy/MM/dd')
+                                                  .format(snapshot
+                                                      .get('date_examination')
+                                                      .toDate())
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration:
+                                                      TextDecoration.none),
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 5),
-                                              child: FlatButton(
-                                                child: Text(
-                                                  model.stepSnapshot.get(
-                                                              'date_interview') !=
-                                                          null
-                                                      ? DateFormat('yyyy/MM/dd')
-                                                          .format(snapshot
-                                                              .get(
-                                                                  'date_interview')
-                                                              .toDate())
-                                                          .toString()
-                                                      : 'タップして追加',
-                                                  style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      decoration:
-                                                          TextDecoration.none),
-                                                ),
-                                                onPressed: () {
-                                                  model.changeTime(
-                                                      snapshot
-                                                          .get(
-                                                              'date_examination')
-                                                          .toDate(),
-                                                      context,
-                                                      snapshot.id,
-                                                      'date_interview');
-                                                },
-                                              ),
-                                            ),
-                                          ],
+                                            onPressed: () {
+                                              model.changeTime(
+                                                  snapshot
+                                                      .get('date_examination')
+                                                      .toDate(),
+                                                  context,
+                                                  snapshot.id,
+                                                  'date_examination');
+                                            },
+                                          ),
                                         ),
-                                      ) else Container(),
-                                if (model.stepSnapshot.get('date_examination') !=
-                                        null) Container(
-                                        child: Column(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: EdgeInsets.all(10),
-                                              child: Text(
-                                                '考査認定日',
-                                                style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 5),
-                                              child: FlatButton(
-                                                child: Text(
-                                                  DateFormat('yyyy/MM/dd')
-                                                      .format(snapshot
-                                                          .get(
-                                                              'date_examination')
-                                                          .toDate())
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 20.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      decoration:
-                                                          TextDecoration.none),
-                                                ),
-                                                onPressed: () {
-                                                  model.changeTime(
-                                                      snapshot
-                                                          .get(
-                                                              'date_examination')
-                                                          .toDate(),
-                                                      context,
-                                                      snapshot.id,
-                                                      'date_examination');
-                                                },
-                                              ),
-                                            ),
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 10,
-                                                    left: 20,
-                                                    right: 20),
-                                                child: FlatButton.icon(
-                                                  onPressed: () async {
-                                                    model.onTapNotExamination(
-                                                        snapshot.id);
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.close,
-                                                    size: 20,
-                                                  ),
-                                                  label: Text(
-                                                    '考査未完了にする',
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                )),
-                                          ],
-                                        ),
-                                      ) else Container(),
-                                if ((type != 'risu' &&
-                                            type != 'usagi' &&
-                                            type != 'sika' &&
-                                            type != 'kuma' &&
-                                            type != 'challenge' &&
-                                            type != 'tukinowa') ||
-                                        model.group ==
-                                            ' j27DETWHGYEfpyp2Y292' ||
-                                        model.group == ' z4pkBhhgr0fUMN4evr5z') Column(children: [
-                                        ListView.builder(
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            itemCount: contents.length,
-                                            shrinkWrap: true,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              String content =
-                                                  contents[index]['body'];
-                                              Color bordercolor;
-                                              if (Theme.of(context)
-                                                      .accentColor ==
-                                                  Colors.white) {
-                                                bordercolor = Colors.grey[700];
-                                              } else {
-                                                bordercolor = Colors.grey[300];
-                                              }
-                                              return Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom: 10,
-                                                    right: 10,
-                                                    left: 10),
-                                                child: Card(
-                                                    color: Color(0x00000000),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      side: BorderSide(
-                                                        color: bordercolor,
-                                                        width: 2.0,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                    elevation: 0,
-                                                    child: InkWell(
-                                                      customBorder:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.0),
-                                                      ),
-                                                      child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(8),
-                                                          child: Text(content)),
-                                                    )),
-                                              );
-                                            }),
                                         Padding(
                                             padding: EdgeInsets.only(
-                                                left: 15,
-                                                bottom: 10,
-                                                right: 15),
-                                            child: Container(
-                                              width: double.infinity,
-                                              child: Text(
-                                                '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                                top: 10, left: 20, right: 20),
+                                            child: FlatButton.icon(
+                                              onPressed: () async {
+                                                model.onTapNotExamination(
+                                                    snapshot.id);
+                                              },
+                                              icon: Icon(
+                                                Icons.close,
+                                                size: 20,
+                                              ),
+                                              label: Text(
+                                                '考査未完了にする',
                                                 style: TextStyle(
-                                                  fontSize: 13,
+                                                  fontSize: 15,
                                                   fontWeight: FontWeight.bold,
                                                 ),
-                                                textAlign: TextAlign.left,
                                               ),
                                             )),
-                                      ]) else Padding(
-                                        padding: EdgeInsets.only(top: 5),
-                                        child: Center(
-                                            child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 5, top: 4),
-                                                child: Icon(
-                                                  //ああああ
-                                                  Icons.chrome_reader_mode,
-                                                  color: themeColor,
-                                                  size: 22,
+                                      ],
+                                    ),
+                                  )
+                                else
+                                  Container(),
+                                if ((type != 'risu' &&
+                                        type != 'usagi' &&
+                                        type != 'sika' &&
+                                        type != 'kuma' &&
+                                        type != 'challenge' &&
+                                        type != 'tukinowa') ||
+                                    model.group == ' j27DETWHGYEfpyp2Y292' ||
+                                    model.group == ' z4pkBhhgr0fUMN4evr5z')
+                                  Column(children: [
+                                    ListView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: contents.length,
+                                        shrinkWrap: true,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          String content =
+                                              contents[index]['body'];
+                                          Color bordercolor;
+                                          if (Theme.of(context).accentColor ==
+                                              Colors.white) {
+                                            bordercolor = Colors.grey[700];
+                                          } else {
+                                            bordercolor = Colors.grey[300];
+                                          }
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: 10,
+                                                right: 10,
+                                                left: 10),
+                                            child: Card(
+                                                color: Color(0x00000000),
+                                                shape: RoundedRectangleBorder(
+                                                  side: BorderSide(
+                                                    color: bordercolor,
+                                                    width: 2.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
                                                 ),
+                                                elevation: 0,
+                                                child: InkWell(
+                                                  customBorder:
+                                                      RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(8),
+                                                      child: Text(content)),
+                                                )),
+                                          );
+                                        }),
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 15, bottom: 10, right: 15),
+                                        child: Container(
+                                          width: double.infinity,
+                                          child: Text(
+                                            '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        )),
+                                  ])
+                                else
+                                  Padding(
+                                      padding: EdgeInsets.only(top: 5),
+                                      child: Center(
+                                          child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: 5, top: 4),
+                                              child: Icon(
+                                                //ああああ
+                                                Icons.chrome_reader_mode,
+                                                color: themeColor,
+                                                size: 22,
                                               ),
-                                              Text(
-                                                '内容はカブブックで確認しよう',
-                                                style: TextStyle(
-                                                    fontSize: 16.0,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
-                                            ]))),
+                                            ),
+                                            Text(
+                                              '内容はカブブックで確認しよう',
+                                              style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.normal,
+                                                  decoration:
+                                                      TextDecoration.none),
+                                            ),
+                                          ]))),
                               ],
                             ))));
                       } else if (model.isExit != true &&
@@ -712,21 +732,20 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                   }
                                   if (model.isLoaded) {
                                     if (model.isExit) {
-                                      if (model.stepSnapshot.get('signed')
-                                              [index_page.toString()] ==
+                                      if (model.stepSnapshot.get('signed')[
+                                              index_page.toString()] ==
                                           null) {
                                         return Container(
                                           child: TaskDetailScoutConfirmAddView(
                                               index_page, type, ''),
                                         );
                                       } else if (model.stepSnapshot
-                                                      .get('signed')
-                                                  [index_page.toString()]
-                                              ['phaze'] ==
+                                                  .get('signed')[
+                                              index_page.toString()]['phaze'] ==
                                           'signed') {
                                         final Map<String, dynamic> snapshot =
-                                            model.stepSnapshot.get('signed')
-                                                [index_page.toString()];
+                                            model.stepSnapshot.get('signed')[
+                                                index_page.toString()];
                                         return Column(children: <Widget>[
                                           Container(
                                             width: MediaQuery.of(context)
@@ -1074,38 +1093,92 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
-                                          if (snapshot['data'] != null) Column(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                        padding:
-                                                            EdgeInsets.all(10),
-                                                        child: ListView.builder(
-                                                            physics:
-                                                                NeverScrollableScrollPhysics(),
-                                                            shrinkWrap: true,
-                                                            itemCount:
-                                                                snapshot['data']
-                                                                    .length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    int index) {
-                                                              String type =
-                                                                  snapshot['data']
-                                                                          [
-                                                                          index]
-                                                                      ['type'];
-                                                              if (type ==
-                                                                  'image') {
-                                                                return Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              5),
+                                          if (snapshot['data'] != null)
+                                            Column(
+                                              children: <Widget>[
+                                                Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: ListView.builder(
+                                                        physics:
+                                                            NeverScrollableScrollPhysics(),
+                                                        shrinkWrap: true,
+                                                        itemCount:
+                                                            snapshot['data']
+                                                                .length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                int index) {
+                                                          String type =
+                                                              snapshot['data']
+                                                                      [index]
+                                                                  ['type'];
+                                                          if (type == 'image') {
+                                                            return Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(5),
+                                                              child: Material(
                                                                   child:
-                                                                      Material(
+                                                                      InkWell(
+                                                                onLongPress:
+                                                                    () async {
+                                                                  var result =
+                                                                      await showModalBottomSheet<
+                                                                          int>(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (BuildContext
+                                                                            context) {
+                                                                      return Padding(
+                                                                          padding: EdgeInsets.only(
+                                                                              top:
+                                                                                  10,
+                                                                              bottom:
+                                                                                  10),
                                                                           child:
-                                                                              InkWell(
+                                                                              Column(
+                                                                            mainAxisSize:
+                                                                                MainAxisSize.min,
+                                                                            children: <Widget>[
+                                                                              ListTile(
+                                                                                leading: Icon(Icons.delete),
+                                                                                title: Text('画像を削除する'),
+                                                                                onTap: () {
+                                                                                  //model.deleteEffort(id);
+                                                                                  model.deleteFile(index_page, index);
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                              ),
+                                                                            ],
+                                                                          ));
+                                                                    },
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  child: Column(
+                                                                    children: <
+                                                                        Widget>[
+                                                                      Image.network(
+                                                                          model.dataList[index_page]
+                                                                              [
+                                                                              index])
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              )),
+                                                            );
+                                                          } else if (type ==
+                                                              'video') {
+                                                            return Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(5),
+                                                                child: Material(
+                                                                  child:
+                                                                      InkWell(
                                                                     onLongPress:
                                                                         () async {
                                                                       var result =
@@ -1123,7 +1196,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                                 children: <Widget>[
                                                                                   ListTile(
                                                                                     leading: Icon(Icons.delete),
-                                                                                    title: Text('画像を削除する'),
+                                                                                    title: Text('動画を削除する'),
                                                                                     onTap: () {
                                                                                       //model.deleteEffort(id);
                                                                                       model.deleteFile(index_page, index);
@@ -1141,110 +1214,59 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                           Column(
                                                                         children: <
                                                                             Widget>[
-                                                                          Image.network(model.dataList[index_page]
-                                                                              [
-                                                                              index])
+                                                                          AspectRatio(
+                                                                              aspectRatio: model.dataList[index_page][index].aspectRatio,
+                                                                              child: Chewie(
+                                                                                controller: model.dataList[index_page][index],
+                                                                              ))
                                                                         ],
                                                                       ),
                                                                     ),
-                                                                  )),
-                                                                );
-                                                              } else if (type ==
-                                                                  'video') {
-                                                                return Padding(
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .all(
-                                                                                5),
+                                                                  ),
+                                                                ));
+                                                          } else if (type ==
+                                                              'text') {
+                                                            return Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(5),
+                                                              child: Container(
+                                                                child: Card(
                                                                     child:
-                                                                        Material(
-                                                                      child:
-                                                                          InkWell(
-                                                                        onLongPress:
-                                                                            () async {
-                                                                          var result =
-                                                                              await showModalBottomSheet<int>(
-                                                                            context:
-                                                                                context,
-                                                                            builder:
-                                                                                (BuildContext context) {
-                                                                              return Padding(
-                                                                                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                                                                                  child: Column(
-                                                                                    mainAxisSize: MainAxisSize.min,
-                                                                                    children: <Widget>[
-                                                                                      ListTile(
-                                                                                        leading: Icon(Icons.delete),
-                                                                                        title: Text('動画を削除する'),
-                                                                                        onTap: () {
-                                                                                          //model.deleteEffort(id);
-                                                                                          model.deleteFile(index_page, index);
-                                                                                          Navigator.pop(context);
-                                                                                        },
-                                                                                      ),
-                                                                                    ],
-                                                                                  ));
-                                                                            },
-                                                                          );
-                                                                        },
-                                                                        child:
-                                                                            Container(
-                                                                          child:
-                                                                              Column(
-                                                                            children: <Widget>[
-                                                                              AspectRatio(
-                                                                              aspectRatio: model
-                                                                                  .dataList[index_page][index]
-                                                                                .aspectRatio,
-                                                                                child: Chewie(
-                                                                                controller: model.dataList[index_page][index],
-                                                                              ))
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ));
-                                                              } else if (type ==
-                                                                  'text') {
-                                                                return Padding(
+                                                                        Padding(
                                                                   padding:
                                                                       EdgeInsets
                                                                           .all(
-                                                                              5),
-                                                                  child:
-                                                                      Container(
-                                                                    child: Card(
-                                                                        child:
-                                                                            Padding(
-                                                                      padding:
-                                                                          EdgeInsets.all(
                                                                               0),
-                                                                      child:
-                                                                          Column(
-                                                                        children: <
-                                                                            Widget>[
-                                                                          Padding(
-                                                                              padding: EdgeInsets.all(10),
-                                                                              child: Text(
-                                                                                model.dataList[index_page][index],
-                                                                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-                                                                              ))
-                                                                        ],
-                                                                      ),
-                                                                    )),
+                                                                  child: Column(
+                                                                    children: <
+                                                                        Widget>[
+                                                                      Padding(
+                                                                          padding: EdgeInsets.all(
+                                                                              10),
+                                                                          child:
+                                                                              Text(
+                                                                            model.dataList[index_page][index],
+                                                                            style:
+                                                                                TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                          ))
+                                                                    ],
                                                                   ),
-                                                                );
-                                                              } else {
-                                                                return Container();
-                                                              }
-                                                            }))
-                                                  ],
-                                                ) else Container(),
+                                                                )),
+                                                              ),
+                                                            );
+                                                          } else {
+                                                            return Container();
+                                                          }
+                                                        }))
+                                              ],
+                                            )
+                                          else
+                                            Container(),
                                         ]);
                                       } else if (model.stepSnapshot
-                                                      .get('signed')
-                                                  [index_page.toString()]
-                                              ['phaze'] ==
+                                                  .get('signed')[
+                                              index_page.toString()]['phaze'] ==
                                           'wait') {
                                         return Column(children: <Widget>[
                                           Container(
@@ -1288,9 +1310,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                           ),
                                         ]);
                                       } else if (model.stepSnapshot
-                                                      .get('signed')
-                                                  [index_page.toString()]
-                                              ['phaze'] ==
+                                                  .get('signed')[
+                                              index_page.toString()]['phaze'] ==
                                           'reject') {
                                         return Column(children: <Widget>[
                                           TaskDetailScoutConfirmAddView(
@@ -1303,9 +1324,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                       ['feedback'])
                                         ]);
                                       } else if (model.stepSnapshot
-                                                      .get('signed')
-                                                  [index_page.toString()]
-                                              ['phaze'] ==
+                                                  .get('signed')[
+                                              index_page.toString()]['phaze'] ==
                                           'withdraw') {
                                         return Column(children: <Widget>[
                                           TaskDetailScoutConfirmAddView(
@@ -1339,50 +1359,52 @@ class TaskScoutAddConfirmView extends StatelessWidget {
 //                      ),
                         ),
                   ))),
-          if (numberShow.length == 1) Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                height: 70,
-                width: 70,
-                child: Card(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(35.0)),
-                  elevation: 7,
-                  child: Center(
-                    child: Text(
-                      numberShow,
-                      style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: themeColor),
+          if (numberShow.length == 1)
+            Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  height: 70,
+                  width: 70,
+                  child: Card(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(35.0)),
+                    elevation: 7,
+                    child: Center(
+                      child: Text(
+                        numberShow,
+                        style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: themeColor),
+                      ),
                     ),
                   ),
-                ),
-              )) else Align(
-            alignment: Alignment.topCenter,
-            child: Card(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(35.0)),
-              elevation: 7,
-              child: ConstrainedBox(
-                  constraints:
-                  BoxConstraints(minWidth: 61, minHeight: 61),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 8, right: 8, top: 5, bottom: 5),
-                    child: Text(
-                      numberShow,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: themeColor),
-                    ),
-                  )),
-            ),
-          )
+                ))
+          else
+            Align(
+              alignment: Alignment.topCenter,
+              child: Card(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35.0)),
+                elevation: 7,
+                child: ConstrainedBox(
+                    constraints: BoxConstraints(minWidth: 61, minHeight: 61),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+                      child: Text(
+                        numberShow,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: themeColor),
+                      ),
+                    )),
+              ),
+            )
         ]));
   }
 }

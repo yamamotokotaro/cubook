@@ -47,6 +47,91 @@ class ListMemberView extends StatelessWidget {
                             print(model.team);
                             return Column(
                               children: <Widget>[
+                                StreamBuilder<QuerySnapshot>(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('migration')
+                                        .where('group', isEqualTo: model.group)
+                                        .where('phase', isEqualTo: 'wait')
+                                        .snapshots(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if (snapshot.hasData) {
+                                        if (snapshot.data.docs.isNotEmpty) {
+                                          return Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Container(
+                                                child: Card(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              elevation: 8,
+                                              color: Colors.blue[900],
+                                              child: InkWell(
+                                                customBorder:
+                                                    RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ),
+                                                onTap: () {
+                                                  Navigator.of(context)
+                                                      .pushNamed(
+                                                          '/listMigrationWaiting');
+                                                },
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(15),
+                                                  child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.emoji_people_rounded,
+                                                          color: Colors.white,
+                                                          size: 35,
+                                                        ),
+                                                        Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 10),
+                                                            child: Material(
+                                                                type: MaterialType
+                                                                    .transparency,
+                                                                child: Text(
+                                                                  '移行申請' +
+                                                                      snapshot
+                                                                          .data
+                                                                          .docs
+                                                                          .length
+                                                                          .toString() +
+                                                                      '件',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontSize:
+                                                                          30,
+                                                                      color: Colors
+                                                                          .white),
+                                                                ))),
+                                                      ]),
+                                                ),
+                                              ),
+                                            )),
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
+                                      } else {
+                                        return const Center(
+                                          child: Padding(
+                                              padding: EdgeInsets.all(5),
+                                              child:
+                                                  CircularProgressIndicator()),
+                                        );
+                                      }
+                                    }),
                                 Padding(
                                     padding: EdgeInsets.all(17),
                                     child: Container(
@@ -80,8 +165,7 @@ class ListMemberView extends StatelessWidget {
                                                   querySnapshot.docs[index];
                                               bool isFirst;
                                               String team;
-                                              if (snapshot.get('team')
-                                                  is int) {
+                                              if (snapshot.get('team') is int) {
                                                 team = snapshot
                                                     .get('team')
                                                     .toString();
@@ -103,27 +187,28 @@ class ListMemberView extends StatelessWidget {
                                                 team_call = '班';
                                               }
                                               return Column(children: <Widget>[
-                                                if (isFirst && team != '') Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 10,
-                                                                bottom: 10,
-                                                                left: 17),
-                                                        child: Container(
-                                                            width:
-                                                                double.infinity,
-                                                            child: Text(
-                                                              team + team_call,
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 23,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                            ))) else Container(),
+                                                if (isFirst && team != '')
+                                                  Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10,
+                                                          bottom: 10,
+                                                          left: 17),
+                                                      child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          child: Text(
+                                                            team + team_call,
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 23,
+                                                            ),
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                          )))
+                                                else
+                                                  Container(),
                                                 Padding(
                                                     padding: EdgeInsets.all(5),
                                                     child: Container(
@@ -367,192 +452,194 @@ class ListMemberView extends StatelessWidget {
                                     }
                                   },
                                 ),
-                                if (model.position == 'leader') Padding(
-                                        padding: EdgeInsets.all(17),
-                                        child: Container(
-                                            width: double.infinity,
-                                            child: Text(
-                                              'リーダー',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 28,
-                                              ),
-                                              textAlign: TextAlign.left,
-                                            ))) else Container(),
-                                if (model.position == 'leader') Padding(
-                                        padding: EdgeInsets.only(bottom: 55),
-                                        child: StreamBuilder<QuerySnapshot>(
-                                          stream: FirebaseFirestore.instance
-                                              .collection('user')
-                                              .where('group',
-                                                  isEqualTo: model.group)
-                                              .where('position',
-                                                  isEqualTo: 'leader')
-                                              .orderBy('admin', descending: true)
-                                              .orderBy('name')
-                                              .snapshots(),
-                                          builder: (BuildContext context,
-                                              AsyncSnapshot<QuerySnapshot>
-                                                  snapshot) {
-                                            if (snapshot.hasData) {
-                                              if (snapshot.data.docs.length !=
-                                                  0) {
-                                                QuerySnapshot querySnapshot =
-                                                    snapshot.data;
-                                                return ListView.builder(
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    itemCount: querySnapshot
-                                                        .docs.length,
-                                                    shrinkWrap: true,
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                            int index) {
-                                                      DocumentSnapshot
-                                                          snapshot =
-                                                          querySnapshot
-                                                              .docs[index];
-                                                      return Padding(
-                                                          padding:
-                                                              EdgeInsets.all(5),
-                                                          child: Container(
-                                                            child: Card(
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              ),
-                                                              child: InkWell(
-                                                                onTap: () {},
-                                                                customBorder:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              10.0),
-                                                                ),
-                                                                child: Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
+                                if (model.position == 'leader')
+                                  Padding(
+                                      padding: EdgeInsets.all(17),
+                                      child: Container(
+                                          width: double.infinity,
+                                          child: Text(
+                                            'リーダー',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 28,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          )))
+                                else
+                                  Container(),
+                                if (model.position == 'leader')
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 55),
+                                    child: StreamBuilder<QuerySnapshot>(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('user')
+                                          .where('group',
+                                              isEqualTo: model.group)
+                                          .where('position',
+                                              isEqualTo: 'leader')
+                                          .orderBy('admin', descending: true)
+                                          .orderBy('name')
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<QuerySnapshot>
+                                              snapshot) {
+                                        if (snapshot.hasData) {
+                                          if (snapshot.data.docs.length != 0) {
+                                            QuerySnapshot querySnapshot =
+                                                snapshot.data;
+                                            return ListView.builder(
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                itemCount:
+                                                    querySnapshot.docs.length,
+                                                shrinkWrap: true,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  DocumentSnapshot snapshot =
+                                                      querySnapshot.docs[index];
+                                                  return Padding(
+                                                      padding:
+                                                          EdgeInsets.all(5),
+                                                      child: Container(
+                                                        child: Card(
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          child: InkWell(
+                                                            onTap: () {},
+                                                            customBorder:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                            ),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(10),
+                                                              child: Row(
+                                                                children: <
+                                                                    Widget>[
+                                                                  Container(
+                                                                    width: 40,
+                                                                    height: 40,
+                                                                    decoration: BoxDecoration(
+                                                                        color: theme.getThemeColor(
+                                                                            'challenge'),
+                                                                        shape: BoxShape
+                                                                            .circle),
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .person,
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          left:
                                                                               10),
-                                                                  child: Row(
-                                                                    children: <
-                                                                        Widget>[
-                                                                      Container(
-                                                                        width:
-                                                                            40,
-                                                                        height:
-                                                                            40,
-                                                                        decoration: BoxDecoration(
-                                                                            color:
-                                                                                theme.getThemeColor('challenge'),
-                                                                            shape: BoxShape.circle),
-                                                                        child:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .person,
-                                                                          color:
-                                                                              Colors.white,
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
+                                                                      child:
+                                                                          Text(
+                                                                        snapshot
+                                                                            .get('name'),
+                                                                        style: TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontSize: 25),
+                                                                      )),
+                                                                  Spacer(),
+                                                                  snapshot.get(
+                                                                          'admin')
+                                                                      ? Padding(
                                                                           padding: EdgeInsets.only(
                                                                               left:
                                                                                   10),
                                                                           child:
                                                                               Text(
-                                                                            snapshot.get('name'),
+                                                                            '管理者',
                                                                             style:
-                                                                                TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                                                                          )),
-                                                                      Spacer(),
-                                                                      snapshot.get(
-                                                                              'admin')
-                                                                          ? Padding(
-                                                                              padding: EdgeInsets.only(left: 10),
-                                                                              child: Text(
-                                                                                '管理者',
-                                                                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                                                              ))
-                                                                          : Container()
-                                                                    ],
-                                                                  ),
-                                                                ),
+                                                                                TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                                                          ))
+                                                                      : Container()
+                                                                ],
                                                               ),
                                                             ),
-                                                          ));
-                                                    });
-                                              } else {
-                                                return Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 5,
-                                                      left: 10,
-                                                      right: 10),
-                                                  child: Container(
-                                                      child: InkWell(
-                                                    onTap: () {},
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(10),
-                                                      child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: <Widget>[
-                                                            Icon(
-                                                              Icons
-                                                                  .bubble_chart,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .accentColor,
-                                                              size: 35,
-                                                            ),
-                                                            Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            10),
-                                                                child: Material(
-                                                                  type: MaterialType
-                                                                      .transparency,
-                                                                  child: Text(
-                                                                    'スカウトを招待しよう',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                      fontSize:
-                                                                          20,
-                                                                    ),
-                                                                  ),
-                                                                )),
-                                                          ]),
-                                                    ),
-                                                  )),
-                                                );
-                                              }
-                                            } else {
-                                              return const Center(
+                                                          ),
+                                                        ),
+                                                      ));
+                                                });
+                                          } else {
+                                            return Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 5, left: 10, right: 10),
+                                              child: Container(
+                                                  child: InkWell(
+                                                onTap: () {},
                                                 child: Padding(
-                                                    padding: EdgeInsets.all(5),
-                                                    child:
-                                                        CircularProgressIndicator()),
-                                              );
-                                            }
-                                          },
-                                        ),
-                                      ) else Container(),
+                                                  padding: EdgeInsets.all(10),
+                                                  child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.bubble_chart,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .accentColor,
+                                                          size: 35,
+                                                        ),
+                                                        Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 10),
+                                                            child: Material(
+                                                              type: MaterialType
+                                                                  .transparency,
+                                                              child: Text(
+                                                                'スカウトを招待しよう',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontSize: 20,
+                                                                ),
+                                                              ),
+                                                            )),
+                                                      ]),
+                                                ),
+                                              )),
+                                            );
+                                          }
+                                        } else {
+                                          return const Center(
+                                            child: Padding(
+                                                padding: EdgeInsets.all(5),
+                                                child:
+                                                    CircularProgressIndicator()),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  )
+                                else
+                                  Container(),
                               ],
                             );
                           } else {
                             return const Center(
                               child: Padding(
                                   padding: EdgeInsets.all(5),
-                                  child: CircularProgressIndicator()),
+                                  child: Text(
+                                      "no data") /*CircularProgressIndicator()*/),
                             );
                           }
                         }))

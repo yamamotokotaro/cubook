@@ -26,9 +26,11 @@ class HomeLeaderModel extends ChangeNotifier {
         .get()
         .then((snapshot) async {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
-      group = userSnapshot.get('group');
-      team = userSnapshot.get('team');
-      teamPosition = userSnapshot.get('teamPosition');
+      group = userSnapshot['group'];
+      if(userSnapshot.get('position') == "scout") {
+        team = userSnapshot.get('team');
+        teamPosition = userSnapshot.get('teamPosition');
+      }
       user.getIdTokenResult(true).then((value) {
         print(value.claims);
         final String groupClaimBefore = group_claim;

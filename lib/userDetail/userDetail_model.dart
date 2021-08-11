@@ -12,6 +12,7 @@ class UserDetailModel extends ChangeNotifier {
   String group_claim;
   String teamPosition;
   Map<String, dynamic> claims = <String, dynamic>{};
+  Map<String, dynamic> userData = <String, dynamic>{};
 
   void getSnapshot(String uid) async {
     final User user = FirebaseAuth.instance.currentUser;
@@ -28,6 +29,7 @@ class UserDetailModel extends ChangeNotifier {
           .get()
           .then((data) {
         userSnapshot = data.docs[0];
+        userData = userSnapshot.data() as Map<String, dynamic>;
         notifyListeners();
       });
       isGet = true;
@@ -47,7 +49,9 @@ class UserDetailModel extends ChangeNotifier {
       userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
       uid = userSnapshot.get('uid');
-      teamPosition = userSnapshot.get('teamPosition');
+      if(userSnapshot.get('position') == "scout") {
+        teamPosition = userSnapshot.get('teamPosition');
+      }
       if (group != groupBefore || teamPosition != teamPositionBefore || uid != uidBefore) {
         notifyListeners();
       }

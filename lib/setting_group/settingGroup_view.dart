@@ -1,7 +1,8 @@
 import 'package:cubook/model/themeInfo.dart';
-import 'package:cubook/setting_account/settingAccount_model.dart';
+import 'package:cubook/setting_group/settingGroup_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SettingGroupView extends StatelessWidget {
@@ -37,7 +38,7 @@ class SettingGroupView extends StatelessWidget {
                           ))),
                   Padding(
                       padding: EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<SettingAccountModel>(
+                      child: Consumer<SettingGroupModel>(
                           builder: (context, model, child) {
                             model.getUser();
                             return Column(
@@ -45,11 +46,12 @@ class SettingGroupView extends StatelessWidget {
                               children: <Widget>[
                                 ListTile(
                                   leading:
-                                  Icon(Icons.read_more),
-                                  title: Text('アカウント移行の受け入れ'),
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed('/changeMailAddressView');
+                                  Icon(Icons.copy),
+                                  title: Text(model.groupID),
+                                  onTap: () async {
+                                    await Clipboard.setData(ClipboardData(text: model.groupID));
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                      content: const Text('グループIDをクリップボードにコピーしました'),));
                                   },
                                 ),
                               ],

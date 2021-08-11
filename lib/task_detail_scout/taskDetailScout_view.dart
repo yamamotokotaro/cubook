@@ -85,7 +85,7 @@ class TaskScoutDetailView extends StatelessWidget {
                         builder: (context, model, _) {
                       if (model.isExit) {
                         var message = '';
-                        if (model.stepSnapshot.get('end') != null) {
+                        if (model.stepData['end'] != null) {
                           message = '完修済み🎉';
                         } else {
                           message = 'その調子🏃‍♂️';
@@ -168,7 +168,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                 ],
                                               ),
                                             ) else Container(),
-                                      if (model.stepSnapshot.get('end') != null) Container(
+                                      if (model.stepData['end'] != null) Container(
                                               child: Column(
                                                 children: <Widget>[
                                                   Padding(

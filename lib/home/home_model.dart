@@ -43,7 +43,6 @@ class HomeModel extends ChangeNotifier {
     userSnapshot = null;
     currentUser = null;
     final User user = FirebaseAuth.instance.currentUser;
-    print(user);
     if (user != null) {
       currentUser = user;
       providerID = currentUser.providerData[0].providerId;
@@ -57,13 +56,15 @@ class HomeModel extends ChangeNotifier {
           username = userSnapshot.get('name') + userSnapshot.get('call');
           usercall = userSnapshot.get('call');
           groupName = userSnapshot.get('groupName');
-          teamPosition = userSnapshot.get('teamPosition');
           position = userSnapshot.get('position');
           grade = userSnapshot.get('grade');
           age = userSnapshot.get('age');
-          if (userSnapshot.get('token_notification') != null) {
-            _token_notification = userSnapshot.get('token_notification');
+          if(position == "scout") {
+            teamPosition = userSnapshot.get('teamPosition');
           }
+          // if (userSnapshot.get('token_notification') != null) {
+          //   _token_notification = userSnapshot.get('token_notification');
+          // }
           NotificationPermissions.getNotificationPermissionStatus()
               .then((status) {
             switch (status) {
@@ -137,6 +138,7 @@ class HomeModel extends ChangeNotifier {
           notifyListeners();
         } else {
           isLoaded = true;
+          notifyListeners();
         }
       });
     } else {
@@ -219,7 +221,7 @@ class HomeModel extends ChangeNotifier {
               } else if (position == 'leader') {
                 toShow = HomeLeaderView();
               } else {
-                toShow = Center(
+                toShow = const Center(
                   child: Text('エラーが発生しました'),
                 );
               }
@@ -236,12 +238,16 @@ class HomeModel extends ChangeNotifier {
               notifyListeners();
             } else {
               isLoaded = true;
+              notifyListeners();
             }
           });
+        } else {
+          isLoaded = true;
+          notifyListeners();
         }
       });
     }
-    notifyListeners();
+    // notifyListeners();
   }
 
   void logout() async {

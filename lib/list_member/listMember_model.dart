@@ -24,9 +24,11 @@ class ListMemberModel extends ChangeNotifier {
         .then((snapshot) {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
-      team = userSnapshot.get('team');
-      position = userSnapshot.get('position');
-      teamPosition = userSnapshot.get('teamPosition');
+      position = userSnapshot.get("position");
+      if(position == "scout") {
+        team = userSnapshot.get('team');
+        teamPosition = userSnapshot.get('teamPosition');
+      }
       if (group != groupBefore || teamPosition != teamPositionBefore) {
         notifyListeners();
       }

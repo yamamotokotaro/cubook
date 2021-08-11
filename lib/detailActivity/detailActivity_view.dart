@@ -169,6 +169,7 @@ class DetailActivityView extends StatelessWidget {
                                   if (snapshot.hasData) {
                                     final DocumentSnapshot documentSnapshot =
                                         snapshot.data;
+                                    final documentData = documentSnapshot.data() as Map<String, dynamic>;
                                     final String teamLast = '';
                                     return Column(children: <Widget>[
                                       Padding(
@@ -200,7 +201,7 @@ class DetailActivityView extends StatelessWidget {
                                                 ),
                                                 textAlign: TextAlign.left,
                                               ))),
-                                      documentSnapshot.get('list_item') != null
+                                      documentData['list_item'] != null
                                           ? documentSnapshot.get('list_item')
                                                       .length !=
                                                   0

@@ -94,14 +94,6 @@ class HomeView extends StatelessWidget {
                                         ['令和2年版 諸規定'], '公財ボーイスカウト日本連盟');
                                   });
                                   return AlertDialog(
-                                    /*title: Padding(
-                                  padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                  "cubook",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )),*/
                                     shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20.0))),
@@ -120,7 +112,7 @@ class HomeView extends StatelessWidget {
                                                             '/settingView');
                                                   },
                                                 ) else Container(),
-                                          /*ListTile(
+                                          ListTile(
                                             leading: Icon(Icons.people),
                                             title: Text('グループ設定'),
                                             onTap: () {
@@ -128,7 +120,7 @@ class HomeView extends StatelessWidget {
                                                   .pushNamed(
                                                   '/settingGroupView');
                                             },
-                                          ),*/
+                                          ),
                                           ListTile(
                                             leading: Icon(Icons.help_outline),
                                             title: Text('ヘルプ'),
@@ -144,7 +136,7 @@ class HomeView extends StatelessWidget {
                                                     applicationVersion:
                                                         'web',
                                                     applicationLegalese:
-                                                        '©︎ 2020 山本虎太郎',
+                                                        '©︎ 2020-2021 山本虎太郎',
                                                   )
                                                 : showLicensePage(
                                                     context: context,
@@ -152,7 +144,7 @@ class HomeView extends StatelessWidget {
                                                     applicationVersion:
                                                         packageInfo.version,
                                                     applicationLegalese:
-                                                        '©︎ 2020 山本虎太郎',
+                                                        '©︎ 2020-2021 山本虎太郎',
                                                   ),
                                           ),
                                           ListTile(
@@ -194,16 +186,6 @@ class HomeView extends StatelessWidget {
                                               )
                                             ],
                                           ),*/
-                                          /*
-                                      Center(
-                                        child: Text(
-                                          'cubook',
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 12
-                                          ),
-                                        ),
-                                      )*/
                                         ],
                                       );
                                     })),

@@ -161,7 +161,7 @@ class InviteModel with ChangeNotifier {
               addressController.clear();
               familyController.clear();
               firstController.clear();
-              Scaffold.of(context).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('送信リクエストが完了しました'),
               ));
             } else if (resp == 'No such document!' ||

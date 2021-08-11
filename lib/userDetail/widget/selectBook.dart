@@ -86,14 +86,14 @@ class SelectBook extends StatelessWidget {
                                               model.userSnapshot,
                                           builder: (context, snapshot, child) => snapshot !=
                                                   null
-                                              ? snapshot.get(type[index]) !=
+                                              ? model.userData[type[index]] !=
                                                       null
                                                   ? CircularProgressIndicator(
                                                       backgroundColor: theme.getIndicatorColor(
                                                           type[index]),
                                                       valueColor: AlwaysStoppedAnimation<Color>(
                                                           Colors.white),
-                                                      value: snapshot.get(type[index]).length /
+                                                      value: model.userData[type[index]].length /
                                                           task
                                                               .getAllMap(
                                                                   type[index])

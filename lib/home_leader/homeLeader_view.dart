@@ -69,7 +69,7 @@ class HomeLeaderView extends StatelessWidget {
                     return Container();
                   }
                 } else {
-                  return Center(
+                  return const Center(
                     child: Padding(
                         padding: EdgeInsets.all(5),
                         child: CircularProgressIndicator()),
@@ -79,7 +79,8 @@ class HomeLeaderView extends StatelessWidget {
         } else {
           return const Center(
             child: Padding(
-                padding: EdgeInsets.all(5), child: CircularProgressIndicator()),
+                padding: EdgeInsets.all(5),
+                child: CircularProgressIndicator()),
           );
         }
       }),

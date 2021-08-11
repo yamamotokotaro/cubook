@@ -119,8 +119,9 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                     snapshotTask.data.docs;
                                 for (DocumentSnapshot documentSnapshot
                                     in listDocumentSnapshot) {
+                                  Map<String, dynamic> documentData = documentSnapshot.data() as Map<String, dynamic>;
                                   if (phase == 'end') {
-                                    if (documentSnapshot.get('end') !=
+                                    if (documentData['end'] !=
                                             null &&
                                         (listUid.contains(documentSnapshot
                                                 .get('uid')) ||
@@ -130,7 +131,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                       listUidToShow
                                           .add(documentSnapshot.get('uid'));
                                     } else if (type == 'tukinowa') {
-                                      if (documentSnapshot.get('age') ==
+                                      if (documentData['age'] ==
                                           'kuma') {
                                         userCount++;
                                         listUidToShow.add(

@@ -16,7 +16,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class TaskDetailScoutConfirmModel extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
   var task = TaskContents();
-  var list_isSelected = List<bool>();
+  var list_isSelected = <bool>[];
   String documentID;
   String group;
   bool checkCitation = false;
@@ -35,15 +35,16 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   bool isExit = false;
   List<dynamic> body = <dynamic>[];
   List<dynamic> dataMap;
+  Map<String, dynamic> stepData = <String, dynamic>{};
 
-  var list_snapshot = List<bool>();
-  var list_attach = List<dynamic>();
+  var list_snapshot = <bool>[];
+  var list_attach = <dynamic>[];
   var map_attach = <dynamic>[];
   var isAdded = <dynamic>[];
   var list_toSend = <dynamic>[];
-  var count_toSend = List<dynamic>();
-  var isLoading = List<dynamic>();
-  var dateSelected = List<dynamic>();
+  var count_toSend = <dynamic>[];
+  var isLoading = <dynamic>[];
+  var dateSelected = <dynamic>[];
   var dataList = <dynamic>[];
   var textField_signature = <TextEditingController>[];
   var textField_feedback = <TextEditingController>[];
@@ -67,7 +68,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     list_snapshot = List<bool>.generate(page, (index) => false);
 
     list_attach =
-        List<dynamic>.generate(quant, (index) => List<dynamic>());
+        List<dynamic>.generate(quant, (index) => <dynamic>[]);
 
     map_attach =
         List<dynamic>.generate(quant, (index) => <int, dynamic>{});
@@ -103,6 +104,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         int countSigned = 0;
         if (data.docs.isNotEmpty) {
           stepSnapshot = data.docs[0];
+          stepData = stepSnapshot.data() as Map<String, dynamic>;
           documentID_exit = data.docs[0].id;
           isExit = true;
           for (int i = 0; i < quant; i++) {
@@ -373,7 +375,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       uploadTask = ref.putFile(File(file.path));
     }
     final dynamic snapshot = await Future.value(uploadTask);
-    final String path = await snapshot.ref.getPath();
+    final String path = await snapshot.ref.fullPath;
     final Map<String, dynamic> data = <String, dynamic>{};
     data.putIfAbsent('body', () => path);
     data.putIfAbsent('type', () => typeFile);
@@ -381,7 +383,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     if (signed[index.toString()]['data'] != null) {
       signed[index.toString()]['data'].add(data);
     } else {
-      final List<dynamic> dataList = List<dynamic>();
+      final List<dynamic> dataList = <dynamic>[];
       dataList.add(data);
       signed[index.toString()]['data'] = dataList;
     }

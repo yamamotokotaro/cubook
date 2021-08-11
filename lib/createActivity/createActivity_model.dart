@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,7 +28,7 @@ class CreateActivityModel extends ChangeNotifier {
     if (itemSelected != null) {
       list_selected = <Map<String, dynamic>>[];
     }
-    list_selected = List<Map<String, dynamic>>();
+    list_selected = <Map<String, dynamic>>[];
     final listCategory = ['usagi', 'sika', 'kuma', 'tukinowa', 'challenge'];
     for (int i = 0; i < listCategory.length; i++) {
       final List<dynamic> dataItem = <dynamic>[];
@@ -39,7 +38,7 @@ class CreateActivityModel extends ChangeNotifier {
         for (int k = 0; k < pageItem.length; k++) {
           final List<dynamic> numberItem = pageItem[k];
           final Map<String, dynamic> toAdd = Map<String, dynamic>();
-          final List<dynamic> numbers = List<dynamic>();
+          final List<dynamic> numbers = <dynamic>[];
           toAdd['page'] = k;
           for (int l = 0; l < numberItem.length; l++) {
             final bool isCheck = numberItem[l];
@@ -58,7 +57,6 @@ class CreateActivityModel extends ChangeNotifier {
           }
         }
       }
-//      data[listCategory[i]] = data_item;
     }
     print(list_selected);
     notifyListeners();

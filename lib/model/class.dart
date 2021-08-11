@@ -401,6 +401,14 @@ Future<void> onFinish(
   });
 }
 
+bool isCub(String type){
+  if(type == "usagi" || type == "sika" || type == "kuma" || type == "tukinowa" || type == "challenge"){
+    return true;
+  } else {
+    return false;
+  }
+}
+
 class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   const _StickyTabBarDelegate(this.tabBar);
 

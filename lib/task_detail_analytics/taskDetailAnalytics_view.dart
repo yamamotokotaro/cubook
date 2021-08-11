@@ -98,7 +98,8 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                             int countEnd = 0;
                                             for (DocumentSnapshot documentSnapshot
                                                 in listDocumentSnapshot) {
-                                              if (documentSnapshot.get('end') !=
+                                              Map<String, dynamic> documentData = documentSnapshot.data() as Map<String, dynamic>;
+                                              if (documentData['end'] !=
                                                       null &&
                                                   (listUid.contains(
                                                           documentSnapshot.get(

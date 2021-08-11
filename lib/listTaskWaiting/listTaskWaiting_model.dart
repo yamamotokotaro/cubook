@@ -22,8 +22,10 @@ class ListTaskWaitingModel extends ChangeNotifier {
         .then((snapshot) {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
-      team = userSnapshot.get('team');
-      teamPosition = userSnapshot.get('teamPosition');
+      if(userSnapshot.get('position') == "scout") {
+        team = userSnapshot.get('team');
+        teamPosition = userSnapshot.get('teamPosition');
+      }
       if (group != groupBefore || teamPosition != teamPositionBefore) {
         notifyListeners();
       }

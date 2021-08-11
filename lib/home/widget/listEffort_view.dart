@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
 import 'package:cubook/model/arguments.dart';
@@ -7,11 +5,9 @@ import 'package:cubook/model/class.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class listEffort extends StatelessWidget {
   String group;
@@ -81,8 +77,6 @@ class listEffort extends StatelessWidget {
                                     documentSnapshot.get('type');
                                 final String uid =
                                     documentSnapshot.get('uid');
-                                final String taskid =
-                                    documentSnapshot.get('taskID');
                                 Color color;
                                 color = theme.getThemeColor(type);
                                 return Column(
@@ -114,42 +108,6 @@ class listEffort extends StatelessWidget {
                                                                 uid,
                                                                 0),
                                                         dismissible: true));
-                                              } else if (taskid != null &&
-                                                  model.position == 'scout') {
-                                                Navigator.of(context).pushNamed(
-                                                    '/communityView',
-                                                    arguments: Community(
-                                                        type: type,
-                                                        page: page,
-                                                        name: documentSnapshot
-                                                                    .get(
-                                                                'family') +
-                                                            documentSnapshot
-                                                                    .get(
-                                                                'first'),
-                                                        taskid: taskid,
-                                                        effortid:
-                                                            documentSnapshot
-                                                                .id));
-                                              }
-                                            },
-                                            onLongPress: () {
-                                              if (taskid != null) {
-                                                Navigator.of(context).pushNamed(
-                                                    '/communityView',
-                                                    arguments: Community(
-                                                        type: type,
-                                                        page: page,
-                                                        name: documentSnapshot
-                                                                    .get(
-                                                                'family') +
-                                                            documentSnapshot
-                                                                    .get(
-                                                                'first'),
-                                                        taskid: taskid,
-                                                        effortid:
-                                                            documentSnapshot
-                                                                .id));
                                               }
                                             },
                                             child: Column(
@@ -209,7 +167,7 @@ class listEffort extends StatelessWidget {
                                                                         'time')
                                                                     .toDate())
                                                                 .toString(),
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 color: Colors
                                                                     .white,
                                                                 fontSize: 15.5,
@@ -240,7 +198,7 @@ class listEffort extends StatelessWidget {
                                                             .get('body'),
                                                         textAlign:
                                                             TextAlign.left,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 20.0,
                                                             fontWeight:
@@ -253,7 +211,7 @@ class listEffort extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Padding(
-                                                    padding: EdgeInsets.only(
+                                                    padding: const EdgeInsets.only(
                                                         top: 5, bottom: 2),
                                                     child: Row(
                                                       children: <Widget>[
@@ -262,7 +220,7 @@ class listEffort extends StatelessWidget {
                                                               increaseCount(
                                                                   documentID);
                                                             },
-                                                            icon: Icon(
+                                                            icon: const Icon(
                                                               Icons
                                                                   .favorite_border,
                                                               color:
@@ -275,7 +233,7 @@ class listEffort extends StatelessWidget {
                                                                 'おめでとう！' +
                                                                     congrats
                                                                         .toString(),
-                                                                style: TextStyle(
+                                                                style: const TextStyle(
                                                                     color: Colors
                                                                         .white),
                                                               ),

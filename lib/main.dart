@@ -8,6 +8,8 @@ import 'package:cubook/createActivity/createActivity_model.dart';
 import 'package:cubook/createActivity/createActivity_view.dart';
 import 'package:cubook/detailActivity/detailActivity_model.dart';
 import 'package:cubook/detailActivity/detailActivity_view.dart';
+import 'package:cubook/detailMigrationWaiting/detailMigrationWaiting_model.dart';
+import 'package:cubook/detailMigrationWaiting/detrailMigrationWaiting_view.dart';
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/editActivity/editActivity_model.dart';
 import 'package:cubook/editActivity/editActivity_view.dart';
@@ -24,6 +26,8 @@ import 'package:cubook/listActivity/listActivity_model.dart';
 import 'package:cubook/listActivity/listActivity_view.dart';
 import 'package:cubook/listCitationAnalytics/listCitationAnalytics_model.dart';
 import 'package:cubook/listCitationAnalytics/listCitationAnalytics_view.dart';
+import 'package:cubook/listMigrationWaiting/listMigrationWaiting_model.dart';
+import 'package:cubook/listMigrationWaiting/listMigrationWaiting_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_view.dart';
 import 'package:cubook/list_member/listMember_model.dart';
@@ -36,6 +40,7 @@ import 'package:cubook/setting_account/widget/changePassword.dart';
 import 'package:cubook/setting_account_group/widget/accountMigration.dart';
 import 'package:cubook/setting_account_group/widget/deleteGroupAccount.dart';
 import 'package:cubook/setting_account_group/widget/editProfile.dart';
+import 'package:cubook/setting_group/settingGroup_model.dart';
 import 'package:cubook/setting_group/settingGroup_view.dart';
 import 'package:cubook/task_detail_analytics/taskDetailAnalytics_model.dart';
 import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_model.dart';
@@ -50,7 +55,7 @@ import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -157,6 +162,9 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(
               create: (context) => TaskDetailAnalyticsMemberModel()),
           ChangeNotifierProvider(create: (context) => CommunityModel()),
+          ChangeNotifierProvider(create: (context) => SettingGroupModel()),
+          ChangeNotifierProvider(create: (context) => ListMigrationWaitingModel()),
+          ChangeNotifierProvider(create: (context) => DetailMigrationWaitingModel()),
           ChangeNotifierProvider(
               create: (context) => ListCitationAnalyticsModel()),
         ],
@@ -173,6 +181,7 @@ class _MyAppState extends State<MyApp> {
               primaryColor: Colors.blue[900],
               accentColor: Colors.blue[900]),
           darkTheme: ThemeData(
+            fontFamily: 'NotoSansJP',
             brightness: Brightness.dark,
             primaryColor: Colors.blue[900],
             accentColor: Colors.white,
@@ -205,7 +214,8 @@ class _MyAppState extends State<MyApp> {
             '/changePasswordView': (BuildContext context) => ChangePasswordView(),
             '/editProfile': (BuildContext context) => EditProfile(),
             '/deleteGroupAccount': (BuildContext context) => DeleteGroupAccount(),
-            '/accountMigration': (BuildContext context) => AccountMigrationView()
+            '/accountMigration': (BuildContext context) => AccountMigrationView(),
+            '/listMigrationWaiting': (BuildContext context) => ListMigrationWaitingView(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

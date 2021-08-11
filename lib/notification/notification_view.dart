@@ -3,7 +3,6 @@ import 'package:cubook/model/class.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/notification/notification_model.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
-import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -36,12 +35,14 @@ class NotificationView extends StatelessWidget {
                                 .collection('notification')
                                 .where('uid', isEqualTo: model.uid)
                                 .orderBy('time', descending: true)
+                                .limit(50)
                                 .snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
                                 if (snapshot.data.docs.isNotEmpty) {
-                                  final QuerySnapshot querySnapshot = snapshot.data;
+                                  final QuerySnapshot querySnapshot =
+                                      snapshot.data;
                                   return ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
@@ -51,9 +52,11 @@ class NotificationView extends StatelessWidget {
                                           (BuildContext context, int index) {
                                         final DocumentSnapshot snapshot =
                                             querySnapshot.docs[index];
-                                        final String type = snapshot.get('type');
+                                        final String type =
+                                            snapshot.get('type');
                                         final int page = snapshot.get('page');
-                                        final int number = snapshot.get('number');
+                                        final int number =
+                                            snapshot.get('number');
                                         final Color color = theme.getThemeColor(
                                             snapshot.get('type'));
                                         return Padding(

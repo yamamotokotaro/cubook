@@ -27,6 +27,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   int countToSend = 0;
   String documentID_exit;
   DocumentSnapshot userSnapshot;
+  Map<String, dynamic> stepData = <String, dynamic>{};
 
   bool isLoaded = false;
   bool isExit = false;
@@ -89,6 +90,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
         if (data.docs.isNotEmpty) {
           stepSnapshot = data.docs[0];
           documentID_exit = data.docs[0].id;
+          stepData = stepSnapshot.data() as Map<String, dynamic>;
           isExit = true;
           for (int i = 0; i < quant; i++) {
             if (stepSnapshot.get('signed')[i.toString()] != null) {
@@ -241,7 +243,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
       uploadTask = ref.putFile(File(file.path));
     }
     final dynamic snapshot = await Future.value(uploadTask);
-    final String path = await snapshot.ref.getPath();
+    final String path = await snapshot.ref.fullPath;
     final Map<String, dynamic> data = <String, dynamic>{};
     data.putIfAbsent('body', () => path);
     firestoreController(data, number, index);
