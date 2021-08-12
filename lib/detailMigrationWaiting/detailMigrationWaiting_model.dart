@@ -26,6 +26,7 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
   bool EmptyError = false;
   bool isEmpty = false;
   bool isFinish = false;
+  bool isAdmin = false;
 
   void migrateAccount(BuildContext context, String documentID) async {
     print('start migrating...');
@@ -50,6 +51,10 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
         if (resp.body == 'sucess') {
           isFinish = true;
           print('sucess');
+        } else if(resp.body == 'you are not admin'){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('アカウントの移行は管理者のみ操作可能です'),
+          ));
         }
         isLoading = false;
         notifyListeners();
@@ -80,6 +85,10 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
         if (resp.body == 'sucess') {
           isFinish = true;
           print('sucess');
+        } else if(resp.body == 'you are not admin'){
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('アカウントの移行は管理者のみ操作可能です'),
+          ));
         }
         isLoading = false;
         notifyListeners();

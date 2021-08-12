@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 
 class SettingAccountGroupModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
+  Map<String, dynamic> userData;
+  bool isAdmin = false;
   User currentUser;
   bool isGet = false;
   bool isFinish = false;
@@ -35,6 +37,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
       final User user = FirebaseAuth.instance.currentUser;
       currentUser = user;
       user.getIdTokenResult().then((token) async {
+        isAdmin = token.claims['admin'];
         FirebaseFirestore.instance
             .collection('user')
             .where('group', isEqualTo: token.claims['group'])
@@ -42,6 +45,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
             .snapshots()
             .listen((data) {
           userSnapshot = data.docs[0];
+          userData = userSnapshot.data() as Map<String, dynamic>;
           final String family = userSnapshot.get('family');
           group = userSnapshot.get('group');
           familyController =
@@ -49,7 +53,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
           firstController =
               TextEditingController(text: userSnapshot.get('first'));
           groupIdController = TextEditingController();
-          if (userSnapshot.get('teamPosition') != null) {
+          if (userData['teamPosition'] != null) {
             if (userSnapshot.get('teamPosition') == 'teamLeader') {
               isTeamLeader = true;
             } else {
@@ -59,12 +63,12 @@ class SettingAccountGroupModel extends ChangeNotifier {
             isTeamLeader = false;
           }
           String team;
-          if (userSnapshot.get('team') is int) {
+          if (userData['team'] is int) {
             team = userSnapshot.get('team').toString();
           } else {
             team = userSnapshot.get('team');
           }
-          if (userSnapshot.get('team') != null) {
+          if (userData['team'] != null) {
             teamController = TextEditingController(text: team);
           } else {
             teamController = TextEditingController();

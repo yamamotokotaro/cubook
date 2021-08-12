@@ -116,7 +116,12 @@ class SettingAccountGroupView extends StatelessWidget {
                                                 BorderRadius.circular(10.0),
                                           ),
                                           onTap: () async {
-                                            /*await showDialog<int>(
+                                            print('model.isAdmin='+model.isAdmin.toString());
+                                            if(model.isAdmin){
+                                              Navigator.of(context)
+                                                  .pushNamed('/accountMigration');
+                                            } else {
+                                              await showDialog<int>(
                                                 context: context,
                                                 builder: (context) {
                                                   return AlertDialog(
@@ -135,7 +140,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                           width:
                                                               double.infinity,
                                                           child: Text(
-                                                              '現在この機能は利用できません',
+                                                              'この操作はできません',
                                                               style: TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
@@ -148,13 +153,12 @@ class SettingAccountGroupView extends StatelessWidget {
                                                                 EdgeInsets.only(
                                                                     top: 5),
                                                             child: Text(
-                                                                '4月前半に配信のアップデートで対応予定です'))
+                                                                'アカウントの移行は管理者のみ操作可能です'))
                                                       ],
                                                     )),
                                                   );
-                                                });*/
-                                            Navigator.of(context)
-                                                .pushNamed('/accountMigration');
+                                                });
+                                            }
                                           },
                                           child: Padding(
                                             padding: EdgeInsets.all(10),

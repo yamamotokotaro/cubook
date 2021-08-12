@@ -13,6 +13,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class HomeModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
+  Map<String, dynamic> userData;
   QuerySnapshot effortSnapshot;
   TextEditingController mailAddressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -53,6 +54,7 @@ class HomeModel extends ChangeNotifier {
           .listen((data) {
         if (data.docs.isNotEmpty) {
           userSnapshot = data.docs[0];
+          userData = userSnapshot.data() as Map<String, dynamic>;
           username = userSnapshot.get('name') + userSnapshot.get('call');
           usercall = userSnapshot.get('call');
           groupName = userSnapshot.get('groupName');
@@ -60,7 +62,7 @@ class HomeModel extends ChangeNotifier {
           grade = userSnapshot.get('grade');
           age = userSnapshot.get('age');
           if(position == "scout") {
-            teamPosition = userSnapshot.get('teamPosition');
+            teamPosition = userData['teamPosition'];
           }
           // if (userSnapshot.get('token_notification') != null) {
           //   _token_notification = userSnapshot.get('token_notification');
@@ -154,15 +156,16 @@ class HomeModel extends ChangeNotifier {
               .listen((data) {
             if (data.docs.isNotEmpty) {
               userSnapshot = data.docs[0];
+              userData = userSnapshot.data() as Map<String, dynamic>;
               username =
                   userSnapshot.get('name') + userSnapshot.get('call');
               usercall = userSnapshot.get('call');
               groupName = userSnapshot.get('groupName');
-              teamPosition = userSnapshot.get('teamPosition');
+              teamPosition = userData['teamPosition'];
               position = userSnapshot.get('position');
               grade = userSnapshot.get('grade');
               age = userSnapshot.get('age');
-              if (userSnapshot.get('token_notification') != null) {
+              if (userData['token_notification'] != null) {
                 _token_notification = userSnapshot.get('token_notification');
               }
               NotificationPermissions.getNotificationPermissionStatus()
