@@ -1,4 +1,6 @@
+import 'dart:html' as http;
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
@@ -10,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AnalyticsModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
@@ -38,7 +41,7 @@ class AnalyticsModel extends ChangeNotifier {
         .then((snapshot) {
       userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
-      if(userSnapshot.get('position') == "scout") {
+      if (userSnapshot.get('position') == "scout") {
         teamPosition = userSnapshot.get('teamPosition');
       }
       if (group != groupBefore || teamPosition != teamPositionBefore) {
@@ -160,14 +163,26 @@ class AnalyticsModel extends ChangeNotifier {
         }
         excel.delete('Sheet1');
         final onValue = excel.encode();
-        final Directory appDocDir = await getTemporaryDirectory();
-        file_dir = appDocDir.path +
-            '/cubook_' +
-            DateFormat('yyyyMMddhhmm').format(DateTime.now()).toString() +
-            '.xlsx';
-        File(file_dir)
-          ..createSync(recursive: true)
-          ..writeAsBytesSync(onValue);
+        if (kIsWeb) {
+          // File file = onValue; // generated somewhere
+          //final rawData = file.readAsBytesSync();
+          final content = base64Encode(onValue);
+          final anchor = http.AnchorElement(
+              href:
+                  "data:application/octet-stream;charset=utf-16le;base64,$content")
+            ..setAttribute("download", DateFormat('yyyyMMddhhmm').format(DateTime.now()).toString() +
+                '.xlsx')
+            ..click();
+        } else {
+          final Directory appDocDir = await getTemporaryDirectory();
+          file_dir = appDocDir.path +
+              '/cubook_' +
+              DateFormat('yyyyMMddhhmm').format(DateTime.now()).toString() +
+              '.xlsx';
+          File(file_dir)
+            ..createSync(recursive: true)
+            ..writeAsBytesSync(onValue);
+        }
         isExporting = false;
         isExported = true;
         count_user = 0;
@@ -179,7 +194,10 @@ class AnalyticsModel extends ChangeNotifier {
   }
 
   void openFile() async {
-    await OpenFile.open(file_dir);
+    if (kIsWeb) {
+    } else {
+      await OpenFile.open(file_dir);
+    }
   }
 
   void reExport() {

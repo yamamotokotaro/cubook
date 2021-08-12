@@ -104,76 +104,42 @@ class InviteModel with ChangeNotifier {
       final User user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdToken().then((token) async {
-          if(!kIsWeb){
-            final String url =
-                'https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup';
-            final Map<String, String> headers = {'content-type': 'application/json'};
-            final String body = json.encode(<String, dynamic>{
-              'idToken': token,
-              'address': addressController.text,
-              'family': familyController.text,
-              'first': firstController.text,
-              'call': dropdown_call,
-              'age': age,
-              'position': position,
-              'team': team
-            });
+          final String url =
+              'https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup';
+          final Map<String, String> headers = {
+            'content-type': 'application/json'
+          };
+          final String body = json.encode(<String, dynamic>{
+            'idToken': token,
+            'address': addressController.text,
+            'family': familyController.text,
+            'first': firstController.text,
+            'call': dropdown_call,
+            'age': age,
+            'position': position,
+            'team': team
+          });
 
-            final http.Response resp =
-            await http.post(Uri.parse(url), headers: headers, body: body);
+          final http.Response resp =
+              await http.post(Uri.parse(url), headers: headers, body: body);
+          isLoading_join = false;
+          if (resp.body == 'success') {
+            mes_join = '';
+            addressController.clear();
+            familyController.clear();
+            firstController.clear();
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text('送信リクエストが完了しました'),
+            ));
+          } else if (resp.body == 'No such document!' ||
+              resp.body == 'not found') {
             isLoading_join = false;
-            if (resp.body == 'success') {
-              mes_join = '';
-              addressController.clear();
-              familyController.clear();
-              firstController.clear();
-              Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text('送信リクエストが完了しました'),
-              ));
-            } else if (resp.body == 'No such document!' ||
-                resp.body == 'not found') {
-              isLoading_join = false;
-              mes_join = 'コードが見つかりませんでした';
-            } else {
-              isLoading_join = false;
-              mes_join = 'エラーが発生しました';
-            }
-            notifyListeners();
+            mes_join = 'コードが見つかりませんでした';
           } else {
-            final HttpsCallable callable = FirebaseFunctions.instanceFor(
-                region: 'asia-northeast1').httpsCallable(
-                'inviteGroupCall',
-                options: HttpsCallableOptions(timeout: Duration(seconds: 5),));
-            final results = await callable(<String, String>{
-              'idToken': token,
-              'address': addressController.text,
-              'family': familyController.text,
-              'first': firstController.text,
-              'call': dropdown_call,
-              'age': age,
-              'position': position,
-              'team': team
-            });
-            final String resp = results.data;
             isLoading_join = false;
-            if (resp == 'success') {
-              mes_join = '';
-              addressController.clear();
-              familyController.clear();
-              firstController.clear();
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('送信リクエストが完了しました'),
-              ));
-            } else if (resp == 'No such document!' ||
-                resp == 'not found') {
-              isLoading_join = false;
-              mes_join = 'コードが見つかりませんでした';
-            } else {
-              isLoading_join = false;
-              mes_join = 'エラーが発生しました';
-            }
-            notifyListeners();
+            mes_join = 'エラーが発生しました';
           }
+          notifyListeners();
         });
       }
     } else {
