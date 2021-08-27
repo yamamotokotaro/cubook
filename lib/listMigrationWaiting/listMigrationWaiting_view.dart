@@ -17,6 +17,7 @@ class ListMigrationWaitingView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('移行申請'),
+          brightness: Brightness.dark,
         ),
         body: Align(
             alignment: Alignment.topCenter,

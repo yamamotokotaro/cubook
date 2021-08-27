@@ -1,1 +1,4 @@
-{"flutterSdkVersion":"1.22.6"}
+{
+  "flutterSdkVersion": "beta",
+  "flavors": {}
+}

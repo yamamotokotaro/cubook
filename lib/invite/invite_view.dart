@@ -4,12 +4,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+final List<DataList> data = <DataList>[
+  DataList(
+    'カブスカウト',
+    <DataList>[
+      DataList('りす'),
+      DataList('うさぎ'),
+      DataList('しか'),
+      DataList('くま'),
+    ],
+  ),
+  DataList(
+    'ボーイスカウト',
+    <DataList>[
+      DataList('ボーイスカウトバッジ'),
+      DataList('初級スカウト'),
+      DataList('2級スカウト'),
+      DataList('1級スカウト'),
+      DataList('菊スカウト'),
+    ],
+  ),
+  DataList(
+    'ベンチャースカウト',
+    <DataList>[
+      DataList('隼スカウト'),
+      DataList('富士スカウト'),
+    ],
+  ),
+];
+
 class InviteView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('メンバーを招待'),
+          brightness: Brightness.dark,
         ),
         body: Builder(builder: (BuildContext context) {
           return GestureDetector(
@@ -182,5 +212,34 @@ class InviteView extends StatelessWidget {
                     })),
               )));
         }));
+  }
+}
+
+class DataList {
+  DataList(this.title, [this.children = const <DataList>[]]);
+
+  final String title;
+  final List<DataList> children;
+}
+
+class DataPopUp extends StatelessWidget {
+  const DataPopUp(this.popup);
+
+  final DataList popup;
+
+  Widget _buildTiles(DataList root) {
+    if (root.children.isEmpty) return ListTile(title: Text(root.title));
+    return ExpansionTile(
+      key: PageStorageKey<DataList>(root),
+      title: Text(
+        root.title,
+      ),
+      children: root.children.map(_buildTiles).toList(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildTiles(popup);
   }
 }

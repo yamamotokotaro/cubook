@@ -20,6 +20,7 @@ class DetailActivityView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('記録詳細'),
+        brightness: Brightness.dark,
         actions: <Widget>[
           Selector<DetailActivityModel, String>(
               selector: (context, model) => model.position,

@@ -23,6 +23,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('表彰待ちリスト'),
+          brightness: Brightness.dark,
         ),
         body: Builder(builder: (BuildContext contextBuilder) {
           return SafeArea(

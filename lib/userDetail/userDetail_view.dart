@@ -36,11 +36,13 @@ class SelectBookView extends StatelessWidget {
   var task = TaskContents();
   var theme = ThemeInfo();
   String uid;
+  String type;
 
   List<TabInfo> _tabs;
 
-  SelectBookView(String uid) {
+  SelectBookView(String uid, String type) {
     this.uid = uid;
+    this.type = type;
   }
 
   @override
@@ -48,6 +50,7 @@ class SelectBookView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('メンバー詳細'),
+          brightness: Brightness.dark,
         ),
         body: Center(
             child: ConstrainedBox(
@@ -56,12 +59,21 @@ class SelectBookView extends StatelessWidget {
                     Consumer<UserDetailModel>(builder: (context, model, child) {
                   model.getGroup();
                   if (model.group != null) {
-                    if (model.teamPosition != null) {
-                      if (model.teamPosition == 'teamLeader') {
-                        _tabs = [
-                          TabInfo('進歩', SelectBook(uid)),
-                          TabInfo('出欠', ListAbsentView(uid)),
-                        ];
+                    if(type == 'scout') {
+                      if (model.teamPosition != null) {
+                        if (model.teamPosition == 'teamLeader') {
+                          _tabs = [
+                            TabInfo('進歩', SelectBook(uid)),
+                            TabInfo('出欠', ListAbsentView(uid)),
+                          ];
+                        } else {
+                          _tabs = [
+                            TabInfo('進歩', SelectBook(uid)),
+                            //TabInfo("表彰待ち", ListNotCititationed(uid)),
+                            TabInfo('出欠', ListAbsentView(uid)),
+                            TabInfo('設定', SettingAccountGroupView(uid)),
+                          ];
+                        }
                       } else {
                         _tabs = [
                           TabInfo('進歩', SelectBook(uid)),
@@ -70,11 +82,8 @@ class SelectBookView extends StatelessWidget {
                           TabInfo('設定', SettingAccountGroupView(uid)),
                         ];
                       }
-                    } else {
+                    } else if (type == 'leader'){
                       _tabs = [
-                        TabInfo('進歩', SelectBook(uid)),
-                        //TabInfo("表彰待ち", ListNotCititationed(uid)),
-                        TabInfo('出欠', ListAbsentView(uid)),
                         TabInfo('設定', SettingAccountGroupView(uid)),
                       ];
                     }

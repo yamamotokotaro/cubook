@@ -38,6 +38,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: Text('申請詳細'),
+            brightness: Brightness.dark,
           ),
           body: SafeArea(
               child: GestureDetector(
@@ -305,7 +306,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                                 return SelectBookView(
                                                                     migrationSnapshot
                                                                         .get(
-                                                                        'uid'));
+                                                                        'uid'),'scout');
                                                               }));
                                                     },
                                                   ))),

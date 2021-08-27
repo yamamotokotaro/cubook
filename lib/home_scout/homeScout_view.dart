@@ -28,7 +28,9 @@ class HomeScoutView extends StatelessWidget {
           selector: (context, model) => model.userSnapshot,
           builder: (context, userSnapshot, child) {
             DateTime timeChecked;
-            if (userSnapshot.get('time_notificationChecked') != null) {
+            Map<String, dynamic> userData;
+            userData = userSnapshot.data() as Map<String, dynamic>;
+            if (userData['time_notificationChecked'] != null) {
               timeChecked =
                   userSnapshot.get('time_notificationChecked').toDate();
             }

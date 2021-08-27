@@ -23,6 +23,7 @@ class AnalyticsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('アナリティクス'),
+        brightness: Brightness.dark,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

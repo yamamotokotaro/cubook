@@ -16,6 +16,7 @@ class NotificationView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('お知らせ'),
+        brightness: Brightness.dark,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

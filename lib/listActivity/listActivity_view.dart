@@ -14,6 +14,7 @@ class ListActivityView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('記録一覧'),
+        brightness: Brightness.dark,
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {

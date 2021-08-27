@@ -17,6 +17,7 @@ class AccountMigrationView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('アカウントを移行'),
+          brightness: Brightness.dark,
         ),
         body: GestureDetector(
             onTap: () {

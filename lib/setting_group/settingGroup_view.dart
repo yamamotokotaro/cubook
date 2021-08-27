@@ -14,6 +14,7 @@ class SettingGroupView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('グループ設定'),
+        brightness: Brightness.dark,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

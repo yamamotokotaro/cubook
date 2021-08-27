@@ -17,6 +17,7 @@ class DeleteGroupAccount extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('アカウント削除'),
+          brightness: Brightness.dark,
         ),
         body: SafeArea(
             child: SingleChildScrollView(

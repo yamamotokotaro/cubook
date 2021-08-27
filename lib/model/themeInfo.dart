@@ -18,6 +18,7 @@ class ThemeInfo {
     Colors.yellow[800],
     Colors.indigo[900],
     Colors.green[900],
+    Colors.green[900],
   ];
   List<Color> colors_indicator = [
     Colors.lightBlue[500],
@@ -35,6 +36,7 @@ class ThemeInfo {
     Colors.red[700],
     Colors.yellow[700],
     Colors.indigo[800],
+    Colors.green[800],
     Colors.green[800],
   ];
 
@@ -126,6 +128,9 @@ class ThemeInfo {
         break;
       case 'gino':
         color = colors[15];
+        break;
+      case 'leader':
+        color = colors[16];
         break;
     }
     return color;
@@ -230,6 +235,9 @@ class ThemeInfo {
         break;
       case 'gino':
         color = colors_indicator[15];
+        break;
+      case 'gino':
+        color = colors_indicator[16];
         break;
     }
     return color;

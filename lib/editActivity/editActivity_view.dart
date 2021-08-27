@@ -24,6 +24,7 @@ class EditActivityView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('記録を編集'),
+          brightness: Brightness.dark,
         ),
         floatingActionButton:
             Consumer<EditActivityModel>(builder: (context, model, child) {

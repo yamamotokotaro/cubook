@@ -30,6 +30,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
       appBar: AppBar(
         title: Text(mapTask['title']),
         backgroundColor: themeColor,
+        brightness: Brightness.dark,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

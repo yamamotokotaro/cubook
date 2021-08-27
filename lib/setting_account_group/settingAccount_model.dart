@@ -66,7 +66,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
           if (userData['team'] is int) {
             team = userSnapshot.get('team').toString();
           } else {
-            team = userSnapshot.get('team');
+            team = userData['team'];
           }
           if (userData['team'] != null) {
             teamController = TextEditingController(text: team);

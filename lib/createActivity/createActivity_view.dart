@@ -29,6 +29,7 @@ class CreateActivityView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('新規作成'),
+          brightness: Brightness.dark,
         ),
         floatingActionButton:
             Consumer<CreateActivityModel>(builder: (context, model, child) {

@@ -15,7 +15,7 @@ class LoginView extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: Center(
             child: SizedBox(
-                height: kIsWeb ? 400 : 250,
+                height: 250,
                 child: Column(
                   children: <Widget>[
                     Center(

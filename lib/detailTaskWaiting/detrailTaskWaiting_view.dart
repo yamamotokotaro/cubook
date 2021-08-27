@@ -35,6 +35,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: Text('タスク詳細'),
+            brightness: Brightness.dark,
           ),
           body: SafeArea(
               child: GestureDetector(

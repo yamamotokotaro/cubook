@@ -12,6 +12,7 @@ class SettingAccountView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('アカウント設定'),
+        brightness: Brightness.dark,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

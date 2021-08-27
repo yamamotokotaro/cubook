@@ -1,4 +1,3 @@
-import 'dart:html' as http;
 import 'dart:io';
 import 'dart:convert';
 
@@ -13,6 +12,8 @@ import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+// import 'dart:html' as http;
+
 
 class AnalyticsModel extends ChangeNotifier {
   DocumentSnapshot userSnapshot;
@@ -166,13 +167,13 @@ class AnalyticsModel extends ChangeNotifier {
         if (kIsWeb) {
           // File file = onValue; // generated somewhere
           //final rawData = file.readAsBytesSync();
-          final content = base64Encode(onValue);
-          final anchor = http.AnchorElement(
-              href:
-                  "data:application/octet-stream;charset=utf-16le;base64,$content")
-            ..setAttribute("download", DateFormat('yyyyMMddhhmm').format(DateTime.now()).toString() +
-                '.xlsx')
-            ..click();
+          // final content = base64Encode(onValue);
+          // final anchor = http.AnchorElement(
+          //     href:
+          //         "data:application/octet-stream;charset=utf-16le;base64,$content")
+          //   ..setAttribute("download", DateFormat('yyyyMMddhhmm').format(DateTime.now()).toString() +
+          //       '.xlsx')
+          //   ..click();
         } else {
           final Directory appDocDir = await getTemporaryDirectory();
           file_dir = appDocDir.path +

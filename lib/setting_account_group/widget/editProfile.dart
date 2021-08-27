@@ -16,6 +16,7 @@ class EditProfile extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('プロフィールの編集'),
+          brightness: Brightness.dark,
         ),
         body: SafeArea(
             child: SingleChildScrollView(

@@ -18,6 +18,7 @@ class ListMemberView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('メンバーリスト'),
+        brightness: Brightness.dark,
       ),
       floatingActionButton: Selector<ListMemberModel, String>(
           selector: (context, model) => model.position,
@@ -75,9 +76,8 @@ class ListMemberView extends StatelessWidget {
                                                           10.0),
                                                 ),
                                                 onTap: () {
-                                                  Navigator.of(context)
-                                                      .pushNamed(
-                                                          '/listMigrationWaiting');
+                                                  Navigator.of(context).pushNamed(
+                                                      '/listMigrationWaiting');
                                                 },
                                                 child: Padding(
                                                   padding: EdgeInsets.all(15),
@@ -87,7 +87,8 @@ class ListMemberView extends StatelessWidget {
                                                               .center,
                                                       children: <Widget>[
                                                         Icon(
-                                                          Icons.emoji_people_rounded,
+                                                          Icons
+                                                              .emoji_people_rounded,
                                                           color: Colors.white,
                                                           size: 35,
                                                         ),
@@ -237,7 +238,8 @@ class ListMemberView extends StatelessWidget {
                                                                             context) {
                                                               return SelectBookView(
                                                                   snapshot.get(
-                                                                      'uid'));
+                                                                      'uid'),
+                                                                  'scout');
                                                             }));
                                                           },
                                                           child: Padding(
@@ -338,7 +340,8 @@ class ListMemberView extends StatelessWidget {
                                                                             context) {
                                                               return SelectBookView(
                                                                   snapshot.get(
-                                                                      'uid'));
+                                                                      'uid'),
+                                                                  'scout');
                                                             }));
                                                           },
                                                           child: Padding(
@@ -498,6 +501,8 @@ class ListMemberView extends StatelessWidget {
                                                         int index) {
                                                   DocumentSnapshot snapshot =
                                                       querySnapshot.docs[index];
+                                                  final String uid =
+                                                      snapshot.get('uid');
                                                   return Padding(
                                                       padding:
                                                           EdgeInsets.all(5),
@@ -511,7 +516,24 @@ class ListMemberView extends StatelessWidget {
                                                                         10),
                                                           ),
                                                           child: InkWell(
-                                                            onTap: () {},
+                                                            onTap: () {
+                                                              if (model
+                                                                      .isAdmin &&
+                                                                  model.uid_user !=
+                                                                      uid) {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute<
+                                                                            SelectBookView>(
+                                                                        builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                  return SelectBookView(
+                                                                      uid,
+                                                                      'leader');
+                                                                }));
+                                                              }
+                                                            },
                                                             customBorder:
                                                                 RoundedRectangleBorder(
                                                               borderRadius:

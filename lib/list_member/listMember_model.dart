@@ -4,13 +4,16 @@ import 'package:flutter/cupertino.dart';
 
 class ListMemberModel extends ChangeNotifier {
   QuerySnapshot userSnapshot;
+  Map<String, dynamic> userData = Map<String, dynamic>();
   User currentUser;
   bool isGet = false;
   String group;
   dynamic team;
   String position;
   String teamPosition;
+  String uid_user;
   String group_claim;
+  bool isAdmin = false;
   Map<String, dynamic> claims = Map<String, dynamic>();
 
   void getGroup() async {
@@ -23,6 +26,9 @@ class ListMemberModel extends ChangeNotifier {
         .get()
         .then((snapshot) {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
+      userData = userSnapshot.data() as Map<String, dynamic>;
+      uid_user = userData['uid'];
+      isAdmin = userData['admin'];
       group = userSnapshot.get('group');
       position = userSnapshot.get("position");
       if(position == "scout") {

@@ -16,6 +16,7 @@ class ListTaskWaitingView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('サイン待ちリスト'),
+          brightness: Brightness.dark,
         ),
         body: Align(
             alignment: Alignment.topCenter,

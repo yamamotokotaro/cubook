@@ -46,6 +46,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
           title,
           style: TextStyle(color: Colors.white),
         ),
+        brightness: Brightness.dark,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

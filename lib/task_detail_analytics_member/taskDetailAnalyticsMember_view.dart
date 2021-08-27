@@ -65,6 +65,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                 (number + 1).toString() +
                 ')'),
         backgroundColor: themeColor,
+        brightness: Brightness.dark,
       ),
       body: SafeArea(
         child: /*SingleChildScrollView(

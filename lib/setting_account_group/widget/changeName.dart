@@ -12,6 +12,7 @@ class ChangeNameView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('メンバー詳細'),
+          brightness: Brightness.dark,
         ),
         body: SafeArea(
             child: SingleChildScrollView(
