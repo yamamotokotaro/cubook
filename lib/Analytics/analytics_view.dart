@@ -420,7 +420,7 @@ class AnalyticsView extends StatelessWidget {
                                               TaskListAnalyticsView>(
                                           builder: (BuildContext context) {
                                         return TaskListAnalyticsView(
-                                            type[index]);
+                                            type[index], );
                                       }));
                                     } else {
                                       Navigator.of(context)

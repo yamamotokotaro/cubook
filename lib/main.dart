@@ -61,7 +61,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
@@ -123,8 +122,8 @@ class _MyAppState extends State<MyApp> {
     );*/
   }
 
-  Future<PermissionStatus> permissionStatus =
-  NotificationPermissions.getNotificationPermissionStatus();
+  // Future<PermissionStatus> permissionStatus =
+  // NotificationPermissions.getNotificationPermissionStatus();
 
   @override
   Widget build(BuildContext context) {

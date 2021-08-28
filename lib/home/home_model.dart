@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:notification_permissions/notification_permissions.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class HomeModel extends ChangeNotifier {
@@ -35,8 +34,6 @@ class HomeModel extends ChangeNotifier {
   String token;
   List<dynamic> _token_notification = <dynamic>[];
   bool isSended = false;
-  Future<PermissionStatus> permissionStatus =
-      NotificationPermissions.getNotificationPermissionStatus();
 
   void login() async {
     isLoaded = false;
@@ -66,22 +63,22 @@ class HomeModel extends ChangeNotifier {
           // if (userSnapshot.get('token_notification') != null) {
           //   _token_notification = userSnapshot.get('token_notification');
           // }
-          NotificationPermissions.getNotificationPermissionStatus()
-              .then((status) {
-            switch (status) {
-              case PermissionStatus.denied:
-                permission = 'denied';
-                break;
-              case PermissionStatus.granted:
-                permission = 'granted';
-                break;
-              case PermissionStatus.unknown:
-                permission = 'unknown';
-                break;
-              default:
-                return null;
-            }
-          });
+          // NotificationPermissions.getNotificationPermissionStatus()
+          //     .then((status) {
+          //   switch (status) {
+          //     case PermissionStatus.denied:
+          //       permission = 'denied';
+          //       break;
+          //     case PermissionStatus.granted:
+          //       permission = 'granted';
+          //       break;
+          //     case PermissionStatus.unknown:
+          //       permission = 'unknown';
+          //       break;
+          //     default:
+          //       return null;
+          //   }
+          // });
           if (position == 'scout') {
             if (grade != null) {
               if (grade == 'cub') {
@@ -167,22 +164,22 @@ class HomeModel extends ChangeNotifier {
               if (userData['token_notification'] != null) {
                 _token_notification = userSnapshot.get('token_notification');
               }
-              NotificationPermissions.getNotificationPermissionStatus()
-                  .then((status) {
-                switch (status) {
-                  case PermissionStatus.denied:
-                    permission = 'denied';
-                    break;
-                  case PermissionStatus.granted:
-                    permission = 'granted';
-                    break;
-                  case PermissionStatus.unknown:
-                    permission = 'unknown';
-                    break;
-                  default:
-                    return null;
-                }
-              });
+              // NotificationPermissions.getNotificationPermissionStatus()
+              //     .then((status) {
+              //   switch (status) {
+              //     case PermissionStatus.denied:
+              //       permission = 'denied';
+              //       break;
+              //     case PermissionStatus.granted:
+              //       permission = 'granted';
+              //       break;
+              //     case PermissionStatus.unknown:
+              //       permission = 'unknown';
+              //       break;
+              //     default:
+              //       return null;
+              //   }
+              // });
               if (position == 'scout') {
                 if (grade != null) {
                   if (grade == 'cub') {
@@ -312,39 +309,20 @@ class HomeModel extends ChangeNotifier {
         .update(<String, dynamic>{'congrats': FieldValue.increment(1)});
   }
 
-  Future<void> getCheckNotificationPermStatus() {
-    NotificationPermissions.getNotificationPermissionStatus().then((status) {
-      switch (status) {
-        case PermissionStatus.denied:
-          permission = 'denied';
-          break;
-        case PermissionStatus.granted:
-          permission = 'granted';
-          break;
-        case PermissionStatus.unknown:
-          permission = 'unknown';
-          break;
-        default:
-          return null;
-      }
-      notifyListeners();
-    });
-  }
-
-  void onStatusChange(PermissionStatus status) {
-    switch (status) {
-      case PermissionStatus.denied:
-        permission = 'denied';
-        break;
-      case PermissionStatus.granted:
-        permission = 'granted';
-        break;
-      case PermissionStatus.unknown:
-        permission = 'unknown';
-        break;
-      default:
-        return null;
-    }
-    notifyListeners();
-  }
+  // void onStatusChange(PermissionStatus status) {
+  //   switch (status) {
+  //     case PermissionStatus.denied:
+  //       permission = 'denied';
+  //       break;
+  //     case PermissionStatus.granted:
+  //       permission = 'granted';
+  //       break;
+  //     case PermissionStatus.unknown:
+  //       permission = 'unknown';
+  //       break;
+  //     default:
+  //       return null;
+  //   }
+  //   notifyListeners();
+  // }
 }

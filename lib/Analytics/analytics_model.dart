@@ -29,6 +29,7 @@ class AnalyticsModel extends ChangeNotifier {
   String group_before = '';
   String group_claim;
   String teamPosition;
+  String position;
   Map<String, dynamic> claims = Map<String, dynamic>();
 
   void getGroup() async {
@@ -42,8 +43,12 @@ class AnalyticsModel extends ChangeNotifier {
         .then((snapshot) {
       userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
-      if (userSnapshot.get('position') == "scout") {
+      position = userSnapshot.get('position');
+      if (position == "scout") {
         teamPosition = userSnapshot.get('teamPosition');
+        if(teamPosition == "teamLeader"){
+          position = teamPosition;
+        }
       }
       if (group != groupBefore || teamPosition != teamPositionBefore) {
         notifyListeners();

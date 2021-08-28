@@ -10,14 +10,13 @@ import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:notification_permissions/notification_permissions.dart';
 import 'package:provider/provider.dart';
 
 class HomeScoutView extends StatelessWidget {
   var task = TaskContents();
   var theme = ThemeInfo();
-  Future<PermissionStatus> permissionStatus =
-  NotificationPermissions.getNotificationPermissionStatus();
+  // Future<PermissionStatus> permissionStatus =
+  // NotificationPermissions.getNotificationPermissionStatus();
 
   @override
   Widget build(BuildContext context) {

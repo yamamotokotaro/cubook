@@ -78,6 +78,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            color: Theme.of(context).brightness == Brightness.light? Colors.black:Colors.white
                           ),
                           textAlign: TextAlign.justify,
                         )) else Container(),

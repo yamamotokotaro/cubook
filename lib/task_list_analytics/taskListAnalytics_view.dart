@@ -67,11 +67,17 @@ class TaskListAnalyticsView extends StatelessWidget {
                                 final List<DocumentSnapshot> listSnapshot =
                                     snapshot.data.docs;
                                 final List<String> listUid = <String>[];
-                                if (type == 'challenge' || type == 'gino' || type == 'syorei') {
+                                if (type == 'challenge' ||
+                                    type == 'gino' ||
+                                    type == 'syorei') {
                                   userCount = listSnapshot.length;
-                                } else if (type=='tukinowa') {
                                   for (DocumentSnapshot documentSnapshot
-                                  in listSnapshot) {
+                                      in listSnapshot) {
+                                    listUid.add(documentSnapshot.get('uid'));
+                                  }
+                                } else if (type == 'tukinowa') {
+                                  for (DocumentSnapshot documentSnapshot
+                                      in listSnapshot) {
                                     if (documentSnapshot.get('age') == 'kuma') {
                                       userCount++;
                                       listUid.add(documentSnapshot.get('uid'));
@@ -179,8 +185,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                         Alignment
                                                                             .centerLeft,
                                                                     child: Text(
-                                                                      mapTask[
-                                                                              index]
+                                                                      mapTask[index]
                                                                           [
                                                                           'title'],
                                                                       style: TextStyle(
@@ -216,21 +221,15 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                       .hasData) {
                                                                     int itemCount =
                                                                         0;
-                                                                    final List<DocumentSnapshot>
+                                                                    final List<
+                                                                            DocumentSnapshot>
                                                                         listSnapshot =
                                                                         snapshotTask
                                                                             .data
                                                                             .docs;
                                                                     for (DocumentSnapshot documentSnapshot
                                                                         in listSnapshot) {
-                                                                      if (type ==
-                                                                              'challenge' ||
-                                                                          type ==
-                                                                              'gino' ||
-                                                                          type ==
-                                                                              'syorei') {
-                                                                        itemCount++;
-                                                                      } else if (listUid
+                                                                      if (listUid
                                                                           .contains(
                                                                               documentSnapshot.get('uid'))) {
                                                                         itemCount++;
@@ -259,13 +258,22 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                         ));
                                                                   } else {
                                                                     return Padding(
-                                                                      padding: EdgeInsets.only(left: 5, right: 10),
+                                                                      padding: EdgeInsets.only(
+                                                                          left:
+                                                                              5,
+                                                                          right:
+                                                                              10),
                                                                       child: Container(
                                                                           height: 30,
                                                                           width: 30,
                                                                           child: CircularProgressIndicator(
-                                                                            backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                                                            valueColor: AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
+                                                                            backgroundColor: isDark
+                                                                                ? Colors.grey[700]
+                                                                                : Colors.grey[300],
+                                                                            valueColor: AlwaysStoppedAnimation<Color>(isDark
+                                                                                ? Colors.white
+                                                                                : theme.getThemeColor(type)),
+                                                                          )),
                                                                     );
                                                                   }
                                                                 })
@@ -284,8 +292,16 @@ class TaskListAnalyticsView extends StatelessWidget {
                                       height: 30,
                                       width: 30,
                                       child: CircularProgressIndicator(
-                                        backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                        valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
+                                        backgroundColor: isDark
+                                            ? Colors.grey[700]
+                                            : Colors.grey[300],
+                                        valueColor:
+                                            new AlwaysStoppedAnimation<Color>(
+                                                isDark
+                                                    ? Colors.white
+                                                    : theme
+                                                        .getThemeColor(type)),
+                                      )),
                                 );
                               }
                             });
@@ -296,8 +312,14 @@ class TaskListAnalyticsView extends StatelessWidget {
                               height: 30,
                               width: 30,
                               child: CircularProgressIndicator(
-                                backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                valueColor: new AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),)),
+                                backgroundColor: isDark
+                                    ? Colors.grey[700]
+                                    : Colors.grey[300],
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                    isDark
+                                        ? Colors.white
+                                        : theme.getThemeColor(type)),
+                              )),
                         );
                       }
                     }))

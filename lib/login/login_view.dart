@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cubook/home/home_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,11 +54,19 @@ class LoginView extends StatelessWidget {
                           return RaisedButton(
                             color: Colors.blue[900],
                             onPressed: () async {
-                              final providers = [
-                                AuthUiProvider.email,
-                                AuthUiProvider.apple,
-                                AuthUiProvider.google,
-                              ];
+                              dynamic providers;
+                              if(Platform.isIOS) {
+                                providers = [
+                                  AuthUiProvider.email,
+                                  AuthUiProvider.apple,
+                                  AuthUiProvider.google,
+                                ];
+                              } else {
+                                providers = [
+                                  AuthUiProvider.email,
+                                  AuthUiProvider.google,
+                                ];
+                              }
 
                               final result = await FlutterAuthUi.startUi(
                                 items: providers,

@@ -1,11 +1,11 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=/Users/kotaroyamamoto/fvm/versions/beta"
+export "FLUTTER_ROOT=/Users/kotaroyamamoto/flutter"
 export "FLUTTER_APPLICATION_PATH=/Users/kotaroyamamoto/Develop/release/cubook"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=3.0.0"
-export "FLUTTER_BUILD_NUMBER=153"
+export "FLUTTER_BUILD_NUMBER=155"
 export "EXCLUDED_ARCHS=arm64"
 export "DART_OBFUSCATION=false"
 export "TRACK_WIDGET_CREATION=false"

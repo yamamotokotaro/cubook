@@ -18,7 +18,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
     final String type = info.type;
     final int page = info.page;
     final Color themeColor = theme.getThemeColor(type);
-    final List<Map<String,dynamic>> contents = task.getContentList(type, page);
+    final List<Map<String, dynamic>> contents = task.getContentList(type, page);
     final mapTask = task.getPartMap(type, page);
     bool isDark;
     if (Theme.of(context).accentColor == Colors.white) {
@@ -53,27 +53,35 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasData) {
                                       int userCount = 0;
-                                      final List<DocumentSnapshot> listSnapshot =
-                                          snapshot.data.docs;
+                                      final List<DocumentSnapshot>
+                                          listSnapshot = snapshot.data.docs;
                                       final List<String> listUid = <String>[];
                                       if (type == 'challenge' ||
                                           type == 'gino') {
                                         userCount = listSnapshot.length;
-                                      } else if (type=='tukinowa') {
                                         for (DocumentSnapshot documentSnapshot
-                                        in listSnapshot) {
-                                          if (documentSnapshot.get('age') == 'kuma') {
+                                            in listSnapshot) {
+                                          listUid
+                                              .add(documentSnapshot.get('uid'));
+                                        }
+                                      } else if (type == 'tukinowa') {
+                                        for (DocumentSnapshot documentSnapshot
+                                            in listSnapshot) {
+                                          if (documentSnapshot.get('age') ==
+                                              'kuma') {
                                             userCount++;
-                                            listUid.add(documentSnapshot.get('uid'));
+                                            listUid.add(
+                                                documentSnapshot.get('uid'));
                                           }
                                         }
                                       } else {
                                         for (DocumentSnapshot documentSnapshot
                                             in listSnapshot) {
-                                          if (documentSnapshot.get('age') == type) {
+                                          if (documentSnapshot.get('age') ==
+                                              type) {
                                             userCount++;
-                                            listUid
-                                                .add(documentSnapshot.get('uid'));
+                                            listUid.add(
+                                                documentSnapshot.get('uid'));
                                           }
                                         }
                                       }
@@ -99,18 +107,18 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                             int countEnd = 0;
                                             for (DocumentSnapshot documentSnapshot
                                                 in listDocumentSnapshot) {
-                                              Map<String, dynamic> documentData = documentSnapshot.data() as Map<String, dynamic>;
-                                              if (documentData['end'] !=
-                                                      null &&
-                                                  (listUid.contains(
-                                                          documentSnapshot.get(
-                                                              'uid')) ||
-                                                      type == 'challenge' ||
-                                                      type == 'gino')) {
+                                              Map<String, dynamic>
+                                                  documentData =
+                                                  documentSnapshot.data()
+                                                      as Map<String, dynamic>;
+                                              if (listUid.contains(
+                                                  documentSnapshot
+                                                      .get('uid'))) {
                                                 countEnd++;
                                               }
-                                              final Map<dynamic, dynamic> signed =
-                                                  documentSnapshot.get('signed');
+                                              final Map<dynamic, dynamic>
+                                                  signed = documentSnapshot
+                                                      .get('signed');
                                               for (int i = 0; i < quant; i++) {
                                                 final Map<dynamic, dynamic>
                                                     signedPart =
@@ -118,11 +126,10 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                 if (signedPart != null) {
                                                   if (signedPart['phaze'] ==
                                                           'signed' &&
-                                                      (listUid.contains(
-                                                              documentSnapshot.get(
-                                                                  'uid')) ||
-                                                          type == 'challenge' ||
-                                                          type == 'gino')) {
+                                                      listUid.contains(
+                                                              documentSnapshot
+                                                                  .get(
+                                                                      'uid'))) {
                                                     countItem[i]++;
                                                   }
                                                 }
@@ -372,7 +379,8 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        final String content = contents[index]['body'];
+                                        final String content =
+                                            contents[index]['body'];
                                         Color bordercolor;
                                         if (Theme.of(context).accentColor ==
                                             Colors.white) {
@@ -384,30 +392,31 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                             padding: EdgeInsets.only(
                                                 bottom: 10, right: 5, left: 5),
                                             child: Card(
-                                                  color: Color(0x00000000),
-                                                  shape: RoundedRectangleBorder(
-                                                    side: BorderSide(
-                                                      color: bordercolor,
-                                                      width: 2.0,
-                                                    ),
+                                              color: Color(0x00000000),
+                                              shape: RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                  color: bordercolor,
+                                                  width: 2.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              elevation: 0,
+                                              child: InkWell(
+                                                  customBorder:
+                                                      RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10.0),
                                                   ),
-                                                  elevation: 0,
-                                                  child: InkWell(
-                                                    customBorder:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                    child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(8),
-                                                        child: Semantics(
-                                                            label: 'さいもく' + (index+1).toString() + '、',
-                                                            child: Text(content)),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(8),
+                                                    child: Semantics(
+                                                        label: 'さいもく' +
+                                                            (index + 1)
+                                                                .toString() +
+                                                            '、',
+                                                        child: Text(content)),
                                                   )),
                                             ));
                                       })),

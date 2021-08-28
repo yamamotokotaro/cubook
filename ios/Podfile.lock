@@ -227,10 +227,6 @@ PODS:
     - Firebase/Firestore (= 8.3.0)
     - firebase_core
     - Flutter
-  - cloud_functions (1.1.2):
-    - Firebase/Functions (= 8.3.0)
-    - firebase_core
-    - Flutter
   - FBAEMKit (11.1.0):
     - FBAEMKit/AEM (= 11.1.0)
   - FBAEMKit/AEM (11.1.0):
@@ -264,9 +260,6 @@ PODS:
   - Firebase/Firestore (8.3.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 8.3.0)
-  - Firebase/Functions (8.3.0):
-    - Firebase/CoreOnly
-    - FirebaseFunctions (~> 8.3.0)
   - Firebase/Messaging (8.3.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 8.3.0)
@@ -373,9 +366,6 @@ PODS:
     - "gRPC-C++ (~> 1.28.0)"
     - leveldb-library (~> 1.22)
     - nanopb (~> 2.30908.0)
-  - FirebaseFunctions (8.3.0):
-    - FirebaseCore (~> 8.0)
-    - GTMSessionFetcher/Core (~> 1.5)
   - FirebaseGoogleAuthUI (12.0.0):
     - FirebaseAuth
     - FirebaseAuthUI
@@ -537,7 +527,6 @@ PODS:
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
-  - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -577,7 +566,6 @@ SPEC REPOS:
     - FirebaseEmailAuthUI
     - FirebaseFacebookAuthUI
     - FirebaseFirestore
-    - FirebaseFunctions
     - FirebaseGoogleAuthUI
     - FirebaseInstallations
     - FirebaseMessaging
@@ -603,8 +591,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
-  cloud_functions:
-    :path: ".symlinks/plugins/cloud_functions/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
@@ -645,7 +631,6 @@ SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: d6c77e2b33f00576fed2b070fec1be58d7e5f276
-  cloud_functions: cd6630d9a3fce737f31b784b34d5fdb77e2b55f6
   FBAEMKit: 5c8a8d08e5b2c79628490784883e0fcc75b12615
   FBSDKCoreKit: 7ccb8b4bb2b5ee2ad94327b774dc23f03509675d
   FBSDKCoreKit_Basics: 8f978bce195845f609b0ec6b425949d0d24f525b
@@ -669,7 +654,6 @@ SPEC CHECKSUMS:
   FirebaseEmailAuthUI: 6d0c5646c49b33a72dbe73a0ff9c908a59b5ff29
   FirebaseFacebookAuthUI: a478313687c2001b53470d7cc265a48a2c504ab8
   FirebaseFirestore: f4f42828c6d82f6945575611c23dd343e0e7d0aa
-  FirebaseFunctions: f391cdeef45d2e85ef4e16a6ecca05f30e162c41
   FirebaseGoogleAuthUI: 6981c0c3c054367f9ccd730fbcf483504deb0a68
   FirebaseInstallations: f2bc590b291d25fb40a9a05b8281c02a881b5117
   FirebaseMessaging: 42252b79b860482021483748669ec32e22196462
@@ -702,6 +686,6 @@ SPEC CHECKSUMS:
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
 
-PODFILE CHECKSUM: 7adbc9d59f05e1b01f554ea99b6c79e97f2214a2
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
 COCOAPODS: 1.10.2

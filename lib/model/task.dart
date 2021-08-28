@@ -104,6 +104,8 @@ class TaskContents {
     <String, dynamic>{'number': '5-8', 'title': '演劇家', 'hasItem': 5},
     <String, dynamic>{'number': '5-9', 'title': '読書家', 'hasItem': 6},
     <String, dynamic>{'number': '5-10', 'title': 'マジシャン', 'hasItem': 4},
+    <String, dynamic>{'number': '新', 'title': 'サイバーセキュリティ', 'hasItem': 4},
+    <String, dynamic>{'number': '新', 'title': 'フィールドマスター', 'hasItem': 4},
   ];
   List<Map<String, dynamic>> syokyu = [
     <String, dynamic>{'number': '1', 'title': '基本', 'hasItem': 6},
@@ -1157,6 +1159,18 @@ class TaskContents {
       <String, dynamic>{'body': 'トランプを使った手品ができる'},
       <String, dynamic>{'body': '1、２の細目以外の道具を使って簡単な手品をする'},
       <String, dynamic>{'body': '組みの仲間と隊集会でマジックショーを行う'},
+    ],
+    [
+      <String, dynamic>{'body': '次の用語を調べる（インターネット、アプリ、セキュリティ、SNS、ダウンロード）'},
+      <String, dynamic>{'body': '手紙やチャットで嫌なことを書かれたことを考え、その気持ちを発表する'},
+      <String, dynamic>{'body': '10年後のコンピューターの世界に残っているもの、なくなるものを想像する'},
+      <String, dynamic>{'body': 'インターネットの便利な点、危ない点を話し合い、より良い使い方を発表する'},
+    ],
+    [
+      <String, dynamic>{'body': 'ナイフなどツールを安全に出し入れできる'},
+      <String, dynamic>{'body': 'ナイフなどのツールで木の枝や竹をけずる'},
+      <String, dynamic>{'body': 'ナイフやリーマーなどのツールを使いこなしていたや木の実に穴を開ける'},
+      <String, dynamic>{'body': 'ナイフで着火用の木くずを作り、火起こしができる'},
     ],
   ];
 
