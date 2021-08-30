@@ -14,9 +14,9 @@ cubookはオンラインでカブブックのサインと管理が行えるア�
 
 cubookでは以下のプラットフォームに対応しています
 
-- Android
-- iOS
-- Web
+- [Android](https://play.google.com/store/apps/details?id=app.kotakota.cubook&hl=ja)
+- [iOS]（https://apps.apple.com/jp/app/cubook/id1507520804?l=ja&ls=1）
+- [Web](https://cubook.app/#/)
 
 ## アプリについての情報
 
