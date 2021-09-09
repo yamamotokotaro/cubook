@@ -177,8 +177,7 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
               fontFamily: 'NotoSansJP',
               brightness: Brightness.light,
-              primaryColor: Colors.blue[900],
-              accentColor: Colors.blue[900]),
+              colorScheme: ColorScheme.fromSwatch().copyWith(primary: Colors.blue[900], secondary: Colors.blue[900])),
           darkTheme: ThemeData(
             fontFamily: 'NotoSansJP',
             brightness: Brightness.dark,
