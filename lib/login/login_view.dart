@@ -55,12 +55,19 @@ class LoginView extends StatelessWidget {
                             color: Colors.blue[900],
                             onPressed: () async {
                               dynamic providers;
-                              if(Platform.isIOS) {
-                                providers = [
-                                  AuthUiProvider.email,
-                                  AuthUiProvider.apple,
-                                  AuthUiProvider.google,
-                                ];
+                              if(!kIsWeb) {
+                                if (Platform.isIOS) {
+                                  providers = [
+                                    AuthUiProvider.email,
+                                    AuthUiProvider.apple,
+                                    AuthUiProvider.google,
+                                  ];
+                                } else {
+                                  providers = [
+                                    AuthUiProvider.email,
+                                    AuthUiProvider.google,
+                                  ];
+                                }
                               } else {
                                 providers = [
                                   AuthUiProvider.email,

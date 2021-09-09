@@ -233,8 +233,9 @@ Future<void> signItem(String uid, String type, int page, int number,
           .get()
           .then((data) {
         final DocumentSnapshot snapshot = data.docs[0];
+        Map<String, dynamic> documentData = snapshot.data() as Map<String, dynamic>;
         Map<String, dynamic> map = <String, int>{};
-        if (snapshot.get(type) != null) {
+        if (documentData['type'] != null) {
           map = snapshot.get(type);
           map[page.toString()] = count;
         } else {

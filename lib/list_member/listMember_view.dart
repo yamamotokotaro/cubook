@@ -318,7 +318,8 @@ class ListMemberView extends StatelessWidget {
                                                 int index) {
                                               final DocumentSnapshot snapshot =
                                                   querySnapshot.docs[index];
-                                              if (snapshot.get('team') ==
+                                              Map<String, dynamic> dataSnapshot = snapshot.data() as Map<String, dynamic>;
+                                              if (dataSnapshot['team'] ==
                                                   null) {
                                                 return Padding(
                                                     padding: EdgeInsets.all(5),
