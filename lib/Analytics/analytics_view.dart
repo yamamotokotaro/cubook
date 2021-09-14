@@ -169,7 +169,7 @@ class AnalyticsView extends StatelessWidget {
                                           Icon(
                                             Icons.menu,
                                             color:
-                                                Theme.of(context).accentColor,
+                                                Theme.of(context).colorScheme.secondary,
                                             size: 35,
                                           ),
                                           Padding(
@@ -269,7 +269,7 @@ class AnalyticsView extends StatelessWidget {
                                                             },
                                                             color: Theme.of(
                                                                     context)
-                                                                .accentColor,
+                                                                .colorScheme.secondary,
                                                             child: Text(
                                                               'アプリで開く',
                                                               style: TextStyle(
@@ -300,7 +300,7 @@ class AnalyticsView extends StatelessWidget {
                                           Icon(
                                             Icons.call_made,
                                             color:
-                                                Theme.of(context).accentColor,
+                                                Theme.of(context).colorScheme.secondary,
                                             size: 35,
                                           ),
                                           Padding(
@@ -349,7 +349,7 @@ class AnalyticsView extends StatelessWidget {
                                   children: <Widget>[
                                     Icon(
                                       Icons.menu,
-                                      color: Theme.of(context).accentColor,
+                                      color: Theme.of(context).colorScheme.secondary,
                                       size: 35,
                                     ),
                                     Padding(
@@ -382,7 +382,7 @@ class AnalyticsView extends StatelessWidget {
                                       const EdgeInsets.only(right: 5, top: 4),
                                   child: Icon(
                                     Icons.assignment,
-                                    color: Theme.of(context).accentColor,
+                                    color: Theme.of(context).colorScheme.secondary,
                                     size: 32,
                                   ),
                                 ),

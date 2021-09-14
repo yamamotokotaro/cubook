@@ -65,7 +65,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                       Icons.edit,
                                                       color: Theme
                                                           .of(context)
-                                                          .accentColor,
+                                                          .colorScheme.secondary,
                                                       size: 35,
                                                     ),
                                                     Padding(
@@ -182,7 +182,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                       Icons.emoji_people,
                                                       color: Theme
                                                           .of(context)
-                                                          .accentColor,
+                                                          .colorScheme.secondary,
                                                       size: 35,
                                                     ),
                                                     Padding(
@@ -253,7 +253,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                       Icons.cancel,
                                                       color: Theme
                                                           .of(context)
-                                                          .accentColor,
+                                                          .colorScheme.secondary,
                                                       size: 35,
                                                     ),
                                                     Padding(
@@ -376,7 +376,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                       Icons.emoji_people,
                                                       color: Theme
                                                           .of(context)
-                                                          .accentColor,
+                                                          .colorScheme.secondary,
                                                       size: 35,
                                                     ),
                                                     Padding(
@@ -447,7 +447,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                       Icons.cancel,
                                                       color: Theme
                                                           .of(context)
-                                                          .accentColor,
+                                                          .colorScheme.secondary,
                                                       size: 35,
                                                     ),
                                                     Padding(

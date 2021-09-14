@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/detailActivity/detailActivity_model.dart';
 import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
@@ -114,7 +113,9 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                               if (listUid.contains(
                                                   documentSnapshot
                                                       .get('uid'))) {
-                                                countEnd++;
+                                                if(documentData['end'] != null){
+                                                  countEnd++;
+                                                }
                                               }
                                               final Map<dynamic, dynamic>
                                                   signed = documentSnapshot

@@ -29,7 +29,7 @@ class listEffort extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 5, top: 4),
                 child: Icon(
                   Icons.assignment,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                   size: 32,
                 ),
               ),

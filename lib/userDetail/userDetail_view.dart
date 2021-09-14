@@ -173,8 +173,8 @@ class SelectBookView extends StatelessWidget {
                                 delegate: _StickyTabBarDelegate(
                                   TabBar(
                                     indicatorColor:
-                                        Theme.of(context).accentColor,
-                                    labelColor: Theme.of(context).accentColor,
+                                        Theme.of(context).colorScheme.secondary,
+                                    labelColor: Theme.of(context).colorScheme.secondary,
                                     isScrollable: false,
                                     tabs: _tabs.map((TabInfo tab) {
                                       return Tab(text: tab.label);

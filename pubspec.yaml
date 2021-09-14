@@ -11,7 +11,7 @@ description: A new Flutter application.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.0.2+159
+version: 3.0.3+160
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -25,28 +25,28 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
-  firebase_core: ^1.4.0
-  cloud_firestore: ^2.4.0
+  firebase_core: ^1.6.0
+  cloud_firestore: ^2.5.2
   provider: ^5.0.0
-  firebase_auth: ^3.0.1
-  flutter_auth_ui: ^2.3.1
-  google_sign_in: ^5.0.7
+  firebase_auth: ^3.1.1
+  flutter_auth_ui: ^2.4.0
+#  google_sign_in: ^5.1.0
   google_fonts: ^2.1.0
-  image_picker: ^0.8.3+2
+  image_picker: ^0.8.4
   intl: ^0.17.0
-  firebase_storage: ^10.0.1
-  video_player: ^2.1.12
+  firebase_storage: ^10.0.3
+  video_player: ^2.2.0
   chewie: ^1.2.2
-  url_launcher: ^6.0.9
-  firebase_analytics: ^8.2.0
-  firebase_crashlytics: ^2.1.1
+  url_launcher: ^6.0.10
+  firebase_analytics: ^8.3.2
+  firebase_crashlytics: ^2.2.1
 #  cloud_functions: ^1.1.1
   package_info: ^2.0.2
-  firebase_performance: ^0.7.0+7
-  firebase_messaging: ^10.0.3
+  firebase_performance: ^0.7.1
+  firebase_messaging: ^10.0.7
 #  notification_permissions: ^0.5.0
   excel: ^2.0.0-null-safety-3
-  path_provider: ^2.0.2
+  path_provider: ^2.0.3
   open_file: ^3.2.1
   expand_widget: ^2.1.0
   notification_permissions: ^0.5.0

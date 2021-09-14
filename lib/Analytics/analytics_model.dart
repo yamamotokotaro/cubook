@@ -170,13 +170,13 @@ class AnalyticsModel extends ChangeNotifier {
         excel.delete('Sheet1');
         final onValue = excel.encode();
         if (kIsWeb) {
-          /*final content = base64Encode(onValue);
-          final anchor = http.AnchorElement(
-              href:
-                  "data:application/octet-stream;charset=utf-16le;base64,$content")
-            ..setAttribute("download", DateFormat('yyyyMMddhhmm').format(DateTime.now()).toString() +
-                '.xlsx')
-            ..click();*/
+          // final content = base64Encode(onValue);
+          // final anchor = http.AnchorElement(
+          //     href:
+          //         "data:application/octet-stream;charset=utf-16le;base64,$content")
+          //   ..setAttribute("download", DateFormat('yyyyMMddhhmm').format(DateTime.now()).toString() +
+          //       '.xlsx')
+          //   ..click();
         } else {
           final Directory appDocDir = await getTemporaryDirectory();
           file_dir = appDocDir.path +
