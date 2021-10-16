@@ -61,7 +61,7 @@ class JoinGroup extends StatelessWidget {
                   },
                   child: Text(
                     '利用規約',
-                    style: TextStyle(color: Theme.of(context).accentColor),
+                    style: TextStyle(color: Theme.of(context).colorScheme.secondary),
                   ),
                 ),
                 Padding(
@@ -70,7 +70,7 @@ class JoinGroup extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Checkbox(
-                        activeColor: Theme.of(context).accentColor,
+                        activeColor: Theme.of(context).colorScheme.secondary,
                         value: model.isConsent,
                         onChanged: model.onPressedCheckConsent,
                       ),

@@ -14,7 +14,7 @@ class AnalyticsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark;
-    if (Theme.of(context).accentColor == Colors.white) {
+    if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
       isDark = false;
@@ -67,7 +67,7 @@ class AnalyticsView extends StatelessWidget {
                                             Icon(
                                               Icons.menu,
                                               color:
-                                                  Theme.of(context).accentColor,
+                                                  Theme.of(context).colorScheme.secondary,
                                               size: 35,
                                             ),
                                             Padding(
@@ -115,7 +115,7 @@ class AnalyticsView extends StatelessWidget {
                                             Icon(
                                               Icons.call_made,
                                               color:
-                                                  Theme.of(context).accentColor,
+                                                  Theme.of(context).colorScheme.secondary,
                                               size: 35,
                                             ),
                                             Padding(

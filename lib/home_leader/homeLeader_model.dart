@@ -82,7 +82,7 @@ class HomeLeaderModel extends ChangeNotifier {
                             child: Text(
                               '利用規約',
                               style: TextStyle(
-                                  color: Theme.of(context).accentColor),
+                                  color: Theme.of(context).colorScheme.secondary),
                             ),
                           ),
                           FlatButton(
@@ -92,7 +92,7 @@ class HomeLeaderModel extends ChangeNotifier {
                             child: Text(
                               'プライバシーポリシー',
                               style: TextStyle(
-                                  color: Theme.of(context).accentColor),
+                                  color: Theme.of(context).colorScheme.secondary),
                             ),
                           ),
                           Padding(

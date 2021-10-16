@@ -71,9 +71,7 @@ class HomeScoutView extends StatelessWidget {
                                     children: <Widget>[
                                       Icon(
                                         Icons.notifications,
-                                        color: Theme
-                                            .of(context)
-                                            .accentColor,
+                                        color: Theme.of(context).colorScheme.secondary,
                                         size: 35,
                                       ),
                                       Padding(
@@ -128,9 +126,7 @@ class HomeScoutView extends StatelessWidget {
                         children: <Widget>[
                           Icon(
                             Icons.event,
-                            color: Theme
-                                .of(context)
-                                .accentColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             size: 35,
                           ),
                           Padding(
@@ -158,9 +154,7 @@ class HomeScoutView extends StatelessWidget {
                     padding: EdgeInsets.only(right: 5, top: 4),
                     child: Icon(
                       Icons.book,
-                      color: Theme
-                          .of(context)
-                          .accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       size: 32,
                     ),
                   ),

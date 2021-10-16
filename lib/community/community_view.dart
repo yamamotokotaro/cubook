@@ -25,7 +25,7 @@ class CommunityView extends StatelessWidget {
     final mapTask = task.getPartMap(type, page);
     final int quant = mapTask['hasItem'];
     bool isDark;
-    if (Theme.of(context).accentColor == Colors.white) {
+    if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
       isDark = false;
@@ -308,7 +308,7 @@ class CommunityView extends StatelessWidget {
                                           (BuildContext context, int index) {
                                         String content = contents[index];
                                         Color bordercolor;
-                                        if (Theme.of(context).accentColor ==
+                                        if (Theme.of(context).colorScheme.secondary ==
                                             Colors.white) {
                                           bordercolor = Colors.grey[700];
                                         } else {

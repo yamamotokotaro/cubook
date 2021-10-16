@@ -16,7 +16,7 @@ class EditActivityView extends StatelessWidget {
   Widget build(BuildContext context) {
     final String documentID = ModalRoute.of(context).settings.arguments;
     bool isDark;
-    if (Theme.of(context).accentColor == Colors.white) {
+    if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
       isDark = false;

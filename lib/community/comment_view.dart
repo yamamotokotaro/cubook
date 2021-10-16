@@ -22,7 +22,7 @@ class CommentView extends StatelessWidget {
     final String effortid = info.effortid;
     final Color themeColor = theme.getThemeColor(type);
     bool isDark;
-    if (Theme.of(context).accentColor == Colors.white) {
+    if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
       isDark = false;
@@ -293,7 +293,7 @@ class CommentView extends StatelessWidget {
                                             },
                                             icon: Icon(Icons.send),
                                             color:
-                                                Theme.of(context).accentColor,
+                                                Theme.of(context).colorScheme.secondary,
                                           ))
                                 ],
                               );

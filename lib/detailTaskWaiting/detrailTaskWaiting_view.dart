@@ -239,8 +239,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                     right: 5, top: 4),
                                                 child: Icon(
                                                   Icons.book,
-                                                  color: Theme.of(context)
-                                                      .accentColor,
+                                                  color: Theme.of(context).colorScheme.secondary,
                                                   size: 32,
                                                 ),
                                               ),
@@ -349,8 +348,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                     right: 5, top: 4),
                                                 child: Icon(
                                                   Icons.message,
-                                                  color: Theme.of(context)
-                                                      .accentColor,
+                                                  color: Theme.of(context).colorScheme.secondary,
                                                   size: 32,
                                                 ),
                                               ),
@@ -473,7 +471,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                             child: Icon(
                                               Icons.check,
                                               color:
-                                                  Theme.of(context).accentColor,
+                                                  Theme.of(context).colorScheme.secondary,
                                               size: 32,
                                             ),
                                           ),

@@ -309,7 +309,7 @@ class listEffort extends StatelessWidget {
                               children: <Widget>[
                                 Icon(
                                   Icons.bubble_chart,
-                                  color: Theme.of(context).accentColor,
+                                  color: Theme.of(context).colorScheme.secondary,
                                   size: 35,
                                 ),
                                 Padding(

@@ -420,7 +420,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           String content =
                                               contents[index]['body'];
                                           Color bordercolor;
-                                          if (Theme.of(context).accentColor ==
+                                          if (Theme.of(context).colorScheme.secondary ==
                                               Colors.white) {
                                             bordercolor = Colors.grey[700];
                                           } else {
@@ -558,7 +558,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                             final String content =
                                                 contents[index]['body'];
                                             Color bordercolor;
-                                            if (Theme.of(context).accentColor ==
+                                            if (Theme.of(context).colorScheme.secondary ==
                                                 Colors.white) {
                                               bordercolor = Colors.grey[700];
                                             } else {
@@ -697,7 +697,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDark;
     final String numberShow = task.getNumber(type, page, index_page);
-    if (Theme.of(context).accentColor == Colors.white) {
+    if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
       isDark = false;

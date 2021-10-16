@@ -51,7 +51,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
       tabs = ['サイン済み', '未サイン'];
     }
     bool isDark;
-    if (Theme.of(context).accentColor == Colors.white) {
+    if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
       isDark = false;

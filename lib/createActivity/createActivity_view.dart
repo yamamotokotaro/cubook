@@ -15,13 +15,13 @@ class CreateActivityView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color colorRing;
-    if (Theme.of(context).accentColor == Colors.white) {
+    if (Theme.of(context).colorScheme.secondary == Colors.white) {
       colorRing = Colors.blue[900];
     } else {
       colorRing = Colors.white;
     }
     bool isDark;
-    if (Theme.of(context).accentColor == Colors.white) {
+    if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
       isDark = false;

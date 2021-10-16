@@ -175,7 +175,7 @@ class ListActivityView extends StatelessWidget {
                                             Icon(
                                               Icons.bubble_chart,
                                               color:
-                                                  Theme.of(context).accentColor,
+                                                  Theme.of(context).colorScheme.secondary,
                                               size: 35,
                                             ),
                                             Padding(

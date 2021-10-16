@@ -20,7 +20,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
     final List<Map<String, dynamic>> contents = task.getContentList(type, page);
     final mapTask = task.getPartMap(type, page);
     bool isDark;
-    if (Theme.of(context).accentColor == Colors.white) {
+    if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
       isDark = false;
@@ -383,7 +383,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                         final String content =
                                             contents[index]['body'];
                                         Color bordercolor;
-                                        if (Theme.of(context).accentColor ==
+                                        if (Theme.of(context).colorScheme.secondary ==
                                             Colors.white) {
                                           bordercolor = Colors.grey[700];
                                         } else {
