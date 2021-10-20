@@ -24,12 +24,12 @@ class ListMemberView extends StatelessWidget {
           selector: (context, model) => model.position,
           builder: (context, position, child) => position == 'leader'
               ? FloatingActionButton.extended(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/invite');
-                  },
-                  label: Text('招待'),
-                  icon: Icon(Icons.person_add),
-                )
+            onPressed: () {
+              Navigator.of(context).pushNamed('/invite');
+            },
+            label: Text('招待'),
+            icon: Icon(Icons.person_add),
+          )
               : Container()),
       body: SafeArea(
         child: Scrollbar(

@@ -5,7 +5,7 @@ import 'package:cubook/home_leader/homeLeader_view.dart';
 import 'package:cubook/home_scout/homeScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_auth_ui/flutter_auth_ui.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -254,11 +254,11 @@ class HomeModel extends ChangeNotifier {
     if (kIsWeb) {
       // await FlutterAuthUi.signOut();
       await FirebaseAuth.instance.signOut();
-      await GoogleSignIn().signOut();
+      // await GoogleSignIn().signOut();
     } else {
       // await FlutterAuthUi.signOut();
       await FirebaseAuth.instance.signOut();
-      await GoogleSignIn().signOut();
+      // await GoogleSignIn().signOut();
     }
     currentUser = null;
     notifyListeners();
