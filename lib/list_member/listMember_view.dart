@@ -48,8 +48,7 @@ class ListMemberView extends StatelessWidget {
                             print(model.team);
                             return Column(
                               children: <Widget>[
-                                model.position == 'leader'?
-                                StreamBuilder<QuerySnapshot>(
+                                if (model.position == 'leader') StreamBuilder<QuerySnapshot>(
                                     stream: FirebaseFirestore.instance
                                         .collection('migration')
                                         .where('group', isEqualTo: model.group)
@@ -133,7 +132,7 @@ class ListMemberView extends StatelessWidget {
                                                   CircularProgressIndicator()),
                                         );
                                       }
-                                    }):Container(),
+                                    }) else Container(),
                                 Padding(
                                     padding: EdgeInsets.all(17),
                                     child: Container(

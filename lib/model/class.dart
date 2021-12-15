@@ -9,8 +9,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-
 class showTaskView extends StatelessWidget {
   var task = TaskContents();
   int currentPage = 0;
@@ -28,7 +26,9 @@ class showTaskView extends StatelessWidget {
     numberPushed = _number;
     type = _type;
     initialPage = _initialPage;
-    pages.add(TaskScoutDetailView(type, _number),);
+    pages.add(
+      TaskScoutDetailView(type, _number),
+    );
     for (int i = 0; i < task.getPartMap(type, _number)['hasItem']; i++) {
       pages.add(TaskScoutAddView(type, _number, i));
     }
@@ -40,21 +40,22 @@ class showTaskView extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     double setHeight;
     double setFraction;
-    if(height > 700.0){
-      setHeight = height-200;
+    if (height > 700.0) {
+      setHeight = height - 200;
     } else {
-      setHeight = height-90;
+      setHeight = height - 90;
     }
-    if(width > 1000.0){
+    if (width > 1000.0) {
       setFraction = 0.6;
     } else {
       setFraction = 0.8;
     }
     final PageController controller =
-    PageController(initialPage: initialPage, viewportFraction: setFraction);
+        PageController(initialPage: initialPage, viewportFraction: setFraction);
 
     return ChangeNotifierProvider(
-        create: (context) => TaskDetailScoutModel(numberPushed, task.getPartMap(type, numberPushed)['hasItem'], type),
+        create: (context) => TaskDetailScoutModel(
+            numberPushed, task.getPartMap(type, numberPushed)['hasItem'], type),
         child: Container(
             height: setHeight,
             child: PageView(
@@ -233,9 +234,8 @@ Future<void> signItem(String uid, String type, int page, int number,
           .get()
           .then((data) {
         final DocumentSnapshot snapshot = data.docs[0];
-        Map<String, dynamic> documentData = snapshot.data() as Map<String, dynamic>;
         Map<String, dynamic> map = <String, int>{};
-        if (documentData['type'] != null) {
+        if (snapshot.get(type) != null) {
           map = snapshot.get(type);
           map[page.toString()] = count;
         } else {
@@ -402,8 +402,12 @@ Future<void> onFinish(
   });
 }
 
-bool isCub(String type){
-  if(type == "usagi" || type == "sika" || type == "kuma" || type == "tukinowa" || type == "challenge"){
+bool isCub(String type) {
+  if (type == "usagi" ||
+      type == "sika" ||
+      type == "kuma" ||
+      type == "tukinowa" ||
+      type == "challenge") {
     return true;
   } else {
     return false;
