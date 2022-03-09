@@ -144,7 +144,7 @@ class HomeView extends StatelessWidget {
                                                     applicationVersion:
                                                         packageInfo.version,
                                                     applicationLegalese:
-                                                        '©︎ 2020-2021 山本虎太郎',
+                                                        '©︎ 2020-2022 山本虎太郎',
                                                   ),
                                           ),
                                           ListTile(
