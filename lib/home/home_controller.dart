@@ -34,16 +34,16 @@ class HomeController extends StatelessWidget {
                                 child: ConstrainedBox(
                                     constraints: const BoxConstraints(maxWidth: 800),
                                     child: Consumer<HomeModel>(
-                                        builder: (BuildContext context, HomeModel model, Widget child) {
+                                        builder: (BuildContext context, HomeModel model, Widget? child) {
                                           if (model.isLoaded) {
                                             if (model.currentUser != null) {
                                               if (model.userSnapshot != null) {
-                                                if (model.userSnapshot
+                                                if (model.userSnapshot!
                                                     .get('group') != null) {
                                                   return HomeView(
-                                                      model.userSnapshot
+                                                      model.userSnapshot!
                                                           .get('group'),
-                                                      model.userSnapshot
+                                                      model.userSnapshot!
                                                           .get('position'));
                                                 } else {
                                                   return JoinGroup();

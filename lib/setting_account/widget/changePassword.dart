@@ -27,7 +27,7 @@ class ChangePasswordView extends StatelessWidget {
                           Padding(
                               padding: const EdgeInsets.only(top: 20, bottom: 10),
                               child: Consumer<SettingAccountModel>(
-                                  builder: (BuildContext context, SettingAccountModel model, Widget child) {
+                                  builder: (BuildContext context, SettingAccountModel model, Widget? child) {
                                 model.getUser();
                                 return Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -39,7 +39,7 @@ class ChangePasswordView extends StatelessWidget {
                                           left: 15,
                                           right: 10),
                                       child: Text(
-                                        model.mailAddress +
+                                        model.mailAddress! +
                                             ' にパスワード再設定用のメールを送ります',
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,

@@ -23,7 +23,7 @@ class SettingAccountView extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<SettingAccountModel>(
-                          builder: (BuildContext context, SettingAccountModel model, Widget child) {
+                          builder: (BuildContext context, SettingAccountModel model, Widget? child) {
                             model.getUser();
                             return Column(
                               mainAxisSize: MainAxisSize.min,

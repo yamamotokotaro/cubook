@@ -5,17 +5,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class TaskDetailAnalyticsMemberModel extends ChangeNotifier {
-  DocumentSnapshot userSnapshot;
-  User currentUser;
-  String group;
-  String team;
-  String group_claim;
-  String teamPosition;
+  DocumentSnapshot? userSnapshot;
+  User? currentUser;
+  String? group;
+  String? team;
+  String? group_claim;
+  String? teamPosition;
   bool isGet = false;
 
   void getGroup() async {
-    final String groupBefore = group;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
@@ -31,8 +31,8 @@ class TaskDetailAnalyticsMemberModel extends ChangeNotifier {
         notifyListeners();
       }
       user.getIdTokenResult().then((IdTokenResult value) {
-        final String groupClaimBefore = group_claim;
-        group_claim = value.claims['group'];
+        final String? groupClaimBefore = group_claim;
+        group_claim = value.claims!['group'];
         if (groupClaimBefore != group_claim) {
           notifyListeners();
         }
@@ -42,12 +42,12 @@ class TaskDetailAnalyticsMemberModel extends ChangeNotifier {
 
   void getSnapshot(String uid) async {
     print(uid);
-    final User user = FirebaseAuth.instance.currentUser;
+    final User user = FirebaseAuth.instance.currentUser!;
     currentUser = user;
     user.getIdTokenResult().then((IdTokenResult token) async {
       FirebaseFirestore.instance
           .collection('user')
-          .where('group', isEqualTo: token.claims['group'])
+          .where('group', isEqualTo: token.claims!['group'])
           .where('uid', isEqualTo: uid)
           .snapshots()
           .listen((QuerySnapshot<Map<String, dynamic>> data) {
@@ -58,7 +58,7 @@ class TaskDetailAnalyticsMemberModel extends ChangeNotifier {
     });
   }
 
-  Stream<QuerySnapshot> getUserSnapshot(String type) {
+  Stream<QuerySnapshot> getUserSnapshot(String? type) {
     if (type == 'challenge' || type == 'gino') {
       if (teamPosition != null) {
         if (teamPosition == 'teamLeader') {

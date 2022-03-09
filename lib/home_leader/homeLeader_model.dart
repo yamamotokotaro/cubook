@@ -6,20 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeLeaderModel extends ChangeNotifier {
-  QuerySnapshot taskSnapshot;
+  QuerySnapshot? taskSnapshot;
   bool isLoaded = false;
   bool isGet = false;
-  String group;
-  String group_claim;
+  String? group;
+  String? group_claim;
   dynamic team;
-  String teamPosition;
-  String uid;
+  String? teamPosition;
+  String? uid;
   Map<String, dynamic> claims = <String, dynamic>{};
 
   void getSnapshot(BuildContext context) async {
-    final String groupBefore = group;
-    final String teamPositionBefore = teamPosition;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = group;
+    final String? teamPositionBefore = teamPosition;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
@@ -33,8 +33,8 @@ class HomeLeaderModel extends ChangeNotifier {
       }
       user.getIdTokenResult(true).then((IdTokenResult value) {
         print(value.claims);
-        final String groupClaimBefore = group_claim;
-        group_claim = value.claims['group'];
+        final String? groupClaimBefore = group_claim;
+        group_claim = value.claims!['group'];
         if (groupClaimBefore != group_claim) {
           notifyListeners();
         }
@@ -115,7 +115,7 @@ class HomeLeaderModel extends ChangeNotifier {
     });
   }
 
-  Stream<QuerySnapshot> getTaskSnapshot(String group) {
+  Stream<QuerySnapshot> getTaskSnapshot(String? group) {
     if (teamPosition != null) {
       if (teamPosition == 'teamLeader') {
         return FirebaseFirestore.instance

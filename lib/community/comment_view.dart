@@ -13,10 +13,10 @@ class CommentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Comment info = ModalRoute.of(context).settings.arguments;
-    final String type = info.type;
-    final String effortid = info.effortid;
-    final Color themeColor = theme.getThemeColor(type);
+    final Comment info = ModalRoute.of(context)!.settings.arguments as Comment;
+    final String? type = info.type;
+    final String? effortid = info.effortid;
+    final Color? themeColor = theme.getThemeColor(type);
     bool isDark;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
@@ -45,7 +45,7 @@ class CommentView extends StatelessWidget {
                         Padding(
                             padding: const EdgeInsets.only(top: 20, bottom: 100),
                             child: Consumer<CommunityModel>(
-                                builder: (BuildContext context, CommunityModel model, Widget child) {
+                                builder: (BuildContext context, CommunityModel model, Widget? child) {
                               model.getGroup();
                               if (model.group != null) {
                                 return Column(
@@ -69,13 +69,13 @@ class CommentView extends StatelessWidget {
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
                                                 itemCount: querySnapshot
-                                                    .data.docs.length,
+                                                    .data!.docs.length,
                                                 shrinkWrap: true,
                                                 itemBuilder:
                                                     (BuildContext context,
                                                         int index) {
                                                   final DocumentSnapshot snapshot =
-                                                      querySnapshot.data
+                                                      querySnapshot.data!
                                                           .docs[index];
                                                   return Padding(
                                                     padding: const EdgeInsets.all(5),
@@ -253,7 +253,7 @@ class CommentView extends StatelessWidget {
                           child: Container(
                             width: 100,
                             child: Consumer<CommunityModel>(
-                                builder: (BuildContext context, CommunityModel model, Widget child) {
+                                builder: (BuildContext context, CommunityModel model, Widget? child) {
                               return Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.end,

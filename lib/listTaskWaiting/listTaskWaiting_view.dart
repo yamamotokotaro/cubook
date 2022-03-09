@@ -22,7 +22,7 @@ class ListTaskWaitingView extends StatelessWidget {
             child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600),
                 child: Consumer<ListTaskWaitingModel>(
-                    builder: (BuildContext context, ListTaskWaitingModel model, Widget child) {
+                    builder: (BuildContext context, ListTaskWaitingModel model, Widget? child) {
                   model.getSnapshot();
                   if (model.group != null) {
                     return StreamBuilder<QuerySnapshot>(
@@ -31,21 +31,21 @@ class ListTaskWaitingView extends StatelessWidget {
                             AsyncSnapshot<QuerySnapshot> snapshotGet) {
                           if (snapshotGet.hasData) {
                             return ListView.builder(
-                                itemCount: snapshotGet.data.docs.length,
+                                itemCount: snapshotGet.data!.docs.length,
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
                                   final DocumentSnapshot snapshot =
-                                      snapshotGet.data.docs[index];
+                                      snapshotGet.data!.docs[index];
                                   final Map<String, dynamic> mapTask =
                                       task.getPartMap(snapshot.get('type'),
-                                          snapshot.get('page'));
+                                          snapshot.get('page'))!;
                                   return Padding(
                                     padding: const EdgeInsets.only(
                                         top: 10, left: 10, right: 10),
                                     child: Container(
                                       child: Hero(
                                           tag: 'detailTask' +
-                                              snapshotGet.data.docs[index].id,
+                                              snapshotGet.data!.docs[index].id,
                                           child: SingleChildScrollView(
                                             child: Card(
                                               shape: RoundedRectangleBorder(
@@ -68,7 +68,7 @@ class ListTaskWaitingView extends StatelessWidget {
                                                           builder: (BuildContext
                                                               context) {
                                                     return DetailTaskWaitingView_old(
-                                                        snapshotGet.data
+                                                        snapshotGet.data!
                                                             .docs[index].id,
                                                         snapshot.get(
                                                                 'family') +
@@ -76,13 +76,13 @@ class ListTaskWaitingView extends StatelessWidget {
                                                                 'first'),
                                                         theme.getTitle(
                                                                 snapshot.get(
-                                                                    'type')) +
+                                                                    'type'))! +
                                                             ' ' +
                                                             mapTask['number'] +
                                                             ' ' +
                                                             mapTask['title'] +
                                                             ' (' +
-                                                            task.getNumber(snapshot['type'], snapshot['page'], snapshot['number']) +
+                                                            task.getNumber(snapshot['type'], snapshot['page'], snapshot['number'])! +
                                                             ')',
                                                         snapshot
                                                             .get('type'));
@@ -121,7 +121,7 @@ class ListTaskWaitingView extends StatelessWidget {
                                                                 child: Text(
                                                                   theme.getTitle(
                                                                           snapshot.get(
-                                                                              'type')) +
+                                                                              'type'))! +
                                                                       ' ' +
                                                                       mapTask[
                                                                           'number'] +
@@ -129,7 +129,7 @@ class ListTaskWaitingView extends StatelessWidget {
                                                                       mapTask[
                                                                           'title'] +
                                                                       ' (' +
-                                                                      task.getNumber(snapshot['type'], snapshot['page'], snapshot['number']) +
+                                                                      task.getNumber(snapshot['type'], snapshot['page'], snapshot['number'])! +
                                                                       ')',
                                                                   style: const TextStyle(
                                                                       fontWeight:

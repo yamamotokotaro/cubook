@@ -22,13 +22,13 @@ class HomeScoutView extends StatelessWidget {
     return Column(
       children: <Widget>[
 
-        Selector<HomeModel, DocumentSnapshot>(
+        Selector<HomeModel, DocumentSnapshot?>(
           selector: (BuildContext context, HomeModel model) => model.userSnapshot,
-          builder: (BuildContext context, DocumentSnapshot<Object> userSnapshot, Widget child) {
-            DateTime timeChecked;
-            Map<String, dynamic> userData;
-            userData = userSnapshot.data() as Map<String, dynamic>;
-            if (userData['time_notificationChecked'] != null) {
+          builder: (BuildContext context, DocumentSnapshot<Object?>? userSnapshot, Widget? child) {
+            DateTime? timeChecked;
+            Map<String, dynamic>? userData;
+            userData = userSnapshot!.data() as Map<String, dynamic>?;
+            if (userData!['time_notificationChecked'] != null) {
               timeChecked =
                   userSnapshot.get('time_notificationChecked').toDate();
             }
@@ -46,7 +46,7 @@ class HomeScoutView extends StatelessWidget {
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData) {
-                    final int snapshotLength = snapshot.data.docs.length;
+                    final int snapshotLength = snapshot.data!.docs.length;
                     return Padding(
                       padding: const EdgeInsets.only(
                           top: 5, left: 10, right: 10, bottom: 5),
@@ -166,10 +166,10 @@ class HomeScoutView extends StatelessWidget {
                   ),
                 ])),
 
-        Consumer<HomeModel>(builder: (BuildContext context, HomeModel model, Widget child) {
-          final List<String> type = <String>[];
-          final String age = model.age;
-          final String grade = model.grade;
+        Consumer<HomeModel>(builder: (BuildContext context, HomeModel model, Widget? child) {
+          final List<String?> type = <String?>[];
+          final String? age = model.age;
+          final String? grade = model.grade;
           type.add(age);
           if (age != 'risu' && model.grade == 'cub') {
             type.add('challenge');
@@ -201,7 +201,7 @@ class HomeScoutView extends StatelessWidget {
                               ),
                               onTap: () {
                                 if (task
-                                    .getAllMap(type[index])
+                                    .getAllMap(type[index])!
                                     .length != 1) {
                                   Navigator.push(context,
                                       MaterialPageRoute<TaskListScoutView>(
@@ -226,14 +226,14 @@ class HomeScoutView extends StatelessWidget {
                                           left: 12,
                                           right: 10),
                                       child: Selector<HomeModel,
-                                          DocumentSnapshot>(
+                                          DocumentSnapshot?>(
                                           selector: (BuildContext context, HomeModel model) =>
                                           model.userSnapshot,
-                                          builder: (BuildContext context, DocumentSnapshot<Object> snapshot, Widget child) {
-                                            final Map<String, dynamic> stepData = snapshot.data() as Map<String, dynamic>;
+                                          builder: (BuildContext context, DocumentSnapshot<Object?>? snapshot, Widget? child) {
+                                            final Map<String, dynamic>? stepData = snapshot!.data() as Map<String, dynamic>?;
                                           return snapshot !=
                                               null
-                                              ? stepData[type[index]] !=
+                                              ? stepData![type[index]!] !=
                                               null
                                               ? CircularProgressIndicator(
                                               backgroundColor: theme
@@ -243,10 +243,10 @@ class HomeScoutView extends StatelessWidget {
                                                   Color>(
                                                   Colors.white),
                                               value: snapshot
-                                                  .get(type[index]).length /
+                                                  .get(type[index]!).length /
                                                   task
                                                       .getAllMap(
-                                                      type[index])
+                                                      type[index])!
                                                       .length)
                                               : CircularProgressIndicator(
                                               backgroundColor: theme
@@ -276,7 +276,7 @@ class HomeScoutView extends StatelessWidget {
                                                   alignment:
                                                   Alignment.centerLeft,
                                                   child: Text(
-                                                    theme.getTitle(type[index]),
+                                                    theme.getTitle(type[index])!,
                                                     style: const TextStyle(
                                                         fontSize: 23,
                                                         color: Colors.white),

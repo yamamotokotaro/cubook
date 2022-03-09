@@ -3,13 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class NotificationModel extends ChangeNotifier {
-  String uid;
-  String uid_before;
-  String group;
-  String group_before;
+  String? uid;
+  String? uid_before;
+  String? group;
+  String? group_before;
 
   void getUser() async {
-    final User user = FirebaseAuth.instance.currentUser;
+    final User user = FirebaseAuth.instance.currentUser!;
     uid = user.uid;
     FirebaseFirestore.instance
         .collection('user')

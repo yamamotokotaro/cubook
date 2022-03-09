@@ -22,7 +22,7 @@ class EditProfile extends StatelessWidget {
                     child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 600),
                         child: Consumer<SettingAccountGroupModel>(
-                            builder: (BuildContext context, SettingAccountGroupModel model, Widget child) {
+                            builder: (BuildContext context, SettingAccountGroupModel model, Widget? child) {
                           return Column(
                             children: <Widget>[
                               Padding(
@@ -94,7 +94,7 @@ class EditProfile extends StatelessWidget {
                                         child: Text(value),
                                       );
                                     }).toList(),
-                                    onChanged: (String value) {
+                                    onChanged: (String? value) {
                                       model.onDropdownChanged(value);
                                     },
                                   )),
@@ -145,7 +145,7 @@ class EditProfile extends StatelessWidget {
                                         child: Text(value),
                                       );
                                     }).toList(),
-                                    onChanged: (String value) {
+                                    onChanged: (String? value) {
                                       model.onDropdownCallChanged(value);
                                     },
                                   )),

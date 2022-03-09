@@ -4,22 +4,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DetailActivityModel extends ChangeNotifier {
-  QuerySnapshot userSnapshot;
-  User currentUser;
+  QuerySnapshot? userSnapshot;
+  User? currentUser;
   bool isGet = false;
-  String group;
-  String position;
-  String age;
+  String? group;
+  String? position;
+  String? age;
   DateTime date = DateTime.now();
   TextEditingController titleController = TextEditingController();
   bool isLoading = false;
   Map<String, bool> uid_check = <String, bool>{};
   Map<String, dynamic> claims = <String, dynamic>{};
-  String group_claim;
+  String? group_claim;
 
   void getGroup() async {
-    final String groupBefore = group;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
@@ -42,7 +42,7 @@ class DetailActivityModel extends ChangeNotifier {
     });
   }
 
-  void deleteActivity(String documentID) async {
+  void deleteActivity(String? documentID) async {
     FirebaseFirestore.instance
         .collection('activity_personal')
         .where('group', isEqualTo: group)

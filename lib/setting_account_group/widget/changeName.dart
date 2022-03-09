@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 class ChangeNameView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  String uid;
+  String? uid;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

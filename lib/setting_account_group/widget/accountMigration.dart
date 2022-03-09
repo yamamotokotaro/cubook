@@ -10,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 class AccountMigrationView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  String uid;
+  String? uid;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class AccountMigrationView extends StatelessWidget {
                         child: ConstrainedBox(
                             constraints: const BoxConstraints(maxWidth: 600),
                             child: Consumer<SettingAccountGroupModel>(
-                                builder: (BuildContext context, SettingAccountGroupModel model, Widget child) {
+                                builder: (BuildContext context, SettingAccountGroupModel model, Widget? child) {
                               return Column(
                                 children: <Widget>[
                                   const Padding(
@@ -57,10 +57,10 @@ class AccountMigrationView extends StatelessWidget {
                                                   querysnapshot) {
                                             if (querysnapshot.hasData) {
                                               if (querysnapshot
-                                                  .data.docs.isNotEmpty) {
+                                                  .data!.docs.isNotEmpty) {
                                                 final DocumentSnapshot
                                                     snapshot =
-                                                    querysnapshot.data.docs[0];
+                                                    querysnapshot.data!.docs[0];
                                                 return Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,

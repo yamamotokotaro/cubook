@@ -8,51 +8,51 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class SettingAccountGroupModel extends ChangeNotifier {
-  DocumentSnapshot userSnapshot;
-  Map<String, dynamic> userData;
-  bool isAdmin = false;
-  User currentUser;
+  DocumentSnapshot? userSnapshot;
+  Map<String, dynamic>? userData;
+  bool? isAdmin = false;
+  User? currentUser;
   bool isGet = false;
   bool isFinish = false;
   bool isLoading = false;
-  bool isTeamLeader;
-  String group;
-  String group_claim;
-  TextEditingController familyController;
-  TextEditingController firstController;
-  TextEditingController teamController;
-  TextEditingController groupIdController;
-  String dropdown_text;
-  String age;
-  String call;
-  String uid;
+  bool? isTeamLeader;
+  String? group;
+  String? group_claim;
+  TextEditingController? familyController;
+  TextEditingController? firstController;
+  TextEditingController? teamController;
+  TextEditingController? groupIdController;
+  String? dropdown_text;
+  String? age;
+  String? call;
+  String? uid;
   Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getSnapshot(String uidToShow) async {
+  void getSnapshot(String? uidToShow) async {
     final TaskContents task = TaskContents();
     if (uidToShow != uid) {
       uid = uidToShow;
-      final User user = FirebaseAuth.instance.currentUser;
+      final User user = FirebaseAuth.instance.currentUser!;
       currentUser = user;
       user.getIdTokenResult().then((IdTokenResult token) async {
-        isAdmin = token.claims['admin'];
+        isAdmin = token.claims!['admin'];
         FirebaseFirestore.instance
             .collection('user')
-            .where('group', isEqualTo: token.claims['group'])
+            .where('group', isEqualTo: token.claims!['group'])
             .where('uid', isEqualTo: uid)
             .snapshots()
             .listen((QuerySnapshot<Map<String, dynamic>> data) {
           userSnapshot = data.docs[0];
-          userData = userSnapshot.data() as Map<String, dynamic>;
-          final String family = userSnapshot.get('family');
-          group = userSnapshot.get('group');
+          userData = userSnapshot!.data() as Map<String, dynamic>?;
+          final String? family = userSnapshot!.get('family');
+          group = userSnapshot!.get('group');
           familyController =
-              TextEditingController(text: userSnapshot.get('family'));
+              TextEditingController(text: userSnapshot!.get('family'));
           firstController =
-              TextEditingController(text: userSnapshot.get('first'));
+              TextEditingController(text: userSnapshot!.get('first'));
           groupIdController = TextEditingController();
-          if (userData['teamPosition'] != null) {
-            if (userSnapshot.get('teamPosition') == 'teamLeader') {
+          if (userData!['teamPosition'] != null) {
+            if (userSnapshot!.get('teamPosition') == 'teamLeader') {
               isTeamLeader = true;
             } else {
               isTeamLeader = false;
@@ -60,18 +60,18 @@ class SettingAccountGroupModel extends ChangeNotifier {
           } else {
             isTeamLeader = false;
           }
-          String team;
-          if (userData['team'] is int) {
-            team = userSnapshot.get('team').toString();
+          String? team;
+          if (userData!['team'] is int) {
+            team = userSnapshot!.get('team').toString();
           } else {
-            team = userData['team'];
+            team = userData!['team'];
           }
-          if (userData['team'] != null) {
+          if (userData!['team'] != null) {
             teamController = TextEditingController(text: team);
           } else {
             teamController = TextEditingController();
           }
-          switch (userSnapshot.get('age')) {
+          switch (userSnapshot!.get('age')) {
             case 'risu':
               age = 'りす';
               break;
@@ -104,7 +104,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
               break;
           }
           dropdown_text = age;
-          call = userSnapshot.get('call');
+          call = userSnapshot!.get('call');
           notifyListeners();
         });
         isGet = true;
@@ -113,8 +113,8 @@ class SettingAccountGroupModel extends ChangeNotifier {
   }
 
   void getGroup() async {
-    final String groupBefore = group;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
@@ -125,8 +125,8 @@ class SettingAccountGroupModel extends ChangeNotifier {
         notifyListeners();
       }
       user.getIdTokenResult().then((IdTokenResult value) {
-        final String groupClaimBefore = group_claim;
-        group_claim = value.claims['group'];
+        final String? groupClaimBefore = group_claim;
+        group_claim = value.claims!['group'];
         if (groupClaimBefore != group_claim) {
           notifyListeners();
         }
@@ -134,27 +134,27 @@ class SettingAccountGroupModel extends ChangeNotifier {
     });
   }
 
-  void onCheckboxTeamLeaderChanged(bool value) {
+  void onCheckboxTeamLeaderChanged(bool? value) {
     isTeamLeader = value;
     notifyListeners();
   }
 
-  void onDropdownChanged(String value) {
+  void onDropdownChanged(String? value) {
     dropdown_text = value;
     notifyListeners();
   }
 
-  void onDropdownCallChanged(String value) {
+  void onDropdownCallChanged(String? value) {
     call = value;
     notifyListeners();
   }
 
   void changeRequest(BuildContext context) async {
-    String age;
-    String position;
-    String teamPosition;
-    int ageTurn;
-    String grade;
+    String? age;
+    String? position;
+    String? teamPosition;
+    int? ageTurn;
+    String? grade;
     switch (dropdown_text) {
       case 'りす':
         age = 'risu';
@@ -222,7 +222,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
         grade = 'boy';
         break;
     }
-    if (isTeamLeader &&
+    if (isTeamLeader! &&
         (age == 'syokyu' ||
             age == 'nikyu' ||
             age == 'ikkyu' ||
@@ -233,13 +233,13 @@ class SettingAccountGroupModel extends ChangeNotifier {
     } else {
       teamPosition = position;
     }
-    if (familyController.text != '' &&
-        firstController.text != '' &&
+    if (familyController!.text != '' &&
+        firstController!.text != '' &&
         dropdown_text != null &&
         call != null) {
       isLoading = true;
       notifyListeners();
-      final User user = FirebaseAuth.instance.currentUser;
+      final User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((IdTokenResult token) async {
           const String url =
@@ -247,10 +247,10 @@ class SettingAccountGroupModel extends ChangeNotifier {
           final Map<String, String> headers = {'content-type': 'application/json'};
           final String body = json.encode(<String, dynamic>{
             'idToken': token.token,
-            'family': familyController.text,
-            'first': firstController.text,
+            'family': familyController!.text,
+            'first': firstController!.text,
             'call': call,
-            'team': teamController.text,
+            'team': teamController!.text,
             'teamPosition': teamPosition,
             'age': age,
             'age_turn': ageTurn,
@@ -292,7 +292,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
         context: context,
         builder: (BuildContext context) {
           return Consumer<SettingAccountGroupModel>(
-            builder: (BuildContext context, SettingAccountGroupModel model, Widget child) {
+            builder: (BuildContext context, SettingAccountGroupModel model, Widget? child) {
               return Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Column(
@@ -380,7 +380,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
     print('start deleting...');
     isLoading = true;
     notifyListeners();
-    final User user = FirebaseAuth.instance.currentUser;
+    final User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       user.getIdTokenResult().then((IdTokenResult token) async {
         const String url =
@@ -409,7 +409,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
     print('start migrating...');
     isLoading = true;
     notifyListeners();
-    final User user = FirebaseAuth.instance.currentUser;
+    final User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       user.getIdTokenResult().then((IdTokenResult token) async {
         const String url =
@@ -418,7 +418,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
         final String body = json.encode(<String, dynamic>{
           'idToken': token.token,
           'uid': uid,
-          'groupID': groupIdController.text
+          'groupID': groupIdController!.text
         });
 
         final http.Response resp =

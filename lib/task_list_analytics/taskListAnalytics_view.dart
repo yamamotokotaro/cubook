@@ -10,10 +10,10 @@ import 'package:provider/provider.dart';
 class TaskListAnalyticsView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  Color themeColor;
-  String type;
-  String typeFireStore;
-  String title = '';
+  Color? themeColor;
+  String? type;
+  String? typeFireStore;
+  String? title = '';
 
   TaskListAnalyticsView(String _type) {
     themeColor = theme.getThemeColor(_type);
@@ -28,7 +28,7 @@ class TaskListAnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> mapTask = task.getAllMap(type);
+    final List<Map<String, dynamic>>? mapTask = task.getAllMap(type);
     bool isDark;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
@@ -41,7 +41,7 @@ class TaskListAnalyticsView extends StatelessWidget {
         elevation: 5,
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          title,
+          title!,
           style: const TextStyle(color: Colors.white),
         ), systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
@@ -54,7 +54,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.only(top: 20, bottom: 10),
                     child: Consumer<TaskListAnalyticsModel>(
-                        builder: (BuildContext context, TaskListAnalyticsModel model, Widget child) {
+                        builder: (BuildContext context, TaskListAnalyticsModel model, Widget? child) {
                       model.getGroup();
                       if (model.group != null) {
                         return StreamBuilder<QuerySnapshot>(
@@ -64,8 +64,8 @@ class TaskListAnalyticsView extends StatelessWidget {
                               if (snapshot.hasData) {
                                 int userCount = 0;
                                 final List<DocumentSnapshot> listSnapshot =
-                                    snapshot.data.docs;
-                                final List<String> listUid = <String>[];
+                                    snapshot.data!.docs;
+                                final List<String?> listUid = <String?>[];
                                 if (type == 'challenge' ||
                                     type == 'gino' ||
                                     type == 'syorei') {
@@ -94,7 +94,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                 return ListView.builder(
                                     physics:
                                         const NeverScrollableScrollPhysics(),
-                                    itemCount: mapTask.length,
+                                    itemCount: mapTask!.length,
                                     shrinkWrap: true,
                                     itemBuilder:
                                         (BuildContext context, int index) {
@@ -198,7 +198,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                 stream: FirebaseFirestore
                                                                     .instance
                                                                     .collection(
-                                                                        type)
+                                                                        type!)
                                                                     .where(
                                                                         'group',
                                                                         isEqualTo:
@@ -224,7 +224,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                             DocumentSnapshot>
                                                                         listSnapshot =
                                                                         snapshotTask
-                                                                            .data
+                                                                            .data!
                                                                             .docs;
                                                                     for (DocumentSnapshot documentSnapshot
                                                                         in listSnapshot) {
@@ -248,7 +248,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                                     width: 30,
                                                                                     child: CircularProgressIndicator(
                                                                                       backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                                                                      valueColor: AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),
+                                                                                      valueColor: AlwaysStoppedAnimation<Color?>(isDark ? Colors.white : theme.getThemeColor(type)),
                                                                                       value: userCount == 0 ? 0 : itemCount / userCount,
                                                                                     ))),
                                                                             Text('完修者 ' + itemCount.toString() + '/' + userCount.toString(),
@@ -269,7 +269,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                             backgroundColor: isDark
                                                                                 ? Colors.grey[700]
                                                                                 : Colors.grey[300],
-                                                                            valueColor: AlwaysStoppedAnimation<Color>(isDark
+                                                                            valueColor: AlwaysStoppedAnimation<Color?>(isDark
                                                                                 ? Colors.white
                                                                                 : theme.getThemeColor(type)),
                                                                           )),
@@ -295,7 +295,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                             ? Colors.grey[700]
                                             : Colors.grey[300],
                                         valueColor:
-                                            AlwaysStoppedAnimation<Color>(
+                                            AlwaysStoppedAnimation<Color?>(
                                                 isDark
                                                     ? Colors.white
                                                     : theme
@@ -314,7 +314,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                 backgroundColor: isDark
                                     ? Colors.grey[700]
                                     : Colors.grey[300],
-                                valueColor: AlwaysStoppedAnimation<Color>(
+                                valueColor: AlwaysStoppedAnimation<Color?>(
                                     isDark
                                         ? Colors.white
                                         : theme.getThemeColor(type)),

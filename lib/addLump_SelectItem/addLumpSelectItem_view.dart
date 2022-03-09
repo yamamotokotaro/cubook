@@ -24,7 +24,7 @@ class AddLumpSelectItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> uids = ModalRoute.of(context).settings.arguments;
+    final List<String>? uids = ModalRoute.of(context)!.settings.arguments as List<String>?;
     return DefaultTabController(
         length: _tabs.length,
         child: Scaffold(
@@ -41,7 +41,7 @@ class AddLumpSelectItemView extends StatelessWidget {
             ),
           ),
           floatingActionButton: Consumer<AddLumpSelectItemModel>(
-            builder: (BuildContext context, AddLumpSelectItemModel model, Widget child) => FloatingActionButton.extended(
+            builder: (BuildContext context, AddLumpSelectItemModel model, Widget? child) => FloatingActionButton.extended(
               onPressed: () {
                 model.onPressedSend(uids, context);
               },

@@ -18,9 +18,9 @@ class ListMemberView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('メンバーリスト'), systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
-      floatingActionButton: Selector<ListMemberModel, String>(
+      floatingActionButton: Selector<ListMemberModel, String?>(
           selector: (BuildContext context, ListMemberModel model) => model.position,
-          builder: (BuildContext context, String position, Widget child) => position == 'leader'
+          builder: (BuildContext context, String? position, Widget? child) => position == 'leader'
               ? FloatingActionButton.extended(
             onPressed: () {
               Navigator.of(context).pushNamed('/invite');
@@ -40,7 +40,7 @@ class ListMemberView extends StatelessWidget {
                     Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
                         child: Consumer<ListMemberModel>(
-                            builder: (BuildContext context, ListMemberModel model, Widget child) {
+                            builder: (BuildContext context, ListMemberModel model, Widget? child) {
                           model.getGroup();
                           if (model.group != null) {
                             print(model.team);
@@ -55,7 +55,7 @@ class ListMemberView extends StatelessWidget {
                                     builder: (BuildContext context,
                                         AsyncSnapshot<QuerySnapshot> snapshot) {
                                       if (snapshot.hasData) {
-                                        if (snapshot.data.docs.isNotEmpty) {
+                                        if (snapshot.data!.docs.isNotEmpty) {
                                           return Padding(
                                             padding: const EdgeInsets.all(10),
                                             child: Container(
@@ -100,7 +100,7 @@ class ListMemberView extends StatelessWidget {
                                                                 child: Text(
                                                                   '移行申請' +
                                                                       snapshot
-                                                                          .data
+                                                                          .data!
                                                                           .docs
                                                                           .length
                                                                           .toString() +
@@ -148,10 +148,10 @@ class ListMemberView extends StatelessWidget {
                                   builder: (BuildContext context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasData) {
-                                      if (snapshot.data.docs.isNotEmpty) {
+                                      if (snapshot.data!.docs.isNotEmpty) {
                                         final QuerySnapshot querySnapshot =
-                                            snapshot.data;
-                                        String teamLast = '';
+                                            snapshot.data!;
+                                        String? teamLast = '';
                                         return ListView.builder(
                                             physics:
                                                 const NeverScrollableScrollPhysics(),
@@ -163,7 +163,7 @@ class ListMemberView extends StatelessWidget {
                                               final DocumentSnapshot snapshot =
                                                   querySnapshot.docs[index];
                                               bool isFirst;
-                                              String team;
+                                              String? team;
                                               if (snapshot.get('team') is int) {
                                                 team = snapshot
                                                     .get('team')
@@ -177,7 +177,7 @@ class ListMemberView extends StatelessWidget {
                                               } else {
                                                 isFirst = false;
                                               }
-                                              final String grade =
+                                              final String? grade =
                                                   snapshot.get('grade');
                                               String teamCall;
                                               if (grade == 'cub') {
@@ -196,7 +196,7 @@ class ListMemberView extends StatelessWidget {
                                                           width:
                                                               double.infinity,
                                                           child: Text(
-                                                            team + teamCall,
+                                                            team! + teamCall,
                                                             style: const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
@@ -302,9 +302,9 @@ class ListMemberView extends StatelessWidget {
                                   builder: (BuildContext context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (snapshot.hasData) {
-                                      if (snapshot.data.docs.isNotEmpty) {
+                                      if (snapshot.data!.docs.isNotEmpty) {
                                         final QuerySnapshot querySnapshot =
-                                            snapshot.data;
+                                            snapshot.data!;
                                         return ListView.builder(
                                             physics:
                                                 const NeverScrollableScrollPhysics(),
@@ -486,9 +486,9 @@ class ListMemberView extends StatelessWidget {
                                           AsyncSnapshot<QuerySnapshot>
                                               snapshot) {
                                         if (snapshot.hasData) {
-                                          if (snapshot.data.docs.isNotEmpty) {
+                                          if (snapshot.data!.docs.isNotEmpty) {
                                             final QuerySnapshot querySnapshot =
-                                                snapshot.data;
+                                                snapshot.data!;
                                             return ListView.builder(
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
@@ -500,7 +500,7 @@ class ListMemberView extends StatelessWidget {
                                                         int index) {
                                                   final DocumentSnapshot snapshot =
                                                       querySnapshot.docs[index];
-                                                  final String uid =
+                                                  final String? uid =
                                                       snapshot.get('uid');
                                                   return Padding(
                                                       padding:
@@ -517,7 +517,7 @@ class ListMemberView extends StatelessWidget {
                                                           child: InkWell(
                                                             onTap: () {
                                                               if (model
-                                                                      .isAdmin &&
+                                                                      .isAdmin! &&
                                                                   model.uid_user !=
                                                                       uid) {
                                                                 Navigator.push(

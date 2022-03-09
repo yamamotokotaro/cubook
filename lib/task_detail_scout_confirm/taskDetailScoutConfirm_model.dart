@@ -16,25 +16,25 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
   TaskContents task = TaskContents();
   List<bool> list_isSelected = <bool>[];
-  String documentID;
-  String group;
-  bool checkCitation = false;
-  DocumentSnapshot stepSnapshot;
-  DocumentReference documentReference;
-  QuerySnapshot effortSnapshot;
-  User currentUser;
+  String? documentID;
+  String? group;
+  bool? checkCitation = false;
+  late DocumentSnapshot stepSnapshot;
+  DocumentReference? documentReference;
+  QuerySnapshot? effortSnapshot;
+  User? currentUser;
   bool isGet = false;
-  int page = 0;
-  int quant = 0;
+  int? page = 0;
+  int? quant = 0;
   int countToSend = 0;
-  String documentID_exit;
-  String documentID_task;
+  String? documentID_exit;
+  String? documentID_task;
   bool isLast = false;
   bool isLoaded = false;
   bool isExit = false;
   List<dynamic> body = <dynamic>[];
-  List<dynamic> dataMap;
-  Map<String, dynamic> stepData = <String, dynamic>{};
+  List<dynamic>? dataMap;
+  Map<String, dynamic>? stepData = <String, dynamic>{};
 
   List<bool> list_snapshot = <bool>[];
   List list_attach = <dynamic>[];
@@ -45,14 +45,14 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   List isLoading = <dynamic>[];
   List dateSelected = <dynamic>[];
   List dataList = <dynamic>[];
-  List<TextEditingController> textField_signature = <TextEditingController>[];
-  List<TextEditingController> textField_feedback = <TextEditingController>[];
-  PageController controller;
-  Map<dynamic, dynamic> tokenMap;
-  String type;
-  String uid;
+  List<TextEditingController?> textField_signature = <TextEditingController>[];
+  List<TextEditingController?> textField_feedback = <TextEditingController>[];
+  PageController? controller;
+  Map<dynamic, dynamic>? tokenMap;
+  String? type;
+  String? uid;
 
-  TaskDetailScoutConfirmModel(int number, int quant, String _type, String _uid,
+  TaskDetailScoutConfirmModel(int? number, int? quant, String? _type, String? _uid,
       PageController _controller) {
     page = number;
     this.quant = quant;
@@ -64,38 +64,38 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   void getSnapshot() async {
     currentUser = FirebaseAuth.instance.currentUser;
 
-    list_snapshot = List<bool>.generate(page, (int index) => false);
+    list_snapshot = List<bool>.generate(page!, (int index) => false);
 
     list_attach =
-        List<dynamic>.generate(quant, (int index) => <dynamic>[]);
+        List<dynamic>.generate(quant!, (int index) => <dynamic>[]);
 
     map_attach =
-        List<dynamic>.generate(quant, (int index) => <int, dynamic>{});
+        List<dynamic>.generate(quant!, (int index) => <int, dynamic>{});
 
-    isAdded = List<dynamic>.generate(quant, (int index) => false);
+    isAdded = List<dynamic>.generate(quant!, (int index) => false);
 
-    isLoading = List<dynamic>.generate(quant, (int index) => false);
-    dateSelected = List<dynamic>.generate(quant, (int index) => null);
+    isLoading = List<dynamic>.generate(quant!, (int index) => false);
+    dateSelected = List<dynamic>.generate(quant!, (int index) => null);
     dataList =
-        List<dynamic>.generate(quant, (int index) => <dynamic>[]);
+        List<dynamic>.generate(quant!, (int index) => <dynamic>[]);
     textField_signature =
-        List<TextEditingController>.generate(quant, (int index) => null);
+        List<TextEditingController?>.generate(quant!, (int index) => null);
     textField_feedback =
-        List<TextEditingController>.generate(quant, (int index) => null);
+        List<TextEditingController?>.generate(quant!, (int index) => null);
 
     list_toSend = List<dynamic>.generate(
-        quant, (int index) => <Map<String, dynamic>>[]);
+        quant!, (int index) => <Map<String, dynamic>>[]);
 
-    count_toSend = List<dynamic>.generate(quant, (int index) => 0);
+    count_toSend = List<dynamic>.generate(quant!, (int index) => 0);
 
-    final User user = FirebaseAuth.instance.currentUser;
+    final User user = FirebaseAuth.instance.currentUser!;
     currentUser = user;
     user.getIdTokenResult().then((IdTokenResult token) async {
       tokenMap = token.claims;
-      group = tokenMap['group'];
+      group = tokenMap!['group'];
       FirebaseFirestore.instance
-          .collection(type)
-          .where('group', isEqualTo: tokenMap['group'])
+          .collection(type!)
+          .where('group', isEqualTo: tokenMap!['group'])
           .where('page', isEqualTo: page)
           .where('uid', isEqualTo: uid)
           .snapshots()
@@ -103,12 +103,12 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         int countSigned = 0;
         if (data.docs.isNotEmpty) {
           stepSnapshot = data.docs[0];
-          stepData = stepSnapshot.data() as Map<String, dynamic>;
+          stepData = stepSnapshot.data() as Map<String, dynamic>?;
           documentID_exit = data.docs[0].id;
           isExit = true;
-          for (int i = 0; i < quant; i++) {
+          for (int i = 0; i < quant!; i++) {
             if (stepSnapshot.get('signed')[i.toString()] != null) {
-              final Map<String, dynamic> doc =
+              final Map<String, dynamic>? doc =
                   stepSnapshot.get('signed')[i.toString()];
               if (doc != null) {
                 if (doc['phaze'] == 'signed') {
@@ -121,19 +121,19 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
                   dataMap = doc['data'];
                   if (dataMap != null) {
                     final List<dynamic> body = <dynamic>[];
-                    for (int j = 0; j < dataMap.length; j++) {
-                      if (dataMap[j]['type'] == 'text') {
-                        body.add(dataMap[j]['body']);
-                      } else if (dataMap[j]['type'] == 'image') {
+                    for (int j = 0; j < dataMap!.length; j++) {
+                      if (dataMap![j]['type'] == 'text') {
+                        body.add(dataMap![j]['body']);
+                      } else if (dataMap![j]['type'] == 'image') {
                         final Reference ref = FirebaseStorage.instance
                             .ref()
-                            .child(dataMap[j]['body']);
+                            .child(dataMap![j]['body']);
                         final String url = await ref.getDownloadURL();
                         body.add(url);
                       } else {
                         final Reference ref = FirebaseStorage.instance
                             .ref()
-                            .child(dataMap[j]['body']);
+                            .child(dataMap![j]['body']);
                         final String url = await ref.getDownloadURL();
                         final VideoPlayerController videoPlayerController =
                             VideoPlayerController.network(url);
@@ -157,7 +157,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         } else {
           isExit = false;
         }
-        if (countSigned == quant - 1 &&
+        if (countSigned == quant! - 1 &&
             (type == 'challenge' || type == 'gino')) {
           isLast = true;
         } else {
@@ -171,22 +171,22 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     });
   }
 
-  void openTimePicker(DateTime dateTime, BuildContext context, int page) async {
-    final DateTime date = await showDatePicker(
+  void openTimePicker(DateTime dateTime, BuildContext context, int? page) async {
+    final DateTime? date = await showDatePicker(
       context: context,
       firstDate: DateTime(DateTime.now().year - 5),
       lastDate: DateTime(DateTime.now().year + 5),
       initialDate: dateTime,
     );
     if (date != null) {
-      dateSelected[page] = date;
+      dateSelected[page!] = date;
       notifyListeners();
     }
   }
 
   void changeTime(DateTime dateTime, BuildContext context, String documentID,
       String typeTime) async {
-    final DateTime date = await showDatePicker(
+    final DateTime? date = await showDatePicker(
       context: context,
       firstDate: DateTime(DateTime.now().year - 5),
       lastDate: DateTime(DateTime.now().year + 5),
@@ -194,14 +194,14 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     );
     if (date != null) {
       FirebaseFirestore.instance
-          .collection(type)
+          .collection(type!)
           .doc(documentID)
           .update(<String, dynamic>{typeTime: date});
       notifyListeners();
     }
   }
 
-  void onPressCheckbox(bool e) async {
+  void onPressCheckbox(bool? e) async {
     checkCitation = e;
     notifyListeners();
   }
@@ -216,9 +216,9 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   void onTapCancel(int number) async {
     isLoading[number] = true;
     notifyListeners();
-    final User user = FirebaseAuth.instance.currentUser;
+    final User? user = FirebaseAuth.instance.currentUser;
     currentUser = user;
-    currentUser.getIdTokenResult().then((IdTokenResult token) async {
+    currentUser!.getIdTokenResult().then((IdTokenResult token) async {
       tokenMap = token.claims;
       await cancelItem(uid, type, page, number, false);
       isLoading[number] = false;
@@ -249,9 +249,9 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   void onTapSave(int number, BuildContext context) async {
     isLoading[number] = true;
     notifyListeners();
-    final User user = FirebaseAuth.instance.currentUser;
+    final User? user = FirebaseAuth.instance.currentUser;
     currentUser = user;
-    currentUser.getIdTokenResult().then((IdTokenResult token) async {
+    currentUser!.getIdTokenResult().then((IdTokenResult token) async {
       tokenMap = token.claims;
       await updateData(number, context);
       isLoading[number] = false;
@@ -262,24 +262,24 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   Future<void> updateData(int number, BuildContext context) async {
     final Map<String, dynamic> dataSigned = <String, dynamic>{};
     FirebaseFirestore.instance
-        .collection(type)
-        .where('group', isEqualTo: tokenMap['group'])
+        .collection(type!)
+        .where('group', isEqualTo: tokenMap!['group'])
         .where('uid', isEqualTo: uid)
         .where('page', isEqualTo: page)
         .get()
         .then((QuerySnapshot<Map<String, dynamic>> data) async {
       final DocumentSnapshot snapshot = data.docs[0];
-      Map<String, dynamic> map = <String, dynamic>{};
-      Map<String, dynamic> dataToAdd = <String, dynamic>{};
+      Map<String, dynamic>? map = <String, dynamic>{};
+      Map<String, dynamic>? dataToAdd = <String, dynamic>{};
       map = snapshot.get('signed');
-      dataToAdd = map[number.toString()];
-      dataToAdd['family'] = textField_signature[number].text;
-      dataToAdd['feedback'] = textField_feedback[number].text;
+      dataToAdd = map![number.toString()];
+      dataToAdd!['family'] = textField_signature[number]!.text;
+      dataToAdd['feedback'] = textField_feedback[number]!.text;
       dataToAdd['time'] = dateSelected[number];
       map[number.toString()] = dataToAdd;
       dataSigned['signed'] = map;
       FirebaseFirestore.instance
-          .collection(type)
+          .collection(type!)
           .doc(snapshot.id)
           .update(dataSigned);
       Scaffold.of(context).showSnackBar(const SnackBar(
@@ -290,11 +290,11 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     });
   }
 
-  Future<void> checkDate(DocumentSnapshot snapshot, DateTime time,
-      String documentID, int quant) async {
+  Future<void> checkDate(DocumentSnapshot snapshot, DateTime? time,
+      String documentID, int? quant) async {
     bool isStart = true;
     bool isEnd = true;
-    DateTime dateStart;
+    DateTime? dateStart;
     if (snapshot.get('start') is Timestamp) {
       dateStart = snapshot.get('start').toDate();
     } else {
@@ -303,13 +303,13 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     final Map map = snapshot.get('signed');
     for (int i = 0; i < map.length; i++) {
       if (map[i.toString()] != null) {
-        DateTime dateToComparison;
+        DateTime? dateToComparison;
         if (map[i.toString()]['time'] is Timestamp) {
           dateToComparison = map[i.toString()]['time'].toDate();
         } else {
           dateToComparison = map[i.toString()]['time'];
         }
-        if (time.isAfter(dateToComparison)) {
+        if (time!.isAfter(dateToComparison!)) {
           isStart = false;
         }
         if (time.isBefore(dateToComparison)) {
@@ -329,52 +329,52 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       dataToChange['end'] = time;
     }
     FirebaseFirestore.instance
-        .collection(type)
+        .collection(type!)
         .doc(documentID)
         .update(dataToChange);
   }
 
-  void onImagePressPick(int number, int index) async {
-    final PickedFile file = await ImagePicker()
+  void onImagePressPick(int? number, int? index) async {
+    final PickedFile? file = await ImagePicker()
         .getImage(source: ImageSource.gallery, imageQuality: 50);
     sendFile(file, index, 'image');
     // notifyListeners();
   }
 
-  void onImagePressCamera(int number, int index) async {
-    final PickedFile file = await ImagePicker().getImage(
+  void onImagePressCamera(int? number, int? index) async {
+    final PickedFile? file = await ImagePicker().getImage(
         source: ImageSource.camera, imageQuality: 50);
     sendFile(file, index, 'image');
     // notifyListeners();
   }
 
-  void onVideoPressPick(int number, int index) async {
-    final PickedFile file = await ImagePicker().getVideo(source: ImageSource.gallery);
+  void onVideoPressPick(int? number, int? index) async {
+    final PickedFile? file = await ImagePicker().getVideo(source: ImageSource.gallery);
     sendFile(file, index, 'video');
     // notifyListeners();
   }
 
-  void onVideoPressCamera(int number, int index) async {
-    final PickedFile file = await ImagePicker().getVideo(source: ImageSource.camera);
+  void onVideoPressCamera(int? number, int? index) async {
+    final PickedFile? file = await ImagePicker().getVideo(source: ImageSource.camera);
     sendFile(file, index, 'video');
     // notifyListeners();
   }
 
-  void sendFile(PickedFile file, int index, String typeFile) async {
+  void sendFile(PickedFile? file, int? index, String typeFile) async {
     final int timestamp = DateTime.now().millisecondsSinceEpoch;
-    final String subDirectoryName = tokenMap['group'] + '/' + uid;
+    final String subDirectoryName = tokenMap!['group'] + '/' + uid;
     final Reference ref = FirebaseStorage.instance
         .ref()
         .child(subDirectoryName)
         .child('$timestamp');
     UploadTask uploadTask;
     if (kIsWeb) {
-      uploadTask = ref.putData(await file.readAsBytes());
+      uploadTask = ref.putData(await file!.readAsBytes());
     } else {
-      uploadTask = ref.putFile(File(file.path));
+      uploadTask = ref.putFile(File(file!.path));
     }
     final dynamic snapshot = await Future.value(uploadTask);
-    final String path = await snapshot.ref.fullPath;
+    final String? path = await snapshot.ref.fullPath;
     final Map<String, dynamic> data = <String, dynamic>{};
     data.putIfAbsent('body', () => path);
     data.putIfAbsent('type', () => typeFile);
@@ -387,20 +387,20 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
       signed[index.toString()]['data'] = dataList;
     }
     FirebaseFirestore.instance
-        .collection(type)
+        .collection(type!)
         .doc(stepSnapshot.id)
         .update(<String, dynamic>{'signed': signed});
   }
 
-  Future<void> deleteFile(int number, int index) async {
+  Future<void> deleteFile(int? number, int index) async {
     final Map<String, dynamic> signed = stepSnapshot.get('signed');
-    final String path = signed[number.toString()]['data'][index]['body'];
+    final String? path = signed[number.toString()]['data'][index]['body'];
     signed[number.toString()]['data'].removeAt(index);
     FirebaseFirestore.instance
-        .collection(type)
+        .collection(type!)
         .doc(stepSnapshot.id)
         .update(<String, dynamic>{'signed': signed}).then((value) {
-      final Reference ref = FirebaseStorage.instance.ref().child(path);
+      final Reference ref = FirebaseStorage.instance.ref().child(path!);
       ref.delete();
     });
   }

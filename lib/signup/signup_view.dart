@@ -24,7 +24,7 @@ class SignupView extends StatelessWidget {
               const Spacer(),
               Padding(
                   padding: const EdgeInsets.only(top: 10, right: 10),
-                  child: Consumer<HomeModel>(builder: (BuildContext context, HomeModel model, Widget child) {
+                  child: Consumer<HomeModel>(builder: (BuildContext context, HomeModel model, Widget? child) {
                     return FlatButton(
                         child: const Text('ログアウト'),
                         onPressed: () {
@@ -52,10 +52,10 @@ class SignupView extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         return Consumer<SignupModel>(
-                            builder: (BuildContext context, SignupModel model, Widget child) => Container(
+                            builder: (BuildContext context, SignupModel model, Widget? child) => Container(
                                   child: Card(
                                     color: model.isSelect_type[index]
-                                        ? Colors.blue[900].withAlpha(60)
+                                        ? Colors.blue[900]!.withAlpha(60)
                                         : Colors.grey.withAlpha(20),
                                     elevation: 0,
                                     child: InkWell(
@@ -81,7 +81,7 @@ class SignupView extends StatelessWidget {
                                 ));
                       }))),
           Consumer<SignupModel>(
-              builder: (BuildContext context, SignupModel model, Widget child) =>
+              builder: (BuildContext context, SignupModel model, Widget? child) =>
                   model.isSelect_type[0] || model.isSelect_type[1]
                       ? model.isSelect_type[1] ? CreateGroupView() : JoinGroup()
                       : Container())

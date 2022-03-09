@@ -35,12 +35,12 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
 class SelectBookView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  String uid;
-  String type;
+  String? uid;
+  String? type;
 
-  List<TabInfo> _tabs;
+  late List<TabInfo> _tabs;
 
-  SelectBookView(String uid, String type) {
+  SelectBookView(String? uid, String type) {
     this.uid = uid;
     this.type = type;
   }
@@ -55,7 +55,7 @@ class SelectBookView extends StatelessWidget {
             child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600),
                 child:
-                    Consumer<UserDetailModel>(builder: (BuildContext context, UserDetailModel model, Widget child) {
+                    Consumer<UserDetailModel>(builder: (BuildContext context, UserDetailModel model, Widget? child) {
                   model.getGroup();
                   if (model.group != null) {
                     if(type == 'scout') {
@@ -95,7 +95,7 @@ class SelectBookView extends StatelessWidget {
                               SliverList(
                                 delegate: SliverChildListDelegate([
                                   Consumer<UserDetailModel>(
-                                      builder: (BuildContext context, UserDetailModel model, Widget child) {
+                                      builder: (BuildContext context, UserDetailModel model, Widget? child) {
                                     model.getGroup();
                                     if (model.group != null) {
                                       return StreamBuilder<QuerySnapshot>(
@@ -110,7 +110,7 @@ class SelectBookView extends StatelessWidget {
                                                 snapshot) {
                                           if (snapshot.hasData) {
                                             final DocumentSnapshot userSnapshot =
-                                                snapshot.data.docs[0];
+                                                snapshot.data!.docs[0];
                                             return Column(
                                               children: <Widget>[
                                                 Padding(

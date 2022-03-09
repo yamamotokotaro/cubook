@@ -10,28 +10,28 @@ class InviteModel with ChangeNotifier {
   bool isConsent = false;
   String joinCode = '';
   String mes_join = '';
-  String dropdown_text;
-  String dropdown_call;
+  String? dropdown_text;
+  String? dropdown_call;
 
   TextEditingController addressController = TextEditingController();
   TextEditingController familyController = TextEditingController();
   TextEditingController firstController = TextEditingController();
   TextEditingController teamController = TextEditingController();
 
-  void onDropdownChanged(String value) {
+  void onDropdownChanged(String? value) {
     dropdown_text = value;
     notifyListeners();
   }
 
-  void onDropdownCallChanged(String value) {
+  void onDropdownCallChanged(String? value) {
     dropdown_call = value;
     notifyListeners();
   }
 
   void inviteRequest(BuildContext context) async {
-    String age;
-    String position;
-    String team;
+    String? age;
+    String? position;
+    String? team;
     switch (dropdown_text) {
       case 'りす':
         age = 'risu';
@@ -98,7 +98,7 @@ class InviteModel with ChangeNotifier {
         dropdown_call != null) {
       isLoading_join = true;
       notifyListeners();
-      final User user = FirebaseAuth.instance.currentUser;
+      final User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdToken().then((String token) async {
           const String url =

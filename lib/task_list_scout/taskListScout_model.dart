@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class TaskListScoutModel extends ChangeNotifier {
-  DocumentSnapshot userSnapshot;
-  Map<String, dynamic> userData = <String, dynamic>{};
-  QuerySnapshot effortSnapshot;
-  User currentUser;
+  DocumentSnapshot? userSnapshot;
+  Map<String, dynamic>? userData = <String, dynamic>{};
+  QuerySnapshot? effortSnapshot;
+  User? currentUser;
   bool isGet = false;
 
   void getSnapshot() async {
@@ -14,11 +14,11 @@ class TaskListScoutModel extends ChangeNotifier {
 
     FirebaseFirestore.instance
         .collection('user')
-        .where('uid', isEqualTo: currentUser.uid)
+        .where('uid', isEqualTo: currentUser!.uid)
         .snapshots()
         .listen((QuerySnapshot<Map<String, dynamic>> data) {
       userSnapshot = data.docs[0];
-      userData = userSnapshot.data() as Map<String,dynamic>;
+      userData = userSnapshot!.data() as Map<String,dynamic>?;
       notifyListeners();
     });
     isGet = true;

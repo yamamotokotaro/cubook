@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeLeaderView extends StatelessWidget {
-  String group;
+  String? group;
 
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      Consumer<HomeLeaderModel>(builder: (BuildContext context, HomeLeaderModel model, Widget child) {
+      Consumer<HomeLeaderModel>(builder: (BuildContext context, HomeLeaderModel model, Widget? child) {
         model.getSnapshot(context);
         if (model.group != null) {
           return StreamBuilder<QuerySnapshot>(
@@ -18,7 +18,7 @@ class HomeLeaderView extends StatelessWidget {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
-                  if (snapshot.data.docs.isNotEmpty) {
+                  if (snapshot.data!.docs.isNotEmpty) {
                     return Padding(
                       padding: const EdgeInsets.all(10),
                       child: Container(
@@ -51,7 +51,7 @@ class HomeLeaderView extends StatelessWidget {
                                           type: MaterialType.transparency,
                                           child: Text(
                                             'サイン待ち' +
-                                                snapshot.data.docs.length
+                                                snapshot.data!.docs.length
                                                     .toString() +
                                                 '件',
                                             style: const TextStyle(
@@ -122,9 +122,9 @@ class HomeLeaderView extends StatelessWidget {
           ),
         )),
       ),
-      Selector<HomeLeaderModel, String>(
+      Selector<HomeLeaderModel, String?>(
           selector: (BuildContext context, HomeLeaderModel model) => model.teamPosition,
-          builder: (BuildContext context, String teamPosition, Widget child) {
+          builder: (BuildContext context, String? teamPosition, Widget? child) {
             if (teamPosition == null) {
               return Padding(
                 padding:
@@ -171,9 +171,9 @@ class HomeLeaderView extends StatelessWidget {
               return Container();
             }
           }),
-      Selector<HomeLeaderModel, String>(
+      Selector<HomeLeaderModel, String?>(
           selector: (BuildContext context, HomeLeaderModel model) => model.teamPosition,
-          builder: (BuildContext context, String teamPosition, Widget child) {
+          builder: (BuildContext context, String? teamPosition, Widget? child) {
             return Padding(
               padding: teamPosition != null
                   ? const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5)

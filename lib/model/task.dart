@@ -3012,8 +3012,8 @@ class TaskContents {
   /*String call(String type, int number){
   }*/
 
-  List<Map<String, dynamic>> getAllMap(String type) {
-    List<Map<String, dynamic>> listInfo;
+  List<Map<String, dynamic>>? getAllMap(String? type) {
+    List<Map<String, dynamic>>? listInfo;
     switch (type) {
       case 'risu':
         listInfo = risu;
@@ -3061,231 +3061,231 @@ class TaskContents {
     return listInfo;
   }
 
-  Map<String, dynamic> getPartMap(String type, int number) {
-    Map<String, dynamic> mapInfo;
+  Map<String, dynamic>? getPartMap(String? type, int? number) {
+    Map<String, dynamic>? mapInfo;
     switch (type) {
       case 'risu':
-        mapInfo = risu[number];
+        mapInfo = risu[number!];
         break;
       case 'usagi':
-        mapInfo = usagi[number];
+        mapInfo = usagi[number!];
         break;
       case 'sika':
-        mapInfo = sika[number];
+        mapInfo = sika[number!];
         break;
       case 'kuma':
-        mapInfo = kuma[number];
+        mapInfo = kuma[number!];
         break;
       case 'tukinowa':
-        mapInfo = tukinowa[number];
+        mapInfo = tukinowa[number!];
         break;
       case 'challenge':
-        mapInfo = challnege[number];
+        mapInfo = challnege[number!];
         break;
       case 'syokyu':
-        mapInfo = syokyu[number];
+        mapInfo = syokyu[number!];
         break;
       case 'nikyu':
-        mapInfo = nikyu[number];
+        mapInfo = nikyu[number!];
         break;
       case 'ikkyu':
-        mapInfo = ikkyu[number];
+        mapInfo = ikkyu[number!];
         break;
       case 'kiku':
-        mapInfo = kiku[number];
+        mapInfo = kiku[number!];
         break;
       case 'hayabusa':
-        mapInfo = hayabusa[number];
+        mapInfo = hayabusa[number!];
         break;
       case 'fuji':
-        mapInfo = fuji[number];
+        mapInfo = fuji[number!];
         break;
       case 'syorei':
-        mapInfo = syorei[number];
+        mapInfo = syorei[number!];
         break;
       case 'gino':
-        mapInfo = gino[number];
+        mapInfo = gino[number!];
         break;
     }
     return mapInfo;
   }
 
-  Map<String, dynamic> getContent(String type, int page, int number) {
-    Map<String, dynamic> content;
+  Map<String, dynamic> getContent(String? type, int? page, int? number) {
+    Map<String, dynamic>? content;
     switch (type) {
       case 'risu':
-        content = content_risu[page][number];
+        content = content_risu[page!][number!];
         //content = <String, dynamic>{'body': '表示について調整中です'};
         break;
       case 'usagi':
-        content = content_usagi[page][number];
+        content = content_usagi[page!][number!];
         //content = <String, dynamic>{'body': '表示について調整中です'};
         break;
       case 'sika':
-        content = content_sika[page][number];
+        content = content_sika[page!][number!];
         //content = <String, dynamic>{'body': '表示について調整中です'};
         break;
       case 'kuma':
-        content = content_kuma[page][number];
+        content = content_kuma[page!][number!];
         //content = <String, dynamic>{'body': '表示について調整中です'};
         break;
       case 'tukinowa':
-        content = content_tukinowa[page][number];
+        content = content_tukinowa[page!][number!];
         //content = <String, dynamic>{'body': '表示について調整中です'};
         break;
       case 'challenge':
-        content = content_challenge[page][number];
+        content = content_challenge[page!][number!];
         //content = <String, dynamic>{'body': '表示について調整中です'};
         break;
       case 'syokyu':
-        content = content_syokyu[page][number];
+        content = content_syokyu[page!][number!];
         break;
       case 'nikyu':
-        content = content_nikyu[page][number];
+        content = content_nikyu[page!][number!];
         break;
       case 'ikkyu':
-        content = content_ikkyu[page][number];
+        content = content_ikkyu[page!][number!];
         break;
       case 'kiku':
-        content = content_kiku[page][number];
+        content = content_kiku[page!][number!];
         break;
       case 'hayabusa':
-        content = content_hayabusa[page][number];
+        content = content_hayabusa[page!][number!];
         break;
       case 'fuji':
-        content = content_fuji[page][number];
+        content = content_fuji[page!][number!];
         break;
       case 'syorei':
-        content = content_syorei[page][number];
+        content = content_syorei[page!][number!];
         break;
       case 'gino':
-        content = content_gino[page][number];
+        content = content_gino[page!][number!];
         break;
     }
     content ??= <String, dynamic>{'body': 'エラーが発生しました（内容がありません）'};
     return content;
   }
 
-  List<Map<String, dynamic>> getContentList(String type, int page) {
-    List<Map<String, dynamic>> content;
+  List<Map<String, dynamic>>? getContentList(String? type, int? page) {
+    List<Map<String, dynamic>>? content;
     switch (type) {
       case 'risu':
-        content = content_risu[page];
+        content = content_risu[page!];
         //content = [];
         break;
       case 'usagi':
-        content = content_usagi[page];
+        content = content_usagi[page!];
         //content = [];
         break;
       case 'sika':
-        content = content_sika[page];
+        content = content_sika[page!];
         //content = [];
         break;
       case 'kuma':
-        content = content_kuma[page];
+        content = content_kuma[page!];
         //content = [];
         break;
       case 'tukinowa':
-        content = content_tukinowa[page];
+        content = content_tukinowa[page!];
         //content = [];
         break;
       case 'challenge':
-        content = content_challenge[page];
+        content = content_challenge[page!];
         //content = [];
         break;
       case 'syokyu':
-        content = content_syokyu[page];
+        content = content_syokyu[page!];
         break;
       case 'nikyu':
-        content = content_nikyu[page];
+        content = content_nikyu[page!];
         break;
       case 'ikkyu':
-        content = content_ikkyu[page];
+        content = content_ikkyu[page!];
         break;
       case 'kiku':
-        content = content_kiku[page];
+        content = content_kiku[page!];
         break;
       case 'hayabusa':
-        content = content_hayabusa[page];
+        content = content_hayabusa[page!];
         break;
       case 'fuji':
-        content = content_fuji[page];
+        content = content_fuji[page!];
         break;
       case 'syorei':
-        content = content_syorei[page];
+        content = content_syorei[page!];
         break;
       case 'gino':
-        content = content_gino[page];
+        content = content_gino[page!];
         break;
     }
     return content;
   }
 
-  String getNumber(String type, int page, int number) {
-    String numberShow = (number + 1).toString();
+  String? getNumber(String? type, int? page, int number) {
+    String? numberShow = (number + 1).toString();
     switch (type) {
       case 'risu':
-        if (content_risu[page][number]['number'] != null) {
+        if (content_risu[page!][number]['number'] != null) {
           numberShow = content_risu[page][number]['number'];
         }
         break;
       case 'usagi':
-        if (content_usagi[page][number]['number'] != null) {
+        if (content_usagi[page!][number]['number'] != null) {
           numberShow = content_usagi[page][number]['number'];
         }
         break;
       case 'sika':
-        if (content_sika[page][number]['number'] != null) {
+        if (content_sika[page!][number]['number'] != null) {
           numberShow = content_sika[page][number]['number'];
         }
         break;
       case 'kuma':
-        if (content_kuma[page][number]['number'] != null) {
+        if (content_kuma[page!][number]['number'] != null) {
           numberShow = content_kuma[page][number]['number'];
         }
         break;
       case 'challenge':
-        if (content_challenge[page][number]['number'] != null) {
+        if (content_challenge[page!][number]['number'] != null) {
           numberShow = content_challenge[page][number]['number'];
         }
         break;
       case 'syokyu':
-        if (content_syokyu[page][number]['number'] != null) {
+        if (content_syokyu[page!][number]['number'] != null) {
           numberShow = content_syokyu[page][number]['number'];
         }
         break;
       case 'nikyu':
-        if (content_nikyu[page][number]['number'] != null) {
+        if (content_nikyu[page!][number]['number'] != null) {
           numberShow = content_nikyu[page][number]['number'];
         }
         break;
       case 'ikkyu':
-        if (content_ikkyu[page][number]['number'] != null) {
+        if (content_ikkyu[page!][number]['number'] != null) {
           numberShow = content_ikkyu[page][number]['number'];
         }
         break;
       case 'kiku':
-        if (content_kiku[page][number]['number'] != null) {
+        if (content_kiku[page!][number]['number'] != null) {
           numberShow = content_kiku[page][number]['number'];
         }
         break;
       case 'hayabusa':
-        if (content_hayabusa[page][number]['number'] != null) {
+        if (content_hayabusa[page!][number]['number'] != null) {
           numberShow = content_hayabusa[page][number]['number'];
         }
         break;
       case 'fuji':
-        if (content_fuji[page][number]['number'] != null) {
+        if (content_fuji[page!][number]['number'] != null) {
           numberShow = content_fuji[page][number]['number'];
         }
         break;
       case 'syorei':
-        if (content_syorei[page][number]['number'] != null) {
+        if (content_syorei[page!][number]['number'] != null) {
           numberShow = content_syorei[page][number]['number'];
         }
         break;
       case 'gino':
-        if (content_gino[page][number]['number'] != null) {
+        if (content_gino[page!][number]['number'] != null) {
           numberShow = content_gino[page][number]['number'];
         }
         break;

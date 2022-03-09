@@ -5,25 +5,25 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SettingGroupModel extends ChangeNotifier {
-  DocumentSnapshot userSnapshot;
-  User currentUser;
+  DocumentSnapshot? userSnapshot;
+  late User currentUser;
   bool isGet = false;
   bool isLoading = false;
   bool passwordError = false;
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String uid;
-  String mailAddress;
+  String? uid;
+  String? mailAddress;
   Map<String, dynamic> claims = <String, dynamic>{};
-  String groupID = '読み込み中';
+  String? groupID = '読み込み中';
 
   void getUser() async {
-    final String groupBefore = groupID;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = groupID;
+    final User user = FirebaseAuth.instance.currentUser!;
     currentUser = user;
     uid = currentUser.uid;
     mailAddress = currentUser.email;
-    addressController.text = currentUser.email;
+    addressController.text = currentUser.email!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
@@ -67,7 +67,7 @@ class SettingGroupModel extends ChangeNotifier {
                         borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     content: SingleChildScrollView(child:
                         Consumer<SettingGroupModel>(
-                            builder: (BuildContext context, SettingGroupModel model, Widget child) {
+                            builder: (BuildContext context, SettingGroupModel model, Widget? child) {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -94,7 +94,7 @@ class SettingGroupModel extends ChangeNotifier {
                         onPressed: () async {
                           FocusScope.of(context).unfocus();
                           final AuthCredential credential = EmailAuthProvider.credential(
-                              email: mailAddress,
+                              email: mailAddress!,
                               password: passwordController.text);
                           try {
                             await currentUser
@@ -118,7 +118,7 @@ class SettingGroupModel extends ChangeNotifier {
 
   void sendPasswordResetEmail(BuildContext context) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: mailAddress);
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: mailAddress!);
       Scaffold.of(context).showSnackBar(const SnackBar(
         content: Text('送信リクエストが完了しました'),
       ));

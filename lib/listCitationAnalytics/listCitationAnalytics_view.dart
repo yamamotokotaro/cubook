@@ -35,7 +35,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                       Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 10),
                           child: Consumer<ListCitationAnalyticsModel>(
-                              builder: (BuildContext context, ListCitationAnalyticsModel model, Widget child) {
+                              builder: (BuildContext context, ListCitationAnalyticsModel model, Widget? child) {
                             model.getGroup();
                             if (model.group != null) {
                               return Column(
@@ -57,7 +57,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                         if (snapshot.hasData) {
                                           const int userCount = 0;
                                           final List<DocumentSnapshot> listSnapshot =
-                                              snapshot.data.docs;
+                                              snapshot.data!.docs;
                                           return ListView.builder(
                                               physics:
                                                   const NeverScrollableScrollPhysics(),
@@ -94,11 +94,11 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                               snapshot) {
                                                     if (snapshot.hasData) {
                                                       if (snapshot
-                                                              .data
+                                                              .data!
                                                               .docs.isNotEmpty) {
                                                         final QuerySnapshot
                                                             querySnapshot =
-                                                            snapshot.data;
+                                                            snapshot.data!;
                                                         return Column(
                                                             children: [
                                                               Padding(
@@ -163,7 +163,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                     final Map taskInfo = task.getPartMap(
                                                                         'challenge',
                                                                         snapshot
-                                                                            .get('page'));
+                                                                            .get('page'))!;
                                                                     return Padding(
                                                                       padding:
                                                                           const EdgeInsets.all(

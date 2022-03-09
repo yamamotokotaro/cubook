@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 
 class MyPageRoute extends TransitionRoute<dynamic> {
   MyPageRoute({
-    @required this.page,
-    @required this.dismissible,
+    required this.page,
+    required this.dismissible,
   });
 
   final Widget page;
@@ -32,13 +32,13 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 
   Widget _buildModalBarrier(BuildContext context) {
     return IgnorePointer(
-      ignoring: animation.status ==
+      ignoring: animation!.status ==
               AnimationStatus
                   .reverse || // changedInternalState is called when this updates
-          animation.status == AnimationStatus.dismissed,
+          animation!.status == AnimationStatus.dismissed,
       // dismissed is possible when doing a manual pop gesture
       child: AnimatedModalBarrier(
-        color: animation.drive(
+        color: animation!.drive(
           ColorTween(
             begin: Colors.transparent,
             end: Colors.black.withAlpha(150),
@@ -53,11 +53,11 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 class TaskScoutDetailView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  String type;
-  int number;
-  Color themeColor;
+  String? type;
+  int? number;
+  Color? themeColor;
 
-  TaskScoutDetailView(String _type, int _number) {
+  TaskScoutDetailView(String? _type, int? _number) {
     themeColor = theme.getThemeColor(_type);
     type = _type;
     number = _number;
@@ -65,7 +65,7 @@ class TaskScoutDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> contents = task.getContentList(type, number);
+    final List<Map<String, dynamic>>? contents = task.getContentList(type, number);
     return Container(
         width: 280,
         child: GestureDetector(
@@ -84,7 +84,7 @@ class TaskScoutDetailView extends StatelessWidget {
                         builder: (BuildContext context, TaskDetailScoutModel model, _) {
                       if (model.isExit) {
                         String message = '';
-                        if (model.stepData['end'] != null) {
+                        if (model.stepData!['end'] != null) {
                           message = '完修済み🎉';
                         } else {
                           message = 'その調子🏃‍♂️';
@@ -102,7 +102,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 40, bottom: 20),
                                   child: Center(
                                     child: Text(
-                                      task.getPartMap(type, number)['title'],
+                                      task.getPartMap(type, number)!['title'],
                                       style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -130,7 +130,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                               decoration: TextDecoration.none),
                                         ),
                                       ),
-                                      if (model.stepData['start'] != null) Container(
+                                      if (model.stepData!['start'] != null) Container(
                                               child: Column(
                                                 children: <Widget>[
                                                   const Padding(
@@ -167,7 +167,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                 ],
                                               ),
                                             ) else Container(),
-                                      if (model.stepData['end'] != null) Container(
+                                      if (model.stepData!['end'] != null) Container(
                                               child: Column(
                                                 children: <Widget>[
                                                   const Padding(
@@ -216,14 +216,14 @@ class TaskScoutDetailView extends StatelessWidget {
                                               ListView.builder(
                                                   physics:
                                                       const NeverScrollableScrollPhysics(),
-                                                  itemCount: contents.length,
+                                                  itemCount: contents!.length,
                                                   shrinkWrap: true,
                                                   itemBuilder:
                                                       (BuildContext context,
                                                           int index) {
                                                     final String content =
                                                         contents[index]['body'];
-                                                    Color bordercolor;
+                                                    Color? bordercolor;
                                                     if (Theme.of(context)
                                                             .colorScheme.secondary ==
                                                         Colors.white) {
@@ -245,7 +245,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                               RoundedRectangleBorder(
                                                             side: BorderSide(
                                                               color:
-                                                                  bordercolor,
+                                                                  bordercolor!,
                                                               width: 2.0,
                                                             ),
                                                             borderRadius:
@@ -340,7 +340,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 40, bottom: 20),
                                 child: Center(
                                   child: Text(
-                                    task.getPartMap(type, number)['title'],
+                                    task.getPartMap(type, number)!['title'],
                                     style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
@@ -377,14 +377,14 @@ class TaskScoutDetailView extends StatelessWidget {
                                           ListView.builder(
                                               physics:
                                                   const NeverScrollableScrollPhysics(),
-                                              itemCount: contents.length,
+                                              itemCount: contents!.length,
                                               shrinkWrap: true,
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
                                                 final String content =
                                                     contents[index]['body'];
-                                                Color bordercolor;
+                                                Color? bordercolor;
                                                 if (Theme.of(context)
                                                         .colorScheme.secondary ==
                                                     Colors.white) {
@@ -404,7 +404,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                       shape:
                                                           RoundedRectangleBorder(
                                                         side: BorderSide(
-                                                          color: bordercolor,
+                                                          color: bordercolor!,
                                                           width: 2.0,
                                                         ),
                                                         borderRadius:
@@ -482,7 +482,7 @@ class TaskScoutDetailView extends StatelessWidget {
                           child: Center(
                             child: CircularProgressIndicator(
                               valueColor:
-                                  AlwaysStoppedAnimation<Color>(themeColor),
+                                  AlwaysStoppedAnimation<Color?>(themeColor),
                             ),
                           ),
                         );
@@ -513,14 +513,14 @@ class TaskScoutDetailView extends StatelessWidget {
 }
 
 class TaskScoutAddView extends StatelessWidget {
-  int index_page;
-  int page;
-  String type;
+  int? index_page;
+  int? page;
+  String? type;
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  Color themeColor;
+  Color? themeColor;
 
-  TaskScoutAddView(String _type, int _page, int _index) {
+  TaskScoutAddView(String? _type, int? _page, int _index) {
     themeColor = theme.getThemeColor(_type);
     type = _type;
     page = _page;
@@ -529,7 +529,7 @@ class TaskScoutAddView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String numberShow = task.getNumber(type, page, index_page);
+    final String numberShow = task.getNumber(type, page, index_page!)!;
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -667,7 +667,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                       (BuildContext
                                                                               context,
                                                                           int index) {
-                                                                    final String
+                                                                    final String?
                                                                         type =
                                                                         snapshot['data'][index]
                                                                             [
@@ -686,7 +686,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                             child:
                                                                                 Column(
                                                                               children: <Widget>[
-                                                                                Image.network(model.dataList[index_page][index])
+                                                                                Image.network(model.dataList[index_page!][index])
                                                                               ],
                                                                             ),
                                                                           ),
@@ -705,9 +705,9 @@ class TaskScoutAddView extends StatelessWidget {
                                                                                 Column(
                                                                               children: <Widget>[
                                                                                 AspectRatio(
-                                                                                    aspectRatio: model.dataList[index_page][index].aspectRatio,
+                                                                                    aspectRatio: model.dataList[index_page!][index].aspectRatio,
                                                                                     child: Chewie(
-                                                                                      controller: model.dataList[index_page][index],
+                                                                                      controller: model.dataList[index_page!][index],
                                                                                     ))
                                                                               ],
                                                                             ),
@@ -731,7 +731,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                                 Padding(
                                                                                     padding: const EdgeInsets.all(10),
                                                                                     child: Text(
-                                                                                      model.dataList[index_page][index],
+                                                                                      model.dataList[index_page!][index],
                                                                                       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                                                                                     ))
                                                                               ],
@@ -845,7 +845,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                   'data']);
                                                               print(model
                                                                   .dataList);
-                                                              final String type =
+                                                              final String? type =
                                                                   snapshot['data']
                                                                           [
                                                                           index]
@@ -866,7 +866,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                           Column(
                                                                         children: <
                                                                             Widget>[
-                                                                          Image.network(model.dataList[index_page]
+                                                                          Image.network(model.dataList[index_page!]
                                                                               [
                                                                               index])
                                                                         ],
@@ -889,9 +889,9 @@ class TaskScoutAddView extends StatelessWidget {
                                                                         children: <
                                                                             Widget>[
                                                                           AspectRatio(
-                                                                              aspectRatio: model.dataList[index_page][index].aspectRatio,
+                                                                              aspectRatio: model.dataList[index_page!][index].aspectRatio,
                                                                               child: Chewie(
-                                                                                controller: model.dataList[index_page][index],
+                                                                                controller: model.dataList[index_page!][index],
                                                                               ))
                                                                         ],
                                                                       ),
@@ -920,7 +920,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                           Padding(
                                                                               padding: const EdgeInsets.all(10),
                                                                               child: Text(
-                                                                                model.dataList[index_page][index],
+                                                                                model.dataList[index_page!][index],
                                                                                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                                                                               ))
                                                                         ],
@@ -971,7 +971,7 @@ class TaskScoutAddView extends StatelessWidget {
                                     child: Center(
                                       child: CircularProgressIndicator(
                                           valueColor:
-                                              AlwaysStoppedAnimation<Color>(
+                                              AlwaysStoppedAnimation<Color?>(
                                                   themeColor)),
                                     ),
                                   ));

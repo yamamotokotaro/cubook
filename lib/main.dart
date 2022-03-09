@@ -74,7 +74,7 @@ void main() async {
   // Pass all uncaught errors from the framework to Crashlytics.
 
   WidgetsFlutterBinding.ensureInitialized();
-  GestureBinding.instance.resamplingEnabled = true;
+  GestureBinding.instance!.resamplingEnabled = true;
   // Firebaseの各サービスを使う前に初期化を済ませておく必要がある
   await Firebase.initializeApp();
   runApp(MyApp());

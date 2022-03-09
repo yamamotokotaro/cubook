@@ -49,7 +49,7 @@ class InviteView extends StatelessWidget {
                 child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 800),
                     child:
-                        Consumer<InviteModel>(builder: (BuildContext context, InviteModel model, Widget child) {
+                        Consumer<InviteModel>(builder: (BuildContext context, InviteModel model, Widget? child) {
                       return Column(
                         children: [
                           const Padding(
@@ -101,7 +101,7 @@ class InviteView extends StatelessWidget {
                                     child: Text(value),
                                   );
                                 }).toList(),
-                                onChanged: (String value) {
+                                onChanged: (String? value) {
                                   model.onDropdownChanged(value);
                                 },
                               )),
@@ -182,7 +182,7 @@ class InviteView extends StatelessWidget {
                                       child: Text(value),
                                     );
                                   }).toList(),
-                                  onChanged: (String value) {
+                                  onChanged: (String? value) {
                                     model.onDropdownCallChanged(value);
                                   },
                                 ))

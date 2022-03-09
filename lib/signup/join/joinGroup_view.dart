@@ -9,7 +9,7 @@ class JoinGroup extends StatelessWidget {
     return Container(
         child: GestureDetector(onTap: () {
           FocusScope.of(context).unfocus();
-        }, child: Consumer<SignupModel>(builder: (BuildContext context, SignupModel model, Widget child) {
+        }, child: Consumer<SignupModel>(builder: (BuildContext context, SignupModel model, Widget? child) {
           return Center(
               child: Column(children: <Widget>[
                 const Padding(

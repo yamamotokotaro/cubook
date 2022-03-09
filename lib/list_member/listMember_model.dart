@@ -3,32 +3,32 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class ListMemberModel extends ChangeNotifier {
-  QuerySnapshot userSnapshot;
-  Map<String, dynamic> userData = <String, dynamic>{};
-  User currentUser;
+  QuerySnapshot? userSnapshot;
+  Map<String, dynamic>? userData = <String, dynamic>{};
+  User? currentUser;
   bool isGet = false;
-  String group;
+  String? group;
   dynamic team;
-  String position;
-  String teamPosition;
-  String uid_user;
-  String group_claim;
-  bool isAdmin = false;
+  String? position;
+  String? teamPosition;
+  String? uid_user;
+  String? group_claim;
+  bool? isAdmin = false;
   Map<String, dynamic> claims = <String, dynamic>{};
 
   void getGroup() async {
-    final String groupBefore = group;
-    final String teamPositionBefore = teamPosition;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = group;
+    final String? teamPositionBefore = teamPosition;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
         .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
-      userData = userSnapshot.data() as Map<String, dynamic>;
-      uid_user = userData['uid'];
-      isAdmin = userData['admin'];
+      userData = userSnapshot.data() as Map<String, dynamic>?;
+      uid_user = userData!['uid'];
+      isAdmin = userData!['admin'];
       group = userSnapshot.get('group');
       position = userSnapshot.get('position');
       if(position == 'scout') {
@@ -40,8 +40,8 @@ class ListMemberModel extends ChangeNotifier {
       }
     });
     user.getIdTokenResult(true).then((IdTokenResult value) {
-      final String groupClaimBefore = group_claim;
-      group_claim = value.claims['group'];
+      final String? groupClaimBefore = group_claim;
+      group_claim = value.claims!['group'];
       if (groupClaimBefore != group_claim) {
         notifyListeners();
       }

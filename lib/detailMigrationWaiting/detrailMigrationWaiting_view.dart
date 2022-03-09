@@ -10,17 +10,17 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class DetailMigrationWaitingView extends StatelessWidget {
-  String documentID;
-  String name;
-  String groupName;
-  String age;
-  Map<String, dynamic> taskInfo;
-  Map<String, dynamic> content;
+  String? documentID;
+  String? name;
+  String? groupName;
+  String? age;
+  Map<String, dynamic>? taskInfo;
+  Map<String, dynamic>? content;
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
 
-  DetailMigrationWaitingView(String _documentID, String _name,
-      String _groupName, String _age) {
+  DetailMigrationWaitingView(String _documentID, String? _name,
+      String? _groupName, String? _age) {
     documentID = _documentID;
     name = _name;
     groupName = _groupName;
@@ -44,7 +44,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           Hero(
-                              tag: 'detailTask' + documentID,
+                              tag: 'detailTask' + documentID!,
                               child: SingleChildScrollView(
                                   child: Container(
                                     width: MediaQuery
@@ -59,7 +59,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                           Material(
                                             type: MaterialType.transparency,
                                             child: Text(
-                                              name,
+                                              name!,
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.normal,
                                                   fontSize: 28,
@@ -72,7 +72,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                 padding: const EdgeInsets.only(
                                                     top: 10),
                                                 child: Text(
-                                                  groupName,
+                                                  groupName!,
                                                   style: const TextStyle(
                                                       fontWeight: FontWeight
                                                           .normal,
@@ -91,10 +91,10 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                   .snapshots(),
                               builder: (BuildContext context,
                                   AsyncSnapshot<DocumentSnapshot> snapshot) {
-                                final DocumentSnapshot migrationSnapshot = snapshot
+                                final DocumentSnapshot? migrationSnapshot = snapshot
                                     .data;
                                 if (snapshot.hasData) {
-                                  final String phase = migrationSnapshot.get('phase');
+                                  final String? phase = migrationSnapshot!.get('phase');
                                   if (phase == 'wait') {
                                     return Padding(
                                         padding: const EdgeInsets.all(10),
@@ -115,7 +115,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                               child: Container(
                                                   width: double.infinity,
                                                   child: Text(
-                                                    snapshot.data
+                                                    snapshot.data!
                                                         .get('operatorName'),
                                                     style: const TextStyle(
                                                       fontWeight: FontWeight
@@ -140,7 +140,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                               child: Container(
                                                   width: double.infinity,
                                                   child: Text(
-                                                    snapshot.data.get(
+                                                    snapshot.data!.get(
                                                         'group_from'),
                                                     style: const TextStyle(
                                                       fontWeight: FontWeight
@@ -167,7 +167,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                   child: Text(
                                                     DateFormat(
                                                         'yyyy年MM月dd日HH時mm分')
-                                                        .format(snapshot.data
+                                                        .format(snapshot.data!
                                                         .get('time')
                                                         .toDate())
                                                         .toString(),
@@ -179,7 +179,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     textAlign: TextAlign.left,
                                                   ))),
                                           Consumer<DetailMigrationWaitingModel>(
-                                              builder: (BuildContext context, DetailMigrationWaitingModel model, Widget child) {
+                                              builder: (BuildContext context, DetailMigrationWaitingModel model, Widget? child) {
                                                 if (model.isLoading) {
                                                   return const Padding(
                                                       padding: EdgeInsets.all(

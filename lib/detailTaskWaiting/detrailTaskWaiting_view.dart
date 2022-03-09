@@ -10,17 +10,17 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class DetailTaskWaitingView_old extends StatelessWidget {
-  String documentID;
-  String name;
-  String item;
-  String type;
-  Map<String, dynamic> taskInfo;
-  Map<String, dynamic> content;
+  String? documentID;
+  String? name;
+  late String item;
+  String? type;
+  Map<String, dynamic>? taskInfo;
+  late Map<String, dynamic> content;
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
 
   DetailTaskWaitingView_old(
-      String _documentID, String _name, String _item, String _type) {
+      String _documentID, String? _name, String _item, String? _type) {
     documentID = _documentID;
     name = _name;
     item = _item;
@@ -44,7 +44,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                       child: Column(
                     children: <Widget>[
                       Hero(
-                          tag: 'detailTask' + documentID,
+                          tag: 'detailTask' + documentID!,
                           child: SingleChildScrollView(
                               child: Container(
                             width: MediaQuery.of(context).size.width,
@@ -56,7 +56,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                   Material(
                                     type: MaterialType.transparency,
                                     child: Text(
-                                      name,
+                                      name!,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 28,
@@ -94,7 +94,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                   content['common']['page']);
                             }
                             final DocumentSnapshot snapshot = model.taskSnapshot;
-                            final Map<String, dynamic> mapTask = task.getPartMap(
+                            final Map<String, dynamic>? mapTask = task.getPartMap(
                                 snapshot.get('type'),
                                 snapshot.get('page'));
                             return Column(
@@ -107,7 +107,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                             top: 10, left: 20, right: 20),
                                         child: FlatButton(
                                             onPressed: () async {
-                                              final int result =
+                                              final int? result =
                                                   await showModalBottomSheet<
                                                       int>(
                                                 context: context,
@@ -262,7 +262,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                final String type =
+                                                final String? type =
                                                     snapshot.get('data')
                                                         [index]['type'];
                                                 if (type == 'image') {
@@ -389,9 +389,9 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                   left: 10),
                                               child: Text(
                                                 theme.getTitle(content['common']
-                                                        ['type']) +
+                                                        ['type'])! +
                                                     ' ' +
-                                                    taskInfo['title'] +
+                                                    taskInfo!['title'] +
                                                     ' (' +
                                                     task.getNumber(
                                                         content['common']
@@ -399,7 +399,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                         content['common']
                                                             ['page'],
                                                         content['common']
-                                                            ['number']) +
+                                                            ['number'])! +
                                                     ')\nもサインされます',
                                                 textAlign: TextAlign.center,
                                               )) else Container(),
@@ -490,7 +490,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                             top: 10, left: 20, right: 20),
                                         child: FlatButton(
                                             onPressed: () async {
-                                              final int result =
+                                              final int? result =
                                                   await showModalBottomSheet<
                                                       int>(
                                                 context: context,
@@ -611,14 +611,14 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                             left: 10),
                                         child: Text(
                                           theme.getTitle(
-                                                  content['common']['type']) +
+                                                  content['common']['type'])! +
                                               ' ' +
-                                              taskInfo['title'] +
+                                              taskInfo!['title'] +
                                               ' (' +
                                               task.getNumber(
                                                   content['common']['type'],
                                                   content['common']['page'],
-                                                  content['common']['number']) +
+                                                  content['common']['number'])! +
                                               ')\nもサインされます',
                                           textAlign: TextAlign.center,
                                         )) else Container(),

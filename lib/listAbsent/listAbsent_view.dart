@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 class ListAbsentView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  String uid;
+  String? uid;
 
-  ListAbsentView(String _uid) {
+  ListAbsentView(String? _uid) {
     uid = _uid;
   }
 
@@ -26,7 +26,7 @@ class ListAbsentView extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 10),
                   child: Consumer<ListAbsentModel>(
-                      builder: (BuildContext context, ListAbsentModel model, Widget child) {
+                      builder: (BuildContext context, ListAbsentModel model, Widget? child) {
                     model.getGroup();
                     print(uid);
                     if (model.group != null) {
@@ -40,8 +40,8 @@ class ListAbsentView extends StatelessWidget {
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.hasData) {
-                            if (snapshot.data.docs.isNotEmpty) {
-                              final QuerySnapshot querySnapshot = snapshot.data;
+                            if (snapshot.data!.docs.isNotEmpty) {
+                              final QuerySnapshot querySnapshot = snapshot.data!;
                               return ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: querySnapshot.docs.length,

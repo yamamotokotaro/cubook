@@ -18,9 +18,9 @@ class TabInfo {
 class SelectBook extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  String uid;
+  String? uid;
 
-  SelectBook(String uid) {
+  SelectBook(String? uid) {
     this.uid = uid;
   }
 
@@ -30,10 +30,10 @@ class SelectBook extends StatelessWidget {
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
-        Consumer<UserDetailModel>(builder: (BuildContext context, UserDetailModel model, Widget child) {
+        Consumer<UserDetailModel>(builder: (BuildContext context, UserDetailModel model, Widget? child) {
           if (model.userSnapshot == null) {
             model.getSnapshot(uid);
-          } else if (model.userSnapshot.get('uid') != uid) {
+          } else if (model.userSnapshot!.get('uid') != uid) {
             model.getSnapshot(uid);
             model.userSnapshot = null;
           }
@@ -56,7 +56,7 @@ class SelectBook extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               onTap: () {
-                                if (task.getAllMap(type[index]).length != 1) {
+                                if (task.getAllMap(type[index])!.length != 1) {
                                   Navigator.push(context,
                                       MaterialPageRoute<TaskListScoutConfirmView>(
                                           builder: (BuildContext context) {
@@ -80,22 +80,22 @@ class SelectBook extends StatelessWidget {
                                           left: 12,
                                           right: 10),
                                       child: Selector<UserDetailModel,
-                                              DocumentSnapshot>(
+                                              DocumentSnapshot?>(
                                           selector: (BuildContext context, UserDetailModel model) =>
                                               model.userSnapshot,
-                                          builder: (BuildContext context, DocumentSnapshot<Object> snapshot, Widget child) => snapshot !=
+                                          builder: (BuildContext context, DocumentSnapshot<Object?>? snapshot, Widget? child) => snapshot !=
                                                   null
-                                              ? model.userData[type[index]] !=
+                                              ? model.userData![type[index]] !=
                                                       null
                                                   ? CircularProgressIndicator(
                                                       backgroundColor: theme.getIndicatorColor(
                                                           type[index]),
                                                       valueColor: const AlwaysStoppedAnimation<Color>(
                                                           Colors.white),
-                                                      value: model.userData[type[index]].length /
+                                                      value: model.userData![type[index]].length /
                                                           task
                                                               .getAllMap(
-                                                                  type[index])
+                                                                  type[index])!
                                                               .length)
                                                   : CircularProgressIndicator(
                                                       backgroundColor: theme.getIndicatorColor(type[index]),
@@ -122,7 +122,7 @@ class SelectBook extends StatelessWidget {
                                                   alignment:
                                                       Alignment.centerLeft,
                                                   child: Text(
-                                                    theme.getTitle(type[index]),
+                                                    theme.getTitle(type[index])!,
                                                     style: const TextStyle(
                                                         fontSize: 23,
                                                         color: Colors.white),

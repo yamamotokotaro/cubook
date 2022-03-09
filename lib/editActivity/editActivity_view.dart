@@ -13,7 +13,7 @@ class EditActivityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String documentID = ModalRoute.of(context).settings.arguments;
+    final String? documentID = ModalRoute.of(context)!.settings.arguments as String?;
     bool isDark;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
@@ -25,12 +25,12 @@ class EditActivityView extends StatelessWidget {
           title: const Text('記録を編集'), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         floatingActionButton:
-            Consumer<EditActivityModel>(builder: (BuildContext context, EditActivityModel model, Widget child) {
+            Consumer<EditActivityModel>(builder: (BuildContext context, EditActivityModel model, Widget? child) {
           if (model.isLoading) {
             return FloatingActionButton(
               onPressed: null,
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
+                valueColor: AlwaysStoppedAnimation<Color?>(
                     isDark ? Colors.blue[900] : Colors.white),
               ),
             );
@@ -53,7 +53,7 @@ class EditActivityView extends StatelessWidget {
                 child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 600),
                     child: Consumer<EditActivityModel>(
-                        builder: (BuildContext contextBuilder, EditActivityModel model, Widget child) {
+                        builder: (BuildContext contextBuilder, EditActivityModel model, Widget? child) {
                       print('ページ更新');
                       model.getGroup();
                       if (model.group != null) {
@@ -75,7 +75,7 @@ class EditActivityView extends StatelessWidget {
                                                 snapshot) {
                                           if (snapshot.hasData) {
                                             final DocumentSnapshot documentSnapshot =
-                                                snapshot.data;
+                                                snapshot.data!;
                                             const String teamLast = '';
                                             model.getInfo(documentSnapshot);
                                             return Column(children: <Widget>[
@@ -109,7 +109,7 @@ class EditActivityView extends StatelessWidget {
                                                             DateFormat(
                                                                     'yyyy/MM/dd')
                                                                 .format(
-                                                                    model.date)
+                                                                    model.date!)
                                                                 .toString(),
                                                             style: const TextStyle(
                                                                 fontSize: 20.0,
@@ -123,7 +123,7 @@ class EditActivityView extends StatelessWidget {
                                                           onPressed: () {
                                                             model
                                                                 .openTimePicker(
-                                                                    model.date,
+                                                                    model.date!,
                                                                     context);
                                                           },
                                                         ))),
@@ -156,15 +156,15 @@ class EditActivityView extends StatelessWidget {
                                                 snapshot) {
                                           if (snapshot.hasData) {
                                             model.getAbsents(snapshot.data);
-                                            if (snapshot.data.docs.isNotEmpty) {
+                                            if (snapshot.data!.docs.isNotEmpty) {
                                               final QuerySnapshot querySnapshot =
-                                                  snapshot.data;
+                                                  snapshot.data!;
                                               final List<DocumentSnapshot>
                                                   listDocumentSnapshot =
                                                   querySnapshot.docs;
-                                              String teamLast = '';
-                                              final List<String> listUid =
-                                                  <String>[];
+                                              String? teamLast = '';
+                                              final List<String?> listUid =
+                                                  <String?>[];
                                               for (int i = 0;
                                                   i <
                                                       listDocumentSnapshot
@@ -201,7 +201,7 @@ class EditActivityView extends StatelessWidget {
                                                     itemBuilder:
                                                         (BuildContext context,
                                                             int index) {
-                                                      String uid;
+                                                      String? uid;
                                                       final DocumentSnapshot
                                                           snapshot =
                                                           querySnapshot
@@ -210,14 +210,14 @@ class EditActivityView extends StatelessWidget {
                                                           snapshot.id;
                                                       uid = snapshot
                                                           .get('uid');
-                                                      bool isCheck = true;
+                                                      bool? isCheck = true;
                                                       if (model
-                                                              .uid_check[uid] !=
+                                                              .uid_check[uid!] !=
                                                           null) {
                                                         isCheck = model
                                                             .uid_check[uid];
                                                       }
-                                                      String team = '';
+                                                      String? team = '';
                                                       if (snapshot
                                                               .get('team') !=
                                                           null) {
@@ -242,7 +242,7 @@ class EditActivityView extends StatelessWidget {
                                                       } else {
                                                         isFirst = false;
                                                       }
-                                                      final String age = snapshot
+                                                      final String? age = snapshot
                                                           .get('age');
                                                       String teamCall;
                                                       if (age == 'usagi' ||
@@ -263,7 +263,7 @@ class EditActivityView extends StatelessWidget {
                                                                     child: Container(
                                                                         width: double.infinity,
                                                                         child: Text(
-                                                                          team +
+                                                                          team! +
                                                                               teamCall,
                                                                           style:
                                                                               const TextStyle(
@@ -302,7 +302,7 @@ class EditActivityView extends StatelessWidget {
                                                                           () {
                                                                         model.cancelDismiss(
                                                                             uid,
-                                                                            snapshot.data());
+                                                                            snapshot.data() as Map<String, dynamic>);
                                                                       },
                                                                     ),
                                                                     duration: const Duration(
@@ -359,7 +359,7 @@ class EditActivityView extends StatelessWidget {
                                                                                 const Spacer(),
                                                                                 Checkbox(
                                                                                   value: model.checkAbsents[documentID],
-                                                                                  onChanged: (bool e) {
+                                                                                  onChanged: (bool? e) {
                                                                                     model.onCheckMember(documentID);
                                                                                   },
                                                                                   activeColor: Colors.blue[600],
@@ -409,11 +409,11 @@ class EditActivityView extends StatelessWidget {
                                                                   QuerySnapshot>
                                                               snapshot) {
                                                     if (snapshot.hasData) {
-                                                      if (snapshot.data.docs.isNotEmpty) {
+                                                      if (snapshot.data!.docs.isNotEmpty) {
                                                         final QuerySnapshot
                                                             querySnapshot =
-                                                            snapshot.data;
-                                                        String teamLast = '';
+                                                            snapshot.data!;
+                                                        String? teamLast = '';
                                                         return ListView.builder(
                                                             physics:
                                                                 const NeverScrollableScrollPhysics(),
@@ -436,7 +436,7 @@ class EditActivityView extends StatelessWidget {
                                                                           .get(
                                                                       'uid'))) {
                                                                 bool isFirst;
-                                                                String team;
+                                                                String? team;
                                                                 if (snapshot.get(
                                                                         'team')
                                                                     is int) {
@@ -459,7 +459,7 @@ class EditActivityView extends StatelessWidget {
                                                                   isFirst =
                                                                       false;
                                                                 }
-                                                                final String grade =
+                                                                final String? grade =
                                                                     snapshot.get(
                                                                         'grade');
                                                                 String
@@ -481,7 +481,7 @@ class EditActivityView extends StatelessWidget {
                                                                               child: Container(
                                                                                   width: double.infinity,
                                                                                   child: Text(
-                                                                                    team + teamCall,
+                                                                                    team! + teamCall,
                                                                                     style: const TextStyle(
                                                                                       fontWeight: FontWeight.bold,
                                                                                       fontSize: 23,

@@ -9,21 +9,21 @@ import 'package:url_launcher/url_launcher.dart';
 class SignupModel with ChangeNotifier {
   List<bool> isSelect_type = [false, false];
   bool isLoading_join = false;
-  bool isConsent = false;
+  bool? isConsent = false;
   String joinCode = '';
   String mes_join = '';
-  String dropdown_text;
+  String? dropdown_text;
 
   TextEditingController groupController = TextEditingController();
   TextEditingController familyController = TextEditingController();
   TextEditingController firstController = TextEditingController();
 
   void joinRequest() async {
-    if (isConsent && joinCode != '') {
+    if (isConsent! && joinCode != '') {
       isLoading_join = true;
       notifyListeners();
 
-      final User user = FirebaseAuth.instance.currentUser;
+      final User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((IdTokenResult token) async {
           const String url =
@@ -34,7 +34,7 @@ class SignupModel with ChangeNotifier {
 
           final http.Response resp =
               await http.post(Uri.parse(url), headers: headers, body: body);
-          final Map<dynamic, dynamic> tokenMap = token.claims;
+          final Map<dynamic, dynamic>? tokenMap = token.claims;
           isLoading_join = false;
           if (resp.body == 'success') {
             mes_join = '';
@@ -69,11 +69,11 @@ class SignupModel with ChangeNotifier {
         grade = 'venture';
         break;
     }
-    if (isConsent && joinCode != '' && grade != '') {
+    if (isConsent! && joinCode != '' && grade != '') {
       isLoading_join = true;
       notifyListeners();
 
-      final User user = FirebaseAuth.instance.currentUser;
+      final User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((IdTokenResult token) async {
           print(token.claims);
@@ -123,7 +123,7 @@ class SignupModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void onDropdownChanged(String value) {
+  void onDropdownChanged(String? value) {
     dropdown_text = value;
     notifyListeners();
   }
@@ -138,7 +138,7 @@ class SignupModel with ChangeNotifier {
     }
   }
 
-  void onPressedCheckConsent(bool e) {
+  void onPressedCheckConsent(bool? e) {
     isConsent = e;
     notifyListeners();
   }

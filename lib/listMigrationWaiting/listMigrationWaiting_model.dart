@@ -3,18 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ListMigrationWaitingModel extends ChangeNotifier {
-  QuerySnapshot taskSnapshot;
-  String group;
-  String team;
-  String teamPosition;
-  String group_claim;
+  QuerySnapshot? taskSnapshot;
+  String? group;
+  String? team;
+  String? teamPosition;
+  String? group_claim;
   bool isGet = false;
   bool isLoaded = false;
 
   void getSnapshot() async {
-    final String groupBefore = group;
-    final String teamPositionBefore = teamPosition;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = group;
+    final String? teamPositionBefore = teamPosition;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)

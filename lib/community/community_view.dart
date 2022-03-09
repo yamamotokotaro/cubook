@@ -13,15 +13,15 @@ class CommunityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Community info = ModalRoute.of(context).settings.arguments;
-    final String type = info.type;
-    final int page = info.page;
-    final String name = info.name;
-    final String taskid = info.taskid;
-    final String effortid = info.effortid;
-    final Color themeColor = theme.getThemeColor(type);
-    final Map<String, dynamic> mapTask = task.getPartMap(type, page);
-    final int quant = mapTask['hasItem'];
+    final Community info = ModalRoute.of(context)!.settings.arguments as Community;
+    final String? type = info.type;
+    final int? page = info.page;
+    final String name = info.name!;
+    final String? taskid = info.taskid;
+    final String? effortid = info.effortid;
+    final Color? themeColor = theme.getThemeColor(type);
+    final Map<String, dynamic> mapTask = task.getPartMap(type, page)!;
+    final int? quant = mapTask['hasItem'];
     bool isDark;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
@@ -38,9 +38,9 @@ class CommunityView extends StatelessWidget {
           Navigator.of(context).pushNamed('/commentView',
               arguments: Comment(type: type, effortid: effortid));
         },
-        label: Selector<CommunityModel, String>(
+        label: Selector<CommunityModel, String?>(
             selector: (BuildContext context, CommunityModel model) => model.group,
-            builder: (BuildContext context, String group, Widget child) {
+            builder: (BuildContext context, String? group, Widget? child) {
               if (group != null) {
                 return StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
@@ -51,9 +51,9 @@ class CommunityView extends StatelessWidget {
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> querySnapshot) {
                       if (querySnapshot.hasData) {
-                        if (querySnapshot.data.docs.isNotEmpty) {
+                        if (querySnapshot.data!.docs.isNotEmpty) {
                           return Text('コメント ' +
-                              querySnapshot.data.docs.length.toString() +
+                              querySnapshot.data!.docs.length.toString() +
                               '件');
                         } else {
                           return const Text('コメント');
@@ -118,25 +118,25 @@ class CommunityView extends StatelessWidget {
                       Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 10),
                           child: Consumer<CommunityModel>(
-                              builder: (BuildContext context, CommunityModel model, Widget child) {
+                              builder: (BuildContext context, CommunityModel model, Widget? child) {
                             model.getGroup();
                             if (model.group != null) {
                               return Column(
                                 children: <Widget>[
                                   StreamBuilder<DocumentSnapshot>(
                                       stream: FirebaseFirestore.instance
-                                          .collection(type)
+                                          .collection(type!)
                                           .doc(taskid)
                                           .snapshots(),
                                       builder: (BuildContext context,
                                           AsyncSnapshot<DocumentSnapshot>
                                               asyncSnapshot) {
                                         if (asyncSnapshot.hasData) {
-                                          final DocumentSnapshot snapshot =
+                                          final DocumentSnapshot? snapshot =
                                               asyncSnapshot.data;
                                           return Consumer<CommunityModel>(
-                                              builder: (BuildContext context, CommunityModel model, Widget child) {
-                                            model.getData(snapshot, quant);
+                                              builder: (BuildContext context, CommunityModel model, Widget? child) {
+                                            model.getData(snapshot!, quant);
                                             return model.isGet
                                                 ? ListView.builder(
                                                     physics:
@@ -197,7 +197,7 @@ class CommunityView extends StatelessWidget {
                                                                           itemBuilder: (BuildContext context,
                                                                               int
                                                                                   index) {
-                                                                            final String
+                                                                            final String?
                                                                                 type =
                                                                                 numberSnapshot['data'][index]['type'];
                                                                             if (type ==

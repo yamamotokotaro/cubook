@@ -11,7 +11,7 @@ class ListAbsentScoutView extends StatelessWidget {
           title: const Text('活動記録'),
         ),
         body: SafeArea(child:
-            Consumer<ListAbsentScoutModel>(builder: (BuildContext context, ListAbsentScoutModel model, Widget child) {
+            Consumer<ListAbsentScoutModel>(builder: (BuildContext context, ListAbsentScoutModel model, Widget? child) {
           model.getUser();
           if (model.uid != null) {
             return ListAbsentView(model.uid);

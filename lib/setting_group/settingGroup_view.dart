@@ -39,7 +39,7 @@ class SettingGroupView extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<SettingGroupModel>(
-                          builder: (BuildContext context, SettingGroupModel model, Widget child) {
+                          builder: (BuildContext context, SettingGroupModel model, Widget? child) {
                             model.getUser();
                             return Column(
                               mainAxisSize: MainAxisSize.min,
@@ -47,7 +47,7 @@ class SettingGroupView extends StatelessWidget {
                                 ListTile(
                                   leading:
                                   const Icon(Icons.copy),
-                                  title: Text(model.groupID),
+                                  title: Text(model.groupID!),
                                   onTap: () async {
                                     await Clipboard.setData(ClipboardData(text: model.groupID));
                                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

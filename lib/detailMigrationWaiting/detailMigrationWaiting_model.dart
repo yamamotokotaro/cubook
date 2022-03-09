@@ -6,32 +6,32 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class DetailMigrationWaitingModel extends ChangeNotifier {
-  DocumentSnapshot taskSnapshot;
-  User currentUser;
-  String documentID;
-  String documentID_type;
-  String uid_get;
-  String type;
+  DocumentSnapshot? taskSnapshot;
+  User? currentUser;
+  String? documentID;
+  String? documentID_type;
+  String? uid_get;
+  String? type;
   TextEditingController feedbackController = TextEditingController();
-  int page;
-  int number;
+  int? page;
+  int? number;
   bool isGet = false;
   bool isLoaded = false;
   bool isLoading = false;
   bool taskFinished = false;
   List<dynamic> body = <dynamic>[];
-  Map<dynamic, dynamic> tokenMap;
-  List<dynamic> dataMap;
+  Map<dynamic, dynamic>? tokenMap;
+  List<dynamic>? dataMap;
   bool EmptyError = false;
   bool isEmpty = false;
   bool isFinish = false;
   bool isAdmin = false;
 
-  void migrateAccount(BuildContext context, String documentID) async {
+  void migrateAccount(BuildContext context, String? documentID) async {
     print('start migrating...');
     isLoading = true;
     notifyListeners();
-    final User user = FirebaseAuth.instance.currentUser;
+    final User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       user.getIdTokenResult().then((IdTokenResult token) async {
         const String url =
@@ -61,11 +61,11 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
     }
   }
 
-  void rejectMigrate(BuildContext context, String documentID) async {
+  void rejectMigrate(BuildContext context, String? documentID) async {
     print('start migrating...');
     isLoading = true;
     notifyListeners();
-    final User user = FirebaseAuth.instance.currentUser;
+    final User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       user.getIdTokenResult().then((IdTokenResult token) async {
         const String url =

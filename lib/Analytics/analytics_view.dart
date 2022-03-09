@@ -31,7 +31,7 @@ class AnalyticsView extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 children: <Widget>[
-                  Consumer<AnalyticsModel>(builder: (BuildContext context, AnalyticsModel model, Widget child) {
+                  Consumer<AnalyticsModel>(builder: (BuildContext context, AnalyticsModel model, Widget? child) {
                     model.getGroup();
                     if (model.group != null) {
                       if (model.teamPosition != null) {
@@ -214,7 +214,7 @@ class AnalyticsView extends StatelessWidget {
                                             content: SingleChildScrollView(
                                                 child: Consumer<AnalyticsModel>(
                                                     builder: (BuildContext context, AnalyticsModel model,
-                                                        Widget child) {
+                                                        Widget? child) {
                                               model.export();
                                               if (model.isExporting) {
                                                 return Column(
@@ -237,7 +237,7 @@ class AnalyticsView extends StatelessWidget {
                                                                   : Colors.grey[
                                                                       300],
                                                               valueColor: AlwaysStoppedAnimation<
-                                                                      Color>(
+                                                                      Color?>(
                                                                   isDark
                                                                       ? Colors
                                                                           .white
@@ -413,7 +413,7 @@ class AnalyticsView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   onTap: () {
-                                    if (task.getAllMap(type[index]).length !=
+                                    if (task.getAllMap(type[index])!.length !=
                                         1) {
                                       Navigator.push(context, MaterialPageRoute<
                                               TaskListAnalyticsView>(
@@ -446,7 +446,7 @@ class AnalyticsView extends StatelessWidget {
                                                         .transparency,
                                                     child: Text(
                                                       theme.getTitle(
-                                                          type[index]),
+                                                          type[index])!,
                                                       style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,

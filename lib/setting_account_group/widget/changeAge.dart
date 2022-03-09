@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 class ChangeAgeView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  String uid;
+  String? uid;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +30,7 @@ class ChangeAgeView extends StatelessWidget {
                                   child: Text(value),
                                 );
                               }).toList(),
-                              onChanged: (String value) {
+                              onChanged: (String? value) {
                               },
                             ),
                             RaisedButton.icon(

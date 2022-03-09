@@ -38,12 +38,12 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TaskDetailMember info = ModalRoute.of(context).settings.arguments;
-    final String type = info.type;
-    final int page = info.page;
-    final String phase = info.phase;
-    final int number = info.number;
-    final Color themeColor = theme.getThemeColor(type);
+    final TaskDetailMember info = ModalRoute.of(context)!.settings.arguments as TaskDetailMember;
+    final String? type = info.type;
+    final int? page = info.page;
+    final String? phase = info.phase;
+    final int? number = info.number;
+    final Color? themeColor = theme.getThemeColor(type);
     List<String> tabs;
     if (phase == 'end') {
       tabs = ['完修済み', '未完修'];
@@ -59,10 +59,10 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(phase == 'end'
-            ? task.getPartMap(type, page)['title']
-            : task.getPartMap(type, page)['title'] +
+            ? task.getPartMap(type, page)!['title']
+            : task.getPartMap(type, page)!['title'] +
                 ' (' +
-                (number + 1).toString() +
+                (number! + 1).toString() +
                 ')'),
         backgroundColor: themeColor, systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
@@ -73,20 +73,20 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
           child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 600),
               child: Consumer<TaskDetailAnalyticsMemberModel>(
-                  builder: (BuildContext context, TaskDetailAnalyticsMemberModel model, Widget child) {
+                  builder: (BuildContext context, TaskDetailAnalyticsMemberModel model, Widget? child) {
                 model.getGroup();
                 if (model.group != null) {
                   return StreamBuilder<QuerySnapshot>(
                       stream: model.getUserSnapshot(type),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
-                        String teamLast = '';
+                        String? teamLast = '';
                         if (snapshot.hasData) {
                           int userCount = 0;
                           final List<DocumentSnapshot> listSnapshot =
-                              snapshot.data.docs;
-                          final List<String> listUid = <String>[];
-                          final List<String> listUidToShow = <String>[];
+                              snapshot.data!.docs;
+                          final List<String?> listUid = <String?>[];
+                          final List<String?> listUidToShow = <String?>[];
                           if (type == 'challenge' || type == 'gino') {
                             userCount = listSnapshot.length;
                           } else if (type == 'tukinowa') {
@@ -108,7 +108,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                           }
                           return StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
-                                .collection(type)
+                                .collection(type!)
                                 .where('group', isEqualTo: model.group)
                                 .where('page', isEqualTo: page)
                                 .snapshots(),
@@ -116,12 +116,12 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                 AsyncSnapshot<QuerySnapshot> snapshotTask) {
                               if (snapshotTask.hasData) {
                                 final List<DocumentSnapshot> listDocumentSnapshot =
-                                    snapshotTask.data.docs;
+                                    snapshotTask.data!.docs;
                                 for (DocumentSnapshot documentSnapshot
                                     in listDocumentSnapshot) {
-                                  final Map<String, dynamic> documentData = documentSnapshot.data() as Map<String, dynamic>;
+                                  final Map<String, dynamic>? documentData = documentSnapshot.data() as Map<String, dynamic>?;
                                   if (phase == 'end') {
-                                    if (documentData['end'] !=
+                                    if (documentData!['end'] !=
                                             null &&
                                         (listUid.contains(documentSnapshot
                                                 .get('uid')) ||
@@ -142,7 +142,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                   if (phase == 'number') {
                                     final Map<dynamic, dynamic> signed =
                                         documentSnapshot.get('signed');
-                                    final Map<dynamic, dynamic> signedPart =
+                                    final Map<dynamic, dynamic>? signedPart =
                                         signed[number.toString()];
                                     if (signedPart != null) {
                                       if (signedPart['phaze'] == 'signed' &&
@@ -196,7 +196,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                               if (listUidToShow.contains(
                                                   snapshot.get('uid'))) {
                                                 bool isFirst;
-                                                String team;
+                                                String? team;
                                                 if (snapshot.get('team')
                                                     is int) {
                                                   team = snapshot
@@ -212,7 +212,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                 } else {
                                                   isFirst = false;
                                                 }
-                                                final String grade =
+                                                final String? grade =
                                                     snapshot.get('grade');
                                                 String teamCall;
                                                 if (grade == 'cub') {
@@ -233,7 +233,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                   width: double
                                                                       .infinity,
                                                                   child: Text(
-                                                                    team +
+                                                                    team! +
                                                                         teamCall,
                                                                     style:
                                                                         const TextStyle(
@@ -277,7 +277,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                               'uid'),
                                                                           phase == 'end'
                                                                               ? 0
-                                                                              : number +
+                                                                              : number! +
                                                                                   1),
                                                                       dismissible:
                                                                           true));
@@ -341,7 +341,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                               if (!listUidToShow.contains(
                                                   snapshot.get('uid'))) {
                                                 bool isFirst;
-                                                String team;
+                                                String? team;
                                                 if (snapshot.get('team')
                                                     is int) {
                                                   team = snapshot
@@ -357,7 +357,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                 } else {
                                                   isFirst = false;
                                                 }
-                                                final String grade =
+                                                final String? grade =
                                                     snapshot.get('grade');
                                                 String teamCall;
                                                 if (grade == 'cub') {
@@ -378,7 +378,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                   width: double
                                                                       .infinity,
                                                                   child: Text(
-                                                                    team +
+                                                                    team! +
                                                                         teamCall,
                                                                     style:
                                                                         const TextStyle(
@@ -422,7 +422,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                               'uid'),
                                                                           phase == 'end'
                                                                               ? 0
-                                                                              : number +
+                                                                              : number! +
                                                                                   1),
                                                                       dismissible:
                                                                           true));

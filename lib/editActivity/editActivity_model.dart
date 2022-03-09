@@ -3,28 +3,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class EditActivityModel extends ChangeNotifier {
-  QuerySnapshot userSnapshot;
-  DocumentSnapshot activitySnapshot;
-  int countSnapshot;
-  User currentUser;
+  QuerySnapshot? userSnapshot;
+  late DocumentSnapshot activitySnapshot;
+  int? countSnapshot;
+  User? currentUser;
   bool isGet = false;
-  String group;
-  String position;
-  String age;
-  DateTime date;
+  String? group;
+  String? position;
+  String? age;
+  DateTime? date;
   TextEditingController titleController = TextEditingController();
   bool isLoading = false;
   bool EmptyError = false;
   List<Map<String, dynamic>> listMemberAbsent = <Map<String, dynamic>>[];
   Map<String, bool> uid_check = <String, bool>{};
   Map<String, dynamic> claims = <String, dynamic>{};
-  Map<String, bool> checkAbsents = <String, bool>{};
-  String group_claim;
-  String documentID;
+  Map<String, bool?> checkAbsents = <String, bool?>{};
+  String? group_claim;
+  String? documentID;
 
   void getGroup() async {
-    final String groupBefore = group;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
@@ -48,7 +48,7 @@ class EditActivityModel extends ChangeNotifier {
   }
 
   void openTimePicker(DateTime dateTime, BuildContext context) async {
-    final DateTime dateGet = await showDatePicker(
+    final DateTime? dateGet = await showDatePicker(
       context: context,
       firstDate: DateTime(DateTime.now().year - 5),
       lastDate: DateTime(DateTime.now().year + 5),
@@ -73,10 +73,10 @@ class EditActivityModel extends ChangeNotifier {
     }
   }
 
-  void getAbsents(QuerySnapshot querySnapshot) {
+  void getAbsents(QuerySnapshot? querySnapshot) {
     if (checkAbsents.isEmpty ||
-        querySnapshot.docs.length != countSnapshot) {
-      for (int i = 0; i < querySnapshot.docs.length; i++) {
+        querySnapshot!.docs.length != countSnapshot) {
+      for (int i = 0; i < querySnapshot!.docs.length; i++) {
         final DocumentSnapshot documentSnapshot = querySnapshot.docs[i];
         if(checkAbsents[documentSnapshot.id] == null) {
           checkAbsents[documentSnapshot.id] = documentSnapshot.get('absent');
@@ -89,7 +89,7 @@ class EditActivityModel extends ChangeNotifier {
 
   void onCheckMember(String documentID) async {
     if (checkAbsents[documentID] != null) {
-      checkAbsents[documentID] = !checkAbsents[documentID];
+      checkAbsents[documentID] = !checkAbsents[documentID]!;
     } else {
       checkAbsents[documentID] = false;
     }
@@ -106,7 +106,7 @@ class EditActivityModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void cancelDismiss(String id, Map<String, dynamic> data) async {
+  void cancelDismiss(String? id, Map<String, dynamic> data) async {
     await FirebaseFirestore.instance
         .collection('activity_personal')
         .doc(id)
@@ -118,9 +118,9 @@ class EditActivityModel extends ChangeNotifier {
     int countUser = 0;
     int countAbsent = 0;
     isLoading = true;
-    checkAbsents.forEach((String key, bool absent) async {
+    checkAbsents.forEach((String key, bool? absent) async {
       countUser++;
-      if (absent) {
+      if (absent!) {
         countAbsent++;
       }
       await FirebaseFirestore.instance

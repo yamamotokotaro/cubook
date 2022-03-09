@@ -11,16 +11,16 @@ import 'package:provider/provider.dart';
 import '../taskDetailScout_model.dart';
 
 class TaskDetailScoutAddView extends StatelessWidget {
-  int index_page;
-  String type;
-  String mes;
-  Color themeColor;
-  int countChewie;
-  Map<String, dynamic> content;
+  int? index_page;
+  String? type;
+  late String mes;
+  Color? themeColor;
+  int? countChewie;
+  late Map<String, dynamic> content;
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
 
-  TaskDetailScoutAddView(int _index, String _type, String _mes) {
+  TaskDetailScoutAddView(int? _index, String? _type, String _mes) {
     themeColor = theme.getThemeColor(_type);
     index_page = _index;
     type = _type;
@@ -95,9 +95,9 @@ class TaskDetailScoutAddView extends StatelessWidget {
                     child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: model.list_attach[index_page].length,
+                        itemCount: model.list_attach[index_page!].length,
                         itemBuilder: (BuildContext context, int index) {
-                          final String attach = model.list_attach[index_page][index];
+                          final String? attach = model.list_attach[index_page!][index];
                           if (attach == 'image') {
                             return Padding(
                               padding: const EdgeInsets.all(0),
@@ -127,7 +127,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      if (model.map_attach[index_page][index] ==
+                                      if (model.map_attach[index_page!][index] ==
                                               null) Row(
                                               children: <Widget>[
                                                 Expanded(
@@ -137,7 +137,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                       onPressed: () {
                                                         model
                                                             .onImagePressCamera(
-                                                                index_page,
+                                                                index_page!,
                                                                 index);
                                                       },
                                                       icon: const Icon(
@@ -166,7 +166,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                           onPressed: () {
                                                             model
                                                                 .onImagePressPick(
-                                                                    index_page,
+                                                                    index_page!,
                                                                     index);
                                                           },
                                                           icon: const Icon(
@@ -198,14 +198,14 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                       color: Colors.green,
                                                       child: Column(
                                                         children: <Widget>[
-                                                          if (model.map_attach[index_page]
+                                                          if (model.map_attach[index_page!]
                                                                       [index]
                                                                   is PickedFile) Image.memory(
                                                                   model.map_show[
-                                                                          index_page]
+                                                                          index_page!]
                                                                       [index]) else Image.network(
                                                                   model.map_show[
-                                                                          index_page]
+                                                                          index_page!]
                                                                       [index])
                                                         ],
                                                       ),
@@ -259,7 +259,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      if (model.map_attach[index_page][index] ==
+                                      if (model.map_attach[index_page!][index] ==
                                               null) Row(
                                               children: <Widget>[
                                                 Expanded(
@@ -269,7 +269,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                       onPressed: () {
                                                         model
                                                             .onVideoPressCamera(
-                                                                index_page,
+                                                                index_page!,
                                                                 index);
                                                       },
                                                       icon: const Icon(
@@ -298,7 +298,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                           onPressed: () {
                                                             model
                                                                 .onVideoPressPick(
-                                                                    index_page,
+                                                                    index_page!,
                                                                     index);
                                                           },
                                                           icon: const Icon(
@@ -332,13 +332,13 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                           AspectRatio(
                                                               aspectRatio: model
                                                                   .map_show[
-                                                                      index_page]
+                                                                      index_page!]
                                                                       [index]
                                                                   .aspectRatio,
                                                               child: Chewie(
                                                                 controller: model
                                                                         .map_show[
-                                                                    index_page][index],
+                                                                    index_page!][index],
                                                               ))
                                                         ],
                                                       ),
@@ -398,7 +398,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                       ),
                                       TextField(
                                         maxLengthEnforcement: MaxLengthEnforcement.none, enabled: true,
-                                        controller: model.map_attach[index_page]
+                                        controller: model.map_attach[index_page!]
                                             [index],
                                         // 入力数
                                         maxLength: 2000,
@@ -427,7 +427,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         })),
                 FlatButton.icon(
                   onPressed: () {
-                    model.onPressAdd_new(index_page, 'text');
+                    model.onPressAdd_new(index_page!, 'text');
                   },
                   icon: const Icon(
                     Icons.view_headline,
@@ -445,7 +445,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                 ),
                 FlatButton.icon(
                   onPressed: () {
-                    model.onPressAdd_new(index_page, 'image');
+                    model.onPressAdd_new(index_page!, 'image');
                   },
                   icon: const Icon(
                     Icons.image,
@@ -463,7 +463,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                 ),
                 FlatButton.icon(
                   onPressed: () {
-                    model.onPressAdd_new(index_page, 'video');
+                    model.onPressAdd_new(index_page!, 'video');
                   },
                   icon: const Icon(
                     Icons.movie,
@@ -497,7 +497,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                           ],
                         ),
                       ) else Container(),
-                if (!model.isLoading[index_page]) Padding(
+                if (!model.isLoading[index_page!]) Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: RaisedButton.icon(
                           onPressed: () {
@@ -521,7 +521,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                           child: Center(
                             child: CircularProgressIndicator(
                               valueColor:
-                                  AlwaysStoppedAnimation<Color>(themeColor),
+                                  AlwaysStoppedAnimation<Color?>(themeColor),
                             ),
                           ),
                         ),

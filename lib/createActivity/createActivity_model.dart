@@ -5,21 +5,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CreateActivityModel extends ChangeNotifier {
-  QuerySnapshot userSnapshot;
-  User currentUser;
+  QuerySnapshot? userSnapshot;
+  User? currentUser;
   bool isGet = false;
-  String group;
-  String group_claim;
+  String? group;
+  String? group_claim;
   DateTime date = DateTime.now();
   TextEditingController titleController = TextEditingController();
   bool isLoading = false;
-  Map<String, bool> uid_check = <String, bool>{};
+  Map<String?, bool> uid_check = <String?, bool>{};
   bool EmptyError = false;
   Map<String, dynamic> claims = <String, dynamic>{};
   bool isLoaded = false;
   bool isRelease = const bool.fromEnvironment('dart.vm.product');
   dynamic itemSelected;
-  List<String> list_notApplicable = <String>[];
+  List<String?> list_notApplicable = <String?>[];
   List<Map<String, dynamic>> list_selected = <Map<String, dynamic>>[];
 
   void onPressedSelectItem(BuildContext context) async {
@@ -62,8 +62,8 @@ class CreateActivityModel extends ChangeNotifier {
   }
 
   void getGroup() async {
-    String groupBefore = group;
-    final User user = FirebaseAuth.instance.currentUser;
+    String? groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser!;
     //user.getIdToken(refresh: true);
     FirebaseFirestore.instance
         .collection('user')
@@ -85,13 +85,13 @@ class CreateActivityModel extends ChangeNotifier {
     });
   }
 
-  void dismissUser(String uid) {
+  void dismissUser(String? uid) {
     list_notApplicable.add(uid);
     notifyListeners();
   }
 
-  void cancelDismiss(String uid) {
-    list_notApplicable.removeWhere((String item) => item == uid);
+  void cancelDismiss(String? uid) {
+    list_notApplicable.removeWhere((String? item) => item == uid);
     notifyListeners();
   }
 
@@ -101,7 +101,7 @@ class CreateActivityModel extends ChangeNotifier {
   }
 
   void openTimePicker(DateTime dateTime, BuildContext context) async {
-    final DateTime dateGet = await showDatePicker(
+    final DateTime? dateGet = await showDatePicker(
       context: context,
       firstDate: DateTime(DateTime.now().year - 5),
       lastDate: DateTime(DateTime.now().year + 5),
@@ -113,9 +113,9 @@ class CreateActivityModel extends ChangeNotifier {
     }
   }
 
-  void onCheckMember(String uid) {
+  void onCheckMember(String? uid) {
     if (uid_check[uid] != null) {
-      uid_check[uid] = !uid_check[uid];
+      uid_check[uid] = !uid_check[uid]!;
     } else {
       uid_check[uid] = false;
     }
@@ -129,7 +129,7 @@ class CreateActivityModel extends ChangeNotifier {
       final List listAbsent = <dynamic>[];
       final List listUid = <dynamic>[];
       int count = 0;
-      final User user = FirebaseAuth.instance.currentUser;
+      final User user = FirebaseAuth.instance.currentUser!;
       final String userUid = user.uid;
       FirebaseFirestore.instance
           .collection('user')
@@ -138,7 +138,7 @@ class CreateActivityModel extends ChangeNotifier {
           .then((QuerySnapshot<Map<String, dynamic>> userDatas) async {
         {
           final DocumentSnapshot userData = userDatas.docs[0];
-          final String userGroup = userData.get('group');
+          final String? userGroup = userData.get('group');
           FirebaseFirestore.instance
               .collection('user')
               .where('group', isEqualTo: userGroup)
@@ -148,13 +148,13 @@ class CreateActivityModel extends ChangeNotifier {
             for (int i = 0; i < user.docs.length; i++) {
               final DocumentSnapshot snapshot = user.docs[i];
               if (snapshot.get('team') != null) {
-                final String uidUser = snapshot.get('uid');
+                final String? uidUser = snapshot.get('uid');
                 if (!list_notApplicable.contains(uidUser)) {
-                  bool isCheck = true;
+                  bool? isCheck = true;
                   if (uid_check[uidUser] != null) {
                     isCheck = uid_check[uidUser];
                   }
-                  if (isCheck) {
+                  if (isCheck!) {
                     listUid.add(uidUser);
                     count++;
                   }
@@ -239,7 +239,7 @@ class CreateActivityModel extends ChangeNotifier {
                 date = DateTime.now();
                 titleController.text = '';
                 list_notApplicable.clear();
-                uid_check = <String, bool>{};
+                uid_check = <String?, bool>{};
                 EmptyError = false;
                 isLoading = false;
               });

@@ -3,15 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class ListExaminationModel extends ChangeNotifier {
-  QuerySnapshot userSnapshot;
-  User currentUser;
+  QuerySnapshot? userSnapshot;
+  User? currentUser;
   bool isGet = false;
-  String group;
+  String? group;
   Map<String, dynamic> claims = <String, dynamic>{};
 
   void getSnapshot() async {
-    final String groupBefore = group;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
@@ -25,8 +25,8 @@ class ListExaminationModel extends ChangeNotifier {
   }
 
   void getGroup() async {
-    final String groupBefore = group;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)

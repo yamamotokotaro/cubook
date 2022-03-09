@@ -13,7 +13,8 @@ class ListActivityView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('記録一覧'), systemOverlayStyle: SystemUiOverlayStyle.light,
+        title: const Text('記録一覧'),
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -31,8 +32,9 @@ class ListActivityView extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<ListActivityModel>(
-                          builder: (BuildContext context, ListActivityModel model, Widget child) {
+                      child: Consumer<ListActivityModel>(builder:
+                          (BuildContext context, ListActivityModel model,
+                              Widget? child) {
                         model.getGroup();
                         return StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
@@ -43,8 +45,9 @@ class ListActivityView extends StatelessWidget {
                           builder: (BuildContext context,
                               AsyncSnapshot<QuerySnapshot> snapshot) {
                             if (snapshot.hasData) {
-                              if (snapshot.data.docs.isNotEmpty) {
-                                final QuerySnapshot querySnapshot = snapshot.data;
+                              if (snapshot.data!.docs.isNotEmpty) {
+                                final QuerySnapshot querySnapshot =
+                                    snapshot.data!;
                                 return ListView.builder(
                                     physics:
                                         const NeverScrollableScrollPhysics(),
@@ -59,67 +62,84 @@ class ListActivityView extends StatelessWidget {
                                         child: Container(
                                           child: Card(
                                             child: InkWell(
-                                              customBorder: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(10.0),
+                                              customBorder:
+                                                  RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
                                               ),
-                                              onTap: () {
-                                                final Map<String, dynamic> documentData = snapshot.data() as Map<String, dynamic>;
-                                                if(documentData['type'] == 'migration'){
-                                                  return AlertDialog(
-                                                    shape: const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                20.0))),
-                                                    content:
-                                                    SingleChildScrollView(
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                          MainAxisSize.min,
-                                                          children: <Widget>[
-                                                            Container(
-                                                              width:
-                                                              double.infinity,
-                                                              child: const Text(
-                                                                  'この活動は表示できません',
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                      fontSize:
-                                                                      18)),
-                                                            ),
-                                                            const Padding(
-                                                                padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5),
-                                                                child: Text(
-                                                                    '選択された活動は移行元で記録されたものです。移行元の活動詳細は表示することができません。'))
-                                                          ],
-                                                        )),
-                                                  );
+                                              onTap: () async {
+                                                final Map<String, dynamic>
+                                                    documentData =
+                                                    snapshot.data()
+                                                        as Map<String, dynamic>;
+                                                if (documentData['type'] ==
+                                                    'migration') {
+                                                  await showDialog<int>(
+                                                      context: context,
+                                                      barrierDismissible: false,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          shape: const RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          20.0))),
+                                                          content:
+                                                              SingleChildScrollView(
+                                                                  child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: <Widget>[
+                                                              Container(
+                                                                width: double
+                                                                    .infinity,
+                                                                child: const Text(
+                                                                    'この活動は表示できません',
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontSize:
+                                                                            18)),
+                                                              ),
+                                                              const Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          top:
+                                                                              5),
+                                                                  child: Text(
+                                                                      '選択された活動は移行元で記録されたものです。移行元の活動詳細は表示することができません。'))
+                                                            ],
+                                                          )),
+                                                        );
+                                                      });
                                                 } else {
                                                   Navigator.of(context)
                                                       .pushNamed(
-                                                      '/detailActivity',
-                                                      arguments:
-                                                      snapshot.id);
+                                                          '/detailActivity',
+                                                          arguments:
+                                                              snapshot.id);
                                                 }
                                               },
                                               child: Padding(
-                                                padding: const EdgeInsets.all(10),
+                                                padding:
+                                                    const EdgeInsets.all(10),
                                                 child: Column(
                                                   children: <Widget>[
                                                     Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                    .only(
                                                                 top: 3,
                                                                 bottom: 8),
                                                         child: Align(
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              snapshot.get('title'),
+                                                              snapshot
+                                                                  .get('title'),
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
@@ -131,7 +151,8 @@ class ListActivityView extends StatelessWidget {
                                                             ))),
                                                     Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                    .only(
                                                                 left: 3,
                                                                 top: 5),
                                                         child: Align(
@@ -140,7 +161,8 @@ class ListActivityView extends StatelessWidget {
                                                             child: Text(
                                                               DateFormat(
                                                                       'yyyy/MM/dd')
-                                                                  .format(snapshot.get(
+                                                                  .format(snapshot
+                                                                      .get(
                                                                           'date')
                                                                       .toDate())
                                                                   .toString(),
@@ -173,8 +195,9 @@ class ListActivityView extends StatelessWidget {
                                           children: <Widget>[
                                             Icon(
                                               Icons.bubble_chart,
-                                              color:
-                                                  Theme.of(context).colorScheme.secondary,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
                                               size: 35,
                                             ),
                                             const Padding(

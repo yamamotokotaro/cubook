@@ -15,26 +15,26 @@ import 'package:path_provider/path_provider.dart';
 
 
 class AnalyticsModel extends ChangeNotifier {
-  DocumentSnapshot userSnapshot;
-  User currentUser;
+  late DocumentSnapshot userSnapshot;
+  User? currentUser;
   bool isGet = false;
   bool isExporting = false;
   bool isExported = false;
   int count_userAll = 0;
   int count_userProgress = 0;
   int count_user = 0;
-  String file_dir;
-  String group;
+  String? file_dir;
+  String? group;
   String group_before = '';
-  String group_claim;
-  String teamPosition;
-  String position;
+  String? group_claim;
+  String? teamPosition;
+  String? position;
   Map<String, dynamic> claims = <String, dynamic>{};
 
   void getGroup() async {
-    final String groupBefore = group;
-    final String teamPositionBefore = teamPosition;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = group;
+    final String? teamPositionBefore = teamPosition;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
@@ -93,8 +93,8 @@ class AnalyticsModel extends ChangeNotifier {
           .get()
           .then((QuerySnapshot querySnapshots) async {
         final List<DocumentSnapshot> listDocumentsnapshot = querySnapshots.docs;
-        Sheet sheetObject;
-        String ageLast;
+        late Sheet sheetObject;
+        String? ageLast;
         count_user = 0;
         count_userAll = listDocumentsnapshot.length;
         final List<int> countItem = <int>[];
@@ -103,16 +103,16 @@ class AnalyticsModel extends ChangeNotifier {
             int row = 0;
             count_user = 0;
             ageLast = documentSnapshot.get('age');
-            sheetObject = excel[ageLast];
+            sheetObject = excel[ageLast!];
             for (int i = 0; i < type.length; i++) {
               final CellStyle cellStyle = CellStyle(
                   backgroundColorHex:
-                      theme.getThemeColor(type[i]).value.toRadixString(16),
+                      theme.getThemeColor(type[i])!.value.toRadixString(16),
                   fontColorHex: '#FFFFFF',
                   textWrapping: TextWrapping.WrapText,
                   verticalAlign: VerticalAlign.Center,
                   horizontalAlign: HorizontalAlign.Center);
-              final List<Map<String, dynamic>> mapTask = task.getAllMap(type[i]);
+              final List<Map<String, dynamic>> mapTask = task.getAllMap(type[i])!;
               if (countItem.length < type.length + 1) {
                 if (i == 0) {
                   countItem.add(0);
@@ -167,7 +167,7 @@ class AnalyticsModel extends ChangeNotifier {
           notifyListeners();
         }
         excel.delete('Sheet1');
-        final List<int> onValue = excel.encode();
+        final List<int>? onValue = excel.encode();
         if (kIsWeb) {
           // final content = base64Encode(onValue);
           // final anchor = http.AnchorElement(
@@ -182,9 +182,9 @@ class AnalyticsModel extends ChangeNotifier {
               '/cubook_' +
               DateFormat('yyyyMMddhhmm').format(DateTime.now()).toString() +
               '.xlsx';
-          File(file_dir)
+          File(file_dir!)
             ..createSync(recursive: true)
-            ..writeAsBytesSync(onValue);
+            ..writeAsBytesSync(onValue!);
         }
         isExporting = false;
         isExported = true;
@@ -199,7 +199,7 @@ class AnalyticsModel extends ChangeNotifier {
   void openFile() async {
     if (kIsWeb) {
     } else {
-      await OpenFile.open(file_dir);
+      await OpenFile.open(file_dir!);
     }
   }
 

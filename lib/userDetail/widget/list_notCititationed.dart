@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class ListNotCititationed extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  String uid;
+  String? uid;
 
   ListNotCititationed(String _uid) {
     uid = _uid;
@@ -26,7 +26,7 @@ class ListNotCititationed extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 10),
                   child: Consumer<UserDetailModel>(
-                      builder: (BuildContext context, UserDetailModel model, Widget child) {
+                      builder: (BuildContext context, UserDetailModel model, Widget? child) {
                     if (model.group == null) {
                       model.getGroup();
                     }
@@ -49,8 +49,8 @@ class ListNotCititationed extends StatelessWidget {
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
-                                if (snapshot.data.docs.isNotEmpty) {
-                                  final QuerySnapshot querySnapshot = snapshot.data;
+                                if (snapshot.data!.docs.isNotEmpty) {
+                                  final QuerySnapshot querySnapshot = snapshot.data!;
                                   return ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
@@ -61,7 +61,7 @@ class ListNotCititationed extends StatelessWidget {
                                         final DocumentSnapshot snapshot =
                                             querySnapshot.docs[index];
                                         final Map taskInfo = task.getPartMap(
-                                            'challenge', snapshot.get('page'));
+                                            'challenge', snapshot.get('page'))!;
                                         return Padding(
                                           padding: const EdgeInsets.all(5),
                                           child: Container(

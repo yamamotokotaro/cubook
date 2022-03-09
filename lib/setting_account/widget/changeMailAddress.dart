@@ -28,7 +28,7 @@ class ChangeMailAddressView extends StatelessWidget {
                           Padding(
                               padding: const EdgeInsets.only(top: 20, bottom: 10),
                               child: Consumer<SettingAccountModel>(
-                                  builder: (BuildContext context, SettingAccountModel model, Widget child) {
+                                  builder: (BuildContext context, SettingAccountModel model, Widget? child) {
                                 return Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[

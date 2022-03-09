@@ -23,7 +23,7 @@ class DeleteGroupAccount extends StatelessWidget {
                     child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 600),
                         child: Consumer<SettingAccountGroupModel>(
-                            builder: (BuildContext context, SettingAccountGroupModel model, Widget child) {
+                            builder: (BuildContext context, SettingAccountGroupModel model, Widget? child) {
                           return Column(
                             children: <Widget>[
                               const Padding(
@@ -49,9 +49,9 @@ class DeleteGroupAccount extends StatelessWidget {
                                           AsyncSnapshot<QuerySnapshot>
                                               querysnapshot) {
                                         if (querysnapshot.hasData) {
-                                          if (querysnapshot.data.docs.isNotEmpty) {
+                                          if (querysnapshot.data!.docs.isNotEmpty) {
                                             final DocumentSnapshot snapshot =
-                                                querysnapshot.data.docs[0];
+                                                querysnapshot.data!.docs[0];
                                             return Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,

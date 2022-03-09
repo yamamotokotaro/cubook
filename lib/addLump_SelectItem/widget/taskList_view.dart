@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 class TaskView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  Color themeColor;
-  String type;
-  String typeFireStore;
-  String title = '';
+  Color? themeColor;
+  String? type;
+  String? typeFireStore;
+  String? title = '';
   int index_number = -1;
 
   TaskView(String _type) {
@@ -35,14 +35,14 @@ class TaskView extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 70),
                   child: Consumer<AddLumpSelectItemModel>(
-                      builder: (BuildContext context, AddLumpSelectItemModel model, Widget child) {
-                    final List<Map<String, dynamic>> mapTask = task.getAllMap(type);
+                      builder: (BuildContext context, AddLumpSelectItemModel model, Widget? child) {
+                    final List<Map<String, dynamic>> mapTask = task.getAllMap(type)!;
                     final int taskLength = mapTask.length;
                     if (model.itemSelected[type] == null) {
                       model.createList(type, taskLength);
                     }
                     if (model.itemSelected[type] != null) {
-                      final List<dynamic> listItemCheck = model.itemSelected[type];
+                      final List<dynamic>? listItemCheck = model.itemSelected[type];
                       return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: taskLength,
@@ -118,7 +118,7 @@ class TaskView extends StatelessWidget {
                                                                     context,
                                                                 int index) {
                                                           index_number++;
-                                                          if (listItemCheck[
+                                                          if (listItemCheck![
                                                                       indexPage]
                                                                   .length ==
                                                               0) {

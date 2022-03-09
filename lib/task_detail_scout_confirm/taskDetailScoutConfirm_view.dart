@@ -11,8 +11,8 @@ import 'taskDetailScoutConfirm_model.dart';
 
 class MyPageRoute extends TransitionRoute<dynamic> {
   MyPageRoute({
-    @required this.page,
-    @required this.dismissible,
+    required this.page,
+    required this.dismissible,
   });
 
   final Widget page;
@@ -34,13 +34,13 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 
   Widget _buildModalBarrier(BuildContext context) {
     return IgnorePointer(
-      ignoring: animation.status ==
+      ignoring: animation!.status ==
               AnimationStatus
                   .reverse || // changedInternalState is called when this updates
-          animation.status == AnimationStatus.dismissed,
+          animation!.status == AnimationStatus.dismissed,
       // dismissed is possible when doing a manual pop gesture
       child: AnimatedModalBarrier(
-        color: animation.drive(
+        color: animation!.drive(
           ColorTween(
             begin: Colors.transparent,
             end: Colors.black.withAlpha(150),
@@ -55,11 +55,11 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 class TaskScoutDetailConfirmView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  String type;
-  int number;
-  Color themeColor;
+  String? type;
+  int? number;
+  Color? themeColor;
 
-  TaskScoutDetailConfirmView(String _type, int _number) {
+  TaskScoutDetailConfirmView(String? _type, int? _number) {
     themeColor = theme.getThemeColor(_type);
     type = _type;
     number = _number;
@@ -67,7 +67,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> contents =
+    final List<Map<String, dynamic>>? contents =
         task.getContentList(type, number);
     return Container(
         width: 280,
@@ -128,7 +128,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                         const EdgeInsets.only(top: 40, bottom: 20),
                                     child: Center(
                                       child: Text(
-                                        task.getPartMap(type, number)['title'],
+                                        task.getPartMap(type, number)!['title'],
                                         style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
@@ -152,7 +152,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                     type != 'kuma' &&
                                     type != 'tukinowa' &&
                                     type != 'challenge')
-                                  if (model.stepData['phase'] != null)
+                                  if (model.stepData!['phase'] != null)
                                     model.stepSnapshot.get('phase') ==
                                             'not examined'
                                         ? Container(
@@ -188,7 +188,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                         : Container()
                                   else
                                     Container(),
-                                if (model.stepData['start'] != null)
+                                if (model.stepData!['start'] != null)
                                   Container(
                                     child: Column(
                                       children: <Widget>[
@@ -234,7 +234,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   )
                                 else
                                   Container(),
-                                if (model.stepData['end'] != null)
+                                if (model.stepData!['end'] != null)
                                   Container(
                                     child: Column(
                                       children: <Widget>[
@@ -280,7 +280,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   Container(),
 
                                 if(type != 'usagi' && type != 'sika' && type != 'kuma' && type != 'tukinowa' && type != 'challenge')
-                                if (model.stepData['date_examination'] !=
+                                if (model.stepData!['date_examination'] !=
                                     null)
                                   Container(
                                     child: Column(
@@ -333,7 +333,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   Container(),
 
                                 if(type != 'usagi' && type != 'sika' && type != 'kuma' && type != 'tukinowa' && type != 'challenge')
-                                if (model.stepData['date_examination'] !=
+                                if (model.stepData!['date_examination'] !=
                                     null)
                                   Container(
                                     child: Column(
@@ -412,13 +412,13 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                     ListView.builder(
                                         physics:
                                             const NeverScrollableScrollPhysics(),
-                                        itemCount: contents.length,
+                                        itemCount: contents!.length,
                                         shrinkWrap: true,
                                         itemBuilder:
                                             (BuildContext context, int index) {
                                           final String content =
                                               contents[index]['body'];
-                                          Color bordercolor;
+                                          Color? bordercolor;
                                           if (Theme.of(context).colorScheme.secondary ==
                                               Colors.white) {
                                             bordercolor = Colors.grey[700];
@@ -434,7 +434,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 color: const Color(0x00000000),
                                                 shape: RoundedRectangleBorder(
                                                   side: BorderSide(
-                                                    color: bordercolor,
+                                                    color: bordercolor!,
                                                     width: 2.0,
                                                   ),
                                                   borderRadius:
@@ -519,7 +519,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 40, bottom: 20),
                                   child: Center(
                                     child: Text(
-                                      task.getPartMap(type, number)['title'],
+                                      task.getPartMap(type, number)!['title'],
                                       style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -549,13 +549,13 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                       ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
-                                          itemCount: contents.length,
+                                          itemCount: contents!.length,
                                           shrinkWrap: true,
                                           itemBuilder: (BuildContext context,
                                               int index) {
                                             final String content =
                                                 contents[index]['body'];
-                                            Color bordercolor;
+                                            Color? bordercolor;
                                             if (Theme.of(context).colorScheme.secondary ==
                                                 Colors.white) {
                                               bordercolor = Colors.grey[700];
@@ -571,7 +571,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                   color: const Color(0x00000000),
                                                   shape: RoundedRectangleBorder(
                                                     side: BorderSide(
-                                                      color: bordercolor,
+                                                      color: bordercolor!,
                                                       width: 2.0,
                                                     ),
                                                     borderRadius:
@@ -641,7 +641,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                           child: Center(
                             child: CircularProgressIndicator(
                               valueColor:
-                                  AlwaysStoppedAnimation<Color>(themeColor),
+                                  AlwaysStoppedAnimation<Color?>(themeColor),
                             ),
                           ),
                         );
@@ -672,16 +672,16 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
 }
 
 class TaskScoutAddConfirmView extends StatelessWidget {
-  int page;
-  int index_page;
-  String type;
-  Color themeColor;
+  int? page;
+  int? index_page;
+  String? type;
+  Color? themeColor;
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
 
   TaskScoutAddConfirmView(
-    String _type,
-    int _page,
+    String? _type,
+    int? _page,
     int _index,
   ) {
     themeColor = theme.getThemeColor(_type);
@@ -693,7 +693,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark;
-    final String numberShow = task.getNumber(type, page, index_page);
+    final String numberShow = task.getNumber(type, page, index_page!)!;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
@@ -776,7 +776,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                               child: Text(
                                                 DateFormat('yyyy/MM/dd')
                                                     .format(model.dateSelected[
-                                                        index_page])
+                                                        index_page!])
                                                     .toString(),
                                                 style: const TextStyle(
                                                     fontSize: 20.0,
@@ -803,7 +803,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                             child: TextField(
                                               controller:
                                                   model.textField_signature[
-                                                      index_page],
+                                                      index_page!],
                                               decoration: const InputDecoration(
                                                   labelText: '署名'),
                                             ),
@@ -818,20 +818,20 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                               maxLines: null,
                                               controller:
                                                   model.textField_feedback[
-                                                      index_page],
+                                                      index_page!],
                                               keyboardType:
                                                   TextInputType.multiline,
                                               decoration: const InputDecoration(
                                                   labelText: 'フィードバック'),
                                             ),
                                           ),
-                                          if (!model.isLoading[index_page])
+                                          if (!model.isLoading[index_page!])
                                             Column(
                                               children: <Widget>[
                                                 RaisedButton.icon(
                                                   onPressed: () {
                                                     model.onTapSave(
-                                                        index_page, context);
+                                                        index_page!, context);
                                                   },
                                                   icon: const Icon(
                                                     Icons.save,
@@ -895,7 +895,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                       'はい'),
                                                                   onTap: () {
                                                                     model.onTapCancel(
-                                                                        index_page);
+                                                                        index_page!);
                                                                     Navigator.pop(
                                                                         context);
                                                                   },
@@ -940,7 +940,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                     )),
                                                 FlatButton.icon(
                                                   onPressed: () async {
-                                                    final int result =
+                                                    final int? result =
                                                         await showModalBottomSheet<
                                                             int>(
                                                       context: context,
@@ -1083,7 +1083,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                       CircularProgressIndicator(
                                                     valueColor:
                                                         AlwaysStoppedAnimation<
-                                                            Color>(themeColor),
+                                                            Color?>(themeColor),
                                                   ),
                                                 ),
                                               ),
@@ -1104,7 +1104,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                             (BuildContext
                                                                     context,
                                                                 int index) {
-                                                          final String type =
+                                                          final String? type =
                                                               snapshot['data']
                                                                       [index]
                                                                   ['type'];
@@ -1118,7 +1118,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                       InkWell(
                                                                 onLongPress:
                                                                     () async {
-                                                                  final int result =
+                                                                  final int? result =
                                                                       await showModalBottomSheet<
                                                                           int>(
                                                                     context:
@@ -1157,7 +1157,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                     children: <
                                                                         Widget>[
                                                                       Image.network(
-                                                                          model.dataList[index_page]
+                                                                          model.dataList[index_page!]
                                                                               [
                                                                               index])
                                                                     ],
@@ -1176,7 +1176,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                       InkWell(
                                                                     onLongPress:
                                                                         () async {
-                                                                      final int result =
+                                                                      final int? result =
                                                                           await showModalBottomSheet<
                                                                               int>(
                                                                         context:
@@ -1210,9 +1210,9 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                         children: <
                                                                             Widget>[
                                                                           AspectRatio(
-                                                                              aspectRatio: model.dataList[index_page][index].aspectRatio,
+                                                                              aspectRatio: model.dataList[index_page!][index].aspectRatio,
                                                                               child: Chewie(
-                                                                                controller: model.dataList[index_page][index],
+                                                                                controller: model.dataList[index_page!][index],
                                                                               ))
                                                                         ],
                                                                       ),
@@ -1241,7 +1241,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                               10),
                                                                           child:
                                                                               Text(
-                                                                            model.dataList[index_page][index],
+                                                                            model.dataList[index_page!][index],
                                                                             style:
                                                                                 const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                                                                           ))
@@ -1344,7 +1344,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                             child: CircularProgressIndicator(
                                                 valueColor:
                                                     AlwaysStoppedAnimation<
-                                                        Color>(themeColor)),
+                                                        Color?>(themeColor)),
                                           ),
                                         ));
                                   }

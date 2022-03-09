@@ -12,24 +12,24 @@ import 'package:provider/provider.dart';
 class showTaskView extends StatelessWidget {
   TaskContents task = TaskContents();
   int currentPage = 0;
-  int numberPushed;
-  int initialPage;
-  String type;
-  String typeFirestore;
+  int? numberPushed;
+  late int initialPage;
+  String? type;
+  String? typeFirestore;
   bool test = false;
   List<Widget> pages = <Widget>[
     /*StepSignView(),*/
 //    StepAddView()
   ];
 
-  showTaskView(int _number, String _type, int _initialPage) {
+  showTaskView(int? _number, String? _type, int _initialPage) {
     numberPushed = _number;
     type = _type;
     initialPage = _initialPage;
     pages.add(
       TaskScoutDetailView(type, _number),
     );
-    for (int i = 0; i < task.getPartMap(type, _number)['hasItem']; i++) {
+    for (int i = 0; i < task.getPartMap(type, _number)!['hasItem']; i++) {
       pages.add(TaskScoutAddView(type, _number, i));
     }
   }
@@ -55,7 +55,7 @@ class showTaskView extends StatelessWidget {
 
     return ChangeNotifierProvider(
         create: (BuildContext context) => TaskDetailScoutModel(
-            numberPushed, task.getPartMap(type, numberPushed)['hasItem'], type),
+            numberPushed, task.getPartMap(type, numberPushed)!['hasItem'], type),
         child: Container(
             height: setHeight,
             child: PageView(
@@ -72,18 +72,18 @@ class showTaskView extends StatelessWidget {
 class showTaskConfirmView extends StatelessWidget {
   TaskContents task = TaskContents();
   int currentPage = 0;
-  int page;
-  int number;
-  String type;
-  String typeFirestore;
-  String uid;
+  int? page;
+  late int number;
+  String? type;
+  String? typeFirestore;
+  String? uid;
   bool test = false;
   List<Widget> pages = <Widget>[
     /*StepSignView(),*/
 //    StepAddView()
   ];
 
-  showTaskConfirmView(int page, String _type, String _uid, int number) {
+  showTaskConfirmView(int? page, String? _type, String? _uid, int number) {
     this.page = page;
     this.number = number;
     type = _type;
@@ -91,7 +91,7 @@ class showTaskConfirmView extends StatelessWidget {
     pages.add(
       TaskScoutDetailConfirmView(type, page),
     );
-    for (int i = 0; i < task.getPartMap(type, page)['hasItem']; i++) {
+    for (int i = 0; i < task.getPartMap(type, page)!['hasItem']; i++) {
       pages.add(TaskScoutAddConfirmView(type, page, i));
     }
   }
@@ -117,7 +117,7 @@ class showTaskConfirmView extends StatelessWidget {
 
     return ChangeNotifierProvider(
         create: (BuildContext context) => TaskDetailScoutConfirmModel(page,
-            task.getPartMap(type, page)['hasItem'], type, uid, controller),
+            task.getPartMap(type, page)!['hasItem'], type, uid, controller),
         child: Container(
             height: setHeight,
             child: PageView(
@@ -131,13 +131,13 @@ class showTaskConfirmView extends StatelessWidget {
   }
 }
 
-Future<void> signItem(String uid, String type, int page, int number,
-    String feedback, bool checkCitation, bool isCommon) async {
+Future<void> signItem(String? uid, String? type, int? page, int? number,
+    String feedback, bool? checkCitation, bool isCommon) async {
   final TaskContents task = TaskContents();
   String documentID;
   int count = 0;
 
-  final User user = FirebaseAuth.instance.currentUser;
+  final User user = FirebaseAuth.instance.currentUser!;
   final Map<String, dynamic> dataSigned = <String, dynamic>{};
   FirebaseFirestore.instance
       .collection('user')
@@ -146,7 +146,7 @@ Future<void> signItem(String uid, String type, int page, int number,
       .then((QuerySnapshot<Map<String, dynamic>> data) async {
     final Map<String, dynamic> userInfo = data.docs[0].data();
     FirebaseFirestore.instance
-        .collection(type)
+        .collection(type!)
         .where('group', isEqualTo: userInfo['group'])
         .where('uid', isEqualTo: uid)
         .where('page', isEqualTo: page)
@@ -154,10 +154,10 @@ Future<void> signItem(String uid, String type, int page, int number,
         .then((QuerySnapshot<Map<String, dynamic>> data) async {
       if (data.docs.isNotEmpty) {
         final DocumentSnapshot snapshot = data.docs[0];
-        Map<String, dynamic> map = <String, dynamic>{};
+        Map<String, dynamic>? map = <String, dynamic>{};
         final Map<String, dynamic> dataToAdd = <String, dynamic>{};
         map = snapshot.get('signed');
-        if (map[number.toString()] == null) {
+        if (map![number.toString()] == null) {
           dataToAdd['phaze'] = 'signed';
           dataToAdd['family'] = userInfo['family'];
           dataToAdd['uid'] = uid;
@@ -173,14 +173,14 @@ Future<void> signItem(String uid, String type, int page, int number,
         }
         dataSigned['signed'] = map;
         map.forEach((String key, dynamic values) {
-          final Map<String, dynamic> partData = map[key.toString()];
+          final Map<String, dynamic> partData = map![key.toString()];
           if (partData['phaze'] == 'signed') {
             count++;
           }
         });
-        Map<String, dynamic> taskInfo = <String, dynamic>{};
+        Map<String, dynamic>? taskInfo = <String, dynamic>{};
         taskInfo = task.getPartMap(type, page);
-        if (count == taskInfo['hasItem']) {
+        if (count == taskInfo!['hasItem']) {
           dataSigned['end'] = Timestamp.now();
           dataSigned['isCitationed'] = checkCitation;
           if (type == 'gino') {
@@ -209,9 +209,9 @@ Future<void> signItem(String uid, String type, int page, int number,
         dataSigned['signed'] = {number.toString(): dataToAdd};
         dataSigned['group'] = userInfo['group'];
         count = 1;
-        Map<String, dynamic> taskInfo = <String, dynamic>{};
+        Map<String, dynamic>? taskInfo = <String, dynamic>{};
         taskInfo = task.getPartMap(type, page);
-        if (count == taskInfo['hasItem']) {
+        if (count == taskInfo!['hasItem']) {
           dataSigned['end'] = Timestamp.now();
           dataSigned['isCitationed'] = checkCitation;
           if (type == 'gino') {
@@ -234,32 +234,32 @@ Future<void> signItem(String uid, String type, int page, int number,
           .get()
           .then((QuerySnapshot<Map<String, dynamic>> data) {
         final DocumentSnapshot snapshot = data.docs[0];
-        Map<String, dynamic> map = <String, int>{};
+        Map<String, dynamic>? map = <String, int>{};
         if (snapshot.get(type) != null) {
           map = snapshot.get(type);
-          map[page.toString()] = count;
+          map![page.toString()] = count;
         } else {
           map[page.toString()] = count;
         }
-        final Map<String, Map<String, dynamic>> mapSend = {type: map};
+        final Map<String, Map<String, dynamic>?> mapSend = {type: map};
         FirebaseFirestore.instance
             .collection('user')
             .doc(snapshot.id)
             .update(mapSend);
 
-        if (map[page.toString()] == task.getPartMap(type, page)['hasItem']) {
-          if (!checkCitation) {
+        if (map[page.toString()] == task.getPartMap(type, page)!['hasItem']) {
+          if (!checkCitation!) {
             onFinish(uid, type, page, documentID);
           }
-          final Map<String, dynamic> finishCommon =
-              task.getPartMap(type, page)['common'];
+          final Map<String, dynamic>? finishCommon =
+              task.getPartMap(type, page)!['common'];
           if (finishCommon != null) {
             signItem(uid, finishCommon['type'], finishCommon['page'],
                 finishCommon['number'], feedback, false, false);
           }
         }
 
-        final Map<String, dynamic> common =
+        final Map<String, dynamic>? common =
             task.getContent(type, page, number)['common'];
         if (common != null && !isCommon) {
           signItem(uid, common['type'], common['page'], common['number'],
@@ -271,11 +271,11 @@ Future<void> signItem(String uid, String type, int page, int number,
 }
 
 Future<void> cancelItem(
-    String uid, String type, int page, int number, bool isCommon) async {
+    String? uid, String? type, int? page, int? number, bool isCommon) async {
   final Map<String, dynamic> dataSigned = <String, dynamic>{};
   final TaskContents task = TaskContents();
 
-  final User user = FirebaseAuth.instance.currentUser;
+  final User user = FirebaseAuth.instance.currentUser!;
   FirebaseFirestore.instance
       .collection('user')
       .where('uid', isEqualTo: user.uid)
@@ -283,7 +283,7 @@ Future<void> cancelItem(
       .then((QuerySnapshot<Map<String, dynamic>> data) async {
     final Map<String, dynamic> userInfo = data.docs[0].data();
     FirebaseFirestore.instance
-        .collection(type)
+        .collection(type!)
         .where('group', isEqualTo: userInfo['group'])
         .where('uid', isEqualTo: uid)
         .where('page', isEqualTo: page)
@@ -293,13 +293,13 @@ Future<void> cancelItem(
         int count = 0;
         final DocumentSnapshot snapshot = data.docs[0];
         if (snapshot.get('signed').length - 1 != 0) {
-          Map<String, dynamic> map = <String, dynamic>{};
+          Map<String, dynamic>? map = <String, dynamic>{};
           map = snapshot.get('signed');
-          map.remove(number.toString());
+          map!.remove(number.toString());
           dataSigned['signed'] = map;
           dataSigned['end'] = FieldValue.delete();
           map.forEach((String key, dynamic values) {
-            final Map<String, dynamic> partData = map[key.toString()];
+            final Map<String, dynamic> partData = map![key.toString()];
             if (partData['phaze'] == 'signed') {
               count++;
             }
@@ -320,29 +320,29 @@ Future<void> cancelItem(
             .get()
             .then((QuerySnapshot<Map<String, dynamic>> data) {
           final DocumentSnapshot snapshot = data.docs[0];
-          Map<String, dynamic> map = <String, int>{};
+          Map<String, dynamic>? map = <String, int>{};
           if (snapshot.get(type) != null) {
             map = snapshot.get(type);
-            map[page.toString()] = count;
+            map![page.toString()] = count;
           } else {
             map[page.toString()] = count;
           }
-          final Map<String, Map<String, dynamic>> mapSend = {type: map};
+          final Map<String, Map<String, dynamic>?> mapSend = {type: map};
           FirebaseFirestore.instance
               .collection('user')
               .doc(snapshot.id)
               .update(mapSend);
         });
 
-        final Map<String, dynamic> finishCommon =
-            task.getPartMap(type, page)['common'];
-        if (count + 1 == task.getPartMap(type, page)['hasItem'] &&
+        final Map<String, dynamic>? finishCommon =
+            task.getPartMap(type, page)!['common'];
+        if (count + 1 == task.getPartMap(type, page)!['hasItem'] &&
             finishCommon != null) {
           cancelItem(uid, finishCommon['type'], finishCommon['page'],
               finishCommon['number'], false);
         }
 
-        final Map<String, dynamic> common =
+        final Map<String, dynamic>? common =
             task.getContent(type, page, number)['common'];
         if (common != null && !isCommon) {
           cancelItem(
@@ -354,10 +354,10 @@ Future<void> cancelItem(
 }
 
 Future<void> onFinish(
-    String uid, String type, int page, String documentID) async {
+    String? uid, String? type, int? page, String documentID) async {
   final TaskContents task = TaskContents();
   final ThemeInfo theme = ThemeInfo();
-  final User user = FirebaseAuth.instance.currentUser;
+  final User user = FirebaseAuth.instance.currentUser!;
   FirebaseFirestore.instance
       .collection('user')
       .where('uid', isEqualTo: user.uid)
@@ -371,8 +371,8 @@ Future<void> onFinish(
         .get();
     final DocumentSnapshot snapshot = data.docs[0];
     final Map<String, dynamic> map = <String, dynamic>{};
-    final Map<String, dynamic> taskMap = task.getPartMap(type, page);
-    final String body = theme.getTitle(type) +
+    final Map<String, dynamic> taskMap = task.getPartMap(type, page)!;
+    final String body = theme.getTitle(type)! +
         ' ' +
         taskMap['number'] +
         ' ' +
@@ -395,7 +395,7 @@ Future<void> onFinish(
     }
     FirebaseFirestore.instance.collection('effort').add(map);
     FirebaseFirestore.instance
-        .collection(type)
+        .collection(type!)
         .where('uid', isEqualTo: uid)
         .where('group', isEqualTo: userInfo['group'])
         .get();

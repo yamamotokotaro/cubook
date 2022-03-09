@@ -47,7 +47,7 @@ class LoginView extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 30),
                       child: Container(
                         child: Consumer<HomeModel>(
-                            builder: (BuildContext context, HomeModel model, Widget child) {
+                            builder: (BuildContext context, HomeModel model, Widget? child) {
                           return RaisedButton(
                             color: Colors.blue[900],
                             onPressed: () async {

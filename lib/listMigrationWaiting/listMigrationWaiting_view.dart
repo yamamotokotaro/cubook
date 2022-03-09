@@ -23,7 +23,7 @@ class ListMigrationWaitingView extends StatelessWidget {
             child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600),
                 child: Consumer<ListTaskWaitingModel>(
-                    builder: (BuildContext context, ListTaskWaitingModel model, Widget child) {
+                    builder: (BuildContext context, ListTaskWaitingModel model, Widget? child) {
                   model.getSnapshot();
                   if (model.group != null) {
                     return StreamBuilder<QuerySnapshot>(
@@ -36,18 +36,18 @@ class ListMigrationWaitingView extends StatelessWidget {
                             AsyncSnapshot<QuerySnapshot> snapshotGet) {
                           if (snapshotGet.hasData) {
                             return ListView.builder(
-                                itemCount: snapshotGet.data.docs.length,
+                                itemCount: snapshotGet.data!.docs.length,
                                 shrinkWrap: true,
                                 itemBuilder: (BuildContext context, int index) {
                                   final DocumentSnapshot snapshot =
-                                      snapshotGet.data.docs[index];
+                                      snapshotGet.data!.docs[index];
                                   return Padding(
                                     padding: const EdgeInsets.only(
                                         top: 10, left: 10, right: 10),
                                     child: Container(
                                       child: Hero(
                                           tag: 'detailTask' +
-                                              snapshotGet.data.docs[index].id,
+                                              snapshotGet.data!.docs[index].id,
                                           child: SingleChildScrollView(
                                             child: Card(
                                               shape: RoundedRectangleBorder(
@@ -70,7 +70,7 @@ class ListMigrationWaitingView extends StatelessWidget {
                                                           builder: (BuildContext
                                                               context) {
                                                     return DetailMigrationWaitingView(
-                                                        snapshotGet.data
+                                                        snapshotGet.data!
                                                             .docs[index].id,
                                                         snapshot.get('name'),
                                                         snapshot.get(

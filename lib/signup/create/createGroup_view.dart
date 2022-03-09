@@ -10,7 +10,7 @@ class CreateGroupView extends StatelessWidget {
     return Container(
         child: GestureDetector(onTap: () {
       FocusScope.of(context).unfocus();
-    }, child: Consumer<SignupModel>(builder: (BuildContext context, SignupModel model, Widget child) {
+    }, child: Consumer<SignupModel>(builder: (BuildContext context, SignupModel model, Widget? child) {
       return Center(
           child: Column(children: <Widget>[
         const Padding(
@@ -46,7 +46,7 @@ class CreateGroupView extends StatelessWidget {
                       child: Text(value),
                     );
                   }).toList(),
-                  onChanged: (String value) {
+                  onChanged: (String? value) {
                     model.onDropdownChanged(value);
                   },
                 )),

@@ -3,17 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ListCitationAnalyticsModel extends ChangeNotifier {
-  DocumentSnapshot userSnapshot;
-  User currentUser;
+  DocumentSnapshot? userSnapshot;
+  User? currentUser;
   bool isGet = false;
-  String group;
+  String? group;
   String group_before = '';
-  String group_claim;
+  String? group_claim;
   Map<String, dynamic> claims = <String, dynamic>{};
 
   void getGroup() async {
-    final String groupBefore = group;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
           .collection('user')
           .where('uid', isEqualTo: user.uid)
@@ -24,8 +24,8 @@ class ListCitationAnalyticsModel extends ChangeNotifier {
           notifyListeners();
         }
         user.getIdTokenResult(true).then((IdTokenResult value) {
-          final String groupClaimBefore = group_claim;
-          group_claim = value.claims['group'];
+          final String? groupClaimBefore = group_claim;
+          group_claim = value.claims!['group'];
           if (groupClaimBefore != group_claim) {
             notifyListeners();
           }
@@ -33,13 +33,13 @@ class ListCitationAnalyticsModel extends ChangeNotifier {
       });
   }
 
-  void onTapCititation(String documentID, BuildContext context, String name, String title, bool isDark) {
+  void onTapCititation(String documentID, BuildContext context, String? name, String? title, bool isDark) {
     FirebaseFirestore.instance
         .collection('challenge')
         .doc(documentID)
         .update(<String, dynamic>{'isCitationed': true}).then((value) {
       final SnackBar snackBar = SnackBar(
-        content: Text(name + ' の'+title+'を表彰済みにしました'),
+        content: Text(name! + ' の'+title!+'を表彰済みにしました'),
         action: SnackBarAction(
           label: '取り消し',
           textColor: isDark ? Colors.blue[900] : Colors.blue[400],

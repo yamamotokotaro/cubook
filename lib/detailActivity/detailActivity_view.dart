@@ -15,14 +15,14 @@ class DetailActivityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String documentID = ModalRoute.of(context).settings.arguments;
+    final String? documentID = ModalRoute.of(context)!.settings.arguments as String?;
     return Scaffold(
       appBar: AppBar(
         title: const Text('記録詳細'),
         actions: <Widget>[
-          Selector<DetailActivityModel, String>(
+          Selector<DetailActivityModel, String?>(
               selector: (BuildContext context, DetailActivityModel model) => model.position,
-              builder: (BuildContext context, String position, Widget child) => position == 'leader'
+              builder: (BuildContext context, String? position, Widget? child) => position == 'leader'
                   ? Semantics(
                       label: '活動記録の編集か削除操作が行えます',
                       child: IconButton(
@@ -37,7 +37,7 @@ class DetailActivityView extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       Consumer<DetailActivityModel>(
-                                          builder: (BuildContext context, DetailActivityModel model, Widget child) {
+                                          builder: (BuildContext context, DetailActivityModel model, Widget? child) {
                                         return Column(
                                           children: [
                                             ListTile(
@@ -73,7 +73,7 @@ class DetailActivityView extends StatelessWidget {
                                                                 builder:
                                                                     (BuildContext context,
                                                                         DetailActivityModel model,
-                                                                        Widget child) {
+                                                                        Widget? child) {
                                                               return Column(
                                                                 children: [
                                                                   Padding(
@@ -153,7 +153,7 @@ class DetailActivityView extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<DetailActivityModel>(
-                          builder: (BuildContext context, DetailActivityModel model, Widget child) {
+                          builder: (BuildContext context, DetailActivityModel model, Widget? child) {
                         model.getGroup();
                         if (model.group != null) {
                           return Column(
@@ -167,7 +167,7 @@ class DetailActivityView extends StatelessWidget {
                                     AsyncSnapshot<DocumentSnapshot> snapshot) {
                                   if (snapshot.hasData) {
                                     final DocumentSnapshot documentSnapshot =
-                                        snapshot.data;
+                                        snapshot.data!;
                                     final Map<String, dynamic> documentData = documentSnapshot.data() as Map<String, dynamic>;
                                     const String teamLast = '';
                                     return Column(children: <Widget>[
@@ -243,18 +243,18 @@ class DetailActivityView extends StatelessWidget {
                                                               documentSnapshot.get(
                                                                       'list_item')
                                                                   [index];
-                                                          final String type =
+                                                          final String? type =
                                                               partSelected[
                                                                   'type'];
-                                                          final int page =
+                                                          final int? page =
                                                               partSelected[
                                                                   'page'];
-                                                          final int number =
+                                                          final int? number =
                                                               partSelected[
                                                                   'number'];
-                                                          final String position =
+                                                          final String? position =
                                                               model.position;
-                                                          final Map<String, dynamic>
+                                                          final Map<String, dynamic>?
                                                               mapTask =
                                                               task.getPartMap(
                                                                   type, page);
@@ -294,7 +294,7 @@ class DetailActivityView extends StatelessWidget {
                                                                         if (position ==
                                                                             'scout') {
                                                                           Navigator.of(context).push<dynamic>(MyPageRoute(
-                                                                              page: showTaskView(page, type, number + 1),
+                                                                              page: showTaskView(page, type, number! + 1),
                                                                               dismissible: true));
                                                                         } else {
                                                                           await showModalBottomSheet<
@@ -345,7 +345,7 @@ class DetailActivityView extends StatelessWidget {
                                                                               padding: const EdgeInsets.only(top: 5, bottom: 5),
                                                                               child: Column(
                                                                                 children: [
-                                                                                  Text(theme.getTitle(type) + ' ' + mapTask['number'] + ' ' + mapTask['title'] + ' (' + (number + 1).toString() + ')', style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white))
+                                                                                  Text(theme.getTitle(type)! + ' ' + mapTask!['number'] + ' ' + mapTask['title'] + ' (' + (number! + 1).toString() + ')', style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white))
                                                                                 ],
                                                                               )))),
                                                                 ));
@@ -378,12 +378,12 @@ class DetailActivityView extends StatelessWidget {
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data.docs.isNotEmpty) {
+                                    if (snapshot.data!.docs.isNotEmpty) {
                                       final QuerySnapshot querySnapshot =
-                                          snapshot.data;
+                                          snapshot.data!;
                                       final DocumentSnapshot documentSnapshot =
                                           querySnapshot.docs[0];
-                                      String teamLast = '';
+                                      String? teamLast = '';
                                       return Column(children: <Widget>[
                                         ListView.builder(
                                             physics:
@@ -393,17 +393,17 @@ class DetailActivityView extends StatelessWidget {
                                             shrinkWrap: true,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              String uid;
+                                              String? uid;
                                               final DocumentSnapshot snapshot =
                                                   querySnapshot
                                                       .docs[index];
                                               uid = snapshot.get('uid');
-                                              bool isCheck = true;
-                                              if (model.uid_check[uid] !=
+                                              bool? isCheck = true;
+                                              if (model.uid_check[uid!] !=
                                                   null) {
                                                 isCheck = model.uid_check[uid];
                                               }
-                                              String team = '';
+                                              String? team = '';
                                               if (snapshot.get('team') != null) {
                                                 if (snapshot.get('team') is int) {
                                                   team = snapshot.get('team')
@@ -427,7 +427,7 @@ class DetailActivityView extends StatelessWidget {
                                               } else {
                                                 absence = '欠席';
                                               }
-                                              final String age = snapshot.get('age');
+                                              final String? age = snapshot.get('age');
                                               String teamCall;
                                               if (age == 'usagi' ||
                                                   age == 'sika' ||
@@ -445,7 +445,7 @@ class DetailActivityView extends StatelessWidget {
                                                             width:
                                                                 double.infinity,
                                                             child: Text(
-                                                              team + teamCall,
+                                                              team! + teamCall,
                                                               style: const TextStyle(
                                                                 fontWeight:
                                                                     FontWeight

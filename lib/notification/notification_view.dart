@@ -27,7 +27,7 @@ class NotificationView extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<NotificationModel>(
-                          builder: (BuildContext context, NotificationModel model, Widget child) {
+                          builder: (BuildContext context, NotificationModel model, Widget? child) {
                         model.getUser();
                         if (model.uid != null) {
                           return StreamBuilder<QuerySnapshot>(
@@ -40,9 +40,9 @@ class NotificationView extends StatelessWidget {
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
-                                if (snapshot.data.docs.isNotEmpty) {
+                                if (snapshot.data!.docs.isNotEmpty) {
                                   final QuerySnapshot querySnapshot =
-                                      snapshot.data;
+                                      snapshot.data!;
                                   return ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
@@ -52,12 +52,12 @@ class NotificationView extends StatelessWidget {
                                           (BuildContext context, int index) {
                                         final DocumentSnapshot snapshot =
                                             querySnapshot.docs[index];
-                                        final String type =
+                                        final String? type =
                                             snapshot.get('type');
-                                        final int page = snapshot.get('page');
-                                        final int number =
+                                        final int? page = snapshot.get('page');
+                                        final int? number =
                                             snapshot.get('number');
-                                        final Color color = theme.getThemeColor(
+                                        final Color? color = theme.getThemeColor(
                                             snapshot.get('type'));
                                         return Padding(
                                           padding: const EdgeInsets.all(5),
@@ -82,7 +82,7 @@ class NotificationView extends StatelessWidget {
                                                           page: showTaskView(
                                                               page,
                                                               type,
-                                                              number + 1),
+                                                              number! + 1),
                                                           dismissible: true));
                                                 },
                                                 child: Padding(

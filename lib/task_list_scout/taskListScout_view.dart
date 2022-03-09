@@ -11,12 +11,12 @@ class TaskListScoutView extends StatelessWidget {
 
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  Color themeColor;
-  String type;
-  String typeFireStore;
-  String title = '';
+  Color? themeColor;
+  String? type;
+  String? typeFireStore;
+  String? title = '';
 
-  TaskListScoutView(String _type){
+  TaskListScoutView(String? _type){
     themeColor = theme.getThemeColor(_type);
     title = theme.getTitle(_type);
     if(_type == 'usagi'){
@@ -41,7 +41,7 @@ class TaskListScoutView extends StatelessWidget {
         elevation: 5,
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          title,
+          title!,
           style: const TextStyle(color: Colors.white),
         ), systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
@@ -55,23 +55,23 @@ class TaskListScoutView extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child:
-                      Consumer<TaskListScoutModel>(builder: (BuildContext context, TaskListScoutModel model, Widget child) {
+                      Consumer<TaskListScoutModel>(builder: (BuildContext context, TaskListScoutModel model, Widget? child) {
                         if (!model.isGet) {
                           model.getSnapshot();
                         }
                         if (model.userSnapshot != null) {
-                          final List<Map<String, dynamic>> mapTask = task.getAllMap(type);
+                          final List<Map<String, dynamic>> mapTask = task.getAllMap(type)!;
                           final List<bool> listIsCompleted =
                           List.generate(mapTask.length, (int index) => false);
-                          final List<double> listPercentage = List.generate(
+                          final List<double?> listPercentage = List.generate(
                               mapTask.length, (int index) => 0.0);
-                          if(model.userData[type] != null) {
+                          if(model.userData![type!] != null) {
                             final Map map = Map<String, dynamic>.from(
-                                model.userSnapshot.get(type));
+                                model.userSnapshot!.get(type!));
                             for (int i = 0; i < mapTask.length; i++) {
                               if (map.containsKey(i.toString())) {
                                 listPercentage[i] =
-                                model.userSnapshot.get(type)
+                                model.userSnapshot!.get(type!)
                                 [i.toString()] /
                                     mapTask[i]['hasItem'].toDouble();
                               }
@@ -196,7 +196,7 @@ class TaskListScoutView extends StatelessWidget {
                                                                   child:
                                                                   CircularProgressIndicator(
                                                                     backgroundColor: isDark ? Colors.grey[700]: Colors.grey[300],
-                                                                    valueColor: AlwaysStoppedAnimation<Color>(isDark ?Colors.white: theme.getThemeColor(type)),
+                                                                    valueColor: AlwaysStoppedAnimation<Color?>(isDark ?Colors.white: theme.getThemeColor(type)),
                                                                     value:
                                                                     listPercentage[index],
                                                                   ))

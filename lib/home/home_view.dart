@@ -12,11 +12,11 @@ import 'package:url_launcher/url_launcher.dart';
 import 'home_controller.dart';
 
 class HomeView extends StatelessWidget {
-  String group;
-  String position;
+  String? group;
+  String? position;
   math.Random random = math.Random();
 
-  HomeView(String _group, String _position) {
+  HomeView(String? _group, String? _position) {
     group = _group;
     position = _position;
   }
@@ -82,7 +82,7 @@ class HomeView extends StatelessWidget {
                         hint: 'ログアウトなどの操作を行います',
                         child: IconButton(
                           onPressed: () async {
-                            PackageInfo packageInfo;
+                            late PackageInfo packageInfo;
                             if (!kIsWeb) {
                               packageInfo = await PackageInfo.fromPlatform();
                             }
@@ -99,7 +99,7 @@ class HomeView extends StatelessWidget {
                                             Radius.circular(20.0))),
                                     content: SingleChildScrollView(child:
                                         Consumer<HomeModel>(
-                                            builder: (BuildContext context, HomeModel model, Widget child) {
+                                            builder: (BuildContext context, HomeModel model, Widget? child) {
                                       return Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
@@ -173,12 +173,12 @@ class HomeView extends StatelessWidget {
                           ),
                         )))),
             const Spacer(),
-            Selector<HomeModel, String>(
+            Selector<HomeModel, String?>(
               selector: (BuildContext context, HomeModel model) => model.groupName,
-              builder: (BuildContext context, String name, Widget child) => Padding(
+              builder: (BuildContext context, String? name, Widget? child) => Padding(
                 padding: const EdgeInsets.only(top: 12, right: 15),
                 child: Text(
-                  name,
+                  name!,
                   style: GoogleFonts.notoSans(
                       textStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -189,12 +189,12 @@ class HomeView extends StatelessWidget {
             ),
           ],
         ),
-        Selector<HomeModel, String>(
+        Selector<HomeModel, String?>(
           selector: (BuildContext context, HomeModel model) => model.username,
-          builder: (BuildContext context, String name, Widget child) => Padding(
+          builder: (BuildContext context, String? name, Widget? child) => Padding(
             padding: const EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
             child: Text(
-              name + '、' + greet,
+              name! + '、' + greet,
               style: GoogleFonts.notoSans(
                   textStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
@@ -204,7 +204,7 @@ class HomeView extends StatelessWidget {
           ),
         ),
         Consumer<HomeModel>(
-          builder: (BuildContext context, HomeModel model, Widget child) {
+          builder: (BuildContext context, HomeModel model, Widget? child) {
             if (model.currentUser == null) {
               model.login();
               return Center(

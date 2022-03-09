@@ -13,12 +13,12 @@ class TaskDetailAnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TaskDetail info = ModalRoute.of(context).settings.arguments;
-    final String type = info.type;
-    final int page = info.page;
-    final Color themeColor = theme.getThemeColor(type);
-    final List<Map<String, dynamic>> contents = task.getContentList(type, page);
-    final Map<String, dynamic> mapTask = task.getPartMap(type, page);
+    final TaskDetail info = ModalRoute.of(context)!.settings.arguments as TaskDetail;
+    final String? type = info.type;
+    final int? page = info.page;
+    final Color? themeColor = theme.getThemeColor(type);
+    final List<Map<String, dynamic>>? contents = task.getContentList(type, page);
+    final Map<String, dynamic> mapTask = task.getPartMap(type, page)!;
     bool isDark;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
@@ -40,7 +40,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<TaskDetailAnalyticsModel>(
-                          builder: (BuildContext context, TaskDetailAnalyticsModel model, Widget child) {
+                          builder: (BuildContext context, TaskDetailAnalyticsModel model, Widget? child) {
                         model.getGroup();
                         if (model.group != null) {
                           return Column(
@@ -52,8 +52,8 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                     if (snapshot.hasData) {
                                       int userCount = 0;
                                       final List<DocumentSnapshot>
-                                          listSnapshot = snapshot.data.docs;
-                                      final List<String> listUid = <String>[];
+                                          listSnapshot = snapshot.data!.docs;
+                                      final List<String?> listUid = <String?>[];
                                       if (type == 'challenge' ||
                                           type == 'gino') {
                                         userCount = listSnapshot.length;
@@ -85,7 +85,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                       }
                                       return StreamBuilder<QuerySnapshot>(
                                         stream: FirebaseFirestore.instance
-                                            .collection(type)
+                                            .collection(type!)
                                             .where('group',
                                                 isEqualTo: model.group)
                                             .where('page', isEqualTo: page)
@@ -95,34 +95,34 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                 snapshotTask) {
                                           if (snapshotTask.hasData) {
                                             final int quant = task.getPartMap(
-                                                type, page)['hasItem'];
+                                                type, page)!['hasItem'];
                                             final List<DocumentSnapshot>
                                                 listDocumentSnapshot =
-                                                snapshotTask.data.docs;
+                                                snapshotTask.data!.docs;
                                             final List<int> countItem =
                                                 List<int>.generate(
                                                     quant, (int index) => 0);
                                             int countEnd = 0;
                                             for (DocumentSnapshot documentSnapshot
                                                 in listDocumentSnapshot) {
-                                              final Map<String, dynamic>
+                                              final Map<String, dynamic>?
                                                   documentData =
                                                   documentSnapshot.data()
-                                                      as Map<String, dynamic>;
+                                                      as Map<String, dynamic>?;
                                               if (listUid.contains(
                                                   documentSnapshot
                                                       .get('uid'))) {
-                                                if(documentData['end'] != null){
+                                                if(documentData!['end'] != null){
                                                   countEnd++;
                                                 }
                                               }
-                                              final Map<dynamic, dynamic>
+                                              final Map<dynamic, dynamic>?
                                                   signed = documentSnapshot
                                                       .get('signed');
                                               for (int i = 0; i < quant; i++) {
-                                                final Map<dynamic, dynamic>
+                                                final Map<dynamic, dynamic>?
                                                     signedPart =
-                                                    signed[i.toString()];
+                                                    signed![i.toString()];
                                                 if (signedPart != null) {
                                                   if (signedPart['phaze'] ==
                                                           'signed' &&
@@ -177,7 +177,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                           700]
                                                                       : Colors.grey[
                                                                           300],
-                                                                  valueColor: AlwaysStoppedAnimation<Color>(isDark
+                                                                  valueColor: AlwaysStoppedAnimation<Color?>(isDark
                                                                       ? Colors
                                                                           .white
                                                                       : theme.getThemeColor(
@@ -325,7 +325,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                                   width: 200,
                                                                                   child: LinearProgressIndicator(
                                                                                     backgroundColor: isDark ? Colors.grey[700] : Colors.grey[300],
-                                                                                    valueColor: AlwaysStoppedAnimation<Color>(isDark ? Colors.white : theme.getThemeColor(type)),
+                                                                                    valueColor: AlwaysStoppedAnimation<Color?>(isDark ? Colors.white : theme.getThemeColor(type)),
                                                                                     value: userCount == 0 ? 0 : countItem[index] / userCount,
                                                                                   )))
                                                                         ],
@@ -375,13 +375,13 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                   child: ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemCount: contents.length,
+                                      itemCount: contents!.length,
                                       shrinkWrap: true,
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         final String content =
                                             contents[index]['body'];
-                                        Color bordercolor;
+                                        Color? bordercolor;
                                         if (Theme.of(context).colorScheme.secondary ==
                                             Colors.white) {
                                           bordercolor = Colors.grey[700];
@@ -395,7 +395,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                               color: const Color(0x00000000),
                                               shape: RoundedRectangleBorder(
                                                 side: BorderSide(
-                                                  color: bordercolor,
+                                                  color: bordercolor!,
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:

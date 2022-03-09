@@ -11,13 +11,13 @@ import 'taskListScoutConfirm_model.dart';
 class TaskListScoutConfirmView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
-  Color themeColor;
-  String type;
-  String typeFireStore;
-  String title = '';
-  String uid;
+  Color? themeColor;
+  String? type;
+  String? typeFireStore;
+  String? title = '';
+  String? uid;
 
-  TaskListScoutConfirmView(String _type, String _uid) {
+  TaskListScoutConfirmView(String _type, String? _uid) {
     themeColor = theme.getThemeColor(_type);
     title = theme.getTitle(_type);
     if (_type == 'usagi') {
@@ -43,7 +43,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
         elevation: 5,
         iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
-          title,
+          title!,
           style: const TextStyle(color: Colors.white),
         ), systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
@@ -57,26 +57,26 @@ class TaskListScoutConfirmView extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<TaskListScoutConfirmModel>(
-                          builder: (BuildContext context, TaskListScoutConfirmModel model, Widget child) {
+                          builder: (BuildContext context, TaskListScoutConfirmModel model, Widget? child) {
                         if (model.userSnapshot == null) {
                           model.getSnapshot(uid);
-                        } else if (model.userSnapshot.get('uid') != uid) {
+                        } else if (model.userSnapshot!.get('uid') != uid) {
                           model.getSnapshot(uid);
                           model.userSnapshot = null;
                         }
                         if (model.userSnapshot != null) {
-                          final List<Map<String, dynamic>> mapTask = task.getAllMap(type);
+                          final List<Map<String, dynamic>> mapTask = task.getAllMap(type)!;
                           final List<bool> listIsCompleted = List.generate(
                               mapTask.length, (int index) => false);
-                          final List<double> listPercentage = List.generate(
+                          final List<double?> listPercentage = List.generate(
                               mapTask.length, (int index) => 0.0);
-                          if (model.userData[type] != null) {
+                          if (model.userData![type!] != null) {
                             final Map map = Map<String, dynamic>.from(
-                                model.userSnapshot.get(type));
+                                model.userSnapshot!.get(type!));
                             for (int i = 0; i < mapTask.length; i++) {
                               if (map.containsKey(i.toString())) {
-                                listPercentage[i] = model.userSnapshot
-                                        .get(type)[i.toString()] /
+                                listPercentage[i] = model.userSnapshot!
+                                        .get(type!)[i.toString()] /
                                     mapTask[i]['hasItem'].toDouble();
                               }
                             }
@@ -207,7 +207,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                                           backgroundColor: isDark
                                                                               ? Colors.grey[700]
                                                                               : Colors.grey[300],
-                                                                          valueColor: AlwaysStoppedAnimation<Color>(isDark
+                                                                          valueColor: AlwaysStoppedAnimation<Color?>(isDark
                                                                               ? Colors.white
                                                                               : theme.getThemeColor(type)),
                                                                           value:

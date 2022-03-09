@@ -5,25 +5,25 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SettingAccountModel extends ChangeNotifier {
-  DocumentSnapshot userSnapshot;
-  User currentUser;
+  DocumentSnapshot? userSnapshot;
+  User? currentUser;
   bool isGet = false;
   bool isLoading = false;
   bool passwordError = false;
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String uid;
-  String mailAddress;
+  String? uid;
+  String? mailAddress;
   Map<String, dynamic> claims = <String, dynamic>{};
 
   void getUser() async {
-    final String uidBefore = uid;
-    final String mailAddressBefore = mailAddress;
-    final User user = FirebaseAuth.instance.currentUser;
+    final String? uidBefore = uid;
+    final String? mailAddressBefore = mailAddress;
+    final User? user = FirebaseAuth.instance.currentUser;
     currentUser = user;
-    uid = currentUser.uid;
-    mailAddress = currentUser.email;
-    addressController.text = currentUser.email;
+    uid = currentUser!.uid;
+    mailAddress = currentUser!.email;
+    addressController.text = currentUser!.email!;
     if (uid == null || uid != uidBefore || mailAddress != mailAddressBefore) {
       notifyListeners();
     }
@@ -34,7 +34,7 @@ class SettingAccountModel extends ChangeNotifier {
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(addressController.text)) {
       try {
-        await currentUser.updateEmail(addressController.text);
+        await currentUser!.updateEmail(addressController.text);
         Scaffold.of(context).showSnackBar(const SnackBar(
           content: Text('メールアドレスを変更しました'),
         ));
@@ -59,7 +59,7 @@ class SettingAccountModel extends ChangeNotifier {
                         borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     content: SingleChildScrollView(child:
                         Consumer<SettingAccountModel>(
-                            builder: (BuildContext context, SettingAccountModel model, Widget child) {
+                            builder: (BuildContext context, SettingAccountModel model, Widget? child) {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -85,10 +85,10 @@ class SettingAccountModel extends ChangeNotifier {
                         onPressed: () async {
                           FocusScope.of(context).unfocus();
                           final AuthCredential credential = EmailAuthProvider.credential(
-                              email: mailAddress,
+                              email: mailAddress!,
                               password: passwordController.text);
                           try {
-                            await currentUser
+                            await currentUser!
                                 .reauthenticateWithCredential(credential);
                             passwordError = false;
                             changeEmail(context);
@@ -109,7 +109,7 @@ class SettingAccountModel extends ChangeNotifier {
 
   void sendPasswordResetEmail(BuildContext context) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: mailAddress);
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: mailAddress!);
       Scaffold.of(context).showSnackBar(const SnackBar(
         content: Text('送信リクエストが完了しました'),
       ));

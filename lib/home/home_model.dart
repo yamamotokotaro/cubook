@@ -8,55 +8,55 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class HomeModel extends ChangeNotifier {
-  DocumentSnapshot userSnapshot;
-  Map<String, dynamic> userData;
-  QuerySnapshot effortSnapshot;
+  DocumentSnapshot? userSnapshot;
+  Map<String, dynamic>? userData;
+  QuerySnapshot? effortSnapshot;
   TextEditingController mailAddressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  User currentUser;
+  User? currentUser;
   bool isGet = false;
   bool isLoaded = false;
   bool isLoading_join = false;
   bool isConsent = false;
-  String position;
-  String grade;
-  Widget toShow;
-  String username = '';
-  String usercall = '';
-  String groupName;
-  String teamPosition;
-  String age = '';
-  String permission;
-  String providerID;
-  Map<dynamic, dynamic> tokenMap;
-  String token;
-  List<dynamic> _token_notification = <dynamic>[];
+  String? position;
+  String? grade;
+  late Widget toShow;
+  String? username = '';
+  String? usercall = '';
+  String? groupName;
+  String? teamPosition;
+  String? age = '';
+  String? permission;
+  String? providerID;
+  Map<dynamic, dynamic>? tokenMap;
+  String? token;
+  List<dynamic>? _token_notification = <dynamic>[];
   bool isSended = false;
 
   void login() async {
     isLoaded = false;
     userSnapshot = null;
     currentUser = null;
-    final User user = FirebaseAuth.instance.currentUser;
+    final User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       currentUser = user;
-      providerID = currentUser.providerData[0].providerId;
+      providerID = currentUser!.providerData[0].providerId;
       FirebaseFirestore.instance
           .collection('user')
-          .where('uid', isEqualTo: currentUser.uid)
+          .where('uid', isEqualTo: currentUser!.uid)
           .snapshots()
           .listen((QuerySnapshot<Map<String, dynamic>> data) {
         if (data.docs.isNotEmpty) {
           userSnapshot = data.docs[0];
-          userData = userSnapshot.data() as Map<String, dynamic>;
-          username = userSnapshot.get('name') + userSnapshot.get('call');
-          usercall = userSnapshot.get('call');
-          groupName = userSnapshot.get('groupName');
-          position = userSnapshot.get('position');
-          grade = userSnapshot.get('grade');
-          age = userSnapshot.get('age');
+          userData = userSnapshot!.data() as Map<String, dynamic>?;
+          username = userSnapshot!.get('name') + userSnapshot!.get('call');
+          usercall = userSnapshot!.get('call');
+          groupName = userSnapshot!.get('groupName');
+          position = userSnapshot!.get('position');
+          grade = userSnapshot!.get('grade');
+          age = userSnapshot!.get('age');
           if(position == 'scout') {
-            teamPosition = userData['teamPosition'];
+            teamPosition = userData!['teamPosition'];
           }
           // if (userSnapshot.get('token_notification') != null) {
           //   _token_notification = userSnapshot.get('token_notification');
@@ -139,28 +139,28 @@ class HomeModel extends ChangeNotifier {
       });
     } else {
       isLoaded = true;
-      FirebaseAuth.instance.authStateChanges().listen((User userGet) {
+      FirebaseAuth.instance.authStateChanges().listen((User? userGet) {
         if (userGet != null) {
           currentUser = userGet;
-          providerID = currentUser.providerData[0].providerId;
+          providerID = currentUser!.providerData[0].providerId;
           FirebaseFirestore.instance
               .collection('user')
-              .where('uid', isEqualTo: currentUser.uid)
+              .where('uid', isEqualTo: currentUser!.uid)
               .snapshots()
               .listen((QuerySnapshot<Map<String, dynamic>> data) {
             if (data.docs.isNotEmpty) {
               userSnapshot = data.docs[0];
-              userData = userSnapshot.data() as Map<String, dynamic>;
+              userData = userSnapshot!.data() as Map<String, dynamic>?;
               username =
-                  userSnapshot.get('name') + userSnapshot.get('call');
-              usercall = userSnapshot.get('call');
-              groupName = userSnapshot.get('groupName');
-              teamPosition = userData['teamPosition'];
-              position = userSnapshot.get('position');
-              grade = userSnapshot.get('grade');
-              age = userSnapshot.get('age');
-              if (userData['token_notification'] != null) {
-                _token_notification = userSnapshot.get('token_notification');
+                  userSnapshot!.get('name') + userSnapshot!.get('call');
+              usercall = userSnapshot!.get('call');
+              groupName = userSnapshot!.get('groupName');
+              teamPosition = userData!['teamPosition'];
+              position = userSnapshot!.get('position');
+              grade = userSnapshot!.get('grade');
+              age = userSnapshot!.get('age');
+              if (userData!['token_notification'] != null) {
+                _token_notification = userSnapshot!.get('token_notification');
               }
               // NotificationPermissions.getNotificationPermissionStatus()
               //     .then((status) {
@@ -287,11 +287,11 @@ class HomeModel extends ChangeNotifier {
   void getUserSnapshot() async {}
 
   void getSnapshot() async {
-    final User user = FirebaseAuth.instance.currentUser;
+    final User? user = FirebaseAuth.instance.currentUser;
     currentUser = user;
     FirebaseFirestore.instance
         .collection('user')
-        .where('uid', isEqualTo: currentUser.uid)
+        .where('uid', isEqualTo: currentUser!.uid)
         .snapshots()
         .listen((QuerySnapshot<Map<String, dynamic>> data) {
       userSnapshot = data.docs[0];

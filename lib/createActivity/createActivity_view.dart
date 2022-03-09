@@ -13,7 +13,7 @@ class CreateActivityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color colorRing;
+    Color? colorRing;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       colorRing = Colors.blue[900];
     } else {
@@ -30,11 +30,12 @@ class CreateActivityView extends StatelessWidget {
           title: const Text('新規作成'), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         floatingActionButton:
-            Consumer<CreateActivityModel>(builder: (BuildContext context, CreateActivityModel model, Widget child) {
+            Consumer<CreateActivityModel>(builder: (BuildContext context, CreateActivityModel model, Widget? child) {
           if (model.isLoading) {
             return FloatingActionButton(
+              onPressed: () {  },
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(colorRing),
+                valueColor: AlwaysStoppedAnimation<Color?>(colorRing),
               ),
             );
           } else {
@@ -56,7 +57,7 @@ class CreateActivityView extends StatelessWidget {
                 child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 800),
                     child: Consumer<CreateActivityModel>(
-                        builder: (BuildContext context, CreateActivityModel model, Widget child) {
+                        builder: (BuildContext context, CreateActivityModel model, Widget? child) {
                       model.getGroup();
                       return Column(
                         children: [
@@ -143,7 +144,7 @@ class CreateActivityView extends StatelessWidget {
                           Selector<CreateActivityModel,
                               List<Map<String, dynamic>>>(
                             selector: (BuildContext context, CreateActivityModel model) => model.list_selected,
-                            builder: (BuildContext context, List<Map<String, dynamic>> listSelected, Widget child) {
+                            builder: (BuildContext context, List<Map<String, dynamic>> listSelected, Widget? child) {
                               return ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: listSelected.length,
@@ -152,11 +153,11 @@ class CreateActivityView extends StatelessWidget {
                                       (BuildContext context, int index) {
                                     final Map<String, dynamic> partSelected =
                                         listSelected[index];
-                                    final String type = partSelected['type'];
-                                    final int page = partSelected['page'];
+                                    final String? type = partSelected['type'];
+                                    final int? page = partSelected['page'];
                                     final int number = partSelected['number'];
                                     final Map<String, dynamic> mapTask =
-                                        task.getPartMap(type, page);
+                                        task.getPartMap(type, page)!;
                                     return Padding(
                                         padding: const EdgeInsets.all(5),
                                         child: Card(
@@ -172,7 +173,7 @@ class CreateActivityView extends StatelessWidget {
                                                   child: Column(
                                                     children: [
                                                       Text(
-                                                          theme.getTitle(type) +
+                                                          theme.getTitle(type)! +
                                                               ' ' +
                                                               mapTask[
                                                                   'number'] +
@@ -243,10 +244,10 @@ class CreateActivityView extends StatelessWidget {
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
                                   if (snapshot.hasData) {
-                                    if (snapshot.data.docs.isNotEmpty) {
+                                    if (snapshot.data!.docs.isNotEmpty) {
                                       final QuerySnapshot querySnapshot =
-                                          snapshot.data;
-                                      String teamLast = '';
+                                          snapshot.data!;
+                                      String? teamLast = '';
                                       return ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
@@ -254,18 +255,18 @@ class CreateActivityView extends StatelessWidget {
                                           shrinkWrap: true,
                                           itemBuilder: (BuildContext context,
                                               int index) {
-                                            String uid;
+                                            String? uid;
                                             final DocumentSnapshot snapshot =
                                                 querySnapshot.docs[index];
                                             uid = snapshot.get('uid');
                                             if (!model.list_notApplicable
                                                 .contains(uid)) {
-                                              bool isCheck = true;
+                                              bool? isCheck = true;
                                               if (model.uid_check[uid] !=
                                                   null) {
                                                 isCheck = model.uid_check[uid];
                                               }
-                                              String team;
+                                              String? team;
                                               if (snapshot.get('team')
                                                   is int) {
                                                 team = snapshot
@@ -281,7 +282,7 @@ class CreateActivityView extends StatelessWidget {
                                               } else {
                                                 isFirst = false;
                                               }
-                                              final String grade =
+                                              final String? grade =
                                                   snapshot.get('grade');
                                               String teamCall;
                                               if (grade == 'cub') {
@@ -298,7 +299,7 @@ class CreateActivityView extends StatelessWidget {
                                                             width:
                                                                 double.infinity,
                                                             child: Text(
-                                                              team + teamCall,
+                                                              team! + teamCall,
                                                               style: const TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
@@ -408,7 +409,7 @@ class CreateActivityView extends StatelessWidget {
                                                                       value:
                                                                           isCheck,
                                                                       onChanged:
-                                                                          (bool
+                                                                          (bool?
                                                                               e) {
                                                                         model.onCheckMember(
                                                                             uid);

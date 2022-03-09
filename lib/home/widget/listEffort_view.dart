@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class listEffort extends StatelessWidget {
-  String group;
+  String? group;
   ThemeInfo theme = ThemeInfo();
   bool isRelease = const bool.fromEnvironment('dart.vm.product');
   DateTime now = DateTime.now();
@@ -39,7 +39,7 @@ class listEffort extends StatelessWidget {
                     decoration: TextDecoration.none),
               ),
             ])),
-        Consumer<ListEffortModel>(builder: (BuildContext context, ListEffortModel model, Widget child) {
+        Consumer<ListEffortModel>(builder: (BuildContext context, ListEffortModel model, Widget? child) {
           model.getSnapshot();
           if (model.group != null) {
             return StreamBuilder<QuerySnapshot>(
@@ -53,7 +53,7 @@ class listEffort extends StatelessWidget {
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
                   final List<DocumentSnapshot> listSnapshot =
-                      snapshot.data.docs;
+                      snapshot.data!.docs;
                   if (listSnapshot.isNotEmpty) {
                     ScrollController _controller;
                     return Padding(
@@ -66,16 +66,16 @@ class listEffort extends StatelessWidget {
                               itemBuilder: (BuildContext context, int index) {
                                 final DocumentSnapshot documentSnapshot =
                                     listSnapshot[index];
-                                final int congrats =
+                                final int? congrats =
                                     documentSnapshot.get('congrats');
                                 final String documentID = documentSnapshot.id;
-                                final int page =
+                                final int? page =
                                     documentSnapshot.get('page');
-                                final String type =
+                                final String? type =
                                     documentSnapshot.get('type');
-                                final String uid =
+                                final String? uid =
                                     documentSnapshot.get('uid');
-                                Color color;
+                                Color? color;
                                 color = theme.getThemeColor(type);
                                 return Column(
                                   children: <Widget>[
@@ -245,7 +245,7 @@ class listEffort extends StatelessWidget {
                                                                     IconButton(
                                                                   onPressed:
                                                                       () async {
-                                                                    final int result =
+                                                                    final int? result =
                                                                         await showModalBottomSheet<
                                                                             int>(
                                                                       context:

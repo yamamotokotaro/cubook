@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TaskDetailScoutConfirmAddView extends StatelessWidget {
-  int index_page;
-  String type;
-  Color themeColor;
-  String mes;
-  Map<String, dynamic> taskInfo;
-  Map<String, dynamic> content;
+  int? index_page;
+  String? type;
+  Color? themeColor;
+  String? mes;
+  Map<String, dynamic>? taskInfo;
+  late Map<String, dynamic> content;
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
 
-  TaskDetailScoutConfirmAddView(int _index, String _type, String _mes) {
+  TaskDetailScoutConfirmAddView(int? _index, String? _type, String _mes) {
     themeColor = theme.getThemeColor(_type);
     index_page = _index;
     type = _type;
@@ -57,7 +57,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
         if (mes != '') Padding(
                 padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
                 child: Text(
-                  mes,
+                  mes!,
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 )) else Container(),
@@ -148,14 +148,14 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                         padding: const EdgeInsets.only(
                             top: 5, bottom: 10, right: 10, left: 10),
                         child: Text(
-                          theme.getTitle(content['common']['type']) +
+                          theme.getTitle(content['common']['type'])! +
                               ' ' +
-                              taskInfo['title'] +
+                              taskInfo!['title'] +
                               ' (' +
                               task.getNumber(
                                   content['common']['type'],
                                   content['common']['page'],
-                                  content['common']['number']) +
+                                  content['common']['number'])! +
                               ')\nもサインされます',
                           textAlign: TextAlign.center,
                         )) else Container(),
@@ -173,11 +173,11 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                           ],
                         ),
                       ) else Container(),
-                if (!model.isLoading[index_page]) Padding(
+                if (!model.isLoading[index_page!]) Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: RaisedButton.icon(
                           onPressed: () {
-                            model.onTapSend(index_page);
+                            model.onTapSend(index_page!);
                           },
                           icon: const Icon(
                             Icons.edit,
@@ -197,7 +197,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                           child: Center(
                             child: CircularProgressIndicator(
                               valueColor:
-                                  AlwaysStoppedAnimation<Color>(themeColor),
+                                  AlwaysStoppedAnimation<Color?>(themeColor),
                             ),
                           ),
                         ),

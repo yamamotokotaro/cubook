@@ -8,9 +8,9 @@ class SettingAccountGroupView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
 
-  String uid;
+  String? uid;
 
-  SettingAccountGroupView(String _uid) {
+  SettingAccountGroupView(String? _uid) {
     uid = _uid;
   }
 
@@ -26,10 +26,10 @@ class SettingAccountGroupView extends StatelessWidget {
                     child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 600),
                         child: Consumer<SettingAccountGroupModel>(
-                            builder: (BuildContext context, SettingAccountGroupModel model, Widget child) {
+                            builder: (BuildContext context, SettingAccountGroupModel model, Widget? child) {
                           model.getSnapshot(uid);
                           if (model.userSnapshot != null) {
-                            if(model.userSnapshot.get('position') == 'scout') {
+                            if(model.userSnapshot!.get('position') == 'scout') {
                               return Column(
                                 children: <Widget>[
                                   Padding(
@@ -124,7 +124,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                             onTap: () async {
                                               print('model.isAdmin=' +
                                                   model.isAdmin.toString());
-                                              if (model.isAdmin) {
+                                              if (model.isAdmin!) {
                                                 Navigator.of(context)
                                                     .pushNamed(
                                                     '/accountMigration');
@@ -318,7 +318,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                             onTap: () async {
                                               print('model.isAdmin=' +
                                                   model.isAdmin.toString());
-                                              if (model.isAdmin) {
+                                              if (model.isAdmin!) {
                                                 Navigator.of(context)
                                                     .pushNamed(
                                                     '/accountMigration');
