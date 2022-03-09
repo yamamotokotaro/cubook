@@ -8,7 +8,7 @@ class ListEffortModel extends ChangeNotifier {
   String group;
   String position;
   String group_claim;
-  Map<String, dynamic> claims = Map<String, dynamic>();
+  Map<String, dynamic> claims = <String, dynamic>{};
 
   void getSnapshot() async {
     final String groupBefore = group;
@@ -18,14 +18,14 @@ class ListEffortModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       final DocumentSnapshot documentSnapshot = snapshot.docs[0];
       group = documentSnapshot.get('group');
       position = documentSnapshot.get('position');
       if (group != groupBefore || position != positionBefore) {
         notifyListeners();
       }
-      user.getIdTokenResult(true).then((value) {
+      user.getIdTokenResult(true).then((IdTokenResult value) {
         print(value.claims);
         final String groupClaimBefore = group_claim;
         group_claim = value.claims['group'];

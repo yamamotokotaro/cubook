@@ -3,10 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/widget/taskDetailScoutConfirm_add.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'taskDetailScoutConfirm_model.dart';
 
@@ -23,7 +22,7 @@ class MyPageRoute extends TransitionRoute<dynamic> {
   Iterable<OverlayEntry> createOverlayEntries() {
     return [
       OverlayEntry(builder: _buildModalBarrier),
-      OverlayEntry(builder: (context) => Center(child: page))
+      OverlayEntry(builder: (BuildContext context) => Center(child: page))
     ];
   }
 
@@ -54,8 +53,8 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 }
 
 class TaskScoutDetailConfirmView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   String type;
   int number;
   Color themeColor;
@@ -78,7 +77,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
             },
             child: Stack(children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 30),
+                  padding: const EdgeInsets.only(top: 30),
                   child: Card(
 //                    color: Color.fromRGBO(48, 48, 48, 1.0),
                     shape: RoundedRectangleBorder(
@@ -86,17 +85,17 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                     ),
                     elevation: 2,
                     child: InkWell(child: Consumer<TaskDetailScoutConfirmModel>(
-                        builder: (context, model, _) {
+                        builder: (BuildContext context, TaskDetailScoutConfirmModel model, _) {
                       if (model.isExit == true) {
-                        var message = '';
+                        String message = '';
                         final DocumentSnapshot snapshot = model.stepSnapshot;
-                        Map<String, dynamic> documentData = snapshot.data() as Map<String, dynamic>;
+                        final Map<String, dynamic> documentData = snapshot.data() as Map<String, dynamic>;
                         if (documentData['end'] != null) {
-                          if (type != "usagi" &&
-                              type != "sika" &&
-                              type != "kuma" &&
-                              type != "tukinowa" &&
-                              type != "challenge") {
+                          if (type != 'usagi' &&
+                              type != 'sika' &&
+                              type != 'kuma' &&
+                              type != 'tukinowa' &&
+                              type != 'challenge') {
                             if (documentData['phase'] != null) {
                               if (snapshot.get('phase') == 'not examined') {
                                 message = '技能考査が必要です';
@@ -120,17 +119,17 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                               children: <Widget>[
                                 Container(
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: const Radius.circular(20),
-                                          topRight: const Radius.circular(20)),
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20)),
                                       color: themeColor),
                                   child: Padding(
                                     padding:
-                                        EdgeInsets.only(top: 40, bottom: 20),
+                                        const EdgeInsets.only(top: 40, bottom: 20),
                                     child: Center(
                                       child: Text(
                                         task.getPartMap(type, number)['title'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white),
@@ -139,20 +138,20 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   child: Text(
                                     message,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold,
                                         decoration: TextDecoration.none),
                                   ),
                                 ),
-                                if (type != "usagi" &&
-                                    type != "sika" &&
-                                    type != "kuma" &&
-                                    type != "tukinowa" &&
-                                    type != "challenge")
+                                if (type != 'usagi' &&
+                                    type != 'sika' &&
+                                    type != 'kuma' &&
+                                    type != 'tukinowa' &&
+                                    type != 'challenge')
                                   if (model.stepData['phase'] != null)
                                     model.stepSnapshot.get('phase') ==
                                             'not examined'
@@ -160,7 +159,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                             child: Column(
                                               children: <Widget>[
                                                 Padding(
-                                                    padding: EdgeInsets.only(
+                                                    padding: const EdgeInsets.only(
                                                         top: 10,
                                                         left: 20,
                                                         right: 20),
@@ -170,11 +169,11 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                             snapshot.id);
                                                       },
                                                       color: themeColor,
-                                                      icon: Icon(
+                                                      icon: const Icon(
                                                         Icons.check,
                                                         size: 20,
                                                       ),
-                                                      label: Text(
+                                                      label: const Text(
                                                         '考査済みにする',
                                                         style: TextStyle(
                                                           fontSize: 15,
@@ -193,7 +192,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   Container(
                                     child: Column(
                                       children: <Widget>[
-                                        Padding(
+                                        const Padding(
                                           padding: EdgeInsets.all(10),
                                           child: Text(
                                             '開始日',
@@ -205,7 +204,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 5),
+                                          padding: const EdgeInsets.only(top: 5),
                                           child: FlatButton(
                                             child: Text(
                                               DateFormat('yyyy/MM/dd')
@@ -213,7 +212,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                       .get('start')
                                                       .toDate())
                                                   .toString(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
                                                   decoration:
@@ -239,7 +238,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   Container(
                                     child: Column(
                                       children: <Widget>[
-                                        Padding(
+                                        const Padding(
                                           padding: EdgeInsets.all(10),
                                           child: Text(
                                             '完修日',
@@ -251,7 +250,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 5),
+                                          padding: const EdgeInsets.only(top: 5),
                                           child: FlatButton(
                                             child: Text(
                                               DateFormat('yyyy/MM/dd')
@@ -259,7 +258,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                       .get('end')
                                                       .toDate())
                                                   .toString(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
                                                   decoration:
@@ -280,13 +279,13 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                 else
                                   Container(),
 
-                                if(type != "usagi" && type != "sika" && type != "kuma" && type != "tukinowa" && type != "challenge")
+                                if(type != 'usagi' && type != 'sika' && type != 'kuma' && type != 'tukinowa' && type != 'challenge')
                                 if (model.stepData['date_examination'] !=
                                     null)
                                   Container(
                                     child: Column(
                                       children: <Widget>[
-                                        Padding(
+                                        const Padding(
                                           padding: EdgeInsets.all(10),
                                           child: Text(
                                             '考査面接日',
@@ -298,7 +297,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 5),
+                                          padding: const EdgeInsets.only(top: 5),
                                           child: FlatButton(
                                             child: Text(
                                               model.stepSnapshot.get(
@@ -310,7 +309,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                           .toDate())
                                                       .toString()
                                                   : 'タップして追加',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
                                                   decoration:
@@ -333,13 +332,13 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                 else
                                   Container(),
 
-                                if(type != "usagi" && type != "sika" && type != "kuma" && type != "tukinowa" && type != "challenge")
+                                if(type != 'usagi' && type != 'sika' && type != 'kuma' && type != 'tukinowa' && type != 'challenge')
                                 if (model.stepData['date_examination'] !=
                                     null)
                                   Container(
                                     child: Column(
                                       children: <Widget>[
-                                        Padding(
+                                        const Padding(
                                           padding: EdgeInsets.all(10),
                                           child: Text(
                                             '考査認定日',
@@ -351,7 +350,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(top: 5),
+                                          padding: const EdgeInsets.only(top: 5),
                                           child: FlatButton(
                                             child: Text(
                                               DateFormat('yyyy/MM/dd')
@@ -359,7 +358,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                       .get('date_examination')
                                                       .toDate())
                                                   .toString(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
                                                   decoration:
@@ -377,18 +376,18 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           ),
                                         ),
                                         Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 top: 10, left: 20, right: 20),
                                             child: FlatButton.icon(
                                               onPressed: () async {
                                                 model.onTapNotExamination(
                                                     snapshot.id);
                                               },
-                                              icon: Icon(
+                                              icon: const Icon(
                                                 Icons.close,
                                                 size: 20,
                                               ),
-                                              label: Text(
+                                              label: const Text(
                                                 '考査未完了にする',
                                                 style: TextStyle(
                                                   fontSize: 15,
@@ -417,7 +416,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                         shrinkWrap: true,
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          String content =
+                                          final String content =
                                               contents[index]['body'];
                                           Color bordercolor;
                                           if (Theme.of(context).colorScheme.secondary ==
@@ -427,12 +426,12 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                             bordercolor = Colors.grey[300];
                                           }
                                           return Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 bottom: 10,
                                                 right: 10,
                                                 left: 10),
                                             child: Card(
-                                                color: Color(0x00000000),
+                                                color: const Color(0x00000000),
                                                 shape: RoundedRectangleBorder(
                                                   side: BorderSide(
                                                     color: bordercolor,
@@ -452,17 +451,17 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                   ),
                                                   child: Padding(
                                                       padding:
-                                                          EdgeInsets.all(8),
+                                                          const EdgeInsets.all(8),
                                                       child: Text(content)),
                                                 )),
                                           );
                                         }),
                                     Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             left: 15, bottom: 10, right: 15),
                                         child: Container(
                                           width: double.infinity,
-                                          child: Text(
+                                          child: const Text(
                                             '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
                                             style: TextStyle(
                                               fontSize: 13,
@@ -474,7 +473,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   ])
                                 else
                                   Padding(
-                                      padding: EdgeInsets.only(top: 5),
+                                      padding: const EdgeInsets.only(top: 5),
                                       child: Center(
                                           child: Row(
                                               crossAxisAlignment:
@@ -483,7 +482,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                   MainAxisAlignment.center,
                                               children: <Widget>[
                                             Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   right: 5, top: 4),
                                               child: Icon(
                                                 //ああああ
@@ -492,7 +491,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 size: 22,
                                               ),
                                             ),
-                                            Text(
+                                            const Text(
                                               '内容はカブブックで確認しよう',
                                               style: TextStyle(
                                                   fontSize: 16.0,
@@ -512,16 +511,16 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                     child: Column(children: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(20),
-                                        topRight: const Radius.circular(20)),
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20)),
                                     color: themeColor),
                                 child: Padding(
-                                  padding: EdgeInsets.only(top: 40, bottom: 20),
+                                  padding: const EdgeInsets.only(top: 40, bottom: 20),
                                   child: Center(
                                     child: Text(
                                       task.getPartMap(type, number)['title'],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white),
@@ -529,7 +528,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.all(10),
                                 child: Text(
                                   '記録がありません',
@@ -539,15 +538,14 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                       decoration: TextDecoration.none),
                                 ),
                               ),
-                              (type != 'risu' &&
+                              if ((type != 'risu' &&
                                           type != 'usagi' &&
                                           type != 'sika' &&
                                           type != 'kuma' &&
                                           type != 'challenge' &&
                                           type != 'tukinowa') ||
                                       model.group == ' j27DETWHGYEfpyp2Y292' ||
-                                      model.group == ' z4pkBhhgr0fUMN4evr5z'
-                                  ? Column(children: [
+                                      model.group == ' z4pkBhhgr0fUMN4evr5z') Column(children: [
                                       ListView.builder(
                                           physics:
                                               const NeverScrollableScrollPhysics(),
@@ -565,12 +563,12 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                               bordercolor = Colors.grey[300];
                                             }
                                             return Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   bottom: 10,
                                                   right: 10,
                                                   left: 10),
                                               child: Card(
-                                                  color: Color(0x00000000),
+                                                  color: const Color(0x00000000),
                                                   shape: RoundedRectangleBorder(
                                                     side: BorderSide(
                                                       color: bordercolor,
@@ -590,17 +588,17 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                     ),
                                                     child: Padding(
                                                         padding:
-                                                            EdgeInsets.all(8),
+                                                            const EdgeInsets.all(8),
                                                         child: Text(content)),
                                                   )),
                                             );
                                           }),
                                       Padding(
-                                          padding: EdgeInsets.only(
+                                          padding: const EdgeInsets.only(
                                               left: 15, bottom: 10, right: 15),
                                           child: Container(
                                             width: double.infinity,
-                                            child: Text(
+                                            child: const Text(
                                               '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
                                               style: TextStyle(
                                                 fontSize: 13,
@@ -609,9 +607,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                               textAlign: TextAlign.left,
                                             ),
                                           )),
-                                    ])
-                                  : Padding(
-                                      padding: EdgeInsets.only(top: 5),
+                                    ]) else Padding(
+                                      padding: const EdgeInsets.only(top: 5),
                                       child: Center(
                                           child: Row(
                                               crossAxisAlignment:
@@ -620,7 +617,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                   MainAxisAlignment.center,
                                               children: <Widget>[
                                             Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   right: 5, top: 4),
                                               child: Icon(
                                                 //ああああ
@@ -629,7 +626,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 size: 22,
                                               ),
                                             ),
-                                            Text(
+                                            const Text(
                                               '内容はカブブックで確認しよう',
                                               style: TextStyle(
                                                   fontSize: 16.0,
@@ -662,7 +659,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(35.0)),
                       elevation: 7,
                       child: Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Icon(
                             Icons.collections_bookmark,
                             size: 40,
@@ -679,8 +676,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   int index_page;
   String type;
   Color themeColor;
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   TaskScoutAddConfirmView(
     String _type,
@@ -708,7 +705,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
         },
         child: Stack(children: <Widget>[
           Padding(
-              padding: EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 30),
               child: Container(
                   height: 1500,
                   child: Card(
@@ -724,7 +721,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                     child: Column(
                               children: <Widget>[
                                 Consumer<TaskDetailScoutConfirmModel>(
-                                    builder: (context, model, _) {
+                                    builder: (BuildContext context, TaskDetailScoutConfirmModel model, _) {
                                   if (!model.isGet) {
                                     model.getSnapshot();
                                   }
@@ -750,15 +747,15 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                 .size
                                                 .width,
                                             decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.only(
+                                                borderRadius: const BorderRadius.only(
                                                     topLeft:
-                                                        const Radius.circular(
+                                                        Radius.circular(
                                                             0),
                                                     topRight:
-                                                        const Radius.circular(
+                                                        Radius.circular(
                                                             0)),
                                                 color: themeColor),
-                                            child: Padding(
+                                            child: const Padding(
                                               padding: EdgeInsets.only(
                                                   top: 40, bottom: 20),
                                               child: Center(
@@ -774,14 +771,14 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(top: 5),
+                                            padding: const EdgeInsets.only(top: 5),
                                             child: FlatButton(
                                               child: Text(
                                                 DateFormat('yyyy/MM/dd')
                                                     .format(model.dateSelected[
                                                         index_page])
                                                     .toString(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 20.0,
                                                     fontWeight: FontWeight.bold,
                                                     decoration:
@@ -801,18 +798,18 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 left: 10, right: 10),
                                             child: TextField(
                                               controller:
                                                   model.textField_signature[
                                                       index_page],
-                                              decoration: InputDecoration(
+                                              decoration: const InputDecoration(
                                                   labelText: '署名'),
                                             ),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 top: 10,
                                                 left: 10,
                                                 right: 10,
@@ -824,7 +821,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                       index_page],
                                               keyboardType:
                                                   TextInputType.multiline,
-                                              decoration: InputDecoration(
+                                              decoration: const InputDecoration(
                                                   labelText: 'フィードバック'),
                                             ),
                                           ),
@@ -836,13 +833,13 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                     model.onTapSave(
                                                         index_page, context);
                                                   },
-                                                  icon: Icon(
+                                                  icon: const Icon(
                                                     Icons.save,
                                                     size: 20,
                                                     color: Colors.white,
                                                   ),
                                                   color: themeColor,
-                                                  label: Text(
+                                                  label: const Text(
                                                     '変更を保存',
                                                     style: TextStyle(
                                                         fontSize: 15,
@@ -860,7 +857,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                           context) {
                                                         return Padding(
                                                             padding:
-                                                                EdgeInsets.only(
+                                                                const EdgeInsets.only(
                                                                     top: 10,
                                                                     bottom: 10),
                                                             child: Column(
@@ -870,7 +867,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                               children: <
                                                                   Widget>[
                                                                 Padding(
-                                                                    padding: EdgeInsets.only(
+                                                                    padding: const EdgeInsets.only(
                                                                         top: 5,
                                                                         left:
                                                                             17,
@@ -878,7 +875,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                             17),
                                                                     child: Container(
                                                                         width: double.infinity,
-                                                                        child: Text(
+                                                                        child: const Text(
                                                                           '本当に取り消しますか?',
                                                                           style:
                                                                               TextStyle(
@@ -891,10 +888,10 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                               TextAlign.left,
                                                                         ))),
                                                                 ListTile(
-                                                                  leading: Icon(
+                                                                  leading: const Icon(
                                                                       Icons
                                                                           .delete),
-                                                                  title: Text(
+                                                                  title: const Text(
                                                                       'はい'),
                                                                   onTap: () {
                                                                     model.onTapCancel(
@@ -904,10 +901,10 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                   },
                                                                 ),
                                                                 ListTile(
-                                                                  leading: Icon(
+                                                                  leading: const Icon(
                                                                       Icons
                                                                           .arrow_back),
-                                                                  title: Text(
+                                                                  title: const Text(
                                                                       'いいえ'),
                                                                   onTap: () {
                                                                     Navigator.pop(
@@ -919,12 +916,12 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                       },
                                                     );
                                                   },
-                                                  icon: Icon(
+                                                  icon: const Icon(
                                                     Icons.close,
                                                     size: 20,
                                                     color: Colors.red,
                                                   ),
-                                                  label: Text(
+                                                  label: const Text(
                                                     'サイン取り消し',
                                                     style: TextStyle(
                                                         fontSize: 15,
@@ -934,7 +931,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Padding(
-                                                    padding: EdgeInsets.only(
+                                                    padding: const EdgeInsets.only(
                                                         left: 10, right: 10),
                                                     child: Divider(
                                                       color: isDark
@@ -943,7 +940,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                     )),
                                                 FlatButton.icon(
                                                   onPressed: () async {
-                                                    final result =
+                                                    final int result =
                                                         await showModalBottomSheet<
                                                             int>(
                                                       context: context,
@@ -951,7 +948,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                           context) {
                                                         return Padding(
                                                             padding:
-                                                                EdgeInsets.only(
+                                                                const EdgeInsets.only(
                                                                     top: 10,
                                                                     bottom: 10),
                                                             child: Column(
@@ -962,11 +959,11 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                   Widget>[
                                                                 Padding(
                                                                     padding:
-                                                                        EdgeInsets.all(
+                                                                        const EdgeInsets.all(
                                                                             10),
                                                                     child: Container(
                                                                         width: double.infinity,
-                                                                        child: Text(
+                                                                        child: const Text(
                                                                           '画像',
                                                                           style:
                                                                               TextStyle(
@@ -979,10 +976,10 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                               TextAlign.left,
                                                                         ))),
                                                                 ListTile(
-                                                                  leading: Icon(
+                                                                  leading: const Icon(
                                                                       Icons
                                                                           .camera_alt),
-                                                                  title: Text(
+                                                                  title: const Text(
                                                                       'カメラ'),
                                                                   onTap: () {
                                                                     model.onImagePressCamera(
@@ -994,11 +991,11 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                   },
                                                                 ),
                                                                 ListTile(
-                                                                  leading: Icon(
+                                                                  leading: const Icon(
                                                                     Icons
                                                                         .collections,
                                                                   ),
-                                                                  title: Text(
+                                                                  title: const Text(
                                                                       'ギャラリー'),
                                                                   onTap: () {
                                                                     model.onImagePressPick(
@@ -1011,11 +1008,11 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                 ),
                                                                 Padding(
                                                                     padding:
-                                                                        EdgeInsets.all(
+                                                                        const EdgeInsets.all(
                                                                             10),
                                                                     child: Container(
                                                                         width: double.infinity,
-                                                                        child: Text(
+                                                                        child: const Text(
                                                                           '動画',
                                                                           style:
                                                                               TextStyle(
@@ -1028,10 +1025,10 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                               TextAlign.left,
                                                                         ))),
                                                                 ListTile(
-                                                                  leading: Icon(
+                                                                  leading: const Icon(
                                                                       Icons
                                                                           .camera_alt),
-                                                                  title: Text(
+                                                                  title: const Text(
                                                                       'カメラ'),
                                                                   onTap: () {
                                                                     model.onVideoPressCamera(
@@ -1043,11 +1040,11 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                   },
                                                                 ),
                                                                 ListTile(
-                                                                  leading: Icon(
+                                                                  leading: const Icon(
                                                                     Icons
                                                                         .collections,
                                                                   ),
-                                                                  title: Text(
+                                                                  title: const Text(
                                                                       'ギャラリー'),
                                                                   onTap: () {
                                                                     model.onVideoPressPick(
@@ -1063,11 +1060,11 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                       },
                                                     );
                                                   },
-                                                  icon: Icon(
+                                                  icon: const Icon(
                                                     Icons.add,
                                                     size: 20,
                                                   ),
-                                                  label: Text(
+                                                  label: const Text(
                                                     '画像・動画を追加',
                                                     style: TextStyle(
                                                       fontSize: 15,
@@ -1095,10 +1092,10 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                             Column(
                                               children: <Widget>[
                                                 Padding(
-                                                    padding: EdgeInsets.all(10),
+                                                    padding: const EdgeInsets.all(10),
                                                     child: ListView.builder(
                                                         physics:
-                                                            NeverScrollableScrollPhysics(),
+                                                            const NeverScrollableScrollPhysics(),
                                                         shrinkWrap: true,
                                                         itemCount:
                                                             snapshot['data']
@@ -1107,21 +1104,21 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                             (BuildContext
                                                                     context,
                                                                 int index) {
-                                                          String type =
+                                                          final String type =
                                                               snapshot['data']
                                                                       [index]
                                                                   ['type'];
                                                           if (type == 'image') {
                                                             return Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .all(5),
                                                               child: Material(
                                                                   child:
                                                                       InkWell(
                                                                 onLongPress:
                                                                     () async {
-                                                                  var result =
+                                                                  final int result =
                                                                       await showModalBottomSheet<
                                                                           int>(
                                                                     context:
@@ -1130,7 +1127,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                         (BuildContext
                                                                             context) {
                                                                       return Padding(
-                                                                          padding: EdgeInsets.only(
+                                                                          padding: const EdgeInsets.only(
                                                                               top:
                                                                                   10,
                                                                               bottom:
@@ -1141,8 +1138,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                                 MainAxisSize.min,
                                                                             children: <Widget>[
                                                                               ListTile(
-                                                                                leading: Icon(Icons.delete),
-                                                                                title: Text('画像を削除する'),
+                                                                                leading: const Icon(Icons.delete),
+                                                                                title: const Text('画像を削除する'),
                                                                                 onTap: () {
                                                                                   //model.deleteEffort(id);
                                                                                   model.deleteFile(index_page, index);
@@ -1172,14 +1169,14 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                               'video') {
                                                             return Padding(
                                                                 padding:
-                                                                    EdgeInsets
+                                                                    const EdgeInsets
                                                                         .all(5),
                                                                 child: Material(
                                                                   child:
                                                                       InkWell(
                                                                     onLongPress:
                                                                         () async {
-                                                                      var result =
+                                                                      final int result =
                                                                           await showModalBottomSheet<
                                                                               int>(
                                                                         context:
@@ -1188,13 +1185,13 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                             (BuildContext
                                                                                 context) {
                                                                           return Padding(
-                                                                              padding: EdgeInsets.only(top: 10, bottom: 10),
+                                                                              padding: const EdgeInsets.only(top: 10, bottom: 10),
                                                                               child: Column(
                                                                                 mainAxisSize: MainAxisSize.min,
                                                                                 children: <Widget>[
                                                                                   ListTile(
-                                                                                    leading: Icon(Icons.delete),
-                                                                                    title: Text('動画を削除する'),
+                                                                                    leading: const Icon(Icons.delete),
+                                                                                    title: const Text('動画を削除する'),
                                                                                     onTap: () {
                                                                                       //model.deleteEffort(id);
                                                                                       model.deleteFile(index_page, index);
@@ -1226,27 +1223,27 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                               'text') {
                                                             return Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .all(5),
                                                               child: Container(
                                                                 child: Card(
                                                                     child:
                                                                         Padding(
                                                                   padding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .all(
                                                                               0),
                                                                   child: Column(
                                                                     children: <
                                                                         Widget>[
                                                                       Padding(
-                                                                          padding: EdgeInsets.all(
+                                                                          padding: const EdgeInsets.all(
                                                                               10),
                                                                           child:
                                                                               Text(
                                                                             model.dataList[index_page][index],
                                                                             style:
-                                                                                TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                                const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                                                                           ))
                                                                     ],
                                                                   ),
@@ -1272,15 +1269,15 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                 .size
                                                 .width,
                                             decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.only(
+                                                borderRadius: const BorderRadius.only(
                                                     topLeft:
-                                                        const Radius.circular(
+                                                        Radius.circular(
                                                             0),
                                                     topRight:
-                                                        const Radius.circular(
+                                                        Radius.circular(
                                                             0)),
                                                 color: themeColor),
-                                            child: Padding(
+                                            child: const Padding(
                                               padding: EdgeInsets.only(
                                                   top: 40, bottom: 20),
                                               child: Center(
@@ -1295,7 +1292,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(
                                               '最初の画面に戻ってサインしてください',
@@ -1330,7 +1327,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                               index_page, type, '')
                                         ]);
                                       } else {
-                                        return Center(
+                                        return const Center(
                                           child: Text('エラーが発生しました'),
                                         );
                                       }
@@ -1340,7 +1337,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                     }
                                   } else {
                                     return Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             top: 60, bottom: 10),
                                         child: Container(
                                           child: Center(
@@ -1388,10 +1385,10 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(35.0)),
                 elevation: 7,
                 child: ConstrainedBox(
-                    constraints: BoxConstraints(minWidth: 61, minHeight: 61),
+                    constraints: const BoxConstraints(minWidth: 61, minHeight: 61),
                     child: Padding(
                       padding:
-                          EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+                          const EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
                       child: Text(
                         numberShow,
                         textAlign: TextAlign.center,

@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CreateActivityModel extends ChangeNotifier {
@@ -18,7 +17,7 @@ class CreateActivityModel extends ChangeNotifier {
   bool EmptyError = false;
   Map<String, dynamic> claims = <String, dynamic>{};
   bool isLoaded = false;
-  var isRelease = const bool.fromEnvironment('dart.vm.product');
+  bool isRelease = const bool.fromEnvironment('dart.vm.product');
   dynamic itemSelected;
   List<String> list_notApplicable = <String>[];
   List<Map<String, dynamic>> list_selected = <Map<String, dynamic>>[];
@@ -29,7 +28,7 @@ class CreateActivityModel extends ChangeNotifier {
       list_selected = <Map<String, dynamic>>[];
     }
     list_selected = <Map<String, dynamic>>[];
-    final listCategory = ['usagi', 'sika', 'kuma', 'tukinowa', 'challenge'];
+    final List<String> listCategory = ['usagi', 'sika', 'kuma', 'tukinowa', 'challenge'];
     for (int i = 0; i < listCategory.length; i++) {
       final List<dynamic> dataItem = <dynamic>[];
       print(itemSelected);
@@ -37,7 +36,7 @@ class CreateActivityModel extends ChangeNotifier {
         final List<dynamic> pageItem = itemSelected[listCategory[i]];
         for (int k = 0; k < pageItem.length; k++) {
           final List<dynamic> numberItem = pageItem[k];
-          final Map<String, dynamic> toAdd = Map<String, dynamic>();
+          final Map<String, dynamic> toAdd = <String, dynamic>{};
           final List<dynamic> numbers = <dynamic>[];
           toAdd['page'] = k;
           for (int l = 0; l < numberItem.length; l++) {
@@ -70,7 +69,7 @@ class CreateActivityModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       group = snapshot.docs[0].get('group');
       if (group != groupBefore) {
         groupBefore = group;
@@ -92,7 +91,7 @@ class CreateActivityModel extends ChangeNotifier {
   }
 
   void cancelDismiss(String uid) {
-    list_notApplicable.removeWhere((item) => item == uid);
+    list_notApplicable.removeWhere((String item) => item == uid);
     notifyListeners();
   }
 
@@ -127,8 +126,8 @@ class CreateActivityModel extends ChangeNotifier {
     if (titleController.text != '') {
       isLoading = true;
       notifyListeners();
-      final listAbsent = List<dynamic>();
-      final listUid = <dynamic>[];
+      final List listAbsent = <dynamic>[];
+      final List listUid = <dynamic>[];
       int count = 0;
       final User user = FirebaseAuth.instance.currentUser;
       final String userUid = user.uid;
@@ -136,7 +135,7 @@ class CreateActivityModel extends ChangeNotifier {
           .collection('user')
           .where('uid', isEqualTo: user.uid)
           .get()
-          .then((userDatas) async {
+          .then((QuerySnapshot<Map<String, dynamic>> userDatas) async {
         {
           final DocumentSnapshot userData = userDatas.docs[0];
           final String userGroup = userData.get('group');
@@ -145,7 +144,7 @@ class CreateActivityModel extends ChangeNotifier {
               .where('group', isEqualTo: userGroup)
               .where('position', isEqualTo: 'scout')
               .get()
-              .then((user) async {
+              .then((QuerySnapshot<Map<String, dynamic>> user) async {
             for (int i = 0; i < user.docs.length; i++) {
               final DocumentSnapshot snapshot = user.docs[i];
               if (snapshot.get('team') != null) {
@@ -173,7 +172,7 @@ class CreateActivityModel extends ChangeNotifier {
                 }
               }
             }
-            final Map<String, dynamic> activityInfo = Map<String, dynamic>();
+            final Map<String, dynamic> activityInfo = <String, dynamic>{};
             activityInfo['group'] = userGroup;
             activityInfo['count_absent'] = count;
             activityInfo['count_user'] = user.docs.length;
@@ -185,7 +184,7 @@ class CreateActivityModel extends ChangeNotifier {
             FirebaseFirestore.instance
                 .collection('activity')
                 .add(activityInfo)
-                .then((document) async {
+                .then((DocumentReference<Map<String, dynamic>> document) async {
               final String docID = document.id;
               for (int i = 0; i < listAbsent.length; i++) {
                 final Map<String, dynamic> userInfo = listAbsent[i];
@@ -205,7 +204,7 @@ class CreateActivityModel extends ChangeNotifier {
               data['type'] = 'activity';
               data['activityID'] = docID;
               data['uid_toAdd'] = listUid;
-              final listCategory = ['usagi', 'sika', 'kuma', 'tukinowa', 'challenge'];
+              final List<String> listCategory = ['usagi', 'sika', 'kuma', 'tukinowa', 'challenge'];
               if (itemSelected != null) {
                 for (int i = 0; i < listCategory.length; i++) {
                   final List<dynamic> dataItem = <dynamic>[];
@@ -214,7 +213,7 @@ class CreateActivityModel extends ChangeNotifier {
                     for (int k = 0; k < pageItem.length; k++) {
                       final List<dynamic> numberItem = pageItem[k];
                       final Map<String, dynamic> toAdd = <String, dynamic>{};
-                      final List<dynamic> numbers = List<dynamic>();
+                      final List<dynamic> numbers = <dynamic>[];
                       toAdd['page'] = k;
                       for (int l = 0; l < numberItem.length; l++) {
                         final bool isCheck = numberItem[l];
@@ -234,13 +233,13 @@ class CreateActivityModel extends ChangeNotifier {
               await FirebaseFirestore.instance
                   .collection('lump')
                   .add(data)
-                  .then((value) {
-                final rand = math.Random();
+                  .then((DocumentReference<Map<String, dynamic>> value) {
+                final math.Random rand = math.Random();
                 Navigator.pop(context);
                 date = DateTime.now();
                 titleController.text = '';
                 list_notApplicable.clear();
-                uid_check = Map<String, bool>();
+                uid_check = <String, bool>{};
                 EmptyError = false;
                 isLoading = false;
               });

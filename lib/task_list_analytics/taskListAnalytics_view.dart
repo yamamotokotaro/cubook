@@ -3,13 +3,13 @@ import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_list_analytics/taskListAnalytics_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class TaskListAnalyticsView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   Color themeColor;
   String type;
   String typeFireStore;
@@ -28,7 +28,7 @@ class TaskListAnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mapTask = task.getAllMap(type);
+    final List<Map<String, dynamic>> mapTask = task.getAllMap(type);
     bool isDark;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
@@ -39,23 +39,22 @@ class TaskListAnalyticsView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: themeColor,
         elevation: 5,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
           title,
-          style: TextStyle(color: Colors.white),
-        ),
-        brightness: Brightness.dark,
+          style: const TextStyle(color: Colors.white),
+        ), systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Column(children: <Widget>[
                 Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 10),
+                    padding: const EdgeInsets.only(top: 20, bottom: 10),
                     child: Consumer<TaskListAnalyticsModel>(
-                        builder: (context, model, child) {
+                        builder: (BuildContext context, TaskListAnalyticsModel model, Widget child) {
                       model.getGroup();
                       if (model.group != null) {
                         return StreamBuilder<QuerySnapshot>(
@@ -100,7 +99,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Padding(
-                                          padding: EdgeInsets.all(5),
+                                          padding: const EdgeInsets.all(5),
                                           child: Container(
                                             child: Card(
                                               shape: RoundedRectangleBorder(
@@ -131,30 +130,30 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                   children: <Widget>[
                                                     Container(
                                                         decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.only(
+                                                            borderRadius: const BorderRadius.only(
                                                                 topLeft:
-                                                                    const Radius
+                                                                    Radius
                                                                             .circular(
                                                                         10),
                                                                 bottomLeft:
-                                                                    const Radius
+                                                                    Radius
                                                                             .circular(
                                                                         10)),
                                                             color: themeColor),
                                                         height: 120,
                                                         child: ConstrainedBox(
                                                           constraints:
-                                                              BoxConstraints(
+                                                              const BoxConstraints(
                                                                   minWidth: 76),
                                                           child: Center(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .all(20),
                                                               child: Text(
                                                                 mapTask[index]
                                                                     ['number'],
-                                                                style: TextStyle(
+                                                                style: const TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -168,7 +167,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                         )),
                                                     Padding(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets.only(
                                                                 left: 10),
                                                         child: Column(
                                                           crossAxisAlignment:
@@ -176,7 +175,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                   .start,
                                                           children: <Widget>[
                                                             Padding(
-                                                                padding: EdgeInsets
+                                                                padding: const EdgeInsets
                                                                     .only(
                                                                         top:
                                                                             10),
@@ -188,7 +187,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                       mapTask[index]
                                                                           [
                                                                           'title'],
-                                                                      style: TextStyle(
+                                                                      style: const TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .bold,
                                                                           fontSize:
@@ -236,14 +235,14 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                       }
                                                                     }
                                                                     return Padding(
-                                                                        padding: EdgeInsets.only(
+                                                                        padding: const EdgeInsets.only(
                                                                             top:
                                                                                 15),
                                                                         child:
                                                                             Row(
                                                                           children: [
                                                                             Padding(
-                                                                                padding: EdgeInsets.only(left: 5, right: 10),
+                                                                                padding: const EdgeInsets.only(left: 5, right: 10),
                                                                                 child: Container(
                                                                                     height: 30,
                                                                                     width: 30,
@@ -253,12 +252,12 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                                       value: userCount == 0 ? 0 : itemCount / userCount,
                                                                                     ))),
                                                                             Text('完修者 ' + itemCount.toString() + '/' + userCount.toString(),
-                                                                                style: TextStyle(fontSize: 17)),
+                                                                                style: const TextStyle(fontSize: 17)),
                                                                           ],
                                                                         ));
                                                                   } else {
                                                                     return Padding(
-                                                                      padding: EdgeInsets.only(
+                                                                      padding: const EdgeInsets.only(
                                                                           left:
                                                                               5,
                                                                           right:
@@ -287,7 +286,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                     });
                               } else {
                                 return Padding(
-                                  padding: EdgeInsets.only(left: 5, right: 10),
+                                  padding: const EdgeInsets.only(left: 5, right: 10),
                                   child: Container(
                                       height: 30,
                                       width: 30,
@@ -296,7 +295,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                             ? Colors.grey[700]
                                             : Colors.grey[300],
                                         valueColor:
-                                            new AlwaysStoppedAnimation<Color>(
+                                            AlwaysStoppedAnimation<Color>(
                                                 isDark
                                                     ? Colors.white
                                                     : theme
@@ -307,7 +306,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                             });
                       } else {
                         return Padding(
-                          padding: EdgeInsets.only(left: 5, right: 10),
+                          padding: const EdgeInsets.only(left: 5, right: 10),
                           child: Container(
                               height: 30,
                               width: 30,
@@ -315,7 +314,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                 backgroundColor: isDark
                                     ? Colors.grey[700]
                                     : Colors.grey[300],
-                                valueColor: new AlwaysStoppedAnimation<Color>(
+                                valueColor: AlwaysStoppedAnimation<Color>(
                                     isDark
                                         ? Colors.white
                                         : theme.getThemeColor(type)),

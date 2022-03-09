@@ -5,7 +5,6 @@ import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -17,8 +16,8 @@ class DetailTaskWaitingView_old extends StatelessWidget {
   String type;
   Map<String, dynamic> taskInfo;
   Map<String, dynamic> content;
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   DetailTaskWaitingView_old(
       String _documentID, String _name, String _item, String _type) {
@@ -31,11 +30,10 @@ class DetailTaskWaitingView_old extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => DetailTaskWaitingModel(),
+        create: (BuildContext context) => DetailTaskWaitingModel(),
         child: Scaffold(
           appBar: AppBar(
-            title: Text('タスク詳細'),
-            brightness: Brightness.dark,
+            title: const Text('タスク詳細'), systemOverlayStyle: SystemUiOverlayStyle.light,
           ),
           body: SafeArea(
               child: GestureDetector(
@@ -52,14 +50,14 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                             width: MediaQuery.of(context).size.width,
                             color: theme.getThemeColor(type),
                             child: Padding(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               child: Column(
                                 children: <Widget>[
                                   Material(
                                     type: MaterialType.transparency,
                                     child: Text(
                                       name,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 28,
                                           color: Colors.white),
@@ -68,10 +66,10 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                   Material(
                                       type: MaterialType.transparency,
                                       child: Padding(
-                                        padding: EdgeInsets.only(top: 10),
+                                        padding: const EdgeInsets.only(top: 10),
                                         child: Text(
                                           item,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontWeight: FontWeight.normal,
                                               fontSize: 21,
                                               color: Colors.white),
@@ -82,7 +80,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                             ),
                           ))),
                       Consumer<DetailTaskWaitingModel>(
-                          builder: (context, model, _) {
+                          builder: (BuildContext context, DetailTaskWaitingModel model, _) {
                         if (!model.isGet) {
                           model.getTaskSnapshot(documentID);
                         }
@@ -105,11 +103,11 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             top: 10, left: 20, right: 20),
                                         child: FlatButton(
                                             onPressed: () async {
-                                              final result =
+                                              final int result =
                                                   await showModalBottomSheet<
                                                       int>(
                                                 context: context,
@@ -117,14 +115,14 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                     (BuildContext context) {
                                                   return Padding(
                                                       padding:
-                                                          EdgeInsets.all(15),
+                                                          const EdgeInsets.all(15),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
                                                         children: <Widget>[
                                                           Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .all(0),
                                                               child: Container(
                                                                 width: double
@@ -137,7 +135,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                                       model
                                                                           .number)['body'],
                                                                   style:
-                                                                      TextStyle(
+                                                                      const TextStyle(
                                                                     fontSize:
                                                                         18,
                                                                     fontWeight:
@@ -151,12 +149,12 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                               )),
                                                           Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .all(0),
                                                               child: Container(
                                                                 width: double
                                                                     .infinity,
-                                                                child: Text(
+                                                                child: const Text(
                                                                   '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
                                                                   style:
                                                                       TextStyle(
@@ -177,11 +175,11 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                               );
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   top: 10, bottom: 10),
                                               child: Column(
                                                 // Replace with a Row for horizontal icon + text
-                                                children: <Widget>[
+                                                children: const <Widget>[
                                                   Icon(Icons.sort),
                                                   Text('細目',
                                                       style: TextStyle(
@@ -192,7 +190,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                               ),
                                             ))),
                                     Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             top: 10, left: 20, right: 20),
                                         child: FlatButton(
                                             onPressed: () async {
@@ -206,11 +204,11 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                       dismissible: true));
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   top: 10, bottom: 10),
                                               child: Column(
                                                 // Replace with a Row for horizontal icon + text
-                                                children: <Widget>[
+                                                children: const <Widget>[
                                                   Icon(Icons.view_carousel),
                                                   Text('該当ページ',
                                                       style: TextStyle(
@@ -223,10 +221,10 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                   ],
                                 ),
                                 ConstrainedBox(
-                                    constraints: BoxConstraints(maxWidth: 800),
+                                    constraints: const BoxConstraints(maxWidth: 800),
                                     child: Column(children: <Widget>[
                                       Padding(
-                                        padding: EdgeInsets.only(top: 10),
+                                        padding: const EdgeInsets.only(top: 10),
                                         child: Center(
                                             child: Row(
                                                 crossAxisAlignment:
@@ -235,7 +233,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                     MainAxisAlignment.center,
                                                 children: <Widget>[
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                     right: 5, top: 4),
                                                 child: Icon(
                                                   Icons.book,
@@ -243,7 +241,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                   size: 32,
                                                 ),
                                               ),
-                                              Text(
+                                              const Text(
                                                 '取り組み内容',
                                                 style: TextStyle(
                                                     fontSize: 25.0,
@@ -253,10 +251,10 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                             ])),
                                       ),
                                       Padding(
-                                          padding: EdgeInsets.all(10),
+                                          padding: const EdgeInsets.all(10),
                                           child: ListView.builder(
                                               physics:
-                                                  NeverScrollableScrollPhysics(),
+                                                  const NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
                                               itemCount: snapshot
                                                   .get('data')
@@ -269,7 +267,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                         [index]['type'];
                                                 if (type == 'image') {
                                                   return Padding(
-                                                    padding: EdgeInsets.all(5),
+                                                    padding: const EdgeInsets.all(5),
                                                     child: Container(
                                                       child: Column(
                                                         children: <Widget>[
@@ -281,7 +279,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                   );
                                                 } else if (type == 'video') {
                                                   return Padding(
-                                                    padding: EdgeInsets.all(5),
+                                                    padding: const EdgeInsets.all(5),
                                                     child: Container(
                                                       child: Card(
                                                         child: Column(
@@ -302,23 +300,23 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                   );
                                                 } else if (type == 'text') {
                                                   return Padding(
-                                                    padding: EdgeInsets.all(5),
+                                                    padding: const EdgeInsets.all(5),
                                                     child: Container(
                                                       child: Card(
                                                           child: Padding(
                                                         padding:
-                                                            EdgeInsets.all(0),
+                                                            const EdgeInsets.all(0),
                                                         child: Column(
                                                           children: <Widget>[
                                                             Padding(
                                                                 padding:
-                                                                    EdgeInsets
+                                                                    const EdgeInsets
                                                                         .all(
                                                                             10),
                                                                 child: Text(
                                                                   model.body[
                                                                       index],
-                                                                  style: TextStyle(
+                                                                  style: const TextStyle(
                                                                       fontSize:
                                                                           18,
                                                                       fontWeight:
@@ -335,7 +333,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                 }
                                               })),
                                       Padding(
-                                        padding: EdgeInsets.only(top: 10),
+                                        padding: const EdgeInsets.only(top: 10),
                                         child: Center(
                                             child: Row(
                                                 crossAxisAlignment:
@@ -344,7 +342,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                     MainAxisAlignment.center,
                                                 children: <Widget>[
                                               Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                     right: 5, top: 4),
                                                 child: Icon(
                                                   Icons.message,
@@ -352,7 +350,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                   size: 32,
                                                 ),
                                               ),
-                                              Text(
+                                              const Text(
                                                 'フィードバック',
                                                 style: TextStyle(
                                                     fontSize: 25.0,
@@ -363,7 +361,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                             ])),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: TextField(
                                           maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.feedbackController,
                                           enabled: true,
@@ -376,7 +374,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                 onPressed: () => model
                                                     .feedbackController
                                                     .clear(),
-                                                icon: Icon(Icons.clear),
+                                                icon: const Icon(Icons.clear),
                                               ),
                                               errorText: model.EmptyError
                                                   ? 'フィードバックを入力してください'
@@ -384,7 +382,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                         ),
                                       ),
                                       if (content['common'] != null) Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   top: 5,
                                                   bottom: 10,
                                                   right: 10,
@@ -409,13 +407,13 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                               onPressed: () {
                                                 model.onTapSend();
                                               },
-                                              icon: Icon(
+                                              icon: const Icon(
                                                 Icons.edit,
                                                 size: 20,
                                                 color: Colors.white,
                                               ),
                                               color: Colors.blue[900],
-                                              label: Text(
+                                              label: const Text(
                                                 'サインする',
                                                 style: TextStyle(
                                                     fontSize: 15,
@@ -423,7 +421,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                     color: Colors.white),
                                               ),
                                             ) else Container(
-                                              child: Padding(
+                                              child: const Padding(
                                                 padding: EdgeInsets.all(5),
                                                 child: Center(),
                                               ),
@@ -432,12 +430,12 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                               onPressed: () {
                                                 model.onTapReject();
                                               },
-                                              icon: Icon(
+                                              icon: const Icon(
                                                 Icons.reply,
                                                 size: 20,
                                                 color: Colors.red,
                                               ),
-                                              label: Text(
+                                              label: const Text(
                                                 'やりなおし',
                                                 style: TextStyle(
                                                     fontSize: 15,
@@ -445,7 +443,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                     color: Colors.red),
                                               ),
                                             ) else Container(
-                                              child: Padding(
+                                              child: const Padding(
                                                 padding: EdgeInsets.all(5),
                                                 child: Center(),
                                               ),
@@ -457,7 +455,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                             return Column(
                               children: [
                                 Padding(
-                                    padding: EdgeInsets.only(top: 10),
+                                    padding: const EdgeInsets.only(top: 10),
                                     child: Center(
                                         child: Row(
                                             crossAxisAlignment:
@@ -466,7 +464,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                 MainAxisAlignment.center,
                                             children: <Widget>[
                                           Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 right: 5, top: 4),
                                             child: Icon(
                                               Icons.check,
@@ -475,7 +473,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                               size: 32,
                                             ),
                                           ),
-                                          Text(
+                                          const Text(
                                             'このタスクは完了しました',
                                             style: TextStyle(
                                                 fontSize: 23.0,
@@ -488,11 +486,11 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             top: 10, left: 20, right: 20),
                                         child: FlatButton(
                                             onPressed: () async {
-                                              final result =
+                                              final int result =
                                                   await showModalBottomSheet<
                                                       int>(
                                                 context: context,
@@ -500,14 +498,14 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                     (BuildContext context) {
                                                   return Padding(
                                                       padding:
-                                                          EdgeInsets.all(15),
+                                                          const EdgeInsets.all(15),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
                                                         children: <Widget>[
                                                           Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .all(0),
                                                               child: Container(
                                                                 width: double
@@ -520,7 +518,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                                       model
                                                                           .number)['body'],
                                                                   style:
-                                                                      TextStyle(
+                                                                      const TextStyle(
                                                                     fontSize:
                                                                         18,
                                                                     fontWeight:
@@ -534,12 +532,12 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                               )),
                                                           Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .all(0),
                                                               child: Container(
                                                                 width: double
                                                                     .infinity,
-                                                                child: Text(
+                                                                child: const Text(
                                                                   '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
                                                                   style:
                                                                       TextStyle(
@@ -560,11 +558,11 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                               );
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   top: 10, bottom: 10),
                                               child: Column(
                                                 // Replace with a Row for horizontal icon + text
-                                                children: <Widget>[
+                                                children: const <Widget>[
                                                   Icon(Icons.sort),
                                                   Text('細目',
                                                       style: TextStyle(
@@ -575,7 +573,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                               ),
                                             ))),
                                     Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             top: 10, left: 20, right: 20),
                                         child: FlatButton(
                                             onPressed: () async {
@@ -589,11 +587,11 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                       dismissible: true));
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   top: 10, bottom: 10),
                                               child: Column(
                                                 // Replace with a Row for horizontal icon + text
-                                                children: <Widget>[
+                                                children: const <Widget>[
                                                   Icon(Icons.view_carousel),
                                                   Text('該当ページ',
                                                       style: TextStyle(
@@ -606,7 +604,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                   ],
                                 ),
                                 if (content['common'] != null) Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             top: 5,
                                             bottom: 10,
                                             right: 10,
@@ -628,7 +626,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                             );
                           }
                         } else {
-                          return Center(
+                          return const Center(
                             child: Padding(
                                 padding: EdgeInsets.all(5),
                                 child: CircularProgressIndicator()),

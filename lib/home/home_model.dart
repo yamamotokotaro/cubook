@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_view.dart';
 import 'package:cubook/home_scout/homeScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_auth_ui/flutter_auth_ui.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -48,7 +45,7 @@ class HomeModel extends ChangeNotifier {
           .collection('user')
           .where('uid', isEqualTo: currentUser.uid)
           .snapshots()
-          .listen((data) {
+          .listen((QuerySnapshot<Map<String, dynamic>> data) {
         if (data.docs.isNotEmpty) {
           userSnapshot = data.docs[0];
           userData = userSnapshot.data() as Map<String, dynamic>;
@@ -58,7 +55,7 @@ class HomeModel extends ChangeNotifier {
           position = userSnapshot.get('position');
           grade = userSnapshot.get('grade');
           age = userSnapshot.get('age');
-          if(position == "scout") {
+          if(position == 'scout') {
             teamPosition = userData['teamPosition'];
           }
           // if (userSnapshot.get('token_notification') != null) {
@@ -120,7 +117,7 @@ class HomeModel extends ChangeNotifier {
           } else if (position == 'leader') {
             toShow = HomeLeaderView();
           } else {
-            toShow = Center(
+            toShow = const Center(
               child: Text('エラーが発生しました'),
             );
           }
@@ -142,7 +139,7 @@ class HomeModel extends ChangeNotifier {
       });
     } else {
       isLoaded = true;
-      FirebaseAuth.instance.authStateChanges().listen((userGet) {
+      FirebaseAuth.instance.authStateChanges().listen((User userGet) {
         if (userGet != null) {
           currentUser = userGet;
           providerID = currentUser.providerData[0].providerId;
@@ -150,7 +147,7 @@ class HomeModel extends ChangeNotifier {
               .collection('user')
               .where('uid', isEqualTo: currentUser.uid)
               .snapshots()
-              .listen((data) {
+              .listen((QuerySnapshot<Map<String, dynamic>> data) {
             if (data.docs.isNotEmpty) {
               userSnapshot = data.docs[0];
               userData = userSnapshot.data() as Map<String, dynamic>;
@@ -296,7 +293,7 @@ class HomeModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: currentUser.uid)
         .snapshots()
-        .listen((data) {
+        .listen((QuerySnapshot<Map<String, dynamic>> data) {
       userSnapshot = data.docs[0];
       notifyListeners();
     });

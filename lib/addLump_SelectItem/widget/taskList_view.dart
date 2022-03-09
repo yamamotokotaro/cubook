@@ -1,13 +1,12 @@
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TaskView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   Color themeColor;
   String type;
   String typeFireStore;
@@ -30,14 +29,14 @@ class TaskView extends StatelessWidget {
     return SingleChildScrollView(
       child: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 600),
+          constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 70),
+                  padding: const EdgeInsets.only(top: 20, bottom: 70),
                   child: Consumer<AddLumpSelectItemModel>(
-                      builder: (context, model, child) {
-                    final mapTask = task.getAllMap(type);
+                      builder: (BuildContext context, AddLumpSelectItemModel model, Widget child) {
+                    final List<Map<String, dynamic>> mapTask = task.getAllMap(type);
                     final int taskLength = mapTask.length;
                     if (model.itemSelected[type] == null) {
                       model.createList(type, taskLength);
@@ -52,7 +51,7 @@ class TaskView extends StatelessWidget {
                             final Map<String, dynamic> mapItem =
                                 mapTask[indexPage];
                             return Padding(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 child: Container(
                                     child: Card(
                                   shape: RoundedRectangleBorder(
@@ -61,22 +60,22 @@ class TaskView extends StatelessWidget {
                                   child: Row(children: <Widget>[
                                     Container(
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
+                                            borderRadius: const BorderRadius.only(
                                                 topLeft:
-                                                    const Radius.circular(10),
+                                                    Radius.circular(10),
                                                 bottomLeft:
-                                                    const Radius.circular(10)),
+                                                    Radius.circular(10)),
                                             color: themeColor),
                                         height: 120,
                                         child: ConstrainedBox(
                                           constraints:
-                                              BoxConstraints(minWidth: 76),
+                                              const BoxConstraints(minWidth: 76),
                                           child: Center(
                                             child: Padding(
-                                              padding: EdgeInsets.all(20),
+                                              padding: const EdgeInsets.all(20),
                                               child: Text(
                                                 mapItem['number'],
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 30,
                                                     color: Colors.white),
@@ -85,25 +84,25 @@ class TaskView extends StatelessWidget {
                                           ),
                                         )),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 10),
+                                      padding: const EdgeInsets.only(left: 10),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Padding(
-                                              padding: EdgeInsets.only(top: 10),
+                                              padding: const EdgeInsets.only(top: 10),
                                               child: Align(
                                                   alignment:
                                                       Alignment.centerLeft,
                                                   child: Text(
                                                     mapItem['title'],
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize: 25),
                                                   ))),
                                           Padding(
-                                            padding: EdgeInsets.only(top: 10),
+                                            padding: const EdgeInsets.only(top: 10),
                                             child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Container(
@@ -135,7 +134,7 @@ class TaskView extends StatelessWidget {
                                                                   .length !=
                                                               0) {
                                                             return Padding(
-                                                                padding: EdgeInsets
+                                                                padding: const EdgeInsets
                                                                     .only(
                                                                         right:
                                                                             3),
@@ -163,7 +162,7 @@ class TaskView extends StatelessWidget {
                                                                                 child: Center(
                                                                                   child: Text(
                                                                                     (index + 1).toString(),
-                                                                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),
+                                                                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),
                                                                                   ),
                                                                                 ))
                                                                             : Container(

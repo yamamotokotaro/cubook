@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,8 +33,8 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
     notifyListeners();
     final User user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      user.getIdTokenResult().then((token) async {
-        final String url =
+      user.getIdTokenResult().then((IdTokenResult token) async {
+        const String url =
             'https://asia-northeast1-cubook-3c960.cloudfunctions.net/executeMigration';
         final Map<String, String> headers = {'content-type': 'application/json'};
         final String body = json.encode(<String, dynamic>{
@@ -52,7 +51,7 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
           isFinish = true;
           print('sucess');
         } else if(resp.body == 'you are not admin'){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('アカウントの移行は管理者のみ操作可能です'),
           ));
         }
@@ -68,8 +67,8 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
     notifyListeners();
     final User user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      user.getIdTokenResult().then((token) async {
-        final String url =
+      user.getIdTokenResult().then((IdTokenResult token) async {
+        const String url =
             'https://asia-northeast1-cubook-3c960.cloudfunctions.net/rejectMigration';
         final Map<String, String> headers = {'content-type': 'application/json'};
         final String body = json.encode(<String, dynamic>{
@@ -86,7 +85,7 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
           isFinish = true;
           print('sucess');
         } else if(resp.body == 'you are not admin'){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('アカウントの移行は管理者のみ操作可能です'),
           ));
         }

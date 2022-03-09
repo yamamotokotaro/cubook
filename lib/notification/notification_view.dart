@@ -3,32 +3,31 @@ import 'package:cubook/model/class.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/notification/notification_model.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class NotificationView extends StatelessWidget {
-  var theme = ThemeInfo();
+  ThemeInfo theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('お知らせ'),
-        brightness: Brightness.dark,
+        title: const Text('お知らせ'), systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 children: <Widget>[
                   Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 10),
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<NotificationModel>(
-                          builder: (context, model, child) {
+                          builder: (BuildContext context, NotificationModel model, Widget child) {
                         model.getUser();
                         if (model.uid != null) {
                           return StreamBuilder<QuerySnapshot>(
@@ -61,7 +60,7 @@ class NotificationView extends StatelessWidget {
                                         final Color color = theme.getThemeColor(
                                             snapshot.get('type'));
                                         return Padding(
-                                          padding: EdgeInsets.all(5),
+                                          padding: const EdgeInsets.all(5),
                                           child: Container(
                                             child: Card(
                                               color: color,
@@ -87,12 +86,12 @@ class NotificationView extends StatelessWidget {
                                                           dismissible: true));
                                                 },
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(10),
+                                                  padding: const EdgeInsets.all(10),
                                                   child: Column(
                                                     children: <Widget>[
                                                       Padding(
                                                           padding:
-                                                              EdgeInsets.only(
+                                                              const EdgeInsets.only(
                                                                   top: 3,
                                                                   bottom: 8),
                                                           child: Align(
@@ -104,7 +103,7 @@ class NotificationView extends StatelessWidget {
                                                                 textAlign:
                                                                     TextAlign
                                                                         .left,
-                                                                style: TextStyle(
+                                                                style: const TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -115,7 +114,7 @@ class NotificationView extends StatelessWidget {
                                                               ))),
                                                       Padding(
                                                           padding:
-                                                              EdgeInsets.only(
+                                                              const EdgeInsets.only(
                                                                   left: 3,
                                                                   top: 5),
                                                           child: Align(
@@ -129,7 +128,7 @@ class NotificationView extends StatelessWidget {
                                                                             'time')
                                                                         .toDate())
                                                                     .toString(),
-                                                                style: TextStyle(
+                                                                style: const TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -148,13 +147,13 @@ class NotificationView extends StatelessWidget {
                                       });
                                 } else {
                                   return Padding(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         top: 5, left: 10, right: 10),
                                     child: Container(
                                         child: InkWell(
                                       onTap: () {},
                                       child: Padding(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
@@ -162,10 +161,10 @@ class NotificationView extends StatelessWidget {
                                               Icon(
                                                 Icons.bubble_chart,
                                                 color: Theme.of(context)
-                                                    .accentColor,
+                                                    .colorScheme.secondary,
                                                 size: 35,
                                               ),
-                                              Padding(
+                                              const Padding(
                                                   padding:
                                                       EdgeInsets.only(left: 10),
                                                   child: Material(

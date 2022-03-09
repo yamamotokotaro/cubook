@@ -1,13 +1,12 @@
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/setting_account_group/settingAccount_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SettingAccountGroupView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   String uid;
 
@@ -25,16 +24,16 @@ class SettingAccountGroupView extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Center(
                     child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 600),
+                        constraints: const BoxConstraints(maxWidth: 600),
                         child: Consumer<SettingAccountGroupModel>(
-                            builder: (context, model, child) {
+                            builder: (BuildContext context, SettingAccountGroupModel model, Widget child) {
                           model.getSnapshot(uid);
                           if (model.userSnapshot != null) {
                             if(model.userSnapshot.get('position') == 'scout') {
                               return Column(
                                 children: <Widget>[
                                   Padding(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         top: 25,
                                         left: 10,
                                         right: 10,
@@ -56,7 +55,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                   .pushNamed('/editProfile');
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Column(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -68,7 +67,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                           .colorScheme.secondary,
                                                       size: 35,
                                                     ),
-                                                    Padding(
+                                                    const Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 10),
@@ -84,7 +83,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                                 fontSize: 21),
                                                           ),
                                                         )),
-                                                    Padding(
+                                                    const Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 10),
@@ -108,7 +107,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                         )),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         top: 5, left: 10, right: 10, bottom: 5),
                                     child: Container(
                                         width: double.infinity,
@@ -132,7 +131,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                               } else {
                                                 await showDialog<int>(
                                                     context: context,
-                                                    builder: (context) {
+                                                    builder: (BuildContext context) {
                                                       return AlertDialog(
                                                         shape: const RoundedRectangleBorder(
                                                             borderRadius:
@@ -150,7 +149,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                                   width:
                                                                   double
                                                                       .infinity,
-                                                                  child: Text(
+                                                                  child: const Text(
                                                                       'この操作はできません',
                                                                       style: TextStyle(
                                                                           fontWeight:
@@ -159,7 +158,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                                           fontSize:
                                                                           18)),
                                                                 ),
-                                                                Padding(
+                                                                const Padding(
                                                                     padding:
                                                                     EdgeInsets
                                                                         .only(
@@ -173,7 +172,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                               }
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Column(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -185,7 +184,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                           .colorScheme.secondary,
                                                       size: 35,
                                                     ),
-                                                    Padding(
+                                                    const Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 10),
@@ -201,7 +200,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                                 fontSize: 21),
                                                           ),
                                                         )),
-                                                    Padding(
+                                                    const Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 10),
@@ -225,7 +224,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                         )),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         top: 5, left: 10, right: 10, bottom: 5),
                                     child: Container(
                                         width: double.infinity,
@@ -244,7 +243,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                   '/deleteGroupAccount');
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Column(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -256,7 +255,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                           .colorScheme.secondary,
                                                       size: 35,
                                                     ),
-                                                    Padding(
+                                                    const Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 10),
@@ -272,7 +271,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                                 fontSize: 21),
                                                           ),
                                                         )),
-                                                    Padding(
+                                                    const Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 10),
@@ -302,7 +301,7 @@ class SettingAccountGroupView extends StatelessWidget {
                               return Column(
                                 children: <Widget>[
                                   Padding(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         top: 5, left: 10, right: 10, bottom: 5),
                                     child: Container(
                                         width: double.infinity,
@@ -326,7 +325,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                               } else {
                                                 await showDialog<int>(
                                                     context: context,
-                                                    builder: (context) {
+                                                    builder: (BuildContext context) {
                                                       return AlertDialog(
                                                         shape: const RoundedRectangleBorder(
                                                             borderRadius:
@@ -344,7 +343,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                                   width:
                                                                   double
                                                                       .infinity,
-                                                                  child: Text(
+                                                                  child: const Text(
                                                                       'この操作はできません',
                                                                       style: TextStyle(
                                                                           fontWeight:
@@ -353,7 +352,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                                           fontSize:
                                                                           18)),
                                                                 ),
-                                                                Padding(
+                                                                const Padding(
                                                                     padding:
                                                                     EdgeInsets
                                                                         .only(
@@ -367,7 +366,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                               }
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Column(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -379,7 +378,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                           .colorScheme.secondary,
                                                       size: 35,
                                                     ),
-                                                    Padding(
+                                                    const Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 10),
@@ -395,7 +394,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                                 fontSize: 21),
                                                           ),
                                                         )),
-                                                    Padding(
+                                                    const Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 10),
@@ -419,7 +418,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                         )),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         top: 5, left: 10, right: 10, bottom: 5),
                                     child: Container(
                                         width: double.infinity,
@@ -438,7 +437,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                   '/deleteGroupAccount');
                                             },
                                             child: Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Column(
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.center,
@@ -450,7 +449,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                           .colorScheme.secondary,
                                                       size: 35,
                                                     ),
-                                                    Padding(
+                                                    const Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 10),
@@ -466,7 +465,7 @@ class SettingAccountGroupView extends StatelessWidget {
                                                                 fontSize: 21),
                                                           ),
                                                         )),
-                                                    Padding(
+                                                    const Padding(
                                                         padding: EdgeInsets
                                                             .only(
                                                             top: 10),

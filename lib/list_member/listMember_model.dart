@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class ListMemberModel extends ChangeNotifier {
   QuerySnapshot userSnapshot;
-  Map<String, dynamic> userData = Map<String, dynamic>();
+  Map<String, dynamic> userData = <String, dynamic>{};
   User currentUser;
   bool isGet = false;
   String group;
@@ -14,7 +14,7 @@ class ListMemberModel extends ChangeNotifier {
   String uid_user;
   String group_claim;
   bool isAdmin = false;
-  Map<String, dynamic> claims = Map<String, dynamic>();
+  Map<String, dynamic> claims = <String, dynamic>{};
 
   void getGroup() async {
     final String groupBefore = group;
@@ -24,14 +24,14 @@ class ListMemberModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
       userData = userSnapshot.data() as Map<String, dynamic>;
       uid_user = userData['uid'];
       isAdmin = userData['admin'];
       group = userSnapshot.get('group');
-      position = userSnapshot.get("position");
-      if(position == "scout") {
+      position = userSnapshot.get('position');
+      if(position == 'scout') {
         team = userSnapshot.get('team');
         teamPosition = userSnapshot.get('teamPosition');
       }
@@ -39,7 +39,7 @@ class ListMemberModel extends ChangeNotifier {
         notifyListeners();
       }
     });
-    user.getIdTokenResult(true).then((value) {
+    user.getIdTokenResult(true).then((IdTokenResult value) {
       final String groupClaimBefore = group_claim;
       group_claim = value.claims['group'];
       if (groupClaimBefore != group_claim) {

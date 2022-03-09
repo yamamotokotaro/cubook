@@ -20,17 +20,17 @@ class TaskListAnalyticsModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
-      if(userSnapshot.get('position') == "scout") {
+      if(userSnapshot.get('position') == 'scout') {
         team = userSnapshot.get('team');
         teamPosition = userSnapshot.get('teamPosition');
       }
       if (group != groupBefore) {
         notifyListeners();
       }
-      user.getIdTokenResult().then((value) {
+      user.getIdTokenResult().then((IdTokenResult value) {
         final String groupClaimBefore = group_claim;
         group_claim = value.claims['group'];
         if (groupClaimBefore != group_claim) {
@@ -44,13 +44,13 @@ class TaskListAnalyticsModel extends ChangeNotifier {
     print(uid);
     final User user = FirebaseAuth.instance.currentUser;
     currentUser = user;
-    user.getIdTokenResult().then((token) async {
+    user.getIdTokenResult().then((IdTokenResult token) async {
       FirebaseFirestore.instance
           .collection('user')
           .where('group', isEqualTo: token.claims['group'])
           .where('uid', isEqualTo: uid)
           .snapshots()
-          .listen((data) {
+          .listen((QuerySnapshot<Map<String, dynamic>> data) {
         userSnapshot = data.docs[0];
         notifyListeners();
       });

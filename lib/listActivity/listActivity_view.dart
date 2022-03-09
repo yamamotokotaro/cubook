@@ -1,39 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/listActivity/listActivity_model.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListActivityView extends StatelessWidget {
-  var theme = ThemeInfo();
+  ThemeInfo theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('記録一覧'),
-        brightness: Brightness.dark,
+        title: const Text('記録一覧'), systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.of(context).pushNamed('/createActivity');
         },
-        label: Text('新規作成'),
-        icon: Icon(Icons.add),
+        label: const Text('新規作成'),
+        icon: const Icon(Icons.add),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 children: <Widget>[
                   Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 10),
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<ListActivityModel>(
-                          builder: (context, model, child) {
+                          builder: (BuildContext context, ListActivityModel model, Widget child) {
                         model.getGroup();
                         return StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
@@ -56,7 +55,7 @@ class ListActivityView extends StatelessWidget {
                                       final DocumentSnapshot snapshot =
                                           querySnapshot.docs[index];
                                       return Padding(
-                                        padding: EdgeInsets.all(5),
+                                        padding: const EdgeInsets.all(5),
                                         child: Container(
                                           child: Card(
                                             child: InkWell(
@@ -64,7 +63,7 @@ class ListActivityView extends StatelessWidget {
                                                 borderRadius: BorderRadius.circular(10.0),
                                               ),
                                               onTap: () {
-                                                final documentData = snapshot.data() as Map<String, dynamic>;
+                                                final Map<String, dynamic> documentData = snapshot.data() as Map<String, dynamic>;
                                                 if(documentData['type'] == 'migration'){
                                                   return AlertDialog(
                                                     shape: const RoundedRectangleBorder(
@@ -81,7 +80,7 @@ class ListActivityView extends StatelessWidget {
                                                             Container(
                                                               width:
                                                               double.infinity,
-                                                              child: Text(
+                                                              child: const Text(
                                                                   'この活動は表示できません',
                                                                   style: TextStyle(
                                                                       fontWeight:
@@ -90,7 +89,7 @@ class ListActivityView extends StatelessWidget {
                                                                       fontSize:
                                                                       18)),
                                                             ),
-                                                            Padding(
+                                                            const Padding(
                                                                 padding:
                                                                 EdgeInsets.only(
                                                                     top: 5),
@@ -108,12 +107,12 @@ class ListActivityView extends StatelessWidget {
                                                 }
                                               },
                                               child: Padding(
-                                                padding: EdgeInsets.all(10),
+                                                padding: const EdgeInsets.all(10),
                                                 child: Column(
                                                   children: <Widget>[
                                                     Padding(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets.only(
                                                                 top: 3,
                                                                 bottom: 8),
                                                         child: Align(
@@ -124,7 +123,7 @@ class ListActivityView extends StatelessWidget {
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
-                                                              style: TextStyle(
+                                                              style: const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -132,7 +131,7 @@ class ListActivityView extends StatelessWidget {
                                                             ))),
                                                     Padding(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets.only(
                                                                 left: 3,
                                                                 top: 5),
                                                         child: Align(
@@ -145,7 +144,7 @@ class ListActivityView extends StatelessWidget {
                                                                           'date')
                                                                       .toDate())
                                                                   .toString(),
-                                                              style: TextStyle(
+                                                              style: const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -161,13 +160,13 @@ class ListActivityView extends StatelessWidget {
                                     });
                               } else {
                                 return Padding(
-                                  padding: EdgeInsets.only(
+                                  padding: const EdgeInsets.only(
                                       top: 5, left: 10, right: 10),
                                   child: Container(
                                       child: InkWell(
                                     onTap: () {},
                                     child: Padding(
-                                      padding: EdgeInsets.all(10),
+                                      padding: const EdgeInsets.all(10),
                                       child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -178,7 +177,7 @@ class ListActivityView extends StatelessWidget {
                                                   Theme.of(context).colorScheme.secondary,
                                               size: 35,
                                             ),
-                                            Padding(
+                                            const Padding(
                                                 padding:
                                                     EdgeInsets.only(left: 10),
                                                 child: Material(

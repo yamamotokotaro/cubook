@@ -16,7 +16,7 @@ class TaskListScoutModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: currentUser.uid)
         .snapshots()
-        .listen((data) {
+        .listen((QuerySnapshot<Map<String, dynamic>> data) {
       userSnapshot = data.docs[0];
       userData = userSnapshot.data() as Map<String,dynamic>;
       notifyListeners();

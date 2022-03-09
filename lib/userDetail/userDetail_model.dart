@@ -21,13 +21,13 @@ class UserDetailModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       FirebaseFirestore.instance
           .collection('user')
           .where('group', isEqualTo: snapshot.docs[0].get('group'))
           .where('uid', isEqualTo: uid)
           .get()
-          .then((data) {
+          .then((QuerySnapshot<Map<String, dynamic>> data) {
         userSnapshot = data.docs[0];
         userData = userSnapshot.data() as Map<String, dynamic>;
         notifyListeners();
@@ -45,17 +45,17 @@ class UserDetailModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
       uid = userSnapshot.get('uid');
-      if(userSnapshot.get('position') == "scout") {
+      if(userSnapshot.get('position') == 'scout') {
         teamPosition = userSnapshot.get('teamPosition');
       }
       if (group != groupBefore || teamPosition != teamPositionBefore || uid != uidBefore) {
         notifyListeners();
       }
-      user.getIdTokenResult().then((value) {
+      user.getIdTokenResult().then((IdTokenResult value) {
         final String groupClaimBefore = group_claim;
         group_claim = value.claims['group'];
         if (groupClaimBefore != group_claim) {

@@ -16,7 +16,7 @@ class ListExaminationModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       group = snapshot.docs[0].get('group');
       if (group != groupBefore) {
         notifyListeners();
@@ -31,7 +31,7 @@ class ListExaminationModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       group = snapshot.docs[0].get('group');
       if (group != groupBefore) {
         notifyListeners();

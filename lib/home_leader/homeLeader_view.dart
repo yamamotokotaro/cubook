@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -11,7 +10,7 @@ class HomeLeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      Consumer<HomeLeaderModel>(builder: (context, model, child) {
+      Consumer<HomeLeaderModel>(builder: (BuildContext context, HomeLeaderModel model, Widget child) {
         model.getSnapshot(context);
         if (model.group != null) {
           return StreamBuilder<QuerySnapshot>(
@@ -21,7 +20,7 @@ class HomeLeaderView extends StatelessWidget {
                 if (snapshot.hasData) {
                   if (snapshot.data.docs.isNotEmpty) {
                     return Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Container(
                           child: Card(
                         shape: RoundedRectangleBorder(
@@ -37,17 +36,17 @@ class HomeLeaderView extends StatelessWidget {
                             Navigator.of(context).pushNamed('/listTaskWaiting');
                           },
                           child: Padding(
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Icon(
+                                  const Icon(
                                     Icons.edit,
                                     color: Colors.white,
                                     size: 35,
                                   ),
                                   Padding(
-                                      padding: EdgeInsets.only(left: 10),
+                                      padding: const EdgeInsets.only(left: 10),
                                       child: Material(
                                           type: MaterialType.transparency,
                                           child: Text(
@@ -55,7 +54,7 @@ class HomeLeaderView extends StatelessWidget {
                                                 snapshot.data.docs.length
                                                     .toString() +
                                                 '件',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 30,
                                                 color: Colors.white),
@@ -85,7 +84,7 @@ class HomeLeaderView extends StatelessWidget {
         }
       }),
       Padding(
-        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
+        padding: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
         child: Container(
             child: Card(
           shape: RoundedRectangleBorder(
@@ -99,7 +98,7 @@ class HomeLeaderView extends StatelessWidget {
               Navigator.of(context).pushNamed('/listMember');
             },
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -108,7 +107,7 @@ class HomeLeaderView extends StatelessWidget {
                       color: Theme.of(context).colorScheme.secondary,
                       size: 35,
                     ),
-                    Padding(
+                    const Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Material(
                           type: MaterialType.transparency,
@@ -124,12 +123,12 @@ class HomeLeaderView extends StatelessWidget {
         )),
       ),
       Selector<HomeLeaderModel, String>(
-          selector: (context, model) => model.teamPosition,
-          builder: (context, teamPosition, child) {
+          selector: (BuildContext context, HomeLeaderModel model) => model.teamPosition,
+          builder: (BuildContext context, String teamPosition, Widget child) {
             if (teamPosition == null) {
               return Padding(
                 padding:
-                    EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
+                    const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
                 child: Container(
                     child: Card(
                   shape: RoundedRectangleBorder(
@@ -143,7 +142,7 @@ class HomeLeaderView extends StatelessWidget {
                       Navigator.of(context).pushNamed('/listActivity');
                     },
                     child: Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -152,7 +151,7 @@ class HomeLeaderView extends StatelessWidget {
                               color: Theme.of(context).colorScheme.secondary,
                               size: 35,
                             ),
-                            Padding(
+                            const Padding(
                                 padding: EdgeInsets.only(left: 10),
                                 child: Material(
                                   type: MaterialType.transparency,
@@ -173,12 +172,12 @@ class HomeLeaderView extends StatelessWidget {
             }
           }),
       Selector<HomeLeaderModel, String>(
-          selector: (context, model) => model.teamPosition,
-          builder: (context, teamPosition, child) {
+          selector: (BuildContext context, HomeLeaderModel model) => model.teamPosition,
+          builder: (BuildContext context, String teamPosition, Widget child) {
             return Padding(
               padding: teamPosition != null
-                  ? EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5)
-                  : EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
+                  ? const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5)
+                  : const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
               child: Container(
                   child: Card(
                 shape: RoundedRectangleBorder(
@@ -193,7 +192,7 @@ class HomeLeaderView extends StatelessWidget {
                     Navigator.of(context).pushNamed('/analytics');
                   },
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -202,7 +201,7 @@ class HomeLeaderView extends StatelessWidget {
                             color: Theme.of(context).colorScheme.secondary,
                             size: 35,
                           ),
-                          Padding(
+                          const Padding(
                               padding: EdgeInsets.only(left: 10),
                               child: Material(
                                 type: MaterialType.transparency,
@@ -223,7 +222,7 @@ class HomeLeaderView extends StatelessWidget {
   }
 
   void launchURL() async {
-    const url =
+    const String url =
         'https://sites.google.com/view/cubookinfo/qa/%E9%87%8D%E8%A6%81%E3%82%A2%E3%83%83%E3%83%97%E3%83%87%E3%83%BC%E3%83%88%E3%81%AE%E3%81%8A%E9%A1%98%E3%81%84';
     if (await canLaunch(url)) {
       await launch(url);

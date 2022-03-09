@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,13 +13,13 @@ class TaskListScoutConfirmModel extends ChangeNotifier {
     print(uid);
     final User user = FirebaseAuth.instance.currentUser;
     currentUser = user;
-    user.getIdTokenResult().then((token) async {
+    user.getIdTokenResult().then((IdTokenResult token) async {
       FirebaseFirestore.instance
           .collection('user')
           .where('group', isEqualTo: token.claims['group'])
           .where('uid', isEqualTo: uid)
           .snapshots()
-          .listen((data) {
+          .listen((QuerySnapshot<Map<String, dynamic>> data) {
         userSnapshot = data.docs[0];
         userData = userSnapshot.data() as Map<String,dynamic>;
         notifyListeners();

@@ -1,24 +1,24 @@
+import 'dart:math' as math;
+
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'dart:math' as math;
 
 import 'home_controller.dart';
 
 class HomeView extends StatelessWidget {
   String group;
   String position;
-  var random = math.Random();
+  math.Random random = math.Random();
 
   HomeView(String _group, String _position) {
     group = _group;
+    position = _position;
   }
 
   @override
@@ -76,7 +76,7 @@ class HomeView extends StatelessWidget {
             Align(
                 alignment: Alignment.bottomLeft,
                 child: Padding(
-                    padding: EdgeInsets.only(top: 10, left: 15),
+                    padding: const EdgeInsets.only(top: 10, left: 15),
                     child: Semantics(
                         label: 'メニュー',
                         hint: 'ログアウトなどの操作を行います',
@@ -88,9 +88,9 @@ class HomeView extends StatelessWidget {
                             }
                             await showDialog<int>(
                                 context: context,
-                                builder: (context) {
+                                builder: (BuildContext context) {
                                   LicenseRegistry.addLicense(() async* {
-                                    yield LicenseEntryWithLineBreaks(
+                                    yield const LicenseEntryWithLineBreaks(
                                         ['令和2年版 諸規定'], '公財ボーイスカウト日本連盟');
                                   });
                                   return AlertDialog(
@@ -99,13 +99,13 @@ class HomeView extends StatelessWidget {
                                             Radius.circular(20.0))),
                                     content: SingleChildScrollView(child:
                                         Consumer<HomeModel>(
-                                            builder: (context, model, child) {
+                                            builder: (BuildContext context, HomeModel model, Widget child) {
                                       return Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
                                           if (model.providerID == 'password') ListTile(
-                                                  leading: Icon(Icons.person),
-                                                  title: Text('アカウント設定'),
+                                                  leading: const Icon(Icons.person),
+                                                  title: const Text('アカウント設定'),
                                                   onTap: () {
                                                     Navigator.of(context)
                                                         .pushNamed(
@@ -113,8 +113,8 @@ class HomeView extends StatelessWidget {
                                                   },
                                                 ) else Container(),
                                           ListTile(
-                                            leading: Icon(Icons.people),
-                                            title: Text('グループ設定'),
+                                            leading: const Icon(Icons.people),
+                                            title: const Text('グループ設定'),
                                             onTap: () {
                                               Navigator.of(context)
                                                   .pushNamed(
@@ -122,13 +122,13 @@ class HomeView extends StatelessWidget {
                                             },
                                           ),
                                           ListTile(
-                                            leading: Icon(Icons.help_outline),
-                                            title: Text('ヘルプ'),
+                                            leading: const Icon(Icons.help_outline),
+                                            title: const Text('ヘルプ'),
                                             onTap: () => launchURL(),
                                           ),
                                           ListTile(
-                                            leading: Icon(Icons.list),
-                                            title: Text('ライセンスを表示'),
+                                            leading: const Icon(Icons.list),
+                                            title: const Text('ライセンスを表示'),
                                             onTap: () => kIsWeb
                                                 ? showLicensePage(
                                                     context: context,
@@ -148,8 +148,8 @@ class HomeView extends StatelessWidget {
                                                   ),
                                           ),
                                           ListTile(
-                                            leading: Icon(Icons.exit_to_app),
-                                            title: Text('ログアウト'),
+                                            leading: const Icon(Icons.exit_to_app),
+                                            title: const Text('ログアウト'),
                                             onTap: () {
                                               model.logout();
                                               Navigator.pushReplacement(context,
@@ -161,51 +161,26 @@ class HomeView extends StatelessWidget {
                                               }));
                                             },
                                           ),
-                                          /*Divider(color: Colors.grey),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              FlatButton(
-                                                onPressed: () {},
-                                                child: Text(
-                                                  'プライバシーポリシー',
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                ),
-                                              ),
-                                              FlatButton(
-                                                onPressed: () {},
-                                                child: Text(
-                                                  '利用規約',
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                ),
-                                              )
-                                            ],
-                                          ),*/
                                         ],
                                       );
                                     })),
                                   );
                                 });
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.dehaze,
                             size: 30,
                           ),
                         )))),
-            Spacer(),
+            const Spacer(),
             Selector<HomeModel, String>(
-              selector: (context, model) => model.groupName,
-              builder: (context, name, child) => Padding(
-                padding: EdgeInsets.only(top: 12, right: 15),
+              selector: (BuildContext context, HomeModel model) => model.groupName,
+              builder: (BuildContext context, String name, Widget child) => Padding(
+                padding: const EdgeInsets.only(top: 12, right: 15),
                 child: Text(
                   name,
                   style: GoogleFonts.notoSans(
-                      textStyle: TextStyle(
+                      textStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
                   )),
@@ -215,13 +190,13 @@ class HomeView extends StatelessWidget {
           ],
         ),
         Selector<HomeModel, String>(
-          selector: (context, model) => model.username,
-          builder: (context, name, child) => Padding(
-            padding: EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
+          selector: (BuildContext context, HomeModel model) => model.username,
+          builder: (BuildContext context, String name, Widget child) => Padding(
+            padding: const EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
             child: Text(
               name + '、' + greet,
               style: GoogleFonts.notoSans(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
               )),
@@ -229,11 +204,11 @@ class HomeView extends StatelessWidget {
           ),
         ),
         Consumer<HomeModel>(
-          builder: (context, model, child) {
+          builder: (BuildContext context, HomeModel model, Widget child) {
             if (model.currentUser == null) {
               model.login();
               return Center(
-                child: Padding(padding: EdgeInsets.all(5), child: Container()),
+                child: Padding(padding: const EdgeInsets.all(5), child: Container()),
               );
             } else {
               return model.toShow;
@@ -247,7 +222,7 @@ class HomeView extends StatelessWidget {
 }
 
 void launchURL() async {
-  const url = 'https://sites.google.com/view/cubookinfo/qa';
+  const String url = 'https://sites.google.com/view/cubookinfo/qa';
   if (await canLaunch(url)) {
     await launch(url);
   } else {

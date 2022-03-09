@@ -17,7 +17,7 @@ class ListAbsentModel extends ChangeNotifier {
     final String groupBefore = group;
     final String positionBefore = position;
     final User user = FirebaseAuth.instance.currentUser;
-      FirebaseFirestore.instance.collection('user').where('uid', isEqualTo: user.uid).get().then((snapshot) {
+      FirebaseFirestore.instance.collection('user').where('uid', isEqualTo: user.uid).get().then((QuerySnapshot<Map<String, dynamic>> snapshot) {
         final DocumentSnapshot documentSnapshot = snapshot.docs[0];
         group = documentSnapshot.get('group');
         position = documentSnapshot.get('position');

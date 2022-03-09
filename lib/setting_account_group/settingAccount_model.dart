@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -27,22 +26,22 @@ class SettingAccountGroupModel extends ChangeNotifier {
   String age;
   String call;
   String uid;
-  Map<String, dynamic> claims = Map<String, dynamic>();
+  Map<String, dynamic> claims = <String, dynamic>{};
 
   void getSnapshot(String uidToShow) async {
-    final task = TaskContents();
+    final TaskContents task = TaskContents();
     if (uidToShow != uid) {
       uid = uidToShow;
       final User user = FirebaseAuth.instance.currentUser;
       currentUser = user;
-      user.getIdTokenResult().then((token) async {
+      user.getIdTokenResult().then((IdTokenResult token) async {
         isAdmin = token.claims['admin'];
         FirebaseFirestore.instance
             .collection('user')
             .where('group', isEqualTo: token.claims['group'])
             .where('uid', isEqualTo: uid)
             .snapshots()
-            .listen((data) {
+            .listen((QuerySnapshot<Map<String, dynamic>> data) {
           userSnapshot = data.docs[0];
           userData = userSnapshot.data() as Map<String, dynamic>;
           final String family = userSnapshot.get('family');
@@ -120,12 +119,12 @@ class SettingAccountGroupModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       group = snapshot.docs[0].get('group');
       if (group != groupBefore) {
         notifyListeners();
       }
-      user.getIdTokenResult().then((value) {
+      user.getIdTokenResult().then((IdTokenResult value) {
         final String groupClaimBefore = group_claim;
         group_claim = value.claims['group'];
         if (groupClaimBefore != group_claim) {
@@ -242,8 +241,8 @@ class SettingAccountGroupModel extends ChangeNotifier {
       notifyListeners();
       final User user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        user.getIdTokenResult().then((token) async {
-          final String url =
+        user.getIdTokenResult().then((IdTokenResult token) async {
+          const String url =
               'https://asia-northeast1-cubook-3c960.cloudfunctions.net/changeUserInfo_group';
           final Map<String, String> headers = {'content-type': 'application/json'};
           final String body = json.encode(<String, dynamic>{
@@ -263,13 +262,13 @@ class SettingAccountGroupModel extends ChangeNotifier {
               await http.post(Uri.parse(url), headers: headers, body: body);
           isLoading = false;
           if (resp.body == 'success') {
-            Scaffold.of(context).showSnackBar(SnackBar(
+            Scaffold.of(context).showSnackBar(const SnackBar(
               content: Text('変更を保存しました'),
             ));
           } else if (resp.body == 'No such document!' ||
               resp.body == 'not found') {
             isLoading = false;
-            Scaffold.of(context).showSnackBar(SnackBar(
+            Scaffold.of(context).showSnackBar(const SnackBar(
               content: Text('ユーザーが見つかりませんでした'),
             ));
           } else {
@@ -293,16 +292,15 @@ class SettingAccountGroupModel extends ChangeNotifier {
         context: context,
         builder: (BuildContext context) {
           return Consumer<SettingAccountGroupModel>(
-            builder: (context, model, child) {
+            builder: (BuildContext context, SettingAccountGroupModel model, Widget child) {
               return Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      model.isFinish
-                          ? Column(
+                      if (model.isFinish) Column(
                               children: [
-                                Padding(
+                                const Padding(
                                     padding:
                                         EdgeInsets.only(top: 10, bottom: 10),
                                     child: Text(
@@ -311,7 +309,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
                                         fontSize: 30,
                                       ),
                                     )),
-                                Text(
+                                const Text(
                                   'アカウントを削除しました',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -321,7 +319,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
                                 ),
                                 Padding(
                                     padding:
-                                        EdgeInsets.only(top: 10, bottom: 10),
+                                        const EdgeInsets.only(top: 10, bottom: 10),
                                     child: ElevatedButton(
                                       onPressed: () {
                                         model.backToList(context);
@@ -329,21 +327,20 @@ class SettingAccountGroupModel extends ChangeNotifier {
                                       style: ElevatedButton.styleFrom(
                                         primary: Colors.blue[900], //ボタンの背景色
                                       ),
-                                      child: Text(
+                                      child: const Text(
                                         '一覧に戻る',
                                       ),
                                     )),
                               ],
-                            )
-                          : !model.isLoading
+                            ) else !model.isLoading
                               ? Column(
                                   children: [
                                     Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             top: 5, left: 17, bottom: 17),
                                         child: Container(
                                             width: double.infinity,
-                                            child: Text(
+                                            child: const Text(
                                               '本当に削除しますか？',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
@@ -352,22 +349,22 @@ class SettingAccountGroupModel extends ChangeNotifier {
                                               textAlign: TextAlign.left,
                                             ))),
                                     ListTile(
-                                      leading: Icon(Icons.delete),
-                                      title: Text('はい'),
+                                      leading: const Icon(Icons.delete),
+                                      title: const Text('はい'),
                                       onTap: () {
                                         model.deleteAccount(context);
                                       },
                                     ),
                                     ListTile(
-                                      leading: Icon(Icons.arrow_back),
-                                      title: Text('いいえ'),
+                                      leading: const Icon(Icons.arrow_back),
+                                      title: const Text('いいえ'),
                                       onTap: () {
                                         Navigator.pop(context);
                                       },
                                     )
                                   ],
                                 )
-                              : Center(
+                              : const Center(
                                   child: Padding(
                                       padding: EdgeInsets.all(15),
                                       child: CircularProgressIndicator()),
@@ -385,8 +382,8 @@ class SettingAccountGroupModel extends ChangeNotifier {
     notifyListeners();
     final User user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      user.getIdTokenResult().then((token) async {
-        final String url =
+      user.getIdTokenResult().then((IdTokenResult token) async {
+        const String url =
             'https://asia-northeast1-cubook-3c960.cloudfunctions.net/deleteGroupAccount_https';
         final Map<String, String> headers = {'content-type': 'application/json'};
         final String body = json.encode(<String, dynamic>{
@@ -414,8 +411,8 @@ class SettingAccountGroupModel extends ChangeNotifier {
     notifyListeners();
     final User user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      user.getIdTokenResult().then((token) async {
-        final String url =
+      user.getIdTokenResult().then((IdTokenResult token) async {
+        const String url =
             'https://asia-northeast1-cubook-3c960.cloudfunctions.net/sendMigration';
         final Map<String, String> headers = {'content-type': 'application/json'};
         final String body = json.encode(<String, dynamic>{
@@ -429,7 +426,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
         isLoading = false;
         if (resp.body == 'success') {
           isFinish = true;
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('申請の送信が完了しました'),
           ));
         }

@@ -1,12 +1,11 @@
 import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 
 class InviteModel with ChangeNotifier {
-  var isSelect_type = List.generate(2, (index) => false);
+  List<bool> isSelect_type = List.generate(2, (int index) => false);
   bool isLoading_join = false;
   bool isConsent = false;
   String joinCode = '';
@@ -101,8 +100,8 @@ class InviteModel with ChangeNotifier {
       notifyListeners();
       final User user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        user.getIdToken().then((token) async {
-          final String url =
+        user.getIdToken().then((String token) async {
+          const String url =
               'https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup';
           final Map<String, String> headers = {
             'content-type': 'application/json'
@@ -126,7 +125,7 @@ class InviteModel with ChangeNotifier {
             addressController.clear();
             familyController.clear();
             firstController.clear();
-            Scaffold.of(context).showSnackBar(SnackBar(
+            Scaffold.of(context).showSnackBar(const SnackBar(
               content: Text('送信リクエストが完了しました'),
             ));
           } else if (resp.body == 'No such document!' ||

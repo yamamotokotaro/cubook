@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EditActivityModel extends ChangeNotifier {
@@ -30,7 +29,7 @@ class EditActivityModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       final DocumentSnapshot documentSnapshot = snapshot.docs[0];
       group = documentSnapshot.get('group');
       position = documentSnapshot.get('position');
@@ -119,7 +118,7 @@ class EditActivityModel extends ChangeNotifier {
     int countUser = 0;
     int countAbsent = 0;
     isLoading = true;
-    checkAbsents.forEach((key, absent) async {
+    checkAbsents.forEach((String key, bool absent) async {
       countUser++;
       if (absent) {
         countAbsent++;
@@ -163,9 +162,9 @@ class EditActivityModel extends ChangeNotifier {
       'team': userSnapshot.get('team'),
       'title': activitySnapshot.get('title'),
       'uid': userSnapshot.get('uid')
-    }).then((value) {
-      final snackBar = SnackBar(
-        content: Text('出席者リストに追加しました'),
+    }).then((DocumentReference<Map<String, dynamic>> value) {
+      final SnackBar snackBar = SnackBar(
+        content: const Text('出席者リストに追加しました'),
         action: SnackBarAction(
           label: '取り消し',
           textColor: isDark ? Colors.blue[900] : Colors.blue[400],
@@ -176,7 +175,7 @@ class EditActivityModel extends ChangeNotifier {
                 .delete();
           },
         ),
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
       );
       Scaffold.of(context).showSnackBar(snackBar);
     });

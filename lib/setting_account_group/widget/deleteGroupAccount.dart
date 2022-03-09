@@ -1,34 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../settingAccount_model.dart';
 
 class DeleteGroupAccount extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('アカウント削除'),
-          brightness: Brightness.dark,
+          title: const Text('アカウント削除'), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: SafeArea(
             child: SingleChildScrollView(
                 child: Center(
                     child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 600),
+                        constraints: const BoxConstraints(maxWidth: 600),
                         child: Consumer<SettingAccountGroupModel>(
-                            builder: (context, model, child) {
+                            builder: (BuildContext context, SettingAccountGroupModel model, Widget child) {
                           return Column(
                             children: <Widget>[
-                              Padding(
+                              const Padding(
                                 padding: EdgeInsets.only(top: 30, bottom: 20),
                                 child: Text(
                                   '以下のアカウントを削除します',
@@ -39,7 +37,7 @@ class DeleteGroupAccount extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   child: StreamBuilder<QuerySnapshot>(
                                       stream: FirebaseFirestore.instance
                                           .collection('user')
@@ -67,17 +65,17 @@ class DeleteGroupAccount extends StatelessWidget {
                                                               snapshot.get(
                                                                   'age')),
                                                       shape: BoxShape.circle),
-                                                  child: Icon(
+                                                  child: const Icon(
                                                     Icons.person,
                                                     color: Colors.white,
                                                   ),
                                                 ),
                                                 Padding(
-                                                    padding: EdgeInsets.only(
+                                                    padding: const EdgeInsets.only(
                                                         left: 10),
                                                     child: Text(
                                                       snapshot.get('name'),
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 25),
@@ -111,13 +109,13 @@ class DeleteGroupAccount extends StatelessWidget {
                                 ),
                               ),*/
                               Padding(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 child: Container(
                                   child: Card(
                                       child: Padding(
-                                    padding: EdgeInsets.all(0),
+                                    padding: const EdgeInsets.all(0),
                                     child: Column(
-                                      children: <Widget>[
+                                      children: const <Widget>[
                                         Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(
@@ -134,13 +132,13 @@ class DeleteGroupAccount extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 child: Container(
                                   child: Card(
                                       child: Padding(
-                                    padding: EdgeInsets.all(0),
+                                    padding: const EdgeInsets.all(0),
                                     child: Column(
-                                      children: <Widget>[
+                                      children: const <Widget>[
                                         Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(
@@ -157,7 +155,7 @@ class DeleteGroupAccount extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(top: 10),
+                                padding: const EdgeInsets.only(top: 10),
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       primary: Colors.blue[900], //ボタンの背景色
@@ -166,7 +164,7 @@ class DeleteGroupAccount extends StatelessWidget {
                                       //model.inviteRequest(context);
                                       model.showDeleteSheet(context);
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       '削除を実行',
                                       style: TextStyle(color: Colors.white),
                                     )),

@@ -5,8 +5,8 @@ import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/setting_account_group/settingAccount_view.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/userDetail/widget/selectBook.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
@@ -33,8 +33,8 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class SelectBookView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   String uid;
   String type;
 
@@ -49,14 +49,13 @@ class SelectBookView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('メンバー詳細'),
-          brightness: Brightness.dark,
+          title: const Text('メンバー詳細'), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Center(
             child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 600),
+                constraints: const BoxConstraints(maxWidth: 600),
                 child:
-                    Consumer<UserDetailModel>(builder: (context, model, child) {
+                    Consumer<UserDetailModel>(builder: (BuildContext context, UserDetailModel model, Widget child) {
                   model.getGroup();
                   if (model.group != null) {
                     if(type == 'scout') {
@@ -96,7 +95,7 @@ class SelectBookView extends StatelessWidget {
                               SliverList(
                                 delegate: SliverChildListDelegate([
                                   Consumer<UserDetailModel>(
-                                      builder: (context, model, child) {
+                                      builder: (BuildContext context, UserDetailModel model, Widget child) {
                                     model.getGroup();
                                     if (model.group != null) {
                                       return StreamBuilder<QuerySnapshot>(
@@ -115,7 +114,7 @@ class SelectBookView extends StatelessWidget {
                                             return Column(
                                               children: <Widget>[
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: const EdgeInsets.only(
                                                       top: 16, bottom: 10),
                                                   child: Container(
                                                     width: 80,
@@ -126,7 +125,7 @@ class SelectBookView extends StatelessWidget {
                                                                 userSnapshot.get(
                                                                     'age')),
                                                         shape: BoxShape.circle),
-                                                    child: Icon(
+                                                    child: const Icon(
                                                       Icons.person,
                                                       size: 40,
                                                       color: Colors.white,
@@ -134,13 +133,13 @@ class SelectBookView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Padding(
-                                                    padding: EdgeInsets.only(
+                                                    padding: const EdgeInsets.only(
                                                         bottom: 10),
                                                     child: Text(
                                                       userSnapshot.get('name'),
                                                       textAlign:
                                                           TextAlign.center,
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           fontSize: 25),
@@ -186,7 +185,7 @@ class SelectBookView extends StatelessWidget {
                           },
                           body: TabBarView(
                               children:
-                                  _tabs.map((tab) => tab.widget).toList()),
+                                  _tabs.map((TabInfo tab) => tab.widget).toList()),
                         ));
                   } else {
                     return const Center(

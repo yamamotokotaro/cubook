@@ -1,38 +1,37 @@
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/setting_account/settingAccount_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SettingAccountView extends StatelessWidget {
-  var theme = ThemeInfo();
+  ThemeInfo theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('アカウント設定'),
-        brightness: Brightness.dark,
+        title: const Text('アカウント設定'), systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 children: <Widget>[
                   Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 10),
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<SettingAccountModel>(
-                          builder: (context, model, child) {
+                          builder: (BuildContext context, SettingAccountModel model, Widget child) {
                             model.getUser();
                             return Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 ListTile(
                                   leading:
-                                  Icon(Icons.mail_outline),
-                                  title: Text('メールアドレスを変更'),
+                                  const Icon(Icons.mail_outline),
+                                  title: const Text('メールアドレスを変更'),
                                   onTap: () {
                                     Navigator.of(context)
                                         .pushNamed('/changeMailAddressView');
@@ -40,8 +39,8 @@ class SettingAccountView extends StatelessWidget {
                                 ),
                                 ListTile(
                                   leading:
-                                  Icon(Icons.lock_outline),
-                                  title: Text('パスワードを変更'),
+                                  const Icon(Icons.lock_outline),
+                                  title: const Text('パスワードを変更'),
                                   onTap: () {
                                     Navigator.of(context)
                                         .pushNamed('/changePasswordView');

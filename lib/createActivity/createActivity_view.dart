@@ -2,15 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/createActivity/createActivity_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CreateActivityView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +27,10 @@ class CreateActivityView extends StatelessWidget {
     }
     return Scaffold(
         appBar: AppBar(
-          title: Text('新規作成'),
-          brightness: Brightness.dark,
+          title: const Text('新規作成'), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         floatingActionButton:
-            Consumer<CreateActivityModel>(builder: (context, model, child) {
+            Consumer<CreateActivityModel>(builder: (BuildContext context, CreateActivityModel model, Widget child) {
           if (model.isLoading) {
             return FloatingActionButton(
               child: CircularProgressIndicator(
@@ -44,8 +42,8 @@ class CreateActivityView extends StatelessWidget {
                 onPressed: () {
                   model.onSend(context);
                 },
-                label: Text('記録'),
-                icon: Icon(Icons.save));
+                label: const Text('記録'),
+                icon: const Icon(Icons.save));
           }
         }),
         body: Builder(builder: (BuildContext contextBuilder) {
@@ -56,14 +54,14 @@ class CreateActivityView extends StatelessWidget {
               child: SingleChildScrollView(
                   child: Center(
                 child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 800),
+                    constraints: const BoxConstraints(maxWidth: 800),
                     child: Consumer<CreateActivityModel>(
-                        builder: (context, model, child) {
+                        builder: (BuildContext context, CreateActivityModel model, Widget child) {
                       model.getGroup();
                       return Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: TextField(
                                 maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.titleController,
                                 enabled: true,
@@ -77,7 +75,7 @@ class CreateActivityView extends StatelessWidget {
                                         : null)),
                           ),
                           Padding(
-                              padding: EdgeInsets.only(top: 10, left: 10),
+                              padding: const EdgeInsets.only(top: 10, left: 10),
                               child: Container(
                                   width: double.infinity,
                                   child: Text(
@@ -88,7 +86,7 @@ class CreateActivityView extends StatelessWidget {
                                     textAlign: TextAlign.left,
                                   ))),
                           Padding(
-                            padding: EdgeInsets.only(top: 5),
+                            padding: const EdgeInsets.only(top: 5),
                             child: Container(
                                 width: double.infinity,
                                 child: Align(
@@ -98,7 +96,7 @@ class CreateActivityView extends StatelessWidget {
                                         DateFormat('yyyy/MM/dd')
                                             .format(model.date)
                                             .toString(),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 20.0,
                                             fontWeight: FontWeight.bold,
                                             decoration: TextDecoration.none),
@@ -110,11 +108,11 @@ class CreateActivityView extends StatelessWidget {
                                     ))),
                           ),
                           Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   top: 15, bottom: 15, left: 10),
                               child: Container(
                                   width: double.infinity,
-                                  child: Text(
+                                  child: const Text(
                                     '取得項目',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -124,10 +122,10 @@ class CreateActivityView extends StatelessWidget {
                                   ))),
                           Padding(
                               padding:
-                                  EdgeInsets.only(top: 5, bottom: 15, left: 10),
+                                  const EdgeInsets.only(top: 5, bottom: 15, left: 10),
                               child: Container(
                                   width: double.infinity,
-                                  child: Text(
+                                  child: const Text(
                                     '選択した項目は一括でサインされます\n反映までに数分要します',
                                     style: TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -140,12 +138,12 @@ class CreateActivityView extends StatelessWidget {
                                   onPressed: () {
                                     model.onPressedSelectItem(context);
                                   },
-                                  icon: Icon(Icons.list),
-                                  label: Text('項目を選択'))),
+                                  icon: const Icon(Icons.list),
+                                  label: const Text('項目を選択'))),
                           Selector<CreateActivityModel,
                               List<Map<String, dynamic>>>(
-                            selector: (context, model) => model.list_selected,
-                            builder: (context, listSelected, child) {
+                            selector: (BuildContext context, CreateActivityModel model) => model.list_selected,
+                            builder: (BuildContext context, List<Map<String, dynamic>> listSelected, Widget child) {
                               return ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: listSelected.length,
@@ -160,7 +158,7 @@ class CreateActivityView extends StatelessWidget {
                                     final Map<String, dynamic> mapTask =
                                         task.getPartMap(type, page);
                                     return Padding(
-                                        padding: EdgeInsets.all(5),
+                                        padding: const EdgeInsets.all(5),
                                         child: Card(
                                           color: theme.getThemeColor(type),
                                           shape: RoundedRectangleBorder(
@@ -169,7 +167,7 @@ class CreateActivityView extends StatelessWidget {
                                           ),
                                           child: Center(
                                               child: Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: const EdgeInsets.only(
                                                       top: 5, bottom: 5),
                                                   child: Column(
                                                     children: [
@@ -185,7 +183,7 @@ class CreateActivityView extends StatelessWidget {
                                                               (number + 1)
                                                                   .toString() +
                                                               ')',
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .normal,
@@ -201,7 +199,7 @@ class CreateActivityView extends StatelessWidget {
                           Row(
                             children: [
                               Padding(
-                                  padding: EdgeInsets.only(
+                                  padding: const EdgeInsets.only(
                                       top: 15, bottom: 15, left: 10),
                                   child: Container(
                                       child: const Text(
@@ -212,16 +210,16 @@ class CreateActivityView extends StatelessWidget {
                                     ),
                                     textAlign: TextAlign.left,
                                   ))),
-                              Spacer(),
+                              const Spacer(),
                               FlatButton.icon(
                                 onPressed: () {
                                   model.resetUser();
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.replay,
                                   size: 20,
                                 ),
-                                label: Text(
+                                label: const Text(
                                   'リセット',
                                   style: TextStyle(
                                     fontSize: 15,
@@ -232,7 +230,7 @@ class CreateActivityView extends StatelessWidget {
                             ],
                           ),
                           Padding(
-                              padding: EdgeInsets.only(bottom: 70),
+                              padding: const EdgeInsets.only(bottom: 70),
                               child: StreamBuilder<QuerySnapshot>(
                                 stream: FirebaseFirestore.instance
                                     .collection('user')
@@ -285,23 +283,23 @@ class CreateActivityView extends StatelessWidget {
                                               }
                                               final String grade =
                                                   snapshot.get('grade');
-                                              String team_call;
+                                              String teamCall;
                                               if (grade == 'cub') {
-                                                team_call = '組';
+                                                teamCall = '組';
                                               } else {
-                                                team_call = '班';
+                                                teamCall = '班';
                                               }
                                               print(model.uid_check);
                                               return Column(children: <Widget>[
                                                 if (isFirst && team != '') Padding(
                                                         padding:
-                                                            EdgeInsets.all(10),
+                                                            const EdgeInsets.all(10),
                                                         child: Container(
                                                             width:
                                                                 double.infinity,
                                                             child: Text(
-                                                              team + team_call,
-                                                              style: TextStyle(
+                                                              team + teamCall,
+                                                              style: const TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -314,9 +312,9 @@ class CreateActivityView extends StatelessWidget {
                                                 Dismissible(
                                                     key: Key(snapshot
                                                         .get('name')),
-                                                    onDismissed: (direction) {
+                                                    onDismissed: (DismissDirection direction) {
                                                       model.dismissUser(uid);
-                                                      final snackBar = SnackBar(
+                                                      final SnackBar snackBar = SnackBar(
                                                         content: Text(
                                                             snapshot.get(
                                                                     'name') +
@@ -332,7 +330,7 @@ class CreateActivityView extends StatelessWidget {
                                                                 uid);
                                                           },
                                                         ),
-                                                        duration: Duration(
+                                                        duration: const Duration(
                                                             seconds: 1),
                                                       );
                                                       Scaffold.of(
@@ -342,7 +340,7 @@ class CreateActivityView extends StatelessWidget {
                                                     },
                                                     child: Padding(
                                                         padding:
-                                                            EdgeInsets.all(5),
+                                                            const EdgeInsets.all(5),
                                                         child: Container(
                                                           child: Card(
                                                             shape:
@@ -359,7 +357,7 @@ class CreateActivityView extends StatelessWidget {
                                                                         uid);
                                                               },
                                                               child: Padding(
-                                                                padding: EdgeInsets
+                                                                padding: const EdgeInsets
                                                                     .only(
                                                                         top: 10,
                                                                         bottom:
@@ -386,7 +384,7 @@ class CreateActivityView extends StatelessWidget {
                                                                           shape:
                                                                               BoxShape.circle),
                                                                       child:
-                                                                          Icon(
+                                                                          const Icon(
                                                                         Icons
                                                                             .person,
                                                                         color: Colors
@@ -394,18 +392,18 @@ class CreateActivityView extends StatelessWidget {
                                                                       ),
                                                                     ),
                                                                     Padding(
-                                                                        padding: EdgeInsets.only(
+                                                                        padding: const EdgeInsets.only(
                                                                             left:
                                                                                 10),
                                                                         child:
                                                                             Text(
                                                                           snapshot
                                                                               .get('name'),
-                                                                          style: TextStyle(
+                                                                          style: const TextStyle(
                                                                               fontWeight: FontWeight.bold,
                                                                               fontSize: 25),
                                                                         )),
-                                                                    Spacer(),
+                                                                    const Spacer(),
                                                                     Checkbox(
                                                                       value:
                                                                           isCheck,
@@ -432,13 +430,13 @@ class CreateActivityView extends StatelessWidget {
                                           });
                                     } else {
                                       return Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             top: 5, left: 10, right: 10),
                                         child: Container(
                                             child: InkWell(
                                           onTap: () {},
                                           child: Padding(
-                                            padding: EdgeInsets.all(10),
+                                            padding: const EdgeInsets.all(10),
                                             child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -446,10 +444,10 @@ class CreateActivityView extends StatelessWidget {
                                                   Icon(
                                                     Icons.bubble_chart,
                                                     color: Theme.of(context)
-                                                        .accentColor,
+                                                        .colorScheme.secondary,
                                                     size: 35,
                                                   ),
-                                                  Padding(
+                                                  const Padding(
                                                       padding: EdgeInsets.only(
                                                           left: 10),
                                                       child: Material(

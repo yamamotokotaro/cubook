@@ -1,17 +1,13 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/detailMigrationWaiting/detailMigrationWaiting_model.dart';
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/userDetail/userDetail_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
 class DetailMigrationWaitingView extends StatelessWidget {
   String documentID;
@@ -20,8 +16,8 @@ class DetailMigrationWaitingView extends StatelessWidget {
   String age;
   Map<String, dynamic> taskInfo;
   Map<String, dynamic> content;
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   DetailMigrationWaitingView(String _documentID, String _name,
       String _groupName, String _age) {
@@ -34,11 +30,10 @@ class DetailMigrationWaitingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => DetailTaskWaitingModel(),
+        create: (BuildContext context) => DetailTaskWaitingModel(),
         child: Scaffold(
           appBar: AppBar(
-            title: Text('申請詳細'),
-            brightness: Brightness.dark,
+            title: const Text('申請詳細'), systemOverlayStyle: SystemUiOverlayStyle.light,
           ),
           body: SafeArea(
               child: GestureDetector(
@@ -58,14 +53,14 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                         .width,
                                     color: theme.getThemeColor(age),
                                     child: Padding(
-                                      padding: EdgeInsets.all(10),
+                                      padding: const EdgeInsets.all(10),
                                       child: Column(
                                         children: <Widget>[
                                           Material(
                                             type: MaterialType.transparency,
                                             child: Text(
                                               name,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontWeight: FontWeight.normal,
                                                   fontSize: 28,
                                                   color: Colors.white),
@@ -74,11 +69,11 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                           Material(
                                               type: MaterialType.transparency,
                                               child: Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                     top: 10),
                                                 child: Text(
                                                   groupName,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontWeight: FontWeight
                                                           .normal,
                                                       fontSize: 21,
@@ -96,19 +91,19 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                   .snapshots(),
                               builder: (BuildContext context,
                                   AsyncSnapshot<DocumentSnapshot> snapshot) {
-                                DocumentSnapshot migrationSnapshot = snapshot
+                                final DocumentSnapshot migrationSnapshot = snapshot
                                     .data;
                                 if (snapshot.hasData) {
-                                  String phase = migrationSnapshot.get('phase');
-                                  if (phase == "wait") {
+                                  final String phase = migrationSnapshot.get('phase');
+                                  if (phase == 'wait') {
                                     return Padding(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: Column(children: <Widget>[
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
                                                   width: double.infinity,
-                                                  child: Text(
+                                                  child: const Text(
                                                     '申請者',
                                                     style: TextStyle(
                                                       fontSize: 17,
@@ -116,13 +111,13 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     textAlign: TextAlign.left,
                                                   ))),
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
                                                   width: double.infinity,
                                                   child: Text(
                                                     snapshot.data
                                                         .get('operatorName'),
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontWeight: FontWeight
                                                           .bold,
                                                       fontSize: 22,
@@ -130,10 +125,10 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     textAlign: TextAlign.left,
                                                   ))),
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
                                                   width: double.infinity,
-                                                  child: Text(
+                                                  child: const Text(
                                                     'グループID',
                                                     style: TextStyle(
                                                       fontSize: 17,
@@ -141,13 +136,13 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     textAlign: TextAlign.left,
                                                   ))),
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
                                                   width: double.infinity,
                                                   child: Text(
                                                     snapshot.data.get(
                                                         'group_from'),
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontWeight: FontWeight
                                                           .bold,
                                                       fontSize: 20,
@@ -155,10 +150,10 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     textAlign: TextAlign.left,
                                                   ))),
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
                                                   width: double.infinity,
-                                                  child: Text(
+                                                  child: const Text(
                                                     '申請日時',
                                                     style: TextStyle(
                                                       fontSize: 17,
@@ -166,7 +161,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     textAlign: TextAlign.left,
                                                   ))),
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
                                                   width: double.infinity,
                                                   child: Text(
@@ -176,7 +171,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                         .get('time')
                                                         .toDate())
                                                         .toString(),
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontWeight: FontWeight
                                                           .bold,
                                                       fontSize: 20,
@@ -184,9 +179,9 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     textAlign: TextAlign.left,
                                                   ))),
                                           Consumer<DetailMigrationWaitingModel>(
-                                              builder: (context, model, child) {
+                                              builder: (BuildContext context, DetailMigrationWaitingModel model, Widget child) {
                                                 if (model.isLoading) {
-                                                  return Padding(
+                                                  return const Padding(
                                                       padding: EdgeInsets.all(
                                                           10),
                                                       child: CircularProgressIndicator());
@@ -194,20 +189,20 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                 else {
                                                   return Column(children: [
                                                     Padding(
-                                                        padding: EdgeInsets.all(
+                                                        padding: const EdgeInsets.all(
                                                             10),
                                                         child: Container(
                                                             width: double
                                                                 .infinity,
                                                             child: OutlinedButton
                                                                 .icon(
-                                                              icon: Icon(
+                                                              icon: const Icon(
                                                                 Icons.check,
                                                                 color: Colors
                                                                     .green,
                                                               ),
-                                                              label: Text(
-                                                                  "承認する"),
+                                                              label: const Text(
+                                                                  '承認する'),
                                                               onPressed: () {
                                                                 model
                                                                     .migrateAccount(
@@ -216,20 +211,20 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                               },
                                                             ))),
                                                     Padding(
-                                                        padding: EdgeInsets.all(
+                                                        padding: const EdgeInsets.all(
                                                             10),
                                                         child: Container(
                                                             width: double
                                                                 .infinity,
                                                             child: OutlinedButton
                                                                 .icon(
-                                                              icon: Icon(
+                                                              icon: const Icon(
                                                                 Icons.clear,
                                                                 color: Colors
                                                                     .red,
                                                               ),
-                                                              label: Text(
-                                                                  "却下する"),
+                                                              label: const Text(
+                                                                  '却下する'),
                                                               onPressed: () {
                                                                 model
                                                                     .rejectMigrate(
@@ -243,10 +238,10 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                         ]));
                                   } else if (phase == 'migrating') {
                                     return Padding(
-                                        padding: EdgeInsets.all(20),
+                                        padding: const EdgeInsets.all(20),
                                         child: Column(children: <Widget>[
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
                                                   child: Icon(
                                                     Icons
@@ -255,25 +250,25 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     color: Colors.blue[900],
                                                   ))),
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
-                                                  child: Text(
+                                                  child: const Text(
                                                     'データの移行を行っています',
                                                     style: TextStyle(
                                                       fontSize: 25,
                                                     ),
                                                     textAlign: TextAlign.left,
                                                   ))),
-                                          Padding(
+                                          const Padding(
                                               padding: EdgeInsets.all(10),
                                               child: LinearProgressIndicator())
                                         ]));
                                   } else if (phase == 'finished') {
                                     return Padding(
-                                        padding: EdgeInsets.all(20),
+                                        padding: const EdgeInsets.all(20),
                                         child: Column(children: <Widget>[
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
                                                   child: Icon(
                                                     Icons.check_circle_outline,
@@ -281,9 +276,9 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     color: Colors.blue[900],
                                                   ))),
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
-                                                  child: Text(
+                                                  child: const Text(
                                                     'データの移行が完了しました',
                                                     style: TextStyle(
                                                       fontSize: 25,
@@ -291,11 +286,11 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     textAlign: TextAlign.left,
                                                   ))),
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
                                                   child: ElevatedButton.icon(
-                                                    icon: Icon(Icons.person),
-                                                    label: Text("ユーザー詳細へ"),
+                                                    icon: const Icon(Icons.person),
+                                                    label: const Text('ユーザー詳細へ'),
                                                     onPressed: () {
                                                       Navigator.push(context,
                                                           MaterialPageRoute<
@@ -313,10 +308,10 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                         ]));
                                   } else if (phase == 'reject') {
                                     return Padding(
-                                        padding: EdgeInsets.all(20),
+                                        padding: const EdgeInsets.all(20),
                                         child: Column(children: <Widget>[
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
                                                   child: Icon(
                                                     Icons.info_outline,
@@ -324,9 +319,9 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     color: Colors.blue[900],
                                                   ))),
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
-                                                  child: Text(
+                                                  child: const Text(
                                                     '申請を却下しました',
                                                     style: TextStyle(
                                                       fontSize: 25,
@@ -336,10 +331,10 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                         ]));
                                   } else {
                                     return Padding(
-                                        padding: EdgeInsets.all(20),
+                                        padding: const EdgeInsets.all(20),
                                         child: Column(children: <Widget>[
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
                                                   child: Icon(
                                                     Icons.info_outline,
@@ -347,9 +342,9 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                                     color: Colors.blue[900],
                                                   ))),
                                           Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Container(
-                                                  child: Text(
+                                                  child: const Text(
                                                     '不明なパラメータ',
                                                     style: TextStyle(
                                                       fontSize: 25,

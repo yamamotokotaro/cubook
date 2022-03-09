@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListNotCititationed extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   String uid;
 
   ListNotCititationed(String _uid) {
@@ -21,13 +20,13 @@ class ListNotCititationed extends StatelessWidget {
     return SingleChildScrollView(
       child: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 600),
+          constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 10),
+                  padding: const EdgeInsets.only(top: 20, bottom: 10),
                   child: Consumer<UserDetailModel>(
-                      builder: (context, model, child) {
+                      builder: (BuildContext context, UserDetailModel model, Widget child) {
                     if (model.group == null) {
                       model.getGroup();
                     }
@@ -64,17 +63,17 @@ class ListNotCititationed extends StatelessWidget {
                                         final Map taskInfo = task.getPartMap(
                                             'challenge', snapshot.get('page'));
                                         return Padding(
-                                          padding: EdgeInsets.all(5),
+                                          padding: const EdgeInsets.all(5),
                                           child: Container(
                                             child: Card(
                                               child: InkWell(
                                                 child: Padding(
-                                                  padding: EdgeInsets.all(0),
+                                                  padding: const EdgeInsets.all(0),
                                                   child: Column(
                                                     children: <Widget>[
                                                       Padding(
                                                           padding:
-                                                              EdgeInsets.only(
+                                                              const EdgeInsets.only(
                                                                   left: 10,
                                                                   top: 10),
                                                           child: Container(
@@ -89,7 +88,7 @@ class ListNotCititationed extends StatelessWidget {
                                                                 textAlign:
                                                                     TextAlign
                                                                         .left,
-                                                                style: TextStyle(
+                                                                style: const TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -98,7 +97,7 @@ class ListNotCititationed extends StatelessWidget {
                                                               ))),
                                                       Padding(
                                                           padding:
-                                                              EdgeInsets.only(
+                                                              const EdgeInsets.only(
                                                                   left: 10,
                                                                   top: 6),
                                                           child: Container(
@@ -113,7 +112,7 @@ class ListNotCititationed extends StatelessWidget {
                                                                 textAlign:
                                                                     TextAlign
                                                                         .left,
-                                                                style: TextStyle(
+                                                                style: const TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
@@ -122,7 +121,7 @@ class ListNotCititationed extends StatelessWidget {
                                                               ))),
                                                       Padding(
                                                           padding:
-                                                              EdgeInsets.only(
+                                                              const EdgeInsets.only(
                                                                   left: 10,
                                                                   top: 5),
                                                           child: Align(
@@ -130,14 +129,14 @@ class ListNotCititationed extends StatelessWidget {
                                                                   .centerLeft,
                                                               child: FlatButton(
                                                                 padding:
-                                                                    EdgeInsets
+                                                                    const EdgeInsets
                                                                         .all(0),
                                                                 onPressed: () {
                                                                   model.onTapCititation(
                                                                       snapshot
                                                                           .id);
                                                                 },
-                                                                child: Text(
+                                                                child: const Text(
                                                                   '表彰済みにする',
                                                                   style:
                                                                       TextStyle(
@@ -156,13 +155,13 @@ class ListNotCititationed extends StatelessWidget {
                                       });
                                 } else {
                                   return Padding(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         top: 5, left: 10, right: 10),
                                     child: Container(
                                         child: InkWell(
                                       onTap: () {},
                                       child: Padding(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
@@ -170,10 +169,10 @@ class ListNotCititationed extends StatelessWidget {
                                               Icon(
                                                 Icons.bubble_chart,
                                                 color: Theme.of(context)
-                                                    .accentColor,
+                                                    .colorScheme.secondary,
                                                 size: 35,
                                               ),
-                                              Padding(
+                                              const Padding(
                                                   padding:
                                                       EdgeInsets.only(left: 10),
                                                   child: Material(

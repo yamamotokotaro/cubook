@@ -4,47 +4,45 @@ import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
-import 'package:cubook/task_list_scout/taskListScout_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class DetailActivityView extends StatelessWidget {
-  var theme = ThemeInfo();
-  var task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  TaskContents task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
     final String documentID = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
-        title: Text('記録詳細'),
-        brightness: Brightness.dark,
+        title: const Text('記録詳細'),
         actions: <Widget>[
           Selector<DetailActivityModel, String>(
-              selector: (context, model) => model.position,
-              builder: (context, position, child) => position == 'leader'
+              selector: (BuildContext context, DetailActivityModel model) => model.position,
+              builder: (BuildContext context, String position, Widget child) => position == 'leader'
                   ? Semantics(
                       label: '活動記録の編集か削除操作が行えます',
                       child: IconButton(
-                        icon: Icon(Icons.more_vert),
+                        icon: const Icon(Icons.more_vert),
                         onPressed: () async {
                           await showModalBottomSheet<int>(
                             context: context,
                             builder: (BuildContext context) {
                               return Padding(
-                                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                                  padding: const EdgeInsets.only(top: 10, bottom: 10),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       Consumer<DetailActivityModel>(
-                                          builder: (context, model, child) {
+                                          builder: (BuildContext context, DetailActivityModel model, Widget child) {
                                         return Column(
                                           children: [
                                             ListTile(
-                                              leading: Icon(Icons.edit),
-                                              title: Text('編集する'),
+                                              leading: const Icon(Icons.edit),
+                                              title: const Text('編集する'),
                                               onTap: () {
                                                 Navigator.pop(context);
                                                 Navigator.of(context).pushNamed(
@@ -53,8 +51,8 @@ class DetailActivityView extends StatelessWidget {
                                               },
                                             ),
                                             ListTile(
-                                              leading: Icon(Icons.delete),
-                                              title: Text('削除する'),
+                                              leading: const Icon(Icons.delete),
+                                              title: const Text('削除する'),
                                               onTap: () async {
                                                 Navigator.pop(context);
                                                 await showModalBottomSheet<int>(
@@ -63,7 +61,7 @@ class DetailActivityView extends StatelessWidget {
                                                       (BuildContext context) {
                                                     return Padding(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets.only(
                                                                 top: 10,
                                                                 bottom: 10),
                                                         child: Column(
@@ -73,13 +71,13 @@ class DetailActivityView extends StatelessWidget {
                                                             Consumer<
                                                                     DetailActivityModel>(
                                                                 builder:
-                                                                    (context,
-                                                                        model,
-                                                                        child) {
+                                                                    (BuildContext context,
+                                                                        DetailActivityModel model,
+                                                                        Widget child) {
                                                               return Column(
                                                                 children: [
                                                                   Padding(
-                                                                      padding: EdgeInsets.only(
+                                                                      padding: const EdgeInsets.only(
                                                                           top:
                                                                               5,
                                                                           left:
@@ -88,7 +86,7 @@ class DetailActivityView extends StatelessWidget {
                                                                               17),
                                                                       child: Container(
                                                                           width: double.infinity,
-                                                                          child: Text(
+                                                                          child: const Text(
                                                                             '本当に削除しますか？',
                                                                             style:
                                                                                 TextStyle(
@@ -99,10 +97,10 @@ class DetailActivityView extends StatelessWidget {
                                                                                 TextAlign.left,
                                                                           ))),
                                                                   ListTile(
-                                                                    leading: Icon(
+                                                                    leading: const Icon(
                                                                         Icons
                                                                             .delete),
-                                                                    title: Text(
+                                                                    title: const Text(
                                                                         'はい'),
                                                                     onTap: () {
                                                                       model.deleteActivity(
@@ -114,10 +112,10 @@ class DetailActivityView extends StatelessWidget {
                                                                     },
                                                                   ),
                                                                   ListTile(
-                                                                    leading: Icon(
+                                                                    leading: const Icon(
                                                                         Icons
                                                                             .arrow_back),
-                                                                    title: Text(
+                                                                    title: const Text(
                                                                         'いいえ'),
                                                                     onTap: () {
                                                                       Navigator.pop(
@@ -143,19 +141,19 @@ class DetailActivityView extends StatelessWidget {
                         },
                       ))
                   : Container())
-        ],
+        ], systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 children: <Widget>[
                   Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 10),
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<DetailActivityModel>(
-                          builder: (context, model, child) {
+                          builder: (BuildContext context, DetailActivityModel model, Widget child) {
                         model.getGroup();
                         if (model.group != null) {
                           return Column(
@@ -170,23 +168,23 @@ class DetailActivityView extends StatelessWidget {
                                   if (snapshot.hasData) {
                                     final DocumentSnapshot documentSnapshot =
                                         snapshot.data;
-                                    final documentData = documentSnapshot.data() as Map<String, dynamic>;
-                                    final String teamLast = '';
+                                    final Map<String, dynamic> documentData = documentSnapshot.data() as Map<String, dynamic>;
+                                    const String teamLast = '';
                                     return Column(children: <Widget>[
                                       Padding(
-                                          padding: EdgeInsets.all(17),
+                                          padding: const EdgeInsets.all(17),
                                           child: Container(
                                               width: double.infinity,
                                               child: Text(
                                                 documentSnapshot.get('title'),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 32,
                                                 ),
                                                 textAlign: TextAlign.left,
                                               ))),
                                       Padding(
-                                          padding: EdgeInsets.only(
+                                          padding: const EdgeInsets.only(
                                               top: 0, bottom: 15, left: 17),
                                           child: Container(
                                               width: double.infinity,
@@ -196,28 +194,27 @@ class DetailActivityView extends StatelessWidget {
                                                         documentSnapshot.get('date')
                                                             .toDate())
                                                     .toString(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20,
                                                 ),
                                                 textAlign: TextAlign.left,
                                               ))),
-                                      documentData['list_item'] != null
-                                          ? documentSnapshot.get('list_item')
+                                      if (documentData['list_item'] != null) documentSnapshot.get('list_item')
                                                       .length !=
                                                   0
                                               ? Column(
                                                   children: [
                                                     Padding(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets.only(
                                                                 top: 15,
                                                                 bottom: 15,
                                                                 left: 10),
                                                         child: Container(
                                                             width:
                                                                 double.infinity,
-                                                            child: Text(
+                                                            child: const Text(
                                                               '取得項目',
                                                               style: TextStyle(
                                                                 fontWeight:
@@ -276,7 +273,7 @@ class DetailActivityView extends StatelessWidget {
                                                           if (toShow) {
                                                             return Padding(
                                                                 padding:
-                                                                    EdgeInsets
+                                                                    const EdgeInsets
                                                                         .all(5),
                                                                 child: Card(
                                                                   color: theme
@@ -307,17 +304,17 @@ class DetailActivityView extends StatelessWidget {
                                                                             builder:
                                                                                 (BuildContext context) {
                                                                               return Padding(
-                                                                                  padding: EdgeInsets.all(15),
+                                                                                  padding: const EdgeInsets.all(15),
                                                                                   child: Column(
                                                                                     mainAxisSize: MainAxisSize.min,
                                                                                     children: <Widget>[
                                                                                       Padding(
-                                                                                          padding: EdgeInsets.all(0),
+                                                                                          padding: const EdgeInsets.all(0),
                                                                                           child: Container(
                                                                                             width: double.infinity,
                                                                                             child: Text(
                                                                                               task.getContent(type, page, number)['body'],
-                                                                                              style: TextStyle(
+                                                                                              style: const TextStyle(
                                                                                                 fontSize: 18,
                                                                                                 fontWeight: FontWeight.bold,
                                                                                               ),
@@ -325,10 +322,10 @@ class DetailActivityView extends StatelessWidget {
                                                                                             ),
                                                                                           )),
                                                                                       Padding(
-                                                                                          padding: EdgeInsets.all(0),
+                                                                                          padding: const EdgeInsets.all(0),
                                                                                           child: Container(
                                                                                             width: double.infinity,
-                                                                                            child: Text(
+                                                                                            child: const Text(
                                                                                               '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
                                                                                               style: TextStyle(
                                                                                                 fontSize: 13,
@@ -345,10 +342,10 @@ class DetailActivityView extends StatelessWidget {
                                                                       },
                                                                       child: Center(
                                                                           child: Padding(
-                                                                              padding: EdgeInsets.only(top: 5, bottom: 5),
+                                                                              padding: const EdgeInsets.only(top: 5, bottom: 5),
                                                                               child: Column(
                                                                                 children: [
-                                                                                  Text(theme.getTitle(type) + ' ' + mapTask['number'] + ' ' + mapTask['title'] + ' (' + (number + 1).toString() + ')', style: TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white))
+                                                                                  Text(theme.getTitle(type) + ' ' + mapTask['number'] + ' ' + mapTask['title'] + ' (' + (number + 1).toString() + ')', style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white))
                                                                                 ],
                                                                               )))),
                                                                 ));
@@ -358,8 +355,7 @@ class DetailActivityView extends StatelessWidget {
                                                         })
                                                   ],
                                                 )
-                                              : Container()
-                                          : Container(),
+                                              : Container() else Container(),
                                     ]);
                                   } else {
                                     return const Center(
@@ -432,25 +428,25 @@ class DetailActivityView extends StatelessWidget {
                                                 absence = '欠席';
                                               }
                                               final String age = snapshot.get('age');
-                                              String team_call;
+                                              String teamCall;
                                               if (age == 'usagi' ||
                                                   age == 'sika' ||
                                                   age == 'kuma') {
-                                                team_call = '組';
+                                                teamCall = '組';
                                               } else {
-                                                team_call = '班';
+                                                teamCall = '班';
                                               }
                                               print(model.uid_check);
                                               return Column(children: <Widget>[
                                                 if (isFirst && team != '') Padding(
                                                         padding:
-                                                            EdgeInsets.all(10),
+                                                            const EdgeInsets.all(10),
                                                         child: Container(
                                                             width:
                                                                 double.infinity,
                                                             child: Text(
-                                                              team + team_call,
-                                                              style: TextStyle(
+                                                              team + teamCall,
+                                                              style: const TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -461,7 +457,7 @@ class DetailActivityView extends StatelessWidget {
                                                                       .left,
                                                             ))) else Container(),
                                                 Padding(
-                                                    padding: EdgeInsets.all(5),
+                                                    padding: const EdgeInsets.all(5),
                                                     child: Container(
                                                       child: Card(
                                                         shape:
@@ -474,7 +470,7 @@ class DetailActivityView extends StatelessWidget {
                                                           onTap: () {},
                                                           child: Padding(
                                                             padding:
-                                                                EdgeInsets.all(
+                                                                const EdgeInsets.all(
                                                                     10),
                                                             child: Row(
                                                               children: <
@@ -488,7 +484,7 @@ class DetailActivityView extends StatelessWidget {
                                                                               'age')),
                                                                       shape: BoxShape
                                                                           .circle),
-                                                                  child: Icon(
+                                                                  child: const Icon(
                                                                     Icons
                                                                         .person,
                                                                     color: Colors
@@ -496,28 +492,28 @@ class DetailActivityView extends StatelessWidget {
                                                                   ),
                                                                 ),
                                                                 Padding(
-                                                                    padding: EdgeInsets
+                                                                    padding: const EdgeInsets
                                                                         .only(
                                                                             left:
                                                                                 10),
                                                                     child: Text(
                                                                       snapshot.get(
                                                                           'name'),
-                                                                      style: TextStyle(
+                                                                      style: const TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .bold,
                                                                           fontSize:
                                                                               25),
                                                                     )),
-                                                                Spacer(),
+                                                                const Spacer(),
                                                                 Padding(
-                                                                    padding: EdgeInsets
+                                                                    padding: const EdgeInsets
                                                                         .only(
                                                                             left:
                                                                                 10),
                                                                     child: Text(
                                                                       absence,
-                                                                      style: TextStyle(
+                                                                      style: const TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .bold,
                                                                           fontSize:
@@ -550,13 +546,13 @@ class DetailActivityView extends StatelessWidget {
                                       ]);
                                     } else {
                                       return Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             top: 5, left: 10, right: 10),
                                         child: Container(
                                             child: InkWell(
                                           onTap: () {},
                                           child: Padding(
-                                            padding: EdgeInsets.all(10),
+                                            padding: const EdgeInsets.all(10),
                                             child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -564,10 +560,10 @@ class DetailActivityView extends StatelessWidget {
                                                   Icon(
                                                     Icons.bubble_chart,
                                                     color: Theme.of(context)
-                                                        .accentColor,
+                                                        .colorScheme.secondary,
                                                     size: 35,
                                                   ),
-                                                  Padding(
+                                                  const Padding(
                                                       padding: EdgeInsets.only(
                                                           left: 10),
                                                       child: Material(

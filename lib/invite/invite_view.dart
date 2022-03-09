@@ -1,5 +1,4 @@
 import 'package:cubook/invite/invite_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -38,8 +37,7 @@ class InviteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('メンバーを招待'),
-          brightness: Brightness.dark,
+          title: const Text('メンバーを招待'), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Builder(builder: (BuildContext context) {
           return GestureDetector(
@@ -49,12 +47,12 @@ class InviteView extends StatelessWidget {
               child: SingleChildScrollView(
                   child: Center(
                 child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 800),
+                    constraints: const BoxConstraints(maxWidth: 800),
                     child:
-                        Consumer<InviteModel>(builder: (context, model, child) {
+                        Consumer<InviteModel>(builder: (BuildContext context, InviteModel model, Widget child) {
                       return Column(
                         children: [
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.only(top: 30),
                             child: Text(
                               '以下の項目を入力してください',
@@ -66,10 +64,10 @@ class InviteView extends StatelessWidget {
                           ),
                           if (model.mes_join != '')
                             Padding(
-                              padding: EdgeInsets.only(top: 30),
+                              padding: const EdgeInsets.only(top: 30),
                               child: Text(
                                 model.mes_join,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.red),
@@ -79,10 +77,10 @@ class InviteView extends StatelessWidget {
                             Container(),
                           Padding(
                               padding:
-                                  EdgeInsets.only(top: 15, left: 10, right: 10),
+                                  const EdgeInsets.only(top: 15, left: 10, right: 10),
                               child: DropdownButton<String>(
                                 isExpanded: true,
-                                hint: Text('立場を選択'),
+                                hint: const Text('立場を選択'),
                                 value: model.dropdown_text,
                                 items: <String>[
                                   'りす',
@@ -103,12 +101,12 @@ class InviteView extends StatelessWidget {
                                     child: Text(value),
                                   );
                                 }).toList(),
-                                onChanged: (value) {
+                                onChanged: (String value) {
                                   model.onDropdownChanged(value);
                                 },
                               )),
                           Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: TextField(
                               maxLengthEnforcement: MaxLengthEnforcement.none,
                               controller: model.addressController,
@@ -116,14 +114,14 @@ class InviteView extends StatelessWidget {
                               // 入力数
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
-                              decoration: InputDecoration(labelText: 'メールアドレス'),
-                              onChanged: (text) {
+                              decoration: const InputDecoration(labelText: 'メールアドレス'),
+                              onChanged: (String text) {
                                 model.joinCode = text;
                               },
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: TextField(
                               maxLengthEnforcement: MaxLengthEnforcement.none,
                               controller: model.familyController,
@@ -131,14 +129,14 @@ class InviteView extends StatelessWidget {
                               // 入力数
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
-                              decoration: InputDecoration(labelText: '姓'),
-                              onChanged: (text) {
+                              decoration: const InputDecoration(labelText: '姓'),
+                              onChanged: (String text) {
                                 model.joinCode = text;
                               },
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: TextField(
                               maxLengthEnforcement: MaxLengthEnforcement.none,
                               controller: model.firstController,
@@ -146,8 +144,8 @@ class InviteView extends StatelessWidget {
                               // 入力数
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
-                              decoration: InputDecoration(labelText: '名'),
-                              onChanged: (text) {
+                              decoration: const InputDecoration(labelText: '名'),
+                              onChanged: (String text) {
                                 model.joinCode = text;
                               },
                             ),
@@ -155,7 +153,7 @@ class InviteView extends StatelessWidget {
                           if (model.dropdown_text != 'リーダー')
                             Padding(
                               padding:
-                                  EdgeInsets.only(top: 0, left: 10, right: 10),
+                                  const EdgeInsets.only(top: 0, left: 10, right: 10),
                               child: TextField(
                                 maxLengthEnforcement: MaxLengthEnforcement.none,
                                 controller: model.teamController,
@@ -163,8 +161,8 @@ class InviteView extends StatelessWidget {
                                 // 入力数
                                 maxLines: null,
                                 decoration:
-                                    InputDecoration(labelText: '組・班（オプション）'),
-                                onChanged: (text) {},
+                                    const InputDecoration(labelText: '組・班（オプション）'),
+                                onChanged: (String text) {},
                               ),
                             )
                           else
@@ -184,14 +182,14 @@ class InviteView extends StatelessWidget {
                                       child: Text(value),
                                     );
                                   }).toList(),
-                                  onChanged: (value) {
+                                  onChanged: (String value) {
                                     model.onDropdownCallChanged(value);
                                   },
                                 ))
                           else
                             Container(),
                           Padding(
-                            padding: EdgeInsets.only(top: 10),
+                            padding: const EdgeInsets.only(top: 10),
                             child: model.isLoading_join
                                 ? const Padding(
                                     padding: EdgeInsets.all(10),

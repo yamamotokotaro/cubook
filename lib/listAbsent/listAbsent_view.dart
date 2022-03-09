@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/listAbsent/listAbsent_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListAbsentView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   String uid;
 
   ListAbsentView(String _uid) {
@@ -21,13 +20,13 @@ class ListAbsentView extends StatelessWidget {
     return SingleChildScrollView(
       child: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 600),
+          constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 10),
+                  padding: const EdgeInsets.only(top: 20, bottom: 10),
                   child: Consumer<ListAbsentModel>(
-                      builder: (context, model, child) {
+                      builder: (BuildContext context, ListAbsentModel model, Widget child) {
                     model.getGroup();
                     print(uid);
                     if (model.group != null) {
@@ -58,7 +57,7 @@ class ListAbsentView extends StatelessWidget {
                                       absence = '欠席';
                                     }
                                     return Padding(
-                                        padding: EdgeInsets.all(5),
+                                        padding: const EdgeInsets.all(5),
                                         child: Container(
                                           child: Card(
                                             shape: RoundedRectangleBorder(
@@ -72,7 +71,7 @@ class ListAbsentView extends StatelessWidget {
                                                     BorderRadius.circular(10.0),
                                               ),
                                               onTap: () async {
-                                                final documentData =
+                                                final Map<String, dynamic> documentData =
                                                     snapshot.data()
                                                         as Map<String, dynamic>;
                                                 print(documentData['type']);
@@ -80,7 +79,7 @@ class ListAbsentView extends StatelessWidget {
                                                     'migration') {
                                                   await showDialog<int>(
                                                       context: context,
-                                                      builder: (context) {
+                                                      builder: (BuildContext context) {
                                                         return AlertDialog(
                                                           shape: const RoundedRectangleBorder(
                                                               borderRadius: BorderRadius
@@ -97,7 +96,7 @@ class ListAbsentView extends StatelessWidget {
                                                               Container(
                                                                 width: double
                                                                     .infinity,
-                                                                child: Text(
+                                                                child: const Text(
                                                                     'この活動は表示できません',
                                                                     style: TextStyle(
                                                                         fontWeight:
@@ -106,7 +105,7 @@ class ListAbsentView extends StatelessWidget {
                                                                         fontSize:
                                                                             18)),
                                                               ),
-                                                              Padding(
+                                                              const Padding(
                                                                   padding: EdgeInsets
                                                                       .only(
                                                                           top:
@@ -129,11 +128,11 @@ class ListAbsentView extends StatelessWidget {
                                                 children: <Widget>[
                                                   Container(
                                                       decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.only(
-                                                              topLeft: const Radius
+                                                          borderRadius: const BorderRadius.only(
+                                                              topLeft: Radius
                                                                   .circular(10),
                                                               bottomLeft:
-                                                                  const Radius
+                                                                  Radius
                                                                           .circular(
                                                                       10)),
                                                           color:
@@ -141,16 +140,16 @@ class ListAbsentView extends StatelessWidget {
                                                       height: 100,
                                                       child: ConstrainedBox(
                                                         constraints:
-                                                            BoxConstraints(
+                                                            const BoxConstraints(
                                                                 minWidth: 76),
                                                         child: Center(
                                                           child: Padding(
                                                             padding:
-                                                                EdgeInsets.all(
+                                                                const EdgeInsets.all(
                                                                     20),
                                                             child: Text(
                                                               absence,
-                                                              style: TextStyle(
+                                                              style: const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -164,12 +163,12 @@ class ListAbsentView extends StatelessWidget {
                                                   Expanded(
                                                       child: Padding(
                                                           padding:
-                                                              EdgeInsets.only(
+                                                              const EdgeInsets.only(
                                                                   left: 0),
                                                           child: Column(
                                                             children: <Widget>[
                                                               Padding(
-                                                                  padding: EdgeInsets
+                                                                  padding: const EdgeInsets
                                                                       .only(
                                                                           left:
                                                                               10,
@@ -182,13 +181,13 @@ class ListAbsentView extends StatelessWidget {
                                                                             .get('title'),
                                                                         textAlign:
                                                                             TextAlign.left,
-                                                                        style: TextStyle(
+                                                                        style: const TextStyle(
                                                                             fontWeight:
                                                                                 FontWeight.bold,
                                                                             fontSize: 23),
                                                                       ))),
                                                               Padding(
-                                                                  padding: EdgeInsets
+                                                                  padding: const EdgeInsets
                                                                       .only(
                                                                           left:
                                                                               10,
@@ -204,7 +203,7 @@ class ListAbsentView extends StatelessWidget {
                                                                             .toString(),
                                                                         textAlign:
                                                                             TextAlign.left,
-                                                                        style: TextStyle(
+                                                                        style: const TextStyle(
                                                                             fontWeight:
                                                                                 FontWeight.bold,
                                                                             fontSize: 16),
@@ -219,13 +218,13 @@ class ListAbsentView extends StatelessWidget {
                                   });
                             } else {
                               return Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     top: 5, left: 10, right: 10),
                                 child: Container(
                                     child: InkWell(
                                   onTap: () {},
                                   child: Padding(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -236,7 +235,7 @@ class ListAbsentView extends StatelessWidget {
                                                 Theme.of(context).colorScheme.secondary,
                                             size: 35,
                                           ),
-                                          Padding(
+                                          const Padding(
                                               padding:
                                                   EdgeInsets.only(left: 10),
                                               child: Material(

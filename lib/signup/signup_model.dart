@@ -25,8 +25,8 @@ class SignupModel with ChangeNotifier {
 
       final User user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        user.getIdTokenResult().then((token) async {
-          final String url =
+        user.getIdTokenResult().then((IdTokenResult token) async {
+          const String url =
               'https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup';
           final Map<String, String> headers = {'content-type': 'application/json'};
           final String body =
@@ -75,9 +75,9 @@ class SignupModel with ChangeNotifier {
 
       final User user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        user.getIdTokenResult().then((token) async {
+        user.getIdTokenResult().then((IdTokenResult token) async {
           print(token.claims);
-          final String url =
+          const String url =
               'https://asia-northeast1-cubook-3c960.cloudfunctions.net/createGroup';
           final Map<String, String> headers = {'content-type': 'application/json'};
           final String body = json.encode({
@@ -129,7 +129,7 @@ class SignupModel with ChangeNotifier {
   }
 
   void launchTermURL() async {
-    const url =
+    const String url =
         'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md';
     if (await canLaunch(url)) {
       await launch(url);

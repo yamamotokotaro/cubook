@@ -3,13 +3,13 @@ import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_list_analytics/taskListAnalytics_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AnalyticsView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -19,20 +19,19 @@ class AnalyticsView extends StatelessWidget {
     } else {
       isDark = false;
     }
-    final type = theme.type;
+    final List<String> type = theme.type;
     return Scaffold(
       appBar: AppBar(
-        title: Text('アナリティクス'),
-        brightness: Brightness.dark,
+        title: const Text('アナリティクス'), systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 children: <Widget>[
-                  Consumer<AnalyticsModel>(builder: (context, model, child) {
+                  Consumer<AnalyticsModel>(builder: (BuildContext context, AnalyticsModel model, Widget child) {
                     model.getGroup();
                     if (model.group != null) {
                       if (model.teamPosition != null) {
@@ -42,7 +41,7 @@ class AnalyticsView extends StatelessWidget {
                           return Column(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     top: 20, left: 10, right: 10, bottom: 0),
                                 child: Container(
                                     child: Card(
@@ -59,7 +58,7 @@ class AnalyticsView extends StatelessWidget {
                                           '/listCitationAnalyticsView');
                                     },
                                     child: Padding(
-                                      padding: EdgeInsets.all(10),
+                                      padding: const EdgeInsets.all(10),
                                       child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -70,7 +69,7 @@ class AnalyticsView extends StatelessWidget {
                                                   Theme.of(context).colorScheme.secondary,
                                               size: 35,
                                             ),
-                                            Padding(
+                                            const Padding(
                                                 padding:
                                                     EdgeInsets.only(left: 10),
                                                 child: Material(
@@ -90,7 +89,7 @@ class AnalyticsView extends StatelessWidget {
                                 )),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     top: 20, left: 10, right: 10, bottom: 0),
                                 child: Container(
                                     child: Card(
@@ -107,7 +106,7 @@ class AnalyticsView extends StatelessWidget {
                                           '/listCitationAnalyticsView');
                                     },
                                     child: Padding(
-                                      padding: EdgeInsets.all(10),
+                                      padding: const EdgeInsets.all(10),
                                       child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -118,7 +117,7 @@ class AnalyticsView extends StatelessWidget {
                                                   Theme.of(context).colorScheme.secondary,
                                               size: 35,
                                             ),
-                                            Padding(
+                                            const Padding(
                                                 padding:
                                                     EdgeInsets.only(left: 10),
                                                 child: Material(
@@ -144,7 +143,7 @@ class AnalyticsView extends StatelessWidget {
                         return Column(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   top: 20, left: 10, right: 10, bottom: 0),
                               child: Container(
                                   child: Card(
@@ -161,7 +160,7 @@ class AnalyticsView extends StatelessWidget {
                                         '/listCitationAnalyticsView');
                                   },
                                   child: Padding(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -172,7 +171,7 @@ class AnalyticsView extends StatelessWidget {
                                                 Theme.of(context).colorScheme.secondary,
                                             size: 35,
                                           ),
-                                          Padding(
+                                          const Padding(
                                               padding:
                                                   EdgeInsets.only(left: 10),
                                               child: Material(
@@ -191,7 +190,7 @@ class AnalyticsView extends StatelessWidget {
                               )),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(
+                              padding: const EdgeInsets.only(
                                   top: 20, left: 10, right: 10, bottom: 0),
                               child: Container(
                                   child: Card(
@@ -207,25 +206,25 @@ class AnalyticsView extends StatelessWidget {
                                     // model.export();
                                     await showDialog<int>(
                                         context: context,
-                                        builder: (context) {
+                                        builder: (BuildContext context) {
                                           return AlertDialog(
                                             shape: const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(20.0))),
                                             content: SingleChildScrollView(
                                                 child: Consumer<AnalyticsModel>(
-                                                    builder: (context, model,
-                                                        child) {
+                                                    builder: (BuildContext context, AnalyticsModel model,
+                                                        Widget child) {
                                               model.export();
                                               if (model.isExporting) {
                                                 return Column(
                                                   mainAxisSize:
                                                       MainAxisSize.min,
                                                   children: <Widget>[
-                                                    Text('エクセルに出力中'),
+                                                    const Text('エクセルに出力中'),
                                                     Padding(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets.only(
                                                                 top: 15,
                                                                 bottom: 12),
                                                         child: Container(
@@ -258,10 +257,10 @@ class AnalyticsView extends StatelessWidget {
                                                   mainAxisSize:
                                                       MainAxisSize.min,
                                                   children: <Widget>[
-                                                    Text('出力が完了しました'),
+                                                    const Text('出力が完了しました'),
                                                     Padding(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets.only(
                                                                 top: 20),
                                                         child: FlatButton(
                                                             onPressed: () {
@@ -283,7 +282,7 @@ class AnalyticsView extends StatelessWidget {
                                                         onPressed: () {
                                                           model.reExport();
                                                         },
-                                                        child: Text('再出力'))
+                                                        child: const Text('再出力'))
                                                   ],
                                                 );
                                               }
@@ -292,7 +291,7 @@ class AnalyticsView extends StatelessWidget {
                                         });
                                   },
                                   child: Padding(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -303,7 +302,7 @@ class AnalyticsView extends StatelessWidget {
                                                 Theme.of(context).colorScheme.secondary,
                                             size: 35,
                                           ),
-                                          Padding(
+                                          const Padding(
                                               padding:
                                                   EdgeInsets.only(left: 10),
                                               child: Material(
@@ -326,7 +325,7 @@ class AnalyticsView extends StatelessWidget {
                       }
                     } else {
                       return Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                             top: 20, left: 10, right: 10, bottom: 0),
                         child: Container(
                             child: Card(
@@ -343,7 +342,7 @@ class AnalyticsView extends StatelessWidget {
                                   .pushNamed('/listCitationAnalyticsView');
                             },
                             child: Padding(
-                              padding: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
@@ -352,7 +351,7 @@ class AnalyticsView extends StatelessWidget {
                                       color: Theme.of(context).colorScheme.secondary,
                                       size: 35,
                                     ),
-                                    Padding(
+                                    const Padding(
                                         padding: EdgeInsets.only(left: 10),
                                         child: Material(
                                           type: MaterialType.transparency,
@@ -372,7 +371,7 @@ class AnalyticsView extends StatelessWidget {
                   }),
                   Center(
                       child: Padding(
-                          padding: EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 10),
                           child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -386,7 +385,7 @@ class AnalyticsView extends StatelessWidget {
                                     size: 32,
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   '進歩の記録',
                                   style: TextStyle(
                                       fontSize: 25.0,
@@ -400,7 +399,7 @@ class AnalyticsView extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             child: Container(
                               height: 180,
                               child: Card(
@@ -441,14 +440,14 @@ class AnalyticsView extends StatelessWidget {
                                               alignment: Alignment.bottomLeft,
                                               child: Padding(
                                                 padding:
-                                                    EdgeInsets.only(left: 13),
+                                                    const EdgeInsets.only(left: 13),
                                                 child: Material(
                                                     type: MaterialType
                                                         .transparency,
                                                     child: Text(
                                                       theme.getTitle(
                                                           type[index]),
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.normal,
                                                           fontSize: 30,
@@ -456,7 +455,7 @@ class AnalyticsView extends StatelessWidget {
                                                     )),
                                               )),
                                           Padding(
-                                              padding: EdgeInsets.all(20),
+                                              padding: const EdgeInsets.all(20),
                                               child: Container()),
                                         ]),
                                   ),

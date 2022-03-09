@@ -3,10 +3,9 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_model.dart';
 import 'package:cubook/task_detail_scout/widget/taskDetailScout_add.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class MyPageRoute extends TransitionRoute<dynamic> {
   MyPageRoute({
@@ -21,7 +20,7 @@ class MyPageRoute extends TransitionRoute<dynamic> {
   Iterable<OverlayEntry> createOverlayEntries() {
     return [
       OverlayEntry(builder: _buildModalBarrier),
-      OverlayEntry(builder: (context) => Center(child: page))
+      OverlayEntry(builder: (BuildContext context) => Center(child: page))
     ];
   }
 
@@ -52,8 +51,8 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 }
 
 class TaskScoutDetailView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   String type;
   int number;
   Color themeColor;
@@ -75,16 +74,16 @@ class TaskScoutDetailView extends StatelessWidget {
             },
             child: Stack(children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 30),
+                  padding: const EdgeInsets.only(top: 30),
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     elevation: 2,
                     child: InkWell(child: Consumer<TaskDetailScoutModel>(
-                        builder: (context, model, _) {
+                        builder: (BuildContext context, TaskDetailScoutModel model, _) {
                       if (model.isExit) {
-                        var message = '';
+                        String message = '';
                         if (model.stepData['end'] != null) {
                           message = '完修済み🎉';
                         } else {
@@ -95,16 +94,16 @@ class TaskScoutDetailView extends StatelessWidget {
                             Column(children: <Widget>[
                               Container(
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(20),
-                                        topRight: const Radius.circular(20)),
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20)),
                                     color: themeColor),
                                 child: Padding(
-                                  padding: EdgeInsets.only(top: 40, bottom: 20),
+                                  padding: const EdgeInsets.only(top: 40, bottom: 20),
                                   child: Center(
                                     child: Text(
                                       task.getPartMap(type, number)['title'],
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white),
@@ -122,10 +121,10 @@ class TaskScoutDetailView extends StatelessWidget {
                                       child: Column(
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.all(10),
+                                        padding: const EdgeInsets.all(10),
                                         child: Text(
                                           message,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.bold,
                                               decoration: TextDecoration.none),
@@ -134,7 +133,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                       if (model.stepData['start'] != null) Container(
                                               child: Column(
                                                 children: <Widget>[
-                                                  Padding(
+                                                  const Padding(
                                                     padding: EdgeInsets.all(10),
                                                     child: Text(
                                                       '開始日',
@@ -148,7 +147,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.all(10),
+                                                    padding: const EdgeInsets.all(10),
                                                     child: Text(
                                                       DateFormat('yyyy/MM/dd')
                                                           .format(model
@@ -156,7 +155,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                               .get('start')
                                                               .toDate())
                                                           .toString(),
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontSize: 20.0,
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -171,7 +170,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                       if (model.stepData['end'] != null) Container(
                                               child: Column(
                                                 children: <Widget>[
-                                                  Padding(
+                                                  const Padding(
                                                     padding: EdgeInsets.all(10),
                                                     child: Text(
                                                       '完修日',
@@ -185,14 +184,14 @@ class TaskScoutDetailView extends StatelessWidget {
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.all(10),
+                                                    padding: const EdgeInsets.all(10),
                                                     child: Text(
                                                       DateFormat('yyyy/MM/dd')
                                                           .format(model
                                                               .stepSnapshot
                                                               .get('end')
                                                               .toDate()),
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontSize: 20.0,
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -204,7 +203,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                 ],
                                               ),
                                             ) else Container(),
-                                      (type != 'risu' &&
+                                      if ((type != 'risu' &&
                                                   type != 'usagi' &&
                                                   type != 'sika' &&
                                                   type != 'kuma' &&
@@ -213,8 +212,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                               model.group ==
                                                   ' j27DETWHGYEfpyp2Y292' ||
                                               model.group ==
-                                                  ' z4pkBhhgr0fUMN4evr5z'
-                                          ? Column(children: [
+                                                  ' z4pkBhhgr0fUMN4evr5z') Column(children: [
                                               ListView.builder(
                                                   physics:
                                                       const NeverScrollableScrollPhysics(),
@@ -227,7 +225,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                         contents[index]['body'];
                                                     Color bordercolor;
                                                     if (Theme.of(context)
-                                                            .accentColor ==
+                                                            .colorScheme.secondary ==
                                                         Colors.white) {
                                                       bordercolor =
                                                           Colors.grey[700];
@@ -236,13 +234,13 @@ class TaskScoutDetailView extends StatelessWidget {
                                                           Colors.grey[300];
                                                     }
                                                     return Padding(
-                                                      padding: EdgeInsets.only(
+                                                      padding: const EdgeInsets.only(
                                                           bottom: 10,
                                                           right: 10,
                                                           left: 10),
                                                       child: Card(
                                                           color:
-                                                              Color(0x00000000),
+                                                              const Color(0x00000000),
                                                           shape:
                                                               RoundedRectangleBorder(
                                                             side: BorderSide(
@@ -266,7 +264,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                             ),
                                                             child: Padding(
                                                                 padding:
-                                                                    EdgeInsets
+                                                                    const EdgeInsets
                                                                         .all(8),
                                                                 child: Text(
                                                                     content)),
@@ -274,13 +272,13 @@ class TaskScoutDetailView extends StatelessWidget {
                                                     );
                                                   }),
                                               Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: const EdgeInsets.only(
                                                       left: 15,
                                                       bottom: 10,
                                                       right: 15),
                                                   child: Container(
                                                     width: double.infinity,
-                                                    child: Text(
+                                                    child: const Text(
                                                       '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
                                                       style: TextStyle(
                                                         fontSize: 13,
@@ -290,9 +288,8 @@ class TaskScoutDetailView extends StatelessWidget {
                                                       textAlign: TextAlign.left,
                                                     ),
                                                   )),
-                                            ])
-                                          : Padding(
-                                              padding: EdgeInsets.only(top: 5),
+                                            ]) else Padding(
+                                              padding: const EdgeInsets.only(top: 5),
                                               child: Center(
                                                   child: Row(
                                                       crossAxisAlignment:
@@ -303,7 +300,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                               .center,
                                                       children: <Widget>[
                                                     Padding(
-                                                      padding: EdgeInsets.only(
+                                                      padding: const EdgeInsets.only(
                                                           right: 5, top: 4),
                                                       child: Icon(
                                                         //ああああ
@@ -313,7 +310,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                         size: 22,
                                                       ),
                                                     ),
-                                                    Text(
+                                                    const Text(
                                                       '内容はカブブックで確認しよう',
                                                       style: TextStyle(
                                                           fontSize: 16.0,
@@ -335,16 +332,16 @@ class TaskScoutDetailView extends StatelessWidget {
                           Column(children: <Widget>[
                             Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: const Radius.circular(20),
-                                      topRight: const Radius.circular(20)),
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20)),
                                   color: themeColor),
                               child: Padding(
-                                padding: EdgeInsets.only(top: 40, bottom: 20),
+                                padding: const EdgeInsets.only(top: 40, bottom: 20),
                                 child: Center(
                                   child: Text(
                                     task.getPartMap(type, number)['title'],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
@@ -358,7 +355,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                     : MediaQuery.of(context).size.height - 228,
                                 child: SingleChildScrollView(
                                     child: Column(children: [
-                                  Padding(
+                                  const Padding(
                                     padding: EdgeInsets.all(10),
                                     child: Text(
                                       'はじめよう💨',
@@ -385,11 +382,11 @@ class TaskScoutDetailView extends StatelessWidget {
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                String content =
+                                                final String content =
                                                     contents[index]['body'];
                                                 Color bordercolor;
                                                 if (Theme.of(context)
-                                                        .accentColor ==
+                                                        .colorScheme.secondary ==
                                                     Colors.white) {
                                                   bordercolor =
                                                       Colors.grey[700];
@@ -398,12 +395,12 @@ class TaskScoutDetailView extends StatelessWidget {
                                                       Colors.grey[300];
                                                 }
                                                 return Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: const EdgeInsets.only(
                                                       bottom: 10,
                                                       right: 10,
                                                       left: 10),
                                                   child: Card(
-                                                      color: Color(0x00000000),
+                                                      color: const Color(0x00000000),
                                                       shape:
                                                           RoundedRectangleBorder(
                                                         side: BorderSide(
@@ -425,7 +422,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                         ),
                                                         child: Padding(
                                                             padding:
-                                                                EdgeInsets.all(
+                                                                const EdgeInsets.all(
                                                                     8),
                                                             child:
                                                                 Text(content)),
@@ -433,13 +430,13 @@ class TaskScoutDetailView extends StatelessWidget {
                                                 );
                                               }),
                                           Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   left: 15,
                                                   bottom: 10,
                                                   right: 15),
                                               child: Container(
                                                 width: double.infinity,
-                                                child: Text(
+                                                child: const Text(
                                                   '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
                                                   style: TextStyle(
                                                     fontSize: 13,
@@ -449,7 +446,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                 ),
                                               )),
                                         ]) else Padding(
-                                          padding: EdgeInsets.only(top: 5),
+                                          padding: const EdgeInsets.only(top: 5),
                                           child: Center(
                                               child: Row(
                                                   crossAxisAlignment:
@@ -458,7 +455,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                       MainAxisAlignment.center,
                                                   children: <Widget>[
                                                 Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: const EdgeInsets.only(
                                                       right: 5, top: 4),
                                                   child: Icon(
                                                     //ああああ
@@ -467,7 +464,7 @@ class TaskScoutDetailView extends StatelessWidget {
                                                     size: 22,
                                                   ),
                                                 ),
-                                                Text(
+                                                const Text(
                                                   '内容はカブブックで確認しよう',
                                                   style: TextStyle(
                                                       fontSize: 16.0,
@@ -503,7 +500,7 @@ class TaskScoutDetailView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(35.0)),
                       elevation: 7,
                       child: Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Icon(
                             Icons.collections_bookmark,
                             size: 40,
@@ -519,8 +516,8 @@ class TaskScoutAddView extends StatelessWidget {
   int index_page;
   int page;
   String type;
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   Color themeColor;
 
   TaskScoutAddView(String _type, int _page, int _index) {
@@ -539,7 +536,7 @@ class TaskScoutAddView extends StatelessWidget {
         },
         child: Stack(children: <Widget>[
           Padding(
-              padding: EdgeInsets.only(top: 30),
+              padding: const EdgeInsets.only(top: 30),
               child: Container(
                   height: 1500,
                   child: Card(
@@ -554,7 +551,7 @@ class TaskScoutAddView extends StatelessWidget {
                           Column(
                         children: <Widget>[
                           Consumer<TaskDetailScoutModel>(
-                              builder: (context, model, _) {
+                              builder: (BuildContext context, TaskDetailScoutModel model, _) {
                             if (!model.isGet) {
                               model.getSnapshot();
                             }
@@ -574,14 +571,14 @@ class TaskScoutAddView extends StatelessWidget {
                                   return Column(children: <Widget>[
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
+                                          borderRadius: const BorderRadius.only(
                                               topLeft:
-                                                  const Radius.circular(20),
+                                                  Radius.circular(20),
                                               topRight:
-                                                  const Radius.circular(20)),
+                                                  Radius.circular(20)),
                                           color: themeColor),
                                       width: MediaQuery.of(context).size.width,
-                                      child: Padding(
+                                      child: const Padding(
                                         padding: EdgeInsets.only(
                                             top: 40, bottom: 20),
                                         child: Center(
@@ -612,7 +609,7 @@ class TaskScoutAddView extends StatelessWidget {
                                             child: Column(
                                           children: <Widget>[
                                             Padding(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               child: Text(
                                                 DateFormat('yyyy/MM/dd')
                                                         .format(model
@@ -628,7 +625,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                             index_page
                                                                 .toString()]
                                                         ['family'],
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 20.0,
                                                     fontWeight: FontWeight.bold,
                                                     decoration:
@@ -636,14 +633,14 @@ class TaskScoutAddView extends StatelessWidget {
                                               ),
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.all(5),
+                                              padding: const EdgeInsets.all(5),
                                               child: Text(
                                                 model.stepSnapshot
                                                             .get('signed')
                                                         [index_page.toString()]
                                                     ['feedback'],
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 18.0,
                                                   fontWeight: FontWeight.bold,
                                                   decoration:
@@ -655,12 +652,12 @@ class TaskScoutAddView extends StatelessWidget {
                                                     children: <Widget>[
                                                       Padding(
                                                           padding:
-                                                              EdgeInsets.all(
+                                                              const EdgeInsets.all(
                                                                   10),
                                                           child:
                                                               ListView.builder(
                                                                   physics:
-                                                                      NeverScrollableScrollPhysics(),
+                                                                      const NeverScrollableScrollPhysics(),
                                                                   shrinkWrap:
                                                                       true,
                                                                   itemCount: snapshot[
@@ -670,7 +667,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                       (BuildContext
                                                                               context,
                                                                           int index) {
-                                                                    String
+                                                                    final String
                                                                         type =
                                                                         snapshot['data'][index]
                                                                             [
@@ -679,7 +676,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                         'image') {
                                                                       return Padding(
                                                                         padding:
-                                                                            EdgeInsets.all(5),
+                                                                            const EdgeInsets.all(5),
                                                                         child:
                                                                             Container(
                                                                           child:
@@ -699,7 +696,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                         'video') {
                                                                       return Padding(
                                                                         padding:
-                                                                            EdgeInsets.all(5),
+                                                                            const EdgeInsets.all(5),
                                                                         child:
                                                                             Container(
                                                                           child:
@@ -721,21 +718,21 @@ class TaskScoutAddView extends StatelessWidget {
                                                                         'text') {
                                                                       return Padding(
                                                                         padding:
-                                                                            EdgeInsets.all(5),
+                                                                            const EdgeInsets.all(5),
                                                                         child:
                                                                             Container(
                                                                           child: Card(
                                                                               child: Padding(
                                                                             padding:
-                                                                                EdgeInsets.all(0),
+                                                                                const EdgeInsets.all(0),
                                                                             child:
                                                                                 Column(
                                                                               children: <Widget>[
                                                                                 Padding(
-                                                                                    padding: EdgeInsets.all(10),
+                                                                                    padding: const EdgeInsets.all(10),
                                                                                     child: Text(
                                                                                       model.dataList[index_page][index],
-                                                                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                                                                                     ))
                                                                               ],
                                                                             ),
@@ -760,14 +757,14 @@ class TaskScoutAddView extends StatelessWidget {
                                   return Column(children: <Widget>[
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
+                                          borderRadius: const BorderRadius.only(
                                               topLeft:
-                                                  const Radius.circular(20),
+                                                  Radius.circular(20),
                                               topRight:
-                                                  const Radius.circular(20)),
+                                                  Radius.circular(20)),
                                           color: themeColor),
                                       width: MediaQuery.of(context).size.width,
-                                      child: Padding(
+                                      child: const Padding(
                                         padding: EdgeInsets.only(
                                             top: 40, bottom: 20),
                                         child: Center(
@@ -796,7 +793,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                 228,
                                         child: SingleChildScrollView(
                                             child: Column(children: <Widget>[
-                                          Padding(
+                                          const Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(
                                               'ちょっと待っててね⏰',
@@ -828,15 +825,14 @@ class TaskScoutAddView extends StatelessWidget {
                                                   ),
                                                 ),
                                               )),
-                                          snapshot['data'] != null
-                                              ? Column(
+                                          if (snapshot['data'] != null) Column(
                                                   children: <Widget>[
                                                     Padding(
                                                         padding:
-                                                            EdgeInsets.all(10),
+                                                            const EdgeInsets.all(10),
                                                         child: ListView.builder(
                                                             physics:
-                                                                NeverScrollableScrollPhysics(),
+                                                                const NeverScrollableScrollPhysics(),
                                                             shrinkWrap: true,
                                                             itemCount:
                                                                 snapshot['data']
@@ -858,7 +854,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                   'image') {
                                                                 return Padding(
                                                                   padding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .all(
                                                                               5),
                                                                   child:
@@ -882,7 +878,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                   'video') {
                                                                 return Padding(
                                                                   padding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .all(
                                                                               5),
                                                                   child:
@@ -906,7 +902,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                   'text') {
                                                                 return Padding(
                                                                   padding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .all(
                                                                               5),
                                                                   child:
@@ -915,17 +911,17 @@ class TaskScoutAddView extends StatelessWidget {
                                                                         child:
                                                                             Padding(
                                                                       padding:
-                                                                          EdgeInsets.all(
+                                                                          const EdgeInsets.all(
                                                                               0),
                                                                       child:
                                                                           Column(
                                                                         children: <
                                                                             Widget>[
                                                                           Padding(
-                                                                              padding: EdgeInsets.all(10),
+                                                                              padding: const EdgeInsets.all(10),
                                                                               child: Text(
                                                                                 model.dataList[index_page][index],
-                                                                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                                                                               ))
                                                                         ],
                                                                       ),
@@ -937,8 +933,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                               }
                                                             }))
                                                   ],
-                                                )
-                                              : Container(),
+                                                ) else Container(),
                                         ])))
                                   ]);
                                 } else if (model.stepSnapshot.get('signed')
@@ -961,7 +956,7 @@ class TaskScoutAddView extends StatelessWidget {
                                         index_page, type, 'どんなことをしたのかリーダーに教えよう')
                                   ]);
                                 } else {
-                                  return Center(
+                                  return const Center(
                                     child: Text('エラーが発生しました'),
                                   );
                                 }
@@ -971,7 +966,7 @@ class TaskScoutAddView extends StatelessWidget {
                               }
                             } else {
                               return Padding(
-                                  padding: EdgeInsets.only(top: 60),
+                                  padding: const EdgeInsets.only(top: 60),
                                   child: Container(
                                     child: Center(
                                       child: CircularProgressIndicator(
@@ -1016,9 +1011,9 @@ class TaskScoutAddView extends StatelessWidget {
                     elevation: 7,
                     child: ConstrainedBox(
                         constraints:
-                            BoxConstraints(minWidth: 61, minHeight: 61),
+                            const BoxConstraints(minWidth: 61, minHeight: 61),
                         child: Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               left: 8, right: 8, top: 5, bottom: 5),
                           child: Text(
                             numberShow,

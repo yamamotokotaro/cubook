@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
@@ -7,11 +6,11 @@ import 'package:cubook/model/themeInfo.dart';
 import 'package:excel/excel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 // import 'dart:html' as http;
 
 
@@ -30,7 +29,7 @@ class AnalyticsModel extends ChangeNotifier {
   String group_claim;
   String teamPosition;
   String position;
-  Map<String, dynamic> claims = Map<String, dynamic>();
+  Map<String, dynamic> claims = <String, dynamic>{};
 
   void getGroup() async {
     final String groupBefore = group;
@@ -40,13 +39,13 @@ class AnalyticsModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
       position = userSnapshot.get('position');
-      if (position == "scout") {
+      if (position == 'scout') {
         teamPosition = userSnapshot.get('teamPosition');
-        if(teamPosition == "teamLeader"){
+        if(teamPosition == 'teamLeader'){
           position = teamPosition;
         }
       }
@@ -64,9 +63,9 @@ class AnalyticsModel extends ChangeNotifier {
   }
 
   void export() async {
-    final task = TaskContents();
-    final theme = ThemeInfo();
-    final type = [
+    final TaskContents task = TaskContents();
+    final ThemeInfo theme = ThemeInfo();
+    final List<String> type = [
 //    'beaver',
       'usagi',
       'sika',
@@ -83,7 +82,7 @@ class AnalyticsModel extends ChangeNotifier {
     if (!isExported && !isExporting) {
       isExporting = true;
       notifyListeners();
-      final excel = Excel.createExcel();
+      final Excel excel = Excel.createExcel();
       FirebaseFirestore.instance
           .collection('user')
           .where('group', isEqualTo: group)
@@ -113,7 +112,7 @@ class AnalyticsModel extends ChangeNotifier {
                   textWrapping: TextWrapping.WrapText,
                   verticalAlign: VerticalAlign.Center,
                   horizontalAlign: HorizontalAlign.Center);
-              final mapTask = task.getAllMap(type[i]);
+              final List<Map<String, dynamic>> mapTask = task.getAllMap(type[i]);
               if (countItem.length < type.length + 1) {
                 if (i == 0) {
                   countItem.add(0);
@@ -123,7 +122,7 @@ class AnalyticsModel extends ChangeNotifier {
                 }
               }
               for (int j = 0; j < mapTask.length; j++) {
-                final cell = sheetObject.cell(CellIndex.indexByColumnRow(
+                final Data cell = sheetObject.cell(CellIndex.indexByColumnRow(
                     columnIndex: row + 1, rowIndex: 0));
                 cell.value = mapTask[j]['title'];
                 cell.cellStyle = cellStyle;
@@ -135,7 +134,7 @@ class AnalyticsModel extends ChangeNotifier {
               textWrapping: TextWrapping.WrapText,
               verticalAlign: VerticalAlign.Center,
               horizontalAlign: HorizontalAlign.Center);
-          final cell = sheetObject.cell(CellIndex.indexByColumnRow(
+          final Data cell = sheetObject.cell(CellIndex.indexByColumnRow(
               columnIndex: 0, rowIndex: count_user + 1));
           cell.value = documentSnapshot.get('name');
           cell.cellStyle = cellStyle;
@@ -150,17 +149,17 @@ class AnalyticsModel extends ChangeNotifier {
                 .orderBy('end')
                 .get();
 
-            for (DocumentSnapshot documentSnapshot_task
+            for (DocumentSnapshot documentSnapshotTask
                 in querySnapshotTask.docs) {
-              final int page = documentSnapshot_task.get('page');
+              final int page = documentSnapshotTask.get('page');
               final CellStyle cellStyle = CellStyle(
                   textWrapping: TextWrapping.WrapText,
                   verticalAlign: VerticalAlign.Center,
                   horizontalAlign: HorizontalAlign.Center);
-              final cell = sheetObject.cell(CellIndex.indexByColumnRow(
+              final Data cell = sheetObject.cell(CellIndex.indexByColumnRow(
                   columnIndex: page + countItem[i] + 1, rowIndex: count_user));
               cell.value = DateFormat('yyyy/MM/dd')
-                  .format(documentSnapshot_task.get('end').toDate())
+                  .format(documentSnapshotTask.get('end').toDate())
                   .toString();
               cell.cellStyle = cellStyle;
             }
@@ -168,7 +167,7 @@ class AnalyticsModel extends ChangeNotifier {
           notifyListeners();
         }
         excel.delete('Sheet1');
-        final onValue = excel.encode();
+        final List<int> onValue = excel.encode();
         if (kIsWeb) {
           // final content = base64Encode(onValue);
           // final anchor = http.AnchorElement(

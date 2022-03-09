@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -36,19 +35,19 @@ class SettingAccountModel extends ChangeNotifier {
         .hasMatch(addressController.text)) {
       try {
         await currentUser.updateEmail(addressController.text);
-        Scaffold.of(context).showSnackBar(SnackBar(
+        Scaffold.of(context).showSnackBar(const SnackBar(
           content: Text('メールアドレスを変更しました'),
         ));
       } catch (error) {
         await showDialog<int>(
             context: context,
-            builder: (context) {
+            builder: (BuildContext context) {
               return GestureDetector(
                   onTap: () {
                     FocusScope.of(context).unfocus();
                   },
                   child: AlertDialog(
-                    title: Padding(
+                    title: const Padding(
                         padding: EdgeInsets.only(left: 15),
                         child: Text(
                           'パスワードを入力してください',
@@ -60,12 +59,12 @@ class SettingAccountModel extends ChangeNotifier {
                         borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     content: SingleChildScrollView(child:
                         Consumer<SettingAccountModel>(
-                            builder: (context, model, child) {
+                            builder: (BuildContext context, SettingAccountModel model, Widget child) {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(0),
                             child: TextField(
                               maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.passwordController,
                               enabled: true,
@@ -82,10 +81,10 @@ class SettingAccountModel extends ChangeNotifier {
                     })),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text('認証'),
+                        child: const Text('認証'),
                         onPressed: () async {
                           FocusScope.of(context).unfocus();
-                          final credential = EmailAuthProvider.credential(
+                          final AuthCredential credential = EmailAuthProvider.credential(
                               email: mailAddress,
                               password: passwordController.text);
                           try {
@@ -111,11 +110,11 @@ class SettingAccountModel extends ChangeNotifier {
   void sendPasswordResetEmail(BuildContext context) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: mailAddress);
-      Scaffold.of(context).showSnackBar(SnackBar(
+      Scaffold.of(context).showSnackBar(const SnackBar(
         content: Text('送信リクエストが完了しました'),
       ));
     } catch (error) {
-      Scaffold.of(context).showSnackBar(SnackBar(
+      Scaffold.of(context).showSnackBar(const SnackBar(
         content: Text('エラーが発生しました'),
       ));
     }

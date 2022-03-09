@@ -3,13 +3,13 @@ import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_analytics/taskDetailAnalytics_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class TaskDetailAnalyticsView extends StatelessWidget {
-  var theme = ThemeInfo();
-  var task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  TaskContents task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
     final int page = info.page;
     final Color themeColor = theme.getThemeColor(type);
     final List<Map<String, dynamic>> contents = task.getContentList(type, page);
-    final mapTask = task.getPartMap(type, page);
+    final Map<String, dynamic> mapTask = task.getPartMap(type, page);
     bool isDark;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
@@ -28,20 +28,19 @@ class TaskDetailAnalyticsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(mapTask['title']),
-        backgroundColor: themeColor,
-        brightness: Brightness.dark,
+        backgroundColor: themeColor, systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 children: <Widget>[
                   Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 10),
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<TaskDetailAnalyticsModel>(
-                          builder: (context, model, child) {
+                          builder: (BuildContext context, TaskDetailAnalyticsModel model, Widget child) {
                         model.getGroup();
                         if (model.group != null) {
                           return Column(
@@ -102,11 +101,11 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                 snapshotTask.data.docs;
                                             final List<int> countItem =
                                                 List<int>.generate(
-                                                    quant, (index) => 0);
+                                                    quant, (int index) => 0);
                                             int countEnd = 0;
                                             for (DocumentSnapshot documentSnapshot
                                                 in listDocumentSnapshot) {
-                                              Map<String, dynamic>
+                                              final Map<String, dynamic>
                                                   documentData =
                                                   documentSnapshot.data()
                                                       as Map<String, dynamic>;
@@ -138,7 +137,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                             }
                                             return Column(children: <Widget>[
                                               Padding(
-                                                  padding: EdgeInsets.all(5),
+                                                  padding: const EdgeInsets.all(5),
                                                   child: Card(
                                                     shape:
                                                         RoundedRectangleBorder(
@@ -162,7 +161,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                         child: Row(
                                                           children: <Widget>[
                                                             Padding(
-                                                                padding: EdgeInsets
+                                                                padding: const EdgeInsets
                                                                     .only(
                                                                         top: 15,
                                                                         bottom:
@@ -190,7 +189,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                           userCount,
                                                                 )),
                                                             Padding(
-                                                                padding: EdgeInsets
+                                                                padding: const EdgeInsets
                                                                     .only(
                                                                         left:
                                                                             10),
@@ -201,7 +200,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                   children: <
                                                                       Widget>[
                                                                     Padding(
-                                                                        padding: EdgeInsets.only(
+                                                                        padding: const EdgeInsets.only(
                                                                             top:
                                                                                 10,
                                                                             bottom:
@@ -210,7 +209,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                             alignment: Alignment.centerLeft,
                                                                             child: Text(
                                                                               '完修者 ' + countEnd.toString() + '/' + userCount.toString(),
-                                                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+                                                                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
                                                                             ))),
                                                                   ],
                                                                 )),
@@ -223,11 +222,11 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                     .toString())*/
                                                   )),
                                               Padding(
-                                                  padding: EdgeInsets.only(
+                                                  padding: const EdgeInsets.only(
                                                       top: 5, left: 17),
                                                   child: Container(
                                                       width: double.infinity,
-                                                      child: Text(
+                                                      child: const Text(
                                                         '細目ごとのサイン数',
                                                         style: TextStyle(
                                                           fontWeight:
@@ -247,7 +246,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                           int index) {
                                                     return Padding(
                                                         padding:
-                                                            EdgeInsets.all(5),
+                                                            const EdgeInsets.all(5),
                                                         child: Card(
                                                           shape:
                                                               RoundedRectangleBorder(
@@ -275,10 +274,10 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                     Widget>[
                                                                   Container(
                                                                       decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.only(
-                                                                              topLeft: const Radius.circular(
+                                                                          borderRadius: const BorderRadius.only(
+                                                                              topLeft: Radius.circular(
                                                                                   10),
-                                                                              bottomLeft: const Radius.circular(
+                                                                              bottomLeft: Radius.circular(
                                                                                   10)),
                                                                           color:
                                                                               themeColor),
@@ -287,23 +286,23 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                       child:
                                                                           ConstrainedBox(
                                                                         constraints:
-                                                                            BoxConstraints(minWidth: 60),
+                                                                            const BoxConstraints(minWidth: 60),
                                                                         child:
                                                                             Center(
                                                                           child:
                                                                               Padding(
                                                                             padding:
-                                                                                EdgeInsets.all(0),
+                                                                                const EdgeInsets.all(0),
                                                                             child:
                                                                                 Text(
                                                                               (index + 1).toString(),
-                                                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white),
+                                                                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white),
                                                                             ),
                                                                           ),
                                                                         ),
                                                                       )),
                                                                   Padding(
-                                                                      padding: EdgeInsets.only(
+                                                                      padding: const EdgeInsets.only(
                                                                           left:
                                                                               10),
                                                                       child:
@@ -313,15 +312,15 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                         children: <
                                                                             Widget>[
                                                                           Padding(
-                                                                              padding: EdgeInsets.only(top: 10),
+                                                                              padding: const EdgeInsets.only(top: 10),
                                                                               child: Align(
                                                                                   alignment: Alignment.centerLeft,
                                                                                   child: Text(
                                                                                     'サイン済み ' + countItem[index].toString() + '/' + userCount.toString(),
-                                                                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                                                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                                                                                   ))),
                                                                           Padding(
-                                                                              padding: EdgeInsets.only(top: 10, bottom: 12, left: 5),
+                                                                              padding: const EdgeInsets.only(top: 10, bottom: 12, left: 5),
                                                                               child: Container(
                                                                                   width: 200,
                                                                                   child: LinearProgressIndicator(
@@ -360,10 +359,10 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                     }
                                   }),
                               Padding(
-                                  padding: EdgeInsets.only(top: 5, left: 17),
+                                  padding: const EdgeInsets.only(top: 5, left: 17),
                                   child: Container(
                                       width: double.infinity,
-                                      child: Text(
+                                      child: const Text(
                                         '細目',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -372,7 +371,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                         textAlign: TextAlign.left,
                                       ))),
                               Padding(
-                                  padding: EdgeInsets.only(top: 10),
+                                  padding: const EdgeInsets.only(top: 10),
                                   child: ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
@@ -390,10 +389,10 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                           bordercolor = Colors.grey[300];
                                         }
                                         return Padding(
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 bottom: 10, right: 5, left: 5),
                                             child: Card(
-                                              color: Color(0x00000000),
+                                              color: const Color(0x00000000),
                                               shape: RoundedRectangleBorder(
                                                 side: BorderSide(
                                                   color: bordercolor,
@@ -411,7 +410,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                             10.0),
                                                   ),
                                                   child: Padding(
-                                                    padding: EdgeInsets.all(8),
+                                                    padding: const EdgeInsets.all(8),
                                                     child: Semantics(
                                                         label: 'さいもく' +
                                                             (index + 1)
@@ -422,11 +421,11 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                             ));
                                       })),
                               Padding(
-                                  padding: EdgeInsets.only(
+                                  padding: const EdgeInsets.only(
                                       left: 15, bottom: 10, right: 15),
                                   child: Container(
                                     width: double.infinity,
-                                    child: Text(
+                                    child: const Text(
                                       '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
                                       style: TextStyle(
                                         fontSize: 13,

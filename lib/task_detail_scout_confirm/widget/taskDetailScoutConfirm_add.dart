@@ -2,7 +2,6 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_model.dart';
 import 'package:expand_widget/expand_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +12,8 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
   String mes;
   Map<String, dynamic> taskInfo;
   Map<String, dynamic> content;
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   TaskDetailScoutConfirmAddView(int _index, String _type, String _mes) {
     themeColor = theme.getThemeColor(_type);
@@ -25,7 +24,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TaskDetailScoutConfirmModel>(builder: (context, model, _) {
+    return Consumer<TaskDetailScoutConfirmModel>(builder: (BuildContext context, TaskDetailScoutConfirmModel model, _) {
       content = task.getContent(type, model.page, index_page);
       if (content['common'] != null) {
         taskInfo = task.getPartMap(
@@ -35,12 +34,12 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
         Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(0),
-                    topRight: const Radius.circular(0)),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(0)),
                 color: themeColor),
             child: Column(
-              children: <Widget>[
+              children: const <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 40, bottom: 20),
                   child: Center(
@@ -56,11 +55,11 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
               ],
             )),
         if (mes != '') Padding(
-                padding: EdgeInsets.only(top: 10, left: 20, right: 20),
+                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
                 child: Text(
                   mes,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 )) else Container(),
         Container(
             height: MediaQuery.of(context).size.height > 700
@@ -135,18 +134,18 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                             type != 'tukinowa') ||
                         model.group == ' j27DETWHGYEfpyp2Y292' ||
                         model.group == ' z4pkBhhgr0fUMN4evr5z') Padding(
-                        padding: EdgeInsets.all(15),
+                        padding: const EdgeInsets.all(15),
                         child: ExpandText(
                           content['body'],
                           maxLines: 3,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.justify,
                         )) else Container(),
                 if (content['common'] != null) Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                             top: 5, bottom: 10, right: 10, left: 10),
                         child: Text(
                           theme.getTitle(content['common']['type']) +
@@ -161,7 +160,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                           textAlign: TextAlign.center,
                         )) else Container(),
                 if (model.isLast) Padding(
-                        padding: EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -170,23 +169,23 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                               activeColor: themeColor,
                               value: model.checkCitation,
                             ),
-                            Text('表彰待ちリストに追加しない')
+                            const Text('表彰待ちリストに追加しない')
                           ],
                         ),
                       ) else Container(),
                 if (!model.isLoading[index_page]) Padding(
-                        padding: EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 10),
                         child: RaisedButton.icon(
                           onPressed: () {
                             model.onTapSend(index_page);
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.edit,
                             size: 20,
                             color: Colors.white,
                           ),
                           color: themeColor,
-                          label: Text(
+                          label: const Text(
                             'サインする',
                             style: TextStyle(
                                 fontSize: 15,

@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cubook/model/task.dart';
-import 'package:cubook/model/themeInfo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -9,16 +7,16 @@ class AddLumpSelectItemModel extends ChangeNotifier {
   User currentUser;
   DocumentSnapshot userData;
   bool isGet = false;
-  Map<dynamic, dynamic> itemSelected = Map<dynamic, dynamic>();
+  Map<dynamic, dynamic> itemSelected = <dynamic, dynamic>{};
 
   void createList(String type, int quant) {
     itemSelected[type] =
-        List<dynamic>.generate(quant, (index) => List<bool>());
+        List<dynamic>.generate(quant, (int index) => <bool>[]);
     notifyListeners();
   }
 
   void createbool(String type, int page, int quant) {
-    itemSelected[type][page] = List<bool>.generate(quant, (index) => false);
+    itemSelected[type][page] = List<bool>.generate(quant, (int index) => false);
     notifyListeners();
   }
 

@@ -35,7 +35,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
         .collection('task')
         .doc(documentID)
         .snapshots()
-        .listen((data) async {
+        .listen((DocumentSnapshot<Map<String, dynamic>> data) async {
       taskSnapshot = data;
       if (taskSnapshot.data == null) {
         taskFinished = true;
@@ -50,19 +50,19 @@ class DetailTaskWaitingModel extends ChangeNotifier {
           if (taskSnapshot.get('data')[i]['type'] == 'text') {
             body.add(taskSnapshot.get('data')[i]['body']);
           } else if (taskSnapshot.get('data')[i]['type'] == 'image') {
-            final ref = FirebaseStorage.instance
+            final Reference ref = FirebaseStorage.instance
                 .ref()
                 .child(taskSnapshot.get('data')[i]['body']);
             final String url = await ref.getDownloadURL();
             body.add(url);
           } else {
-            final ref = FirebaseStorage.instance
+            final Reference ref = FirebaseStorage.instance
                 .ref()
                 .child(taskSnapshot.get('data')[i]['body']);
             final String url = await ref.getDownloadURL();
-            final videoPlayerController = VideoPlayerController.network(url);
+            final VideoPlayerController videoPlayerController = VideoPlayerController.network(url);
             await videoPlayerController.initialize();
-            final chewieController = ChewieController(
+            final ChewieController chewieController = ChewieController(
                 videoPlayerController: videoPlayerController,
                 aspectRatio: videoPlayerController.value.aspectRatio,
                 autoPlay: false,
@@ -85,7 +85,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       notifyListeners();
       final User user = FirebaseAuth.instance.currentUser;
       currentUser = user;
-      currentUser.getIdTokenResult().then((token) async {
+      currentUser.getIdTokenResult().then((IdTokenResult token) async {
         tokenMap = token.claims;
         signItem(uid_get, type, page, number, feedbackController.text, false, false);
         await addNotification('signed');
@@ -104,7 +104,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       notifyListeners();
       final User user = FirebaseAuth.instance.currentUser;
       currentUser = user;
-      currentUser.getIdTokenResult().then((token) async {
+      currentUser.getIdTokenResult().then((IdTokenResult token) async {
         tokenMap = token.claims;
         await updateDocumentInfo_reject();
         await addNotification('reject');
@@ -117,14 +117,14 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   }
 
   Future<void> updateDocumentInfo_reject() async {
-    final task = TaskContents();
+    final TaskContents task = TaskContents();
     FirebaseFirestore.instance
         .collection(type)
         .where('uid', isEqualTo: uid_get)
         .where('page', isEqualTo: page)
         .where('group', isEqualTo: tokenMap['group'])
         .get()
-        .then((data) {
+        .then((QuerySnapshot<Map<String, dynamic>> data) {
       final DocumentSnapshot snapshot = data.docs[0];
       Map<String, dynamic> map = <String, dynamic>{};
       map = snapshot.get('signed');
@@ -141,8 +141,8 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   }
 
   Future<void> addNotification(String phase) async {
-    final task = TaskContents();
-    final theme = ThemeInfo();
+    final TaskContents task = TaskContents();
+    final ThemeInfo theme = ThemeInfo();
     String mes;
     if (phase == 'signed') {
       mes = 'サインされました';

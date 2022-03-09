@@ -1,17 +1,15 @@
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/community/community_model.dart';
-import 'package:cubook/detailActivity/detailActivity_model.dart';
 import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CommunityView extends StatelessWidget {
-  var theme = ThemeInfo();
-  var task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  TaskContents task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,7 @@ class CommunityView extends StatelessWidget {
     final String taskid = info.taskid;
     final String effortid = info.effortid;
     final Color themeColor = theme.getThemeColor(type);
-    final mapTask = task.getPartMap(type, page);
+    final Map<String, dynamic> mapTask = task.getPartMap(type, page);
     final int quant = mapTask['hasItem'];
     bool isDark;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
@@ -41,8 +39,8 @@ class CommunityView extends StatelessWidget {
               arguments: Comment(type: type, effortid: effortid));
         },
         label: Selector<CommunityModel, String>(
-            selector: (context, model) => model.group,
-            builder: (context, group, child) {
+            selector: (BuildContext context, CommunityModel model) => model.group,
+            builder: (BuildContext context, String group, Widget child) {
               if (group != null) {
                 return StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
@@ -58,7 +56,7 @@ class CommunityView extends StatelessWidget {
                               querySnapshot.data.docs.length.toString() +
                               '件');
                         } else {
-                          return Text('コメント');
+                          return const Text('コメント');
                         }
                       } else {
                         return const Center(
@@ -72,16 +70,16 @@ class CommunityView extends StatelessWidget {
                 return Container();
               }
             }),
-        icon: Icon(Icons.comment),
+        icon: const Icon(Icons.comment),
       ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 600),
+                constraints: const BoxConstraints(maxWidth: 600),
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 65),
+                  padding: const EdgeInsets.only(bottom: 65),
                   child: Column(
                     children: <Widget>[
                       /*Padding(
@@ -98,18 +96,18 @@ class CommunityView extends StatelessWidget {
                               ))),*/
                       Padding(
                           padding:
-                              EdgeInsets.only(top: 20, bottom: 15, left: 17),
+                              const EdgeInsets.only(top: 20, bottom: 15, left: 17),
                           child: Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.person,
                                 size: 35,
                               ),
                               Padding(
-                                  padding: EdgeInsets.only(left: 5),
+                                  padding: const EdgeInsets.only(left: 5),
                                   child: Text(
                                     name,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 23,
                                     ),
@@ -118,9 +116,9 @@ class CommunityView extends StatelessWidget {
                             ],
                           )),
                       Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 10),
+                          padding: const EdgeInsets.only(top: 20, bottom: 10),
                           child: Consumer<CommunityModel>(
-                              builder: (context, model, child) {
+                              builder: (BuildContext context, CommunityModel model, Widget child) {
                             model.getGroup();
                             if (model.group != null) {
                               return Column(
@@ -137,29 +135,29 @@ class CommunityView extends StatelessWidget {
                                           final DocumentSnapshot snapshot =
                                               asyncSnapshot.data;
                                           return Consumer<CommunityModel>(
-                                              builder: (context, model, child) {
+                                              builder: (BuildContext context, CommunityModel model, Widget child) {
                                             model.getData(snapshot, quant);
                                             return model.isGet
                                                 ? ListView.builder(
                                                     physics:
-                                                        NeverScrollableScrollPhysics(),
+                                                        const NeverScrollableScrollPhysics(),
                                                     shrinkWrap: true,
                                                     itemCount:
                                                         mapTask['hasItem'],
                                                     itemBuilder:
                                                         (BuildContext context,
-                                                            int index_number) {
+                                                            int indexNumber) {
                                                       final Map<String, dynamic>
                                                           numberSnapshot =
                                                           snapshot.get('signed')[
-                                                              index_number
+                                                              indexNumber
                                                                   .toString()];
                                                       print(numberSnapshot);
                                                       return Column(
                                                         children: <Widget>[
                                                           Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .only(
                                                                 left: 20,
                                                               ),
@@ -167,11 +165,11 @@ class CommunityView extends StatelessWidget {
                                                                   width: double
                                                                       .infinity,
                                                                   child: Text(
-                                                                    (index_number +
+                                                                    (indexNumber +
                                                                             1)
                                                                         .toString(),
                                                                     style:
-                                                                        TextStyle(
+                                                                        const TextStyle(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold,
@@ -182,17 +180,16 @@ class CommunityView extends StatelessWidget {
                                                                         TextAlign
                                                                             .left,
                                                                   ))),
-                                                          numberSnapshot['data'] !=
-                                                                  null
-                                                              ? Padding(
+                                                          if (numberSnapshot['data'] !=
+                                                                  null) Padding(
                                                                   padding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .all(
                                                                               10),
                                                                   child: ListView
                                                                       .builder(
                                                                           physics:
-                                                                              NeverScrollableScrollPhysics(),
+                                                                              const NeverScrollableScrollPhysics(),
                                                                           shrinkWrap:
                                                                               true,
                                                                           itemCount: numberSnapshot['data']
@@ -206,13 +203,13 @@ class CommunityView extends StatelessWidget {
                                                                             if (type ==
                                                                                 'image') {
                                                                               return Padding(
-                                                                                padding: EdgeInsets.all(5),
+                                                                                padding: const EdgeInsets.all(5),
                                                                                 child: Material(
                                                                                     child: InkWell(
                                                                                   child: Container(
                                                                                     child: Column(
                                                                                       children: <Widget>[
-                                                                                        if (model.dataList[index_number][index] != null) Image.network(model.dataList[index_number][index]) else Container()
+                                                                                        if (model.dataList[indexNumber][index] != null) Image.network(model.dataList[indexNumber][index]) else Container()
                                                                                       ],
                                                                                     ),
                                                                                   ),
@@ -221,14 +218,14 @@ class CommunityView extends StatelessWidget {
                                                                             } else if (type ==
                                                                                 'video') {
                                                                               return Padding(
-                                                                                  padding: EdgeInsets.all(5),
+                                                                                  padding: const EdgeInsets.all(5),
                                                                                   child: Material(
                                                                                     child: InkWell(
                                                                                       child: Container(
                                                                                         child: Column(
                                                                                           children: <Widget>[
-                                                                                            if (model.dataList[index_number][index] != null) Chewie(
-                                                                                                    controller: model.dataList[index_number][index],
+                                                                                            if (model.dataList[indexNumber][index] != null) Chewie(
+                                                                                                    controller: model.dataList[indexNumber][index],
                                                                                                   ) else Container()
                                                                                           ],
                                                                                         ),
@@ -238,18 +235,18 @@ class CommunityView extends StatelessWidget {
                                                                             } else if (type ==
                                                                                 'text') {
                                                                               return Padding(
-                                                                                padding: EdgeInsets.all(5),
+                                                                                padding: const EdgeInsets.all(5),
                                                                                 child: Container(
                                                                                   child: Card(
                                                                                       child: Padding(
-                                                                                    padding: EdgeInsets.all(0),
+                                                                                    padding: const EdgeInsets.all(0),
                                                                                     child: Column(
                                                                                       children: <Widget>[
                                                                                         Padding(
-                                                                                            padding: EdgeInsets.all(10),
+                                                                                            padding: const EdgeInsets.all(10),
                                                                                             child: Text(
-                                                                                              model.dataList[index_number][index],
-                                                                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                                              model.dataList[indexNumber][index],
+                                                                                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                                                                                             ))
                                                                                       ],
                                                                                     ),
@@ -259,9 +256,8 @@ class CommunityView extends StatelessWidget {
                                                                             } else {
                                                                               return Container();
                                                                             }
-                                                                          }))
-                                                              : Padding(
-                                                                  padding: EdgeInsets.only(
+                                                                          })) else Padding(
+                                                                  padding: const EdgeInsets.only(
                                                                       left: 18,
                                                                       top: 8,
                                                                       bottom:
@@ -269,7 +265,7 @@ class CommunityView extends StatelessWidget {
                                                                   child: Container(
                                                                       width: double
                                                                           .infinity,
-                                                                      child: Text(
+                                                                      child: const Text(
                                                                           'データがありません')))
                                                         ],
                                                       );

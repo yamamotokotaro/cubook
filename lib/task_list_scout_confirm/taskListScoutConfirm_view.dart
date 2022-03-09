@@ -2,15 +2,15 @@ import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'taskListScoutConfirm_model.dart';
 
 class TaskListScoutConfirmView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   Color themeColor;
   String type;
   String typeFireStore;
@@ -41,24 +41,23 @@ class TaskListScoutConfirmView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: themeColor,
         elevation: 5,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         title: Text(
           title,
-          style: TextStyle(color: Colors.white),
-        ),
-        brightness: Brightness.dark,
+          style: const TextStyle(color: Colors.white),
+        ), systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 children: <Widget>[
                   Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 10),
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
                       child: Consumer<TaskListScoutConfirmModel>(
-                          builder: (context, model, child) {
+                          builder: (BuildContext context, TaskListScoutConfirmModel model, Widget child) {
                         if (model.userSnapshot == null) {
                           model.getSnapshot(uid);
                         } else if (model.userSnapshot.get('uid') != uid) {
@@ -66,11 +65,11 @@ class TaskListScoutConfirmView extends StatelessWidget {
                           model.userSnapshot = null;
                         }
                         if (model.userSnapshot != null) {
-                          final mapTask = task.getAllMap(type);
-                          final listIsCompleted = List.generate(
-                              mapTask.length, (index) => false);
-                          final listPercentage = List.generate(
-                              mapTask.length, (index) => 0.0);
+                          final List<Map<String, dynamic>> mapTask = task.getAllMap(type);
+                          final List<bool> listIsCompleted = List.generate(
+                              mapTask.length, (int index) => false);
+                          final List<double> listPercentage = List.generate(
+                              mapTask.length, (int index) => 0.0);
                           if (model.userData[type] != null) {
                             final Map map = Map<String, dynamic>.from(
                                 model.userSnapshot.get(type));
@@ -93,7 +92,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                               shrinkWrap: true,
                               itemBuilder: (BuildContext context, int index) {
                                 return Padding(
-                                    padding: EdgeInsets.all(5),
+                                    padding: const EdgeInsets.all(5),
                                     child: Container(
                                       child: Card(
                                         shape: RoundedRectangleBorder(
@@ -116,26 +115,26 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                             children: <Widget>[
                                               Container(
                                                   decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.only(
-                                                          topLeft: const Radius
+                                                      borderRadius: const BorderRadius.only(
+                                                          topLeft: Radius
                                                               .circular(10),
                                                           bottomLeft:
-                                                              const Radius
+                                                              Radius
                                                                       .circular(
                                                                   10)),
                                                       color: themeColor),
                                                   height: 120,
                                                   child: ConstrainedBox(
-                                                    constraints: BoxConstraints(
+                                                    constraints: const BoxConstraints(
                                                         minWidth: 76),
                                                     child: Center(
                                                       child: Padding(
                                                         padding:
-                                                            EdgeInsets.all(20),
+                                                            const EdgeInsets.all(20),
                                                         child: Text(
                                                           mapTask[index]
                                                               ['number'],
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -148,7 +147,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                   )),
                                               Padding(
                                                   padding:
-                                                      EdgeInsets.only(left: 10),
+                                                      const EdgeInsets.only(left: 10),
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -156,7 +155,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                     children: <Widget>[
                                                       Padding(
                                                           padding:
-                                                              EdgeInsets.only(
+                                                              const EdgeInsets.only(
                                                                   top: 10),
                                                           child: Align(
                                                               alignment: Alignment
@@ -164,15 +163,14 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                               child: Text(
                                                                 mapTask[index]
                                                                     ['title'],
-                                                                style: TextStyle(
+                                                                style: const TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .bold,
                                                                     fontSize:
                                                                         25),
                                                               ))),
-                                                      listIsCompleted[index]
-                                                          ? Padding(
+                                                      if (listIsCompleted[index]) const Padding(
                                                               padding: EdgeInsets
                                                                   .only(
                                                                       top: 20),
@@ -189,9 +187,8 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                                         fontSize:
                                                                             20),
                                                                   )),
-                                                            )
-                                                          : Padding(
-                                                              padding: EdgeInsets
+                                                            ) else Padding(
+                                                              padding: const EdgeInsets
                                                                   .only(
                                                                       top: 10),
                                                               child: Align(
@@ -200,10 +197,10 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                                 child: Row(
                                                                   children: <
                                                                       Widget>[
-                                                                    Text('達成度'),
+                                                                    const Text('達成度'),
                                                                     Padding(
                                                                         padding:
-                                                                            EdgeInsets.all(
+                                                                            const EdgeInsets.all(
                                                                                 10),
                                                                         child:
                                                                             CircularProgressIndicator(
@@ -229,7 +226,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                     ));
                               });
                         } else {
-                          return Center(
+                          return const Center(
                             child: CircularProgressIndicator(),
                           );
                         }

@@ -4,27 +4,26 @@ import 'package:cubook/detailTaskWaiting/detrailTaskWaiting_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ListMigrationWaitingView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('移行申請'),
-          brightness: Brightness.dark,
+          title: const Text('移行申請'), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Align(
             alignment: Alignment.topCenter,
             child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 600),
+                constraints: const BoxConstraints(maxWidth: 600),
                 child: Consumer<ListTaskWaitingModel>(
-                    builder: (context, model, child) {
+                    builder: (BuildContext context, ListTaskWaitingModel model, Widget child) {
                   model.getSnapshot();
                   if (model.group != null) {
                     return StreamBuilder<QuerySnapshot>(
@@ -43,7 +42,7 @@ class ListMigrationWaitingView extends StatelessWidget {
                                   final DocumentSnapshot snapshot =
                                       snapshotGet.data.docs[index];
                                   return Padding(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         top: 10, left: 10, right: 10),
                                     child: Container(
                                       child: Hero(
@@ -80,7 +79,7 @@ class ListMigrationWaitingView extends StatelessWidget {
                                                   }));
                                                 },
                                                 child: Padding(
-                                                    padding: EdgeInsets.all(10),
+                                                    padding: const EdgeInsets.all(10),
                                                     child: Container(
                                                       child: Column(
                                                         children: <Widget>[
@@ -90,7 +89,7 @@ class ListMigrationWaitingView extends StatelessWidget {
                                                             child: Text(
                                                               snapshot
                                                                   .get('name'),
-                                                              style: TextStyle(
+                                                              style: const TextStyle(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
@@ -103,14 +102,14 @@ class ListMigrationWaitingView extends StatelessWidget {
                                                               type: MaterialType
                                                                   .transparency,
                                                               child: Padding(
-                                                                padding: EdgeInsets
+                                                                padding: const EdgeInsets
                                                                     .only(
                                                                         top:
                                                                             10),
                                                                 child: Text(
                                                                   snapshot.get(
                                                                       'groupName_from'),
-                                                                  style: TextStyle(
+                                                                  style: const TextStyle(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .normal,
@@ -130,7 +129,7 @@ class ListMigrationWaitingView extends StatelessWidget {
                                   );
                                 });
                           } else {
-                            return Center(
+                            return const Center(
                               child: Padding(
                                   padding: EdgeInsets.all(5),
                                   child: CircularProgressIndicator()),

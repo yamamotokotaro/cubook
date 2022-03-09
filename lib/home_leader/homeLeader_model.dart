@@ -24,14 +24,14 @@ class HomeLeaderModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) async {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) async {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot['group'];
-      if(userSnapshot.get('position') == "scout") {
+      if(userSnapshot.get('position') == 'scout') {
         team = userSnapshot.get('team');
         teamPosition = userSnapshot.get('teamPosition');
       }
-      user.getIdTokenResult(true).then((value) {
+      user.getIdTokenResult(true).then((IdTokenResult value) {
         print(value.claims);
         final String groupClaimBefore = group_claim;
         group_claim = value.claims['group'];
@@ -142,7 +142,7 @@ class HomeLeaderModel extends ChangeNotifier {
 }
 
 void launchTermURL() async {
-  const url =
+  const String url =
       'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md';
   if (await canLaunch(url)) {
     await launch(url);
@@ -152,7 +152,7 @@ void launchTermURL() async {
 }
 
 void launchPrivacyURL() async {
-  const url =
+  const String url =
       'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md';
   if (await canLaunch(url)) {
     await launch(url);

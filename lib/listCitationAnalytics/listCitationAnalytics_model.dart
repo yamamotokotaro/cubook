@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ListCitationAnalyticsModel extends ChangeNotifier {
@@ -19,12 +18,12 @@ class ListCitationAnalyticsModel extends ChangeNotifier {
           .collection('user')
           .where('uid', isEqualTo: user.uid)
           .get()
-          .then((snapshot) {
+          .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
         group = snapshot.docs[0].get('group');
         if (group != groupBefore) {
           notifyListeners();
         }
-        user.getIdTokenResult(true).then((value) {
+        user.getIdTokenResult(true).then((IdTokenResult value) {
           final String groupClaimBefore = group_claim;
           group_claim = value.claims['group'];
           if (groupClaimBefore != group_claim) {
@@ -39,7 +38,7 @@ class ListCitationAnalyticsModel extends ChangeNotifier {
         .collection('challenge')
         .doc(documentID)
         .update(<String, dynamic>{'isCitationed': true}).then((value) {
-      final snackBar = SnackBar(
+      final SnackBar snackBar = SnackBar(
         content: Text(name + ' の'+title+'を表彰済みにしました'),
         action: SnackBarAction(
           label: '取り消し',
@@ -51,7 +50,7 @@ class ListCitationAnalyticsModel extends ChangeNotifier {
                 .update(<String, dynamic>{'isCitationed': false});
           },
         ),
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
       );
       Scaffold.of(context).showSnackBar(snackBar);
     });

@@ -19,10 +19,10 @@ class ListTaskWaitingModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
-      if(userSnapshot.get('position') == "scout") {
+      if(userSnapshot.get('position') == 'scout') {
         team = userSnapshot.get('team');
         teamPosition = userSnapshot.get('teamPosition');
       }

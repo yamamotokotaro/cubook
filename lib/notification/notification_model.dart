@@ -15,7 +15,7 @@ class NotificationModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: uid)
         .get()
-        .then((value) {
+        .then((QuerySnapshot<Map<String, dynamic>> value) {
       final DocumentSnapshot documentSnapshot = value.docs[0];
       FirebaseFirestore.instance
           .collection('user')

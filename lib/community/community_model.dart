@@ -16,8 +16,8 @@ class CommunityModel extends ChangeNotifier {
   TextEditingController commentController = TextEditingController();
   ScrollController scrollController = ScrollController();
 
-  var dateSelected = List<dynamic>();
-  var dataList = <dynamic>[];
+  List dateSelected = <dynamic>[];
+  List dataList = <dynamic>[];
 
   QuerySnapshot userSnapshot;
   String group;
@@ -32,7 +32,7 @@ class CommunityModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       group = snapshot.docs[0].get('group');
       if (group != groupBefore) {
         notifyListeners();
@@ -52,8 +52,8 @@ class CommunityModel extends ChangeNotifier {
     if (documentID != documentIDBefore) {
       isGet = false;
       dataList =
-          List<dynamic>.generate(quant, (index) => List<dynamic>());
-      dateSelected = List<dynamic>.generate(quant, (index) => null);
+          List<dynamic>.generate(quant, (int index) => <dynamic>[]);
+      dateSelected = List<dynamic>.generate(quant, (int index) => null);
 
       for (int i = 0; i < quant; i++) {
         if (snapshot.get('signed')[i.toString()] != null) {
@@ -68,18 +68,18 @@ class CommunityModel extends ChangeNotifier {
                   if (dataMap[j]['type'] == 'text') {
                     body.add(dataMap[j]['body']);
                   } else if (dataMap[j]['type'] == 'image') {
-                    final ref =
+                    final Reference ref =
                         FirebaseStorage.instance.ref().child(dataMap[j]['body']);
                     final String url = await ref.getDownloadURL();
                     body.add(url);
                   } else {
-                    final ref =
+                    final Reference ref =
                         FirebaseStorage.instance.ref().child(dataMap[j]['body']);
                     final String url = await ref.getDownloadURL();
-                    final videoPlayerController =
+                    final VideoPlayerController videoPlayerController =
                         VideoPlayerController.network(url);
                     await videoPlayerController.initialize();
-                    final chewieController = ChewieController(
+                    final ChewieController chewieController = ChewieController(
                         videoPlayerController: videoPlayerController,
                         aspectRatio: videoPlayerController.value.aspectRatio,
                         autoPlay: false,
@@ -110,7 +110,7 @@ class CommunityModel extends ChangeNotifier {
             .where('uid', isEqualTo: user.uid)
             .where('group', isEqualTo: group)
             .get()
-            .then((data) {
+            .then((QuerySnapshot<Map<String, dynamic>> data) {
           final DocumentSnapshot snapshot = data.docs[0];
           FirebaseFirestore.instance
               .collection('comment')
@@ -122,7 +122,7 @@ class CommunityModel extends ChangeNotifier {
             'name': snapshot.get('name'),
             'age': snapshot.get('age'),
             'time': Timestamp.now()
-          }).then((value) {
+          }).then((DocumentReference<Map<String, dynamic>> value) {
             commentController.clear();
             FocusScope.of(context).unfocus();
             isLoading_comment = false;

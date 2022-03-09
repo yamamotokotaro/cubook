@@ -1,27 +1,26 @@
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ChangeNameView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   String uid;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('メンバー詳細'),
-          brightness: Brightness.dark,
+          title: const Text('メンバー詳細'), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: SafeArea(
             child: SingleChildScrollView(
                 child: Center(
                     child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 600),
+                        constraints: const BoxConstraints(maxWidth: 600),
                         child: Column(
                           children: <Widget>[
-                            Padding(
+                            const Padding(
                               padding:
                               EdgeInsets.only(left: 10, right: 10),
                               child: TextField(
@@ -29,7 +28,7 @@ class ChangeNameView extends StatelessWidget {
                                 InputDecoration(labelText: '姓'),
                               ),
                             ),
-                            Padding(
+                            const Padding(
                               padding:
                               EdgeInsets.only(left: 10, right: 10),
                               child: TextField(
@@ -40,13 +39,13 @@ class ChangeNameView extends StatelessWidget {
                             RaisedButton.icon(
                               onPressed: () {
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.save,
                                 size: 20,
                                 color: Colors.white,
                               ),
                               color: Colors.green,
-                              label: Text(
+                              label: const Text(
                                 '変更を保存',
                                 style: TextStyle(
                                     fontSize: 15,

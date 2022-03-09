@@ -1,18 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
-import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/class.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class listEffort extends StatelessWidget {
   String group;
-  var theme = ThemeInfo();
-  var isRelease = const bool.fromEnvironment('dart.vm.product');
+  ThemeInfo theme = ThemeInfo();
+  bool isRelease = const bool.fromEnvironment('dart.vm.product');
   DateTime now = DateTime.now();
 
   @override
@@ -33,7 +31,7 @@ class listEffort extends StatelessWidget {
                   size: 32,
                 ),
               ),
-              Text(
+              const Text(
                 'みんなの取り組み',
                 style: TextStyle(
                     fontSize: 25.0,
@@ -41,7 +39,7 @@ class listEffort extends StatelessWidget {
                     decoration: TextDecoration.none),
               ),
             ])),
-        Consumer<ListEffortModel>(builder: (context, model, child) {
+        Consumer<ListEffortModel>(builder: (BuildContext context, ListEffortModel model, Widget child) {
           model.getSnapshot();
           if (model.group != null) {
             return StreamBuilder<QuerySnapshot>(
@@ -123,14 +121,14 @@ class listEffort extends StatelessWidget {
                                                               right: 10),
                                                       child: Row(
                                                         children: <Widget>[
-                                                          Icon(
+                                                          const Icon(
                                                             Icons.person,
                                                             color: Colors.white,
                                                             size: 28,
                                                           ),
                                                           Padding(
                                                             padding:
-                                                                EdgeInsets.only(
+                                                                const EdgeInsets.only(
                                                                     left: 5,
                                                                     bottom: 3),
                                                             child: Text(
@@ -146,7 +144,7 @@ class listEffort extends StatelessWidget {
                                                               textAlign:
                                                                   TextAlign
                                                                       .center,
-                                                              style: TextStyle(
+                                                              style: const TextStyle(
                                                                   color: Colors
                                                                       .white,
                                                                   fontSize:
@@ -159,7 +157,7 @@ class listEffort extends StatelessWidget {
                                                                           .none),
                                                             ),
                                                           ),
-                                                          Spacer(),
+                                                          const Spacer(),
                                                           Text(
                                                             DateFormat('MM/dd')
                                                                 .format(documentSnapshot
@@ -183,7 +181,7 @@ class listEffort extends StatelessWidget {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      EdgeInsets.only(top: 5),
+                                                      const EdgeInsets.only(top: 5),
                                                   child: Align(
                                                     alignment:
                                                         Alignment.centerLeft,
@@ -238,17 +236,16 @@ class listEffort extends StatelessWidget {
                                                                         .white),
                                                               ),
                                                             )),
-                                                        Spacer(),
-                                                        model.position ==
-                                                                'leader'
-                                                            ? Semantics(
+                                                        const Spacer(),
+                                                        if (model.position ==
+                                                                'leader') Semantics(
                                                                 label:
                                                                     '投稿の削除を行います',
                                                                 child:
                                                                     IconButton(
                                                                   onPressed:
                                                                       () async {
-                                                                    final result =
+                                                                    final int result =
                                                                         await showModalBottomSheet<
                                                                             int>(
                                                                       context:
@@ -258,13 +255,13 @@ class listEffort extends StatelessWidget {
                                                                               context) {
                                                                         return Padding(
                                                                             padding:
-                                                                                EdgeInsets.only(top: 10, bottom: 10),
+                                                                                const EdgeInsets.only(top: 10, bottom: 10),
                                                                             child: Column(
                                                                               mainAxisSize: MainAxisSize.min,
                                                                               children: <Widget>[
                                                                                 ListTile(
-                                                                                  leading: Icon(Icons.delete),
-                                                                                  title: Text('投稿を削除する'),
+                                                                                  leading: const Icon(Icons.delete),
+                                                                                  title: const Text('投稿を削除する'),
                                                                                   onTap: () {
                                                                                     model.deleteEffort(documentID);
                                                                                     Navigator.pop(context);
@@ -275,15 +272,14 @@ class listEffort extends StatelessWidget {
                                                                       },
                                                                     );
                                                                   },
-                                                                  icon: Icon(
+                                                                  icon: const Icon(
                                                                     Icons
                                                                         .more_vert,
                                                                     color: Colors
                                                                         .white,
                                                                     size: 21,
                                                                   ),
-                                                                ))
-                                                            : Container()
+                                                                )) else Container()
                                                       ],
                                                     ))
                                               ],
@@ -298,12 +294,12 @@ class listEffort extends StatelessWidget {
                         );
                   } else {
                     return Padding(
-                      padding: EdgeInsets.only(top: 5, left: 10, right: 10),
+                      padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
                       child: Container(
                           child: InkWell(
                         onTap: () {},
                         child: Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -312,7 +308,7 @@ class listEffort extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.secondary,
                                   size: 35,
                                 ),
-                                Padding(
+                                const Padding(
                                     padding: EdgeInsets.only(left: 10),
                                     child: Material(
                                       type: MaterialType.transparency,

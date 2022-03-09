@@ -3162,9 +3162,7 @@ class TaskContents {
         content = content_gino[page][number];
         break;
     }
-    if (content == null) {
-      content = <String, dynamic>{'body': 'エラーが発生しました（内容がありません）'};
-    }
+    content ??= <String, dynamic>{'body': 'エラーが発生しました（内容がありません）'};
     return content;
   }
 

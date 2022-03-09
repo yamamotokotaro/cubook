@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/listAbsent/listAbsent_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListExaminationView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   String uid;
 
   ListExaminationView(String _uid) {
@@ -21,13 +20,13 @@ class ListExaminationView extends StatelessWidget {
     return SingleChildScrollView(
       child: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 600),
+          constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 10),
+                  padding: const EdgeInsets.only(top: 20, bottom: 10),
                   child: Consumer<ListAbsentModel>(
-                      builder: (context, model, child) {
+                      builder: (BuildContext context, ListAbsentModel model, Widget child) {
                         model.getGroup();
                         print(uid);
                         if(model.group != null) {
@@ -58,7 +57,7 @@ class ListExaminationView extends StatelessWidget {
                                           absence = '欠席';
                                         }
                                         return Padding(
-                                            padding: EdgeInsets.all(5),
+                                            padding: const EdgeInsets.all(5),
                                             child: Container(
                                               child: Card(
                                                 shape: RoundedRectangleBorder(
@@ -81,13 +80,13 @@ class ListExaminationView extends StatelessWidget {
                                                     children: <Widget>[
                                                       Container(
                                                           decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius
+                                                              borderRadius: const BorderRadius
                                                                   .only(
-                                                                  topLeft: const Radius
+                                                                  topLeft: Radius
                                                                       .circular(
                                                                       10),
                                                                   bottomLeft:
-                                                                  const Radius
+                                                                  Radius
                                                                       .circular(
                                                                       10)),
                                                               color: Colors
@@ -95,16 +94,16 @@ class ListExaminationView extends StatelessWidget {
                                                           height: 100,
                                                           child: ConstrainedBox(
                                                             constraints:
-                                                            BoxConstraints(
+                                                            const BoxConstraints(
                                                                 minWidth: 76),
                                                             child: Center(
                                                               child: Padding(
                                                                 padding:
-                                                                EdgeInsets.all(
+                                                                const EdgeInsets.all(
                                                                     20),
                                                                 child: Text(
                                                                   absence,
-                                                                  style: TextStyle(
+                                                                  style: const TextStyle(
                                                                       fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -118,13 +117,13 @@ class ListExaminationView extends StatelessWidget {
                                                       Expanded(
                                                           child: Padding(
                                                               padding:
-                                                              EdgeInsets.only(
+                                                              const EdgeInsets.only(
                                                                   left: 0),
                                                               child: Column(
                                                                 children: <
                                                                     Widget>[
                                                                   Padding(
-                                                                      padding: EdgeInsets
+                                                                      padding: const EdgeInsets
                                                                           .only(
                                                                           left:
                                                                           10,
@@ -139,14 +138,14 @@ class ListExaminationView extends StatelessWidget {
                                                                             textAlign:
                                                                             TextAlign
                                                                                 .left,
-                                                                            style: TextStyle(
+                                                                            style: const TextStyle(
                                                                                 fontWeight:
                                                                                 FontWeight
                                                                                     .bold,
                                                                                 fontSize: 23),
                                                                           ))),
                                                                   Padding(
-                                                                      padding: EdgeInsets
+                                                                      padding: const EdgeInsets
                                                                           .only(
                                                                           left:
                                                                           10,
@@ -167,7 +166,7 @@ class ListExaminationView extends StatelessWidget {
                                                                             textAlign:
                                                                             TextAlign
                                                                                 .left,
-                                                                            style: TextStyle(
+                                                                            style: const TextStyle(
                                                                                 fontWeight:
                                                                                 FontWeight
                                                                                     .bold,
@@ -183,13 +182,13 @@ class ListExaminationView extends StatelessWidget {
                                       });
                                 } else {
                                   return Padding(
-                                    padding: EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         top: 5, left: 10, right: 10),
                                     child: Container(
                                         child: InkWell(
                                           onTap: () {},
                                           child: Padding(
-                                            padding: EdgeInsets.all(10),
+                                            padding: const EdgeInsets.all(10),
                                             child: Row(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.center,
@@ -199,10 +198,10 @@ class ListExaminationView extends StatelessWidget {
                                                     color:
                                                     Theme
                                                         .of(context)
-                                                        .accentColor,
+                                                        .colorScheme.secondary,
                                                     size: 35,
                                                   ),
-                                                  Padding(
+                                                  const Padding(
                                                       padding:
                                                       EdgeInsets.only(left: 10),
                                                       child: Material(

@@ -236,9 +236,6 @@ class ThemeInfo {
       case 'gino':
         color = colors_indicator[15];
         break;
-      case 'gino':
-        color = colors_indicator[16];
-        break;
     }
     return color;
   }

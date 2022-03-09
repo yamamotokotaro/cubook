@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,7 @@ class DetailActivityModel extends ChangeNotifier {
   TextEditingController titleController = TextEditingController();
   bool isLoading = false;
   Map<String, bool> uid_check = <String, bool>{};
-  Map<String, dynamic> claims = Map<String, dynamic>();
+  Map<String, dynamic> claims = <String, dynamic>{};
   String group_claim;
 
   void getGroup() async {
@@ -25,7 +24,7 @@ class DetailActivityModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       final DocumentSnapshot documentSnapshot = snapshot.docs[0];
       group = documentSnapshot.get('group');
       position = documentSnapshot.get('position');
@@ -49,7 +48,7 @@ class DetailActivityModel extends ChangeNotifier {
         .where('group', isEqualTo: group)
         .where('activity', isEqualTo: documentID)
         .get()
-        .then((value) {
+        .then((QuerySnapshot<Map<String, dynamic>> value) {
       for (int i = 0; i < value.docs.length; i++) {
         final DocumentSnapshot documentSnapshot = value.docs[i];
         FirebaseFirestore.instance

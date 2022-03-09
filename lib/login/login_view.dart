@@ -1,14 +1,11 @@
 import 'dart:io';
 
 import 'package:cubook/home/home_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_auth_ui/flutter_auth_ui.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class LoginView extends StatelessWidget {
   @override
@@ -20,7 +17,7 @@ class LoginView extends StatelessWidget {
                 height: 250,
                 child: Column(
                   children: <Widget>[
-                    Center(
+                    const Center(
                       child: Padding(
                         padding: EdgeInsets.only(top: 0),
                         child: Text(
@@ -34,7 +31,7 @@ class LoginView extends StatelessWidget {
                     ),
                     Semantics(
                         label: 'カブック',
-                        child: Center(
+                        child: const Center(
                           child: Padding(
                             padding: EdgeInsets.only(top: 5),
                             child: Text(
@@ -47,10 +44,10 @@ class LoginView extends StatelessWidget {
                           ),
                         )),
                     Padding(
-                      padding: EdgeInsets.only(top: 30),
+                      padding: const EdgeInsets.only(top: 30),
                       child: Container(
                         child: Consumer<HomeModel>(
-                            builder: (context, model, child) {
+                            builder: (BuildContext context, HomeModel model, Widget child) {
                           return RaisedButton(
                             color: Colors.blue[900],
                             onPressed: () async {
@@ -75,20 +72,20 @@ class LoginView extends StatelessWidget {
                                 ];
                               }
 
-                              final result = await FlutterAuthUi.startUi(
+                              final bool result = await FlutterAuthUi.startUi(
                                 items: providers,
                                 tosAndPrivacyPolicy: TosAndPrivacyPolicy(
                                   tosUrl:
-                                      "https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md",
+                                      'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md',
                                   privacyPolicyUrl:
                                       'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md',
                                 ),
-                                androidOption: AndroidOption(
+                                androidOption: const AndroidOption(
                                   enableSmartLock: true, // default true
                                   showLogo: false, // default false
                                   overrideTheme: true, // default false
                                 ),
-                                emailAuthOption: EmailAuthOption(
+                                emailAuthOption: const EmailAuthOption(
                                   requireDisplayName: true,
                                   // default true
                                   enableMailLink: false,
@@ -119,7 +116,7 @@ class LoginView extends StatelessWidget {
                                       .catchError((dynamic error) =>
                                       print('Error $error'));*/
                             },
-                            child: Padding(
+                            child: const Padding(
                                 padding: EdgeInsets.all(5),
                                 child: Text(
                                   'ログインしてはじめる',

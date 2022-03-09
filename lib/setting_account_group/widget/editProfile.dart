@@ -1,6 +1,5 @@
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -8,61 +7,60 @@ import 'package:provider/provider.dart';
 import '../settingAccount_model.dart';
 
 class EditProfile extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('プロフィールの編集'),
-          brightness: Brightness.dark,
+          title: const Text('プロフィールの編集'), systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: SafeArea(
             child: SingleChildScrollView(
                 child: Center(
                     child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 600),
+                        constraints: const BoxConstraints(maxWidth: 600),
                         child: Consumer<SettingAccountGroupModel>(
-                            builder: (context, model, child) {
+                            builder: (BuildContext context, SettingAccountGroupModel model, Widget child) {
                           return Column(
                             children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 child: TextField(
                                   controller: model.familyController,
                                   enabled: true,
-                                  decoration: InputDecoration(labelText: '姓'),
-                                  onChanged: (text) {
+                                  decoration: const InputDecoration(labelText: '姓'),
+                                  onChanged: (String text) {
                                     //model.joinCode = text;
                                   },
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 child: TextField(
                                   controller: model.firstController,
                                   enabled: true,
-                                  decoration: InputDecoration(labelText: '名'),
-                                  onChanged: (text) {
+                                  decoration: const InputDecoration(labelText: '名'),
+                                  onChanged: (String text) {
                                     //model.joinCode = text;
                                   },
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 child: TextField(
                                   maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.teamController,
                                   enabled: true,
                                   // 入力数
                                   maxLines: null,
                                   decoration:
-                                      InputDecoration(labelText: '組・班（オプション）'),
-                                  onChanged: (text) {},
+                                      const InputDecoration(labelText: '組・班（オプション）'),
+                                  onChanged: (String text) {},
                                 ),
                               ),
                               Padding(
-                                  padding: EdgeInsets.only(top: 10, left: 10),
+                                  padding: const EdgeInsets.only(top: 10, left: 10),
                                   child: Container(
                                       width: double.infinity,
                                       child: Text(
@@ -73,10 +71,10 @@ class EditProfile extends StatelessWidget {
                                         textAlign: TextAlign.left,
                                       ))),
                               Padding(
-                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  padding: const EdgeInsets.only(left: 10, right: 10),
                                   child: DropdownButton<String>(
                                     isExpanded: true,
-                                    hint: Text('役割を選択'),
+                                    hint: const Text('役割を選択'),
                                     value: model.dropdown_text,
                                     items: <String>[
                                       'りす',
@@ -96,7 +94,7 @@ class EditProfile extends StatelessWidget {
                                         child: Text(value),
                                       );
                                     }).toList(),
-                                    onChanged: (value) {
+                                    onChanged: (String value) {
                                       model.onDropdownChanged(value);
                                     },
                                   )),
@@ -108,7 +106,7 @@ class EditProfile extends StatelessWidget {
                                           '菊スカウト（隼を目指すスカウト）' ||
                                       model.dropdown_text == '隼スカウト' ||
                                       model.dropdown_text == '富士スカウト') Padding(
-                                      padding: EdgeInsets.only(top: 10),
+                                      padding: const EdgeInsets.only(top: 10),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -119,12 +117,12 @@ class EditProfile extends StatelessWidget {
                                                 .onCheckboxTeamLeaderChanged,
                                             activeColor: Colors.blue[600],
                                           ),
-                                          Text('班長')
+                                          const Text('班長')
                                         ],
                                       ),
                                     ) else Container(),
                               Padding(
-                                  padding: EdgeInsets.only(top: 10, left: 10),
+                                  padding: const EdgeInsets.only(top: 10, left: 10),
                                   child: Container(
                                       width: double.infinity,
                                       child: Text(
@@ -135,10 +133,10 @@ class EditProfile extends StatelessWidget {
                                         textAlign: TextAlign.left,
                                       ))),
                               Padding(
-                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  padding: const EdgeInsets.only(left: 10, right: 10),
                                   child: DropdownButton<String>(
                                     isExpanded: true,
-                                    hint: Text('呼称'),
+                                    hint: const Text('呼称'),
                                     value: model.call,
                                     items: <String>['くん', 'さん']
                                         .map((String value) {
@@ -147,12 +145,12 @@ class EditProfile extends StatelessWidget {
                                         child: Text(value),
                                       );
                                     }).toList(),
-                                    onChanged: (value) {
+                                    onChanged: (String value) {
                                       model.onDropdownCallChanged(value);
                                     },
                                   )),
                               Padding(
-                                  padding: EdgeInsets.only(top: 10),
+                                  padding: const EdgeInsets.only(top: 10),
                                   child: !model.isLoading
                                       ? ElevatedButton.icon(
                                           style: ElevatedButton.styleFrom(
@@ -161,12 +159,12 @@ class EditProfile extends StatelessWidget {
                                           onPressed: () {
                                             model.changeRequest(context);
                                           },
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.save,
                                             size: 20,
                                             color: Colors.white,
                                           ),
-                                          label: Text(
+                                          label: const Text(
                                             '変更を保存',
                                             style: TextStyle(
                                                 fontSize: 15,
@@ -174,7 +172,7 @@ class EditProfile extends StatelessWidget {
                                                 color: Colors.white),
                                           ),
                                         )
-                                      : Center(
+                                      : const Center(
                                           child: Padding(
                                               padding: EdgeInsets.all(5),
                                               child:

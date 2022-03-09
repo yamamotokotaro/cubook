@@ -5,8 +5,8 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_model.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
@@ -33,8 +33,8 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class TaskDetailAnalyticsMemberView extends StatelessWidget {
-  var theme = ThemeInfo();
-  var task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  TaskContents task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
@@ -64,17 +64,16 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                 ' (' +
                 (number + 1).toString() +
                 ')'),
-        backgroundColor: themeColor,
-        brightness: Brightness.dark,
+        backgroundColor: themeColor, systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: /*SingleChildScrollView(
           child: */
             Center(
           child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 600),
+              constraints: const BoxConstraints(maxWidth: 600),
               child: Consumer<TaskDetailAnalyticsMemberModel>(
-                  builder: (context, model, child) {
+                  builder: (BuildContext context, TaskDetailAnalyticsMemberModel model, Widget child) {
                 model.getGroup();
                 if (model.group != null) {
                   return StreamBuilder<QuerySnapshot>(
@@ -86,7 +85,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                           int userCount = 0;
                           final List<DocumentSnapshot> listSnapshot =
                               snapshot.data.docs;
-                          final List<String> listUid = List<String>();
+                          final List<String> listUid = <String>[];
                           final List<String> listUidToShow = <String>[];
                           if (type == 'challenge' || type == 'gino') {
                             userCount = listSnapshot.length;
@@ -120,7 +119,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                     snapshotTask.data.docs;
                                 for (DocumentSnapshot documentSnapshot
                                     in listDocumentSnapshot) {
-                                  Map<String, dynamic> documentData = documentSnapshot.data() as Map<String, dynamic>;
+                                  final Map<String, dynamic> documentData = documentSnapshot.data() as Map<String, dynamic>;
                                   if (phase == 'end') {
                                     if (documentData['end'] !=
                                             null &&
@@ -171,9 +170,9 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                               TabBar(
                                                 indicatorColor:
                                                     Theme.of(context)
-                                                        .accentColor,
+                                                        .colorScheme.secondary,
                                                 labelColor: Theme.of(context)
-                                                    .accentColor,
+                                                    .colorScheme.secondary,
                                                 isScrollable: false,
                                                 tabs: <Widget>[
                                                   Tab(text: tabs[0]),
@@ -223,9 +222,8 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                 }
                                                 return Column(
                                                     children: <Widget>[
-                                                      isFirst && team != ''
-                                                          ? Padding(
-                                                              padding: EdgeInsets
+                                                      if (isFirst && team != '') Padding(
+                                                              padding: const EdgeInsets
                                                                   .only(
                                                                       top: 10,
                                                                       bottom:
@@ -238,7 +236,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                     team +
                                                                         teamCall,
                                                                     style:
-                                                                        TextStyle(
+                                                                        const TextStyle(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold,
@@ -248,11 +246,10 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                     textAlign:
                                                                         TextAlign
                                                                             .left,
-                                                                  )))
-                                                          : Container(),
+                                                                  ))) else Container(),
                                                       Padding(
                                                           padding:
-                                                              EdgeInsets.all(5),
+                                                              const EdgeInsets.all(5),
                                                           child: Container(
                                                             child: Card(
                                                               shape:
@@ -287,7 +284,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                 },
                                                                 child: Padding(
                                                                   padding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .all(
                                                                               10),
                                                                   child: Row(
@@ -303,7 +300,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                                 theme.getUserColor(snapshot.get('age')),
                                                                             shape: BoxShape.circle),
                                                                         child:
-                                                                            Icon(
+                                                                            const Icon(
                                                                           Icons
                                                                               .person,
                                                                           color:
@@ -311,16 +308,16 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                         ),
                                                                       ),
                                                                       Padding(
-                                                                          padding: EdgeInsets.only(
+                                                                          padding: const EdgeInsets.only(
                                                                               left:
                                                                                   10),
                                                                           child:
                                                                               Text(
                                                                             snapshot.get('name'),
                                                                             style:
-                                                                                TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                                                                                const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                           )),
-                                                                      Spacer(),
+                                                                      const Spacer(),
                                                                     ],
                                                                   ),
                                                                 ),
@@ -370,9 +367,8 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                 }
                                                 return Column(
                                                     children: <Widget>[
-                                                      isFirst && team != ''
-                                                          ? Padding(
-                                                              padding: EdgeInsets
+                                                      if (isFirst && team != '') Padding(
+                                                              padding: const EdgeInsets
                                                                   .only(
                                                                       top: 10,
                                                                       bottom:
@@ -385,7 +381,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                     team +
                                                                         teamCall,
                                                                     style:
-                                                                        TextStyle(
+                                                                        const TextStyle(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold,
@@ -395,11 +391,10 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                     textAlign:
                                                                         TextAlign
                                                                             .left,
-                                                                  )))
-                                                          : Container(),
+                                                                  ))) else Container(),
                                                       Padding(
                                                           padding:
-                                                              EdgeInsets.all(5),
+                                                              const EdgeInsets.all(5),
                                                           child: Container(
                                                             child: Card(
                                                               shape:
@@ -434,7 +429,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                 },
                                                                 child: Padding(
                                                                   padding:
-                                                                      EdgeInsets
+                                                                      const EdgeInsets
                                                                           .all(
                                                                               10),
                                                                   child: Row(
@@ -450,7 +445,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                                 theme.getUserColor(snapshot.get('age')),
                                                                             shape: BoxShape.circle),
                                                                         child:
-                                                                            Icon(
+                                                                            const Icon(
                                                                           Icons
                                                                               .person,
                                                                           color:
@@ -458,16 +453,16 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                         ),
                                                                       ),
                                                                       Padding(
-                                                                          padding: EdgeInsets.only(
+                                                                          padding: const EdgeInsets.only(
                                                                               left:
                                                                                   10),
                                                                           child:
                                                                               Text(
                                                                             snapshot.get('name'),
                                                                             style:
-                                                                                TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                                                                                const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                           )),
-                                                                      Spacer(),
+                                                                      const Spacer(),
                                                                     ],
                                                                   ),
                                                                 ),

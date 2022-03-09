@@ -8,13 +8,12 @@ import 'package:cubook/notification/notification_view.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
 import 'package:cubook/task_list_scout/taskListScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScoutView extends StatelessWidget {
-  var task = TaskContents();
-  var theme = ThemeInfo();
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
   // Future<PermissionStatus> permissionStatus =
   // NotificationPermissions.getNotificationPermissionStatus();
 
@@ -24,8 +23,8 @@ class HomeScoutView extends StatelessWidget {
       children: <Widget>[
 
         Selector<HomeModel, DocumentSnapshot>(
-          selector: (context, model) => model.userSnapshot,
-          builder: (context, userSnapshot, child) {
+          selector: (BuildContext context, HomeModel model) => model.userSnapshot,
+          builder: (BuildContext context, DocumentSnapshot<Object> userSnapshot, Widget child) {
             DateTime timeChecked;
             Map<String, dynamic> userData;
             userData = userSnapshot.data() as Map<String, dynamic>;
@@ -49,7 +48,7 @@ class HomeScoutView extends StatelessWidget {
                   if (snapshot.hasData) {
                     final int snapshotLength = snapshot.data.docs.length;
                     return Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           top: 5, left: 10, right: 10, bottom: 5),
                       child: Container(
                           child: Card(
@@ -65,7 +64,7 @@ class HomeScoutView extends StatelessWidget {
                                         }));
                               },
                               child: Padding(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -75,7 +74,7 @@ class HomeScoutView extends StatelessWidget {
                                         size: 35,
                                       ),
                                       Padding(
-                                          padding: EdgeInsets.only(left: 10),
+                                          padding: const EdgeInsets.only(left: 10),
                                           child: Material(
                                             type: MaterialType.transparency,
                                             child: Text(
@@ -84,7 +83,7 @@ class HomeScoutView extends StatelessWidget {
                                                   snapshotLength.toString() +
                                                   '件'
                                                   : 'お知らせ',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 30,
                                               ),
@@ -96,7 +95,7 @@ class HomeScoutView extends StatelessWidget {
                           )),
                     );
                   } else {
-                    return Center(
+                    return const Center(
                       child: Padding(
                           padding: EdgeInsets.all(5),
                           child: CircularProgressIndicator()),
@@ -106,7 +105,7 @@ class HomeScoutView extends StatelessWidget {
           },
         ),
         Padding(
-          padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
+          padding: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
           child: Container(
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -120,7 +119,7 @@ class HomeScoutView extends StatelessWidget {
                     Navigator.of(context).pushNamed('/listAbsentScout');
                   },
                   child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -129,7 +128,7 @@ class HomeScoutView extends StatelessWidget {
                             color: Theme.of(context).colorScheme.secondary,
                             size: 35,
                           ),
-                          Padding(
+                          const Padding(
                               padding: EdgeInsets.only(left: 10),
                               child: Material(
                                 type: MaterialType.transparency,
@@ -151,14 +150,14 @@ class HomeScoutView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(right: 5, top: 4),
+                    padding: const EdgeInsets.only(right: 5, top: 4),
                     child: Icon(
                       Icons.book,
                       color: Theme.of(context).colorScheme.secondary,
                       size: 32,
                     ),
                   ),
-                  Text(
+                  const Text(
                     'やってみよう！',
                     style: TextStyle(
                         fontSize: 25.0,
@@ -167,8 +166,8 @@ class HomeScoutView extends StatelessWidget {
                   ),
                 ])),
 
-        Consumer<HomeModel>(builder: (context, model, child) {
-          final List<String> type = List<String>();
+        Consumer<HomeModel>(builder: (BuildContext context, HomeModel model, Widget child) {
+          final List<String> type = <String>[];
           final String age = model.age;
           final String grade = model.grade;
           type.add(age);
@@ -183,14 +182,14 @@ class HomeScoutView extends StatelessWidget {
             type.add('tukinowa');
           }
           return Padding(
-              padding: EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 20),
               child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: type.length,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: Card(
                           color: theme.getThemeColor(type[index]),
                           shape: RoundedRectangleBorder(
@@ -221,17 +220,17 @@ class HomeScoutView extends StatelessWidget {
                               child: Row(
                                 children: <Widget>[
                                   Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           top: 15,
                                           bottom: 15,
                                           left: 12,
                                           right: 10),
                                       child: Selector<HomeModel,
                                           DocumentSnapshot>(
-                                          selector: (context, model) =>
+                                          selector: (BuildContext context, HomeModel model) =>
                                           model.userSnapshot,
-                                          builder: (context, snapshot, child) {
-                                            final stepData = snapshot.data() as Map<String, dynamic>;
+                                          builder: (BuildContext context, DocumentSnapshot<Object> snapshot, Widget child) {
+                                            final Map<String, dynamic> stepData = snapshot.data() as Map<String, dynamic>;
                                           return snapshot !=
                                               null
                                               ? stepData[type[index]] !=
@@ -240,7 +239,7 @@ class HomeScoutView extends StatelessWidget {
                                               backgroundColor: theme
                                                   .getIndicatorColor(
                                                   type[index]),
-                                              valueColor: AlwaysStoppedAnimation<
+                                              valueColor: const AlwaysStoppedAnimation<
                                                   Color>(
                                                   Colors.white),
                                               value: snapshot
@@ -253,7 +252,7 @@ class HomeScoutView extends StatelessWidget {
                                               backgroundColor: theme
                                                   .getIndicatorColor(
                                                   type[index]),
-                                              valueColor: AlwaysStoppedAnimation<
+                                              valueColor: const AlwaysStoppedAnimation<
                                                   Color>(Colors.white),
                                               value: 0)
                                               : CircularProgressIndicator(
@@ -261,24 +260,24 @@ class HomeScoutView extends StatelessWidget {
                                             theme.getIndicatorColor(
                                                 type[index]),
                                             valueColor:
-                                            AlwaysStoppedAnimation<
+                                            const AlwaysStoppedAnimation<
                                                 Color>(Colors.white),
                                           );})),
                                   Padding(
-                                      padding: EdgeInsets.only(left: 10),
+                                      padding: const EdgeInsets.only(left: 10),
                                       child: Column(
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   top: 10, bottom: 10),
                                               child: Align(
                                                   alignment:
                                                   Alignment.centerLeft,
                                                   child: Text(
                                                     theme.getTitle(type[index]),
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 23,
                                                         color: Colors.white),
                                                   ))),

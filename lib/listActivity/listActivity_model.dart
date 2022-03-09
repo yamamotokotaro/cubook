@@ -13,12 +13,12 @@ class ListActivityModel extends ChangeNotifier{
   void getGroup() async {
     final String groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser;
-      FirebaseFirestore.instance.collection('user').where('uid', isEqualTo: user.uid).get().then((snapshot) {
+      FirebaseFirestore.instance.collection('user').where('uid', isEqualTo: user.uid).get().then((QuerySnapshot<Map<String, dynamic>> snapshot) {
         group = snapshot.docs[0].get('group');
         if(group != groupBefore) {
           notifyListeners();
         }
-        user.getIdTokenResult(true).then((value) {
+        user.getIdTokenResult(true).then((IdTokenResult value) {
           final String groupClaimBefore = group_claim;
           group_claim = value.claims['group'];
           if(groupClaimBefore != group_claim) {
