@@ -10,7 +10,8 @@ class HomeLeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      Consumer<HomeLeaderModel>(builder: (BuildContext context, HomeLeaderModel model, Widget? child) {
+      Consumer<HomeLeaderModel>(builder:
+          (BuildContext context, HomeLeaderModel model, Widget? child) {
         model.getSnapshot(context);
         if (model.group != null) {
           return StreamBuilder<QuerySnapshot>(
@@ -78,8 +79,7 @@ class HomeLeaderView extends StatelessWidget {
         } else {
           return const Center(
             child: Padding(
-                padding: EdgeInsets.all(5),
-                child: CircularProgressIndicator()),
+                padding: EdgeInsets.all(5), child: CircularProgressIndicator()),
           );
         }
       }),
@@ -123,12 +123,13 @@ class HomeLeaderView extends StatelessWidget {
         )),
       ),
       Selector<HomeLeaderModel, String?>(
-          selector: (BuildContext context, HomeLeaderModel model) => model.teamPosition,
+          selector: (BuildContext context, HomeLeaderModel model) =>
+              model.teamPosition,
           builder: (BuildContext context, String? teamPosition, Widget? child) {
             if (teamPosition == null) {
               return Padding(
-                padding:
-                    const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
+                padding: const EdgeInsets.only(
+                    top: 5, left: 10, right: 10, bottom: 5),
                 child: Container(
                     child: Card(
                   shape: RoundedRectangleBorder(
@@ -172,12 +173,15 @@ class HomeLeaderView extends StatelessWidget {
             }
           }),
       Selector<HomeLeaderModel, String?>(
-          selector: (BuildContext context, HomeLeaderModel model) => model.teamPosition,
+          selector: (BuildContext context, HomeLeaderModel model) =>
+              model.teamPosition,
           builder: (BuildContext context, String? teamPosition, Widget? child) {
             return Padding(
               padding: teamPosition != null
-                  ? const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5)
-                  : const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 20),
+                  ? const EdgeInsets.only(
+                      top: 5, left: 10, right: 10, bottom: 5)
+                  : const EdgeInsets.only(
+                      top: 5, left: 10, right: 10, bottom: 20),
               child: Container(
                   child: Card(
                 shape: RoundedRectangleBorder(
@@ -229,5 +233,50 @@ class HomeLeaderView extends StatelessWidget {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  Widget _buttonItem(
+      IconData iconData, String title, String name, BuildContext context) {
+    return Expanded(
+        child: Padding(
+      padding: const EdgeInsets.all(0),
+      child: Container(
+          child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: InkWell(
+          customBorder: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          onTap: () async {
+            // final Future<PermissionStatus> permissionStatus = NotificationPermissions.requestNotificationPermissions();
+            Navigator.of(context).pushNamed(name);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    iconData,
+                    color: Theme.of(context).colorScheme.secondary,
+                    size: 35,
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 23),
+                        ),
+                      )),
+                ]),
+          ),
+        ),
+      )),
+    ));
   }
 }

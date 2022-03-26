@@ -54,6 +54,7 @@ import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -93,7 +94,7 @@ class _MyAppState extends State<MyApp> {
   final MaterialColor boyColor = Colors.orange;
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer =
-  FirebaseAnalyticsObserver(analytics: analytics);
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   void initState() {
@@ -107,39 +108,65 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (BuildContext context) => HomeModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => ListEffortModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => HomeLeaderModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => TaskListScoutModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => ListTaskWaitingModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => DetailTaskWaitingModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => UserDetailModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => SignupModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => InviteModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => ListMemberModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => ListEffortModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => HomeLeaderModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => TaskListScoutModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => ListTaskWaitingModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => DetailTaskWaitingModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => UserDetailModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => SignupModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => InviteModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => ListMemberModel()),
           ChangeNotifierProvider(
               create: (BuildContext context) => TaskListScoutConfirmModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => AddLumpSelectItemModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => AddLumpSelectItemModel()),
           ChangeNotifierProvider(
               create: (BuildContext context) => SettingAccountGroupModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => SettingAccountModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => NotificationModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => ListActivityModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => CreateActivityModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => DetailActivityModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => EditActivityModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => ListAbsentModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => ListAbsentScoutModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => AnalyticsModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => TaskListAnalyticsModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => SettingAccountModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => SettingAccountModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => NotificationModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => ListActivityModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => CreateActivityModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => DetailActivityModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => EditActivityModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => ListAbsentModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => ListAbsentScoutModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => AnalyticsModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => TaskListAnalyticsModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => SettingAccountModel()),
           ChangeNotifierProvider(
               create: (BuildContext context) => TaskDetailAnalyticsModel()),
           ChangeNotifierProvider(
-              create: (BuildContext context) => TaskDetailAnalyticsMemberModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => CommunityModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => SettingGroupModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => ListMigrationWaitingModel()),
-          ChangeNotifierProvider(create: (BuildContext context) => DetailMigrationWaitingModel()),
+              create: (BuildContext context) =>
+                  TaskDetailAnalyticsMemberModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => CommunityModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => SettingGroupModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => ListMigrationWaitingModel()),
+          ChangeNotifierProvider(
+              create: (BuildContext context) => DetailMigrationWaitingModel()),
           ChangeNotifierProvider(
               create: (BuildContext context) => ListCitationAnalyticsModel()),
         ],
@@ -150,10 +177,13 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
               fontFamily: 'NotoSansJP',
-              colorScheme: ColorScheme.fromSwatch().copyWith(primary: Colors.blue[900], secondary: Colors.blue[900])),
+              colorScheme: ColorScheme.fromSwatch().copyWith(
+                  primary: Colors.blue[900], secondary: Colors.blue[900])),
           darkTheme: ThemeData(
             fontFamily: 'NotoSansJP',
-            primaryColor: Colors.blue[900], colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
+            brightness: Brightness.dark,
+            primaryColor: Colors.blue[900],
+            accentColor: Colors.white,
           ),
           routes: <String, WidgetBuilder>{
             '/listTaskWaiting': (BuildContext context) => ListTaskWaitingView(),
@@ -179,12 +209,17 @@ class _MyAppState extends State<MyApp> {
             '/commentView': (BuildContext context) => CommentView(),
             '/settingView': (BuildContext context) => SettingAccountView(),
             '/settingGroupView': (BuildContext context) => SettingGroupView(),
-            '/changeMailAddressView': (BuildContext context) => ChangeMailAddressView(),
-            '/changePasswordView': (BuildContext context) => ChangePasswordView(),
+            '/changeMailAddressView': (BuildContext context) =>
+                ChangeMailAddressView(),
+            '/changePasswordView': (BuildContext context) =>
+                ChangePasswordView(),
             '/editProfile': (BuildContext context) => EditProfile(),
-            '/deleteGroupAccount': (BuildContext context) => DeleteGroupAccount(),
-            '/accountMigration': (BuildContext context) => AccountMigrationView(),
-            '/listMigrationWaiting': (BuildContext context) => ListMigrationWaitingView(),
+            '/deleteGroupAccount': (BuildContext context) =>
+                DeleteGroupAccount(),
+            '/accountMigration': (BuildContext context) =>
+                AccountMigrationView(),
+            '/listMigrationWaiting': (BuildContext context) =>
+                ListMigrationWaitingView(),
           },
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,

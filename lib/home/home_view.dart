@@ -127,6 +127,11 @@ class HomeView extends StatelessWidget {
                                             onTap: () => launchURL(),
                                           ),
                                           ListTile(
+                                            leading: const Icon(Icons.message),
+                                            title: const Text('LINE 相談室'),
+                                            onTap: () => launch('https://line.me/ti/g2/jVMqoNTHAJ6Gy_2uIlTf58ak7omrt1iILlHPVA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default'),
+                                          ),
+                                          ListTile(
                                             leading: const Icon(Icons.list),
                                             title: const Text('ライセンスを表示'),
                                             onTap: () => kIsWeb
@@ -179,11 +184,10 @@ class HomeView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 12, right: 15),
                 child: Text(
                   name!,
-                  style: GoogleFonts.notoSans(
-                      textStyle: const TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
-                  )),
+                  ),
                 ),
               ),
             ),
@@ -195,11 +199,10 @@ class HomeView extends StatelessWidget {
             padding: const EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
             child: Text(
               name! + '、' + greet,
-              style: GoogleFonts.notoSans(
-                  textStyle: const TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
-              )),
+              ),
             ),
           ),
         ),

@@ -48,8 +48,7 @@ class LoginView extends StatelessWidget {
                       child: Container(
                         child: Consumer<HomeModel>(
                             builder: (BuildContext context, HomeModel model, Widget? child) {
-                          return RaisedButton(
-                            color: Colors.blue[900],
+                          return ElevatedButton(
                             onPressed: () async {
                               dynamic providers;
                               if(!kIsWeb) {
