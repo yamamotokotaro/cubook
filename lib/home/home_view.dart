@@ -4,7 +4,6 @@ import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
