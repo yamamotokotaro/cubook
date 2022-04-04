@@ -212,7 +212,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
             textSend(i, MapDatas[i].text, number);
           } else if (MapDatas[i] is String) {
             textSend(i, MapDatas[i], number);
-          } else if (MapDatas[i] is PickedFile) {
+          } else if (MapDatas[i] is XFile) {
             await fileSend(i, MapDatas[i], number);
           }
         }
@@ -226,7 +226,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     firestoreController(data, number, index);
   }
 
-  Future<dynamic> fileSend(int index, PickedFile? file, int number) async {
+  Future<dynamic> fileSend(int index, PickedFile file, int number) async {
     final int timestamp = DateTime
         .now()
         .millisecondsSinceEpoch;
@@ -238,9 +238,9 @@ class TaskDetailScoutModel extends ChangeNotifier {
         .child('$timestamp');
     UploadTask uploadTask;
     if (kIsWeb) {
-      uploadTask = ref.putData(await file!.readAsBytes());
+      uploadTask = ref.putData(await file.readAsBytes());
     } else {
-      uploadTask = ref.putFile(File(file!.path));
+      uploadTask = ref.putFile(File(file.path));
     }
     final dynamic snapshot = await Future.value(uploadTask);
     final String? path = await snapshot.ref.fullPath;
@@ -349,25 +349,25 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   void onImagePressPick(int number, int index) async {
-    final PickedFile image = await (ImagePicker()
-        .getImage(source: ImageSource.gallery, imageQuality: 50) as FutureOr<PickedFile>);
+    final XFile? image = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 50);
     map_attach[number][index] = image;
-    map_show[number][index] = await image.readAsBytes();
+    map_show[number][index] = await image?.readAsBytes();
     notifyListeners();
   }
 
   void onImagePressCamera(int number, int index) async {
-    final PickedFile image = await (ImagePicker()
-        .getImage(source: ImageSource.camera, imageQuality: 50) as FutureOr<PickedFile>);
+    final XFile? image = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 50);
     map_attach[number][index] = image;
-    map_show[number][index] = await image.readAsBytes();
+    map_show[number][index] = await image!.readAsBytes();
     notifyListeners();
   }
 
   void onVideoPressPick(int number, int index) async {
-    final PickedFile image = await (ImagePicker().getVideo(source: ImageSource.gallery) as FutureOr<PickedFile>);
+    final XFile? image = await ImagePicker().pickVideo(source: ImageSource.gallery);
     map_attach[number][index] = image;
-    final VideoPlayerController videoPlayerController = VideoPlayerController.file(File(image.path));
+    final VideoPlayerController videoPlayerController = VideoPlayerController.file(File(image!.path));
     await videoPlayerController.initialize();
     map_show[number][index] = ChewieController(
         videoPlayerController: videoPlayerController,
@@ -380,11 +380,9 @@ class TaskDetailScoutModel extends ChangeNotifier {
   }
 
   void onVideoPressCamera(int number, int index) async {
-    final PickedFile image = await (ImagePicker().getVideo(
-      source: ImageSource.camera,
-    ) as FutureOr<PickedFile>);
+    final XFile? image = await ImagePicker().pickVideo(source: ImageSource.camera);
     map_attach[number][index] = image;
-    final VideoPlayerController videoPlayerController = VideoPlayerController.file(File(image.path));
+    final VideoPlayerController videoPlayerController = VideoPlayerController.file(File(image!.path));
     await videoPlayerController.initialize();
     map_show[number][index] = ChewieController(
         videoPlayerController: videoPlayerController,

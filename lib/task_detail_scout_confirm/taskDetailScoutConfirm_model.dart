@@ -52,8 +52,8 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   String? type;
   String? uid;
 
-  TaskDetailScoutConfirmModel(int? number, int? quant, String? _type, String? _uid,
-      PageController _controller) {
+  TaskDetailScoutConfirmModel(int? number, int? quant, String? _type,
+      String? _uid, PageController _controller) {
     page = number;
     this.quant = quant;
     type = _type;
@@ -66,8 +66,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
 
     list_snapshot = List<bool>.generate(page!, (int index) => false);
 
-    list_attach =
-        List<dynamic>.generate(quant!, (int index) => <dynamic>[]);
+    list_attach = List<dynamic>.generate(quant!, (int index) => <dynamic>[]);
 
     map_attach =
         List<dynamic>.generate(quant!, (int index) => <int, dynamic>{});
@@ -76,15 +75,14 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
 
     isLoading = List<dynamic>.generate(quant!, (int index) => false);
     dateSelected = List<dynamic>.generate(quant!, (int index) => null);
-    dataList =
-        List<dynamic>.generate(quant!, (int index) => <dynamic>[]);
+    dataList = List<dynamic>.generate(quant!, (int index) => <dynamic>[]);
     textField_signature =
         List<TextEditingController?>.generate(quant!, (int index) => null);
     textField_feedback =
         List<TextEditingController?>.generate(quant!, (int index) => null);
 
-    list_toSend = List<dynamic>.generate(
-        quant!, (int index) => <Map<String, dynamic>>[]);
+    list_toSend =
+        List<dynamic>.generate(quant!, (int index) => <Map<String, dynamic>>[]);
 
     count_toSend = List<dynamic>.generate(quant!, (int index) => 0);
 
@@ -138,13 +136,14 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
                         final VideoPlayerController videoPlayerController =
                             VideoPlayerController.network(url);
                         await videoPlayerController.initialize();
-                        final ChewieController chewieController = ChewieController(
-                            videoPlayerController: videoPlayerController,
-                            aspectRatio:
-                                videoPlayerController.value.aspectRatio,
-                            autoPlay: false,
-                            allowPlaybackSpeedChanging: false,
-                            looping: false);
+                        final ChewieController chewieController =
+                            ChewieController(
+                                videoPlayerController: videoPlayerController,
+                                aspectRatio:
+                                    videoPlayerController.value.aspectRatio,
+                                autoPlay: false,
+                                allowPlaybackSpeedChanging: false,
+                                looping: false);
                         body.add(chewieController);
                       }
                       dataList[i] = body;
@@ -171,7 +170,8 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     });
   }
 
-  void openTimePicker(DateTime dateTime, BuildContext context, int? page) async {
+  void openTimePicker(
+      DateTime dateTime, BuildContext context, int? page) async {
     final DateTime? date = await showDatePicker(
       context: context,
       firstDate: DateTime(DateTime.now().year - 5),
@@ -335,32 +335,34 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   }
 
   void onImagePressPick(int? number, int? index) async {
-    final PickedFile? file = await ImagePicker()
-        .getImage(source: ImageSource.gallery, imageQuality: 50);
+    final XFile? file = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 50);
     sendFile(file, index, 'image');
     // notifyListeners();
   }
 
   void onImagePressCamera(int? number, int? index) async {
-    final PickedFile? file = await ImagePicker().getImage(
-        source: ImageSource.camera, imageQuality: 50);
-    sendFile(file, index, 'image');
+    final XFile? file = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 50);
+    sendFile(file!, index, 'image');
     // notifyListeners();
   }
 
   void onVideoPressPick(int? number, int? index) async {
-    final PickedFile? file = await ImagePicker().getVideo(source: ImageSource.gallery);
-    sendFile(file, index, 'video');
+    final XFile? file =
+        await ImagePicker().pickVideo(source: ImageSource.gallery);
+    sendFile(file!, index, 'video');
     // notifyListeners();
   }
 
   void onVideoPressCamera(int? number, int? index) async {
-    final PickedFile? file = await ImagePicker().getVideo(source: ImageSource.camera);
+    final XFile? file =
+        await ImagePicker().pickVideo(source: ImageSource.gallery);
     sendFile(file, index, 'video');
     // notifyListeners();
   }
 
-  void sendFile(PickedFile? file, int? index, String typeFile) async {
+  void sendFile(XFile? file, int? index, String typeFile) async {
     final int timestamp = DateTime.now().millisecondsSinceEpoch;
     final String subDirectoryName = tokenMap!['group'] + '/' + uid;
     final Reference ref = FirebaseStorage.instance

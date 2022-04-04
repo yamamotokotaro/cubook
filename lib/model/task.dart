@@ -992,7 +992,7 @@ class TaskContents {
       <String, dynamic>{'body': 'コンピュータに関係のある用語を調べる'},
     ],
     [
-      <String, dynamic>{'body': '自転車の各部の仲間を知り、手入れができる'},
+      <String, dynamic>{'body': '自転車の各部の名前を知り、手入れができる'},
       <String, dynamic>{'body': '道路標識を知り、安全規則を守って自転車に正しく乗ることができる'},
       <String, dynamic>{'body': 'サイクリングを計画・実行して、その記録をつける'},
     ],
@@ -1158,7 +1158,7 @@ class TaskContents {
       <String, dynamic>{'body': 'ロープを使った3種類以上の手品を覚えて発表する'},
       <String, dynamic>{'body': 'トランプを使った手品ができる'},
       <String, dynamic>{'body': '1、２の細目以外の道具を使って簡単な手品をする'},
-      <String, dynamic>{'body': '組みの仲間と隊集会でマジックショーを行う'},
+      <String, dynamic>{'body': '組の仲間と隊集会でマジックショーを行う'},
     ],
     [
       <String, dynamic>{'body': '次の用語を調べる（インターネット、アプリ、セキュリティ、SNS、ダウンロード）'},

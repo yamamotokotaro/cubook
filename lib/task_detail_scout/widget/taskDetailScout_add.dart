@@ -200,7 +200,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                         children: <Widget>[
                                                           if (model.map_attach[index_page!]
                                                                       [index]
-                                                                  is PickedFile) Image.memory(
+                                                                  is XFile) Image.memory(
                                                                   model.map_show[
                                                                           index_page!]
                                                                       [index]) else Image.network(

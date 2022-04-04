@@ -177,9 +177,11 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
               fontFamily: 'NotoSansJP',
+
               colorScheme: ColorScheme.fromSwatch().copyWith(
                   primary: Colors.blue[900], secondary: Colors.blue[900])),
           darkTheme: ThemeData(
+            useMaterial3: true,
             fontFamily: 'NotoSansJP',
             brightness: Brightness.dark,
             primaryColor: Colors.blue[900],
