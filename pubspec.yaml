@@ -30,7 +30,7 @@ dependencies:
   provider: ^6.0.2
   firebase_auth: ^3.3.3
   flutter_auth_ui: ^2.4.2
-  google_sign_in: ^5.2.4
+#  google_sign_in: ^5.2.4
 #  google_fonts: ^2.1.0
   image_picker: ^0.8.4+4
   intl: ^0.17.0
