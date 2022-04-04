@@ -94,7 +94,7 @@ class AnalyticsModel extends ChangeNotifier {
           .then((QuerySnapshot querySnapshots) async {
         final List<DocumentSnapshot> listDocumentsnapshot = querySnapshots.docs;
         late Sheet sheetObject;
-        String ageLast;
+        String? ageLast;
         count_user = 0;
         count_userAll = listDocumentsnapshot.length;
         final List<int> countItem = <int>[];
