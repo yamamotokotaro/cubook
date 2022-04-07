@@ -226,7 +226,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     firestoreController(data, number, index);
   }
 
-  Future<dynamic> fileSend(int index, PickedFile file, int number) async {
+  Future<dynamic> fileSend(int index, XFile file, int number) async {
     final int timestamp = DateTime
         .now()
         .millisecondsSinceEpoch;
