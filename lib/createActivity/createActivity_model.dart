@@ -22,7 +22,7 @@ class CreateActivityModel extends ChangeNotifier {
   List<String?> list_notApplicable = <String?>[];
   List<Map<String, dynamic>> list_selected = <Map<String, dynamic>>[];
 
-  void onPressedSelectItem(BuildContext context) async {
+  Future<void> onPressedSelectItem(BuildContext context) async {
     itemSelected = await Navigator.of(context).pushNamed('/addLumpSelectItem');
     if (itemSelected != null) {
       list_selected = <Map<String, dynamic>>[];
@@ -61,7 +61,7 @@ class CreateActivityModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     String? groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser!;
     //user.getIdToken(refresh: true);
@@ -100,7 +100,7 @@ class CreateActivityModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void openTimePicker(DateTime dateTime, BuildContext context) async {
+  Future<void> openTimePicker(DateTime dateTime, BuildContext context) async {
     final DateTime? dateGet = await showDatePicker(
       context: context,
       firstDate: DateTime(DateTime.now().year - 5),
@@ -122,7 +122,7 @@ class CreateActivityModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onSend(BuildContext context) async {
+  Future<void> onSend(BuildContext context) async {
     if (titleController.text != '') {
       isLoading = true;
       notifyListeners();

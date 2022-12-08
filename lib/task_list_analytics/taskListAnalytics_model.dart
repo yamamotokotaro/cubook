@@ -13,7 +13,7 @@ class TaskListAnalyticsModel extends ChangeNotifier {
   String? teamPosition;
   bool isGet = false;
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
@@ -40,7 +40,7 @@ class TaskListAnalyticsModel extends ChangeNotifier {
     });
   }
 
-  void getSnapshot(String uid) async {
+  Future<void> getSnapshot(String uid) async {
     print(uid);
     final User user = FirebaseAuth.instance.currentUser!;
     currentUser = user;

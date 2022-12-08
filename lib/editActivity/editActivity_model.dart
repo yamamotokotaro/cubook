@@ -22,7 +22,7 @@ class EditActivityModel extends ChangeNotifier {
   String? group_claim;
   String? documentID;
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
@@ -47,7 +47,7 @@ class EditActivityModel extends ChangeNotifier {
     });
   }
 
-  void openTimePicker(DateTime dateTime, BuildContext context) async {
+  Future<void> openTimePicker(DateTime dateTime, BuildContext context) async {
     final DateTime? dateGet = await showDatePicker(
       context: context,
       firstDate: DateTime(DateTime.now().year - 5),
@@ -74,11 +74,10 @@ class EditActivityModel extends ChangeNotifier {
   }
 
   void getAbsents(QuerySnapshot? querySnapshot) {
-    if (checkAbsents.isEmpty ||
-        querySnapshot!.docs.length != countSnapshot) {
+    if (checkAbsents.isEmpty || querySnapshot!.docs.length != countSnapshot) {
       for (int i = 0; i < querySnapshot!.docs.length; i++) {
         final DocumentSnapshot documentSnapshot = querySnapshot.docs[i];
-        if(checkAbsents[documentSnapshot.id] == null) {
+        if (checkAbsents[documentSnapshot.id] == null) {
           checkAbsents[documentSnapshot.id] = documentSnapshot.get('absent');
         }
       }
@@ -87,7 +86,7 @@ class EditActivityModel extends ChangeNotifier {
     }
   }
 
-  void onCheckMember(String documentID) async {
+  Future<void> onCheckMember(String documentID) async {
     if (checkAbsents[documentID] != null) {
       checkAbsents[documentID] = !checkAbsents[documentID]!;
     } else {
@@ -98,7 +97,7 @@ class EditActivityModel extends ChangeNotifier {
     print(checkAbsents[documentID]);
   }
 
-  void dismissUser(String id) async {
+  Future<void> dismissUser(String id) async {
     await FirebaseFirestore.instance
         .collection('activity_personal')
         .doc(id)
@@ -106,7 +105,7 @@ class EditActivityModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void cancelDismiss(String? id, Map<String, dynamic> data) async {
+  Future<void> cancelDismiss(String? id, Map<String, dynamic> data) async {
     await FirebaseFirestore.instance
         .collection('activity_personal')
         .doc(id)
@@ -114,7 +113,7 @@ class EditActivityModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onPressSend(BuildContext context) async {
+  Future<void> onPressSend(BuildContext context) async {
     int countUser = 0;
     int countAbsent = 0;
     isLoading = true;
@@ -177,7 +176,7 @@ class EditActivityModel extends ChangeNotifier {
         ),
         duration: const Duration(seconds: 3),
       );
-      Scaffold.of(context).showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
   }
 }

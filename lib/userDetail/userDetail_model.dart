@@ -14,7 +14,7 @@ class UserDetailModel extends ChangeNotifier {
   Map<String, dynamic> claims = <String, dynamic>{};
   Map<String, dynamic>? userData = <String, dynamic>{};
 
-  void getSnapshot(String? uid) async {
+  Future<void> getSnapshot(String? uid) async {
     final User user = FirebaseAuth.instance.currentUser!;
     currentUser = user;
     FirebaseFirestore.instance
@@ -36,7 +36,7 @@ class UserDetailModel extends ChangeNotifier {
     });
   }
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final String? teamPositionBefore = teamPosition;
     final String? uidBefore = uid;

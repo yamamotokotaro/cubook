@@ -292,7 +292,7 @@ class HomeScoutView extends StatelessWidget {
     );
   }
 
-  void logout() async {
+  Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
   }
 }

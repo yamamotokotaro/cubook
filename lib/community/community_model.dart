@@ -24,7 +24,7 @@ class CommunityModel extends ChangeNotifier {
   String? group_claim;
   Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser!;
     this.user = user;
@@ -47,7 +47,7 @@ class CommunityModel extends ChangeNotifier {
     });
   }
 
-  void getData(DocumentSnapshot snapshot, int? quant) async {
+  Future<void> getData(DocumentSnapshot snapshot, int? quant) async {
     final String documentIDBefore = snapshot.id;
     if (documentID != documentIDBefore) {
       isGet = false;
@@ -99,7 +99,7 @@ class CommunityModel extends ChangeNotifier {
     }
   }
 
-  void sendComment(String? effortID, BuildContext context) async {
+  Future<void> sendComment(String? effortID, BuildContext context) async {
     if (commentController.text != '') {
       isLoading_comment = true;
       notifyListeners();

@@ -16,7 +16,7 @@ class HomeLeaderModel extends ChangeNotifier {
   String? uid;
   Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getSnapshot(BuildContext context) async {
+  Future<void> getSnapshot(BuildContext context) async {
     final String? groupBefore = group;
     final String? teamPositionBefore = teamPosition;
     final User user = FirebaseAuth.instance.currentUser!;
@@ -27,7 +27,7 @@ class HomeLeaderModel extends ChangeNotifier {
         .then((QuerySnapshot<Map<String, dynamic>> snapshot) async {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot['group'];
-      if(userSnapshot.get('position') == 'scout') {
+      if (userSnapshot.get('position') == 'scout') {
         team = userSnapshot.get('team');
         teamPosition = userSnapshot.get('teamPosition');
       }
@@ -75,7 +75,7 @@ class HomeLeaderModel extends ChangeNotifier {
                                 style: TextStyle(),
                                 textAlign: TextAlign.center,
                               )),
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               launchTermURL();
                             },
@@ -85,7 +85,7 @@ class HomeLeaderModel extends ChangeNotifier {
                                   color: Theme.of(context).colorScheme.secondary),
                             ),
                           ),
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               launchPrivacyURL();
                             },
@@ -97,7 +97,7 @@ class HomeLeaderModel extends ChangeNotifier {
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 10),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                                 color: Colors.blue[900],
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -141,7 +141,7 @@ class HomeLeaderModel extends ChangeNotifier {
   }
 }
 
-void launchTermURL() async {
+Future<void> launchTermURL() async {
   const String url =
       'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md';
   if (await canLaunch(url)) {
@@ -151,7 +151,7 @@ void launchTermURL() async {
   }
 }
 
-void launchPrivacyURL() async {
+Future<void> launchPrivacyURL() async {
   const String url =
       'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md';
   if (await canLaunch(url)) {

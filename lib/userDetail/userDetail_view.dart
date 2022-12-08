@@ -33,17 +33,17 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class SelectBookView extends StatelessWidget {
+
+  SelectBookView(String? uid, String type) {
+    this.uid = uid;
+    this.type = type;
+  }
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
   String? uid;
   String? type;
 
   late List<TabInfo> _tabs;
-
-  SelectBookView(String? uid, String type) {
-    this.uid = uid;
-    this.type = type;
-  }
 
   @override
   Widget build(BuildContext context) {

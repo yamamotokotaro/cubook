@@ -9,13 +9,6 @@ import 'package:provider/provider.dart';
 
 class TaskListScoutView extends StatelessWidget {
 
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-  Color? themeColor;
-  String? type;
-  String? typeFireStore;
-  String? title = '';
-
   TaskListScoutView(String? _type){
     themeColor = theme.getThemeColor(_type);
     title = theme.getTitle(_type);
@@ -26,6 +19,13 @@ class TaskListScoutView extends StatelessWidget {
     }
     type = _type;
   }
+
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  Color? themeColor;
+  String? type;
+  String? typeFireStore;
+  String? title = '';
 
   @override
   Widget build(BuildContext context) {

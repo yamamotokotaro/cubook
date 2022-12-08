@@ -17,7 +17,7 @@ class DetailActivityModel extends ChangeNotifier {
   Map<String, dynamic> claims = <String, dynamic>{};
   String? group_claim;
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
@@ -42,7 +42,7 @@ class DetailActivityModel extends ChangeNotifier {
     });
   }
 
-  void deleteActivity(String? documentID) async {
+  Future<void> deleteActivity(String? documentID) async {
     FirebaseFirestore.instance
         .collection('activity_personal')
         .where('group', isEqualTo: group)

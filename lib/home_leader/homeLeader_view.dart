@@ -225,7 +225,7 @@ class HomeLeaderView extends StatelessWidget {
     ]);
   }
 
-  void launchURL() async {
+  Future<void> launchURL() async {
     const String url =
         'https://sites.google.com/view/cubookinfo/qa/%E9%87%8D%E8%A6%81%E3%82%A2%E3%83%83%E3%83%97%E3%83%87%E3%83%BC%E3%83%88%E3%81%AE%E3%81%8A%E9%A1%98%E3%81%84';
     if (await canLaunch(url)) {

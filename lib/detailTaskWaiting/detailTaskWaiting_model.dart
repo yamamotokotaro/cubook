@@ -79,7 +79,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     });
   }
 
-  void onTapSend() async {
+  Future<void> onTapSend() async {
     if (feedbackController.text != '') {
       isLoading = true;
       notifyListeners();
@@ -98,7 +98,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     }
   }
 
-  void onTapReject() async {
+  Future<void> onTapReject() async {
     if (feedbackController.text != '') {
       isLoading = true;
       notifyListeners();

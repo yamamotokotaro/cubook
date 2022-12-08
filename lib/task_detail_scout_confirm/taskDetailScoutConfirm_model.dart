@@ -13,6 +13,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
 class TaskDetailScoutConfirmModel extends ChangeNotifier {
+  TaskDetailScoutConfirmModel(int? number, int? quant, String? _type,
+      String? _uid, PageController _controller) {
+    page = number;
+    this.quant = quant;
+    type = _type;
+    uid = _uid;
+    controller = _controller;
+  }
   final FirebaseAuth auth = FirebaseAuth.instance;
   TaskContents task = TaskContents();
   List<bool> list_isSelected = <bool>[];
@@ -52,16 +60,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
   String? type;
   String? uid;
 
-  TaskDetailScoutConfirmModel(int? number, int? quant, String? _type,
-      String? _uid, PageController _controller) {
-    page = number;
-    this.quant = quant;
-    type = _type;
-    uid = _uid;
-    controller = _controller;
-  }
-
-  void getSnapshot() async {
+  Future<void> getSnapshot() async {
     currentUser = FirebaseAuth.instance.currentUser;
 
     list_snapshot = List<bool>.generate(page!, (int index) => false);
@@ -170,7 +169,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     });
   }
 
-  void openTimePicker(
+  Future<void> openTimePicker(
       DateTime dateTime, BuildContext context, int? page) async {
     final DateTime? date = await showDatePicker(
       context: context,
@@ -184,8 +183,8 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     }
   }
 
-  void changeTime(DateTime dateTime, BuildContext context, String documentID,
-      String typeTime) async {
+  Future<void> changeTime(DateTime dateTime, BuildContext context,
+      String documentID, String typeTime) async {
     final DateTime? date = await showDatePicker(
       context: context,
       firstDate: DateTime(DateTime.now().year - 5),
@@ -201,19 +200,19 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     }
   }
 
-  void onPressCheckbox(bool? e) async {
+  Future<void> onPressCheckbox(bool? e) async {
     checkCitation = e;
     notifyListeners();
   }
 
-  void onTapSend(int number) async {
+  Future<void> onTapSend(int number) async {
     isLoading[number] = true;
     notifyListeners();
     await signItem(uid, type, page, number, '', checkCitation, false);
     isLoading[number] = false;
   }
 
-  void onTapCancel(int number) async {
+  Future<void> onTapCancel(int number) async {
     isLoading[number] = true;
     notifyListeners();
     final User? user = FirebaseAuth.instance.currentUser;
@@ -225,7 +224,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     });
   }
 
-  void onTapExamination(String documentID) async {
+  Future<void> onTapExamination(String documentID) async {
     FirebaseFirestore.instance
         .collection('gino')
         .doc(documentID)
@@ -235,7 +234,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     });
   }
 
-  void onTapNotExamination(String documentID) async {
+  Future<void> onTapNotExamination(String documentID) async {
     FirebaseFirestore.instance
         .collection('gino')
         .doc(documentID)
@@ -246,7 +245,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     });
   }
 
-  void onTapSave(int number, BuildContext context) async {
+  Future<void> onTapSave(int number, BuildContext context) async {
     isLoading[number] = true;
     notifyListeners();
     final User? user = FirebaseAuth.instance.currentUser;
@@ -282,8 +281,7 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
           .collection(type!)
           .doc(snapshot.id)
           .update(dataSigned);
-      Scaffold.of(context).showSnackBar(const SnackBar(
-        duration: Duration(seconds: 1),
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('変更を保存しました'),
       ));
       checkDate(snapshot, dateSelected[number], snapshot.id, quant);
@@ -334,35 +332,35 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
         .update(dataToChange);
   }
 
-  void onImagePressPick(int? number, int? index) async {
+  Future<void> onImagePressPick(int? number, int? index) async {
     final XFile? file = await ImagePicker()
         .pickImage(source: ImageSource.gallery, imageQuality: 50);
     sendFile(file, index, 'image');
     // notifyListeners();
   }
 
-  void onImagePressCamera(int? number, int? index) async {
+  Future<void> onImagePressCamera(int? number, int? index) async {
     final XFile? file = await ImagePicker()
         .pickImage(source: ImageSource.camera, imageQuality: 50);
     sendFile(file!, index, 'image');
     // notifyListeners();
   }
 
-  void onVideoPressPick(int? number, int? index) async {
+  Future<void> onVideoPressPick(int? number, int? index) async {
     final XFile? file =
         await ImagePicker().pickVideo(source: ImageSource.gallery);
     sendFile(file!, index, 'video');
     // notifyListeners();
   }
 
-  void onVideoPressCamera(int? number, int? index) async {
+  Future<void> onVideoPressCamera(int? number, int? index) async {
     final XFile? file =
         await ImagePicker().pickVideo(source: ImageSource.gallery);
     sendFile(file, index, 'video');
     // notifyListeners();
   }
 
-  void sendFile(XFile? file, int? index, String typeFile) async {
+  Future<void> sendFile(XFile? file, int? index, String typeFile) async {
     final int timestamp = DateTime.now().millisecondsSinceEpoch;
     final String subDirectoryName = tokenMap!['group'] + '/' + uid;
     final Reference ref = FirebaseStorage.instance

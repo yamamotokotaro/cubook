@@ -9,13 +9,6 @@ import 'package:provider/provider.dart';
 import 'taskListScoutConfirm_model.dart';
 
 class TaskListScoutConfirmView extends StatelessWidget {
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-  Color? themeColor;
-  String? type;
-  String? typeFireStore;
-  String? title = '';
-  String? uid;
 
   TaskListScoutConfirmView(String _type, String? _uid) {
     themeColor = theme.getThemeColor(_type);
@@ -28,6 +21,13 @@ class TaskListScoutConfirmView extends StatelessWidget {
     type = _type;
     uid = _uid;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  Color? themeColor;
+  String? type;
+  String? typeFireStore;
+  String? title = '';
+  String? uid;
 
   @override
   Widget build(BuildContext context) {

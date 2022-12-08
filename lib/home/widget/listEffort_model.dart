@@ -10,7 +10,7 @@ class ListEffortModel extends ChangeNotifier {
   String? group_claim;
   Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getSnapshot() async {
+  Future<void> getSnapshot() async {
     final String? groupBefore = group;
     final String? positionBefore = position;
     final User user = FirebaseAuth.instance.currentUser!;
@@ -36,14 +36,14 @@ class ListEffortModel extends ChangeNotifier {
     });
   }
 
-  void increaseCount(String documentID) async {
+  Future<void> increaseCount(String documentID) async {
     FirebaseFirestore.instance
         .collection('effort')
         .doc(documentID)
         .update(<String, dynamic>{'congrats': FieldValue.increment(1)});
   }
 
-  void deleteEffort(String documentID) async {
+  Future<void> deleteEffort(String documentID) async {
     FirebaseFirestore.instance.collection('effort').doc(documentID).delete();
   }
 }

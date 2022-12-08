@@ -8,12 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class TaskListAnalyticsView extends StatelessWidget {
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-  Color? themeColor;
-  String? type;
-  String? typeFireStore;
-  String? title = '';
 
   TaskListAnalyticsView(String _type) {
     themeColor = theme.getThemeColor(_type);
@@ -25,6 +19,12 @@ class TaskListAnalyticsView extends StatelessWidget {
     }
     type = _type;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  Color? themeColor;
+  String? type;
+  String? typeFireStore;
+  String? title = '';
 
   @override
   Widget build(BuildContext context) {

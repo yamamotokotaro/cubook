@@ -51,21 +51,21 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 }
 
 class TaskScoutDetailView extends StatelessWidget {
+  TaskScoutDetailView(String? _type, int? _number) {
+    themeColor = theme.getThemeColor(_type);
+    type = _type;
+    number = _number;
+  }
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
   String? type;
   int? number;
   Color? themeColor;
 
-  TaskScoutDetailView(String? _type, int? _number) {
-    themeColor = theme.getThemeColor(_type);
-    type = _type;
-    number = _number;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>>? contents = task.getContentList(type, number);
+    final List<Map<String, dynamic>>? contents =
+        task.getContentList(type, number);
     return Container(
         width: 280,
         child: GestureDetector(
@@ -81,7 +81,8 @@ class TaskScoutDetailView extends StatelessWidget {
                     ),
                     elevation: 2,
                     child: InkWell(child: Consumer<TaskDetailScoutModel>(
-                        builder: (BuildContext context, TaskDetailScoutModel model, _) {
+                        builder: (BuildContext context,
+                            TaskDetailScoutModel model, _) {
                       if (model.isExit) {
                         String message = '';
                         if (model.stepData!['end'] != null) {
@@ -99,7 +100,8 @@ class TaskScoutDetailView extends StatelessWidget {
                                         topRight: Radius.circular(20)),
                                     color: themeColor),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(top: 40, bottom: 20),
+                                  padding: const EdgeInsets.only(
+                                      top: 40, bottom: 20),
                                   child: Center(
                                     child: Text(
                                       task.getPartMap(type, number)!['title'],
@@ -130,197 +132,202 @@ class TaskScoutDetailView extends StatelessWidget {
                                               decoration: TextDecoration.none),
                                         ),
                                       ),
-                                      if (model.stepData!['start'] != null) Container(
-                                              child: Column(
-                                                children: <Widget>[
-                                                  const Padding(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Text(
-                                                      '開始日',
-                                                      style: TextStyle(
-                                                          fontSize: 20.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(10),
-                                                    child: Text(
-                                                      DateFormat('yyyy/MM/dd')
-                                                          .format(model
-                                                              .stepSnapshot
-                                                              .get('start')
-                                                              .toDate())
-                                                          .toString(),
-                                                      style: const TextStyle(
-                                                          fontSize: 20.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none),
-                                                    ),
-                                                  ),
-                                                ],
+                                      if (model.stepData!['start'] != null)
+                                        Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              const Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Text(
+                                                  '開始日',
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
                                               ),
-                                            ) else Container(),
-                                      if (model.stepData!['end'] != null) Container(
-                                              child: Column(
-                                                children: <Widget>[
-                                                  const Padding(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Text(
-                                                      '完修日',
-                                                      style: TextStyle(
-                                                          fontSize: 20.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(10),
-                                                    child: Text(
-                                                      DateFormat('yyyy/MM/dd')
-                                                          .format(model
-                                                              .stepSnapshot
-                                                              .get('end')
-                                                              .toDate()),
-                                                      style: const TextStyle(
-                                                          fontSize: 20.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none),
-                                                    ),
-                                                  ),
-                                                ],
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: Text(
+                                                  DateFormat('yyyy/MM/dd')
+                                                      .format(model.stepSnapshot
+                                                          .get('start')
+                                                          .toDate())
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
                                               ),
-                                            ) else Container(),
+                                            ],
+                                          ),
+                                        )
+                                      else
+                                        Container(),
+                                      if (model.stepData!['end'] != null)
+                                        Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              const Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Text(
+                                                  '完修日',
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: Text(
+                                                  DateFormat('yyyy/MM/dd')
+                                                      .format(model.stepSnapshot
+                                                          .get('end')
+                                                          .toDate()),
+                                                  style: const TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      else
+                                        Container(),
                                       if ((type != 'risu' &&
-                                                  type != 'usagi' &&
-                                                  type != 'sika' &&
-                                                  type != 'kuma' &&
-                                                  type != 'challenge' &&
-                                                  type != 'tukinowa') ||
-                                              model.group ==
-                                                  ' j27DETWHGYEfpyp2Y292' ||
-                                              model.group ==
-                                                  ' z4pkBhhgr0fUMN4evr5z') Column(children: [
-                                              ListView.builder(
-                                                  physics:
-                                                      const NeverScrollableScrollPhysics(),
-                                                  itemCount: contents!.length,
-                                                  shrinkWrap: true,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    final String content =
-                                                        contents[index]['body'];
-                                                    Color? bordercolor;
-                                                    if (Theme.of(context)
-                                                            .colorScheme.secondary ==
-                                                        Colors.white) {
-                                                      bordercolor =
-                                                          Colors.grey[700];
-                                                    } else {
-                                                      bordercolor =
-                                                          Colors.grey[300];
-                                                    }
-                                                    return Padding(
-                                                      padding: const EdgeInsets.only(
+                                              type != 'usagi' &&
+                                              type != 'sika' &&
+                                              type != 'kuma' &&
+                                              type != 'challenge' &&
+                                              type != 'tukinowa') ||
+                                          model.group ==
+                                              ' j27DETWHGYEfpyp2Y292' ||
+                                          model.group ==
+                                              ' z4pkBhhgr0fUMN4evr5z')
+                                        Column(children: [
+                                          ListView.builder(
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount: contents!.length,
+                                              shrinkWrap: true,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                final String content =
+                                                    contents[index]['body'];
+                                                Color? bordercolor;
+                                                if (Theme.of(context)
+                                                        .colorScheme
+                                                        .secondary ==
+                                                    Colors.white) {
+                                                  bordercolor =
+                                                      Colors.grey[700];
+                                                } else {
+                                                  bordercolor =
+                                                      Colors.grey[300];
+                                                }
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
                                                           bottom: 10,
                                                           right: 10,
                                                           left: 10),
-                                                      child: Card(
-                                                          color:
-                                                              const Color(0x00000000),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            side: BorderSide(
-                                                              color:
-                                                                  bordercolor!,
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10.0),
-                                                          ),
-                                                          elevation: 0,
-                                                          child: InkWell(
-                                                            customBorder:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10.0),
-                                                            ),
-                                                            child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(8),
-                                                                child: Text(
-                                                                    content)),
-                                                          )),
-                                                    );
-                                                  }),
-                                              Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 15,
-                                                      bottom: 10,
-                                                      right: 15),
-                                                  child: Container(
-                                                    width: double.infinity,
-                                                    child: const Text(
-                                                      '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                                      style: TextStyle(
-                                                        fontSize: 13,
+                                                  child: Card(
+                                                      color: const Color(
+                                                          0x00000000),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        side: BorderSide(
+                                                          color: bordercolor!,
+                                                          width: 2.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                      ),
+                                                      elevation: 0,
+                                                      child: InkWell(
+                                                        customBorder:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                        ),
+                                                        child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child:
+                                                                Text(content)),
+                                                      )),
+                                                );
+                                              }),
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 15,
+                                                  bottom: 10,
+                                                  right: 15),
+                                              child: Container(
+                                                width: double.infinity,
+                                                child: const Text(
+                                                  '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              )),
+                                        ])
+                                      else
+                                        Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 5),
+                                            child: Center(
+                                                child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 5, top: 4),
+                                                    child: Icon(
+                                                      //ああああ
+                                                      Icons.chrome_reader_mode,
+                                                      color: themeColor,
+                                                      size: 22,
+                                                    ),
+                                                  ),
+                                                  const Text(
+                                                    '内容はカブブックで確認しよう',
+                                                    style: TextStyle(
+                                                        fontSize: 16.0,
                                                         fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                      textAlign: TextAlign.left,
-                                                    ),
-                                                  )),
-                                            ]) else Padding(
-                                              padding: const EdgeInsets.only(top: 5),
-                                              child: Center(
-                                                  child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(
-                                                          right: 5, top: 4),
-                                                      child: Icon(
-                                                        //ああああ
-                                                        Icons
-                                                            .chrome_reader_mode,
-                                                        color: themeColor,
-                                                        size: 22,
-                                                      ),
-                                                    ),
-                                                    const Text(
-                                                      '内容はカブブックで確認しよう',
-                                                      style: TextStyle(
-                                                          fontSize: 16.0,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .none),
-                                                    ),
-                                                  ]))),
+                                                            FontWeight.normal,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .none),
+                                                  ),
+                                                ]))),
                                     ],
                                   ))),
                             ]),
@@ -337,7 +344,8 @@ class TaskScoutDetailView extends StatelessWidget {
                                       topRight: Radius.circular(20)),
                                   color: themeColor),
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 40, bottom: 20),
+                                padding:
+                                    const EdgeInsets.only(top: 40, bottom: 20),
                                 child: Center(
                                   child: Text(
                                     task.getPartMap(type, number)!['title'],
@@ -366,114 +374,110 @@ class TaskScoutDetailView extends StatelessWidget {
                                     ),
                                   ),
                                   if ((type != 'risu' &&
-                                              type != 'usagi' &&
-                                              type != 'sika' &&
-                                              type != 'kuma' &&
-                                              type != 'challenge' &&
-                                              type != 'tukinowa') ||
-                                          model.group ==
-                                              ' j27DETWHGYEfpyp2Y292' ||
-                                          model.group == ' z4pkBhhgr0fUMN4evr5z') Column(children: [
-                                          ListView.builder(
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              itemCount: contents!.length,
-                                              shrinkWrap: true,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                final String content =
-                                                    contents[index]['body'];
-                                                Color? bordercolor;
-                                                if (Theme.of(context)
-                                                        .colorScheme.secondary ==
-                                                    Colors.white) {
-                                                  bordercolor =
-                                                      Colors.grey[700];
-                                                } else {
-                                                  bordercolor =
-                                                      Colors.grey[300];
-                                                }
-                                                return Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      bottom: 10,
-                                                      right: 10,
-                                                      left: 10),
-                                                  child: Card(
-                                                      color: const Color(0x00000000),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        side: BorderSide(
-                                                          color: bordercolor!,
-                                                          width: 2.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10.0),
-                                                      ),
-                                                      elevation: 0,
-                                                      child: InkWell(
-                                                        customBorder:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
-                                                        ),
-                                                        child: Padding(
-                                                            padding:
-                                                                const EdgeInsets.all(
-                                                                    8),
-                                                            child:
-                                                                Text(content)),
-                                                      )),
-                                                );
-                                              }),
-                                          Padding(
+                                          type != 'usagi' &&
+                                          type != 'sika' &&
+                                          type != 'kuma' &&
+                                          type != 'challenge' &&
+                                          type != 'tukinowa') ||
+                                      model.group == ' j27DETWHGYEfpyp2Y292' ||
+                                      model.group == ' z4pkBhhgr0fUMN4evr5z')
+                                    Column(children: [
+                                      ListView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: contents!.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            final String content =
+                                                contents[index]['body'];
+                                            Color? bordercolor;
+                                            if (Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary ==
+                                                Colors.white) {
+                                              bordercolor = Colors.grey[700];
+                                            } else {
+                                              bordercolor = Colors.grey[300];
+                                            }
+                                            return Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 15,
                                                   bottom: 10,
-                                                  right: 15),
-                                              child: Container(
-                                                width: double.infinity,
-                                                child: const Text(
-                                                  '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.bold,
+                                                  right: 10,
+                                                  left: 10),
+                                              child: Card(
+                                                  color:
+                                                      const Color(0x00000000),
+                                                  shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                      color: bordercolor!,
+                                                      width: 2.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
                                                   ),
-                                                  textAlign: TextAlign.left,
+                                                  elevation: 0,
+                                                  child: InkWell(
+                                                    customBorder:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ),
+                                                    child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        child: Text(content)),
+                                                  )),
+                                            );
+                                          }),
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 15, bottom: 10, right: 15),
+                                          child: Container(
+                                            width: double.infinity,
+                                            child: const Text(
+                                              '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          )),
+                                    ])
+                                  else
+                                    Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Center(
+                                            child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 5, top: 4),
+                                                child: Icon(
+                                                  //ああああ
+                                                  Icons.chrome_reader_mode,
+                                                  color: themeColor,
+                                                  size: 22,
                                                 ),
-                                              )),
-                                        ]) else Padding(
-                                          padding: const EdgeInsets.only(top: 5),
-                                          child: Center(
-                                              child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      right: 5, top: 4),
-                                                  child: Icon(
-                                                    //ああああ
-                                                    Icons.chrome_reader_mode,
-                                                    color: themeColor,
-                                                    size: 22,
-                                                  ),
-                                                ),
-                                                const Text(
-                                                  '内容はカブブックで確認しよう',
-                                                  style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      decoration:
-                                                          TextDecoration.none),
-                                                ),
-                                              ]))),
+                                              ),
+                                              const Text(
+                                                '内容はカブブックで確認しよう',
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ]))),
                                 ])))
                           ])
                         ]);
@@ -513,19 +517,18 @@ class TaskScoutDetailView extends StatelessWidget {
 }
 
 class TaskScoutAddView extends StatelessWidget {
-  int? index_page;
-  int? page;
-  String? type;
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-  Color? themeColor;
-
   TaskScoutAddView(String? _type, int? _page, int _index) {
     themeColor = theme.getThemeColor(_type);
     type = _type;
     page = _page;
     index_page = _index;
   }
+  int? index_page;
+  int? page;
+  String? type;
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  Color? themeColor;
 
   @override
   Widget build(BuildContext context) {
@@ -550,32 +553,31 @@ class TaskScoutAddView extends StatelessWidget {
                         child: */
                           Column(
                         children: <Widget>[
-                          Consumer<TaskDetailScoutModel>(
-                              builder: (BuildContext context, TaskDetailScoutModel model, _) {
+                          Consumer<TaskDetailScoutModel>(builder:
+                              (BuildContext context, TaskDetailScoutModel model,
+                                  _) {
                             if (!model.isGet) {
                               model.getSnapshot();
                             }
                             if (model.isLoaded) {
                               if (model.isExit) {
-                                if (model.stepSnapshot.get('signed')
-                                        [index_page.toString()] ==
+                                if (model.stepSnapshot
+                                        .get('signed')[index_page.toString()] ==
                                     null) {
                                   return TaskDetailScoutAddView(
                                       index_page, type, 'どんなことをしたのかリーダーに教えよう');
-                                } else if (model.stepSnapshot.get('signed')
-                                        [index_page.toString()]['phaze'] ==
+                                } else if (model.stepSnapshot.get('signed')[
+                                        index_page.toString()]['phaze'] ==
                                     'signed') {
-                                  final Map<String, dynamic> snapshot =
-                                      model.stepSnapshot.get('signed')
-                                          [index_page.toString()];
+                                  final Map<String, dynamic> snapshot = model
+                                      .stepSnapshot
+                                      .get('signed')[index_page.toString()];
                                   return Column(children: <Widget>[
                                     Container(
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.only(
-                                              topLeft:
-                                                  Radius.circular(20),
-                                              topRight:
-                                                  Radius.circular(20)),
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20)),
                                           color: themeColor),
                                       width: MediaQuery.of(context).size.width,
                                       child: const Padding(
@@ -620,8 +622,8 @@ class TaskScoutAddView extends StatelessWidget {
                                                                 ['time']
                                                             .toDate())
                                                         .toString() +
-                                                    model.stepSnapshot.get(
-                                                                'signed')[
+                                                    model.stepSnapshot
+                                                                .get('signed')[
                                                             index_page
                                                                 .toString()]
                                                         ['family'],
@@ -636,8 +638,8 @@ class TaskScoutAddView extends StatelessWidget {
                                               padding: const EdgeInsets.all(5),
                                               child: Text(
                                                 model.stepSnapshot
-                                                            .get('signed')
-                                                        [index_page.toString()]
+                                                            .get('signed')[
+                                                        index_page.toString()]
                                                     ['feedback'],
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
@@ -648,120 +650,128 @@ class TaskScoutAddView extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
-                                            if (snapshot['data'] != null) Column(
-                                                    children: <Widget>[
-                                                      Padding(
-                                                          padding:
-                                                              const EdgeInsets.all(
-                                                                  10),
-                                                          child:
-                                                              ListView.builder(
-                                                                  physics:
-                                                                      const NeverScrollableScrollPhysics(),
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  itemCount: snapshot[
-                                                                          'data']
-                                                                      .length,
-                                                                  itemBuilder:
-                                                                      (BuildContext
-                                                                              context,
-                                                                          int index) {
-                                                                    final String?
-                                                                        type =
-                                                                        snapshot['data'][index]
+                                            if (snapshot['data'] != null)
+                                              Column(
+                                                children: <Widget>[
+                                                  Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: ListView.builder(
+                                                          physics:
+                                                              const NeverScrollableScrollPhysics(),
+                                                          shrinkWrap: true,
+                                                          itemCount:
+                                                              snapshot['data']
+                                                                  .length,
+                                                          itemBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  int index) {
+                                                            final String? type =
+                                                                snapshot['data']
+                                                                        [index]
+                                                                    ['type'];
+                                                            if (type ==
+                                                                'image') {
+                                                              return Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(5),
+                                                                child:
+                                                                    Container(
+                                                                  child: Card(
+                                                                    color: Colors
+                                                                        .green,
+                                                                    child:
+                                                                        Column(
+                                                                      children: <
+                                                                          Widget>[
+                                                                        Image.network(model.dataList[index_page!]
                                                                             [
-                                                                            'type'];
-                                                                    if (type ==
-                                                                        'image') {
-                                                                      return Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.all(5),
-                                                                        child:
-                                                                            Container(
-                                                                          child:
-                                                                              Card(
-                                                                            color:
-                                                                                Colors.green,
-                                                                            child:
-                                                                                Column(
-                                                                              children: <Widget>[
-                                                                                Image.network(model.dataList[index_page!][index])
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    } else if (type ==
-                                                                        'video') {
-                                                                      return Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.all(5),
-                                                                        child:
-                                                                            Container(
-                                                                          child:
-                                                                              Card(
-                                                                            child:
-                                                                                Column(
-                                                                              children: <Widget>[
-                                                                                AspectRatio(
-                                                                                    aspectRatio: model.dataList[index_page!][index].aspectRatio,
-                                                                                    child: Chewie(
-                                                                                      controller: model.dataList[index_page!][index],
-                                                                                    ))
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    } else if (type ==
-                                                                        'text') {
-                                                                      return Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.all(5),
-                                                                        child:
-                                                                            Container(
-                                                                          child: Card(
-                                                                              child: Padding(
+                                                                            index])
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            } else if (type ==
+                                                                'video') {
+                                                              return Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(5),
+                                                                child:
+                                                                    Container(
+                                                                  child: Card(
+                                                                    child:
+                                                                        Column(
+                                                                      children: <
+                                                                          Widget>[
+                                                                        AspectRatio(
+                                                                            aspectRatio:
+                                                                                model.dataList[index_page!][index].aspectRatio,
+                                                                            child: Chewie(
+                                                                              controller: model.dataList[index_page!][index],
+                                                                            ))
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            } else if (type ==
+                                                                'text') {
+                                                              return Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(5),
+                                                                child:
+                                                                    Container(
+                                                                  child: Card(
+                                                                      child:
+                                                                          Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(0),
+                                                                    child:
+                                                                        Column(
+                                                                      children: <
+                                                                          Widget>[
+                                                                        Padding(
                                                                             padding:
-                                                                                const EdgeInsets.all(0),
-                                                                            child:
-                                                                                Column(
-                                                                              children: <Widget>[
-                                                                                Padding(
-                                                                                    padding: const EdgeInsets.all(10),
-                                                                                    child: Text(
-                                                                                      model.dataList[index_page!][index],
-                                                                                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-                                                                                    ))
-                                                                              ],
-                                                                            ),
-                                                                          )),
-                                                                        ),
-                                                                      );
-                                                                    } else {
-                                                                      return Container();
-                                                                    }
-                                                                  }))
-                                                    ],
-                                                  ) else Container(),
+                                                                                const EdgeInsets.all(10),
+                                                                            child: Text(
+                                                                              model.dataList[index_page!][index],
+                                                                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                            ))
+                                                                      ],
+                                                                    ),
+                                                                  )),
+                                                                ),
+                                                              );
+                                                            } else {
+                                                              return Container();
+                                                            }
+                                                          }))
+                                                ],
+                                              )
+                                            else
+                                              Container(),
                                           ],
                                         )))
                                   ]);
-                                } else if (model.stepSnapshot.get('signed')
-                                        [index_page.toString()]['phaze'] ==
+                                } else if (model.stepSnapshot.get('signed')[
+                                        index_page.toString()]['phaze'] ==
                                     'wait') {
-                                  final Map<String, dynamic> snapshot =
-                                      model.stepSnapshot.get('signed')
-                                          [index_page.toString()];
+                                  final Map<String, dynamic> snapshot = model
+                                      .stepSnapshot
+                                      .get('signed')[index_page.toString()];
                                   return Column(children: <Widget>[
                                     Container(
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.only(
-                                              topLeft:
-                                                  Radius.circular(20),
-                                              topRight:
-                                                  Radius.circular(20)),
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20)),
                                           color: themeColor),
                                       width: MediaQuery.of(context).size.width,
                                       child: const Padding(
@@ -807,7 +817,7 @@ class TaskScoutAddView extends StatelessWidget {
                                           Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 10, left: 20, right: 20),
-                                              child: FlatButton.icon(
+                                              child: TextButton.icon(
                                                 onPressed: () async {
                                                   model.withdraw(index_page);
                                                 },
@@ -825,131 +835,132 @@ class TaskScoutAddView extends StatelessWidget {
                                                   ),
                                                 ),
                                               )),
-                                          if (snapshot['data'] != null) Column(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                        padding:
-                                                            const EdgeInsets.all(10),
-                                                        child: ListView.builder(
-                                                            physics:
-                                                                const NeverScrollableScrollPhysics(),
-                                                            shrinkWrap: true,
-                                                            itemCount:
-                                                                snapshot['data']
-                                                                    .length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    int index) {
-                                                              print(snapshot[
-                                                                  'data']);
-                                                              print(model
-                                                                  .dataList);
-                                                              final String? type =
-                                                                  snapshot['data']
-                                                                          [
-                                                                          index]
-                                                                      ['type'];
-                                                              if (type ==
-                                                                  'image') {
-                                                                return Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                              5),
-                                                                  child:
-                                                                      Container(
-                                                                    child: Card(
-                                                                      color: Colors
-                                                                          .green,
-                                                                      child:
-                                                                          Column(
-                                                                        children: <
-                                                                            Widget>[
-                                                                          Image.network(model.dataList[index_page!]
+                                          if (snapshot['data'] != null)
+                                            Column(
+                                              children: <Widget>[
+                                                Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    child: ListView.builder(
+                                                        physics:
+                                                            const NeverScrollableScrollPhysics(),
+                                                        shrinkWrap: true,
+                                                        itemCount:
+                                                            snapshot['data']
+                                                                .length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                int index) {
+                                                          print(
+                                                              snapshot['data']);
+                                                          print(model.dataList);
+                                                          final String? type =
+                                                              snapshot['data']
+                                                                      [index]
+                                                                  ['type'];
+                                                          if (type == 'image') {
+                                                            return Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(5),
+                                                              child: Container(
+                                                                child: Card(
+                                                                  color: Colors
+                                                                      .green,
+                                                                  child: Column(
+                                                                    children: <
+                                                                        Widget>[
+                                                                      Image.network(
+                                                                          model.dataList[index_page!]
                                                                               [
                                                                               index])
-                                                                        ],
-                                                                      ),
-                                                                    ),
+                                                                    ],
                                                                   ),
-                                                                );
-                                                              } else if (type ==
-                                                                  'video') {
-                                                                return Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                              5),
-                                                                  child:
-                                                                      Container(
-                                                                    child: Card(
-                                                                      child:
-                                                                          Column(
-                                                                        children: <
-                                                                            Widget>[
-                                                                          AspectRatio(
-                                                                              aspectRatio: model.dataList[index_page!][index].aspectRatio,
-                                                                              child: Chewie(
-                                                                                controller: model.dataList[index_page!][index],
-                                                                              ))
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              } else if (type ==
-                                                                  'text') {
-                                                                return Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                              5),
-                                                                  child:
-                                                                      Container(
-                                                                    child: Card(
-                                                                        child:
-                                                                            Padding(
-                                                                      padding:
-                                                                          const EdgeInsets.all(
-                                                                              0),
-                                                                      child:
-                                                                          Column(
-                                                                        children: <
-                                                                            Widget>[
-                                                                          Padding(
-                                                                              padding: const EdgeInsets.all(10),
-                                                                              child: Text(
+                                                                ),
+                                                              ),
+                                                            );
+                                                          } else if (type ==
+                                                              'video') {
+                                                            return Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(5),
+                                                              child: Container(
+                                                                child: Card(
+                                                                  child: Column(
+                                                                    children: <
+                                                                        Widget>[
+                                                                      AspectRatio(
+                                                                          aspectRatio: model
+                                                                              .dataList[index_page!][
+                                                                                  index]
+                                                                              .aspectRatio,
+                                                                          child:
+                                                                              Chewie(
+                                                                            controller:
                                                                                 model.dataList[index_page!][index],
-                                                                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-                                                                              ))
-                                                                        ],
-                                                                      ),
-                                                                    )),
+                                                                          ))
+                                                                    ],
                                                                   ),
-                                                                );
-                                                              } else {
-                                                                return Container();
-                                                              }
-                                                            }))
-                                                  ],
-                                                ) else Container(),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          } else if (type ==
+                                                              'text') {
+                                                            return Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(5),
+                                                              child: Container(
+                                                                child: Card(
+                                                                    child:
+                                                                        Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(0),
+                                                                  child: Column(
+                                                                    children: <
+                                                                        Widget>[
+                                                                      Padding(
+                                                                          padding: const EdgeInsets.all(
+                                                                              10),
+                                                                          child:
+                                                                              Text(
+                                                                            model.dataList[index_page!][index],
+                                                                            style:
+                                                                                const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                          ))
+                                                                    ],
+                                                                  ),
+                                                                )),
+                                                              ),
+                                                            );
+                                                          } else {
+                                                            return Container();
+                                                          }
+                                                        }))
+                                              ],
+                                            )
+                                          else
+                                            Container(),
                                         ])))
                                   ]);
-                                } else if (model.stepSnapshot.get('signed')
-                                        [index_page.toString()]['phaze'] ==
+                                } else if (model.stepSnapshot.get('signed')[
+                                        index_page.toString()]['phaze'] ==
                                     'reject') {
                                   return Column(children: <Widget>[
                                     TaskDetailScoutAddView(
                                         index_page,
                                         type,
                                         'やりなおし： ' +
-                                            model.stepSnapshot.get('signed')
-                                                    [index_page.toString()]
+                                            model.stepSnapshot.get('signed')[
+                                                    index_page.toString()]
                                                 ['feedback'])
                                   ]);
-                                } else if (model.stepSnapshot.get('signed')
-                                        [index_page.toString()]['phaze'] ==
+                                } else if (model.stepSnapshot.get('signed')[
+                                        index_page.toString()]['phaze'] ==
                                     'withdraw') {
                                   return Column(children: <Widget>[
                                     TaskDetailScoutAddView(
@@ -982,50 +993,53 @@ class TaskScoutAddView extends StatelessWidget {
 //                      ),
                     ),
                   ))),
-          if (numberShow.length == 1) Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    height: 70,
-                    width: 70,
-                    child: Card(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(35.0)),
-                      elevation: 7,
-                      child: Center(
-                        child: Text(
-                          numberShow,
-                          style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                              color: themeColor),
-                        ),
-                      ),
-                    ),
-                  )) else Align(
-                  alignment: Alignment.topCenter,
+          if (numberShow.length == 1)
+            Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  height: 70,
+                  width: 70,
                   child: Card(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(35.0)),
                     elevation: 7,
-                    child: ConstrainedBox(
-                        constraints:
-                            const BoxConstraints(minWidth: 61, minHeight: 61),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8, right: 8, top: 5, bottom: 5),
-                          child: Text(
-                            numberShow,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                                color: themeColor),
-                          ),
-                        )),
+                    child: Center(
+                      child: Text(
+                        numberShow,
+                        style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: themeColor),
+                      ),
+                    ),
                   ),
-                )
+                ))
+          else
+            Align(
+              alignment: Alignment.topCenter,
+              child: Card(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35.0)),
+                elevation: 7,
+                child: ConstrainedBox(
+                    constraints:
+                        const BoxConstraints(minWidth: 61, minHeight: 61),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8, right: 8, top: 5, bottom: 5),
+                      child: Text(
+                        numberShow,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: themeColor),
+                      ),
+                    )),
+              ),
+            )
         ]));
   }
 }

@@ -18,7 +18,7 @@ class SignupModel with ChangeNotifier {
   TextEditingController familyController = TextEditingController();
   TextEditingController firstController = TextEditingController();
 
-  void joinRequest() async {
+  Future<void> joinRequest() async {
     if (isConsent! && joinCode != '') {
       isLoading_join = true;
       notifyListeners();
@@ -53,7 +53,7 @@ class SignupModel with ChangeNotifier {
     }
   }
 
-  void createRequest() async {
+  Future<void> createRequest() async {
     String grade = '';
     switch (dropdown_text) {
       case 'ビーバー隊':
@@ -128,7 +128,7 @@ class SignupModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void launchTermURL() async {
+  Future<void> launchTermURL() async {
     const String url =
         'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md';
     if (await canLaunch(url)) {

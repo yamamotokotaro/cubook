@@ -158,7 +158,7 @@ class DeleteGroupAccount extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 10),
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: Colors.blue[900], //ボタンの背景色
+                                      backgroundColor: Colors.blue[900], //ボタンの背景色
                                     ),
                                     onPressed: () async {
                                       //model.inviteRequest(context);

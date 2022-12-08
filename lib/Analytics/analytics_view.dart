@@ -22,7 +22,8 @@ class AnalyticsView extends StatelessWidget {
     final List<String> type = theme.type;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('アナリティクス'), systemOverlayStyle: SystemUiOverlayStyle.light,
+        title: const Text('アナリティクス'),
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -31,7 +32,8 @@ class AnalyticsView extends StatelessWidget {
               constraints: const BoxConstraints(maxWidth: 600),
               child: Column(
                 children: <Widget>[
-                  Consumer<AnalyticsModel>(builder: (BuildContext context, AnalyticsModel model, Widget? child) {
+                  Consumer<AnalyticsModel>(builder: (BuildContext context,
+                      AnalyticsModel model, Widget? child) {
                     model.getGroup();
                     if (model.group != null) {
                       if (model.teamPosition != null) {
@@ -65,8 +67,9 @@ class AnalyticsView extends StatelessWidget {
                                           children: <Widget>[
                                             Icon(
                                               Icons.menu,
-                                              color:
-                                                  Theme.of(context).colorScheme.secondary,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
                                               size: 35,
                                             ),
                                             const Padding(
@@ -113,8 +116,9 @@ class AnalyticsView extends StatelessWidget {
                                           children: <Widget>[
                                             Icon(
                                               Icons.call_made,
-                                              color:
-                                                  Theme.of(context).colorScheme.secondary,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
                                               size: 35,
                                             ),
                                             const Padding(
@@ -167,8 +171,9 @@ class AnalyticsView extends StatelessWidget {
                                         children: <Widget>[
                                           Icon(
                                             Icons.menu,
-                                            color:
-                                                Theme.of(context).colorScheme.secondary,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
                                             size: 35,
                                           ),
                                           const Padding(
@@ -213,7 +218,9 @@ class AnalyticsView extends StatelessWidget {
                                                     Radius.circular(20.0))),
                                             content: SingleChildScrollView(
                                                 child: Consumer<AnalyticsModel>(
-                                                    builder: (BuildContext context, AnalyticsModel model,
+                                                    builder: (BuildContext
+                                                            context,
+                                                        AnalyticsModel model,
                                                         Widget? child) {
                                               model.export();
                                               if (model.isExporting) {
@@ -224,7 +231,8 @@ class AnalyticsView extends StatelessWidget {
                                                     const Text('エクセルに出力中'),
                                                     Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                    .only(
                                                                 top: 15,
                                                                 bottom: 12),
                                                         child: Container(
@@ -260,15 +268,12 @@ class AnalyticsView extends StatelessWidget {
                                                     const Text('出力が完了しました'),
                                                     Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
-                                                                top: 20),
-                                                        child: FlatButton(
+                                                            const EdgeInsets
+                                                                .only(top: 20),
+                                                        child: TextButton(
                                                             onPressed: () {
                                                               model.openFile();
                                                             },
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme.secondary,
                                                             child: Text(
                                                               'アプリで開く',
                                                               style: TextStyle(
@@ -278,11 +283,12 @@ class AnalyticsView extends StatelessWidget {
                                                                       : Colors
                                                                           .white),
                                                             ))),
-                                                    FlatButton(
+                                                    TextButton(
                                                         onPressed: () {
                                                           model.reExport();
                                                         },
-                                                        child: const Text('再出力'))
+                                                        child:
+                                                            const Text('再出力'))
                                                   ],
                                                 );
                                               }
@@ -298,8 +304,9 @@ class AnalyticsView extends StatelessWidget {
                                         children: <Widget>[
                                           Icon(
                                             Icons.call_made,
-                                            color:
-                                                Theme.of(context).colorScheme.secondary,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
                                             size: 35,
                                           ),
                                           const Padding(
@@ -348,7 +355,9 @@ class AnalyticsView extends StatelessWidget {
                                   children: <Widget>[
                                     Icon(
                                       Icons.menu,
-                                      color: Theme.of(context).colorScheme.secondary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                       size: 35,
                                     ),
                                     const Padding(
@@ -381,7 +390,8 @@ class AnalyticsView extends StatelessWidget {
                                       const EdgeInsets.only(right: 5, top: 4),
                                   child: Icon(
                                     Icons.assignment,
-                                    color: Theme.of(context).colorScheme.secondary,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                     size: 32,
                                   ),
                                 ),
@@ -419,15 +429,14 @@ class AnalyticsView extends StatelessWidget {
                                               TaskListAnalyticsView>(
                                           builder: (BuildContext context) {
                                         return TaskListAnalyticsView(
-                                            type[index], );
+                                          type[index],
+                                        );
                                       }));
                                     } else {
-                                      Navigator.of(context)
-                                          .pushNamed(
+                                      Navigator.of(context).pushNamed(
                                           '/taskDetailAnalytics',
                                           arguments: TaskDetail(
-                                              type: type[index],
-                                              page: 0));
+                                              type: type[index], page: 0));
                                     }
                                   },
                                   child: Align(
@@ -439,8 +448,8 @@ class AnalyticsView extends StatelessWidget {
                                           Align(
                                               alignment: Alignment.bottomLeft,
                                               child: Padding(
-                                                padding:
-                                                    const EdgeInsets.only(left: 13),
+                                                padding: const EdgeInsets.only(
+                                                    left: 13),
                                                 child: Material(
                                                     type: MaterialType
                                                         .transparency,

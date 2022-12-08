@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SettingAccountGroupView extends StatelessWidget {
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-
-  String? uid;
 
   SettingAccountGroupView(String? _uid) {
     uid = _uid;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+
+  String? uid;
 
   @override
   Widget build(BuildContext context) {

@@ -16,7 +16,7 @@ class ListMemberModel extends ChangeNotifier {
   bool? isAdmin = false;
   Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final String? teamPositionBefore = teamPosition;
     final User user = FirebaseAuth.instance.currentUser!;

@@ -26,16 +26,21 @@ class ChangeMailAddressView extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           Padding(
-                              padding: const EdgeInsets.only(top: 20, bottom: 10),
-                              child: Consumer<SettingAccountModel>(
-                                  builder: (BuildContext context, SettingAccountModel model, Widget? child) {
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 10),
+                              child: Consumer<SettingAccountModel>(builder:
+                                  (BuildContext context,
+                                      SettingAccountModel model,
+                                      Widget? child) {
                                 return Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.all(10),
                                       child: TextField(
-                                        maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.addressController,
+                                        maxLengthEnforcement:
+                                            MaxLengthEnforcement.none,
+                                        controller: model.addressController,
                                         enabled: true,
                                         // 入力数
                                         keyboardType: TextInputType.multiline,
@@ -53,7 +58,7 @@ class ChangeMailAddressView extends StatelessWidget {
                                             right: 10),
                                         child: Align(
                                             alignment: Alignment.topLeft,
-                                            child: RaisedButton(
+                                            child: ElevatedButton(
                                               onPressed: () {
                                                 FocusScope.of(context)
                                                     .unfocus();

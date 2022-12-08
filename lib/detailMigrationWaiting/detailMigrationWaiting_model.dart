@@ -27,7 +27,7 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
   bool isFinish = false;
   bool isAdmin = false;
 
-  void migrateAccount(BuildContext context, String? documentID) async {
+  Future<void> migrateAccount(BuildContext context, String? documentID) async {
     print('start migrating...');
     isLoading = true;
     notifyListeners();
@@ -61,7 +61,7 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
     }
   }
 
-  void rejectMigrate(BuildContext context, String? documentID) async {
+  Future<void> rejectMigrate(BuildContext context, String? documentID) async {
     print('start migrating...');
     isLoading = true;
     notifyListeners();

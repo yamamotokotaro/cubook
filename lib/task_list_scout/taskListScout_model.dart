@@ -9,7 +9,7 @@ class TaskListScoutModel extends ChangeNotifier {
   User? currentUser;
   bool isGet = false;
 
-  void getSnapshot() async {
+  Future<void> getSnapshot() async {
     currentUser = FirebaseAuth.instance.currentUser;
 
     FirebaseFirestore.instance

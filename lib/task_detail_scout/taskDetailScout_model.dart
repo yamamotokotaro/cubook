@@ -11,6 +11,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
 class TaskDetailScoutModel extends ChangeNotifier {
+
+  TaskDetailScoutModel(int? number, int? quant, String? _type) {
+    page = number;
+    this.quant = quant;
+    type = _type;
+  }
   final FirebaseAuth auth = FirebaseAuth.instance;
   List<bool> list_isSelected = <bool>[];
   String? documentID;
@@ -44,13 +50,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
   List dataList = <dynamic>[];
   String? type;
 
-  TaskDetailScoutModel(int? number, int? quant, String? _type) {
-    page = number;
-    this.quant = quant;
-    type = _type;
-  }
-
-  void getSnapshot() async {
+  Future<void> getSnapshot() async {
     currentUser = FirebaseAuth.instance.currentUser;
 
     list_snapshot = List<bool>.generate(page!, (int index) => false);
@@ -186,7 +186,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     });
   }
 
-  void onTapSend(int? number) async {
+  Future<void> onTapSend(int? number) async {
     final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
@@ -348,7 +348,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     });
   }
 
-  void onImagePressPick(int number, int index) async {
+  Future<void> onImagePressPick(int number, int index) async {
     final XFile? image = await ImagePicker()
         .pickImage(source: ImageSource.gallery, imageQuality: 50);
     map_attach[number][index] = image;
@@ -356,7 +356,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onImagePressCamera(int number, int index) async {
+  Future<void> onImagePressCamera(int number, int index) async {
     final XFile? image = await ImagePicker()
         .pickImage(source: ImageSource.camera, imageQuality: 50);
     map_attach[number][index] = image;
@@ -364,7 +364,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onVideoPressPick(int number, int index) async {
+  Future<void> onVideoPressPick(int number, int index) async {
     final XFile? image = await ImagePicker().pickVideo(source: ImageSource.gallery);
     map_attach[number][index] = image;
     final VideoPlayerController videoPlayerController = VideoPlayerController.file(File(image!.path));
@@ -379,7 +379,7 @@ class TaskDetailScoutModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onVideoPressCamera(int number, int index) async {
+  Future<void> onVideoPressCamera(int number, int index) async {
     final XFile? image = await ImagePicker().pickVideo(source: ImageSource.camera);
     map_attach[number][index] = image;
     final VideoPlayerController videoPlayerController = VideoPlayerController.file(File(image!.path));

@@ -28,7 +28,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
   String? uid;
   Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getSnapshot(String? uidToShow) async {
+  Future<void> getSnapshot(String? uidToShow) async {
     final TaskContents task = TaskContents();
     if (uidToShow != uid) {
       uid = uidToShow;
@@ -112,7 +112,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
     }
   }
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
@@ -149,7 +149,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeRequest(BuildContext context) async {
+  Future<void> changeRequest(BuildContext context) async {
     String? age;
     String? position;
     String? teamPosition;
@@ -244,7 +244,9 @@ class SettingAccountGroupModel extends ChangeNotifier {
         user.getIdTokenResult().then((IdTokenResult token) async {
           const String url =
               'https://asia-northeast1-cubook-3c960.cloudfunctions.net/changeUserInfo_group';
-          final Map<String, String> headers = {'content-type': 'application/json'};
+          final Map<String, String> headers = {
+            'content-type': 'application/json'
+          };
           final String body = json.encode(<String, dynamic>{
             'idToken': token.token,
             'family': familyController!.text,
@@ -262,18 +264,18 @@ class SettingAccountGroupModel extends ChangeNotifier {
               await http.post(Uri.parse(url), headers: headers, body: body);
           isLoading = false;
           if (resp.body == 'success') {
-            Scaffold.of(context).showSnackBar(const SnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('変更を保存しました'),
             ));
           } else if (resp.body == 'No such document!' ||
               resp.body == 'not found') {
             isLoading = false;
-            Scaffold.of(context).showSnackBar(const SnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('ユーザーが見つかりませんでした'),
             ));
           } else {
             isLoading = false;
-            Scaffold.of(context).showSnackBar(SnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('エラーが発生しました' + resp.body),
             ));
           }
@@ -285,90 +287,93 @@ class SettingAccountGroupModel extends ChangeNotifier {
     }
   }
 
-  void showDeleteSheet(BuildContext context) async {
+  Future<void> showDeleteSheet(BuildContext context) async {
     isFinish = false;
     notifyListeners();
     await showModalBottomSheet<int>(
         context: context,
         builder: (BuildContext context) {
           return Consumer<SettingAccountGroupModel>(
-            builder: (BuildContext context, SettingAccountGroupModel model, Widget? child) {
+            builder: (BuildContext context, SettingAccountGroupModel model,
+                Widget? child) {
               return Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      if (model.isFinish) Column(
-                              children: [
-                                const Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 10, bottom: 10),
-                                    child: Text(
-                                      '👋',
-                                      style: TextStyle(
-                                        fontSize: 30,
-                                      ),
-                                    )),
-                                const Text(
-                                  'アカウントを削除しました',
+                      if (model.isFinish)
+                        Column(
+                          children: [
+                            const Padding(
+                                padding: EdgeInsets.only(top: 10, bottom: 10),
+                                child: Text(
+                                  '👋',
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                                    fontSize: 30,
                                   ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(
-                                    padding:
-                                        const EdgeInsets.only(top: 10, bottom: 10),
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        model.backToList(context);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.blue[900], //ボタンの背景色
-                                      ),
-                                      child: const Text(
-                                        '一覧に戻る',
-                                      ),
-                                    )),
-                              ],
-                            ) else !model.isLoading
-                              ? Column(
-                                  children: [
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 5, left: 17, bottom: 17),
-                                        child: Container(
-                                            width: double.infinity,
-                                            child: const Text(
-                                              '本当に削除しますか？',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 22,
-                                              ),
-                                              textAlign: TextAlign.left,
-                                            ))),
-                                    ListTile(
-                                      leading: const Icon(Icons.delete),
-                                      title: const Text('はい'),
-                                      onTap: () {
-                                        model.deleteAccount(context);
-                                      },
-                                    ),
-                                    ListTile(
-                                      leading: const Icon(Icons.arrow_back),
-                                      title: const Text('いいえ'),
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                    )
-                                  ],
-                                )
-                              : const Center(
-                                  child: Padding(
-                                      padding: EdgeInsets.all(15),
-                                      child: CircularProgressIndicator()),
-                                )
+                                )),
+                            const Text(
+                              'アカウントを削除しました',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 10, bottom: 10),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    model.backToList(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.blue[900], //ボタンの背景色
+                                  ),
+                                  child: const Text(
+                                    '一覧に戻る',
+                                  ),
+                                )),
+                          ],
+                        )
+                      else
+                        !model.isLoading
+                            ? Column(
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5, left: 17, bottom: 17),
+                                      child: Container(
+                                          width: double.infinity,
+                                          child: const Text(
+                                            '本当に削除しますか？',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 22,
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ))),
+                                  ListTile(
+                                    leading: const Icon(Icons.delete),
+                                    title: const Text('はい'),
+                                    onTap: () {
+                                      model.deleteAccount(context);
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: const Icon(Icons.arrow_back),
+                                    title: const Text('いいえ'),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              )
+                            : const Center(
+                                child: Padding(
+                                    padding: EdgeInsets.all(15),
+                                    child: CircularProgressIndicator()),
+                              )
                     ],
                   ));
             },
@@ -376,7 +381,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
         });
   }
 
-  void deleteAccount(BuildContext context) async {
+  Future<void> deleteAccount(BuildContext context) async {
     print('start deleting...');
     isLoading = true;
     notifyListeners();
@@ -385,7 +390,9 @@ class SettingAccountGroupModel extends ChangeNotifier {
       user.getIdTokenResult().then((IdTokenResult token) async {
         const String url =
             'https://asia-northeast1-cubook-3c960.cloudfunctions.net/deleteGroupAccount_https';
-        final Map<String, String> headers = {'content-type': 'application/json'};
+        final Map<String, String> headers = {
+          'content-type': 'application/json'
+        };
         final String body = json.encode(<String, dynamic>{
           'idToken': token.token,
           'uid': uid,
@@ -405,7 +412,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
     }
   }
 
-  void migrateAccount(BuildContext context) async {
+  Future<void> migrateAccount(BuildContext context) async {
     print('start migrating...');
     isLoading = true;
     notifyListeners();
@@ -414,7 +421,9 @@ class SettingAccountGroupModel extends ChangeNotifier {
       user.getIdTokenResult().then((IdTokenResult token) async {
         const String url =
             'https://asia-northeast1-cubook-3c960.cloudfunctions.net/sendMigration';
-        final Map<String, String> headers = {'content-type': 'application/json'};
+        final Map<String, String> headers = {
+          'content-type': 'application/json'
+        };
         final String body = json.encode(<String, dynamic>{
           'idToken': token.token,
           'uid': uid,
@@ -422,7 +431,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
         });
 
         final http.Response resp =
-        await http.post(Uri.parse(url), headers: headers, body: body);
+            await http.post(Uri.parse(url), headers: headers, body: body);
         isLoading = false;
         if (resp.body == 'success') {
           isFinish = true;

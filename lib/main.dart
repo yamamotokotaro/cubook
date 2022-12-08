@@ -75,7 +75,7 @@ void main() async {
   // Pass all uncaught errors from the framework to Crashlytics.
 
   WidgetsFlutterBinding.ensureInitialized();
-  GestureBinding.instance!.resamplingEnabled = true;
+  GestureBinding.instance.resamplingEnabled = true;
   // Firebaseの各サービスを使う前に初期化を済ませておく必要がある
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -177,15 +177,15 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
               fontFamily: 'NotoSansJP',
-
+              useMaterial3: true,
               colorScheme: ColorScheme.fromSwatch().copyWith(
                   primary: Colors.blue[900], secondary: Colors.blue[900])),
           darkTheme: ThemeData(
             useMaterial3: true,
             fontFamily: 'NotoSansJP',
-            brightness: Brightness.dark,
             primaryColor: Colors.blue[900],
-            accentColor: Colors.white,
+            colorScheme:
+                ColorScheme.fromSwatch().copyWith(secondary: Colors.white),
           ),
           routes: <String, WidgetBuilder>{
             '/listTaskWaiting': (BuildContext context) => ListTaskWaitingView(),

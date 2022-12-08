@@ -9,7 +9,7 @@ class TaskListScoutConfirmModel extends ChangeNotifier {
   User? currentUser;
   bool isGet = false;
 
-  void getSnapshot(String? uid) async {
+  Future<void> getSnapshot(String? uid) async {
     print(uid);
     final User user = FirebaseAuth.instance.currentUser!;
     currentUser = user;

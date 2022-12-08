@@ -53,17 +53,16 @@ class MyPageRoute extends TransitionRoute<dynamic> {
 }
 
 class TaskScoutDetailConfirmView extends StatelessWidget {
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-  String? type;
-  int? number;
-  Color? themeColor;
-
   TaskScoutDetailConfirmView(String? _type, int? _number) {
     themeColor = theme.getThemeColor(_type);
     type = _type;
     number = _number;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  String? type;
+  int? number;
+  Color? themeColor;
 
   @override
   Widget build(BuildContext context) {
@@ -85,11 +84,13 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                     ),
                     elevation: 2,
                     child: InkWell(child: Consumer<TaskDetailScoutConfirmModel>(
-                        builder: (BuildContext context, TaskDetailScoutConfirmModel model, _) {
+                        builder: (BuildContext context,
+                            TaskDetailScoutConfirmModel model, _) {
                       if (model.isExit == true) {
                         String message = '';
                         final DocumentSnapshot snapshot = model.stepSnapshot;
-                        final Map<String, dynamic> documentData = snapshot.data() as Map<String, dynamic>;
+                        final Map<String, dynamic> documentData =
+                            snapshot.data() as Map<String, dynamic>;
                         if (documentData['end'] != null) {
                           if (type != 'usagi' &&
                               type != 'sika' &&
@@ -124,8 +125,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           topRight: Radius.circular(20)),
                                       color: themeColor),
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.only(top: 40, bottom: 20),
+                                    padding: const EdgeInsets.only(
+                                        top: 40, bottom: 20),
                                     child: Center(
                                       child: Text(
                                         task.getPartMap(type, number)!['title'],
@@ -159,16 +160,16 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                             child: Column(
                                               children: <Widget>[
                                                 Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        top: 10,
-                                                        left: 20,
-                                                        right: 20),
-                                                    child: RaisedButton.icon(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10,
+                                                            left: 20,
+                                                            right: 20),
+                                                    child: ElevatedButton.icon(
                                                       onPressed: () async {
                                                         model.onTapExamination(
                                                             snapshot.id);
                                                       },
-                                                      color: themeColor,
                                                       icon: const Icon(
                                                         Icons.check,
                                                         size: 20,
@@ -204,8 +205,9 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 5),
-                                          child: FlatButton(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: TextButton(
                                             child: Text(
                                               DateFormat('yyyy/MM/dd')
                                                   .format(snapshot
@@ -250,8 +252,9 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 5),
-                                          child: FlatButton(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: TextButton(
                                             child: Text(
                                               DateFormat('yyyy/MM/dd')
                                                   .format(snapshot
@@ -278,128 +281,137 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                   )
                                 else
                                   Container(),
-
-                                if(type != 'usagi' && type != 'sika' && type != 'kuma' && type != 'tukinowa' && type != 'challenge')
-                                if (model.stepData!['date_examination'] !=
-                                    null)
-                                  Container(
-                                    child: Column(
-                                      children: <Widget>[
-                                        const Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Text(
-                                            '考査面接日',
-                                            style: TextStyle(
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold,
-                                                decoration:
-                                                    TextDecoration.none),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 5),
-                                          child: FlatButton(
+                                if (type != 'usagi' &&
+                                    type != 'sika' &&
+                                    type != 'kuma' &&
+                                    type != 'tukinowa' &&
+                                    type != 'challenge')
+                                  if (model.stepData!['date_examination'] !=
+                                      null)
+                                    Container(
+                                      child: Column(
+                                        children: <Widget>[
+                                          const Padding(
+                                            padding: EdgeInsets.all(10),
                                             child: Text(
-                                              model.stepSnapshot.get(
-                                                          'date_interview') !=
-                                                      null
-                                                  ? DateFormat('yyyy/MM/dd')
-                                                      .format(snapshot
-                                                          .get('date_interview')
-                                                          .toDate())
-                                                      .toString()
-                                                  : 'タップして追加',
-                                              style: const TextStyle(
+                                              '考査面接日',
+                                              style: TextStyle(
                                                   fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
                                                   decoration:
                                                       TextDecoration.none),
                                             ),
-                                            onPressed: () {
-                                              model.changeTime(
-                                                  snapshot
-                                                      .get('date_examination')
-                                                      .toDate(),
-                                                  context,
-                                                  snapshot.id,
-                                                  'date_interview');
-                                            },
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                else
-                                  Container(),
-
-                                if(type != 'usagi' && type != 'sika' && type != 'kuma' && type != 'tukinowa' && type != 'challenge')
-                                if (model.stepData!['date_examination'] !=
-                                    null)
-                                  Container(
-                                    child: Column(
-                                      children: <Widget>[
-                                        const Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Text(
-                                            '考査認定日',
-                                            style: TextStyle(
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold,
-                                                decoration:
-                                                    TextDecoration.none),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 5),
-                                          child: FlatButton(
-                                            child: Text(
-                                              DateFormat('yyyy/MM/dd')
-                                                  .format(snapshot
-                                                      .get('date_examination')
-                                                      .toDate())
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                            onPressed: () {
-                                              model.changeTime(
-                                                  snapshot
-                                                      .get('date_examination')
-                                                      .toDate(),
-                                                  context,
-                                                  snapshot.id,
-                                                  'date_examination');
-                                            },
-                                          ),
-                                        ),
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10, left: 20, right: 20),
-                                            child: FlatButton.icon(
-                                              onPressed: () async {
-                                                model.onTapNotExamination(
-                                                    snapshot.id);
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 5),
+                                            child: TextButton(
+                                              child: Text(
+                                                model.stepSnapshot.get(
+                                                            'date_interview') !=
+                                                        null
+                                                    ? DateFormat('yyyy/MM/dd')
+                                                        .format(snapshot
+                                                            .get(
+                                                                'date_interview')
+                                                            .toDate())
+                                                        .toString()
+                                                    : 'タップして追加',
+                                                style: const TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                              onPressed: () {
+                                                model.changeTime(
+                                                    snapshot
+                                                        .get('date_examination')
+                                                        .toDate(),
+                                                    context,
+                                                    snapshot.id,
+                                                    'date_interview');
                                               },
-                                              icon: const Icon(
-                                                Icons.close,
-                                                size: 20,
-                                              ),
-                                              label: const Text(
-                                                '考査未完了にする',
-                                                style: TextStyle(
-                                                  fontSize: 15,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  else
+                                    Container(),
+                                if (type != 'usagi' &&
+                                    type != 'sika' &&
+                                    type != 'kuma' &&
+                                    type != 'tukinowa' &&
+                                    type != 'challenge')
+                                  if (model.stepData!['date_examination'] !=
+                                      null)
+                                    Container(
+                                      child: Column(
+                                        children: <Widget>[
+                                          const Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Text(
+                                              '考査認定日',
+                                              style: TextStyle(
+                                                  fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
-                                                ),
+                                                  decoration:
+                                                      TextDecoration.none),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 5),
+                                            child: TextButton(
+                                              child: Text(
+                                                DateFormat('yyyy/MM/dd')
+                                                    .format(snapshot
+                                                        .get('date_examination')
+                                                        .toDate())
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
                                               ),
-                                            )),
-                                      ],
-                                    ),
-                                  )
-                                else
-                                  Container(),
+                                              onPressed: () {
+                                                model.changeTime(
+                                                    snapshot
+                                                        .get('date_examination')
+                                                        .toDate(),
+                                                    context,
+                                                    snapshot.id,
+                                                    'date_examination');
+                                              },
+                                            ),
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10, left: 20, right: 20),
+                                              child: TextButton.icon(
+                                                onPressed: () async {
+                                                  model.onTapNotExamination(
+                                                      snapshot.id);
+                                                },
+                                                icon: const Icon(
+                                                  Icons.close,
+                                                  size: 20,
+                                                ),
+                                                label: const Text(
+                                                  '考査未完了にする',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    )
+                                  else
+                                    Container(),
                                 if ((type != 'risu' &&
                                         type != 'usagi' &&
                                         type != 'sika' &&
@@ -419,7 +431,9 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           final String content =
                                               contents[index]['body'];
                                           Color? bordercolor;
-                                          if (Theme.of(context).colorScheme.secondary ==
+                                          if (Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary ==
                                               Colors.white) {
                                             bordercolor = Colors.grey[700];
                                           } else {
@@ -451,7 +465,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                   ),
                                                   child: Padding(
                                                       padding:
-                                                          const EdgeInsets.all(8),
+                                                          const EdgeInsets.all(
+                                                              8),
                                                       child: Text(content)),
                                                 )),
                                           );
@@ -516,7 +531,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                         topRight: Radius.circular(20)),
                                     color: themeColor),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(top: 40, bottom: 20),
+                                  padding: const EdgeInsets.only(
+                                      top: 40, bottom: 20),
                                   child: Center(
                                     child: Text(
                                       task.getPartMap(type, number)!['title'],
@@ -539,102 +555,104 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                 ),
                               ),
                               if ((type != 'risu' &&
-                                          type != 'usagi' &&
-                                          type != 'sika' &&
-                                          type != 'kuma' &&
-                                          type != 'challenge' &&
-                                          type != 'tukinowa') ||
-                                      model.group == ' j27DETWHGYEfpyp2Y292' ||
-                                      model.group == ' z4pkBhhgr0fUMN4evr5z') Column(children: [
-                                      ListView.builder(
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          itemCount: contents!.length,
-                                          shrinkWrap: true,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            final String content =
-                                                contents[index]['body'];
-                                            Color? bordercolor;
-                                            if (Theme.of(context).colorScheme.secondary ==
-                                                Colors.white) {
-                                              bordercolor = Colors.grey[700];
-                                            } else {
-                                              bordercolor = Colors.grey[300];
-                                            }
-                                            return Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 10,
-                                                  right: 10,
-                                                  left: 10),
-                                              child: Card(
-                                                  color: const Color(0x00000000),
-                                                  shape: RoundedRectangleBorder(
-                                                    side: BorderSide(
-                                                      color: bordercolor!,
-                                                      width: 2.0,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                  ),
-                                                  elevation: 0,
-                                                  child: InkWell(
-                                                    customBorder:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                    ),
-                                                    child: Padding(
-                                                        padding:
-                                                            const EdgeInsets.all(8),
-                                                        child: Text(content)),
-                                                  )),
-                                            );
-                                          }),
-                                      Padding(
+                                      type != 'usagi' &&
+                                      type != 'sika' &&
+                                      type != 'kuma' &&
+                                      type != 'challenge' &&
+                                      type != 'tukinowa') ||
+                                  model.group == ' j27DETWHGYEfpyp2Y292' ||
+                                  model.group == ' z4pkBhhgr0fUMN4evr5z')
+                                Column(children: [
+                                  ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: contents!.length,
+                                      shrinkWrap: true,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final String content =
+                                            contents[index]['body'];
+                                        Color? bordercolor;
+                                        if (Theme.of(context)
+                                                .colorScheme
+                                                .secondary ==
+                                            Colors.white) {
+                                          bordercolor = Colors.grey[700];
+                                        } else {
+                                          bordercolor = Colors.grey[300];
+                                        }
+                                        return Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 15, bottom: 10, right: 15),
-                                          child: Container(
-                                            width: double.infinity,
-                                            child: const Text(
-                                              '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.bold,
+                                              bottom: 10, right: 10, left: 10),
+                                          child: Card(
+                                              color: const Color(0x00000000),
+                                              shape: RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                  color: bordercolor!,
+                                                  width: 2.0,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
                                               ),
-                                              textAlign: TextAlign.left,
+                                              elevation: 0,
+                                              child: InkWell(
+                                                customBorder:
+                                                    RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                ),
+                                                child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(8),
+                                                    child: Text(content)),
+                                              )),
+                                        );
+                                      }),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, bottom: 10, right: 15),
+                                      child: Container(
+                                        width: double.infinity,
+                                        child: const Text(
+                                          '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      )),
+                                ])
+                              else
+                                Padding(
+                                    padding: const EdgeInsets.only(top: 5),
+                                    child: Center(
+                                        child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 5, top: 4),
+                                            child: Icon(
+                                              //ああああ
+                                              Icons.chrome_reader_mode,
+                                              color: themeColor,
+                                              size: 22,
                                             ),
-                                          )),
-                                    ]) else Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Center(
-                                          child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 5, top: 4),
-                                              child: Icon(
-                                                //ああああ
-                                                Icons.chrome_reader_mode,
-                                                color: themeColor,
-                                                size: 22,
-                                              ),
-                                            ),
-                                            const Text(
-                                              '内容はカブブックで確認しよう',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.normal,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ]))),
+                                          ),
+                                          const Text(
+                                            '内容はカブブックで確認しよう',
+                                            style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.normal,
+                                                decoration:
+                                                    TextDecoration.none),
+                                          ),
+                                        ]))),
                             ]))));
                       } else {
                         return Container(
@@ -672,13 +690,6 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
 }
 
 class TaskScoutAddConfirmView extends StatelessWidget {
-  int? page;
-  int? index_page;
-  String? type;
-  Color? themeColor;
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-
   TaskScoutAddConfirmView(
     String? _type,
     int? _page,
@@ -689,6 +700,12 @@ class TaskScoutAddConfirmView extends StatelessWidget {
     index_page = _index;
     type = _type;
   }
+  int? page;
+  int? index_page;
+  String? type;
+  Color? themeColor;
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {
@@ -720,8 +737,9 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                 body: SingleChildScrollView(
                                     child: Column(
                               children: <Widget>[
-                                Consumer<TaskDetailScoutConfirmModel>(
-                                    builder: (BuildContext context, TaskDetailScoutConfirmModel model, _) {
+                                Consumer<TaskDetailScoutConfirmModel>(builder:
+                                    (BuildContext context,
+                                        TaskDetailScoutConfirmModel model, _) {
                                   if (!model.isGet) {
                                     model.getSnapshot();
                                   }
@@ -747,13 +765,12 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                 .size
                                                 .width,
                                             decoration: BoxDecoration(
-                                                borderRadius: const BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(
-                                                            0),
-                                                    topRight:
-                                                        Radius.circular(
-                                                            0)),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(0),
+                                                        topRight:
+                                                            Radius.circular(0)),
                                                 color: themeColor),
                                             child: const Padding(
                                               padding: EdgeInsets.only(
@@ -771,8 +788,9 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                             ),
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.only(top: 5),
-                                            child: FlatButton(
+                                            padding:
+                                                const EdgeInsets.only(top: 5),
+                                            child: TextButton(
                                               child: Text(
                                                 DateFormat('yyyy/MM/dd')
                                                     .format(model.dateSelected[
@@ -828,7 +846,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                           if (!model.isLoading[index_page!])
                                             Column(
                                               children: <Widget>[
-                                                RaisedButton.icon(
+                                                ElevatedButton.icon(
                                                   onPressed: () {
                                                     model.onTapSave(
                                                         index_page!, context);
@@ -838,7 +856,6 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                     size: 20,
                                                     color: Colors.white,
                                                   ),
-                                                  color: themeColor,
                                                   label: const Text(
                                                     '変更を保存',
                                                     style: TextStyle(
@@ -848,7 +865,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                         color: Colors.white),
                                                   ),
                                                 ),
-                                                FlatButton.icon(
+                                                TextButton.icon(
                                                   onPressed: () async {
                                                     await showModalBottomSheet<
                                                         int>(
@@ -857,7 +874,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                           context) {
                                                         return Padding(
                                                             padding:
-                                                                const EdgeInsets.only(
+                                                                const EdgeInsets
+                                                                        .only(
                                                                     top: 10,
                                                                     bottom: 10),
                                                             child: Column(
@@ -867,7 +885,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                               children: <
                                                                   Widget>[
                                                                 Padding(
-                                                                    padding: const EdgeInsets.only(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
                                                                         top: 5,
                                                                         left:
                                                                             17,
@@ -888,11 +907,13 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                               TextAlign.left,
                                                                         ))),
                                                                 ListTile(
-                                                                  leading: const Icon(
-                                                                      Icons
-                                                                          .delete),
-                                                                  title: const Text(
-                                                                      'はい'),
+                                                                  leading:
+                                                                      const Icon(
+                                                                          Icons
+                                                                              .delete),
+                                                                  title:
+                                                                      const Text(
+                                                                          'はい'),
                                                                   onTap: () {
                                                                     model.onTapCancel(
                                                                         index_page!);
@@ -901,11 +922,13 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                   },
                                                                 ),
                                                                 ListTile(
-                                                                  leading: const Icon(
-                                                                      Icons
-                                                                          .arrow_back),
-                                                                  title: const Text(
-                                                                      'いいえ'),
+                                                                  leading:
+                                                                      const Icon(
+                                                                          Icons
+                                                                              .arrow_back),
+                                                                  title:
+                                                                      const Text(
+                                                                          'いいえ'),
                                                                   onTap: () {
                                                                     Navigator.pop(
                                                                         context);
@@ -931,14 +954,16 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        left: 10, right: 10),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10,
+                                                            right: 10),
                                                     child: Divider(
                                                       color: isDark
                                                           ? Colors.grey[600]
                                                           : Colors.grey[400],
                                                     )),
-                                                FlatButton.icon(
+                                                TextButton.icon(
                                                   onPressed: () async {
                                                     final int? result =
                                                         await showModalBottomSheet<
@@ -948,7 +973,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                           context) {
                                                         return Padding(
                                                             padding:
-                                                                const EdgeInsets.only(
+                                                                const EdgeInsets
+                                                                        .only(
                                                                     top: 10,
                                                                     bottom: 10),
                                                             child: Column(
@@ -976,11 +1002,13 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                               TextAlign.left,
                                                                         ))),
                                                                 ListTile(
-                                                                  leading: const Icon(
-                                                                      Icons
-                                                                          .camera_alt),
-                                                                  title: const Text(
-                                                                      'カメラ'),
+                                                                  leading:
+                                                                      const Icon(
+                                                                          Icons
+                                                                              .camera_alt),
+                                                                  title:
+                                                                      const Text(
+                                                                          'カメラ'),
                                                                   onTap: () {
                                                                     model.onImagePressCamera(
                                                                         model
@@ -991,7 +1019,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                   },
                                                                 ),
                                                                 ListTile(
-                                                                  leading: const Icon(
+                                                                  leading:
+                                                                      const Icon(
                                                                     Icons
                                                                         .collections,
                                                                   ),
@@ -1025,11 +1054,13 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                               TextAlign.left,
                                                                         ))),
                                                                 ListTile(
-                                                                  leading: const Icon(
-                                                                      Icons
-                                                                          .camera_alt),
-                                                                  title: const Text(
-                                                                      'カメラ'),
+                                                                  leading:
+                                                                      const Icon(
+                                                                          Icons
+                                                                              .camera_alt),
+                                                                  title:
+                                                                      const Text(
+                                                                          'カメラ'),
                                                                   onTap: () {
                                                                     model.onVideoPressCamera(
                                                                         model
@@ -1040,7 +1071,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                   },
                                                                 ),
                                                                 ListTile(
-                                                                  leading: const Icon(
+                                                                  leading:
+                                                                      const Icon(
                                                                     Icons
                                                                         .collections,
                                                                   ),
@@ -1092,7 +1124,9 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                             Column(
                                               children: <Widget>[
                                                 Padding(
-                                                    padding: const EdgeInsets.all(10),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
                                                     child: ListView.builder(
                                                         physics:
                                                             const NeverScrollableScrollPhysics(),
@@ -1118,7 +1152,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                       InkWell(
                                                                 onLongPress:
                                                                     () async {
-                                                                  final int? result =
+                                                                  final int?
+                                                                      result =
                                                                       await showModalBottomSheet<
                                                                           int>(
                                                                     context:
@@ -1176,7 +1211,8 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                       InkWell(
                                                                     onLongPress:
                                                                         () async {
-                                                                      final int? result =
+                                                                      final int?
+                                                                          result =
                                                                           await showModalBottomSheet<
                                                                               int>(
                                                                         context:
@@ -1231,8 +1267,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                         Padding(
                                                                   padding:
                                                                       const EdgeInsets
-                                                                          .all(
-                                                                              0),
+                                                                          .all(0),
                                                                   child: Column(
                                                                     children: <
                                                                         Widget>[
@@ -1269,13 +1304,12 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                 .size
                                                 .width,
                                             decoration: BoxDecoration(
-                                                borderRadius: const BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(
-                                                            0),
-                                                    topRight:
-                                                        Radius.circular(
-                                                            0)),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(0),
+                                                        topRight:
+                                                            Radius.circular(0)),
                                                 color: themeColor),
                                             child: const Padding(
                                               padding: EdgeInsets.only(
@@ -1385,10 +1419,11 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(35.0)),
                 elevation: 7,
                 child: ConstrainedBox(
-                    constraints: const BoxConstraints(minWidth: 61, minHeight: 61),
+                    constraints:
+                        const BoxConstraints(minWidth: 61, minHeight: 61),
                     child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+                      padding: const EdgeInsets.only(
+                          left: 8, right: 8, top: 5, bottom: 5),
                       child: Text(
                         numberShow,
                         textAlign: TextAlign.center,

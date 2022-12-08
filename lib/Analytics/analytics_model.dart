@@ -31,7 +31,7 @@ class AnalyticsModel extends ChangeNotifier {
   String? position;
   Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final String? teamPositionBefore = teamPosition;
     final User user = FirebaseAuth.instance.currentUser!;
@@ -62,7 +62,7 @@ class AnalyticsModel extends ChangeNotifier {
     });
   }
 
-  void export() async {
+  Future<void> export() async {
     final TaskContents task = TaskContents();
     final ThemeInfo theme = ThemeInfo();
     final List<String> type = [
@@ -196,7 +196,7 @@ class AnalyticsModel extends ChangeNotifier {
     }
   }
 
-  void openFile() async {
+  Future<void> openFile() async {
     if (kIsWeb) {
     } else {
       await OpenFile.open(file_dir!);

@@ -154,7 +154,7 @@ class EditProfile extends StatelessWidget {
                                   child: !model.isLoading
                                       ? ElevatedButton.icon(
                                           style: ElevatedButton.styleFrom(
-                                            primary: Colors.blue[900], //ボタンの背景色
+                                            backgroundColor: Colors.blue[900], //ボタンの背景色
                                           ),
                                           onPressed: () {
                                             model.changeRequest(context);

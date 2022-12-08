@@ -10,7 +10,7 @@ class ListActivityModel extends ChangeNotifier{
   String? group_claim;
   Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser!;
       FirebaseFirestore.instance.collection('user').where('uid', isEqualTo: user.uid).get().then((QuerySnapshot<Map<String, dynamic>> snapshot) {

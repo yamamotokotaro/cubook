@@ -7,13 +7,13 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListAbsentView extends StatelessWidget {
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-  String? uid;
 
   ListAbsentView(String? _uid) {
     uid = _uid;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  String? uid;
 
   @override
   Widget build(BuildContext context) {

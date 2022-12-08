@@ -33,7 +33,7 @@ class HomeModel extends ChangeNotifier {
   List<dynamic>? _token_notification = <dynamic>[];
   bool isSended = false;
 
-  void login() async {
+  Future<void> login() async {
     isLoaded = false;
     userSnapshot = null;
     currentUser = null;
@@ -247,7 +247,7 @@ class HomeModel extends ChangeNotifier {
     // notifyListeners();
   }
 
-  void logout() async {
+  Future<void> logout() async {
     if (kIsWeb) {
       // await FlutterAuthUi.signOut();
       await FirebaseAuth.instance.signOut();
@@ -284,9 +284,9 @@ class HomeModel extends ChangeNotifier {
     });
   }*/
 
-  void getUserSnapshot() async {}
+  Future<void> getUserSnapshot() async {}
 
-  void getSnapshot() async {
+  Future<void> getSnapshot() async {
     final User? user = FirebaseAuth.instance.currentUser;
     currentUser = user;
     FirebaseFirestore.instance
@@ -301,7 +301,7 @@ class HomeModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void increaseCount(String documentID) async {
+  Future<void> increaseCount(String documentID) async {
     FirebaseFirestore.instance
         .collection('efforts')
         .doc(documentID)

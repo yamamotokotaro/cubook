@@ -11,7 +11,7 @@ class ListTaskWaitingModel extends ChangeNotifier {
   bool isGet = false;
   bool isLoaded = false;
 
-  void getSnapshot() async {
+  Future<void> getSnapshot() async {
     final String? groupBefore = group;
     final String? teamPositionBefore = teamPosition;
     final User user = FirebaseAuth.instance.currentUser!;

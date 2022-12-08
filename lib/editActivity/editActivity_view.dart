@@ -13,7 +13,8 @@ class EditActivityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? documentID = ModalRoute.of(context)!.settings.arguments as String?;
+    final String? documentID =
+        ModalRoute.of(context)!.settings.arguments as String?;
     bool isDark;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
@@ -22,10 +23,11 @@ class EditActivityView extends StatelessWidget {
     }
     return Scaffold(
         appBar: AppBar(
-          title: const Text('記録を編集'), systemOverlayStyle: SystemUiOverlayStyle.light,
+          title: const Text('記録を編集'),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
-        floatingActionButton:
-            Consumer<EditActivityModel>(builder: (BuildContext context, EditActivityModel model, Widget? child) {
+        floatingActionButton: Consumer<EditActivityModel>(builder:
+            (BuildContext context, EditActivityModel model, Widget? child) {
           if (model.isLoading) {
             return FloatingActionButton(
               onPressed: null,
@@ -52,8 +54,9 @@ class EditActivityView extends StatelessWidget {
               child: Center(
                 child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 600),
-                    child: Consumer<EditActivityModel>(
-                        builder: (BuildContext contextBuilder, EditActivityModel model, Widget? child) {
+                    child: Consumer<EditActivityModel>(builder:
+                        (BuildContext contextBuilder, EditActivityModel model,
+                            Widget? child) {
                       print('ページ更新');
                       model.getGroup();
                       if (model.group != null) {
@@ -62,7 +65,8 @@ class EditActivityView extends StatelessWidget {
                           child: Column(
                             children: <Widget>[
                               Padding(
-                                  padding: const EdgeInsets.only(top: 20, bottom: 10),
+                                  padding: const EdgeInsets.only(
+                                      top: 20, bottom: 10),
                                   child: Column(
                                     children: <Widget>[
                                       StreamBuilder<DocumentSnapshot>(
@@ -74,15 +78,20 @@ class EditActivityView extends StatelessWidget {
                                             AsyncSnapshot<DocumentSnapshot>
                                                 snapshot) {
                                           if (snapshot.hasData) {
-                                            final DocumentSnapshot documentSnapshot =
+                                            final DocumentSnapshot
+                                                documentSnapshot =
                                                 snapshot.data!;
                                             const String teamLast = '';
                                             model.getInfo(documentSnapshot);
                                             return Column(children: <Widget>[
                                               Padding(
-                                                  padding: const EdgeInsets.all(10),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
                                                   child: TextField(
-                                                      maxLengthEnforcement: MaxLengthEnforcement.none, controller:
+                                                      maxLengthEnforcement:
+                                                          MaxLengthEnforcement
+                                                              .none,
+                                                      controller:
                                                           model.titleController,
                                                       enabled: true,
                                                       keyboardType:
@@ -97,14 +106,14 @@ class EditActivityView extends StatelessWidget {
                                                               ? 'タイトルを入力してください　'
                                                               : null))),
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.only(top: 5),
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
                                                 child: Container(
                                                     width: double.infinity,
                                                     child: Align(
                                                         alignment: Alignment
                                                             .centerLeft,
-                                                        child: FlatButton(
+                                                        child: TextButton(
                                                           child: Text(
                                                             DateFormat(
                                                                     'yyyy/MM/dd')
@@ -156,8 +165,10 @@ class EditActivityView extends StatelessWidget {
                                                 snapshot) {
                                           if (snapshot.hasData) {
                                             model.getAbsents(snapshot.data);
-                                            if (snapshot.data!.docs.isNotEmpty) {
-                                              final QuerySnapshot querySnapshot =
+                                            if (snapshot
+                                                .data!.docs.isNotEmpty) {
+                                              final QuerySnapshot
+                                                  querySnapshot =
                                                   snapshot.data!;
                                               final List<DocumentSnapshot>
                                                   listDocumentSnapshot =
@@ -176,10 +187,11 @@ class EditActivityView extends StatelessWidget {
                                               }
                                               return Column(children: <Widget>[
                                                 Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        top: 15,
-                                                        bottom: 15,
-                                                        left: 10),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 15,
+                                                            bottom: 15,
+                                                            left: 10),
                                                     child: Container(
                                                         width: double.infinity,
                                                         child: const Text(
@@ -208,11 +220,10 @@ class EditActivityView extends StatelessWidget {
                                                               .docs[index];
                                                       final String documentID =
                                                           snapshot.id;
-                                                      uid = snapshot
-                                                          .get('uid');
+                                                      uid = snapshot.get('uid');
                                                       bool? isCheck = true;
-                                                      if (model
-                                                              .uid_check[uid!] !=
+                                                      if (model.uid_check[
+                                                              uid!] !=
                                                           null) {
                                                         isCheck = model
                                                             .uid_check[uid];
@@ -221,8 +232,7 @@ class EditActivityView extends StatelessWidget {
                                                       if (snapshot
                                                               .get('team') !=
                                                           null) {
-                                                        if (snapshot
-                                                                .get('team')
+                                                        if (snapshot.get('team')
                                                             is int) {
                                                           team = snapshot
                                                               .get('team')
@@ -242,8 +252,8 @@ class EditActivityView extends StatelessWidget {
                                                       } else {
                                                         isFirst = false;
                                                       }
-                                                      final String? age = snapshot
-                                                          .get('age');
+                                                      final String? age =
+                                                          snapshot.get('age');
                                                       String teamCall;
                                                       if (age == 'usagi' ||
                                                           age == 'sika' ||
@@ -256,35 +266,40 @@ class EditActivityView extends StatelessWidget {
                                                       return Column(
                                                           children: <Widget>[
                                                             if (isFirst &&
-                                                                    team != '') Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                            10),
-                                                                    child: Container(
-                                                                        width: double.infinity,
-                                                                        child: Text(
-                                                                          team! +
-                                                                              teamCall,
-                                                                          style:
-                                                                              const TextStyle(
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontSize:
-                                                                                23,
-                                                                          ),
-                                                                          textAlign:
-                                                                              TextAlign.left,
-                                                                        ))) else Container(),
+                                                                team != '')
+                                                              Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(10),
+                                                                  child: Container(
+                                                                      width: double.infinity,
+                                                                      child: Text(
+                                                                        team! +
+                                                                            teamCall,
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          fontSize:
+                                                                              23,
+                                                                        ),
+                                                                        textAlign:
+                                                                            TextAlign.left,
+                                                                      )))
+                                                            else
+                                                              Container(),
                                                             Dismissible(
-                                                                key: Key(snapshot
-                                                                        .get(
-                                                                    'name')),
+                                                                key: Key(
+                                                                    snapshot.get(
+                                                                        'name')),
                                                                 onDismissed:
-                                                                    (DismissDirection direction) {
+                                                                    (DismissDirection
+                                                                        direction) {
                                                                   model.dismissUser(
                                                                       snapshot
                                                                           .id);
-                                                                  final SnackBar snackBar =
+                                                                  final SnackBar
+                                                                      snackBar =
                                                                       SnackBar(
                                                                     content: Text(
                                                                         snapshot.get('name') +
@@ -302,23 +317,23 @@ class EditActivityView extends StatelessWidget {
                                                                           () {
                                                                         model.cancelDismiss(
                                                                             uid,
-                                                                            snapshot.data() as Map<String, dynamic>);
+                                                                            snapshot.data()
+                                                                                as Map<String, dynamic>);
                                                                       },
                                                                     ),
                                                                     duration: const Duration(
                                                                         seconds:
                                                                             1),
                                                                   );
-                                                                  Scaffold.of(
-                                                                          contextBuilder)
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
                                                                       .showSnackBar(
                                                                           snackBar);
                                                                 },
                                                                 child: Padding(
                                                                     padding:
-                                                                        const EdgeInsets
-                                                                            .all(
-                                                                                5),
+                                                                        const EdgeInsets.all(
+                                                                            5),
                                                                     child:
                                                                         Container(
                                                                       child:
@@ -373,10 +388,11 @@ class EditActivityView extends StatelessWidget {
                                                           ]);
                                                     }),
                                                 Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        top: 15,
-                                                        bottom: 15,
-                                                        left: 10),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 15,
+                                                            bottom: 15,
+                                                            left: 10),
                                                     child: Container(
                                                         width: double.infinity,
                                                         child: const Text(
@@ -409,7 +425,8 @@ class EditActivityView extends StatelessWidget {
                                                                   QuerySnapshot>
                                                               snapshot) {
                                                     if (snapshot.hasData) {
-                                                      if (snapshot.data!.docs.isNotEmpty) {
+                                                      if (snapshot.data!.docs
+                                                          .isNotEmpty) {
                                                         final QuerySnapshot
                                                             querySnapshot =
                                                             snapshot.data!;
@@ -431,9 +448,8 @@ class EditActivityView extends StatelessWidget {
                                                                   querySnapshot
                                                                           .docs[
                                                                       index];
-                                                              if (!listUid
-                                                                  .contains(snapshot
-                                                                          .get(
+                                                              if (!listUid.contains(
+                                                                  snapshot.get(
                                                                       'uid'))) {
                                                                 bool isFirst;
                                                                 String? team;
@@ -446,8 +462,8 @@ class EditActivityView extends StatelessWidget {
                                                                       .toString();
                                                                 } else {
                                                                   team = snapshot
-                                                                          .get(
-                                                                      'team');
+                                                                      .get(
+                                                                          'team');
                                                                 }
                                                                 if (teamLast !=
                                                                     team) {
@@ -459,11 +475,11 @@ class EditActivityView extends StatelessWidget {
                                                                   isFirst =
                                                                       false;
                                                                 }
-                                                                final String? grade =
+                                                                final String?
+                                                                    grade =
                                                                     snapshot.get(
                                                                         'grade');
-                                                                String
-                                                                    teamCall;
+                                                                String teamCall;
                                                                 if (grade ==
                                                                     'cub') {
                                                                   teamCall =
@@ -476,18 +492,25 @@ class EditActivityView extends StatelessWidget {
                                                                     children: <
                                                                         Widget>[
                                                                       if (isFirst &&
-                                                                              team != '') Padding(
-                                                                              padding: const EdgeInsets.only(top: 10, bottom: 10, left: 17),
-                                                                              child: Container(
-                                                                                  width: double.infinity,
-                                                                                  child: Text(
-                                                                                    team! + teamCall,
-                                                                                    style: const TextStyle(
-                                                                                      fontWeight: FontWeight.bold,
-                                                                                      fontSize: 23,
-                                                                                    ),
-                                                                                    textAlign: TextAlign.left,
-                                                                                  ))) else Container(),
+                                                                          team !=
+                                                                              '')
+                                                                        Padding(
+                                                                            padding: const EdgeInsets.only(
+                                                                                top: 10,
+                                                                                bottom: 10,
+                                                                                left: 17),
+                                                                            child: Container(
+                                                                                width: double.infinity,
+                                                                                child: Text(
+                                                                                  team! + teamCall,
+                                                                                  style: const TextStyle(
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontSize: 23,
+                                                                                  ),
+                                                                                  textAlign: TextAlign.left,
+                                                                                )))
+                                                                      else
+                                                                        Container(),
                                                                       Padding(
                                                                           padding: const EdgeInsets.all(
                                                                               5),
@@ -579,7 +602,9 @@ class EditActivityView extends StatelessWidget {
                                                     child: InkWell(
                                                   onTap: () {},
                                                   child: Padding(
-                                                    padding: const EdgeInsets.all(10),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
                                                     child: Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
@@ -589,7 +614,8 @@ class EditActivityView extends StatelessWidget {
                                                             Icons.bubble_chart,
                                                             color: Theme.of(
                                                                     context)
-                                                                .colorScheme.secondary,
+                                                                .colorScheme
+                                                                .secondary,
                                                             size: 35,
                                                           ),
                                                           const Padding(

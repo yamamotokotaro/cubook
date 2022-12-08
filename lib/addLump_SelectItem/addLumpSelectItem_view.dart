@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TabInfo {
-  String label;
-  Widget widget;
 
   TabInfo(this.label, this.widget);
+  String label;
+  Widget widget;
 }
 
 class AddLumpSelectItemView extends StatelessWidget {

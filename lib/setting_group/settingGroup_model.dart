@@ -17,7 +17,7 @@ class SettingGroupModel extends ChangeNotifier {
   Map<String, dynamic> claims = <String, dynamic>{};
   String? groupID = '読み込み中';
 
-  void getUser() async {
+  Future<void> getUser() async {
     final String? groupBefore = groupID;
     final User user = FirebaseAuth.instance.currentUser!;
     currentUser = user;
@@ -37,13 +37,13 @@ class SettingGroupModel extends ChangeNotifier {
     });
   }
 
-  void changeEmail(BuildContext context) async {
+  Future<void> changeEmail(BuildContext context) async {
     if (RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(addressController.text)) {
       try {
         await currentUser.updateEmail(addressController.text);
-        Scaffold.of(context).showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('メールアドレスを変更しました'),
         ));
       } catch (error) {
@@ -66,8 +66,9 @@ class SettingGroupModel extends ChangeNotifier {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     content: SingleChildScrollView(child:
-                        Consumer<SettingGroupModel>(
-                            builder: (BuildContext context, SettingGroupModel model, Widget? child) {
+                        Consumer<SettingGroupModel>(builder:
+                            (BuildContext context, SettingGroupModel model,
+                                Widget? child) {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -89,13 +90,14 @@ class SettingGroupModel extends ChangeNotifier {
                       );
                     })),
                     actions: <Widget>[
-                      FlatButton(
+                      TextButton(
                         child: const Text('認証'),
                         onPressed: () async {
                           FocusScope.of(context).unfocus();
-                          final AuthCredential credential = EmailAuthProvider.credential(
-                              email: mailAddress!,
-                              password: passwordController.text);
+                          final AuthCredential credential =
+                              EmailAuthProvider.credential(
+                                  email: mailAddress!,
+                                  password: passwordController.text);
                           try {
                             await currentUser
                                 .reauthenticateWithCredential(credential);
@@ -116,14 +118,14 @@ class SettingGroupModel extends ChangeNotifier {
     }
   }
 
-  void sendPasswordResetEmail(BuildContext context) async {
+  Future<void> sendPasswordResetEmail(BuildContext context) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: mailAddress!);
-      Scaffold.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('送信リクエストが完了しました'),
       ));
     } catch (error) {
-      Scaffold.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('エラーが発生しました'),
       ));
     }

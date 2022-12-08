@@ -7,13 +7,13 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListExaminationView extends StatelessWidget {
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-  String? uid;
 
   ListExaminationView(String _uid) {
     uid = _uid;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  String? uid;
 
   @override
   Widget build(BuildContext context) {

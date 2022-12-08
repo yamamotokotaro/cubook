@@ -10,14 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class DetailMigrationWaitingView extends StatelessWidget {
-  String? documentID;
-  String? name;
-  String? groupName;
-  String? age;
-  Map<String, dynamic>? taskInfo;
-  Map<String, dynamic>? content;
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
 
   DetailMigrationWaitingView(String _documentID, String? _name,
       String? _groupName, String? _age) {
@@ -26,6 +18,14 @@ class DetailMigrationWaitingView extends StatelessWidget {
     groupName = _groupName;
     age = _age;
   }
+  String? documentID;
+  String? name;
+  String? groupName;
+  String? age;
+  Map<String, dynamic>? taskInfo;
+  Map<String, dynamic>? content;
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
 
   @override
   Widget build(BuildContext context) {

@@ -196,7 +196,7 @@ class InviteView extends StatelessWidget {
                                     child: CircularProgressIndicator())
                                 : ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        primary: Colors.blue[900]),
+                                        backgroundColor: Colors.blue[900]),
                                     onPressed: () {
                                       model.inviteRequest(context);
                                     },

@@ -11,14 +11,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'home_controller.dart';
 
 class HomeView extends StatelessWidget {
-  String? group;
-  String? position;
-  math.Random random = math.Random();
 
   HomeView(String? _group, String? _position) {
     group = _group;
     position = _position;
   }
+  String? group;
+  String? position;
+  math.Random random = math.Random();
 
   @override
   Widget build(BuildContext context) {
@@ -223,7 +223,7 @@ class HomeView extends StatelessWidget {
   }
 }
 
-void launchURL() async {
+Future<void> launchURL() async {
   const String url = 'https://sites.google.com/view/cubookinfo/qa';
   if (await canLaunch(url)) {
     await launch(url);
