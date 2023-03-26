@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/userDetail/userDetail_view.dart';
@@ -15,20 +14,24 @@ class ListMemberView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: const Text('メンバーリスト'), systemOverlayStyle: SystemUiOverlayStyle.light,
+        title: const Text('メンバーリスト'),
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       floatingActionButton: Selector<ListMemberModel, String?>(
-          selector: (BuildContext context, ListMemberModel model) => model.position,
-          builder: (BuildContext context, String? position, Widget? child) => position == 'leader'
-              ? FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/invite');
-            },
-            label: const Text('招待'),
-            icon: const Icon(Icons.person_add),
-          )
-              : Container()),
+          selector: (BuildContext context, ListMemberModel model) =>
+              model.position,
+          builder: (BuildContext context, String? position, Widget? child) =>
+              position == 'leader'
+                  ? FloatingActionButton.extended(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/invite');
+                      },
+                      label: const Text('招待'),
+                      icon: const Icon(Icons.person_add),
+                    )
+                  : Container()),
       body: SafeArea(
         child: Scrollbar(
           child: SingleChildScrollView(
@@ -39,98 +42,107 @@ class ListMemberView extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                         padding: const EdgeInsets.only(top: 20, bottom: 10),
-                        child: Consumer<ListMemberModel>(
-                            builder: (BuildContext context, ListMemberModel model, Widget? child) {
+                        child: Consumer<ListMemberModel>(builder:
+                            (BuildContext context, ListMemberModel model,
+                                Widget? child) {
                           model.getGroup();
                           if (model.group != null) {
                             print(model.team);
                             return Column(
                               children: <Widget>[
-                                if (model.position == 'leader') StreamBuilder<QuerySnapshot>(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('migration')
-                                        .where('group', isEqualTo: model.group)
-                                        .where('phase', isEqualTo: 'wait')
-                                        .snapshots(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                                      if (snapshot.hasData) {
-                                        if (snapshot.data!.docs.isNotEmpty) {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: Container(
-                                                child: Card(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              elevation: 8,
-                                              color: Colors.blue[900],
-                                              child: InkWell(
-                                                customBorder:
-                                                    RoundedRectangleBorder(
+                                if (model.position == 'leader')
+                                  StreamBuilder<QuerySnapshot>(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('migration')
+                                          .where('group',
+                                              isEqualTo: model.group)
+                                          .where('phase', isEqualTo: 'wait')
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<QuerySnapshot>
+                                              snapshot) {
+                                        if (snapshot.hasData) {
+                                          if (snapshot.data!.docs.isNotEmpty) {
+                                            return Padding(
+                                              padding: const EdgeInsets.all(10),
+                                              child: Container(
+                                                  child: Card(
+                                                shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
+                                                      BorderRadius.circular(10),
                                                 ),
-                                                onTap: () {
-                                                  Navigator.of(context).pushNamed(
-                                                      '/listMigrationWaiting');
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(15),
-                                                  child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        const Icon(
-                                                          Icons
-                                                              .emoji_people_rounded,
-                                                          color: Colors.white,
-                                                          size: 35,
-                                                        ),
-                                                        Padding(
-                                                            padding:
-                                                                const EdgeInsets.only(
-                                                                    left: 10),
-                                                            child: Material(
-                                                                type: MaterialType
-                                                                    .transparency,
-                                                                child: Text(
-                                                                  '移行申請' +
-                                                                      snapshot
-                                                                          .data!
-                                                                          .docs
-                                                                          .length
-                                                                          .toString() +
-                                                                      '件',
-                                                                  style: const TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                      fontSize:
-                                                                          30,
-                                                                      color: Colors
-                                                                          .white),
-                                                                ))),
-                                                      ]),
+                                                elevation: 8,
+                                                color: Colors.blue[900],
+                                                child: InkWell(
+                                                  customBorder:
+                                                      RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  onTap: () {
+                                                    Navigator.of(context).pushNamed(
+                                                        '/listMigrationWaiting');
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            15),
+                                                    child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: <Widget>[
+                                                          const Icon(
+                                                            Icons
+                                                                .emoji_people_rounded,
+                                                            color: Colors.white,
+                                                            size: 35,
+                                                          ),
+                                                          Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left: 10),
+                                                              child: Material(
+                                                                  type: MaterialType
+                                                                      .transparency,
+                                                                  child: Text(
+                                                                    '移行申請' +
+                                                                        snapshot
+                                                                            .data!
+                                                                            .docs
+                                                                            .length
+                                                                            .toString() +
+                                                                        '件',
+                                                                    style: const TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .normal,
+                                                                        fontSize:
+                                                                            30,
+                                                                        color: Colors
+                                                                            .white),
+                                                                  ))),
+                                                        ]),
+                                                  ),
                                                 ),
-                                              ),
-                                            )),
-                                          );
+                                              )),
+                                            );
+                                          } else {
+                                            return Container();
+                                          }
                                         } else {
-                                          return Container();
+                                          return const Center(
+                                            child: Padding(
+                                                padding: EdgeInsets.all(5),
+                                                child:
+                                                    CircularProgressIndicator()),
+                                          );
                                         }
-                                      } else {
-                                        return const Center(
-                                          child: Padding(
-                                              padding: EdgeInsets.all(5),
-                                              child:
-                                                  CircularProgressIndicator()),
-                                        );
-                                      }
-                                    }) else Container(),
+                                      })
+                                else
+                                  Container(),
                                 Padding(
                                     padding: const EdgeInsets.all(17),
                                     child: Container(
@@ -188,16 +200,18 @@ class ListMemberView extends StatelessWidget {
                                               return Column(children: <Widget>[
                                                 if (isFirst && team != '')
                                                   Padding(
-                                                      padding: const EdgeInsets.only(
-                                                          top: 10,
-                                                          bottom: 10,
-                                                          left: 17),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10,
+                                                              bottom: 10,
+                                                              left: 17),
                                                       child: Container(
                                                           width:
                                                               double.infinity,
                                                           child: Text(
                                                             team! + teamCall,
-                                                            style: const TextStyle(
+                                                            style:
+                                                                const TextStyle(
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -209,7 +223,8 @@ class ListMemberView extends StatelessWidget {
                                                 else
                                                   Container(),
                                                 Padding(
-                                                    padding: const EdgeInsets.all(5),
+                                                    padding:
+                                                        const EdgeInsets.all(5),
                                                     child: Container(
                                                       child: Card(
                                                         shape:
@@ -242,8 +257,8 @@ class ListMemberView extends StatelessWidget {
                                                           },
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsets.all(
-                                                                    10),
+                                                                const EdgeInsets
+                                                                    .all(10),
                                                             child: Row(
                                                               children: <
                                                                   Widget>[
@@ -256,7 +271,8 @@ class ListMemberView extends StatelessWidget {
                                                                               'age')),
                                                                       shape: BoxShape
                                                                           .circle),
-                                                                  child: const Icon(
+                                                                  child:
+                                                                      const Icon(
                                                                     Icons
                                                                         .person,
                                                                     color: Colors
@@ -265,9 +281,9 @@ class ListMemberView extends StatelessWidget {
                                                                 ),
                                                                 Padding(
                                                                     padding: const EdgeInsets
-                                                                        .only(
-                                                                            left:
-                                                                                10),
+                                                                            .only(
+                                                                        left:
+                                                                            10),
                                                                     child: Text(
                                                                       snapshot.get(
                                                                           'name'),
@@ -315,11 +331,14 @@ class ListMemberView extends StatelessWidget {
                                                 int index) {
                                               final DocumentSnapshot snapshot =
                                                   querySnapshot.docs[index];
-                                              final Map<String, dynamic> dataSnapshot = snapshot.data() as Map<String, dynamic>;
+                                              final Map<String, dynamic>
+                                                  dataSnapshot = snapshot.data()
+                                                      as Map<String, dynamic>;
                                               if (dataSnapshot['team'] ==
                                                   null) {
                                                 return Padding(
-                                                    padding: const EdgeInsets.all(5),
+                                                    padding:
+                                                        const EdgeInsets.all(5),
                                                     child: Container(
                                                       child: Card(
                                                         shape:
@@ -345,8 +364,8 @@ class ListMemberView extends StatelessWidget {
                                                           },
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsets.all(
-                                                                    10),
+                                                                const EdgeInsets
+                                                                    .all(10),
                                                             child: Row(
                                                               children: <
                                                                   Widget>[
@@ -359,7 +378,8 @@ class ListMemberView extends StatelessWidget {
                                                                               'age')),
                                                                       shape: BoxShape
                                                                           .circle),
-                                                                  child: const Icon(
+                                                                  child:
+                                                                      const Icon(
                                                                     Icons
                                                                         .person,
                                                                     color: Colors
@@ -368,9 +388,9 @@ class ListMemberView extends StatelessWidget {
                                                                 ),
                                                                 Padding(
                                                                     padding: const EdgeInsets
-                                                                        .only(
-                                                                            left:
-                                                                                10),
+                                                                            .only(
+                                                                        left:
+                                                                            10),
                                                                     child: Text(
                                                                       snapshot.get(
                                                                           'name'),
@@ -420,7 +440,8 @@ class ListMemberView extends StatelessWidget {
                                                     Icon(
                                                       Icons.bubble_chart,
                                                       color: Theme.of(context)
-                                                          .colorScheme.secondary,
+                                                          .colorScheme
+                                                          .secondary,
                                                       size: 35,
                                                     ),
                                                     const Padding(
@@ -498,13 +519,15 @@ class ListMemberView extends StatelessWidget {
                                                 itemBuilder:
                                                     (BuildContext context,
                                                         int index) {
-                                                  final DocumentSnapshot snapshot =
+                                                  final DocumentSnapshot
+                                                      snapshot =
                                                       querySnapshot.docs[index];
                                                   final String? uid =
                                                       snapshot.get('uid');
                                                   return Padding(
                                                       padding:
-                                                          const EdgeInsets.all(5),
+                                                          const EdgeInsets.all(
+                                                              5),
                                                       child: Container(
                                                         child: Card(
                                                           shape:
@@ -555,7 +578,8 @@ class ListMemberView extends StatelessWidget {
                                                                             'challenge'),
                                                                         shape: BoxShape
                                                                             .circle),
-                                                                    child: const Icon(
+                                                                    child:
+                                                                        const Icon(
                                                                       Icons
                                                                           .person,
                                                                       color: Colors
@@ -563,7 +587,8 @@ class ListMemberView extends StatelessWidget {
                                                                     ),
                                                                   ),
                                                                   Padding(
-                                                                      padding: const EdgeInsets.only(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
                                                                           left:
                                                                               10),
                                                                       child:
@@ -577,16 +602,20 @@ class ListMemberView extends StatelessWidget {
                                                                       )),
                                                                   const Spacer(),
                                                                   if (snapshot.get(
-                                                                          'admin')) const Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                              left:
-                                                                                  10),
-                                                                          child:
-                                                                              Text(
-                                                                            '管理者',
-                                                                            style:
-                                                                                TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                                                                          )) else Container()
+                                                                      'admin'))
+                                                                    const Padding(
+                                                                        padding: EdgeInsets.only(
+                                                                            left:
+                                                                                10),
+                                                                        child:
+                                                                            Text(
+                                                                          '管理者',
+                                                                          style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 15),
+                                                                        ))
+                                                                  else
+                                                                    Container()
                                                                 ],
                                                               ),
                                                             ),
@@ -602,7 +631,8 @@ class ListMemberView extends StatelessWidget {
                                                   child: InkWell(
                                                 onTap: () {},
                                                 child: Padding(
-                                                  padding: const EdgeInsets.all(10),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
                                                   child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
@@ -612,7 +642,8 @@ class ListMemberView extends StatelessWidget {
                                                           Icons.bubble_chart,
                                                           color:
                                                               Theme.of(context)
-                                                                  .colorScheme.secondary,
+                                                                  .colorScheme
+                                                                  .secondary,
                                                           size: 35,
                                                         ),
                                                         const Padding(

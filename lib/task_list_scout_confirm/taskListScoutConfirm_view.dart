@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'taskListScoutConfirm_model.dart';
 
 class TaskListScoutConfirmView extends StatelessWidget {
-
   TaskListScoutConfirmView(String _type, String? _uid) {
     themeColor = theme.getThemeColor(_type);
     title = theme.getTitle(_type);
@@ -37,7 +36,9 @@ class TaskListScoutConfirmView extends StatelessWidget {
     } else {
       isDark = false;
     }
+    ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     return Scaffold(
+      backgroundColor: scheme.background,
       appBar: AppBar(
         backgroundColor: themeColor,
         elevation: 5,
@@ -45,7 +46,8 @@ class TaskListScoutConfirmView extends StatelessWidget {
         title: Text(
           title!,
           style: const TextStyle(color: Colors.white),
-        ), systemOverlayStyle: SystemUiOverlayStyle.light,
+        ),
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -56,8 +58,9 @@ class TaskListScoutConfirmView extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<TaskListScoutConfirmModel>(
-                          builder: (BuildContext context, TaskListScoutConfirmModel model, Widget? child) {
+                      child: Consumer<TaskListScoutConfirmModel>(builder:
+                          (BuildContext context,
+                              TaskListScoutConfirmModel model, Widget? child) {
                         if (model.userSnapshot == null) {
                           model.getSnapshot(uid);
                         } else if (model.userSnapshot!.get('uid') != uid) {
@@ -65,11 +68,12 @@ class TaskListScoutConfirmView extends StatelessWidget {
                           model.userSnapshot = null;
                         }
                         if (model.userSnapshot != null) {
-                          final List<Map<String, dynamic>> mapTask = task.getAllMap(type)!;
+                          final List<Map<String, dynamic>> mapTask =
+                              task.getAllMap(type)!;
                           final List<bool> listIsCompleted = List.generate(
                               mapTask.length, (int index) => false);
-                          final List<double?> listPercentage = List.generate(
-                              mapTask.length, (int index) => 0.0);
+                          final List<double?> listPercentage =
+                              List.generate(mapTask.length, (int index) => 0.0);
                           if (model.userData![type!] != null) {
                             final Map map = Map<String, dynamic>.from(
                                 model.userSnapshot!.get(type!));
@@ -95,6 +99,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                     padding: const EdgeInsets.all(5),
                                     child: Container(
                                       child: Card(
+                                        color: scheme.surface,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -115,39 +120,44 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                             children: <Widget>[
                                               Container(
                                                   decoration: BoxDecoration(
-                                                      borderRadius: const BorderRadius.only(
-                                                          topLeft: Radius
-                                                              .circular(10),
-                                                          bottomLeft:
-                                                              Radius
-                                                                      .circular(
-                                                                  10)),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .only(
+                                                              topLeft: Radius
+                                                                  .circular(10),
+                                                              bottomLeft: Radius
+                                                                  .circular(
+                                                                      10)),
                                                       color: themeColor),
                                                   height: 120,
                                                   child: ConstrainedBox(
-                                                    constraints: const BoxConstraints(
-                                                        minWidth: 76),
+                                                    constraints:
+                                                        const BoxConstraints(
+                                                            minWidth: 76),
                                                     child: Center(
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsets.all(20),
+                                                            const EdgeInsets
+                                                                .all(20),
                                                         child: Text(
                                                           mapTask[index]
                                                               ['number'],
-                                                          style: const TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 30,
-                                                              color:
-                                                                  Colors.white),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 30,
+                                                                  color: Colors
+                                                                      .white),
                                                         ),
                                                       ),
                                                     ),
                                                   )),
                                               Padding(
                                                   padding:
-                                                      const EdgeInsets.only(left: 10),
+                                                      const EdgeInsets.only(
+                                                          left: 10),
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -155,7 +165,8 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                     children: <Widget>[
                                                       Padding(
                                                           padding:
-                                                              const EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                      .only(
                                                                   top: 10),
                                                           child: Align(
                                                               alignment: Alignment
@@ -170,53 +181,62 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                                     fontSize:
                                                                         25),
                                                               ))),
-                                                      if (listIsCompleted[index]) const Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      top: 20),
-                                                              child: Align(
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .bottomLeft,
-                                                                  child: Text(
-                                                                    '完修済み',
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .normal,
-                                                                        fontSize:
-                                                                            20),
-                                                                  )),
-                                                            ) else Padding(
-                                                              padding: const EdgeInsets
-                                                                  .only(
-                                                                      top: 10),
-                                                              child: Align(
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child: Row(
-                                                                  children: <
-                                                                      Widget>[
-                                                                    const Text('達成度'),
-                                                                    Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.all(
-                                                                                10),
-                                                                        child:
-                                                                            CircularProgressIndicator(
-                                                                          backgroundColor: isDark
-                                                                              ? Colors.grey[700]
-                                                                              : Colors.grey[300],
-                                                                          valueColor: AlwaysStoppedAnimation<Color?>(isDark
-                                                                              ? Colors.white
-                                                                              : theme.getThemeColor(type)),
-                                                                          value:
-                                                                              listPercentage[index],
-                                                                        ))
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            )
+                                                      if (listIsCompleted[
+                                                          index])
+                                                        const Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: 20),
+                                                          child: Align(
+                                                              alignment: Alignment
+                                                                  .bottomLeft,
+                                                              child: Text(
+                                                                '完修済み',
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontSize:
+                                                                        20),
+                                                              )),
+                                                        )
+                                                      else
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 10),
+                                                          child: Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: Row(
+                                                              children: <
+                                                                  Widget>[
+                                                                const Text(
+                                                                    '達成度'),
+                                                                Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            10),
+                                                                    child:
+                                                                        CircularProgressIndicator(
+                                                                      backgroundColor: isDark
+                                                                          ? Colors.grey[
+                                                                              700]
+                                                                          : Colors
+                                                                              .grey[300],
+                                                                      valueColor: AlwaysStoppedAnimation<Color?>(isDark
+                                                                          ? Colors
+                                                                              .white
+                                                                          : theme
+                                                                              .getThemeColor(type)),
+                                                                      value: listPercentage[
+                                                                          index],
+                                                                    ))
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
                                                     ],
                                                   )),
                                             ],

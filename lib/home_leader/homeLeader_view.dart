@@ -19,7 +19,7 @@ class HomeLeaderView extends StatelessWidget {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
-                  if (snapshot.data!.docs.isNotEmpty) {
+                  if (!snapshot.data!.docs.isNotEmpty) {
                     return Padding(
                       padding: const EdgeInsets.all(10),
                       child: Container(
@@ -28,7 +28,7 @@ class HomeLeaderView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         elevation: 8,
-                        color: Colors.blue[900],
+                        color: Theme.of(context).colorScheme.primaryContainer,
                         child: InkWell(
                           customBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -41,9 +41,11 @@ class HomeLeaderView extends StatelessWidget {
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  const Icon(
+                                  Icon(
                                     Icons.edit,
-                                    color: Colors.white,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
                                     size: 35,
                                   ),
                                   Padding(
@@ -55,10 +57,12 @@ class HomeLeaderView extends StatelessWidget {
                                                 snapshot.data!.docs.length
                                                     .toString() +
                                                 '件',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 30,
-                                                color: Colors.white),
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onPrimaryContainer),
                                           ))),
                                 ]),
                           ),
@@ -85,8 +89,7 @@ class HomeLeaderView extends StatelessWidget {
       }),
       Padding(
         padding: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 5),
-        child: Container(
-            child: Card(
+        child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -104,7 +107,7 @@ class HomeLeaderView extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       Icons.people,
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
                       size: 35,
                     ),
                     const Padding(
@@ -120,7 +123,7 @@ class HomeLeaderView extends StatelessWidget {
                   ]),
             ),
           ),
-        )),
+        ),
       ),
       Selector<HomeLeaderModel, String?>(
           selector: (BuildContext context, HomeLeaderModel model) =>
@@ -130,8 +133,7 @@ class HomeLeaderView extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(
                     top: 5, left: 10, right: 10, bottom: 5),
-                child: Container(
-                    child: Card(
+                child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -149,7 +151,7 @@ class HomeLeaderView extends StatelessWidget {
                           children: <Widget>[
                             Icon(
                               Icons.event,
-                              color: Theme.of(context).colorScheme.secondary,
+                              color: Theme.of(context).colorScheme.primary,
                               size: 35,
                             ),
                             const Padding(
@@ -166,7 +168,7 @@ class HomeLeaderView extends StatelessWidget {
                           ]),
                     ),
                   ),
-                )),
+                ),
               );
             } else {
               return Container();
@@ -182,8 +184,7 @@ class HomeLeaderView extends StatelessWidget {
                       top: 5, left: 10, right: 10, bottom: 5)
                   : const EdgeInsets.only(
                       top: 5, left: 10, right: 10, bottom: 20),
-              child: Container(
-                  child: Card(
+              child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -202,7 +203,7 @@ class HomeLeaderView extends StatelessWidget {
                         children: <Widget>[
                           Icon(
                             Icons.insert_chart,
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: Theme.of(context).colorScheme.primary,
                             size: 35,
                           ),
                           const Padding(
@@ -219,7 +220,7 @@ class HomeLeaderView extends StatelessWidget {
                         ]),
                   ),
                 ),
-              )),
+              ),
             );
           }),
     ]);

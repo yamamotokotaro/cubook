@@ -33,7 +33,6 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class SelectBookView extends StatelessWidget {
-
   SelectBookView(String? uid, String type) {
     this.uid = uid;
     this.type = type;
@@ -48,17 +47,19 @@ class SelectBookView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
-          title: const Text('メンバー詳細'), systemOverlayStyle: SystemUiOverlayStyle.light,
+          title: const Text('メンバー詳細'),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Center(
             child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600),
-                child:
-                    Consumer<UserDetailModel>(builder: (BuildContext context, UserDetailModel model, Widget? child) {
+                child: Consumer<UserDetailModel>(builder: (BuildContext context,
+                    UserDetailModel model, Widget? child) {
                   model.getGroup();
                   if (model.group != null) {
-                    if(type == 'scout') {
+                    if (type == 'scout') {
                       if (model.teamPosition != null) {
                         if (model.teamPosition == 'teamLeader') {
                           _tabs = [
@@ -81,7 +82,7 @@ class SelectBookView extends StatelessWidget {
                           TabInfo('設定', SettingAccountGroupView(uid)),
                         ];
                       }
-                    } else if (type == 'leader'){
+                    } else if (type == 'leader') {
                       _tabs = [
                         TabInfo('設定', SettingAccountGroupView(uid)),
                       ];
@@ -94,8 +95,10 @@ class SelectBookView extends StatelessWidget {
                             return <Widget>[
                               SliverList(
                                 delegate: SliverChildListDelegate([
-                                  Consumer<UserDetailModel>(
-                                      builder: (BuildContext context, UserDetailModel model, Widget? child) {
+                                  Consumer<UserDetailModel>(builder:
+                                      (BuildContext context,
+                                          UserDetailModel model,
+                                          Widget? child) {
                                     model.getGroup();
                                     if (model.group != null) {
                                       return StreamBuilder<QuerySnapshot>(
@@ -109,21 +112,24 @@ class SelectBookView extends StatelessWidget {
                                             AsyncSnapshot<QuerySnapshot>
                                                 snapshot) {
                                           if (snapshot.hasData) {
-                                            final DocumentSnapshot userSnapshot =
+                                            final DocumentSnapshot
+                                                userSnapshot =
                                                 snapshot.data!.docs[0];
                                             return Column(
                                               children: <Widget>[
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 16, bottom: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 16, bottom: 10),
                                                   child: Container(
                                                     width: 80,
                                                     height: 80,
                                                     decoration: BoxDecoration(
                                                         color:
                                                             theme.getUserColor(
-                                                                userSnapshot.get(
-                                                                    'age')),
+                                                                userSnapshot
+                                                                    .get(
+                                                                        'age')),
                                                         shape: BoxShape.circle),
                                                     child: const Icon(
                                                       Icons.person,
@@ -133,8 +139,9 @@ class SelectBookView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        bottom: 10),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 10),
                                                     child: Text(
                                                       userSnapshot.get('name'),
                                                       textAlign:
@@ -173,7 +180,8 @@ class SelectBookView extends StatelessWidget {
                                   TabBar(
                                     indicatorColor:
                                         Theme.of(context).colorScheme.secondary,
-                                    labelColor: Theme.of(context).colorScheme.secondary,
+                                    labelColor:
+                                        Theme.of(context).colorScheme.secondary,
                                     isScrollable: false,
                                     tabs: _tabs.map((TabInfo tab) {
                                       return Tab(text: tab.label);
@@ -184,8 +192,9 @@ class SelectBookView extends StatelessWidget {
                             ];
                           },
                           body: TabBarView(
-                              children:
-                                  _tabs.map((TabInfo tab) => tab.widget).toList()),
+                              children: _tabs
+                                  .map((TabInfo tab) => tab.widget)
+                                  .toList()),
                         ));
                   } else {
                     return const Center(

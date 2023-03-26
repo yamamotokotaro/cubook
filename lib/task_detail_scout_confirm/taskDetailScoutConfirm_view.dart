@@ -68,6 +68,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>>? contents =
         task.getContentList(type, number);
+
+    ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     return Container(
         width: 280,
         child: GestureDetector(
@@ -78,7 +80,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: Card(
-//                    color: Color.fromRGBO(48, 48, 48, 1.0),
+                    color: scheme.background,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -115,408 +117,442 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                         return ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: Scaffold(
+                                backgroundColor: scheme.background,
                                 body: SingleChildScrollView(
                                     child: Column(
-                              children: <Widget>[
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20)),
-                                      color: themeColor),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 40, bottom: 20),
-                                    child: Center(
+                                  children: <Widget>[
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(20),
+                                              topRight: Radius.circular(20)),
+                                          color: themeColor),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 40, bottom: 20),
+                                        child: Center(
+                                          child: Text(
+                                            task.getPartMap(
+                                                type, number)!['title'],
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
                                       child: Text(
-                                        task.getPartMap(type, number)!['title'],
+                                        message,
                                         style: const TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 20.0,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.white),
+                                            decoration: TextDecoration.none),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text(
-                                    message,
-                                    style: const TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                        decoration: TextDecoration.none),
-                                  ),
-                                ),
-                                if (type != 'usagi' &&
-                                    type != 'sika' &&
-                                    type != 'kuma' &&
-                                    type != 'tukinowa' &&
-                                    type != 'challenge')
-                                  if (model.stepData!['phase'] != null)
-                                    model.stepSnapshot.get('phase') ==
-                                            'not examined'
-                                        ? Container(
-                                            child: Column(
-                                              children: <Widget>[
-                                                Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 10,
-                                                            left: 20,
-                                                            right: 20),
-                                                    child: ElevatedButton.icon(
-                                                      onPressed: () async {
-                                                        model.onTapExamination(
-                                                            snapshot.id);
-                                                      },
-                                                      icon: const Icon(
-                                                        Icons.check,
-                                                        size: 20,
-                                                      ),
-                                                      label: const Text(
-                                                        '考査済みにする',
-                                                        style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
-                                                    )),
-                                              ],
-                                            ),
-                                          )
-                                        : Container()
-                                  else
-                                    Container(),
-                                if (model.stepData!['start'] != null)
-                                  Container(
-                                    child: Column(
-                                      children: <Widget>[
-                                        const Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Text(
-                                            '開始日',
-                                            style: TextStyle(
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold,
-                                                decoration:
-                                                    TextDecoration.none),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 5),
-                                          child: TextButton(
-                                            child: Text(
-                                              DateFormat('yyyy/MM/dd')
-                                                  .format(snapshot
-                                                      .get('start')
-                                                      .toDate())
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                            onPressed: () {
-                                              model.changeTime(
-                                                  snapshot
-                                                      .get('start')
-                                                      .toDate(),
-                                                  context,
-                                                  snapshot.id,
-                                                  'start');
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                else
-                                  Container(),
-                                if (model.stepData!['end'] != null)
-                                  Container(
-                                    child: Column(
-                                      children: <Widget>[
-                                        const Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Text(
-                                            '完修日',
-                                            style: TextStyle(
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold,
-                                                decoration:
-                                                    TextDecoration.none),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 5),
-                                          child: TextButton(
-                                            child: Text(
-                                              DateFormat('yyyy/MM/dd')
-                                                  .format(snapshot
-                                                      .get('end')
-                                                      .toDate())
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                            onPressed: () {
-                                              model.changeTime(
-                                                  snapshot.get('end').toDate(),
-                                                  context,
-                                                  snapshot.id,
-                                                  'end');
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                else
-                                  Container(),
-                                if (type != 'usagi' &&
-                                    type != 'sika' &&
-                                    type != 'kuma' &&
-                                    type != 'tukinowa' &&
-                                    type != 'challenge')
-                                  if (model.stepData!['date_examination'] !=
-                                      null)
-                                    Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          const Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              '考査面接日',
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 5),
-                                            child: TextButton(
-                                              child: Text(
-                                                model.stepSnapshot.get(
-                                                            'date_interview') !=
-                                                        null
-                                                    ? DateFormat('yyyy/MM/dd')
-                                                        .format(snapshot
-                                                            .get(
-                                                                'date_interview')
-                                                            .toDate())
-                                                        .toString()
-                                                    : 'タップして追加',
-                                                style: const TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
-                                              onPressed: () {
-                                                model.changeTime(
-                                                    snapshot
-                                                        .get('date_examination')
-                                                        .toDate(),
-                                                    context,
-                                                    snapshot.id,
-                                                    'date_interview');
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  else
-                                    Container(),
-                                if (type != 'usagi' &&
-                                    type != 'sika' &&
-                                    type != 'kuma' &&
-                                    type != 'tukinowa' &&
-                                    type != 'challenge')
-                                  if (model.stepData!['date_examination'] !=
-                                      null)
-                                    Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          const Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              '考査認定日',
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 5),
-                                            child: TextButton(
-                                              child: Text(
-                                                DateFormat('yyyy/MM/dd')
-                                                    .format(snapshot
-                                                        .get('date_examination')
-                                                        .toDate())
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
-                                              onPressed: () {
-                                                model.changeTime(
-                                                    snapshot
-                                                        .get('date_examination')
-                                                        .toDate(),
-                                                    context,
-                                                    snapshot.id,
-                                                    'date_examination');
-                                              },
-                                            ),
-                                          ),
-                                          Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10, left: 20, right: 20),
-                                              child: TextButton.icon(
-                                                onPressed: () async {
-                                                  model.onTapNotExamination(
-                                                      snapshot.id);
-                                                },
-                                                icon: const Icon(
-                                                  Icons.close,
-                                                  size: 20,
-                                                ),
-                                                label: const Text(
-                                                  '考査未完了にする',
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              )),
-                                        ],
-                                      ),
-                                    )
-                                  else
-                                    Container(),
-                                if ((type != 'risu' &&
-                                        type != 'usagi' &&
+                                    if (type != 'usagi' &&
                                         type != 'sika' &&
                                         type != 'kuma' &&
-                                        type != 'challenge' &&
-                                        type != 'tukinowa') ||
-                                    model.group == ' j27DETWHGYEfpyp2Y292' ||
-                                    model.group == ' z4pkBhhgr0fUMN4evr5z')
-                                  Column(children: [
-                                    ListView.builder(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemCount: contents!.length,
-                                        shrinkWrap: true,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          final String content =
-                                              contents[index]['body'];
-                                          Color? bordercolor;
-                                          if (Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary ==
-                                              Colors.white) {
-                                            bordercolor = Colors.grey[700];
-                                          } else {
-                                            bordercolor = Colors.grey[300];
-                                          }
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 10,
-                                                right: 10,
-                                                left: 10),
-                                            child: Card(
-                                                color: const Color(0x00000000),
-                                                shape: RoundedRectangleBorder(
-                                                  side: BorderSide(
-                                                    color: bordercolor!,
-                                                    width: 2.0,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
+                                        type != 'tukinowa' &&
+                                        type != 'challenge')
+                                      if (model.stepData!['phase'] != null)
+                                        model.stepSnapshot.get('phase') ==
+                                                'not examined'
+                                            ? Container(
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 10,
+                                                                left: 20,
+                                                                right: 20),
+                                                        child:
+                                                            ElevatedButton.icon(
+                                                          onPressed: () async {
+                                                            model
+                                                                .onTapExamination(
+                                                                    snapshot
+                                                                        .id);
+                                                          },
+                                                          icon: const Icon(
+                                                            Icons.check,
+                                                            size: 20,
+                                                          ),
+                                                          label: const Text(
+                                                            '考査済みにする',
+                                                            style: TextStyle(
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        )),
+                                                  ],
                                                 ),
-                                                elevation: 0,
-                                                child: InkWell(
-                                                  customBorder:
-                                                      RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                  ),
-                                                  child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8),
-                                                      child: Text(content)),
-                                                )),
-                                          );
-                                        }),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, bottom: 10, right: 15),
-                                        child: Container(
-                                          width: double.infinity,
-                                          child: const Text(
-                                            '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        )),
-                                  ])
-                                else
-                                  Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Center(
-                                          child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 5, top: 4),
-                                              child: Icon(
-                                                //ああああ
-                                                Icons.chrome_reader_mode,
-                                                color: themeColor,
-                                                size: 22,
+                                              )
+                                            : Container()
+                                      else
+                                        Container(),
+                                    if (model.stepData!['start'] != null)
+                                      Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            const Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                '開始日',
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
                                               ),
                                             ),
-                                            const Text(
-                                              '内容はカブブックで確認しよう',
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.normal,
-                                                  decoration:
-                                                      TextDecoration.none),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 5),
+                                              child: TextButton(
+                                                child: Text(
+                                                  DateFormat('yyyy/MM/dd')
+                                                      .format(snapshot
+                                                          .get('start')
+                                                          .toDate())
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color: scheme.onSurface,
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                                onPressed: () {
+                                                  model.changeTime(
+                                                      snapshot
+                                                          .get('start')
+                                                          .toDate(),
+                                                      context,
+                                                      snapshot.id,
+                                                      'start');
+                                                },
+                                              ),
                                             ),
-                                          ]))),
-                              ],
-                            ))));
+                                          ],
+                                        ),
+                                      )
+                                    else
+                                      Container(),
+                                    if (model.stepData!['end'] != null)
+                                      Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            const Padding(
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                '完修日',
+                                                style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 5),
+                                              child: TextButton(
+                                                child: Text(
+                                                  DateFormat('yyyy/MM/dd')
+                                                      .format(snapshot
+                                                          .get('end')
+                                                          .toDate())
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                                onPressed: () {
+                                                  model.changeTime(
+                                                      snapshot
+                                                          .get('end')
+                                                          .toDate(),
+                                                      context,
+                                                      snapshot.id,
+                                                      'end');
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    else
+                                      Container(),
+                                    if (type != 'usagi' &&
+                                        type != 'sika' &&
+                                        type != 'kuma' &&
+                                        type != 'tukinowa' &&
+                                        type != 'challenge')
+                                      if (model.stepData!['date_examination'] !=
+                                          null)
+                                        Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              const Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Text(
+                                                  '考査面接日',
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: TextButton(
+                                                  child: Text(
+                                                    model.stepSnapshot.get(
+                                                                'date_interview') !=
+                                                            null
+                                                        ? DateFormat(
+                                                                'yyyy/MM/dd')
+                                                            .format(snapshot
+                                                                .get(
+                                                                    'date_interview')
+                                                                .toDate())
+                                                            .toString()
+                                                        : 'タップして追加',
+                                                    style: const TextStyle(
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .none),
+                                                  ),
+                                                  onPressed: () {
+                                                    model.changeTime(
+                                                        snapshot
+                                                            .get(
+                                                                'date_examination')
+                                                            .toDate(),
+                                                        context,
+                                                        snapshot.id,
+                                                        'date_interview');
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      else
+                                        Container(),
+                                    if (type != 'usagi' &&
+                                        type != 'sika' &&
+                                        type != 'kuma' &&
+                                        type != 'tukinowa' &&
+                                        type != 'challenge')
+                                      if (model.stepData!['date_examination'] !=
+                                          null)
+                                        Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              const Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Text(
+                                                  '考査認定日',
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: TextButton(
+                                                  child: Text(
+                                                    DateFormat('yyyy/MM/dd')
+                                                        .format(snapshot
+                                                            .get(
+                                                                'date_examination')
+                                                            .toDate())
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .none),
+                                                  ),
+                                                  onPressed: () {
+                                                    model.changeTime(
+                                                        snapshot
+                                                            .get(
+                                                                'date_examination')
+                                                            .toDate(),
+                                                        context,
+                                                        snapshot.id,
+                                                        'date_examination');
+                                                  },
+                                                ),
+                                              ),
+                                              Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10,
+                                                          left: 20,
+                                                          right: 20),
+                                                  child: TextButton.icon(
+                                                    onPressed: () async {
+                                                      model.onTapNotExamination(
+                                                          snapshot.id);
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.close,
+                                                      size: 20,
+                                                    ),
+                                                    label: const Text(
+                                                      '考査未完了にする',
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  )),
+                                            ],
+                                          ),
+                                        )
+                                      else
+                                        Container(),
+                                    if ((type != 'risu' &&
+                                            type != 'usagi' &&
+                                            type != 'sika' &&
+                                            type != 'kuma' &&
+                                            type != 'challenge' &&
+                                            type != 'tukinowa') ||
+                                        model.group ==
+                                            ' j27DETWHGYEfpyp2Y292' ||
+                                        model.group == ' z4pkBhhgr0fUMN4evr5z')
+                                      Column(children: [
+                                        ListView.builder(
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemCount: contents!.length,
+                                            shrinkWrap: true,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              final String content =
+                                                  contents[index]['body'];
+                                              Color? bordercolor;
+                                              if (Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary ==
+                                                  Colors.white) {
+                                                bordercolor = Colors.grey[700];
+                                              } else {
+                                                bordercolor = Colors.grey[300];
+                                              }
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 10,
+                                                    right: 10,
+                                                    left: 10),
+                                                child: Card(
+                                                    color:
+                                                        const Color(0x00000000),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      side: BorderSide(
+                                                        color: bordercolor!,
+                                                        width: 2.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ),
+                                                    elevation: 0,
+                                                    child: InkWell(
+                                                      customBorder:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                      ),
+                                                      child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          child: Text(content)),
+                                                    )),
+                                              );
+                                            }),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15,
+                                                bottom: 10,
+                                                right: 15),
+                                            child: Container(
+                                              width: double.infinity,
+                                              child: const Text(
+                                                '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            )),
+                                      ])
+                                    else
+                                      Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: Center(
+                                              child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 5, top: 4),
+                                                  child: Icon(
+                                                    //ああああ
+                                                    Icons.chrome_reader_mode,
+                                                    color: themeColor,
+                                                    size: 22,
+                                                  ),
+                                                ),
+                                                const Text(
+                                                  '内容はカブブックで確認しよう',
+                                                  style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                              ]))),
+                                  ],
+                                ))));
                       } else if (model.isExit != true &&
                           model.isLoaded == true) {
                         return ClipRRect(

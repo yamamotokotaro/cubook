@@ -21,51 +21,53 @@ class HomeController extends StatelessWidget {
           // Firebaseのinitialize完了したら表示したいWidget
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
+                backgroundColor: Theme.of(context).colorScheme.background,
                 body: AnnotatedRegion<SystemUiOverlayStyle>(
-                    value: Theme
-                        .of(context)
-                        .colorScheme.secondary == Colors.white
-                        ? SystemUiOverlayStyle.light
-                        : SystemUiOverlayStyle.dark, // Detect dark mode
+                    value:
+                        Theme.of(context).colorScheme.secondary == Colors.white
+                            ? SystemUiOverlayStyle.light
+                            : SystemUiOverlayStyle.dark, // Detect dark mode
                     child: SafeArea(
                         child: SingleChildScrollView(
                             child: Align(
                                 alignment: Alignment.topCenter,
                                 child: ConstrainedBox(
-                                    constraints: const BoxConstraints(maxWidth: 800),
-                                    child: Consumer<HomeModel>(
-                                        builder: (BuildContext context, HomeModel model, Widget? child) {
-                                          if (model.isLoaded) {
-                                            if (model.currentUser != null) {
-                                              if (model.userSnapshot != null) {
-                                                if (model.userSnapshot!
-                                                    .get('group') != null) {
-                                                  return HomeView(
-                                                      model.userSnapshot!
-                                                          .get('group'),
-                                                      model.userSnapshot!
-                                                          .get('position'));
-                                                } else {
-                                                  return JoinGroup();
-                                                }
-                                              } else {
-                                                return SignupView();
-                                              }
+                                    constraints:
+                                        const BoxConstraints(maxWidth: 800),
+                                    child: Consumer<HomeModel>(builder:
+                                        (BuildContext context, HomeModel model,
+                                            Widget? child) {
+                                      if (model.isLoaded) {
+                                        if (model.currentUser != null) {
+                                          if (model.userSnapshot != null) {
+                                            if (model.userSnapshot!
+                                                    .get('group') !=
+                                                null) {
+                                              return HomeView(
+                                                  model.userSnapshot!
+                                                      .get('group'),
+                                                  model.userSnapshot!
+                                                      .get('position'));
                                             } else {
-                                              return LoginView();
+                                              return JoinGroup();
                                             }
                                           } else {
-                                            model.login();
-                                            return const Padding(
-                                                padding: EdgeInsets.all(20),
-                                                child: Center(
-                                                    child: Padding(
-                                                        padding: EdgeInsets.all(
-                                                            10),
-                                                        child:
-                                                        CircularProgressIndicator())));
+                                            return SignupView();
                                           }
-                                        })))))));
+                                        } else {
+                                          return LoginView();
+                                        }
+                                      } else {
+                                        model.login();
+                                        return const Padding(
+                                            padding: EdgeInsets.all(20),
+                                            child: Center(
+                                                child: Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child:
+                                                        CircularProgressIndicator())));
+                                      }
+                                    })))))));
           }
 
           return Container();

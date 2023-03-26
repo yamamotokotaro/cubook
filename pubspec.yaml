@@ -50,6 +50,7 @@ dependencies:
   open_file: ^3.2.1
   expand_widget: ^2.1.0
   notification_permissions: ^0.6.1
+  dynamic_color: ^1.5.4
 
 dev_dependencies:
   flutter_test:
