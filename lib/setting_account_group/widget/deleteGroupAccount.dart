@@ -15,15 +15,18 @@ class DeleteGroupAccount extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('アカウント削除'), systemOverlayStyle: SystemUiOverlayStyle.light,
+          backgroundColor: Theme.of(context).accentColor,
+          title: const Text('アカウント削除'),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: SafeArea(
             child: SingleChildScrollView(
                 child: Center(
                     child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 600),
-                        child: Consumer<SettingAccountGroupModel>(
-                            builder: (BuildContext context, SettingAccountGroupModel model, Widget? child) {
+                        child: Consumer<SettingAccountGroupModel>(builder:
+                            (BuildContext context,
+                                SettingAccountGroupModel model, Widget? child) {
                           return Column(
                             children: <Widget>[
                               const Padding(
@@ -49,7 +52,8 @@ class DeleteGroupAccount extends StatelessWidget {
                                           AsyncSnapshot<QuerySnapshot>
                                               querysnapshot) {
                                         if (querysnapshot.hasData) {
-                                          if (querysnapshot.data!.docs.isNotEmpty) {
+                                          if (querysnapshot
+                                              .data!.docs.isNotEmpty) {
                                             final DocumentSnapshot snapshot =
                                                 querysnapshot.data!.docs[0];
                                             return Row(
@@ -62,8 +66,8 @@ class DeleteGroupAccount extends StatelessWidget {
                                                   decoration: BoxDecoration(
                                                       color:
                                                           theme.getThemeColor(
-                                                              snapshot.get(
-                                                                  'age')),
+                                                              snapshot
+                                                                  .get('age')),
                                                       shape: BoxShape.circle),
                                                   child: const Icon(
                                                     Icons.person,
@@ -71,8 +75,9 @@ class DeleteGroupAccount extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        left: 10),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10),
                                                     child: Text(
                                                       snapshot.get('name'),
                                                       style: const TextStyle(
@@ -158,7 +163,8 @@ class DeleteGroupAccount extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 10),
                                 child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.blue[900], //ボタンの背景色
+                                      backgroundColor:
+                                          Colors.blue[900], //ボタンの背景色
                                     ),
                                     onPressed: () async {
                                       //model.inviteRequest(context);

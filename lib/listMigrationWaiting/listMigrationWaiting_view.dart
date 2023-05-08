@@ -16,14 +16,17 @@ class ListMigrationWaitingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('移行申請'), systemOverlayStyle: SystemUiOverlayStyle.light,
+          backgroundColor: Theme.of(context).accentColor,
+          title: const Text('移行申請'),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Align(
             alignment: Alignment.topCenter,
             child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600),
-                child: Consumer<ListTaskWaitingModel>(
-                    builder: (BuildContext context, ListTaskWaitingModel model, Widget? child) {
+                child: Consumer<ListTaskWaitingModel>(builder:
+                    (BuildContext context, ListTaskWaitingModel model,
+                        Widget? child) {
                   model.getSnapshot();
                   if (model.group != null) {
                     return StreamBuilder<QuerySnapshot>(
@@ -79,7 +82,9 @@ class ListMigrationWaitingView extends StatelessWidget {
                                                   }));
                                                 },
                                                 child: Padding(
-                                                    padding: const EdgeInsets.all(10),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
                                                     child: Container(
                                                       child: Column(
                                                         children: <Widget>[
@@ -102,8 +107,9 @@ class ListMigrationWaitingView extends StatelessWidget {
                                                               type: MaterialType
                                                                   .transparency,
                                                               child: Padding(
-                                                                padding: const EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
                                                                         top:
                                                                             10),
                                                                 child: Text(

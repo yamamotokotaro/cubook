@@ -23,6 +23,7 @@ class EditActivityView extends StatelessWidget {
     }
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).accentColor,
           title: const Text('記録を編集'),
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),

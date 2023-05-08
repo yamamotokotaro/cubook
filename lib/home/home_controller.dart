@@ -21,7 +21,6 @@ class HomeController extends StatelessWidget {
           // Firebaseのinitialize完了したら表示したいWidget
           if (snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
-                backgroundColor: Theme.of(context).colorScheme.background,
                 body: AnnotatedRegion<SystemUiOverlayStyle>(
                     value:
                         Theme.of(context).colorScheme.secondary == Colors.white

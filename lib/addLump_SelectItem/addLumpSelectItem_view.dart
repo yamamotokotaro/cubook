@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TabInfo {
-
   TabInfo(this.label, this.widget);
   String label;
   Widget widget;
@@ -24,11 +23,13 @@ class AddLumpSelectItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String>? uids = ModalRoute.of(context)!.settings.arguments as List<String>?;
+    final List<String>? uids =
+        ModalRoute.of(context)!.settings.arguments as List<String>?;
     return DefaultTabController(
         length: _tabs.length,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Theme.of(context).accentColor,
             title: const Text('サインする項目を選択'),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(30.0),
@@ -41,7 +42,9 @@ class AddLumpSelectItemView extends StatelessWidget {
             ),
           ),
           floatingActionButton: Consumer<AddLumpSelectItemModel>(
-            builder: (BuildContext context, AddLumpSelectItemModel model, Widget? child) => FloatingActionButton.extended(
+            builder: (BuildContext context, AddLumpSelectItemModel model,
+                    Widget? child) =>
+                FloatingActionButton.extended(
               onPressed: () {
                 model.onPressedSend(uids, context);
               },
@@ -49,7 +52,8 @@ class AddLumpSelectItemView extends StatelessWidget {
               icon: const Icon(Icons.check),
             ),
           ),
-          body: TabBarView(children: _tabs.map((TabInfo tab) => tab.widget).toList()),
+          body: TabBarView(
+              children: _tabs.map((TabInfo tab) => tab.widget).toList()),
         ));
   }
 }

@@ -178,26 +178,17 @@ class _MyAppState extends State<MyApp> {
             home: HomeController(),
             navigatorObservers: <NavigatorObserver>[observer],
             debugShowCheckedModeBanner: false,
-            theme: lightDynamic == null
-                ? ThemeData(
-                    fontFamily: 'NotoSansJP',
-                    useMaterial3: true,
-                    colorSchemeSeed: Colors.blue)
-                : ThemeData(
-                    fontFamily: 'NotoSansJP',
-                    useMaterial3: true,
-                    colorScheme: lightDynamic),
-            darkTheme: lightDynamic == null
-                ? ThemeData(
-                    fontFamily: 'NotoSansJP',
-                    useMaterial3: true,
-                    brightness: Brightness.dark,
-                    colorSchemeSeed: Colors.blue)
-                : ThemeData(
-                    useMaterial3: true,
-                    fontFamily: 'NotoSansJP',
-                    brightness: Brightness.dark,
-                    colorScheme: darkDynamic),
+            theme: ThemeData(
+              fontFamily: 'NotoSansJP',
+              primaryColor: Colors.blue[900],
+              accentColor: Colors.blue[900],
+            ),
+            darkTheme: ThemeData(
+              fontFamily: 'NotoSansJP',
+              brightness: Brightness.dark,
+              primaryColor: Colors.blue[900],
+              accentColor: Colors.white,
+            ),
             routes: <String, WidgetBuilder>{
               '/listTaskWaiting': (BuildContext context) =>
                   ListTaskWaitingView(),

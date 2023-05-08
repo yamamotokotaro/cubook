@@ -11,10 +11,10 @@ description: A new Flutter application.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.0.11+169
+version: 3.3.0+180
 
 environment:
-  sdk: '>=2.15.0 <3.0.0'
+  sdk: ">=2.15.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -30,8 +30,8 @@ dependencies:
   provider: ^6.0.2
   firebase_auth: ^3.3.3
   flutter_auth_ui: ^2.4.2
-#  google_sign_in: ^5.2.4
-#  google_fonts: ^2.1.0
+  google_sign_in: ^5.2.4
+  #  google_fonts: ^2.1.0
   image_picker: ^0.8.4+4
   intl: ^0.17.0
   firebase_storage: ^10.2.3
@@ -40,17 +40,20 @@ dependencies:
   url_launcher: ^6.0.17
   firebase_analytics: ^9.1.2
   firebase_crashlytics: ^2.4.3
-#  cloud_functions: ^1.1.1
+  #  cloud_functions: ^1.1.1
   package_info: ^2.0.2
   firebase_performance: ^0.8.0+7
-#  firebase_messaging: ^10.0.3
-#  notification_permissions: ^0.5.0
+  #  firebase_messaging: ^10.0.3
+  #  notification_permissions: ^0.5.0
   excel: ^2.0.0-null-safety-3
   path_provider: ^2.0.8
   open_file: ^3.2.1
   expand_widget: ^2.1.0
   notification_permissions: ^0.6.1
   dynamic_color: ^1.5.4
+
+dependency_overrides:
+  firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
   flutter_test:
@@ -59,9 +62,7 @@ dev_dependencies:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
-
 flutter:
-
   assets:
     - assets/svg/
 

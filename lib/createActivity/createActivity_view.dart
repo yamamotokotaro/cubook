@@ -27,6 +27,7 @@ class CreateActivityView extends StatelessWidget {
     }
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).accentColor,
           title: const Text('新規作成'),
           systemOverlayStyle: SystemUiOverlayStyle.light,
         ),

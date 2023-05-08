@@ -11,7 +11,9 @@ class SettingAccountView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('アカウント設定'), systemOverlayStyle: SystemUiOverlayStyle.light,
+        backgroundColor: Theme.of(context).accentColor,
+        title: const Text('アカウント設定'),
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -22,32 +24,31 @@ class SettingAccountView extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<SettingAccountModel>(
-                          builder: (BuildContext context, SettingAccountModel model, Widget? child) {
-                            model.getUser();
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                ListTile(
-                                  leading:
-                                  const Icon(Icons.mail_outline),
-                                  title: const Text('メールアドレスを変更'),
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed('/changeMailAddressView');
-                                  },
-                                ),
-                                ListTile(
-                                  leading:
-                                  const Icon(Icons.lock_outline),
-                                  title: const Text('パスワードを変更'),
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed('/changePasswordView');
-                                  },
-                                )
-                              ],
-                            );
+                      child: Consumer<SettingAccountModel>(builder:
+                          (BuildContext context, SettingAccountModel model,
+                              Widget? child) {
+                        model.getUser();
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              leading: const Icon(Icons.mail_outline),
+                              title: const Text('メールアドレスを変更'),
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed('/changeMailAddressView');
+                              },
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.lock_outline),
+                              title: const Text('パスワードを変更'),
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed('/changePasswordView');
+                              },
+                            )
+                          ],
+                        );
                       }))
                 ],
               ),

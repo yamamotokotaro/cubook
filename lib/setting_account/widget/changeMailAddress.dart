@@ -11,6 +11,7 @@ class ChangeMailAddressView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).accentColor,
           title: const Text('メールアドレスを変更'),
         ),
         body: Builder(builder: (BuildContext context) {

@@ -15,133 +15,141 @@ class DetailActivityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? documentID = ModalRoute.of(context)!.settings.arguments as String?;
+    final String? documentID =
+        ModalRoute.of(context)!.settings.arguments as String?;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).accentColor,
         title: const Text('記録詳細'),
         actions: <Widget>[
           Selector<DetailActivityModel, String?>(
-              selector: (BuildContext context, DetailActivityModel model) => model.position,
-              builder: (BuildContext context, String? position, Widget? child) => position == 'leader'
-                  ? Semantics(
-                      label: '活動記録の編集か削除操作が行えます',
-                      child: IconButton(
-                        icon: const Icon(Icons.more_vert),
-                        onPressed: () async {
-                          await showModalBottomSheet<int>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Padding(
-                                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      Consumer<DetailActivityModel>(
-                                          builder: (BuildContext context, DetailActivityModel model, Widget? child) {
-                                        return Column(
-                                          children: [
-                                            ListTile(
-                                              leading: const Icon(Icons.edit),
-                                              title: const Text('編集する'),
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                                Navigator.of(context).pushNamed(
-                                                    '/editActivity',
-                                                    arguments: documentID);
-                                              },
-                                            ),
-                                            ListTile(
-                                              leading: const Icon(Icons.delete),
-                                              title: const Text('削除する'),
-                                              onTap: () async {
-                                                Navigator.pop(context);
-                                                await showModalBottomSheet<int>(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return Padding(
-                                                        padding:
-                                                            const EdgeInsets.only(
-                                                                top: 10,
-                                                                bottom: 10),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: <Widget>[
-                                                            Consumer<
-                                                                    DetailActivityModel>(
-                                                                builder:
-                                                                    (BuildContext context,
-                                                                        DetailActivityModel model,
-                                                                        Widget? child) {
-                                                              return Column(
-                                                                children: [
-                                                                  Padding(
-                                                                      padding: const EdgeInsets.only(
-                                                                          top:
-                                                                              5,
-                                                                          left:
-                                                                              17,
-                                                                          bottom:
-                                                                              17),
-                                                                      child: Container(
-                                                                          width: double.infinity,
-                                                                          child: const Text(
-                                                                            '本当に削除しますか？',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontSize: 22,
-                                                                            ),
-                                                                            textAlign:
-                                                                                TextAlign.left,
-                                                                          ))),
-                                                                  ListTile(
-                                                                    leading: const Icon(
-                                                                        Icons
-                                                                            .delete),
-                                                                    title: const Text(
-                                                                        'はい'),
-                                                                    onTap: () {
-                                                                      model.deleteActivity(
-                                                                          documentID);
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                  ),
-                                                                  ListTile(
-                                                                    leading: const Icon(
-                                                                        Icons
-                                                                            .arrow_back),
-                                                                    title: const Text(
-                                                                        'いいえ'),
-                                                                    onTap: () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              );
-                                                            })
-                                                          ],
-                                                        ));
-                                                  },
+              selector: (BuildContext context, DetailActivityModel model) =>
+                  model.position,
+              builder:
+                  (BuildContext context, String? position, Widget? child) =>
+                      position == 'leader'
+                          ? Semantics(
+                              label: '活動記録の編集か削除操作が行えます',
+                              child: IconButton(
+                                icon: const Icon(Icons.more_vert),
+                                onPressed: () async {
+                                  await showModalBottomSheet<int>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, bottom: 10),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Consumer<DetailActivityModel>(
+                                                  builder: (BuildContext
+                                                          context,
+                                                      DetailActivityModel model,
+                                                      Widget? child) {
+                                                return Column(
+                                                  children: [
+                                                    ListTile(
+                                                      leading: const Icon(
+                                                          Icons.edit),
+                                                      title: const Text('編集する'),
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                        Navigator.of(context)
+                                                            .pushNamed(
+                                                                '/editActivity',
+                                                                arguments:
+                                                                    documentID);
+                                                      },
+                                                    ),
+                                                    ListTile(
+                                                      leading: const Icon(
+                                                          Icons.delete),
+                                                      title: const Text('削除する'),
+                                                      onTap: () async {
+                                                        Navigator.pop(context);
+                                                        await showModalBottomSheet<
+                                                            int>(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        top: 10,
+                                                                        bottom:
+                                                                            10),
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Consumer<
+                                                                        DetailActivityModel>(builder: (BuildContext
+                                                                            context,
+                                                                        DetailActivityModel
+                                                                            model,
+                                                                        Widget?
+                                                                            child) {
+                                                                      return Column(
+                                                                        children: [
+                                                                          Padding(
+                                                                              padding: const EdgeInsets.only(top: 5, left: 17, bottom: 17),
+                                                                              child: Container(
+                                                                                  width: double.infinity,
+                                                                                  child: const Text(
+                                                                                    '本当に削除しますか？',
+                                                                                    style: TextStyle(
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                      fontSize: 22,
+                                                                                    ),
+                                                                                    textAlign: TextAlign.left,
+                                                                                  ))),
+                                                                          ListTile(
+                                                                            leading:
+                                                                                const Icon(Icons.delete),
+                                                                            title:
+                                                                                const Text('はい'),
+                                                                            onTap:
+                                                                                () {
+                                                                              model.deleteActivity(documentID);
+                                                                              Navigator.pop(context);
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                          ),
+                                                                          ListTile(
+                                                                            leading:
+                                                                                const Icon(Icons.arrow_back),
+                                                                            title:
+                                                                                const Text('いいえ'),
+                                                                            onTap:
+                                                                                () {
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                          )
+                                                                        ],
+                                                                      );
+                                                                    })
+                                                                  ],
+                                                                ));
+                                                          },
+                                                        );
+                                                      },
+                                                    )
+                                                  ],
                                                 );
-                                              },
-                                            )
-                                          ],
-                                        );
-                                      })
-                                    ],
-                                  ));
-                            },
-                          );
-                        },
-                      ))
-                  : Container())
-        ], systemOverlayStyle: SystemUiOverlayStyle.light,
+                                              })
+                                            ],
+                                          ));
+                                    },
+                                  );
+                                },
+                              ))
+                          : Container())
+        ],
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -152,8 +160,9 @@ class DetailActivityView extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<DetailActivityModel>(
-                          builder: (BuildContext context, DetailActivityModel model, Widget? child) {
+                      child: Consumer<DetailActivityModel>(builder:
+                          (BuildContext context, DetailActivityModel model,
+                              Widget? child) {
                         model.getGroup();
                         if (model.group != null) {
                           return Column(
@@ -168,7 +177,9 @@ class DetailActivityView extends StatelessWidget {
                                   if (snapshot.hasData) {
                                     final DocumentSnapshot documentSnapshot =
                                         snapshot.data!;
-                                    final Map<String, dynamic> documentData = documentSnapshot.data() as Map<String, dynamic>;
+                                    final Map<String, dynamic> documentData =
+                                        documentSnapshot.data()
+                                            as Map<String, dynamic>;
                                     const String teamLast = '';
                                     return Column(children: <Widget>[
                                       Padding(
@@ -190,9 +201,9 @@ class DetailActivityView extends StatelessWidget {
                                               width: double.infinity,
                                               child: Text(
                                                 DateFormat('yyyy年MM月dd日')
-                                                    .format(
-                                                        documentSnapshot.get('date')
-                                                            .toDate())
+                                                    .format(documentSnapshot
+                                                        .get('date')
+                                                        .toDate())
                                                     .toString(),
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -200,162 +211,173 @@ class DetailActivityView extends StatelessWidget {
                                                 ),
                                                 textAlign: TextAlign.left,
                                               ))),
-                                      if (documentData['list_item'] != null) documentSnapshot.get('list_item')
-                                                      .length !=
-                                                  0
-                                              ? Column(
-                                                  children: [
-                                                    Padding(
-                                                        padding:
-                                                            const EdgeInsets.only(
-                                                                top: 15,
-                                                                bottom: 15,
-                                                                left: 10),
-                                                        child: Container(
-                                                            width:
-                                                                double.infinity,
-                                                            child: const Text(
-                                                              '取得項目',
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 25,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                            ))),
-                                                    ListView.builder(
-                                                        physics:
-                                                            const NeverScrollableScrollPhysics(),
-                                                        itemCount:
+                                      if (documentData['list_item'] != null)
+                                        documentSnapshot
+                                                    .get('list_item')
+                                                    .length !=
+                                                0
+                                            ? Column(
+                                                children: [
+                                                  Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 15,
+                                                              bottom: 15,
+                                                              left: 10),
+                                                      child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          child: const Text(
+                                                            '取得項目',
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 25,
+                                                            ),
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                          ))),
+                                                  ListView.builder(
+                                                      physics:
+                                                          const NeverScrollableScrollPhysics(),
+                                                      itemCount:
+                                                          documentSnapshot
+                                                              .get('list_item')
+                                                              .length,
+                                                      shrinkWrap: true,
+                                                      itemBuilder:
+                                                          (BuildContext context,
+                                                              int index) {
+                                                        final Map<String,
+                                                                dynamic>
+                                                            partSelected =
                                                             documentSnapshot.get(
-                                                                    'list_item')
-                                                                .length,
-                                                        shrinkWrap: true,
-                                                        itemBuilder:
-                                                            (BuildContext
-                                                                    context,
-                                                                int index) {
-                                                          final Map<String, dynamic>
-                                                              partSelected =
-                                                              documentSnapshot.get(
-                                                                      'list_item')
-                                                                  [index];
-                                                          final String? type =
-                                                              partSelected[
-                                                                  'type'];
-                                                          final int? page =
-                                                              partSelected[
-                                                                  'page'];
-                                                          final int? number =
-                                                              partSelected[
-                                                                  'number'];
-                                                          final String? position =
-                                                              model.position;
-                                                          final Map<String, dynamic>?
-                                                              mapTask =
-                                                              task.getPartMap(
-                                                                  type, page);
-                                                          bool toShow = false;
-                                                          if (position ==
-                                                              'scout') {
-                                                            if (type ==
-                                                                    'challenge' ||
-                                                                type ==
-                                                                    model.age) {
-                                                              toShow = true;
-                                                            }
-                                                          } else {
+                                                                    'list_item')[
+                                                                index];
+                                                        final String? type =
+                                                            partSelected[
+                                                                'type'];
+                                                        final int? page =
+                                                            partSelected[
+                                                                'page'];
+                                                        final int? number =
+                                                            partSelected[
+                                                                'number'];
+                                                        final String? position =
+                                                            model.position;
+                                                        final Map<String,
+                                                                dynamic>?
+                                                            mapTask =
+                                                            task.getPartMap(
+                                                                type, page);
+                                                        bool toShow = false;
+                                                        if (position ==
+                                                            'scout') {
+                                                          if (type ==
+                                                                  'challenge' ||
+                                                              type ==
+                                                                  model.age) {
                                                             toShow = true;
                                                           }
-                                                          if (toShow) {
-                                                            return Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(5),
-                                                                child: Card(
-                                                                  color: theme
-                                                                      .getThemeColor(
-                                                                          type),
-                                                                  shape:
-                                                                      RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            5.0),
-                                                                  ),
-                                                                  child: InkWell(
-                                                                      customBorder: RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      onTap: () async {
-                                                                        if (position ==
-                                                                            'scout') {
-                                                                          Navigator.of(context).push<dynamic>(MyPageRoute(
-                                                                              page: showTaskView(page, type, number! + 1),
-                                                                              dismissible: true));
-                                                                        } else {
-                                                                          await showModalBottomSheet<
-                                                                              int>(
-                                                                            context:
-                                                                                context,
-                                                                            builder:
-                                                                                (BuildContext context) {
-                                                                              return Padding(
-                                                                                  padding: const EdgeInsets.all(15),
-                                                                                  child: Column(
-                                                                                    mainAxisSize: MainAxisSize.min,
-                                                                                    children: <Widget>[
-                                                                                      Padding(
-                                                                                          padding: const EdgeInsets.all(0),
-                                                                                          child: Container(
-                                                                                            width: double.infinity,
-                                                                                            child: Text(
-                                                                                              task.getContent(type, page, number)['body'],
-                                                                                              style: const TextStyle(
-                                                                                                fontSize: 18,
-                                                                                                fontWeight: FontWeight.bold,
-                                                                                              ),
-                                                                                              textAlign: TextAlign.left,
+                                                        } else {
+                                                          toShow = true;
+                                                        }
+                                                        if (toShow) {
+                                                          return Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(5),
+                                                              child: Card(
+                                                                color: theme
+                                                                    .getThemeColor(
+                                                                        type),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              5.0),
+                                                                ),
+                                                                child: InkWell(
+                                                                    customBorder:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    onTap:
+                                                                        () async {
+                                                                      if (position ==
+                                                                          'scout') {
+                                                                        Navigator.of(context).push<dynamic>(MyPageRoute(
+                                                                            page: showTaskView(
+                                                                                page,
+                                                                                type,
+                                                                                number! + 1),
+                                                                            dismissible: true));
+                                                                      } else {
+                                                                        await showModalBottomSheet<
+                                                                            int>(
+                                                                          context:
+                                                                              context,
+                                                                          builder:
+                                                                              (BuildContext context) {
+                                                                            return Padding(
+                                                                                padding: const EdgeInsets.all(15),
+                                                                                child: Column(
+                                                                                  mainAxisSize: MainAxisSize.min,
+                                                                                  children: <Widget>[
+                                                                                    Padding(
+                                                                                        padding: const EdgeInsets.all(0),
+                                                                                        child: Container(
+                                                                                          width: double.infinity,
+                                                                                          child: Text(
+                                                                                            task.getContent(type, page, number)['body'],
+                                                                                            style: const TextStyle(
+                                                                                              fontSize: 18,
+                                                                                              fontWeight: FontWeight.bold,
                                                                                             ),
-                                                                                          )),
-                                                                                      Padding(
-                                                                                          padding: const EdgeInsets.all(0),
-                                                                                          child: Container(
-                                                                                            width: double.infinity,
-                                                                                            child: const Text(
-                                                                                              '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                                                                              style: TextStyle(
-                                                                                                fontSize: 13,
-                                                                                                fontWeight: FontWeight.bold,
-                                                                                              ),
-                                                                                              textAlign: TextAlign.left,
+                                                                                            textAlign: TextAlign.left,
+                                                                                          ),
+                                                                                        )),
+                                                                                    Padding(
+                                                                                        padding: const EdgeInsets.all(0),
+                                                                                        child: Container(
+                                                                                          width: double.infinity,
+                                                                                          child: const Text(
+                                                                                            '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                                                                            style: TextStyle(
+                                                                                              fontSize: 13,
+                                                                                              fontWeight: FontWeight.bold,
                                                                                             ),
-                                                                                          )),
-                                                                                    ],
-                                                                                  ));
-                                                                            },
-                                                                          );
-                                                                        }
-                                                                      },
-                                                                      child: Center(
-                                                                          child: Padding(
-                                                                              padding: const EdgeInsets.only(top: 5, bottom: 5),
-                                                                              child: Column(
-                                                                                children: [
-                                                                                  Text(theme.getTitle(type)! + ' ' + mapTask!['number'] + ' ' + mapTask['title'] + ' (' + (number! + 1).toString() + ')', style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white))
-                                                                                ],
-                                                                              )))),
-                                                                ));
-                                                          } else {
-                                                            return Container();
-                                                          }
-                                                        })
-                                                  ],
-                                                )
-                                              : Container() else Container(),
+                                                                                            textAlign: TextAlign.left,
+                                                                                          ),
+                                                                                        )),
+                                                                                  ],
+                                                                                ));
+                                                                          },
+                                                                        );
+                                                                      }
+                                                                    },
+                                                                    child: Center(
+                                                                        child: Padding(
+                                                                            padding: const EdgeInsets.only(top: 5, bottom: 5),
+                                                                            child: Column(
+                                                                              children: [
+                                                                                Text(theme.getTitle(type)! + ' ' + mapTask!['number'] + ' ' + mapTask['title'] + ' (' + (number! + 1).toString() + ')', style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.white))
+                                                                              ],
+                                                                            )))),
+                                                              ));
+                                                        } else {
+                                                          return Container();
+                                                        }
+                                                      })
+                                                ],
+                                              )
+                                            : Container()
+                                      else
+                                        Container(),
                                     ]);
                                   } else {
                                     return const Center(
@@ -395,8 +417,7 @@ class DetailActivityView extends StatelessWidget {
                                                 int index) {
                                               String? uid;
                                               final DocumentSnapshot snapshot =
-                                                  querySnapshot
-                                                      .docs[index];
+                                                  querySnapshot.docs[index];
                                               uid = snapshot.get('uid');
                                               bool? isCheck = true;
                                               if (model.uid_check[uid!] !=
@@ -404,9 +425,12 @@ class DetailActivityView extends StatelessWidget {
                                                 isCheck = model.uid_check[uid];
                                               }
                                               String? team = '';
-                                              if (snapshot.get('team') != null) {
-                                                if (snapshot.get('team') is int) {
-                                                  team = snapshot.get('team')
+                                              if (snapshot.get('team') !=
+                                                  null) {
+                                                if (snapshot.get('team')
+                                                    is int) {
+                                                  team = snapshot
+                                                      .get('team')
                                                       .toString();
                                                 } else {
                                                   team = snapshot.get('team');
@@ -427,7 +451,8 @@ class DetailActivityView extends StatelessWidget {
                                               } else {
                                                 absence = '欠席';
                                               }
-                                              final String? age = snapshot.get('age');
+                                              final String? age =
+                                                  snapshot.get('age');
                                               String teamCall;
                                               if (age == 'usagi' ||
                                                   age == 'sika' ||
@@ -438,26 +463,31 @@ class DetailActivityView extends StatelessWidget {
                                               }
                                               print(model.uid_check);
                                               return Column(children: <Widget>[
-                                                if (isFirst && team != '') Padding(
-                                                        padding:
-                                                            const EdgeInsets.all(10),
-                                                        child: Container(
-                                                            width:
-                                                                double.infinity,
-                                                            child: Text(
-                                                              team! + teamCall,
-                                                              style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 23,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                            ))) else Container(),
+                                                if (isFirst && team != '')
+                                                  Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          child: Text(
+                                                            team! + teamCall,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 23,
+                                                            ),
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                          )))
+                                                else
+                                                  Container(),
                                                 Padding(
-                                                    padding: const EdgeInsets.all(5),
+                                                    padding:
+                                                        const EdgeInsets.all(5),
                                                     child: Container(
                                                       child: Card(
                                                         shape:
@@ -470,8 +500,8 @@ class DetailActivityView extends StatelessWidget {
                                                           onTap: () {},
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsets.all(
-                                                                    10),
+                                                                const EdgeInsets
+                                                                    .all(10),
                                                             child: Row(
                                                               children: <
                                                                   Widget>[
@@ -484,7 +514,8 @@ class DetailActivityView extends StatelessWidget {
                                                                               'age')),
                                                                       shape: BoxShape
                                                                           .circle),
-                                                                  child: const Icon(
+                                                                  child:
+                                                                      const Icon(
                                                                     Icons
                                                                         .person,
                                                                     color: Colors
@@ -493,9 +524,9 @@ class DetailActivityView extends StatelessWidget {
                                                                 ),
                                                                 Padding(
                                                                     padding: const EdgeInsets
-                                                                        .only(
-                                                                            left:
-                                                                                10),
+                                                                            .only(
+                                                                        left:
+                                                                            10),
                                                                     child: Text(
                                                                       snapshot.get(
                                                                           'name'),
@@ -508,9 +539,9 @@ class DetailActivityView extends StatelessWidget {
                                                                 const Spacer(),
                                                                 Padding(
                                                                     padding: const EdgeInsets
-                                                                        .only(
-                                                                            left:
-                                                                                10),
+                                                                            .only(
+                                                                        left:
+                                                                            10),
                                                                     child: Text(
                                                                       absence,
                                                                       style: const TextStyle(
@@ -560,7 +591,8 @@ class DetailActivityView extends StatelessWidget {
                                                   Icon(
                                                     Icons.bubble_chart,
                                                     color: Theme.of(context)
-                                                        .colorScheme.secondary,
+                                                        .colorScheme
+                                                        .secondary,
                                                     size: 35,
                                                   ),
                                                   const Padding(

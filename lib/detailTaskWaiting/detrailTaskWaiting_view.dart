@@ -32,6 +32,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
         create: (BuildContext context) => DetailTaskWaitingModel(),
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Theme.of(context).accentColor,
             title: const Text('タスク詳細'),
             systemOverlayStyle: SystemUiOverlayStyle.light,
           ),

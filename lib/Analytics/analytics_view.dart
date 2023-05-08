@@ -22,6 +22,7 @@ class AnalyticsView extends StatelessWidget {
     final List<String> type = theme.type;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).accentColor,
         title: const Text('アナリティクス'),
         systemOverlayStyle: SystemUiOverlayStyle.light,
       ),

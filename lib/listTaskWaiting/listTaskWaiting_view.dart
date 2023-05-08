@@ -15,14 +15,17 @@ class ListTaskWaitingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('サイン待ちリスト'), systemOverlayStyle: SystemUiOverlayStyle.light,
+          backgroundColor: Theme.of(context).accentColor,
+          title: const Text('サイン待ちリスト'),
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Align(
             alignment: Alignment.topCenter,
             child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600),
-                child: Consumer<ListTaskWaitingModel>(
-                    builder: (BuildContext context, ListTaskWaitingModel model, Widget? child) {
+                child: Consumer<ListTaskWaitingModel>(builder:
+                    (BuildContext context, ListTaskWaitingModel model,
+                        Widget? child) {
                   model.getSnapshot();
                   if (model.group != null) {
                     return StreamBuilder<QuerySnapshot>(
@@ -70,26 +73,31 @@ class ListTaskWaitingView extends StatelessWidget {
                                                     return DetailTaskWaitingView_old(
                                                         snapshotGet.data!
                                                             .docs[index].id,
-                                                        snapshot.get(
-                                                                'family') +
-                                                            snapshot.get(
-                                                                'first'),
-                                                        theme.getTitle(
-                                                                snapshot.get(
-                                                                    'type'))! +
+                                                        snapshot.get('family') +
+                                                            snapshot
+                                                                .get('first'),
+                                                        theme.getTitle(snapshot
+                                                                .get('type'))! +
                                                             ' ' +
                                                             mapTask['number'] +
                                                             ' ' +
                                                             mapTask['title'] +
                                                             ' (' +
-                                                            task.getNumber(snapshot['type'], snapshot['page'], snapshot['number'])! +
+                                                            task.getNumber(
+                                                                snapshot[
+                                                                    'type'],
+                                                                snapshot[
+                                                                    'page'],
+                                                                snapshot[
+                                                                    'number'])! +
                                                             ')',
-                                                        snapshot
-                                                            .get('type'));
+                                                        snapshot.get('type'));
                                                   }));
                                                 },
                                                 child: Padding(
-                                                    padding: const EdgeInsets.all(10),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
                                                     child: Container(
                                                       child: Column(
                                                         children: <Widget>[
@@ -114,8 +122,9 @@ class ListTaskWaitingView extends StatelessWidget {
                                                               type: MaterialType
                                                                   .transparency,
                                                               child: Padding(
-                                                                padding: const EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
                                                                         top:
                                                                             10),
                                                                 child: Text(
@@ -129,7 +138,13 @@ class ListTaskWaitingView extends StatelessWidget {
                                                                       mapTask[
                                                                           'title'] +
                                                                       ' (' +
-                                                                      task.getNumber(snapshot['type'], snapshot['page'], snapshot['number'])! +
+                                                                      task.getNumber(
+                                                                          snapshot[
+                                                                              'type'],
+                                                                          snapshot[
+                                                                              'page'],
+                                                                          snapshot[
+                                                                              'number'])! +
                                                                       ')',
                                                                   style: const TextStyle(
                                                                       fontWeight:

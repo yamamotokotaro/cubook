@@ -13,7 +13,8 @@ class CommunityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Community info = ModalRoute.of(context)!.settings.arguments as Community;
+    final Community info =
+        ModalRoute.of(context)!.settings.arguments as Community;
     final String? type = info.type;
     final int? page = info.page;
     final String name = info.name!;
@@ -39,7 +40,8 @@ class CommunityView extends StatelessWidget {
               arguments: Comment(type: type, effortid: effortid));
         },
         label: Selector<CommunityModel, String?>(
-            selector: (BuildContext context, CommunityModel model) => model.group,
+            selector: (BuildContext context, CommunityModel model) =>
+                model.group,
             builder: (BuildContext context, String? group, Widget? child) {
               if (group != null) {
                 return StreamBuilder<QuerySnapshot>(
@@ -95,8 +97,8 @@ class CommunityView extends StatelessWidget {
                                 textAlign: TextAlign.left,
                               ))),*/
                       Padding(
-                          padding:
-                              const EdgeInsets.only(top: 20, bottom: 15, left: 17),
+                          padding: const EdgeInsets.only(
+                              top: 20, bottom: 15, left: 17),
                           child: Row(
                             children: [
                               const Icon(
@@ -117,8 +119,9 @@ class CommunityView extends StatelessWidget {
                           )),
                       Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 10),
-                          child: Consumer<CommunityModel>(
-                              builder: (BuildContext context, CommunityModel model, Widget? child) {
+                          child: Consumer<CommunityModel>(builder:
+                              (BuildContext context, CommunityModel model,
+                                  Widget? child) {
                             model.getGroup();
                             if (model.group != null) {
                               return Column(
@@ -135,7 +138,9 @@ class CommunityView extends StatelessWidget {
                                           final DocumentSnapshot? snapshot =
                                               asyncSnapshot.data;
                                           return Consumer<CommunityModel>(
-                                              builder: (BuildContext context, CommunityModel model, Widget? child) {
+                                              builder: (BuildContext context,
+                                                  CommunityModel model,
+                                                  Widget? child) {
                                             model.getData(snapshot!, quant);
                                             return model.isGet
                                                 ? ListView.builder(
@@ -149,7 +154,8 @@ class CommunityView extends StatelessWidget {
                                                             int indexNumber) {
                                                       final Map<String, dynamic>
                                                           numberSnapshot =
-                                                          snapshot.get('signed')[
+                                                          snapshot.get(
+                                                                  'signed')[
                                                               indexNumber
                                                                   .toString()];
                                                       print(numberSnapshot);
@@ -180,93 +186,104 @@ class CommunityView extends StatelessWidget {
                                                                         TextAlign
                                                                             .left,
                                                                   ))),
-                                                          if (numberSnapshot['data'] !=
-                                                                  null) Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                              10),
-                                                                  child: ListView
-                                                                      .builder(
-                                                                          physics:
-                                                                              const NeverScrollableScrollPhysics(),
-                                                                          shrinkWrap:
-                                                                              true,
-                                                                          itemCount: numberSnapshot['data']
-                                                                              .length,
-                                                                          itemBuilder: (BuildContext context,
-                                                                              int
-                                                                                  index) {
-                                                                            final String?
-                                                                                type =
-                                                                                numberSnapshot['data'][index]['type'];
-                                                                            if (type ==
-                                                                                'image') {
-                                                                              return Padding(
+                                                          if (numberSnapshot[
+                                                                  'data'] !=
+                                                              null)
+                                                            Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        10),
+                                                                child: ListView
+                                                                    .builder(
+                                                                        physics:
+                                                                            const NeverScrollableScrollPhysics(),
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        itemCount:
+                                                                            numberSnapshot['data']
+                                                                                .length,
+                                                                        itemBuilder:
+                                                                            (BuildContext context,
+                                                                                int index) {
+                                                                          final String?
+                                                                              type =
+                                                                              numberSnapshot['data'][index]['type'];
+                                                                          if (type ==
+                                                                              'image') {
+                                                                            return Padding(
+                                                                              padding: const EdgeInsets.all(5),
+                                                                              child: Material(
+                                                                                  child: InkWell(
+                                                                                child: Container(
+                                                                                  child: Column(
+                                                                                    children: <Widget>[
+                                                                                      if (model.dataList[indexNumber][index] != null) Image.network(model.dataList[indexNumber][index]) else Container()
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
+                                                                              )),
+                                                                            );
+                                                                          } else if (type ==
+                                                                              'video') {
+                                                                            return Padding(
                                                                                 padding: const EdgeInsets.all(5),
                                                                                 child: Material(
-                                                                                    child: InkWell(
-                                                                                  child: Container(
-                                                                                    child: Column(
-                                                                                      children: <Widget>[
-                                                                                        if (model.dataList[indexNumber][index] != null) Image.network(model.dataList[indexNumber][index]) else Container()
-                                                                                      ],
-                                                                                    ),
-                                                                                  ),
-                                                                                )),
-                                                                              );
-                                                                            } else if (type ==
-                                                                                'video') {
-                                                                              return Padding(
-                                                                                  padding: const EdgeInsets.all(5),
-                                                                                  child: Material(
-                                                                                    child: InkWell(
-                                                                                      child: Container(
-                                                                                        child: Column(
-                                                                                          children: <Widget>[
-                                                                                            if (model.dataList[indexNumber][index] != null) Chewie(
-                                                                                                    controller: model.dataList[indexNumber][index],
-                                                                                                  ) else Container()
-                                                                                          ],
-                                                                                        ),
+                                                                                  child: InkWell(
+                                                                                    child: Container(
+                                                                                      child: Column(
+                                                                                        children: <Widget>[
+                                                                                          if (model.dataList[indexNumber][index] != null)
+                                                                                            Chewie(
+                                                                                              controller: model.dataList[indexNumber][index],
+                                                                                            )
+                                                                                          else
+                                                                                            Container()
+                                                                                        ],
                                                                                       ),
                                                                                     ),
-                                                                                  ));
-                                                                            } else if (type ==
-                                                                                'text') {
-                                                                              return Padding(
-                                                                                padding: const EdgeInsets.all(5),
-                                                                                child: Container(
-                                                                                  child: Card(
-                                                                                      child: Padding(
-                                                                                    padding: const EdgeInsets.all(0),
-                                                                                    child: Column(
-                                                                                      children: <Widget>[
-                                                                                        Padding(
-                                                                                            padding: const EdgeInsets.all(10),
-                                                                                            child: Text(
-                                                                                              model.dataList[indexNumber][index],
-                                                                                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-                                                                                            ))
-                                                                                      ],
-                                                                                    ),
-                                                                                  )),
-                                                                                ),
-                                                                              );
-                                                                            } else {
-                                                                              return Container();
-                                                                            }
-                                                                          })) else Padding(
-                                                                  padding: const EdgeInsets.only(
-                                                                      left: 18,
-                                                                      top: 8,
-                                                                      bottom:
-                                                                          8),
-                                                                  child: Container(
-                                                                      width: double
-                                                                          .infinity,
-                                                                      child: const Text(
-                                                                          'データがありません')))
+                                                                                  ),
+                                                                                ));
+                                                                          } else if (type ==
+                                                                              'text') {
+                                                                            return Padding(
+                                                                              padding: const EdgeInsets.all(5),
+                                                                              child: Container(
+                                                                                child: Card(
+                                                                                    child: Padding(
+                                                                                  padding: const EdgeInsets.all(0),
+                                                                                  child: Column(
+                                                                                    children: <Widget>[
+                                                                                      Padding(
+                                                                                          padding: const EdgeInsets.all(10),
+                                                                                          child: Text(
+                                                                                            model.dataList[indexNumber][index],
+                                                                                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                                          ))
+                                                                                    ],
+                                                                                  ),
+                                                                                )),
+                                                                              ),
+                                                                            );
+                                                                          } else {
+                                                                            return Container();
+                                                                          }
+                                                                        }))
+                                                          else
+                                                            Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            18,
+                                                                        top: 8,
+                                                                        bottom:
+                                                                            8),
+                                                                child: Container(
+                                                                    width: double
+                                                                        .infinity,
+                                                                    child: const Text(
+                                                                        'データがありません')))
                                                         ],
                                                       );
                                                     })

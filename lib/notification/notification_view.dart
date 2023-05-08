@@ -15,7 +15,9 @@ class NotificationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('お知らせ'), systemOverlayStyle: SystemUiOverlayStyle.light,
+        backgroundColor: Theme.of(context).accentColor,
+        title: const Text('お知らせ'),
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -26,8 +28,9 @@ class NotificationView extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<NotificationModel>(
-                          builder: (BuildContext context, NotificationModel model, Widget? child) {
+                      child: Consumer<NotificationModel>(builder:
+                          (BuildContext context, NotificationModel model,
+                              Widget? child) {
                         model.getUser();
                         if (model.uid != null) {
                           return StreamBuilder<QuerySnapshot>(
@@ -57,8 +60,9 @@ class NotificationView extends StatelessWidget {
                                         final int? page = snapshot.get('page');
                                         final int? number =
                                             snapshot.get('number');
-                                        final Color? color = theme.getThemeColor(
-                                            snapshot.get('type'));
+                                        final Color? color =
+                                            theme.getThemeColor(
+                                                snapshot.get('type'));
                                         return Padding(
                                           padding: const EdgeInsets.all(5),
                                           child: Container(
@@ -86,12 +90,14 @@ class NotificationView extends StatelessWidget {
                                                           dismissible: true));
                                                 },
                                                 child: Padding(
-                                                  padding: const EdgeInsets.all(10),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
                                                   child: Column(
                                                     children: <Widget>[
                                                       Padding(
                                                           padding:
-                                                              const EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                      .only(
                                                                   top: 3,
                                                                   bottom: 8),
                                                           child: Align(
@@ -114,7 +120,8 @@ class NotificationView extends StatelessWidget {
                                                               ))),
                                                       Padding(
                                                           padding:
-                                                              const EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                      .only(
                                                                   left: 3,
                                                                   top: 5),
                                                           child: Align(
@@ -161,7 +168,8 @@ class NotificationView extends StatelessWidget {
                                               Icon(
                                                 Icons.bubble_chart,
                                                 color: Theme.of(context)
-                                                    .colorScheme.secondary,
+                                                    .colorScheme
+                                                    .secondary,
                                                 size: 35,
                                               ),
                                               const Padding(
