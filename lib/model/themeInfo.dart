@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeInfo {
-  List<Color> colors = [
+  List<Color?> colors = [
     Colors.lightBlue[400],
     Colors.yellow[800],
     Colors.orange,
@@ -18,8 +18,9 @@ class ThemeInfo {
     Colors.yellow[800],
     Colors.indigo[900],
     Colors.green[900],
+    Colors.green[900],
   ];
-  List<Color> colors_indicator = [
+  List<Color?> colors_indicator = [
     Colors.lightBlue[500],
     Colors.yellow[600],
     Colors.orange[300],
@@ -35,6 +36,7 @@ class ThemeInfo {
     Colors.red[700],
     Colors.yellow[700],
     Colors.indigo[800],
+    Colors.green[800],
     Colors.green[800],
   ];
 
@@ -76,8 +78,8 @@ class ThemeInfo {
     'gino'
   ];
 
-  Color getThemeColor(String type) {
-    Color color;
+  Color? getThemeColor(String? type) {
+    Color? color;
     switch (type) {
       case 'beaver':
         color = colors[0];
@@ -127,12 +129,15 @@ class ThemeInfo {
       case 'gino':
         color = colors[15];
         break;
+      case 'leader':
+        color = colors[16];
+        break;
     }
     return color;
   }
 
-  Color getUserColor(String type) {
-    Color color;
+  Color? getUserColor(String? type) {
+    Color? color;
     switch (type) {
       case 'beaver':
         color = colors[0];
@@ -180,8 +185,8 @@ class ThemeInfo {
     return color;
   }
 
-  Color getIndicatorColor(String type) {
-    Color color;
+  Color? getIndicatorColor(String? type) {
+    Color? color;
     switch (type) {
       case 'beaver':
         color = colors_indicator[0];
@@ -235,8 +240,8 @@ class ThemeInfo {
     return color;
   }
 
-  String getTitle(String type) {
-    String title;
+  String? getTitle(String? type) {
+    String? title;
     switch (type) {
       case 'beaver':
         title = titles[0];

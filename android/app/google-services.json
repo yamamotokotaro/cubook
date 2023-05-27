@@ -39,6 +39,46 @@
           }
         },
         {
+<<<<<<< HEAD
+          "client_id": "753196410884-d9d3s2re1lou8mpvc8vfa3dj5u9q40go.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_S_Pr9-QIqFhpz_QEVl7iFyceJ4-sYYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753196410884-d9d3s2re1lou8mpvc8vfa3dj5u9q40go.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "753196410884-jlmbkbv1enkm2vliuk300nq98p7rf6gv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.kotakota.cubook",
+                "app_store_id": "1507520804"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753196410884:android:b190c26316052cb94d2d51",
+        "android_client_info": {
+          "package_name": "app.kotakota.cubook_visualization"
+        }
+      },
+      "oauth_client": [
+        {
+=======
+>>>>>>> develop
           "client_id": "753196410884-d9d3s2re1lou8mpvc8vfa3dj5u9q40go.apps.googleusercontent.com",
           "client_type": 3
         }

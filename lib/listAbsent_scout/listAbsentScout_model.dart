@@ -3,16 +3,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class ListAbsentScoutModel extends ChangeNotifier {
-  DocumentSnapshot userSnapshot;
-  User currentUser;
+  DocumentSnapshot? userSnapshot;
+  User? currentUser;
   bool isGet = false;
-  String uid;
-  String uid_before = '';
+  String? uid;
+  String? uid_before = '';
 
-  void getUser() async {
+  Future<void> getUser() async {
     if (uid != uid_before) {
       uid_before = uid;
-      User user = await FirebaseAuth.instance.currentUser;
+      final User user = FirebaseAuth.instance.currentUser!;
       uid = user.uid;
       notifyListeners();
     }

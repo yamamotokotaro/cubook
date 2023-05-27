@@ -3,25 +3,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class ListAbsentModel extends ChangeNotifier {
-  DocumentSnapshot userSnapshot;
-  User currentUser;
+  DocumentSnapshot? userSnapshot;
+  User? currentUser;
   bool isGet = false;
-  String group;
-  String position;
+  String? group;
+  String? position;
   String group_before = '';
   String position_before = '';
-  String group_claim;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  String? group_claim;
+  Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getGroup() async {
-    String group_before = group;
-    String position_before = position;
-    User user = await FirebaseAuth.instance.currentUser;
-      FirebaseFirestore.instance.collection('user').where('uid', isEqualTo: user.uid).get().then((snapshot) {
-        DocumentSnapshot documentSnapshot = snapshot.docs[0];
-        group = documentSnapshot.data()['group'];
-        position = documentSnapshot.data()['position'];
-        if (group != group_before || position != position_before) {
+  Future<void> getGroup() async {
+    final String? groupBefore = group;
+    final String? positionBefore = position;
+    final User user = FirebaseAuth.instance.currentUser!;
+      FirebaseFirestore.instance.collection('user').where('uid', isEqualTo: user.uid).get().then((QuerySnapshot<Map<String, dynamic>> snapshot) {
+        final DocumentSnapshot documentSnapshot = snapshot.docs[0];
+        group = documentSnapshot.get('group');
+        position = documentSnapshot.get('position');
+        if (group != groupBefore || position != positionBefore) {
           notifyListeners();
         }
       });

@@ -1,27 +1,21 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
-import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/class.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class listEffort extends StatelessWidget {
-  String group;
-  var theme = new ThemeInfo();
-  var isRelease = const bool.fromEnvironment('dart.vm.product');
+  String? group;
+  ThemeInfo theme = ThemeInfo();
+  bool isRelease = const bool.fromEnvironment('dart.vm.product');
   DateTime now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    DateTime date = DateTime(now.year, now.month, now.day - 28);
+    final DateTime date = DateTime(now.year, now.month, now.day - 28);
     return Column(
       children: <Widget>[
         Center(
@@ -33,11 +27,11 @@ class listEffort extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 5, top: 4),
                 child: Icon(
                   Icons.assignment,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                   size: 32,
                 ),
               ),
-              Text(
+              const Text(
                 'みんなの取り組み',
                 style: TextStyle(
                     fontSize: 25.0,
@@ -45,7 +39,8 @@ class listEffort extends StatelessWidget {
                     decoration: TextDecoration.none),
               ),
             ])),
-        Consumer<ListEffortModel>(builder: (context, model, child) {
+        Consumer<ListEffortModel>(builder:
+            (BuildContext context, ListEffortModel model, Widget? child) {
           model.getSnapshot();
           if (model.group != null) {
             return StreamBuilder<QuerySnapshot>(
@@ -59,302 +54,258 @@ class listEffort extends StatelessWidget {
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
                   final List<DocumentSnapshot> listSnapshot =
-                      snapshot.data.docs;
-                  if (listSnapshot.length != 0) {
+                      snapshot.data!.docs;
+                  if (listSnapshot.isNotEmpty) {
                     ScrollController _controller;
                     return Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: ListView.builder(
-                              itemCount: listSnapshot.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (BuildContext context, int index) {
-                                DocumentSnapshot documentSnapshot =
-                                    listSnapshot[index];
-                                final int congrats =
-                                    documentSnapshot.data()['congrats'];
-                                final String documentID = documentSnapshot.id;
-                                final int page =
-                                    documentSnapshot.data()['page'];
-                                final String type =
-                                    documentSnapshot.data()['type'];
-                                final String uid =
-                                    documentSnapshot.data()['uid'];
-                                final String taskid =
-                                    documentSnapshot.data()['taskID'];
-                                Color color;
-                                color = theme.getThemeColor(type);
-                                return Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Container(
-                                        child: Card(
-                                          color: color,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: InkWell(
-                                            customBorder:
-                                                RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                            onTap: () {
-                                              if (page != null &&
-                                                  model.position == 'leader') {
-                                                Navigator.of(context)
-                                                    .push<dynamic>(MyPageRoute(
-                                                        page:
-                                                            showTaskConfirmView(
-                                                                page,
-                                                                type,
-                                                                uid,
-                                                                0),
-                                                        dismissible: true));
-                                              } else if (taskid != null &&
-                                                  model.position == 'scout') {
-                                                Navigator.of(context).pushNamed(
-                                                    '/communityView',
-                                                    arguments: Community(
-                                                        type: type,
-                                                        page: page,
-                                                        name: documentSnapshot
-                                                                    .data()[
-                                                                'family'] +
-                                                            documentSnapshot
-                                                                    .data()[
-                                                                'first'],
-                                                        taskid: taskid,
-                                                        effortid:
-                                                            documentSnapshot
-                                                                .id));
-                                              }
-                                            },
-                                            onLongPress: () {
-                                              if (taskid != null) {
-                                                Navigator.of(context).pushNamed(
-                                                    '/communityView',
-                                                    arguments: Community(
-                                                        type: type,
-                                                        page: page,
-                                                        name: documentSnapshot
-                                                                    .data()[
-                                                                'family'] +
-                                                            documentSnapshot
-                                                                    .data()[
-                                                                'first'],
-                                                        taskid: taskid,
-                                                        effortid:
-                                                            documentSnapshot
-                                                                .id));
-                                              }
-                                            },
-                                            child: Column(
-                                              children: <Widget>[
-                                                Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 15,
-                                                              left: 11,
-                                                              right: 10),
-                                                      child: Row(
-                                                        children: <Widget>[
-                                                          Icon(
-                                                            Icons.person,
-                                                            color: Colors.white,
-                                                            size: 28,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: 5,
-                                                                    bottom: 3),
-                                                            child: Text(
-                                                              documentSnapshot
-                                                                          .data()[
-                                                                      'family'] +
-                                                                  documentSnapshot
-                                                                          .data()[
-                                                                      'first'] +
-                                                                  documentSnapshot
-                                                                          .data()[
-                                                                      'call'],
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize:
-                                                                      18.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  decoration:
-                                                                      TextDecoration
-                                                                          .none),
-                                                            ),
-                                                          ),
-                                                          Spacer(),
-                                                          Text(
-                                                            DateFormat('MM/dd')
-                                                                .format(documentSnapshot
-                                                                    .data()[
-                                                                        'time']
-                                                                    .toDate())
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 15.5,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .none),
-                                                          )
-                                                        ],
-                                                      )),
-                                                ),
-                                                Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: ListView.builder(
+                          itemCount: listSnapshot.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (BuildContext context, int index) {
+                            final DocumentSnapshot documentSnapshot =
+                                listSnapshot[index];
+                            final int? congrats =
+                                documentSnapshot.get('congrats');
+                            final String documentID = documentSnapshot.id;
+                            final int? page = documentSnapshot.get('page');
+                            final String? type = documentSnapshot.get('type');
+                            final String? uid = documentSnapshot.get('uid');
+                            Color? color;
+                            color = theme.getThemeColor(type);
+                            return Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Container(
+                                    child: Card(
+                                      color: color,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      child: InkWell(
+                                        customBorder: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                        onTap: () {
+                                          if (page != null &&
+                                              model.position == 'leader') {
+                                            Navigator.of(context).push<dynamic>(
+                                                MyPageRoute(
+                                                    page: showTaskConfirmView(
+                                                        page, type, uid, 0),
+                                                    dismissible: true));
+                                          }
+                                        },
+                                        child: Column(
+                                          children: <Widget>[
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Padding(
                                                   padding:
-                                                      EdgeInsets.only(top: 5),
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 10,
-                                                              left: 10,
-                                                              right: 10),
-                                                      child: Text(
-                                                        documentSnapshot
-                                                            .data()['body'],
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: TextStyle(
+                                                      const EdgeInsets.only(
+                                                          top: 15,
+                                                          left: 11,
+                                                          right: 10),
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      const Icon(
+                                                        Icons.person,
+                                                        color: Colors.white,
+                                                        size: 28,
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 5,
+                                                                bottom: 3),
+                                                        child: Text(
+                                                          documentSnapshot
+                                                                  .get(
+                                                                      'family') +
+                                                              documentSnapshot
+                                                                  .get(
+                                                                      'first') +
+                                                              documentSnapshot
+                                                                  .get('call'),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: const TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 18.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none),
+                                                        ),
+                                                      ),
+                                                      const Spacer(),
+                                                      Text(
+                                                        DateFormat('MM/dd')
+                                                            .format(
+                                                                documentSnapshot
+                                                                    .get('time')
+                                                                    .toDate())
+                                                            .toString(),
+                                                        style: const TextStyle(
                                                             color: Colors.white,
-                                                            fontSize: 20.0,
+                                                            fontSize: 15.5,
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             decoration:
                                                                 TextDecoration
                                                                     .none),
-                                                      ),
-                                                    ),
+                                                      )
+                                                    ],
+                                                  )),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 5),
+                                              child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10,
+                                                          left: 10,
+                                                          right: 10),
+                                                  child: Text(
+                                                    documentSnapshot
+                                                        .get('body'),
+                                                    textAlign: TextAlign.left,
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .none),
                                                   ),
                                                 ),
-                                                Padding(
-                                                    padding: EdgeInsets.only(
-                                                        top: 5, bottom: 2),
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        FlatButton.icon(
-                                                            onPressed: () {
-                                                              increaseCount(
-                                                                  documentID);
-                                                            },
-                                                            icon: Icon(
-                                                              Icons
-                                                                  .favorite_border,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                            label: Semantics(
-                                                              hint:
-                                                                  'ボタンを押すとカウントが増えます',
-                                                              child: Text(
-                                                                'おめでとう！' +
-                                                                    congrats
-                                                                        .toString(),
-                                                                style: TextStyle(
+                                              ),
+                                            ),
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5, bottom: 2),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    TextButton.icon(
+                                                        onPressed: () {
+                                                          increaseCount(
+                                                              documentID);
+                                                        },
+                                                        icon: const Icon(
+                                                          Icons.favorite_border,
+                                                          color: Colors.white,
+                                                        ),
+                                                        label: Semantics(
+                                                          hint:
+                                                              'ボタンを押すとカウントが増えます',
+                                                          child: Text(
+                                                            'おめでとう！' +
+                                                                congrats
+                                                                    .toString(),
+                                                            style:
+                                                                const TextStyle(
                                                                     color: Colors
                                                                         .white),
-                                                              ),
-                                                            )),
-                                                        Spacer(),
-                                                        model.position ==
-                                                                'leader'
-                                                            ? Semantics(
-                                                                label:
-                                                                    '投稿の削除を行います',
-                                                                child:
-                                                                    IconButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    var result =
-                                                                        await showModalBottomSheet<
-                                                                            int>(
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (BuildContext
-                                                                              context) {
-                                                                        return Padding(
-                                                                            padding:
-                                                                                EdgeInsets.only(top: 10, bottom: 10),
-                                                                            child: Column(
-                                                                              mainAxisSize: MainAxisSize.min,
-                                                                              children: <Widget>[
-                                                                                ListTile(
-                                                                                  leading: Icon(Icons.delete),
-                                                                                  title: Text('投稿を削除する'),
-                                                                                  onTap: () {
-                                                                                    model.deleteEffort(documentID);
-                                                                                    Navigator.pop(context);
-                                                                                  },
-                                                                                ),
-                                                                              ],
-                                                                            ));
-                                                                      },
-                                                                    );
-                                                                  },
-                                                                  icon: Icon(
-                                                                    Icons
-                                                                        .more_vert,
-                                                                    color: Colors
-                                                                        .white,
-                                                                    size: 21,
-                                                                  ),
-                                                                ))
-                                                            : Container()
-                                                      ],
-                                                    ))
-                                              ],
-                                            ),
-                                          ),
+                                                          ),
+                                                        )),
+                                                    const Spacer(),
+                                                    if (model.position ==
+                                                        'leader')
+                                                      Semantics(
+                                                          label: '投稿の削除を行います',
+                                                          child: IconButton(
+                                                            onPressed:
+                                                                () async {
+                                                              final int?
+                                                                  result =
+                                                                  await showModalBottomSheet<
+                                                                      int>(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                        context) {
+                                                                  return Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          top:
+                                                                              10,
+                                                                          bottom:
+                                                                              10),
+                                                                      child:
+                                                                          Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.min,
+                                                                        children: <Widget>[
+                                                                          ListTile(
+                                                                            leading:
+                                                                                const Icon(Icons.delete),
+                                                                            title:
+                                                                                const Text('投稿を削除する'),
+                                                                            onTap:
+                                                                                () {
+                                                                              model.deleteEffort(documentID);
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                          ),
+                                                                        ],
+                                                                      ));
+                                                                },
+                                                              );
+                                                            },
+                                                            icon: const Icon(
+                                                              Icons.more_vert,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 21,
+                                                            ),
+                                                          ))
+                                                    else
+                                                      Container()
+                                                  ],
+                                                ))
+                                          ],
                                         ),
                                       ),
-                                    )
-                                  ],
-                                );
-                              }),
-                        );
+                                    ),
+                                  ),
+                                )
+                              ],
+                            );
+                          }),
+                    );
                   } else {
                     return Padding(
-                      padding: EdgeInsets.only(top: 5, left: 10, right: 10),
+                      padding:
+                          const EdgeInsets.only(top: 5, left: 10, right: 10),
                       child: Container(
                           child: InkWell(
                         onTap: () {},
                         child: Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Icon(
                                   Icons.bubble_chart,
-                                  color: Theme.of(context).accentColor,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                   size: 35,
                                 ),
-                                Padding(
+                                const Padding(
                                     padding: EdgeInsets.only(left: 10),
                                     child: Material(
                                       type: MaterialType.transparency,
@@ -392,7 +343,7 @@ class listEffort extends StatelessWidget {
     );
   }
 
-  void increaseCount(String documentID) async {
+  Future<void> increaseCount(String documentID) async {
     FirebaseFirestore.instance
         .collection('effort')
         .doc(documentID)

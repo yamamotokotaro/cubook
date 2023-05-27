@@ -1,14 +1,12 @@
-import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/signup/create/createGroup_view.dart';
 import 'package:cubook/signup/join/joinGroup_view.dart';
 import 'package:cubook/signup/signup_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SignupView extends StatelessWidget {
-  static final list_select = [
+  static final List<String> list_select = [
     '招待を受けている',
     '隊として初めて利用する',
   ];
@@ -23,19 +21,20 @@ class SignupView extends StatelessWidget {
         children: [
           Row(
             children: [
-              Spacer(),
+              const Spacer(),
               Padding(
-                  padding: EdgeInsets.only(top: 10, right: 10),
-                  child: Consumer<HomeModel>(builder: (context, model, child) {
-                    return FlatButton(
-                        child: Text('ログアウト'),
+                  padding: const EdgeInsets.only(top: 10, right: 10),
+                  child: Consumer<HomeModel>(builder:
+                      (BuildContext context, HomeModel model, Widget? child) {
+                    return TextButton(
+                        child: const Text('ログアウト'),
                         onPressed: () {
                           model.logout();
                         });
                   })),
             ],
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 30, bottom: 10),
             child: Text(
               'あてはまる項目を選択してください',
@@ -46,7 +45,7 @@ class SignupView extends StatelessWidget {
             ),
           ),
           Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Container(
                   child: ListView.builder(
                       itemCount: list_select.length,
@@ -54,10 +53,12 @@ class SignupView extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         return Consumer<SignupModel>(
-                            builder: (context, model, child) => Container(
+                            builder: (BuildContext context, SignupModel model,
+                                    Widget? child) =>
+                                Container(
                                   child: Card(
                                     color: model.isSelect_type[index]
-                                        ? Colors.blue[900].withAlpha(60)
+                                        ? Colors.blue[900]!.withAlpha(60)
                                         : Colors.grey.withAlpha(20),
                                     elevation: 0,
                                     child: InkWell(
@@ -67,10 +68,10 @@ class SignupView extends StatelessWidget {
                                       child: Column(
                                         children: <Widget>[
                                           Padding(
-                                            padding: EdgeInsets.all(10),
+                                            padding: const EdgeInsets.all(10),
                                             child: Text(
                                               list_select[index],
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -83,10 +84,13 @@ class SignupView extends StatelessWidget {
                                 ));
                       }))),
           Consumer<SignupModel>(
-              builder: (context, model, child) =>
-                  model.isSelect_type[0] || model.isSelect_type[1]
-                      ? model.isSelect_type[1] ? CreateGroupView() : JoinGroup()
-                      : Container())
+              builder:
+                  (BuildContext context, SignupModel model, Widget? child) =>
+                      model.isSelect_type[0] || model.isSelect_type[1]
+                          ? model.isSelect_type[1]
+                              ? CreateGroupView()
+                              : JoinGroup()
+                          : Container())
         ],
       ),
     );

@@ -1,38 +1,37 @@
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/community/community_model.dart';
-import 'package:cubook/detailActivity/detailActivity_model.dart';
 import 'package:cubook/model/arguments.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CommunityView extends StatelessWidget {
-  var theme = new ThemeInfo();
-  var task = new TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  TaskContents task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
-    Community info = ModalRoute.of(context).settings.arguments;
-    String type = info.type;
-    int page = info.page;
-    String name = info.name;
-    String taskid = info.taskid;
-    String effortid = info.effortid;
-    Color themeColor = theme.getThemeColor(type);
-    var map_task = task.getPartMap(type, page);
-    int quant = map_task['hasItem'];
+    final Community info =
+        ModalRoute.of(context)!.settings.arguments as Community;
+    final String? type = info.type;
+    final int? page = info.page;
+    final String name = info.name!;
+    final String? taskid = info.taskid;
+    final String? effortid = info.effortid;
+    final Color? themeColor = theme.getThemeColor(type);
+    final Map<String, dynamic> mapTask = task.getPartMap(type, page)!;
+    final int? quant = mapTask['hasItem'];
     bool isDark;
-    if (Theme.of(context).accentColor == Colors.white) {
+    if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
       isDark = false;
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(map_task['title']),
+        title: Text(mapTask['title']),
         backgroundColor: themeColor,
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -40,9 +39,10 @@ class CommunityView extends StatelessWidget {
           Navigator.of(context).pushNamed('/commentView',
               arguments: Comment(type: type, effortid: effortid));
         },
-        label: Selector<CommunityModel, String>(
-            selector: (context, model) => model.group,
-            builder: (context, group, child) {
+        label: Selector<CommunityModel, String?>(
+            selector: (BuildContext context, CommunityModel model) =>
+                model.group,
+            builder: (BuildContext context, String? group, Widget? child) {
               if (group != null) {
                 return StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
@@ -53,12 +53,12 @@ class CommunityView extends StatelessWidget {
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> querySnapshot) {
                       if (querySnapshot.hasData) {
-                        if (querySnapshot.data.docs.length != 0) {
+                        if (querySnapshot.data!.docs.isNotEmpty) {
                           return Text('コメント ' +
-                              querySnapshot.data.docs.length.toString() +
+                              querySnapshot.data!.docs.length.toString() +
                               '件');
                         } else {
-                          return Text('コメント');
+                          return const Text('コメント');
                         }
                       } else {
                         return const Center(
@@ -72,16 +72,16 @@ class CommunityView extends StatelessWidget {
                 return Container();
               }
             }),
-        icon: Icon(Icons.comment),
+        icon: const Icon(Icons.comment),
       ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 600),
+                constraints: const BoxConstraints(maxWidth: 600),
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 65),
+                  padding: const EdgeInsets.only(bottom: 65),
                   child: Column(
                     children: <Widget>[
                       /*Padding(
@@ -97,19 +97,19 @@ class CommunityView extends StatelessWidget {
                                 textAlign: TextAlign.left,
                               ))),*/
                       Padding(
-                          padding:
-                              EdgeInsets.only(top: 20, bottom: 15, left: 17),
+                          padding: const EdgeInsets.only(
+                              top: 20, bottom: 15, left: 17),
                           child: Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.person,
                                 size: 35,
                               ),
                               Padding(
-                                  padding: EdgeInsets.only(left: 5),
+                                  padding: const EdgeInsets.only(left: 5),
                                   child: Text(
                                     name,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 23,
                                     ),
@@ -118,48 +118,55 @@ class CommunityView extends StatelessWidget {
                             ],
                           )),
                       Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 10),
-                          child: Consumer<CommunityModel>(
-                              builder: (context, model, child) {
+                          padding: const EdgeInsets.only(top: 20, bottom: 10),
+                          child: Consumer<CommunityModel>(builder:
+                              (BuildContext context, CommunityModel model,
+                                  Widget? child) {
                             model.getGroup();
                             if (model.group != null) {
                               return Column(
                                 children: <Widget>[
                                   StreamBuilder<DocumentSnapshot>(
                                       stream: FirebaseFirestore.instance
+<<<<<<< HEAD
+                                          .collection(type!)
+=======
                                           .collection(type)
+>>>>>>> develop
                                           .doc(taskid)
                                           .snapshots(),
                                       builder: (BuildContext context,
                                           AsyncSnapshot<DocumentSnapshot>
                                               asyncSnapshot) {
                                         if (asyncSnapshot.hasData) {
-                                          DocumentSnapshot snapshot =
+                                          final DocumentSnapshot? snapshot =
                                               asyncSnapshot.data;
                                           return Consumer<CommunityModel>(
-                                              builder: (context, model, child) {
-                                            model.getData(snapshot, quant);
+                                              builder: (BuildContext context,
+                                                  CommunityModel model,
+                                                  Widget? child) {
+                                            model.getData(snapshot!, quant);
                                             return model.isGet
                                                 ? ListView.builder(
                                                     physics:
-                                                        NeverScrollableScrollPhysics(),
+                                                        const NeverScrollableScrollPhysics(),
                                                     shrinkWrap: true,
                                                     itemCount:
-                                                        map_task['hasItem'],
+                                                        mapTask['hasItem'],
                                                     itemBuilder:
                                                         (BuildContext context,
-                                                            int index_number) {
-                                                      Map<String, dynamic>
+                                                            int indexNumber) {
+                                                      final Map<String, dynamic>
                                                           numberSnapshot =
-                                                          snapshot.data()['signed'][
-                                                              index_number
+                                                          snapshot.get(
+                                                                  'signed')[
+                                                              indexNumber
                                                                   .toString()];
-                                                      print(numberSnapshot);
                                                       return Column(
                                                         children: <Widget>[
                                                           Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .only(
                                                                 left: 20,
                                                               ),
@@ -167,11 +174,11 @@ class CommunityView extends StatelessWidget {
                                                                   width: double
                                                                       .infinity,
                                                                   child: Text(
-                                                                    (index_number +
+                                                                    (indexNumber +
                                                                             1)
                                                                         .toString(),
                                                                     style:
-                                                                        TextStyle(
+                                                                        const TextStyle(
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .bold,
@@ -182,97 +189,104 @@ class CommunityView extends StatelessWidget {
                                                                         TextAlign
                                                                             .left,
                                                                   ))),
-                                                          numberSnapshot['data'] !=
-                                                                  null
-                                                              ? Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              10),
-                                                                  child: ListView
-                                                                      .builder(
-                                                                          physics:
-                                                                              NeverScrollableScrollPhysics(),
-                                                                          shrinkWrap:
-                                                                              true,
-                                                                          itemCount: numberSnapshot['data']
-                                                                              .length,
-                                                                          itemBuilder: (BuildContext context,
-                                                                              int
-                                                                                  index) {
-                                                                            String
-                                                                                type =
-                                                                                numberSnapshot['data'][index]['type'];
-                                                                            if (type ==
-                                                                                'image') {
-                                                                              return Padding(
-                                                                                padding: EdgeInsets.all(5),
-                                                                                child: Material(
-                                                                                    child: InkWell(
-                                                                                  child: Container(
-                                                                                    child: Column(
-                                                                                      children: <Widget>[
-                                                                                        model.dataList[index_number][index] != null ? Image.network(model.dataList[index_number][index]) : Container()
-                                                                                      ],
-                                                                                    ),
+                                                          if (numberSnapshot[
+                                                                  'data'] !=
+                                                              null)
+                                                            Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        10),
+                                                                child: ListView
+                                                                    .builder(
+                                                                        physics:
+                                                                            const NeverScrollableScrollPhysics(),
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        itemCount:
+                                                                            numberSnapshot['data']
+                                                                                .length,
+                                                                        itemBuilder:
+                                                                            (BuildContext context,
+                                                                                int index) {
+                                                                          final String?
+                                                                              type =
+                                                                              numberSnapshot['data'][index]['type'];
+                                                                          if (type ==
+                                                                              'image') {
+                                                                            return Padding(
+                                                                              padding: const EdgeInsets.all(5),
+                                                                              child: Material(
+                                                                                  child: InkWell(
+                                                                                child: Container(
+                                                                                  child: Column(
+                                                                                    children: <Widget>[
+                                                                                      if (model.dataList[indexNumber][index] != null) Image.network(model.dataList[indexNumber][index]) else Container()
+                                                                                    ],
                                                                                   ),
-                                                                                )),
-                                                                              );
-                                                                            } else if (type ==
-                                                                                'video') {
-                                                                              return Padding(
-                                                                                  padding: EdgeInsets.all(5),
-                                                                                  child: Material(
-                                                                                    child: InkWell(
-                                                                                      child: Container(
-                                                                                        child: Column(
-                                                                                          children: <Widget>[
-                                                                                            model.dataList[index_number][index] != null
-                                                                                                ? Chewie(
-                                                                                                    controller: model.dataList[index_number][index],
-                                                                                                  )
-                                                                                                : Container()
-                                                                                          ],
-                                                                                        ),
+                                                                                ),
+                                                                              )),
+                                                                            );
+                                                                          } else if (type ==
+                                                                              'video') {
+                                                                            return Padding(
+                                                                                padding: const EdgeInsets.all(5),
+                                                                                child: Material(
+                                                                                  child: InkWell(
+                                                                                    child: Container(
+                                                                                      child: Column(
+                                                                                        children: <Widget>[
+                                                                                          if (model.dataList[indexNumber][index] != null)
+                                                                                            Chewie(
+                                                                                              controller: model.dataList[indexNumber][index],
+                                                                                            )
+                                                                                          else
+                                                                                            Container()
+                                                                                        ],
                                                                                       ),
                                                                                     ),
-                                                                                  ));
-                                                                            } else if (type ==
-                                                                                'text') {
-                                                                              return Padding(
-                                                                                padding: EdgeInsets.all(5),
-                                                                                child: Container(
-                                                                                  child: Card(
-                                                                                      child: Padding(
-                                                                                    padding: EdgeInsets.all(0),
-                                                                                    child: Column(
-                                                                                      children: <Widget>[
-                                                                                        Padding(
-                                                                                            padding: EdgeInsets.all(10),
-                                                                                            child: Text(
-                                                                                              model.dataList[index_number][index],
-                                                                                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-                                                                                            ))
-                                                                                      ],
-                                                                                    ),
-                                                                                  )),
-                                                                                ),
-                                                                              );
-                                                                            } else {
-                                                                              return Container();
-                                                                            }
-                                                                          }))
-                                                              : Padding(
-                                                                  padding: EdgeInsets.only(
-                                                                      left: 18,
-                                                                      top: 8,
-                                                                      bottom:
-                                                                          8),
-                                                                  child: Container(
-                                                                      width: double
-                                                                          .infinity,
-                                                                      child: Text(
-                                                                          'データがありません')))
+                                                                                  ),
+                                                                                ));
+                                                                          } else if (type ==
+                                                                              'text') {
+                                                                            return Padding(
+                                                                              padding: const EdgeInsets.all(5),
+                                                                              child: Container(
+                                                                                child: Card(
+                                                                                    child: Padding(
+                                                                                  padding: const EdgeInsets.all(0),
+                                                                                  child: Column(
+                                                                                    children: <Widget>[
+                                                                                      Padding(
+                                                                                          padding: const EdgeInsets.all(10),
+                                                                                          child: Text(
+                                                                                            model.dataList[indexNumber][index],
+                                                                                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                                          ))
+                                                                                    ],
+                                                                                  ),
+                                                                                )),
+                                                                              ),
+                                                                            );
+                                                                          } else {
+                                                                            return Container();
+                                                                          }
+                                                                        }))
+                                                          else
+                                                            Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            18,
+                                                                        top: 8,
+                                                                        bottom:
+                                                                            8),
+                                                                child: Container(
+                                                                    width: double
+                                                                        .infinity,
+                                                                    child: const Text(
+                                                                        'データがありません')))
                                                         ],
                                                       );
                                                     })
@@ -310,7 +324,7 @@ class CommunityView extends StatelessWidget {
                                           (BuildContext context, int index) {
                                         String content = contents[index];
                                         Color bordercolor;
-                                        if (Theme.of(context).accentColor ==
+                                        if (Theme.of(context).colorScheme.secondary ==
                                             Colors.white) {
                                           bordercolor = Colors.grey[700];
                                         } else {

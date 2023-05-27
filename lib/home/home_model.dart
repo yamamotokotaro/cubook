@@ -1,85 +1,87 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_view.dart';
 import 'package:cubook/home_scout/homeScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+<<<<<<< HEAD
+=======
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart' show FirebaseAuthUi;
+>>>>>>> develop
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:notification_permissions/notification_permissions.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeModel extends ChangeNotifier {
-  DocumentSnapshot userSnapshot;
-  QuerySnapshot effortSnapshot;
-  TextEditingController mailAddressController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
-  User currentUser;
+  DocumentSnapshot? userSnapshot;
+  Map<String, dynamic>? userData;
+  QuerySnapshot? effortSnapshot;
+  TextEditingController mailAddressController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  User? currentUser;
   bool isGet = false;
   bool isLoaded = false;
   bool isLoading_join = false;
   bool isConsent = false;
-  String position;
-  String grade;
-  Widget toShow;
-  String username = '';
-  String usercall = '';
-  String groupName;
-  String teamPosition;
-  String age = '';
-  String permission;
-  String providerID;
-  Map<dynamic, dynamic> tokenMap;
-  String token;
-  List<dynamic> _token_notification = new List<dynamic>();
+  String? position;
+  String? grade;
+  late Widget toShow;
+  String? username = '';
+  String? usercall = '';
+  String? groupName;
+  String? teamPosition;
+  String? age = '';
+  String? permission;
+  String? providerID;
+  Map<dynamic, dynamic>? tokenMap;
+  String? token;
+  List<dynamic>? _token_notification = <dynamic>[];
   bool isSended = false;
-  Future<PermissionStatus> permissionStatus =
-      NotificationPermissions.getNotificationPermissionStatus();
 
-  void login() async {
+  Future<void> login() async {
     isLoaded = false;
     userSnapshot = null;
     currentUser = null;
-    User user = await FirebaseAuth.instance.currentUser;
-    print(user);
+    final User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       currentUser = user;
-      providerID = currentUser.providerData[0].providerId;
+      providerID = currentUser!.providerData[0].providerId;
       FirebaseFirestore.instance
           .collection('user')
-          .where('uid', isEqualTo: currentUser.uid)
+          .where('uid', isEqualTo: currentUser!.uid)
           .snapshots()
-          .listen((data) {
-        if (data.docs.length != 0) {
+          .listen((QuerySnapshot<Map<String, dynamic>> data) {
+        if (data.docs.isNotEmpty) {
           userSnapshot = data.docs[0];
-          username = userSnapshot.data()['name'] + userSnapshot.data()['call'];
-          usercall = userSnapshot.data()['call'];
-          groupName = userSnapshot.data()['groupName'];
-          teamPosition = userSnapshot.data()['teamPosition'];
-          position = userSnapshot.data()['position'];
-          grade = userSnapshot.data()['grade'];
-          age = userSnapshot.data()['age'];
-          if (userSnapshot.data()['token_notification'] != null) {
-            _token_notification = userSnapshot.data()['token_notification'];
+          userData = userSnapshot!.data() as Map<String, dynamic>?;
+          username = userSnapshot!.get('name') + userSnapshot!.get('call');
+          usercall = userSnapshot!.get('call');
+          groupName = userSnapshot!.get('groupName');
+          position = userSnapshot!.get('position');
+          grade = userSnapshot!.get('grade');
+          age = userSnapshot!.get('age');
+          if (position == 'scout') {
+            teamPosition = userData!['teamPosition'];
           }
-          NotificationPermissions.getNotificationPermissionStatus()
-              .then((status) {
-            switch (status) {
-              case PermissionStatus.denied:
-                permission = 'denied';
-                break;
-              case PermissionStatus.granted:
-                permission = 'granted';
-                break;
-              case PermissionStatus.unknown:
-                permission = 'unknown';
-                break;
-              default:
-                return null;
-            }
-          });
+          // if (userSnapshot.get('token_notification') != null) {
+          //   _token_notification = userSnapshot.get('token_notification');
+          // }
+          // NotificationPermissions.getNotificationPermissionStatus()
+          //     .then((status) {
+          //   switch (status) {
+          //     case PermissionStatus.denied:
+          //       permission = 'denied';
+          //       break;
+          //     case PermissionStatus.granted:
+          //       permission = 'granted';
+          //       break;
+          //     case PermissionStatus.unknown:
+          //       permission = 'unknown';
+          //       break;
+          //     default:
+          //       return null;
+          //   }
+          // });
           if (position == 'scout') {
             if (grade != null) {
               if (grade == 'cub') {
@@ -120,64 +122,75 @@ class HomeModel extends ChangeNotifier {
           } else if (position == 'leader') {
             toShow = HomeLeaderView();
           } else {
-            toShow = Center(
+            toShow = const Center(
               child: Text('エラーが発生しました'),
             );
           }
+<<<<<<< HEAD
+          // 通知関係
+          /*if (!isSended) {
+            final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+            _firebaseMessaging.getToken().then((String tokenGet) {
+              assert(tokenGet != null);
+              token = tokenGet;
+            });
+=======
           if (!isSended) {
             /*FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
             _firebaseMessaging.getToken().then((String token_get) {
               assert(token_get != null);
               token = token_get;
             });*/
+>>>>>>> develop
             isSended = true;
-          }
+          }*/
           isLoaded = true;
           notifyListeners();
         } else {
           isLoaded = true;
+          notifyListeners();
         }
       });
     } else {
       isLoaded = true;
-      FirebaseAuth.instance.authStateChanges().listen((user_get) {
-        if (user_get != null) {
-          currentUser = user_get;
-          providerID = currentUser.providerData[0].providerId;
+      FirebaseAuth.instance.authStateChanges().listen((User? userGet) {
+        if (userGet != null) {
+          currentUser = userGet;
+          providerID = currentUser!.providerData[0].providerId;
           FirebaseFirestore.instance
               .collection('user')
-              .where('uid', isEqualTo: currentUser.uid)
+              .where('uid', isEqualTo: currentUser!.uid)
               .snapshots()
-              .listen((data) {
-            if (data.docs.length != 0) {
+              .listen((QuerySnapshot<Map<String, dynamic>> data) {
+            if (data.docs.isNotEmpty) {
               userSnapshot = data.docs[0];
-              username =
-                  userSnapshot.data()['name'] + userSnapshot.data()['call'];
-              usercall = userSnapshot.data()['call'];
-              groupName = userSnapshot.data()['groupName'];
-              teamPosition = userSnapshot.data()['teamPosition'];
-              position = userSnapshot.data()['position'];
-              grade = userSnapshot.data()['grade'];
-              age = userSnapshot.data()['age'];
-              if (userSnapshot.data()['token_notification'] != null) {
-                _token_notification = userSnapshot.data()['token_notification'];
+              userData = userSnapshot!.data() as Map<String, dynamic>?;
+              username = userSnapshot!.get('name') + userSnapshot!.get('call');
+              usercall = userSnapshot!.get('call');
+              groupName = userSnapshot!.get('groupName');
+              teamPosition = userData!['teamPosition'];
+              position = userSnapshot!.get('position');
+              grade = userSnapshot!.get('grade');
+              age = userSnapshot!.get('age');
+              if (userData!['token_notification'] != null) {
+                _token_notification = userSnapshot!.get('token_notification');
               }
-              NotificationPermissions.getNotificationPermissionStatus()
-                  .then((status) {
-                switch (status) {
-                  case PermissionStatus.denied:
-                    permission = 'denied';
-                    break;
-                  case PermissionStatus.granted:
-                    permission = 'granted';
-                    break;
-                  case PermissionStatus.unknown:
-                    permission = 'unknown';
-                    break;
-                  default:
-                    return null;
-                }
-              });
+              // NotificationPermissions.getNotificationPermissionStatus()
+              //     .then((status) {
+              //   switch (status) {
+              //     case PermissionStatus.denied:
+              //       permission = 'denied';
+              //       break;
+              //     case PermissionStatus.granted:
+              //       permission = 'granted';
+              //       break;
+              //     case PermissionStatus.unknown:
+              //       permission = 'unknown';
+              //       break;
+              //     default:
+              //       return null;
+              //   }
+              // });
               if (position == 'scout') {
                 if (grade != null) {
                   if (grade == 'cub') {
@@ -218,36 +231,53 @@ class HomeModel extends ChangeNotifier {
               } else if (position == 'leader') {
                 toShow = HomeLeaderView();
               } else {
-                toShow = Center(
+                toShow = const Center(
                   child: Text('エラーが発生しました'),
                 );
               }
+<<<<<<< HEAD
+              // 通知関係
+              /*if (!isSended) {
+                final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+                _firebaseMessaging.getToken().then((String tokenGet) {
+                  assert(tokenGet != null);
+                  token = tokenGet;
+                });
+=======
               if (!isSended) {
                 /*FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
                 _firebaseMessaging.getToken().then((String token_get) {
                   assert(token_get != null);
                   token = token_get;
                 });*/
+>>>>>>> develop
                 isSended = true;
-              }
+              }*/
               isLoaded = true;
               notifyListeners();
             } else {
               isLoaded = true;
+              notifyListeners();
             }
           });
+        } else {
+          isLoaded = true;
+          notifyListeners();
         }
       });
     }
-    notifyListeners();
+    // notifyListeners();
   }
 
-  void logout() async {
+  Future<void> logout() async {
     if (kIsWeb) {
+      // await FlutterAuthUi.signOut();
       await FirebaseAuth.instance.signOut();
       await GoogleSignIn().signOut();
     } else {
-      await FirebaseAuthUi.instance().logout();
+      // await FlutterAuthUi.signOut();
+      await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
     }
     currentUser = null;
     notifyListeners();
@@ -276,16 +306,16 @@ class HomeModel extends ChangeNotifier {
     });
   }*/
 
-  void getUserSnapshot() async {}
+  Future<void> getUserSnapshot() async {}
 
-  void getSnapshot() async {
-    User user = await FirebaseAuth.instance.currentUser;
+  Future<void> getSnapshot() async {
+    final User? user = FirebaseAuth.instance.currentUser;
     currentUser = user;
     FirebaseFirestore.instance
         .collection('user')
-        .where('uid', isEqualTo: currentUser.uid)
+        .where('uid', isEqualTo: currentUser!.uid)
         .snapshots()
-        .listen((data) {
+        .listen((QuerySnapshot<Map<String, dynamic>> data) {
       userSnapshot = data.docs[0];
       notifyListeners();
     });
@@ -293,46 +323,27 @@ class HomeModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void increaseCount(String documentID) async {
+  Future<void> increaseCount(String documentID) async {
     FirebaseFirestore.instance
         .collection('efforts')
         .doc(documentID)
         .update(<String, dynamic>{'congrats': FieldValue.increment(1)});
   }
 
-  Future<void> getCheckNotificationPermStatus() {
-    NotificationPermissions.getNotificationPermissionStatus().then((status) {
-      switch (status) {
-        case PermissionStatus.denied:
-          permission = 'denied';
-          break;
-        case PermissionStatus.granted:
-          permission = 'granted';
-          break;
-        case PermissionStatus.unknown:
-          permission = 'unknown';
-          break;
-        default:
-          return null;
-      }
-      notifyListeners();
-    });
-  }
-
-  void onStatusChange(PermissionStatus status) {
-    switch (status) {
-      case PermissionStatus.denied:
-        permission = 'denied';
-        break;
-      case PermissionStatus.granted:
-        permission = 'granted';
-        break;
-      case PermissionStatus.unknown:
-        permission = 'unknown';
-        break;
-      default:
-        return null;
-    }
-    notifyListeners();
-  }
+  // void onStatusChange(PermissionStatus status) {
+  //   switch (status) {
+  //     case PermissionStatus.denied:
+  //       permission = 'denied';
+  //       break;
+  //     case PermissionStatus.granted:
+  //       permission = 'granted';
+  //       break;
+  //     case PermissionStatus.unknown:
+  //       permission = 'unknown';
+  //       break;
+  //     default:
+  //       return null;
+  //   }
+  //   notifyListeners();
+  // }
 }

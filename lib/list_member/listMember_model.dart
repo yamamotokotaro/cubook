@@ -3,38 +3,46 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class ListMemberModel extends ChangeNotifier {
-  QuerySnapshot userSnapshot;
-  User currentUser;
+  QuerySnapshot? userSnapshot;
+  Map<String, dynamic>? userData = <String, dynamic>{};
+  User? currentUser;
   bool isGet = false;
-  String group;
+  String? group;
   dynamic team;
-  String position;
-  String teamPosition;
-  String group_claim;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  String? position;
+  String? teamPosition;
+  String? uid_user;
+  String? group_claim;
+  bool? isAdmin = false;
+  Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getGroup() async {
-    String group_before = group;
-    String teamPosition_before = teamPosition;
-    User user = await FirebaseAuth.instance.currentUser;
+  Future<void> getGroup() async {
+    final String? groupBefore = group;
+    final String? teamPositionBefore = teamPosition;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) {
-      DocumentSnapshot userSnapshot = snapshot.docs[0];
-      group = userSnapshot.data()['group'];
-      team = userSnapshot.data()['team'];
-      position = userSnapshot.data()['position'];
-      teamPosition = userSnapshot.data()['teamPosition'];
-      if (group != group_before || teamPosition != teamPosition_before) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
+      final DocumentSnapshot userSnapshot = snapshot.docs[0];
+      userData = userSnapshot.data() as Map<String, dynamic>?;
+      uid_user = userData!['uid'];
+      isAdmin = userData!['admin'];
+      group = userSnapshot.get('group');
+      position = userSnapshot.get('position');
+      if(position == 'scout') {
+        team = userSnapshot.get('team');
+        teamPosition = userSnapshot.get('teamPosition');
+      }
+      if (group != groupBefore || teamPosition != teamPositionBefore) {
         notifyListeners();
       }
     });
-    user.getIdTokenResult(true).then((value) {
-      String group_claim_before = group_claim;
-      group_claim = value.claims['group'];
-      if (group_claim_before != group_claim) {
+    user.getIdTokenResult(true).then((IdTokenResult value) {
+      final String? groupClaimBefore = group_claim;
+      group_claim = value.claims!['group'];
+      if (groupClaimBefore != group_claim) {
         notifyListeners();
       }
     });

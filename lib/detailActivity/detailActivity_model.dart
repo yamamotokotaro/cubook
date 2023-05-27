@@ -1,36 +1,49 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DetailActivityModel extends ChangeNotifier {
+<<<<<<< HEAD
+  QuerySnapshot? userSnapshot;
+  User? currentUser;
+=======
   QuerySnapshot userSnapshot;
   User currentUser;
+>>>>>>> develop
   bool isGet = false;
-  String group;
-  String position;
-  String age;
+  String? group;
+  String? position;
+  String? age;
   DateTime date = DateTime.now();
   TextEditingController titleController = TextEditingController();
   bool isLoading = false;
-  Map<String, bool> uid_check = new Map<String, bool>();
-  Map<String, dynamic> claims = new Map<String, dynamic>();
-  String group_claim;
+  Map<String, bool> uid_check = <String, bool>{};
+  Map<String, dynamic> claims = <String, dynamic>{};
+  String? group_claim;
 
-  void getGroup() async {
-    String group_before = group;
-    User user = await FirebaseAuth.instance.currentUser;
+  Future<void> getGroup() async {
+    final String? groupBefore = group;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
+<<<<<<< HEAD
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
+      final DocumentSnapshot documentSnapshot = snapshot.docs[0];
+      group = documentSnapshot.get('group');
+      position = documentSnapshot.get('position');
+      age = documentSnapshot.get('age');
+      if (group != groupBefore) {
+=======
         .then((snapshot) {
       DocumentSnapshot documentSnapshot = snapshot.docs[0];
       group = documentSnapshot.data()['group'];
       position = documentSnapshot.data()['position'];
       age = documentSnapshot.data()['age'];
       if (group != group_before) {
+>>>>>>> develop
         notifyListeners();
       }
       /*user.getIdToken(refresh: true).then((value) {
@@ -43,15 +56,15 @@ class DetailActivityModel extends ChangeNotifier {
     });
   }
 
-  void deleteActivity(String documentID) async {
+  Future<void> deleteActivity(String? documentID) async {
     FirebaseFirestore.instance
         .collection('activity_personal')
         .where('group', isEqualTo: group)
         .where('activity', isEqualTo: documentID)
         .get()
-        .then((value) {
+        .then((QuerySnapshot<Map<String, dynamic>> value) {
       for (int i = 0; i < value.docs.length; i++) {
-        DocumentSnapshot documentSnapshot = value.docs[i];
+        final DocumentSnapshot documentSnapshot = value.docs[i];
         FirebaseFirestore.instance
             .collection('activity_personal')
             .doc(documentSnapshot.id)

@@ -4,39 +4,35 @@ import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ListCitationAnalyticsView extends StatelessWidget {
-  var theme = new ThemeInfo();
-  var task = new TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  TaskContents task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
-    bool isDark;
-    if (Theme.of(context).accentColor == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
+    final bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
         appBar: AppBar(
-          title: Text('表彰待ちリスト'),
+          title: const Text('表彰待ちリスト'),
         ),
-        body: Builder(builder: (BuildContext context_builder) {
+        body: Builder(builder: (BuildContext contextBuilder) {
           return SafeArea(
             child: Scrollbar(
                 child: SingleChildScrollView(
               child: Center(
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 600),
+                  constraints: const BoxConstraints(maxWidth: 600),
                   child: Column(
                     children: <Widget>[
                       Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 10),
-                          child: Consumer<ListCitationAnalyticsModel>(
-                              builder: (context, model, child) {
+                          padding: const EdgeInsets.only(top: 20, bottom: 10),
+                          child: Consumer<ListCitationAnalyticsModel>(builder:
+                              (BuildContext context,
+                                  ListCitationAnalyticsModel model,
+                                  Widget? child) {
                             model.getGroup();
                             if (model.group != null) {
                               return Column(
@@ -54,11 +50,12 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                       builder: (BuildContext context,
                                           AsyncSnapshot<QuerySnapshot>
                                               snapshot) {
-                                        String team_last = '';
+                                        const String teamLast = '';
                                         if (snapshot.hasData) {
-                                          int userCount = 0;
-                                          List<DocumentSnapshot> listSnapshot =
-                                              snapshot.data.docs;
+                                          const int userCount = 0;
+                                          final List<DocumentSnapshot>
+                                              listSnapshot =
+                                              snapshot.data!.docs;
                                           return ListView.builder(
                                               physics:
                                                   const NeverScrollableScrollPhysics(),
@@ -67,7 +64,8 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                DocumentSnapshot userSnapshot =
+                                                final DocumentSnapshot
+                                                    userSnapshot =
                                                     listSnapshot[index];
                                                 return StreamBuilder<
                                                     QuerySnapshot>(
@@ -75,13 +73,12 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                       .instance
                                                       .collection('challenge')
                                                       .where('group',
-                                                          isEqualTo: model
-                                                              .group)
+                                                          isEqualTo:
+                                                              model.group)
                                                       .where('uid',
                                                           isEqualTo:
                                                               userSnapshot
-                                                                      .data()[
-                                                                  'uid'])
+                                                                  .get('uid'))
                                                       .where('isCitationed',
                                                           isEqualTo: false)
                                                       .orderBy('page',
@@ -94,26 +91,29 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                   QuerySnapshot>
                                                               snapshot) {
                                                     if (snapshot.hasData) {
+<<<<<<< HEAD
+                                                      if (snapshot.data!.docs
+                                                          .isNotEmpty) {
+                                                        final QuerySnapshot
+=======
                                                       if (snapshot.data.docs
                                                               .length !=
                                                           0) {
                                                         QuerySnapshot
+>>>>>>> develop
                                                             querySnapshot =
-                                                            snapshot.data;
+                                                            snapshot.data!;
                                                         return Column(
                                                             children: [
                                                               Padding(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                          top:
-                                                                              20,
-                                                                          bottom:
-                                                                              12,
-                                                                          left:
-                                                                              12),
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      top: 20,
+                                                                      bottom:
+                                                                          12,
+                                                                      left: 12),
                                                                   child: Row(
-                                                                    children: <
-                                                                        Widget>[
+                                                                    children: <Widget>[
                                                                       Container(
                                                                         width:
                                                                             40,
@@ -121,10 +121,10 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                             40,
                                                                         decoration: BoxDecoration(
                                                                             color:
-                                                                                theme.getUserColor(userSnapshot.data()['age']),
+                                                                                theme.getUserColor(userSnapshot.get('age')),
                                                                             shape: BoxShape.circle),
                                                                         child:
-                                                                            Icon(
+                                                                            const Icon(
                                                                           Icons
                                                                               .person,
                                                                           color:
@@ -132,16 +132,16 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                         ),
                                                                       ),
                                                                       Padding(
-                                                                          padding: EdgeInsets.only(
+                                                                          padding: const EdgeInsets.only(
                                                                               left:
                                                                                   10),
                                                                           child:
                                                                               Text(
-                                                                            userSnapshot.data()['name'],
+                                                                            userSnapshot.get('name'),
                                                                             style:
-                                                                                TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                                                                                const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                           )),
-                                                                      Spacer(),
+                                                                      const Spacer(),
                                                                     ],
                                                                   )),
                                                               ListView.builder(
@@ -157,17 +157,18 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                       (BuildContext
                                                                               context,
                                                                           int index) {
-                                                                    DocumentSnapshot
+                                                                    final DocumentSnapshot
                                                                         snapshot =
                                                                         querySnapshot
                                                                             .docs[index];
-                                                                    Map taskInfo = task.getPartMap(
-                                                                        'challenge',
-                                                                        snapshot
-                                                                            .data()['page']);
+                                                                    final Map
+                                                                        taskInfo =
+                                                                        task.getPartMap(
+                                                                            'challenge',
+                                                                            snapshot.get('page'))!;
                                                                     return Padding(
                                                                       padding:
-                                                                          EdgeInsets.all(
+                                                                          const EdgeInsets.all(
                                                                               5),
                                                                       child:
                                                                           Container(
@@ -182,43 +183,42 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                               InkWell(
                                                                             onTap:
                                                                                 () async {
-                                                                              print(snapshot.data()['page']);
-                                                                              Navigator.of(context).push<dynamic>(MyPageRoute(page: showTaskConfirmView(snapshot.data()['page'], 'challenge', snapshot.data()['uid'], 0), dismissible: true));
+                                                                              Navigator.of(context).push<dynamic>(MyPageRoute(page: showTaskConfirmView(snapshot.get('page'), 'challenge', snapshot.get('uid'), 0), dismissible: true));
                                                                             },
                                                                             child:
                                                                                 Padding(
-                                                                              padding: EdgeInsets.all(0),
+                                                                              padding: const EdgeInsets.all(0),
                                                                               child: Column(
                                                                                 children: <Widget>[
                                                                                   Row(
                                                                                     children: <Widget>[
                                                                                       Container(
-                                                                                          decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: const Radius.circular(10), bottomLeft: const Radius.circular(10)), color: Colors.green[900]),
+                                                                                          decoration: BoxDecoration(borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)), color: Colors.green[900]),
                                                                                           height: 65,
                                                                                           child: ConstrainedBox(
-                                                                                            constraints: BoxConstraints(minWidth: 60),
+                                                                                            constraints: const BoxConstraints(minWidth: 60),
                                                                                             child: Center(
                                                                                               child: Padding(
-                                                                                                padding: EdgeInsets.all(0),
+                                                                                                padding: const EdgeInsets.all(0),
                                                                                                 child: Text(
                                                                                                   taskInfo['number'],
-                                                                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
+                                                                                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
                                                                                                 ),
                                                                                               ),
                                                                                             ),
                                                                                           )),
                                                                                       Padding(
-                                                                                          padding: EdgeInsets.only(left: 10),
+                                                                                          padding: const EdgeInsets.only(left: 10),
                                                                                           child: Text(
                                                                                             taskInfo['title'],
-                                                                                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                                                                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                                                                                           )),
-                                                                                      Spacer(),
+                                                                                      const Spacer(),
                                                                                       Semantics(
                                                                                           label: '表彰済みにする',
                                                                                           child: IconButton(
                                                                                             onPressed: () {
-                                                                                              model.onTapCititation(snapshot.id, context_builder, userSnapshot.data()['name'] + userSnapshot.data()['call'], taskInfo['title'], isDark);
+                                                                                              model.onTapCititation(snapshot.id, contextBuilder, userSnapshot.get('name') + userSnapshot.get('call'), taskInfo['title'], isDark);
                                                                                             },
                                                                                             icon: Icon(
                                                                                               Icons.check,

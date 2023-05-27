@@ -2,35 +2,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/editActivity/editActivity_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class EditActivityView extends StatelessWidget {
-  var theme = new ThemeInfo();
-  var task = new TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  TaskContents task = TaskContents();
 
   @override
   Widget build(BuildContext context) {
-    String documentID = ModalRoute.of(context).settings.arguments;
-    bool isDark;
-    if (Theme.of(context).accentColor == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
+    final String? documentID =
+        ModalRoute.of(context)!.settings.arguments as String?;
+    final bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+
     return Scaffold(
         appBar: AppBar(
-          title: Text('記録を編集'),
+          title: const Text('記録を編集'),
         ),
-        floatingActionButton:
-            Consumer<EditActivityModel>(builder: (context, model, child) {
+        floatingActionButton: Consumer<EditActivityModel>(builder:
+            (BuildContext context, EditActivityModel model, Widget? child) {
           if (model.isLoading) {
             return FloatingActionButton(
               onPressed: null,
               child: CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(
+                valueColor: AlwaysStoppedAnimation<Color?>(
                     isDark ? Colors.blue[900] : Colors.white),
               ),
             );
@@ -39,8 +36,8 @@ class EditActivityView extends StatelessWidget {
                 onPressed: () {
                   model.onPressSend(context);
                 },
-                label: Text('記録'),
-                icon: Icon(Icons.save));
+                label: const Text('記録'),
+                icon: const Icon(Icons.save));
           }
         }),
         body: Builder(builder: (BuildContext context) {
@@ -51,18 +48,19 @@ class EditActivityView extends StatelessWidget {
             child: SingleChildScrollView(
               child: Center(
                 child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 600),
-                    child: Consumer<EditActivityModel>(
-                        builder: (context_builder, model, child) {
-                      print('ページ更新');
+                    constraints: const BoxConstraints(maxWidth: 600),
+                    child: Consumer<EditActivityModel>(builder:
+                        (BuildContext contextBuilder, EditActivityModel model,
+                            Widget? child) {
                       model.getGroup();
                       if (model.group != null) {
                         return Padding(
-                          padding: EdgeInsets.only(bottom: 60),
+                          padding: const EdgeInsets.only(bottom: 60),
                           child: Column(
                             children: <Widget>[
                               Padding(
-                                  padding: EdgeInsets.only(top: 20, bottom: 10),
+                                  padding: const EdgeInsets.only(
+                                      top: 20, bottom: 10),
                                   child: Column(
                                     children: <Widget>[
                                       StreamBuilder<DocumentSnapshot>(
@@ -74,14 +72,19 @@ class EditActivityView extends StatelessWidget {
                                             AsyncSnapshot<DocumentSnapshot>
                                                 snapshot) {
                                           if (snapshot.hasData) {
-                                            DocumentSnapshot documentSnapshot =
-                                                snapshot.data;
-                                            String team_last = '';
+                                            final DocumentSnapshot
+                                                documentSnapshot =
+                                                snapshot.data!;
+                                            const String teamLast = '';
                                             model.getInfo(documentSnapshot);
                                             return Column(children: <Widget>[
                                               Padding(
-                                                  padding: EdgeInsets.all(10),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
                                                   child: TextField(
+                                                      maxLengthEnforcement:
+                                                          MaxLengthEnforcement
+                                                              .none,
                                                       controller:
                                                           model.titleController,
                                                       enabled: true,
@@ -89,30 +92,29 @@ class EditActivityView extends StatelessWidget {
                                                           TextInputType
                                                               .multiline,
                                                       maxLines: null,
-                                                      maxLengthEnforced: false,
                                                       decoration: InputDecoration(
-                                                          labelText: "活動タイトル",
+                                                          labelText: '活動タイトル',
                                                           hintText: '〇〇ハイク',
                                                           errorText: model
                                                                   .EmptyError
                                                               ? 'タイトルを入力してください　'
                                                               : null))),
                                               Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 5),
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
                                                 child: Container(
                                                     width: double.infinity,
                                                     child: Align(
                                                         alignment: Alignment
                                                             .centerLeft,
-                                                        child: FlatButton(
+                                                        child: TextButton(
                                                           child: Text(
                                                             DateFormat(
                                                                     'yyyy/MM/dd')
                                                                 .format(
-                                                                    model.date)
+                                                                    model.date!)
                                                                 .toString(),
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 fontSize: 20.0,
                                                                 fontWeight:
                                                                     FontWeight
@@ -124,7 +126,7 @@ class EditActivityView extends StatelessWidget {
                                                           onPressed: () {
                                                             model
                                                                 .openTimePicker(
-                                                                    model.date,
+                                                                    model.date!,
                                                                     context);
                                                           },
                                                         ))),
@@ -157,34 +159,36 @@ class EditActivityView extends StatelessWidget {
                                                 snapshot) {
                                           if (snapshot.hasData) {
                                             model.getAbsents(snapshot.data);
-                                            if (snapshot.data.docs.length !=
-                                                0) {
-                                              QuerySnapshot querySnapshot =
-                                                  snapshot.data;
-                                              List<DocumentSnapshot>
-                                                  list_documentSnapshot =
+                                            if (snapshot
+                                                .data!.docs.isNotEmpty) {
+                                              final QuerySnapshot
+                                                  querySnapshot =
+                                                  snapshot.data!;
+                                              final List<DocumentSnapshot>
+                                                  listDocumentSnapshot =
                                                   querySnapshot.docs;
-                                              String team_last = '';
-                                              List<String> list_uid =
-                                                  new List<String>();
+                                              String? teamLast = '';
+                                              final List<String?> listUid =
+                                                  <String?>[];
                                               for (int i = 0;
                                                   i <
-                                                      list_documentSnapshot
+                                                      listDocumentSnapshot
                                                           .length;
                                                   i++) {
-                                                list_uid.add(
-                                                    list_documentSnapshot[i]
-                                                        .data()['uid']);
+                                                listUid.add(
+                                                    listDocumentSnapshot[i]
+                                                        .get('uid'));
                                               }
                                               return Column(children: <Widget>[
                                                 Padding(
-                                                    padding: EdgeInsets.only(
-                                                        top: 15,
-                                                        bottom: 15,
-                                                        left: 10),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 15,
+                                                            bottom: 15,
+                                                            left: 10),
                                                     child: Container(
                                                         width: double.infinity,
-                                                        child: Text(
+                                                        child: const Text(
                                                           '出席者',
                                                           style: TextStyle(
                                                             fontWeight:
@@ -203,95 +207,95 @@ class EditActivityView extends StatelessWidget {
                                                     itemBuilder:
                                                         (BuildContext context,
                                                             int index) {
-                                                      String uid;
-                                                      DocumentSnapshot
+                                                      String? uid;
+                                                      final DocumentSnapshot
                                                           snapshot =
                                                           querySnapshot
                                                               .docs[index];
-                                                      String documentID =
+                                                      final String documentID =
                                                           snapshot.id;
-                                                      uid = snapshot
-                                                          .data()['uid'];
-                                                      bool isCheck = true;
-                                                      if (model
-                                                              .uid_check[uid] !=
+                                                      uid = snapshot.get('uid');
+                                                      bool? isCheck = true;
+                                                      if (model.uid_check[
+                                                              uid!] !=
                                                           null) {
                                                         isCheck = model
                                                             .uid_check[uid];
                                                       }
-                                                      String team = '';
+                                                      String? team = '';
                                                       if (snapshot
-                                                              .data()['team'] !=
+                                                              .get('team') !=
                                                           null) {
-                                                        if (snapshot
-                                                                .data()['team']
+                                                        if (snapshot.get('team')
                                                             is int) {
                                                           team = snapshot
-                                                              .data()['team']
+                                                              .get('team')
                                                               .toString();
                                                         } else {
                                                           team = snapshot
-                                                              .data()['team'];
+                                                              .get('team');
                                                         }
                                                       } else {
                                                         team = 'null';
                                                       }
                                                       bool isFirst;
                                                       String absence;
-                                                      if (team_last != team) {
+                                                      if (teamLast != team) {
                                                         isFirst = true;
-                                                        team_last = team;
+                                                        teamLast = team;
                                                       } else {
                                                         isFirst = false;
                                                       }
-                                                      String age = snapshot
-                                                          .data()['age'];
-                                                      String team_call;
+                                                      final String? age =
+                                                          snapshot.get('age');
+                                                      String teamCall;
                                                       if (age == 'usagi' ||
                                                           age == 'sika' ||
                                                           age == 'kuma') {
-                                                        team_call = '組';
+                                                        teamCall = '組';
                                                       } else {
-                                                        team_call = '班';
+                                                        teamCall = '班';
                                                       }
-                                                      print(model.uid_check);
                                                       return Column(
                                                           children: <Widget>[
-                                                            isFirst &&
-                                                                    team != ''
-                                                                ? Padding(
-                                                                    padding:
-                                                                        EdgeInsets.all(
-                                                                            10),
-                                                                    child: Container(
-                                                                        width: double.infinity,
-                                                                        child: Text(
-                                                                          team +
-                                                                              team_call,
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontSize:
-                                                                                23,
-                                                                          ),
-                                                                          textAlign:
-                                                                              TextAlign.left,
-                                                                        )))
-                                                                : Container(),
+                                                            if (isFirst &&
+                                                                team != '')
+                                                              Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(10),
+                                                                  child: Container(
+                                                                      width: double.infinity,
+                                                                      child: Text(
+                                                                        team! +
+                                                                            teamCall,
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          fontSize:
+                                                                              23,
+                                                                        ),
+                                                                        textAlign:
+                                                                            TextAlign.left,
+                                                                      )))
+                                                            else
+                                                              Container(),
                                                             Dismissible(
-                                                                key: Key(snapshot
-                                                                        .data()[
-                                                                    'name']),
+                                                                key: Key(
+                                                                    snapshot.get(
+                                                                        'name')),
                                                                 onDismissed:
-                                                                    (direction) {
+                                                                    (DismissDirection
+                                                                        direction) {
                                                                   model.dismissUser(
                                                                       snapshot
                                                                           .id);
-                                                                  final snackBar =
+                                                                  final SnackBar
+                                                                      snackBar =
                                                                       SnackBar(
                                                                     content: Text(
-                                                                        snapshot.data()['name'] +
+                                                                        snapshot.get('name') +
                                                                             'を対象外にしました'),
                                                                     action:
                                                                         SnackBarAction(
@@ -306,23 +310,23 @@ class EditActivityView extends StatelessWidget {
                                                                           () {
                                                                         model.cancelDismiss(
                                                                             uid,
-                                                                            snapshot.data());
+                                                                            snapshot.data()
+                                                                                as Map<String, dynamic>);
                                                                       },
                                                                     ),
-                                                                    duration: Duration(
+                                                                    duration: const Duration(
                                                                         seconds:
                                                                             1),
                                                                   );
-                                                                  Scaffold.of(
-                                                                          context_builder)
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
                                                                       .showSnackBar(
                                                                           snackBar);
                                                                 },
                                                                 child: Padding(
                                                                     padding:
-                                                                        EdgeInsets
-                                                                            .all(
-                                                                                5),
+                                                                        const EdgeInsets.all(
+                                                                            5),
                                                                     child:
                                                                         Container(
                                                                       child:
@@ -341,29 +345,29 @@ class EditActivityView extends StatelessWidget {
                                                                           child:
                                                                               Padding(
                                                                             padding:
-                                                                                EdgeInsets.all(10),
+                                                                                const EdgeInsets.all(10),
                                                                             child:
                                                                                 Row(
                                                                               children: <Widget>[
                                                                                 Container(
                                                                                   width: 40,
                                                                                   height: 40,
-                                                                                  decoration: BoxDecoration(color: theme.getUserColor(snapshot.data()['age']), shape: BoxShape.circle),
-                                                                                  child: Icon(
+                                                                                  decoration: BoxDecoration(color: theme.getUserColor(snapshot.get('age')), shape: BoxShape.circle),
+                                                                                  child: const Icon(
                                                                                     Icons.person,
                                                                                     color: Colors.white,
                                                                                   ),
                                                                                 ),
                                                                                 Padding(
-                                                                                    padding: EdgeInsets.only(left: 10),
+                                                                                    padding: const EdgeInsets.only(left: 10),
                                                                                     child: Text(
-                                                                                      snapshot.data()['name'],
-                                                                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                                                                                      snapshot.get('name'),
+                                                                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                                     )),
-                                                                                Spacer(),
+                                                                                const Spacer(),
                                                                                 Checkbox(
                                                                                   value: model.checkAbsents[documentID],
-                                                                                  onChanged: (bool e) {
+                                                                                  onChanged: (bool? e) {
                                                                                     model.onCheckMember(documentID);
                                                                                   },
                                                                                   activeColor: Colors.blue[600],
@@ -377,13 +381,14 @@ class EditActivityView extends StatelessWidget {
                                                           ]);
                                                     }),
                                                 Padding(
-                                                    padding: EdgeInsets.only(
-                                                        top: 15,
-                                                        bottom: 15,
-                                                        left: 10),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 15,
+                                                            bottom: 15,
+                                                            left: 10),
                                                     child: Container(
                                                         width: double.infinity,
-                                                        child: Text(
+                                                        child: const Text(
                                                           '未記録者',
                                                           style: TextStyle(
                                                             fontWeight:
@@ -413,13 +418,12 @@ class EditActivityView extends StatelessWidget {
                                                                   QuerySnapshot>
                                                               snapshot) {
                                                     if (snapshot.hasData) {
-                                                      if (snapshot.data.docs
-                                                              .length !=
-                                                          0) {
-                                                        QuerySnapshot
+                                                      if (snapshot.data!.docs
+                                                          .isNotEmpty) {
+                                                        final QuerySnapshot
                                                             querySnapshot =
-                                                            snapshot.data;
-                                                        String team_last = '';
+                                                            snapshot.data!;
+                                                        String? teamLast = '';
                                                         return ListView.builder(
                                                             physics:
                                                                 const NeverScrollableScrollPhysics(),
@@ -432,72 +436,75 @@ class EditActivityView extends StatelessWidget {
                                                                 (BuildContext
                                                                         context,
                                                                     int index) {
-                                                              DocumentSnapshot
+                                                              final DocumentSnapshot
                                                                   snapshot =
                                                                   querySnapshot
                                                                           .docs[
                                                                       index];
-                                                              if (!list_uid
-                                                                  .contains(snapshot
-                                                                          .data()[
-                                                                      'uid'])) {
+                                                              if (!listUid.contains(
+                                                                  snapshot.get(
+                                                                      'uid'))) {
                                                                 bool isFirst;
-                                                                String team;
-                                                                if (snapshot.data()[
-                                                                        'team']
+                                                                String? team;
+                                                                if (snapshot.get(
+                                                                        'team')
                                                                     is int) {
                                                                   team = snapshot
-                                                                      .data()[
-                                                                          'team']
+                                                                      .get(
+                                                                          'team')
                                                                       .toString();
                                                                 } else {
                                                                   team = snapshot
-                                                                          .data()[
-                                                                      'team'];
+                                                                      .get(
+                                                                          'team');
                                                                 }
-                                                                if (team_last !=
+                                                                if (teamLast !=
                                                                     team) {
                                                                   isFirst =
                                                                       true;
-                                                                  team_last =
+                                                                  teamLast =
                                                                       team;
                                                                 } else {
                                                                   isFirst =
                                                                       false;
                                                                 }
-                                                                String grade =
-                                                                    snapshot.data()[
-                                                                        'grade'];
-                                                                String
-                                                                    team_call;
+                                                                final String?
+                                                                    grade =
+                                                                    snapshot.get(
+                                                                        'grade');
+                                                                String teamCall;
                                                                 if (grade ==
                                                                     'cub') {
-                                                                  team_call =
+                                                                  teamCall =
                                                                       '組';
                                                                 } else {
-                                                                  team_call =
+                                                                  teamCall =
                                                                       '班';
                                                                 }
                                                                 return Column(
-                                                                    children: <
-                                                                        Widget>[
-                                                                      isFirst &&
-                                                                              team != ''
-                                                                          ? Padding(
-                                                                              padding: EdgeInsets.only(top: 10, bottom: 10, left: 17),
-                                                                              child: Container(
-                                                                                  width: double.infinity,
-                                                                                  child: Text(
-                                                                                    team + team_call,
-                                                                                    style: TextStyle(
-                                                                                      fontWeight: FontWeight.bold,
-                                                                                      fontSize: 23,
-                                                                                    ),
-                                                                                    textAlign: TextAlign.left,
-                                                                                  )))
-                                                                          : Container(),
+                                                                    children: <Widget>[
+                                                                      if (isFirst &&
+                                                                          team !=
+                                                                              '')
+                                                                        Padding(
+                                                                            padding: const EdgeInsets.only(
+                                                                                top: 10,
+                                                                                bottom: 10,
+                                                                                left: 17),
+                                                                            child: Container(
+                                                                                width: double.infinity,
+                                                                                child: Text(
+                                                                                  team! + teamCall,
+                                                                                  style: const TextStyle(
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontSize: 23,
+                                                                                  ),
+                                                                                  textAlign: TextAlign.left,
+                                                                                )))
+                                                                      else
+                                                                        Container(),
                                                                       Padding(
-                                                                          padding: EdgeInsets.all(
+                                                                          padding: const EdgeInsets.all(
                                                                               5),
                                                                           child:
                                                                               Container(
@@ -524,30 +531,30 @@ class EditActivityView extends StatelessWidget {
                                                                                 }));*/
                                                                                 },
                                                                                 child: Padding(
-                                                                                  padding: EdgeInsets.all(10),
+                                                                                  padding: const EdgeInsets.all(10),
                                                                                   child: Row(
                                                                                     children: <Widget>[
                                                                                       Container(
                                                                                         width: 40,
                                                                                         height: 40,
-                                                                                        decoration: BoxDecoration(color: theme.getUserColor(snapshot.data()['age']), shape: BoxShape.circle),
-                                                                                        child: Icon(
+                                                                                        decoration: BoxDecoration(color: theme.getUserColor(snapshot.get('age')), shape: BoxShape.circle),
+                                                                                        child: const Icon(
                                                                                           Icons.person,
                                                                                           color: Colors.white,
                                                                                         ),
                                                                                       ),
                                                                                       Padding(
-                                                                                          padding: EdgeInsets.only(left: 10),
+                                                                                          padding: const EdgeInsets.only(left: 10),
                                                                                           child: Text(
-                                                                                            snapshot.data()['name'],
-                                                                                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                                                                                            snapshot.get('name'),
+                                                                                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                                                                                           )),
-                                                                                      Spacer(),
+                                                                                      const Spacer(),
                                                                                       IconButton(
                                                                                         onPressed: () {
-                                                                                          model.onPressAdd(snapshot, context_builder, isDark);
+                                                                                          model.onPressAdd(snapshot, contextBuilder, isDark);
                                                                                         },
-                                                                                        icon: Icon(Icons.add),
+                                                                                        icon: const Icon(Icons.add),
                                                                                         iconSize: 30,
                                                                                       )
                                                                                     ],
@@ -579,7 +586,7 @@ class EditActivityView extends StatelessWidget {
                                               ]);
                                             } else {
                                               return Padding(
-                                                padding: EdgeInsets.only(
+                                                padding: const EdgeInsets.only(
                                                     top: 5,
                                                     left: 10,
                                                     right: 10),
@@ -587,7 +594,9 @@ class EditActivityView extends StatelessWidget {
                                                     child: InkWell(
                                                   onTap: () {},
                                                   child: Padding(
-                                                    padding: EdgeInsets.all(10),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
                                                     child: Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
@@ -597,10 +606,11 @@ class EditActivityView extends StatelessWidget {
                                                             Icons.bubble_chart,
                                                             color: Theme.of(
                                                                     context)
-                                                                .accentColor,
+                                                                .colorScheme
+                                                                .secondary,
                                                             size: 35,
                                                           ),
-                                                          Padding(
+                                                          const Padding(
                                                               padding: EdgeInsets
                                                                   .only(
                                                                       left: 10),

@@ -3,50 +3,49 @@ import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
-import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_view.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TabInfo {
-  String label;
-  Widget widget;
 
   TabInfo(this.label, this.widget);
+  String label;
+  Widget widget;
 }
 
 class SelectBook extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
-  String uid;
 
-  SelectBook(String uid) {
+  SelectBook(String? uid) {
     this.uid = uid;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  String? uid;
 
   @override
   Widget build(BuildContext context) {
-    var type = theme.type;
+    final List<String> type = theme.type;
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
-        Consumer<UserDetailModel>(builder: (context, model, child) {
+        Consumer<UserDetailModel>(builder: (BuildContext context, UserDetailModel model, Widget? child) {
           if (model.userSnapshot == null) {
             model.getSnapshot(uid);
-          } else if (model.userSnapshot.data()['uid'] != uid) {
+          } else if (model.userSnapshot!.get('uid') != uid) {
             model.getSnapshot(uid);
             model.userSnapshot = null;
           }
           return Padding(
-              padding: EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 20),
               child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: type.length,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: Card(
                           color: theme.getThemeColor(type[index]),
                           shape: RoundedRectangleBorder(
@@ -57,7 +56,7 @@ class SelectBook extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               onTap: () {
-                                if (task.getAllMap(type[index]).length != 1) {
+                                if (task.getAllMap(type[index])!.length != 1) {
                                   Navigator.push(context,
                                       MaterialPageRoute<TaskListScoutConfirmView>(
                                           builder: (BuildContext context) {
@@ -75,56 +74,56 @@ class SelectBook extends StatelessWidget {
                               child: Row(
                                 children: <Widget>[
                                   Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                           top: 15,
                                           bottom: 15,
                                           left: 12,
                                           right: 10),
                                       child: Selector<UserDetailModel,
-                                              DocumentSnapshot>(
-                                          selector: (context, model) =>
+                                              DocumentSnapshot?>(
+                                          selector: (BuildContext context, UserDetailModel model) =>
                                               model.userSnapshot,
-                                          builder: (context, snapshot, child) => snapshot !=
+                                          builder: (BuildContext context, DocumentSnapshot<Object?>? snapshot, Widget? child) => snapshot !=
                                                   null
-                                              ? snapshot.data()[type[index]] !=
+                                              ? model.userData![type[index]] !=
                                                       null
                                                   ? CircularProgressIndicator(
                                                       backgroundColor: theme.getIndicatorColor(
                                                           type[index]),
-                                                      valueColor: new AlwaysStoppedAnimation<Color>(
+                                                      valueColor: const AlwaysStoppedAnimation<Color>(
                                                           Colors.white),
-                                                      value: snapshot.data()[type[index]].length /
+                                                      value: model.userData![type[index]].length /
                                                           task
                                                               .getAllMap(
-                                                                  type[index])
+                                                                  type[index])!
                                                               .length)
                                                   : CircularProgressIndicator(
                                                       backgroundColor: theme.getIndicatorColor(type[index]),
-                                                      valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+                                                      valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
                                                       value: 0)
                                               : CircularProgressIndicator(
                                                   backgroundColor:
                                                       theme.getIndicatorColor(
                                                           type[index]),
                                                   valueColor:
-                                                      new AlwaysStoppedAnimation<
+                                                      const AlwaysStoppedAnimation<
                                                           Color>(Colors.white),
                                                 ))),
                                   Padding(
-                                      padding: EdgeInsets.only(left: 10),
+                                      padding: const EdgeInsets.only(left: 10),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Padding(
-                                              padding: EdgeInsets.only(
+                                              padding: const EdgeInsets.only(
                                                   top: 10, bottom: 10),
                                               child: Align(
                                                   alignment:
                                                       Alignment.centerLeft,
                                                   child: Text(
-                                                    theme.getTitle(type[index]),
-                                                    style: TextStyle(
+                                                    theme.getTitle(type[index])!,
+                                                    style: const TextStyle(
                                                         fontSize: 23,
                                                         color: Colors.white),
                                                   ))),

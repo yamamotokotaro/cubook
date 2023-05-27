@@ -6,38 +6,39 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeLeaderModel extends ChangeNotifier {
-  QuerySnapshot taskSnapshot;
+  QuerySnapshot? taskSnapshot;
   bool isLoaded = false;
   bool isGet = false;
-  String group;
-  String group_claim;
+  String? group;
+  String? group_claim;
   dynamic team;
-  String teamPosition;
-  String uid;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
+  String? teamPosition;
+  String? uid;
+  Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getSnapshot(BuildContext context) async {
-    String group_before = group;
-    String teamPosition_before = teamPosition;
-    User user = await FirebaseAuth.instance.currentUser;
+  Future<void> getSnapshot(BuildContext context) async {
+    final String? groupBefore = group;
+    final String? teamPositionBefore = teamPosition;
+    final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-        .then((snapshot) async {
-      DocumentSnapshot userSnapshot = snapshot.docs[0];
-      group = userSnapshot.data()['group'];
-      team = userSnapshot.data()['team'];
-      teamPosition = userSnapshot.data()['teamPosition'];
-      user.getIdTokenResult(true).then((value) {
-        print(value.claims);
-        String group_claim_before = group_claim;
-        group_claim = value.claims['group'];
-        if (group_claim_before != group_claim) {
+        .then((QuerySnapshot<Map<String, dynamic>> snapshot) async {
+      final DocumentSnapshot userSnapshot = snapshot.docs[0];
+      group = userSnapshot['group'];
+      if (userSnapshot.get('position') == 'scout') {
+        team = userSnapshot.get('team');
+        teamPosition = userSnapshot.get('teamPosition');
+      }
+      user.getIdTokenResult(true).then((IdTokenResult value) {
+        final String? groupClaimBefore = group_claim;
+        group_claim = value.claims!['group'];
+        if (groupClaimBefore != group_claim) {
           notifyListeners();
         }
       });
-      if (group != group_before || teamPosition != teamPosition_before) {
+      if (group != groupBefore || teamPosition != teamPositionBefore) {
         notifyListeners();
         /*final RemoteConfig remoteConfig = await RemoteConfig.instance;
         await remoteConfig.fetch(expiration: const Duration(seconds: 1));
@@ -73,29 +74,29 @@ class HomeLeaderModel extends ChangeNotifier {
                                 style: TextStyle(),
                                 textAlign: TextAlign.center,
                               )),
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               launchTermURL();
                             },
                             child: Text(
                               '利用規約',
                               style: TextStyle(
-                                  color: Theme.of(context).accentColor),
+                                  color: Theme.of(context).colorScheme.secondary),
                             ),
                           ),
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               launchPrivacyURL();
                             },
                             child: Text(
                               'プライバシーポリシー',
                               style: TextStyle(
-                                  color: Theme.of(context).accentColor),
+                                  color: Theme.of(context).colorScheme.secondary),
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 10),
-                            child: RaisedButton(
+                            child: ElevatedButton(
                                 color: Colors.blue[900],
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -113,7 +114,7 @@ class HomeLeaderModel extends ChangeNotifier {
     });
   }
 
-  Stream<QuerySnapshot> getTaskSnapshot(String group) {
+  Stream<QuerySnapshot> getTaskSnapshot(String? group) {
     if (teamPosition != null) {
       if (teamPosition == 'teamLeader') {
         return FirebaseFirestore.instance
@@ -139,8 +140,8 @@ class HomeLeaderModel extends ChangeNotifier {
   }
 }
 
-void launchTermURL() async {
-  const url =
+Future<void> launchTermURL() async {
+  const String url =
       'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md';
   if (await canLaunch(url)) {
     await launch(url);
@@ -149,8 +150,8 @@ void launchTermURL() async {
   }
 }
 
-void launchPrivacyURL() async {
-  const url =
+Future<void> launchPrivacyURL() async {
+  const String url =
       'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md';
   if (await canLaunch(url)) {
     await launch(url);

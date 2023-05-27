@@ -1,18 +1,10 @@
 import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TaskView extends StatelessWidget {
-  var task = new TaskContents();
-  var theme = new ThemeInfo();
-  Color themeColor;
-  String type;
-  String typeFireStore;
-  String title = '';
-  int index_number = -1;
 
   TaskView(String _type) {
     themeColor = theme.getThemeColor(_type);
@@ -24,35 +16,42 @@ class TaskView extends StatelessWidget {
     }
     type = _type;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  Color? themeColor;
+  String? type;
+  String? typeFireStore;
+  String? title = '';
+  int index_number = -1;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 600),
+          constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 70),
+                  padding: const EdgeInsets.only(top: 20, bottom: 70),
                   child: Consumer<AddLumpSelectItemModel>(
-                      builder: (context, model, child) {
-                    var map_task = task.getAllMap(type);
-                    int task_length = map_task.length;
+                      builder: (BuildContext context, AddLumpSelectItemModel model, Widget? child) {
+                    final List<Map<String, dynamic>> mapTask = task.getAllMap(type)!;
+                    final int taskLength = mapTask.length;
                     if (model.itemSelected[type] == null) {
-                      model.createList(type, task_length);
+                      model.createList(type, taskLength);
                     }
                     if (model.itemSelected[type] != null) {
-                      List<dynamic> list_itemCheck = model.itemSelected[type];
+                      final List<dynamic>? listItemCheck = model.itemSelected[type];
                       return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: task_length,
+                          itemCount: taskLength,
                           shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index_page) {
-                            Map<String, dynamic> map_item =
-                                map_task[index_page];
+                          itemBuilder: (BuildContext context, int indexPage) {
+                            final Map<String, dynamic> mapItem =
+                                mapTask[indexPage];
                             return Padding(
-                                padding: EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
                                 child: Container(
                                     child: Card(
                                   shape: RoundedRectangleBorder(
@@ -61,22 +60,22 @@ class TaskView extends StatelessWidget {
                                   child: Row(children: <Widget>[
                                     Container(
                                         decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.only(
+                                            borderRadius: const BorderRadius.only(
                                                 topLeft:
-                                                    const Radius.circular(10),
+                                                    Radius.circular(10),
                                                 bottomLeft:
-                                                    const Radius.circular(10)),
+                                                    Radius.circular(10)),
                                             color: themeColor),
                                         height: 120,
                                         child: ConstrainedBox(
                                           constraints:
-                                              BoxConstraints(minWidth: 76),
+                                              const BoxConstraints(minWidth: 76),
                                           child: Center(
                                             child: Padding(
-                                              padding: EdgeInsets.all(20),
+                                              padding: const EdgeInsets.all(20),
                                               child: Text(
-                                                map_item['number'],
-                                                style: TextStyle(
+                                                mapItem['number'],
+                                                style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 30,
                                                     color: Colors.white),
@@ -85,25 +84,25 @@ class TaskView extends StatelessWidget {
                                           ),
                                         )),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 10),
+                                      padding: const EdgeInsets.only(left: 10),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Padding(
-                                              padding: EdgeInsets.only(top: 10),
+                                              padding: const EdgeInsets.only(top: 10),
                                               child: Align(
                                                   alignment:
                                                       Alignment.centerLeft,
                                                   child: Text(
-                                                    map_item['title'],
-                                                    style: TextStyle(
+                                                    mapItem['title'],
+                                                    style: const TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         fontSize: 25),
                                                   ))),
                                           Padding(
-                                            padding: EdgeInsets.only(top: 10),
+                                            padding: const EdgeInsets.only(top: 10),
                                             child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Container(
@@ -111,7 +110,7 @@ class TaskView extends StatelessWidget {
                                                     width: 250,
                                                     child: ListView.builder(
                                                         itemCount:
-                                                            map_item['hasItem'],
+                                                            mapItem['hasItem'],
                                                         scrollDirection:
                                                             Axis.horizontal,
                                                         itemBuilder:
@@ -119,23 +118,23 @@ class TaskView extends StatelessWidget {
                                                                     context,
                                                                 int index) {
                                                           index_number++;
-                                                          if (list_itemCheck[
-                                                                      index_page]
+                                                          if (listItemCheck![
+                                                                      indexPage]
                                                                   .length ==
                                                               0) {
                                                             model.createbool(
                                                                 type,
-                                                                index_page,
-                                                                map_item[
+                                                                indexPage,
+                                                                mapItem[
                                                                     'hasItem']);
                                                           }
 
-                                                          if (list_itemCheck[
-                                                                      index_page]
+                                                          if (listItemCheck[
+                                                                      indexPage]
                                                                   .length !=
                                                               0) {
                                                             return Padding(
-                                                                padding: EdgeInsets
+                                                                padding: const EdgeInsets
                                                                     .only(
                                                                         right:
                                                                             3),
@@ -149,10 +148,10 @@ class TaskView extends StatelessWidget {
                                                                         onTap: () {
                                                                           model.onPressedCheck(
                                                                               type,
-                                                                              index_page,
+                                                                              indexPage,
                                                                               index);
                                                                         },
-                                                                        child: list_itemCheck[index_page][index]
+                                                                        child: listItemCheck[indexPage][index]
                                                                             ? Container(
                                                                                 height: 37,
                                                                                 width: 37,
@@ -163,7 +162,7 @@ class TaskView extends StatelessWidget {
                                                                                 child: Center(
                                                                                   child: Text(
                                                                                     (index + 1).toString(),
-                                                                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),
+                                                                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white),
                                                                                   ),
                                                                                 ))
                                                                             : Container(

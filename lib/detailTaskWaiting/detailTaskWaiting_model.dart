@@ -10,59 +10,60 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class DetailTaskWaitingModel extends ChangeNotifier {
-  DocumentSnapshot taskSnapshot;
-  User currentUser;
-  String documentID;
-  String documentID_type;
-  String uid_get;
-  String type;
-  TextEditingController feedbackController = new TextEditingController();
-  int page;
-  int number;
+  late DocumentSnapshot taskSnapshot;
+  User? currentUser;
+  String? documentID;
+  String? documentID_type;
+  String? uid_get;
+  String? type;
+  TextEditingController feedbackController = TextEditingController();
+  int? page;
+  int? number;
   bool isGet = false;
   bool isLoaded = false;
   bool isLoading = false;
   bool taskFinished = false;
-  List<dynamic> body = List<dynamic>();
-  Map<dynamic, dynamic> tokenMap;
-  List<dynamic> dataMap;
+  List<dynamic> body = <dynamic>[];
+  Map<dynamic, dynamic>? tokenMap;
+  List<dynamic>? dataMap;
   bool EmptyError = false;
 
-  Future<void> getTaskSnapshot(String _documentID) async {
+  Future<void> getTaskSnapshot(String? _documentID) async {
     documentID = _documentID;
     isLoaded = false;
     FirebaseFirestore.instance
         .collection('task')
         .doc(documentID)
         .snapshots()
-        .listen((data) async {
+        .listen((DocumentSnapshot<Map<String, dynamic>> data) async {
       taskSnapshot = data;
       if (taskSnapshot.data == null) {
         taskFinished = true;
         notifyListeners();
       } else {
-        uid_get = taskSnapshot.data()['uid'];
-        type = taskSnapshot.data()['type'];
-        page = taskSnapshot.data()['page'];
-        number = taskSnapshot.data()['number'];
-        dataMap = taskSnapshot.data()['data'];
-        for (int i = 0; i < taskSnapshot.data()['data'].length; i++) {
-          if (taskSnapshot.data()['data'][i]['type'] == 'text') {
-            body.add(taskSnapshot.data()['data'][i]['body']);
-          } else if (taskSnapshot.data()['data'][i]['type'] == 'image') {
-            final ref = FirebaseStorage.instance
+        uid_get = taskSnapshot.get('uid');
+        type = taskSnapshot.get('type');
+        page = taskSnapshot.get('page');
+        number = taskSnapshot.get('number');
+        dataMap = taskSnapshot.get('data');
+        for (int i = 0; i < taskSnapshot.get('data').length; i++) {
+          if (taskSnapshot.get('data')[i]['type'] == 'text') {
+            body.add(taskSnapshot.get('data')[i]['body']);
+          } else if (taskSnapshot.get('data')[i]['type'] == 'image') {
+            final Reference ref = FirebaseStorage.instance
                 .ref()
-                .child(taskSnapshot.data()['data'][i]['body']);
+                .child(taskSnapshot.get('data')[i]['body']);
             final String url = await ref.getDownloadURL();
             body.add(url);
           } else {
-            final ref = FirebaseStorage.instance
+            final Reference ref = FirebaseStorage.instance
                 .ref()
-                .child(taskSnapshot.data()['data'][i]['body']);
+                .child(taskSnapshot.get('data')[i]['body']);
             final String url = await ref.getDownloadURL();
-            final videoPlayerController = VideoPlayerController.network(url);
+            final VideoPlayerController videoPlayerController =
+                VideoPlayerController.network(url);
             await videoPlayerController.initialize();
-            final chewieController = ChewieController(
+            final ChewieController chewieController = ChewieController(
                 videoPlayerController: videoPlayerController,
                 aspectRatio: videoPlayerController.value.aspectRatio,
                 autoPlay: false,
@@ -79,17 +80,18 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     });
   }
 
-  void onTapSend() async {
+  Future<void> onTapSend() async {
     if (feedbackController.text != '') {
       isLoading = true;
       notifyListeners();
-      User user = await FirebaseAuth.instance.currentUser;
+      final User? user = FirebaseAuth.instance.currentUser;
       currentUser = user;
-      currentUser.getIdTokenResult().then((token) async {
+      currentUser!.getIdTokenResult().then((IdTokenResult token) async {
         tokenMap = token.claims;
-        signItem(uid_get, type, page, number, feedbackController.text, false, false);
+        signItem(
+            uid_get, type, page, number, feedbackController.text, false, false);
         await addNotification('signed');
-        await deleteTask();
+        deleteTask();
       });
       isLoading = false;
     } else {
@@ -98,13 +100,13 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     }
   }
 
-  void onTapReject() async {
+  Future<void> onTapReject() async {
     if (feedbackController.text != '') {
       isLoading = true;
       notifyListeners();
-      User user = await FirebaseAuth.instance.currentUser;
+      final User? user = FirebaseAuth.instance.currentUser;
       currentUser = user;
-      currentUser.getIdTokenResult().then((token) async {
+      currentUser!.getIdTokenResult().then((IdTokenResult token) async {
         tokenMap = token.claims;
         await updateDocumentInfo_reject();
         await addNotification('reject');
@@ -117,23 +119,23 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   }
 
   Future<void> updateDocumentInfo_reject() async {
-    var task = new TaskContents();
+    final TaskContents task = TaskContents();
     FirebaseFirestore.instance
-        .collection(type)
+        .collection(type!)
         .where('uid', isEqualTo: uid_get)
         .where('page', isEqualTo: page)
-        .where('group', isEqualTo: tokenMap['group'])
+        .where('group', isEqualTo: tokenMap!['group'])
         .get()
-        .then((data) {
-      DocumentSnapshot snapshot = data.docs[0];
-      Map<String, dynamic> map = Map<String, dynamic>();
-      map = snapshot.data()['signed'];
-      map[number.toString()]['phaze'] = 'reject';
+        .then((QuerySnapshot<Map<String, dynamic>> data) {
+      final DocumentSnapshot snapshot = data.docs[0];
+      Map<String, dynamic>? map = <String, dynamic>{};
+      map = snapshot.get('signed');
+      map![number.toString()]['phaze'] = 'reject';
       map[number.toString()]['feedback'] = feedbackController.text;
-      Map<String, dynamic> mapSend = Map<String, dynamic>();
+      final Map<String, dynamic> mapSend = <String, dynamic>{};
       mapSend['signed'] = map;
       FirebaseFirestore.instance
-          .collection(type)
+          .collection(type!)
           .doc(snapshot.id)
           .update(mapSend);
       deleteTask();
@@ -141,29 +143,29 @@ class DetailTaskWaitingModel extends ChangeNotifier {
   }
 
   Future<void> addNotification(String phase) async {
-    var task = new TaskContents();
-    var theme = new ThemeInfo();
-    String mes;
+    final TaskContents task = TaskContents();
+    final ThemeInfo theme = ThemeInfo();
+    late String mes;
     if (phase == 'signed') {
       mes = 'サインされました';
     } else if (phase == 'reject') {
-      mes = 'やり直しになりました';
+      mes = 'やりなおしになりました';
     }
-    QuerySnapshot data = await FirebaseFirestore.instance
+    final QuerySnapshot data = await FirebaseFirestore.instance
         .collection('user')
         .where('uid', isEqualTo: uid_get)
-        .where('group', isEqualTo: tokenMap['group'])
+        .where('group', isEqualTo: tokenMap!['group'])
         .get();
-    DocumentSnapshot snapshot = data.docs[0];
-    Map<String, dynamic> map = Map<String, dynamic>();
-    Map<String, dynamic> taskMap = task.getPartMap(type, page);
-    String body = theme.getTitle(type) +
+    final DocumentSnapshot snapshot = data.docs[0];
+    final Map<String, dynamic> map = <String, dynamic>{};
+    final Map<String, dynamic> taskMap = task.getPartMap(type, page)!;
+    final String body = theme.getTitle(type)! +
         ' ' +
         taskMap['number'] +
         ' ' +
         taskMap['title'] +
         '(' +
-        (number + 1).toString() +
+        (number! + 1).toString() +
         ')' +
         'が' +
         mes;
@@ -172,15 +174,15 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     map['type'] = type;
     map['page'] = page;
     map['number'] = number;
-    map['group'] = snapshot.data()['group'];
+    map['group'] = snapshot.get('group');
     map['time'] = Timestamp.now();
     FirebaseFirestore.instance.collection('notification').add(map);
   }
 
   void deleteTask() {
-    Map<String, dynamic> map = Map<String, dynamic>();
+    final Map<String, dynamic> map = <String, dynamic>{};
     map['date_signed'] = Timestamp.now();
-    map['uid_signed'] = currentUser.uid;
+    map['uid_signed'] = currentUser!.uid;
     map['phase'] = 'signed';
     FirebaseFirestore.instance.collection('task').doc(documentID).update(map);
   }
