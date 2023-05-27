@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,9 +14,6 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		9AB4EAF824DBD62700D88ED8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9AB4EAF724DBD62700D88ED8 /* GoogleService-Info.plist */; };
-		9AB4EAFA24DBD79700D88ED8 /* UnifiedNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AB4EAF924DBD79600D88ED8 /* UnifiedNativeAdView.xib */; };
-		9AB4EAFE24DBF42600D88ED8 /* ja-JP.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9AB4EAFC24DBF42600D88ED8 /* ja-JP.lproj */; };
-		9AB4EAFF24DBF42600D88ED8 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9AB4EAFD24DBF42600D88ED8 /* Base.lproj */; };
 		A077F39EB87F7A86EA9A73F7 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18FBACCAE7106165F3708D5 /* Pods_Runner.framework */; };
 		D073D2B8174CDD0FBD5D6BB5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 322B606F789EC57574713D9B /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -52,7 +49,6 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AB4EAF724DBD62700D88ED8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		9AB4EAF924DBD79600D88ED8 /* UnifiedNativeAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UnifiedNativeAdView.xib; path = ../../ios_old/UnifiedNativeAdView.xib; sourceTree = "<group>"; };
 		9AB4EAFB24DBF0C500D88ED8 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		9AB4EAFC24DBF42600D88ED8 /* ja-JP.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "ja-JP.lproj"; path = "../../ios_old/Runner/ja-JP.lproj"; sourceTree = "<group>"; };
 		9AB4EAFD24DBF42600D88ED8 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Base.lproj; path = ../../ios_old/Runner/Base.lproj; sourceTree = "<group>"; };
@@ -111,7 +107,6 @@
 				9AB4EAFD24DBF42600D88ED8 /* Base.lproj */,
 				9AB4EAFC24DBF42600D88ED8 /* ja-JP.lproj */,
 				9AB4EAFB24DBF0C500D88ED8 /* Runner.entitlements */,
-				9AB4EAF924DBD79600D88ED8 /* UnifiedNativeAdView.xib */,
 				9AB4EAF724DBD62700D88ED8 /* GoogleService-Info.plist */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
@@ -166,7 +161,7 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				9B25379C2A8A92632D1314CE /* [CP] Embed Pods Frameworks */,
-				56425B7B904D3354A75B4ABA /* [CP] Copy Pods Resources */,
+				F54D39EE3E4BDD97616D1EF3 /* [firebase_crashlytics] Crashlytics Upload Symbols */,
 			);
 			buildRules = (
 			);
@@ -217,12 +212,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
-				9AB4EAFA24DBD79700D88ED8 /* UnifiedNativeAdView.xib in Resources */,
-				9AB4EAFF24DBF42600D88ED8 /* Base.lproj in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				9AB4EAF824DBD62700D88ED8 /* GoogleService-Info.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
-				9AB4EAFE24DBF42600D88ED8 /* ja-JP.lproj in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				D073D2B8174CDD0FBD5D6BB5 /* GoogleService-Info.plist in Resources */,
 			);
@@ -233,10 +225,12 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}",
 			);
 			name = "Thin Binary";
 			outputPaths = (
@@ -244,23 +238,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
-		};
-		56425B7B904D3354A75B4ABA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		5F08CF60542D2A880988ADFF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -286,6 +263,7 @@
 		};
 		9740EEB61CF901F6004384FC /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -314,6 +292,26 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		F54D39EE3E4BDD97616D1EF3 /* [firebase_crashlytics] Crashlytics Upload Symbols */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}\"",
+				"\"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)\"",
+			);
+			name = "[firebase_crashlytics] Crashlytics Upload Symbols";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$PODS_ROOT/FirebaseCrashlytics/upload-symbols\" --flutter-project \"$PROJECT_DIR/firebase_app_id_file.json\" ";
 		};
 /* End PBXShellScriptBuildPhase section */
 
