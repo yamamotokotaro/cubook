@@ -46,12 +46,13 @@ class LoginView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 30),
                       child: Container(
-                        child: Consumer<HomeModel>(
-                            builder: (BuildContext context, HomeModel model, Widget? child) {
-                          return ElevatedButton(
+                        child: Consumer<HomeModel>(builder:
+                            (BuildContext context, HomeModel model,
+                                Widget? child) {
+                          return FilledButton(
                             onPressed: () async {
                               dynamic providers;
-                              if(!kIsWeb) {
+                              if (!kIsWeb) {
                                 if (Platform.isIOS) {
                                   providers = [
                                     AuthUiProvider.email,
@@ -73,7 +74,7 @@ class LoginView extends StatelessWidget {
 
                               final bool result = await FlutterAuthUi.startUi(
                                 items: providers,
-                                tosAndPrivacyPolicy: TosAndPrivacyPolicy(
+                                tosAndPrivacyPolicy: const TosAndPrivacyPolicy(
                                   tosUrl:
                                       'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md',
                                   privacyPolicyUrl:
@@ -94,7 +95,6 @@ class LoginView extends StatelessWidget {
                                   androidMinimumVersion: '',
                                 ),
                               );
-                              print(result);
                               model.login();
                               /*FirebaseAuthUi.instance()
                                       .launchAuth(
@@ -119,8 +119,7 @@ class LoginView extends StatelessWidget {
                                 padding: EdgeInsets.all(5),
                                 child: Text(
                                   'ログインしてはじめる',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
+                                  style: TextStyle(fontSize: 20),
                                 )),
                           );
                         }),

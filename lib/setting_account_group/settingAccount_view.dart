@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SettingAccountGroupView extends StatelessWidget {
+  SettingAccountGroupView(String? _uid) {
+    uid = _uid;
+  }
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
 
   String? uid;
-
-  SettingAccountGroupView(String? _uid) {
-    uid = _uid;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +24,13 @@ class SettingAccountGroupView extends StatelessWidget {
                 child: Center(
                     child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 600),
-                        child: Consumer<SettingAccountGroupModel>(
-                            builder: (BuildContext context, SettingAccountGroupModel model, Widget? child) {
+                        child: Consumer<SettingAccountGroupModel>(builder:
+                            (BuildContext context,
+                                SettingAccountGroupModel model, Widget? child) {
                           model.getSnapshot(uid);
                           if (model.userSnapshot != null) {
-                            if(model.userSnapshot!.get('position') == 'scout') {
+                            if (model.userSnapshot!.get('position') ==
+                                'scout') {
                               return Column(
                                 children: <Widget>[
                                   Padding(
@@ -43,12 +44,13 @@ class SettingAccountGroupView extends StatelessWidget {
                                         child: Card(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                           ),
                                           child: InkWell(
-                                            customBorder: RoundedRectangleBorder(
+                                            customBorder:
+                                                RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(10.0),
+                                                  BorderRadius.circular(10.0),
                                             ),
                                             onTap: () {
                                               Navigator.of(context)
@@ -58,19 +60,19 @@ class SettingAccountGroupView extends StatelessWidget {
                                               padding: const EdgeInsets.all(10),
                                               child: Column(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                      MainAxisAlignment.center,
                                                   children: <Widget>[
                                                     Icon(
                                                       Icons.edit,
-                                                      color: Theme
-                                                          .of(context)
-                                                          .colorScheme.secondary,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
                                                       size: 35,
                                                     ),
                                                     const Padding(
-                                                        padding: EdgeInsets
-                                                            .only(
-                                                            top: 10),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
                                                         child: Material(
                                                           type: MaterialType
                                                               .transparency,
@@ -78,15 +80,15 @@ class SettingAccountGroupView extends StatelessWidget {
                                                             'プロフィールの編集',
                                                             style: TextStyle(
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .bold,
+                                                                    FontWeight
+                                                                        .bold,
                                                                 fontSize: 21),
                                                           ),
                                                         )),
                                                     const Padding(
-                                                        padding: EdgeInsets
-                                                            .only(
-                                                            top: 10),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
                                                         child: Material(
                                                           type: MaterialType
                                                               .transparency,
@@ -94,10 +96,10 @@ class SettingAccountGroupView extends StatelessWidget {
                                                             '名前・組・進歩の変更',
                                                             style: TextStyle(
                                                                 color:
-                                                                Colors.grey,
+                                                                    Colors.grey,
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                                    FontWeight
+                                                                        .normal,
                                                                 fontSize: 15),
                                                           ),
                                                         )),
@@ -114,59 +116,55 @@ class SettingAccountGroupView extends StatelessWidget {
                                         child: Card(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                           ),
                                           child: InkWell(
-                                            customBorder: RoundedRectangleBorder(
+                                            customBorder:
+                                                RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(10.0),
+                                                  BorderRadius.circular(10.0),
                                             ),
                                             onTap: () async {
-                                              print('model.isAdmin=' +
-                                                  model.isAdmin.toString());
                                               if (model.isAdmin!) {
-                                                Navigator.of(context)
-                                                    .pushNamed(
+                                                Navigator.of(context).pushNamed(
                                                     '/accountMigration');
                                               } else {
                                                 await showDialog<int>(
                                                     context: context,
-                                                    builder: (BuildContext context) {
+                                                    builder:
+                                                        (BuildContext context) {
                                                       return AlertDialog(
                                                         shape: const RoundedRectangleBorder(
                                                             borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    20.0))),
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        20.0))),
                                                         content:
-                                                        SingleChildScrollView(
-                                                            child: Column(
-                                                              mainAxisSize:
+                                                            SingleChildScrollView(
+                                                                child: Column(
+                                                          mainAxisSize:
                                                               MainAxisSize.min,
-                                                              children: <
-                                                                  Widget>[
-                                                                Container(
-                                                                  width:
-                                                                  double
-                                                                      .infinity,
-                                                                  child: const Text(
-                                                                      'この操作はできません',
-                                                                      style: TextStyle(
-                                                                          fontWeight:
+                                                          children: <Widget>[
+                                                            Container(
+                                                              width: double
+                                                                  .infinity,
+                                                              child: const Text(
+                                                                  'この操作はできません',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
                                                                           FontWeight
                                                                               .bold,
-                                                                          fontSize:
+                                                                      fontSize:
                                                                           18)),
-                                                                ),
-                                                                const Padding(
-                                                                    padding:
-                                                                    EdgeInsets
-                                                                        .only(
+                                                            ),
+                                                            const Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
                                                                         top: 5),
-                                                                    child: Text(
-                                                                        'アカウントの移行は管理者のみ操作可能です'))
-                                                              ],
-                                                            )),
+                                                                child: Text(
+                                                                    'アカウントの移行は管理者のみ操作可能です'))
+                                                          ],
+                                                        )),
                                                       );
                                                     });
                                               }
@@ -175,19 +173,19 @@ class SettingAccountGroupView extends StatelessWidget {
                                               padding: const EdgeInsets.all(10),
                                               child: Column(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                      MainAxisAlignment.center,
                                                   children: <Widget>[
                                                     Icon(
                                                       Icons.emoji_people,
-                                                      color: Theme
-                                                          .of(context)
-                                                          .colorScheme.secondary,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
                                                       size: 35,
                                                     ),
                                                     const Padding(
-                                                        padding: EdgeInsets
-                                                            .only(
-                                                            top: 10),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
                                                         child: Material(
                                                           type: MaterialType
                                                               .transparency,
@@ -195,15 +193,15 @@ class SettingAccountGroupView extends StatelessWidget {
                                                             'アカウントを移行',
                                                             style: TextStyle(
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .bold,
+                                                                    FontWeight
+                                                                        .bold,
                                                                 fontSize: 21),
                                                           ),
                                                         )),
                                                     const Padding(
-                                                        padding: EdgeInsets
-                                                            .only(
-                                                            top: 10),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
                                                         child: Material(
                                                           type: MaterialType
                                                               .transparency,
@@ -211,10 +209,10 @@ class SettingAccountGroupView extends StatelessWidget {
                                                             '他グループへ移行',
                                                             style: TextStyle(
                                                                 color:
-                                                                Colors.grey,
+                                                                    Colors.grey,
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                                    FontWeight
+                                                                        .normal,
                                                                 fontSize: 15),
                                                           ),
                                                         )),
@@ -231,12 +229,13 @@ class SettingAccountGroupView extends StatelessWidget {
                                         child: Card(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                           ),
                                           child: InkWell(
-                                            customBorder: RoundedRectangleBorder(
+                                            customBorder:
+                                                RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(10.0),
+                                                  BorderRadius.circular(10.0),
                                             ),
                                             onTap: () {
                                               Navigator.of(context).pushNamed(
@@ -246,19 +245,19 @@ class SettingAccountGroupView extends StatelessWidget {
                                               padding: const EdgeInsets.all(10),
                                               child: Column(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                      MainAxisAlignment.center,
                                                   children: <Widget>[
                                                     Icon(
                                                       Icons.cancel,
-                                                      color: Theme
-                                                          .of(context)
-                                                          .colorScheme.secondary,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
                                                       size: 35,
                                                     ),
                                                     const Padding(
-                                                        padding: EdgeInsets
-                                                            .only(
-                                                            top: 10),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
                                                         child: Material(
                                                           type: MaterialType
                                                               .transparency,
@@ -266,15 +265,15 @@ class SettingAccountGroupView extends StatelessWidget {
                                                             'アカウントを削除',
                                                             style: TextStyle(
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .bold,
+                                                                    FontWeight
+                                                                        .bold,
                                                                 fontSize: 21),
                                                           ),
                                                         )),
                                                     const Padding(
-                                                        padding: EdgeInsets
-                                                            .only(
-                                                            top: 10),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
                                                         child: Material(
                                                           type: MaterialType
                                                               .transparency,
@@ -282,10 +281,10 @@ class SettingAccountGroupView extends StatelessWidget {
                                                             '完全削除',
                                                             style: TextStyle(
                                                                 color:
-                                                                Colors.grey,
+                                                                    Colors.grey,
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                                    FontWeight
+                                                                        .normal,
                                                                 fontSize: 15),
                                                           ),
                                                         )),
@@ -297,7 +296,6 @@ class SettingAccountGroupView extends StatelessWidget {
                                 ],
                               );
                             } else {
-
                               return Column(
                                 children: <Widget>[
                                   Padding(
@@ -308,59 +306,55 @@ class SettingAccountGroupView extends StatelessWidget {
                                         child: Card(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                           ),
                                           child: InkWell(
-                                            customBorder: RoundedRectangleBorder(
+                                            customBorder:
+                                                RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(10.0),
+                                                  BorderRadius.circular(10.0),
                                             ),
                                             onTap: () async {
-                                              print('model.isAdmin=' +
-                                                  model.isAdmin.toString());
                                               if (model.isAdmin!) {
-                                                Navigator.of(context)
-                                                    .pushNamed(
+                                                Navigator.of(context).pushNamed(
                                                     '/accountMigration');
                                               } else {
                                                 await showDialog<int>(
                                                     context: context,
-                                                    builder: (BuildContext context) {
+                                                    builder:
+                                                        (BuildContext context) {
                                                       return AlertDialog(
                                                         shape: const RoundedRectangleBorder(
                                                             borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    20.0))),
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        20.0))),
                                                         content:
-                                                        SingleChildScrollView(
-                                                            child: Column(
-                                                              mainAxisSize:
+                                                            SingleChildScrollView(
+                                                                child: Column(
+                                                          mainAxisSize:
                                                               MainAxisSize.min,
-                                                              children: <
-                                                                  Widget>[
-                                                                Container(
-                                                                  width:
-                                                                  double
-                                                                      .infinity,
-                                                                  child: const Text(
-                                                                      'この操作はできません',
-                                                                      style: TextStyle(
-                                                                          fontWeight:
+                                                          children: <Widget>[
+                                                            Container(
+                                                              width: double
+                                                                  .infinity,
+                                                              child: const Text(
+                                                                  'この操作はできません',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
                                                                           FontWeight
                                                                               .bold,
-                                                                          fontSize:
+                                                                      fontSize:
                                                                           18)),
-                                                                ),
-                                                                const Padding(
-                                                                    padding:
-                                                                    EdgeInsets
-                                                                        .only(
+                                                            ),
+                                                            const Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
                                                                         top: 5),
-                                                                    child: Text(
-                                                                        'アカウントの移行は管理者のみ操作可能です'))
-                                                              ],
-                                                            )),
+                                                                child: Text(
+                                                                    'アカウントの移行は管理者のみ操作可能です'))
+                                                          ],
+                                                        )),
                                                       );
                                                     });
                                               }
@@ -369,19 +363,19 @@ class SettingAccountGroupView extends StatelessWidget {
                                               padding: const EdgeInsets.all(10),
                                               child: Column(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                      MainAxisAlignment.center,
                                                   children: <Widget>[
                                                     Icon(
                                                       Icons.emoji_people,
-                                                      color: Theme
-                                                          .of(context)
-                                                          .colorScheme.secondary,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
                                                       size: 35,
                                                     ),
                                                     const Padding(
-                                                        padding: EdgeInsets
-                                                            .only(
-                                                            top: 10),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
                                                         child: Material(
                                                           type: MaterialType
                                                               .transparency,
@@ -389,15 +383,15 @@ class SettingAccountGroupView extends StatelessWidget {
                                                             'アカウントを移行',
                                                             style: TextStyle(
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .bold,
+                                                                    FontWeight
+                                                                        .bold,
                                                                 fontSize: 21),
                                                           ),
                                                         )),
                                                     const Padding(
-                                                        padding: EdgeInsets
-                                                            .only(
-                                                            top: 10),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
                                                         child: Material(
                                                           type: MaterialType
                                                               .transparency,
@@ -405,10 +399,10 @@ class SettingAccountGroupView extends StatelessWidget {
                                                             '他グループへ移行',
                                                             style: TextStyle(
                                                                 color:
-                                                                Colors.grey,
+                                                                    Colors.grey,
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                                    FontWeight
+                                                                        .normal,
                                                                 fontSize: 15),
                                                           ),
                                                         )),
@@ -425,12 +419,13 @@ class SettingAccountGroupView extends StatelessWidget {
                                         child: Card(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(10),
+                                                BorderRadius.circular(10),
                                           ),
                                           child: InkWell(
-                                            customBorder: RoundedRectangleBorder(
+                                            customBorder:
+                                                RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(10.0),
+                                                  BorderRadius.circular(10.0),
                                             ),
                                             onTap: () {
                                               Navigator.of(context).pushNamed(
@@ -440,19 +435,19 @@ class SettingAccountGroupView extends StatelessWidget {
                                               padding: const EdgeInsets.all(10),
                                               child: Column(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                      MainAxisAlignment.center,
                                                   children: <Widget>[
                                                     Icon(
                                                       Icons.cancel,
-                                                      color: Theme
-                                                          .of(context)
-                                                          .colorScheme.secondary,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .secondary,
                                                       size: 35,
                                                     ),
                                                     const Padding(
-                                                        padding: EdgeInsets
-                                                            .only(
-                                                            top: 10),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
                                                         child: Material(
                                                           type: MaterialType
                                                               .transparency,
@@ -460,15 +455,15 @@ class SettingAccountGroupView extends StatelessWidget {
                                                             'アカウントを削除',
                                                             style: TextStyle(
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .bold,
+                                                                    FontWeight
+                                                                        .bold,
                                                                 fontSize: 21),
                                                           ),
                                                         )),
                                                     const Padding(
-                                                        padding: EdgeInsets
-                                                            .only(
-                                                            top: 10),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 10),
                                                         child: Material(
                                                           type: MaterialType
                                                               .transparency,
@@ -476,10 +471,10 @@ class SettingAccountGroupView extends StatelessWidget {
                                                             '完全削除',
                                                             style: TextStyle(
                                                                 color:
-                                                                Colors.grey,
+                                                                    Colors.grey,
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                                    FontWeight
+                                                                        .normal,
                                                                 fontSize: 15),
                                                           ),
                                                         )),

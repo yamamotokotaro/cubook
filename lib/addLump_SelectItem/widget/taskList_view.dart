@@ -5,13 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TaskView extends StatelessWidget {
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-  Color? themeColor;
-  String? type;
-  String? typeFireStore;
-  String? title = '';
-  int index_number = -1;
 
   TaskView(String _type) {
     themeColor = theme.getThemeColor(_type);
@@ -23,6 +16,13 @@ class TaskView extends StatelessWidget {
     }
     type = _type;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  Color? themeColor;
+  String? type;
+  String? typeFireStore;
+  String? title = '';
+  int index_number = -1;
 
   @override
   Widget build(BuildContext context) {

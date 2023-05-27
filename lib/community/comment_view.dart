@@ -43,9 +43,11 @@ class CommentView extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                            padding: const EdgeInsets.only(top: 20, bottom: 100),
-                            child: Consumer<CommunityModel>(
-                                builder: (BuildContext context, CommunityModel model, Widget? child) {
+                            padding:
+                                const EdgeInsets.only(top: 20, bottom: 100),
+                            child: Consumer<CommunityModel>(builder:
+                                (BuildContext context, CommunityModel model,
+                                    Widget? child) {
                               model.getGroup();
                               if (model.group != null) {
                                 return Column(
@@ -74,11 +76,12 @@ class CommentView extends StatelessWidget {
                                                 itemBuilder:
                                                     (BuildContext context,
                                                         int index) {
-                                                  final DocumentSnapshot snapshot =
-                                                      querySnapshot.data!
-                                                          .docs[index];
+                                                  final DocumentSnapshot
+                                                      snapshot = querySnapshot
+                                                          .data!.docs[index];
                                                   return Padding(
-                                                    padding: const EdgeInsets.all(5),
+                                                    padding:
+                                                        const EdgeInsets.all(5),
                                                     child: InkWell(
                                                         onTap: () {
                                                           FocusScope.of(context)
@@ -86,7 +89,8 @@ class CommentView extends StatelessWidget {
                                                         },
                                                         onLongPress: () async {
                                                           if (model.user.uid ==
-                                                              snapshot.get('uid')) {
+                                                              snapshot
+                                                                  .get('uid')) {
                                                             await showModalBottomSheet<
                                                                 int>(
                                                               context: context,
@@ -94,7 +98,8 @@ class CommentView extends StatelessWidget {
                                                                   (BuildContext
                                                                       context) {
                                                                 return Padding(
-                                                                    padding: const EdgeInsets.only(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
                                                                         top: 10,
                                                                         bottom:
                                                                             10),
@@ -103,8 +108,7 @@ class CommentView extends StatelessWidget {
                                                                       mainAxisSize:
                                                                           MainAxisSize
                                                                               .min,
-                                                                      children: <
-                                                                          Widget>[
+                                                                      children: <Widget>[
                                                                         ListTile(
                                                                           leading:
                                                                               const Icon(Icons.delete),
@@ -128,8 +132,9 @@ class CommentView extends StatelessWidget {
                                                                   .start,
                                                           children: [
                                                             Padding(
-                                                                padding: const EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
                                                                         top: 10,
                                                                         left: 5,
                                                                         right:
@@ -144,7 +149,8 @@ class CommentView extends StatelessWidget {
                                                                               'age')),
                                                                       shape: BoxShape
                                                                           .circle),
-                                                                  child: const Icon(
+                                                                  child:
+                                                                      const Icon(
                                                                     Icons
                                                                         .person,
                                                                     color: Colors
@@ -170,8 +176,8 @@ class CommentView extends StatelessWidget {
                                                                                 5),
                                                                         child:
                                                                             Text(
-                                                                          snapshot.get(
-                                                                              'name'),
+                                                                          snapshot
+                                                                              .get('name'),
                                                                           style:
                                                                               const TextStyle(
                                                                             fontWeight:
@@ -193,7 +199,8 @@ class CommentView extends StatelessWidget {
                                                                   ],
                                                                 ),
                                                                 Padding(
-                                                                    padding: const EdgeInsets.only(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
                                                                         top: 3,
                                                                         left: 5,
                                                                         bottom:
@@ -248,19 +255,22 @@ class CommentView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 10, bottom: 10, right: 10),
+                          padding: const EdgeInsets.only(
+                              left: 10, bottom: 10, right: 10),
                           child: Container(
                             width: 100,
-                            child: Consumer<CommunityModel>(
-                                builder: (BuildContext context, CommunityModel model, Widget? child) {
+                            child: Consumer<CommunityModel>(builder:
+                                (BuildContext context, CommunityModel model,
+                                    Widget? child) {
                               return Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Flexible(
                                     child: TextField(
-                                      maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.commentController,
+                                      maxLengthEnforcement:
+                                          MaxLengthEnforcement.none,
+                                      controller: model.commentController,
                                       enabled: true,
                                       // 入力数
                                       keyboardType: TextInputType.multiline,
@@ -273,24 +283,28 @@ class CommentView extends StatelessWidget {
                                       },
                                     ),
                                   ),
-                                  if (model.isLoading_comment) Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 5, left: 10, right: 6),
-                                          child: Container(
-                                              width: 32,
-                                              height: 32,
-                                              child:
-                                                  const CircularProgressIndicator())) else Padding(
-                                          padding: const EdgeInsets.only(top: 13),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              model.sendComment(
-                                                  effortid, context);
-                                            },
-                                            icon: const Icon(Icons.send),
-                                            color:
-                                                Theme.of(context).colorScheme.secondary,
-                                          ))
+                                  if (model.isLoading_comment)
+                                    Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 5, left: 10, right: 6),
+                                        child: Container(
+                                            width: 32,
+                                            height: 32,
+                                            child:
+                                                const CircularProgressIndicator()))
+                                  else
+                                    Padding(
+                                        padding: const EdgeInsets.only(top: 13),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            model.sendComment(
+                                                effortid, context);
+                                          },
+                                          icon: const Icon(Icons.send),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                        ))
                                 ],
                               );
                             }),

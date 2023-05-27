@@ -28,7 +28,7 @@ class InviteModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void inviteRequest(BuildContext context) async {
+  Future<void> inviteRequest(BuildContext context) async {
     String? age;
     String? position;
     String? team;
@@ -125,7 +125,7 @@ class InviteModel with ChangeNotifier {
             addressController.clear();
             familyController.clear();
             firstController.clear();
-            Scaffold.of(context).showSnackBar(const SnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('送信リクエストが完了しました'),
             ));
           } else if (resp.body == 'No such document!' ||

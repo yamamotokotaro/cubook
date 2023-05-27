@@ -12,6 +12,7 @@ import 'package:cubook/detailMigrationWaiting/detailMigrationWaiting_model.dart'
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/editActivity/editActivity_model.dart';
 import 'package:cubook/editActivity/editActivity_view.dart';
+import 'package:cubook/firebase_options.dart';
 import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
@@ -52,9 +53,9 @@ import 'package:cubook/task_list_analytics/taskListAnalytics_model.dart';
 import 'package:cubook/task_list_scout/taskListScout_model.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -75,9 +76,9 @@ void main() async {
   // Pass all uncaught errors from the framework to Crashlytics.
 
   WidgetsFlutterBinding.ensureInitialized();
-  GestureBinding.instance!.resamplingEnabled = true;
+  GestureBinding.instance.resamplingEnabled = true;
   // Firebaseの各サービスを使う前に初期化を済ませておく必要がある
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
@@ -170,69 +171,71 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(
               create: (BuildContext context) => ListCitationAnalyticsModel()),
         ],
-        child: MaterialApp(
-          title: 'cubook',
-          home: HomeController(),
-          navigatorObservers: <NavigatorObserver>[observer],
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-              fontFamily: 'NotoSansJP',
-
-              colorScheme: ColorScheme.fromSwatch().copyWith(
-                  primary: Colors.blue[900], secondary: Colors.blue[900])),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            fontFamily: 'NotoSansJP',
-            brightness: Brightness.dark,
-            primaryColor: Colors.blue[900],
-            accentColor: Colors.white,
-          ),
-          routes: <String, WidgetBuilder>{
-            '/listTaskWaiting': (BuildContext context) => ListTaskWaitingView(),
-            '/listMember': (BuildContext context) => ListMemberView(),
-            '/addLumpSelectItem': (BuildContext context) =>
-                AddLumpSelectItemView(),
-            '/changeName': (BuildContext context) => ChangeNameView(),
-            '/changeAge': (BuildContext context) => ChangeAgeView(),
-            '/invite': (BuildContext context) => InviteView(),
-            '/listActivity': (BuildContext context) => ListActivityView(),
-            '/createActivity': (BuildContext context) => CreateActivityView(),
-            '/detailActivity': (BuildContext context) => DetailActivityView(),
-            '/editActivity': (BuildContext context) => EditActivityView(),
-            '/listAbsentScout': (BuildContext context) => ListAbsentScoutView(),
-            '/analytics': (BuildContext context) => AnalyticsView(),
-            '/taskDetailAnalytics': (BuildContext context) =>
-                TaskDetailAnalyticsView(),
-            '/taskDetailAnalyticsMember': (BuildContext context) =>
-                TaskDetailAnalyticsMemberView(),
-            '/listCitationAnalyticsView': (BuildContext context) =>
-                ListCitationAnalyticsView(),
-            '/communityView': (BuildContext context) => CommunityView(),
-            '/commentView': (BuildContext context) => CommentView(),
-            '/settingView': (BuildContext context) => SettingAccountView(),
-            '/settingGroupView': (BuildContext context) => SettingGroupView(),
-            '/changeMailAddressView': (BuildContext context) =>
-                ChangeMailAddressView(),
-            '/changePasswordView': (BuildContext context) =>
-                ChangePasswordView(),
-            '/editProfile': (BuildContext context) => EditProfile(),
-            '/deleteGroupAccount': (BuildContext context) =>
-                DeleteGroupAccount(),
-            '/accountMigration': (BuildContext context) =>
-                AccountMigrationView(),
-            '/listMigrationWaiting': (BuildContext context) =>
-                ListMigrationWaitingView(),
-          },
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            DefaultCupertinoLocalizations.delegate
-          ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('ja'),
-          ],
-        ));
+        child: DynamicColorBuilder(
+            builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+          return MaterialApp(
+            title: 'cubook',
+            home: HomeController(),
+            navigatorObservers: <NavigatorObserver>[observer],
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+                fontFamily: 'NotoSansJP',
+                colorSchemeSeed: Colors.blue,
+                useMaterial3: true),
+            darkTheme: ThemeData(
+                fontFamily: 'NotoSansJP',
+                brightness: Brightness.dark,
+                colorSchemeSeed: Colors.blue,
+                useMaterial3: true),
+            routes: <String, WidgetBuilder>{
+              '/listTaskWaiting': (BuildContext context) =>
+                  ListTaskWaitingView(),
+              '/listMember': (BuildContext context) => ListMemberView(),
+              '/addLumpSelectItem': (BuildContext context) =>
+                  AddLumpSelectItemView(),
+              '/changeName': (BuildContext context) => ChangeNameView(),
+              '/changeAge': (BuildContext context) => ChangeAgeView(),
+              '/invite': (BuildContext context) => InviteView(),
+              '/listActivity': (BuildContext context) => ListActivityView(),
+              '/createActivity': (BuildContext context) => CreateActivityView(),
+              '/detailActivity': (BuildContext context) => DetailActivityView(),
+              '/editActivity': (BuildContext context) => EditActivityView(),
+              '/listAbsentScout': (BuildContext context) =>
+                  ListAbsentScoutView(),
+              '/analytics': (BuildContext context) => AnalyticsView(),
+              '/taskDetailAnalytics': (BuildContext context) =>
+                  TaskDetailAnalyticsView(),
+              '/taskDetailAnalyticsMember': (BuildContext context) =>
+                  TaskDetailAnalyticsMemberView(),
+              '/listCitationAnalyticsView': (BuildContext context) =>
+                  ListCitationAnalyticsView(),
+              '/communityView': (BuildContext context) => CommunityView(),
+              '/commentView': (BuildContext context) => CommentView(),
+              '/settingView': (BuildContext context) => SettingAccountView(),
+              '/settingGroupView': (BuildContext context) => SettingGroupView(),
+              '/changeMailAddressView': (BuildContext context) =>
+                  ChangeMailAddressView(),
+              '/changePasswordView': (BuildContext context) =>
+                  ChangePasswordView(),
+              '/editProfile': (BuildContext context) => EditProfile(),
+              '/deleteGroupAccount': (BuildContext context) =>
+                  DeleteGroupAccount(),
+              '/accountMigration': (BuildContext context) =>
+                  AccountMigrationView(),
+              '/listMigrationWaiting': (BuildContext context) =>
+                  ListMigrationWaitingView(),
+            },
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              DefaultCupertinoLocalizations.delegate
+            ],
+            supportedLocales: const [
+              Locale('en'),
+              Locale('ja'),
+            ],
+          );
+        }));
   }
 }

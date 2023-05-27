@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TabInfo {
+  TabInfo(this.label, this.widget);
   String label;
   Widget widget;
-
-  TabInfo(this.label, this.widget);
 }
 
 class AddLumpSelectItemView extends StatelessWidget {
@@ -24,7 +23,8 @@ class AddLumpSelectItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String>? uids = ModalRoute.of(context)!.settings.arguments as List<String>?;
+    final List<String>? uids =
+        ModalRoute.of(context)!.settings.arguments as List<String>?;
     return DefaultTabController(
         length: _tabs.length,
         child: Scaffold(
@@ -41,7 +41,9 @@ class AddLumpSelectItemView extends StatelessWidget {
             ),
           ),
           floatingActionButton: Consumer<AddLumpSelectItemModel>(
-            builder: (BuildContext context, AddLumpSelectItemModel model, Widget? child) => FloatingActionButton.extended(
+            builder: (BuildContext context, AddLumpSelectItemModel model,
+                    Widget? child) =>
+                FloatingActionButton.extended(
               onPressed: () {
                 model.onPressedSend(uids, context);
               },
@@ -49,7 +51,8 @@ class AddLumpSelectItemView extends StatelessWidget {
               icon: const Icon(Icons.check),
             ),
           ),
-          body: TabBarView(children: _tabs.map((TabInfo tab) => tab.widget).toList()),
+          body: TabBarView(
+              children: _tabs.map((TabInfo tab) => tab.widget).toList()),
         ));
   }
 }

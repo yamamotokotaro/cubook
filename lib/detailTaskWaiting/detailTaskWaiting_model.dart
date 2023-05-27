@@ -60,7 +60,8 @@ class DetailTaskWaitingModel extends ChangeNotifier {
                 .ref()
                 .child(taskSnapshot.get('data')[i]['body']);
             final String url = await ref.getDownloadURL();
-            final VideoPlayerController videoPlayerController = VideoPlayerController.network(url);
+            final VideoPlayerController videoPlayerController =
+                VideoPlayerController.network(url);
             await videoPlayerController.initialize();
             final ChewieController chewieController = ChewieController(
                 videoPlayerController: videoPlayerController,
@@ -79,7 +80,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     });
   }
 
-  void onTapSend() async {
+  Future<void> onTapSend() async {
     if (feedbackController.text != '') {
       isLoading = true;
       notifyListeners();
@@ -87,7 +88,8 @@ class DetailTaskWaitingModel extends ChangeNotifier {
       currentUser = user;
       currentUser!.getIdTokenResult().then((IdTokenResult token) async {
         tokenMap = token.claims;
-        signItem(uid_get, type, page, number, feedbackController.text, false, false);
+        signItem(
+            uid_get, type, page, number, feedbackController.text, false, false);
         await addNotification('signed');
         deleteTask();
       });
@@ -98,7 +100,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     }
   }
 
-  void onTapReject() async {
+  Future<void> onTapReject() async {
     if (feedbackController.text != '') {
       isLoading = true;
       notifyListeners();
@@ -147,7 +149,7 @@ class DetailTaskWaitingModel extends ChangeNotifier {
     if (phase == 'signed') {
       mes = 'サインされました';
     } else if (phase == 'reject') {
-      mes = 'やり直しになりました';
+      mes = 'やりなおしになりました';
     }
     final QuerySnapshot data = await FirebaseFirestore.instance
         .collection('user')

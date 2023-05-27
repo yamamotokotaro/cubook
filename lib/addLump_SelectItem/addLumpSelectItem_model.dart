@@ -10,8 +10,7 @@ class AddLumpSelectItemModel extends ChangeNotifier {
   Map<dynamic, dynamic> itemSelected = <dynamic, dynamic>{};
 
   void createList(String? type, int quant) {
-    itemSelected[type] =
-        List<dynamic>.generate(quant, (int index) => <bool>[]);
+    itemSelected[type] = List<dynamic>.generate(quant, (int index) => <bool>[]);
     notifyListeners();
   }
 

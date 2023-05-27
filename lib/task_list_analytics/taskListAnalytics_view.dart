@@ -4,17 +4,9 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_list_analytics/taskListAnalytics_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class TaskListAnalyticsView extends StatelessWidget {
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-  Color? themeColor;
-  String? type;
-  String? typeFireStore;
-  String? title = '';
-
   TaskListAnalyticsView(String _type) {
     themeColor = theme.getThemeColor(_type);
     title = theme.getTitle(_type);
@@ -25,16 +17,22 @@ class TaskListAnalyticsView extends StatelessWidget {
     }
     type = _type;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  Color? themeColor;
+  String? type;
+  String? typeFireStore;
+  String? title = '';
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme scheme = ColorScheme.fromSeed(
+        seedColor: themeColor!,
+        brightness: MediaQuery.of(context).platformBrightness);
     final List<Map<String, dynamic>>? mapTask = task.getAllMap(type);
-    bool isDark;
-    if (Theme.of(context).colorScheme.secondary == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
+    final bool isDark =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: themeColor,
@@ -43,18 +41,20 @@ class TaskListAnalyticsView extends StatelessWidget {
         title: Text(
           title!,
           style: const TextStyle(color: Colors.white),
-        ), systemOverlayStyle: SystemUiOverlayStyle.light,
+        ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Scrollbar(
+            child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 600),
               child: Column(children: <Widget>[
                 Padding(
                     padding: const EdgeInsets.only(top: 20, bottom: 10),
-                    child: Consumer<TaskListAnalyticsModel>(
-                        builder: (BuildContext context, TaskListAnalyticsModel model, Widget? child) {
+                    child: Consumer<TaskListAnalyticsModel>(builder:
+                        (BuildContext context, TaskListAnalyticsModel model,
+                            Widget? child) {
                       model.getGroup();
                       if (model.group != null) {
                         return StreamBuilder<QuerySnapshot>(
@@ -102,6 +102,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                           padding: const EdgeInsets.all(5),
                                           child: Container(
                                             child: Card(
+                                              color: scheme.surface,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(10),
@@ -130,14 +131,13 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                   children: <Widget>[
                                                     Container(
                                                         decoration: BoxDecoration(
-                                                            borderRadius: const BorderRadius.only(
-                                                                topLeft:
-                                                                    Radius
-                                                                            .circular(
+                                                            borderRadius: const BorderRadius
+                                                                    .only(
+                                                                topLeft: Radius
+                                                                    .circular(
                                                                         10),
-                                                                bottomLeft:
-                                                                    Radius
-                                                                            .circular(
+                                                                bottomLeft: Radius
+                                                                    .circular(
                                                                         10)),
                                                             color: themeColor),
                                                         height: 120,
@@ -167,16 +167,17 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                         )),
                                                     Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
-                                                                left: 10),
+                                                            const EdgeInsets
+                                                                .only(left: 10),
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: <Widget>[
                                                             Padding(
-                                                                padding: const EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
                                                                         top:
                                                                             10),
                                                                 child: Align(
@@ -257,7 +258,8 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                         ));
                                                                   } else {
                                                                     return Padding(
-                                                                      padding: const EdgeInsets.only(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
                                                                           left:
                                                                               5,
                                                                           right:
@@ -286,7 +288,8 @@ class TaskListAnalyticsView extends StatelessWidget {
                                     });
                               } else {
                                 return Padding(
-                                  padding: const EdgeInsets.only(left: 5, right: 10),
+                                  padding:
+                                      const EdgeInsets.only(left: 5, right: 10),
                                   child: Container(
                                       height: 30,
                                       width: 30,
@@ -325,7 +328,7 @@ class TaskListAnalyticsView extends StatelessWidget {
               ]),
             ),
           ),
-        ),
+        )),
       ),
     );
   }

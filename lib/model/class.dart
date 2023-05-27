@@ -10,17 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class showTaskView extends StatelessWidget {
-  TaskContents task = TaskContents();
-  int currentPage = 0;
-  int? numberPushed;
-  late int initialPage;
-  String? type;
-  String? typeFirestore;
-  bool test = false;
-  List<Widget> pages = <Widget>[
-    /*StepSignView(),*/
-//    StepAddView()
-  ];
 
   showTaskView(int? _number, String? _type, int _initialPage) {
     numberPushed = _number;
@@ -33,6 +22,17 @@ class showTaskView extends StatelessWidget {
       pages.add(TaskScoutAddView(type, _number, i));
     }
   }
+  TaskContents task = TaskContents();
+  int currentPage = 0;
+  int? numberPushed;
+  late int initialPage;
+  String? type;
+  String? typeFirestore;
+  bool test = false;
+  List<Widget> pages = <Widget>[
+    /*StepSignView(),*/
+//    StepAddView()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -70,18 +70,6 @@ class showTaskView extends StatelessWidget {
 }
 
 class showTaskConfirmView extends StatelessWidget {
-  TaskContents task = TaskContents();
-  int currentPage = 0;
-  int? page;
-  late int number;
-  String? type;
-  String? typeFirestore;
-  String? uid;
-  bool test = false;
-  List<Widget> pages = <Widget>[
-    /*StepSignView(),*/
-//    StepAddView()
-  ];
 
   showTaskConfirmView(int? page, String? _type, String? _uid, int number) {
     this.page = page;
@@ -95,6 +83,18 @@ class showTaskConfirmView extends StatelessWidget {
       pages.add(TaskScoutAddConfirmView(type, page, i));
     }
   }
+  TaskContents task = TaskContents();
+  int currentPage = 0;
+  int? page;
+  late int number;
+  String? type;
+  String? typeFirestore;
+  String? uid;
+  bool test = false;
+  List<Widget> pages = <Widget>[
+    /*StepSignView(),*/
+//    StepAddView()
+  ];
 
   @override
   Widget build(BuildContext context) {

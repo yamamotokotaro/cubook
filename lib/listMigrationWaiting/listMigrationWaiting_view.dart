@@ -5,7 +5,6 @@ import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ListMigrationWaitingView extends StatelessWidget {
@@ -16,14 +15,15 @@ class ListMigrationWaitingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('移行申請'), systemOverlayStyle: SystemUiOverlayStyle.light,
+          title: const Text('移行申請'),
         ),
         body: Align(
             alignment: Alignment.topCenter,
             child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600),
-                child: Consumer<ListTaskWaitingModel>(
-                    builder: (BuildContext context, ListTaskWaitingModel model, Widget? child) {
+                child: Consumer<ListTaskWaitingModel>(builder:
+                    (BuildContext context, ListTaskWaitingModel model,
+                        Widget? child) {
                   model.getSnapshot();
                   if (model.group != null) {
                     return StreamBuilder<QuerySnapshot>(
@@ -79,7 +79,9 @@ class ListMigrationWaitingView extends StatelessWidget {
                                                   }));
                                                 },
                                                 child: Padding(
-                                                    padding: const EdgeInsets.all(10),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
                                                     child: Container(
                                                       child: Column(
                                                         children: <Widget>[
@@ -102,8 +104,9 @@ class ListMigrationWaitingView extends StatelessWidget {
                                                               type: MaterialType
                                                                   .transparency,
                                                               child: Padding(
-                                                                padding: const EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
                                                                         top:
                                                                             10),
                                                                 child: Text(

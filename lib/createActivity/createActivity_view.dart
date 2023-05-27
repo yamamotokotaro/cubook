@@ -19,21 +19,17 @@ class CreateActivityView extends StatelessWidget {
     } else {
       colorRing = Colors.white;
     }
-    bool isDark;
-    if (Theme.of(context).colorScheme.secondary == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
+    final bool isDark =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('新規作成'), systemOverlayStyle: SystemUiOverlayStyle.light,
+          title: const Text('新規作成'),
         ),
-        floatingActionButton:
-            Consumer<CreateActivityModel>(builder: (BuildContext context, CreateActivityModel model, Widget? child) {
+        floatingActionButton: Consumer<CreateActivityModel>(builder:
+            (BuildContext context, CreateActivityModel model, Widget? child) {
           if (model.isLoading) {
             return FloatingActionButton(
-              onPressed: () {  },
+              onPressed: () {},
               child: CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color?>(colorRing),
               ),
@@ -52,19 +48,22 @@ class CreateActivityView extends StatelessWidget {
               onTap: () {
                 FocusScope.of(context).unfocus();
               },
-              child: SingleChildScrollView(
-                  child: Center(
+              child: Scrollbar(
+                  child: SingleChildScrollView(
+                      child: Center(
                 child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 800),
-                    child: Consumer<CreateActivityModel>(
-                        builder: (BuildContext context, CreateActivityModel model, Widget? child) {
+                    child: Consumer<CreateActivityModel>(builder:
+                        (BuildContext context, CreateActivityModel model,
+                            Widget? child) {
                       model.getGroup();
                       return Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: TextField(
-                                maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.titleController,
+                                maxLengthEnforcement: MaxLengthEnforcement.none,
+                                controller: model.titleController,
                                 enabled: true,
                                 keyboardType: TextInputType.multiline,
                                 maxLines: null,
@@ -92,7 +91,7 @@ class CreateActivityView extends StatelessWidget {
                                 width: double.infinity,
                                 child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: FlatButton(
+                                    child: TextButton(
                                       child: Text(
                                         DateFormat('yyyy/MM/dd')
                                             .format(model.date)
@@ -122,8 +121,8 @@ class CreateActivityView extends StatelessWidget {
                                     textAlign: TextAlign.left,
                                   ))),
                           Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 5, bottom: 15, left: 10),
+                              padding: const EdgeInsets.only(
+                                  top: 5, bottom: 15, left: 10),
                               child: Container(
                                   width: double.infinity,
                                   child: const Text(
@@ -135,7 +134,7 @@ class CreateActivityView extends StatelessWidget {
                                   ))),
                           Align(
                               alignment: Alignment.centerLeft,
-                              child: FlatButton.icon(
+                              child: TextButton.icon(
                                   onPressed: () {
                                     model.onPressedSelectItem(context);
                                   },
@@ -143,8 +142,12 @@ class CreateActivityView extends StatelessWidget {
                                   label: const Text('項目を選択'))),
                           Selector<CreateActivityModel,
                               List<Map<String, dynamic>>>(
-                            selector: (BuildContext context, CreateActivityModel model) => model.list_selected,
-                            builder: (BuildContext context, List<Map<String, dynamic>> listSelected, Widget? child) {
+                            selector: (BuildContext context,
+                                    CreateActivityModel model) =>
+                                model.list_selected,
+                            builder: (BuildContext context,
+                                List<Map<String, dynamic>> listSelected,
+                                Widget? child) {
                               return ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: listSelected.length,
@@ -168,18 +171,19 @@ class CreateActivityView extends StatelessWidget {
                                           ),
                                           child: Center(
                                               child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 5, bottom: 5),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 5, bottom: 5),
                                                   child: Column(
                                                     children: [
                                                       Text(
-                                                          theme.getTitle(type)! +
+                                                          theme.getTitle(
+                                                                  type)! +
                                                               ' ' +
                                                               mapTask[
                                                                   'number'] +
                                                               ' ' +
-                                                              mapTask[
-                                                                  'title'] +
+                                                              mapTask['title'] +
                                                               ' (' +
                                                               (number + 1)
                                                                   .toString() +
@@ -212,7 +216,7 @@ class CreateActivityView extends StatelessWidget {
                                     textAlign: TextAlign.left,
                                   ))),
                               const Spacer(),
-                              FlatButton.icon(
+                              TextButton.icon(
                                 onPressed: () {
                                   model.resetUser();
                                 },
@@ -267,8 +271,7 @@ class CreateActivityView extends StatelessWidget {
                                                 isCheck = model.uid_check[uid];
                                               }
                                               String? team;
-                                              if (snapshot.get('team')
-                                                  is int) {
+                                              if (snapshot.get('team') is int) {
                                                 team = snapshot
                                                     .get('team')
                                                     .toString();
@@ -290,36 +293,41 @@ class CreateActivityView extends StatelessWidget {
                                               } else {
                                                 teamCall = '班';
                                               }
-                                              print(model.uid_check);
                                               return Column(children: <Widget>[
-                                                if (isFirst && team != '') Padding(
-                                                        padding:
-                                                            const EdgeInsets.all(10),
-                                                        child: Container(
-                                                            width:
-                                                                double.infinity,
-                                                            child: Text(
-                                                              team! + teamCall,
-                                                              style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 23,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                            ))) else Container(),
+                                                if (isFirst && team != '')
+                                                  Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          child: Text(
+                                                            team! + teamCall,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 23,
+                                                            ),
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                          )))
+                                                else
+                                                  Container(),
                                                 Dismissible(
-                                                    key: Key(snapshot
-                                                        .get('name')),
-                                                    onDismissed: (DismissDirection direction) {
+                                                    key: Key(
+                                                        snapshot.get('name')),
+                                                    onDismissed:
+                                                        (DismissDirection
+                                                            direction) {
                                                       model.dismissUser(uid);
-                                                      final SnackBar snackBar = SnackBar(
-                                                        content: Text(
-                                                            snapshot.get(
-                                                                    'name') +
-                                                                'を対象外にしました'),
+                                                      final SnackBar snackBar =
+                                                          SnackBar(
+                                                        content: Text(snapshot
+                                                                .get('name') +
+                                                            'を対象外にしました'),
                                                         action: SnackBarAction(
                                                           label: '取り消し',
                                                           textColor: isDark
@@ -331,17 +339,19 @@ class CreateActivityView extends StatelessWidget {
                                                                 uid);
                                                           },
                                                         ),
-                                                        duration: const Duration(
-                                                            seconds: 1),
+                                                        duration:
+                                                            const Duration(
+                                                                seconds: 1),
                                                       );
-                                                      Scaffold.of(
-                                                          contextBuilder)
-                                                        .showSnackBar(
-                                                            snackBar);
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              snackBar);
                                                     },
                                                     child: Padding(
                                                         padding:
-                                                            const EdgeInsets.all(5),
+                                                            const EdgeInsets
+                                                                .all(5),
                                                         child: Container(
                                                           child: Card(
                                                             shape:
@@ -358,8 +368,9 @@ class CreateActivityView extends StatelessWidget {
                                                                         uid);
                                                               },
                                                               child: Padding(
-                                                                padding: const EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
                                                                         top: 10,
                                                                         bottom:
                                                                             10,
@@ -368,8 +379,7 @@ class CreateActivityView extends StatelessWidget {
                                                                         left:
                                                                             10),
                                                                 child: Row(
-                                                                  children: <
-                                                                      Widget>[
+                                                                  children: <Widget>[
                                                                     /*IconButton(
                                                                   icon: Icon(Icons
                                                                       .clear),
@@ -445,7 +455,8 @@ class CreateActivityView extends StatelessWidget {
                                                   Icon(
                                                     Icons.bubble_chart,
                                                     color: Theme.of(context)
-                                                        .colorScheme.secondary,
+                                                        .colorScheme
+                                                        .secondary,
                                                     size: 35,
                                                   ),
                                                   const Padding(
@@ -481,7 +492,7 @@ class CreateActivityView extends StatelessWidget {
                         ],
                       );
                     })),
-              )));
+              ))));
         }));
   }
 }

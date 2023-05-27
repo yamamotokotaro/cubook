@@ -27,8 +27,7 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
   bool isFinish = false;
   bool isAdmin = false;
 
-  void migrateAccount(BuildContext context, String? documentID) async {
-    print('start migrating...');
+  Future<void> migrateAccount(BuildContext context, String? documentID) async {
     isLoading = true;
     notifyListeners();
     final User? user = FirebaseAuth.instance.currentUser;
@@ -36,21 +35,20 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
       user.getIdTokenResult().then((IdTokenResult token) async {
         const String url =
             'https://asia-northeast1-cubook-3c960.cloudfunctions.net/executeMigration';
-        final Map<String, String> headers = {'content-type': 'application/json'};
+        final Map<String, String> headers = {
+          'content-type': 'application/json'
+        };
         final String body = json.encode(<String, dynamic>{
           'idToken': token.token,
           'documentID': documentID
         });
 
         final http.Response resp =
-        await http.post(Uri.parse(url), headers: headers, body: body);
+            await http.post(Uri.parse(url), headers: headers, body: body);
         isLoading = false;
-        print('end');
-        print(resp.body);
         if (resp.body == 'sucess') {
           isFinish = true;
-          print('sucess');
-        } else if(resp.body == 'you are not admin'){
+        } else if (resp.body == 'you are not admin') {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('アカウントの移行は管理者のみ操作可能です'),
           ));
@@ -61,8 +59,7 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
     }
   }
 
-  void rejectMigrate(BuildContext context, String? documentID) async {
-    print('start migrating...');
+  Future<void> rejectMigrate(BuildContext context, String? documentID) async {
     isLoading = true;
     notifyListeners();
     final User? user = FirebaseAuth.instance.currentUser;
@@ -70,21 +67,20 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
       user.getIdTokenResult().then((IdTokenResult token) async {
         const String url =
             'https://asia-northeast1-cubook-3c960.cloudfunctions.net/rejectMigration';
-        final Map<String, String> headers = {'content-type': 'application/json'};
+        final Map<String, String> headers = {
+          'content-type': 'application/json'
+        };
         final String body = json.encode(<String, dynamic>{
           'idToken': token.token,
           'documentID': documentID
         });
 
         final http.Response resp =
-        await http.post(Uri.parse(url), headers: headers, body: body);
+            await http.post(Uri.parse(url), headers: headers, body: body);
         isLoading = false;
-        print('end');
-        print(resp.body);
         if (resp.body == 'sucess') {
           isFinish = true;
-          print('sucess');
-        } else if(resp.body == 'you are not admin'){
+        } else if (resp.body == 'you are not admin') {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('アカウントの移行は管理者のみ操作可能です'),
           ));

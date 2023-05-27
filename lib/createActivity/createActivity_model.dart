@@ -22,16 +22,21 @@ class CreateActivityModel extends ChangeNotifier {
   List<String?> list_notApplicable = <String?>[];
   List<Map<String, dynamic>> list_selected = <Map<String, dynamic>>[];
 
-  void onPressedSelectItem(BuildContext context) async {
+  Future<void> onPressedSelectItem(BuildContext context) async {
     itemSelected = await Navigator.of(context).pushNamed('/addLumpSelectItem');
     if (itemSelected != null) {
       list_selected = <Map<String, dynamic>>[];
     }
     list_selected = <Map<String, dynamic>>[];
-    final List<String> listCategory = ['usagi', 'sika', 'kuma', 'tukinowa', 'challenge'];
+    final List<String> listCategory = [
+      'usagi',
+      'sika',
+      'kuma',
+      'tukinowa',
+      'challenge'
+    ];
     for (int i = 0; i < listCategory.length; i++) {
       final List<dynamic> dataItem = <dynamic>[];
-      print(itemSelected);
       if (itemSelected[listCategory[i]] != null) {
         final List<dynamic> pageItem = itemSelected[listCategory[i]];
         for (int k = 0; k < pageItem.length; k++) {
@@ -57,11 +62,10 @@ class CreateActivityModel extends ChangeNotifier {
         }
       }
     }
-    print(list_selected);
     notifyListeners();
   }
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     String? groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser!;
     //user.getIdToken(refresh: true);
@@ -100,7 +104,7 @@ class CreateActivityModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void openTimePicker(DateTime dateTime, BuildContext context) async {
+  Future<void> openTimePicker(DateTime dateTime, BuildContext context) async {
     final DateTime? dateGet = await showDatePicker(
       context: context,
       firstDate: DateTime(DateTime.now().year - 5),
@@ -122,7 +126,7 @@ class CreateActivityModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onSend(BuildContext context) async {
+  Future<void> onSend(BuildContext context) async {
     if (titleController.text != '') {
       isLoading = true;
       notifyListeners();
@@ -204,12 +208,19 @@ class CreateActivityModel extends ChangeNotifier {
               data['type'] = 'activity';
               data['activityID'] = docID;
               data['uid_toAdd'] = listUid;
-              final List<String> listCategory = ['usagi', 'sika', 'kuma', 'tukinowa', 'challenge'];
+              final List<String> listCategory = [
+                'usagi',
+                'sika',
+                'kuma',
+                'tukinowa',
+                'challenge'
+              ];
               if (itemSelected != null) {
                 for (int i = 0; i < listCategory.length; i++) {
                   final List<dynamic> dataItem = <dynamic>[];
                   if (itemSelected[listCategory[i]] != null) {
-                    final List<dynamic> pageItem = itemSelected[listCategory[i]];
+                    final List<dynamic> pageItem =
+                        itemSelected[listCategory[i]];
                     for (int k = 0; k < pageItem.length; k++) {
                       final List<dynamic> numberItem = pageItem[k];
                       final Map<String, dynamic> toAdd = <String, dynamic>{};
@@ -243,7 +254,6 @@ class CreateActivityModel extends ChangeNotifier {
                 EmptyError = false;
                 isLoading = false;
               });
-              print(data);
             });
           });
         }

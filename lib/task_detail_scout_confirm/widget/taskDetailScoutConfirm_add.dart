@@ -6,6 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TaskDetailScoutConfirmAddView extends StatelessWidget {
+  TaskDetailScoutConfirmAddView(int? _index, String? _type, String _mes) {
+    themeColor = theme.getThemeColor(_type);
+    index_page = _index;
+    type = _type;
+    mes = _mes;
+  }
   int? index_page;
   String? type;
   Color? themeColor;
@@ -15,16 +21,13 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
   TaskContents task = TaskContents();
   ThemeInfo theme = ThemeInfo();
 
-  TaskDetailScoutConfirmAddView(int? _index, String? _type, String _mes) {
-    themeColor = theme.getThemeColor(_type);
-    index_page = _index;
-    type = _type;
-    mes = _mes;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Consumer<TaskDetailScoutConfirmModel>(builder: (BuildContext context, TaskDetailScoutConfirmModel model, _) {
+    final ColorScheme scheme = ColorScheme.fromSeed(
+        seedColor: themeColor!,
+        brightness: MediaQuery.of(context).platformBrightness);
+    return Consumer<TaskDetailScoutConfirmModel>(
+        builder: (BuildContext context, TaskDetailScoutConfirmModel model, _) {
       content = task.getContent(type, model.page, index_page);
       if (content['common'] != null) {
         taskInfo = task.getPartMap(
@@ -35,11 +38,10 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(0),
-                    topRight: Radius.circular(0)),
+                    topLeft: Radius.circular(0), topRight: Radius.circular(0)),
                 color: themeColor),
-            child: Column(
-              children: const <Widget>[
+            child: const Column(
+              children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 40, bottom: 20),
                   child: Center(
@@ -54,13 +56,17 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                 ),
               ],
             )),
-        if (mes != '') Padding(
-                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-                child: Text(
-                  mes!,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                )) else Container(),
+        if (mes != '')
+          Padding(
+              padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+              child: Text(
+                mes!,
+                textAlign: TextAlign.center,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ))
+        else
+          Container(),
         Container(
             height: MediaQuery.of(context).size.height > 700
                 ? MediaQuery.of(context).size.height - 334
@@ -68,140 +74,88 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Column(
               children: <Widget>[
-                /*Padding(
-                    padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-                    child: FlatButton.icon(
-                      onPressed: () async {
-                        var result = await showModalBottomSheet<int>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Padding(
-                                        padding: EdgeInsets.all(0),
-                                        child: Container(
-                                          width: double.infinity,
-                                          child: Text(
-                                            task
-                                                .getContent(type, model.page,
-                                                    index_page)
-                                                .toString(),
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        )),
-                                    Padding(
-                                        padding: EdgeInsets.all(0),
-                                        child: Container(
-                                          width: double.infinity,
-                                          child: Text(
-                                            '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        )),
-                                  ],
-                                ));
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.sort,
-                        size: 20,
-                      ),
-                      label: Text(
-                        '内容を見る',
-                        style: TextStyle(
-                          fontSize: 15,
+                if ((type != 'risu' &&
+                        type != 'usagi' &&
+                        type != 'sika' &&
+                        type != 'kuma' &&
+                        type != 'challenge' &&
+                        type != 'tukinowa') ||
+                    model.group == ' j27DETWHGYEfpyp2Y292' ||
+                    model.group == ' z4pkBhhgr0fUMN4evr5z')
+                  Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: ExpandText(
+                        content['body'],
+                        maxLines: 3,
+                        style: const TextStyle(
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
-                    )),*/
-                if ((type != 'risu' &&
-                            type != 'usagi' &&
-                            type != 'sika' &&
-                            type != 'kuma' &&
-                            type != 'challenge' &&
-                            type != 'tukinowa') ||
-                        model.group == ' j27DETWHGYEfpyp2Y292' ||
-                        model.group == ' z4pkBhhgr0fUMN4evr5z') Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: ExpandText(
-                          content['body'],
-                          maxLines: 3,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.justify,
-                        )) else Container(),
-                if (content['common'] != null) Padding(
-                        padding: const EdgeInsets.only(
-                            top: 5, bottom: 10, right: 10, left: 10),
-                        child: Text(
-                          theme.getTitle(content['common']['type'])! +
-                              ' ' +
-                              taskInfo!['title'] +
-                              ' (' +
-                              task.getNumber(
-                                  content['common']['type'],
-                                  content['common']['page'],
-                                  content['common']['number'])! +
-                              ')\nもサインされます',
-                          textAlign: TextAlign.center,
-                        )) else Container(),
-                if (model.isLast) Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Checkbox(
-                              onChanged: model.onPressCheckbox,
-                              activeColor: themeColor,
-                              value: model.checkCitation,
-                            ),
-                            const Text('表彰待ちリストに追加しない')
-                          ],
+                        textAlign: TextAlign.justify,
+                      ))
+                else
+                  Container(),
+                if (content['common'] != null)
+                  Padding(
+                      padding: const EdgeInsets.only(
+                          top: 5, bottom: 10, right: 10, left: 10),
+                      child: Text(
+                        theme.getTitle(content['common']['type'])! +
+                            ' ' +
+                            taskInfo!['title'] +
+                            ' (' +
+                            task.getNumber(
+                                content['common']['type'],
+                                content['common']['page'],
+                                content['common']['number'])! +
+                            ')\nもサインされます',
+                        textAlign: TextAlign.center,
+                      ))
+                else
+                  Container(),
+                if (model.isLast)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Checkbox(
+                          onChanged: model.onPressCheckbox,
+                          activeColor: themeColor,
+                          value: model.checkCitation,
                         ),
-                      ) else Container(),
-                if (!model.isLoading[index_page!]) Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: RaisedButton.icon(
+                        const Text('表彰待ちリストに追加しない')
+                      ],
+                    ),
+                  )
+                else
+                  Container(),
+                if (!model.isLoading[index_page!])
+                  Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: FilledButton.icon(
                           onPressed: () {
                             model.onTapSend(index_page!);
                           },
-                          icon: const Icon(
-                            Icons.edit,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                          color: themeColor,
-                          label: const Text(
+                          icon: Icon(Icons.edit, color: scheme.onPrimary),
+                          label: Text(
                             'サインする',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                            style: TextStyle(color: scheme.onPrimary),
                           ),
-                        )) else Container(
-                        child: Container(
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color?>(themeColor),
-                            ),
-                          ),
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  scheme.primary))))
+                else
+                  Container(
+                    child: Container(
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color?>(themeColor),
                         ),
                       ),
+                    ),
+                  ),
               ],
             )))
       ]);

@@ -4,21 +4,20 @@ import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'home_controller.dart';
 
 class HomeView extends StatelessWidget {
-  String? group;
-  String? position;
-  math.Random random = math.Random();
-
   HomeView(String? _group, String? _position) {
     group = _group;
     position = _position;
   }
+  String? group;
+  String? position;
+  math.Random random = math.Random();
 
   @override
   Widget build(BuildContext context) {
@@ -97,38 +96,43 @@ class HomeView extends StatelessWidget {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(20.0))),
                                     content: SingleChildScrollView(child:
-                                        Consumer<HomeModel>(
-                                            builder: (BuildContext context, HomeModel model, Widget? child) {
+                                        Consumer<HomeModel>(builder:
+                                            (BuildContext context,
+                                                HomeModel model,
+                                                Widget? child) {
                                       return Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
-                                          if (model.providerID == 'password') ListTile(
-                                                  leading: const Icon(Icons.person),
-                                                  title: const Text('アカウント設定'),
-                                                  onTap: () {
-                                                    Navigator.of(context)
-                                                        .pushNamed(
-                                                            '/settingView');
-                                                  },
-                                                ) else Container(),
+                                          if (model.providerID == 'password')
+                                            ListTile(
+                                              leading: const Icon(Icons.person),
+                                              title: const Text('アカウント設定'),
+                                              onTap: () {
+                                                Navigator.of(context)
+                                                    .pushNamed('/settingView');
+                                              },
+                                            )
+                                          else
+                                            Container(),
                                           ListTile(
                                             leading: const Icon(Icons.people),
                                             title: const Text('グループ設定'),
                                             onTap: () {
-                                              Navigator.of(context)
-                                                  .pushNamed(
+                                              Navigator.of(context).pushNamed(
                                                   '/settingGroupView');
                                             },
                                           ),
                                           ListTile(
-                                            leading: const Icon(Icons.help_outline),
+                                            leading:
+                                                const Icon(Icons.help_outline),
                                             title: const Text('ヘルプ'),
                                             onTap: () => launchURL(),
                                           ),
                                           ListTile(
                                             leading: const Icon(Icons.message),
                                             title: const Text('LINE 相談室'),
-                                            onTap: () => launch('https://line.me/ti/g2/jVMqoNTHAJ6Gy_2uIlTf58ak7omrt1iILlHPVA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default'),
+                                            onTap: () => launch(
+                                                'https://line.me/ti/g2/jVMqoNTHAJ6Gy_2uIlTf58ak7omrt1iILlHPVA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default'),
                                           ),
                                           ListTile(
                                             leading: const Icon(Icons.list),
@@ -137,8 +141,7 @@ class HomeView extends StatelessWidget {
                                                 ? showLicensePage(
                                                     context: context,
                                                     applicationName: 'cubook',
-                                                    applicationVersion:
-                                                        'web',
+                                                    applicationVersion: 'web',
                                                     applicationLegalese:
                                                         '©︎ 2020-2022 山本虎太郎',
                                                   )
@@ -152,7 +155,8 @@ class HomeView extends StatelessWidget {
                                                   ),
                                           ),
                                           ListTile(
-                                            leading: const Icon(Icons.exit_to_app),
+                                            leading:
+                                                const Icon(Icons.exit_to_app),
                                             title: const Text('ログアウト'),
                                             onTap: () {
                                               model.logout();
@@ -178,8 +182,10 @@ class HomeView extends StatelessWidget {
                         )))),
             const Spacer(),
             Selector<HomeModel, String?>(
-              selector: (BuildContext context, HomeModel model) => model.groupName,
-              builder: (BuildContext context, String? name, Widget? child) => Padding(
+              selector: (BuildContext context, HomeModel model) =>
+                  model.groupName,
+              builder: (BuildContext context, String? name, Widget? child) =>
+                  Padding(
                 padding: const EdgeInsets.only(top: 12, right: 15),
                 child: Text(
                   name!,
@@ -194,8 +200,10 @@ class HomeView extends StatelessWidget {
         ),
         Selector<HomeModel, String?>(
           selector: (BuildContext context, HomeModel model) => model.username,
-          builder: (BuildContext context, String? name, Widget? child) => Padding(
-            padding: const EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
+          builder: (BuildContext context, String? name, Widget? child) =>
+              Padding(
+            padding:
+                const EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
             child: Text(
               name! + '、' + greet,
               style: const TextStyle(
@@ -210,7 +218,8 @@ class HomeView extends StatelessWidget {
             if (model.currentUser == null) {
               model.login();
               return Center(
-                child: Padding(padding: const EdgeInsets.all(5), child: Container()),
+                child: Padding(
+                    padding: const EdgeInsets.all(5), child: Container()),
               );
             } else {
               return model.toShow;
@@ -223,7 +232,7 @@ class HomeView extends StatelessWidget {
   }
 }
 
-void launchURL() async {
+Future<void> launchURL() async {
   const String url = 'https://sites.google.com/view/cubookinfo/qa';
   if (await canLaunch(url)) {
     await launch(url);

@@ -5,7 +5,6 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ListCitationAnalyticsView extends StatelessWidget {
@@ -14,19 +13,16 @@ class ListCitationAnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark;
-    if (Theme.of(context).colorScheme.secondary == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
+    final bool isDark =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('表彰待ちリスト'), systemOverlayStyle: SystemUiOverlayStyle.light,
+          title: const Text('表彰待ちリスト'),
         ),
         body: Builder(builder: (BuildContext contextBuilder) {
           return SafeArea(
-            child: SingleChildScrollView(
+            child: Scrollbar(
+                child: SingleChildScrollView(
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 600),
@@ -34,8 +30,10 @@ class ListCitationAnalyticsView extends StatelessWidget {
                     children: <Widget>[
                       Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 10),
-                          child: Consumer<ListCitationAnalyticsModel>(
-                              builder: (BuildContext context, ListCitationAnalyticsModel model, Widget? child) {
+                          child: Consumer<ListCitationAnalyticsModel>(builder:
+                              (BuildContext context,
+                                  ListCitationAnalyticsModel model,
+                                  Widget? child) {
                             model.getGroup();
                             if (model.group != null) {
                               return Column(
@@ -56,7 +54,8 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                         const String teamLast = '';
                                         if (snapshot.hasData) {
                                           const int userCount = 0;
-                                          final List<DocumentSnapshot> listSnapshot =
+                                          final List<DocumentSnapshot>
+                                              listSnapshot =
                                               snapshot.data!.docs;
                                           return ListView.builder(
                                               physics:
@@ -66,7 +65,8 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                final DocumentSnapshot userSnapshot =
+                                                final DocumentSnapshot
+                                                    userSnapshot =
                                                     listSnapshot[index];
                                                 return StreamBuilder<
                                                     QuerySnapshot>(
@@ -74,13 +74,12 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                       .instance
                                                       .collection('challenge')
                                                       .where('group',
-                                                          isEqualTo: model
-                                                              .group)
+                                                          isEqualTo:
+                                                              model.group)
                                                       .where('uid',
                                                           isEqualTo:
                                                               userSnapshot
-                                                                      .get(
-                                                                  'uid'))
+                                                                  .get('uid'))
                                                       .where('isCitationed',
                                                           isEqualTo: false)
                                                       .orderBy('page',
@@ -93,9 +92,8 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                   QuerySnapshot>
                                                               snapshot) {
                                                     if (snapshot.hasData) {
-                                                      if (snapshot
-                                                              .data!
-                                                              .docs.isNotEmpty) {
+                                                      if (snapshot.data!.docs
+                                                          .isNotEmpty) {
                                                         final QuerySnapshot
                                                             querySnapshot =
                                                             snapshot.data!;
@@ -103,16 +101,13 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                             children: [
                                                               Padding(
                                                                   padding: const EdgeInsets
-                                                                      .only(
-                                                                          top:
-                                                                              20,
-                                                                          bottom:
-                                                                              12,
-                                                                          left:
-                                                                              12),
+                                                                          .only(
+                                                                      top: 20,
+                                                                      bottom:
+                                                                          12,
+                                                                      left: 12),
                                                                   child: Row(
-                                                                    children: <
-                                                                        Widget>[
+                                                                    children: <Widget>[
                                                                       Container(
                                                                         width:
                                                                             40,
@@ -160,10 +155,11 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                         snapshot =
                                                                         querySnapshot
                                                                             .docs[index];
-                                                                    final Map taskInfo = task.getPartMap(
-                                                                        'challenge',
-                                                                        snapshot
-                                                                            .get('page'))!;
+                                                                    final Map
+                                                                        taskInfo =
+                                                                        task.getPartMap(
+                                                                            'challenge',
+                                                                            snapshot.get('page'))!;
                                                                     return Padding(
                                                                       padding:
                                                                           const EdgeInsets.all(
@@ -181,7 +177,6 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                               InkWell(
                                                                             onTap:
                                                                                 () async {
-                                                                              print(snapshot.get('page'));
                                                                               Navigator.of(context).push<dynamic>(MyPageRoute(page: showTaskConfirmView(snapshot.get('page'), 'challenge', snapshot.get('uid'), 0), dismissible: true));
                                                                             },
                                                                             child:
@@ -275,7 +270,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            )),
           );
         }));
   }

@@ -21,10 +21,11 @@ class HomeScoutView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-
         Selector<HomeModel, DocumentSnapshot?>(
-          selector: (BuildContext context, HomeModel model) => model.userSnapshot,
-          builder: (BuildContext context, DocumentSnapshot<Object?>? userSnapshot, Widget? child) {
+          selector: (BuildContext context, HomeModel model) =>
+              model.userSnapshot,
+          builder: (BuildContext context,
+              DocumentSnapshot<Object?>? userSnapshot, Widget? child) {
             DateTime? timeChecked;
             Map<String, dynamic>? userData;
             userData = userSnapshot!.data() as Map<String, dynamic>?;
@@ -35,14 +36,14 @@ class HomeScoutView extends StatelessWidget {
             return StreamBuilder<QuerySnapshot>(
                 stream: timeChecked != null
                     ? FirebaseFirestore.instance
-                    .collection('notification')
-                    .where('uid', isEqualTo: userSnapshot.get('uid'))
-                    .where('time', isGreaterThan: timeChecked)
-                    .snapshots()
+                        .collection('notification')
+                        .where('uid', isEqualTo: userSnapshot.get('uid'))
+                        .where('time', isGreaterThan: timeChecked)
+                        .snapshots()
                     : FirebaseFirestore.instance
-                    .collection('notification')
-                    .where('uid', isEqualTo: userSnapshot.get('uid'))
-                    .snapshots(),
+                        .collection('notification')
+                        .where('uid', isEqualTo: userSnapshot.get('uid'))
+                        .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData) {
@@ -52,47 +53,48 @@ class HomeScoutView extends StatelessWidget {
                           top: 5, left: 10, right: 10, bottom: 5),
                       child: Container(
                           child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute<InviteView>(
-                                        builder: (BuildContext context) {
-                                          return NotificationView();
-                                        }));
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.notifications,
-                                        color: Theme.of(context).colorScheme.secondary,
-                                        size: 35,
-                                      ),
-                                      Padding(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          child: Material(
-                                            type: MaterialType.transparency,
-                                            child: Text(
-                                              snapshotLength != 0
-                                                  ? 'お知らせ ' +
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute<InviteView>(
+                                    builder: (BuildContext context) {
+                              return NotificationView();
+                            }));
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.notifications,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    size: 35,
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Material(
+                                        type: MaterialType.transparency,
+                                        child: Text(
+                                          snapshotLength != 0
+                                              ? 'お知らせ ' +
                                                   snapshotLength.toString() +
                                                   '件'
-                                                  : 'お知らせ',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 30,
-                                              ),
-                                            ),
-                                          )),
-                                    ]),
-                              ),
-                            ),
-                          )),
+                                              : 'お知らせ',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 30,
+                                          ),
+                                        ),
+                                      )),
+                                ]),
+                          ),
+                        ),
+                      )),
                     );
                   } else {
                     return const Center(
@@ -105,68 +107,68 @@ class HomeScoutView extends StatelessWidget {
           },
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
+          padding:
+              const EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 10),
           child: Container(
               child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: InkWell(
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/listAbsentScout');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.event,
-                            color: Theme.of(context).colorScheme.secondary,
-                            size: 35,
-                          ),
-                          const Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: Text(
-                                  '活動記録',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 30),
-                                ),
-                              )),
-                        ]),
-                  ),
-                ),
-              )),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: InkWell(
+              customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed('/listAbsentScout');
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.event,
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 35,
+                      ),
+                      const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Material(
+                            type: MaterialType.transparency,
+                            child: Text(
+                              '活動のきろく',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal, fontSize: 30),
+                            ),
+                          )),
+                    ]),
+              ),
+            ),
+          )),
         ),
         Center(
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5, top: 4),
-                    child: Icon(
-                      Icons.book,
-                      color: Theme.of(context).colorScheme.secondary,
-                      size: 32,
-                    ),
-                  ),
-                  const Text(
-                    'やってみよう！',
-                    style: TextStyle(
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.none),
-                  ),
-                ])),
-
-        Consumer<HomeModel>(builder: (BuildContext context, HomeModel model, Widget? child) {
+              Padding(
+                padding: const EdgeInsets.only(right: 5, top: 4),
+                child: Icon(
+                  Icons.book,
+                  color: Theme.of(context).colorScheme.secondary,
+                  size: 32,
+                ),
+              ),
+              const Text(
+                'やってみよう！',
+                style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.none),
+              ),
+            ])),
+        Consumer<HomeModel>(
+            builder: (BuildContext context, HomeModel model, Widget? child) {
           final List<String?> type = <String?>[];
           final String? age = model.age;
           final String? grade = model.grade;
@@ -200,20 +202,16 @@ class HomeScoutView extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               onTap: () {
-                                if (task
-                                    .getAllMap(type[index])!
-                                    .length != 1) {
+                                if (task.getAllMap(type[index])!.length != 1) {
                                   Navigator.push(context,
                                       MaterialPageRoute<TaskListScoutView>(
                                           builder: (BuildContext context) {
-                                            return TaskListScoutView(
-                                                type[index]);
-                                          }));
+                                    return TaskListScoutView(type[index]);
+                                  }));
                                 } else {
                                   Navigator.of(context).push<dynamic>(
                                       MyPageRoute(
-                                          page: showTaskView(
-                                              0, type[index], 0),
+                                          page: showTaskView(0, type[index], 0),
                                           dismissible: true));
                                 }
                               },
@@ -226,57 +224,65 @@ class HomeScoutView extends StatelessWidget {
                                           left: 12,
                                           right: 10),
                                       child: Selector<HomeModel,
-                                          DocumentSnapshot?>(
-                                          selector: (BuildContext context, HomeModel model) =>
-                                          model.userSnapshot,
-                                          builder: (BuildContext context, DocumentSnapshot<Object?>? snapshot, Widget? child) {
-                                            final Map<String, dynamic>? stepData = snapshot!.data() as Map<String, dynamic>?;
-                                          return snapshot !=
-                                              null
-                                              ? stepData![type[index]!] !=
-                                              null
-                                              ? CircularProgressIndicator(
-                                              backgroundColor: theme
-                                                  .getIndicatorColor(
-                                                  type[index]),
-                                              valueColor: const AlwaysStoppedAnimation<
-                                                  Color>(
-                                                  Colors.white),
-                                              value: snapshot
-                                                  .get(type[index]!).length /
-                                                  task
-                                                      .getAllMap(
-                                                      type[index])!
-                                                      .length)
-                                              : CircularProgressIndicator(
-                                              backgroundColor: theme
-                                                  .getIndicatorColor(
-                                                  type[index]),
-                                              valueColor: const AlwaysStoppedAnimation<
-                                                  Color>(Colors.white),
-                                              value: 0)
-                                              : CircularProgressIndicator(
-                                            backgroundColor:
-                                            theme.getIndicatorColor(
-                                                type[index]),
-                                            valueColor:
-                                            const AlwaysStoppedAnimation<
-                                                Color>(Colors.white),
-                                          );})),
+                                              DocumentSnapshot?>(
+                                          selector: (BuildContext context,
+                                                  HomeModel model) =>
+                                              model.userSnapshot,
+                                          builder: (BuildContext context,
+                                              DocumentSnapshot<Object?>?
+                                                  snapshot,
+                                              Widget? child) {
+                                            final Map<String, dynamic>?
+                                                stepData = snapshot!.data()
+                                                    as Map<String, dynamic>?;
+                                            return snapshot != null
+                                                ? stepData![type[index]!] !=
+                                                        null
+                                                    ? CircularProgressIndicator(
+                                                        backgroundColor: theme
+                                                            .getIndicatorColor(
+                                                                type[index]),
+                                                        valueColor:
+                                                            const AlwaysStoppedAnimation<Color>(
+                                                                Colors.white),
+                                                        value: snapshot.get(type[index]!).length /
+                                                            task
+                                                                .getAllMap(type[
+                                                                    index])!
+                                                                .length)
+                                                    : CircularProgressIndicator(
+                                                        backgroundColor: theme
+                                                            .getIndicatorColor(
+                                                                type[index]),
+                                                        valueColor:
+                                                            const AlwaysStoppedAnimation<Color>(
+                                                                Colors.white),
+                                                        value: 0)
+                                                : CircularProgressIndicator(
+                                                    backgroundColor:
+                                                        theme.getIndicatorColor(
+                                                            type[index]),
+                                                    valueColor:
+                                                        const AlwaysStoppedAnimation<
+                                                                Color>(
+                                                            Colors.white),
+                                                  );
+                                          })),
                                   Padding(
                                       padding: const EdgeInsets.only(left: 10),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 10, bottom: 10),
                                               child: Align(
                                                   alignment:
-                                                  Alignment.centerLeft,
+                                                      Alignment.centerLeft,
                                                   child: Text(
-                                                    theme.getTitle(type[index])!,
+                                                    theme
+                                                        .getTitle(type[index])!,
                                                     style: const TextStyle(
                                                         fontSize: 23,
                                                         color: Colors.white),
@@ -292,7 +298,7 @@ class HomeScoutView extends StatelessWidget {
     );
   }
 
-  void logout() async {
+  Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
   }
 }

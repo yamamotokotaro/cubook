@@ -9,20 +9,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TabInfo {
-  String label;
-  Widget widget;
 
   TabInfo(this.label, this.widget);
+  String label;
+  Widget widget;
 }
 
 class SelectBook extends StatelessWidget {
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-  String? uid;
 
   SelectBook(String? uid) {
     this.uid = uid;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  String? uid;
 
   @override
   Widget build(BuildContext context) {

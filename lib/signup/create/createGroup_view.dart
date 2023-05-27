@@ -10,7 +10,8 @@ class CreateGroupView extends StatelessWidget {
     return Container(
         child: GestureDetector(onTap: () {
       FocusScope.of(context).unfocus();
-    }, child: Consumer<SignupModel>(builder: (BuildContext context, SignupModel model, Widget? child) {
+    }, child: Consumer<SignupModel>(
+            builder: (BuildContext context, SignupModel model, Widget? child) {
       return Center(
           child: Column(children: <Widget>[
         const Padding(
@@ -19,47 +20,50 @@ class CreateGroupView extends StatelessWidget {
             'グループを新規作成します\n以下の項目を入力してください',
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold,),
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-        if (model.mes_join != '') Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: Text(
-                  model.mes_join,
-                  style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red),
-                ),
-              ) else Container(),
-            Padding(
-                padding:
-                const EdgeInsets.only(left: 10, right: 10),
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  value: model.dropdown_text,
-                  hint: const Text('隊を選択'),
-                  items: <String>[/*'ビーバー隊', */'カブ隊', 'ボーイ隊', 'ベンチャー隊']
-                      .map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? value) {
-                    model.onDropdownChanged(value);
-                  },
-                )),
+        if (model.mes_join != '')
+          Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: Text(
+              model.mes_join,
+              style: const TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+            ),
+          )
+        else
+          Container(),
+        Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: DropdownButton<String>(
+              isExpanded: true,
+              value: model.dropdown_text,
+              hint: const Text('隊を選択'),
+              items: <String>[/*'ビーバー隊', */ 'カブ隊', 'ボーイ隊', 'ベンチャー隊']
+                  .map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String? value) {
+                model.onDropdownChanged(value);
+              },
+            )),
         Padding(
           padding: const EdgeInsets.all(10),
           child: TextField(
-            maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.groupController,
+            maxLengthEnforcement: MaxLengthEnforcement.none,
+            controller: model.groupController,
             enabled: true,
             // 入力数
             keyboardType: TextInputType.multiline,
             maxLines: null,
-            decoration:
-                const InputDecoration(labelText: 'グループの名前', hintText: '例）杉並〇〇団'),
+            decoration: const InputDecoration(
+                labelText: 'グループの名前', hintText: '例）杉並〇〇団'),
             onChanged: (String text) {
               model.joinCode = text;
             },
@@ -68,7 +72,8 @@ class CreateGroupView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(10),
           child: TextField(
-            maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.familyController,
+            maxLengthEnforcement: MaxLengthEnforcement.none,
+            controller: model.familyController,
             enabled: true,
             // 入力数
             keyboardType: TextInputType.multiline,
@@ -82,7 +87,8 @@ class CreateGroupView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(10),
           child: TextField(
-            maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.firstController,
+            maxLengthEnforcement: MaxLengthEnforcement.none,
+            controller: model.firstController,
             enabled: true,
             // 入力数
             keyboardType: TextInputType.multiline,
@@ -99,11 +105,12 @@ class CreateGroupView extends StatelessWidget {
             '利用規約を確認の上、「利用規約に同意する」にチェックしてください',
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.normal,),
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+            ),
           ),
         ),
-        FlatButton(
+        TextButton(
           onPressed: () {
             model.launchTermURL();
           },
@@ -132,8 +139,7 @@ class CreateGroupView extends StatelessWidget {
               ? const Padding(
                   padding: EdgeInsets.all(10),
                   child: CircularProgressIndicator())
-              : RaisedButton(
-                  color: Colors.blue[900],
+              : ElevatedButton(
                   onPressed: () {
                     model.createRequest();
                   },

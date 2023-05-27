@@ -16,7 +16,7 @@ class SettingAccountModel extends ChangeNotifier {
   String? mailAddress;
   Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getUser() async {
+  Future<void> getUser() async {
     final String? uidBefore = uid;
     final String? mailAddressBefore = mailAddress;
     final User? user = FirebaseAuth.instance.currentUser;
@@ -29,13 +29,13 @@ class SettingAccountModel extends ChangeNotifier {
     }
   }
 
-  void changeEmail(BuildContext context) async {
+  Future<void> changeEmail(BuildContext context) async {
     if (RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(addressController.text)) {
       try {
         await currentUser!.updateEmail(addressController.text);
-        Scaffold.of(context).showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('メールアドレスを変更しました'),
         ));
       } catch (error) {
@@ -58,15 +58,17 @@ class SettingAccountModel extends ChangeNotifier {
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     content: SingleChildScrollView(child:
-                        Consumer<SettingAccountModel>(
-                            builder: (BuildContext context, SettingAccountModel model, Widget? child) {
+                        Consumer<SettingAccountModel>(builder:
+                            (BuildContext context, SettingAccountModel model,
+                                Widget? child) {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.all(0),
                             child: TextField(
-                              maxLengthEnforcement: MaxLengthEnforcement.none, controller: model.passwordController,
+                              maxLengthEnforcement: MaxLengthEnforcement.none,
+                              controller: model.passwordController,
                               enabled: true,
                               obscureText: true,
                               decoration: InputDecoration(
@@ -80,13 +82,14 @@ class SettingAccountModel extends ChangeNotifier {
                       );
                     })),
                     actions: <Widget>[
-                      FlatButton(
+                      TextButton(
                         child: const Text('認証'),
                         onPressed: () async {
                           FocusScope.of(context).unfocus();
-                          final AuthCredential credential = EmailAuthProvider.credential(
-                              email: mailAddress!,
-                              password: passwordController.text);
+                          final AuthCredential credential =
+                              EmailAuthProvider.credential(
+                                  email: mailAddress!,
+                                  password: passwordController.text);
                           try {
                             await currentUser!
                                 .reauthenticateWithCredential(credential);
@@ -95,7 +98,6 @@ class SettingAccountModel extends ChangeNotifier {
                             Navigator.pop(context);
                           } catch (error) {
                             passwordError = true;
-                            print('error');
                             notifyListeners();
                           }
                         },
@@ -107,14 +109,14 @@ class SettingAccountModel extends ChangeNotifier {
     }
   }
 
-  void sendPasswordResetEmail(BuildContext context) async {
+  Future<void> sendPasswordResetEmail(BuildContext context) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: mailAddress!);
-      Scaffold.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('送信リクエストが完了しました'),
       ));
     } catch (error) {
-      Scaffold.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('エラーが発生しました'),
       ));
     }

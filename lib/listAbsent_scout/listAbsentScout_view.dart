@@ -8,13 +8,13 @@ class ListAbsentScoutView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('活動記録'),
+          title: const Text('活動のきろく'),
         ),
-        body: SafeArea(child:
-            Consumer<ListAbsentScoutModel>(builder: (BuildContext context, ListAbsentScoutModel model, Widget? child) {
+        body: Consumer<ListAbsentScoutModel>(builder:
+            (BuildContext context, ListAbsentScoutModel model, Widget? child) {
           model.getUser();
           if (model.uid != null) {
-            return ListAbsentView(model.uid);
+            return Scrollbar(child: ListAbsentView(model.uid));
           } else {
             return const Center(
               child: Padding(
@@ -22,6 +22,6 @@ class ListAbsentScoutView extends StatelessWidget {
                   child: CircularProgressIndicator()),
             );
           }
-        })));
+        }));
   }
 }

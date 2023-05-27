@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../settingAccount_model.dart';
@@ -15,15 +14,16 @@ class DeleteGroupAccount extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('アカウント削除'), systemOverlayStyle: SystemUiOverlayStyle.light,
+          title: const Text('アカウント削除'),
         ),
         body: SafeArea(
             child: SingleChildScrollView(
                 child: Center(
                     child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 600),
-                        child: Consumer<SettingAccountGroupModel>(
-                            builder: (BuildContext context, SettingAccountGroupModel model, Widget? child) {
+                        child: Consumer<SettingAccountGroupModel>(builder:
+                            (BuildContext context,
+                                SettingAccountGroupModel model, Widget? child) {
                           return Column(
                             children: <Widget>[
                               const Padding(
@@ -49,7 +49,8 @@ class DeleteGroupAccount extends StatelessWidget {
                                           AsyncSnapshot<QuerySnapshot>
                                               querysnapshot) {
                                         if (querysnapshot.hasData) {
-                                          if (querysnapshot.data!.docs.isNotEmpty) {
+                                          if (querysnapshot
+                                              .data!.docs.isNotEmpty) {
                                             final DocumentSnapshot snapshot =
                                                 querysnapshot.data!.docs[0];
                                             return Row(
@@ -62,8 +63,8 @@ class DeleteGroupAccount extends StatelessWidget {
                                                   decoration: BoxDecoration(
                                                       color:
                                                           theme.getThemeColor(
-                                                              snapshot.get(
-                                                                  'age')),
+                                                              snapshot
+                                                                  .get('age')),
                                                       shape: BoxShape.circle),
                                                   child: const Icon(
                                                     Icons.person,
@@ -71,8 +72,9 @@ class DeleteGroupAccount extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        left: 10),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10),
                                                     child: Text(
                                                       snapshot.get('name'),
                                                       style: const TextStyle(
@@ -111,11 +113,11 @@ class DeleteGroupAccount extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(5),
                                 child: Container(
-                                  child: Card(
+                                  child: const Card(
                                       child: Padding(
-                                    padding: const EdgeInsets.all(0),
+                                    padding: EdgeInsets.all(0),
                                     child: Column(
-                                      children: const <Widget>[
+                                      children: <Widget>[
                                         Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(
@@ -134,11 +136,11 @@ class DeleteGroupAccount extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(5),
                                 child: Container(
-                                  child: Card(
+                                  child: const Card(
                                       child: Padding(
-                                    padding: const EdgeInsets.all(0),
+                                    padding: EdgeInsets.all(0),
                                     child: Column(
-                                      children: const <Widget>[
+                                      children: <Widget>[
                                         Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(
@@ -156,17 +158,12 @@ class DeleteGroupAccount extends StatelessWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 10),
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.blue[900], //ボタンの背景色
-                                    ),
+                                child: FilledButton(
                                     onPressed: () async {
-                                      //model.inviteRequest(context);
                                       model.showDeleteSheet(context);
                                     },
                                     child: const Text(
                                       '削除を実行',
-                                      style: TextStyle(color: Colors.white),
                                     )),
                               )
                             ],

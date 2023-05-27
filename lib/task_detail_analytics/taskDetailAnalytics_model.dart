@@ -13,7 +13,7 @@ class TaskDetailAnalyticsModel extends ChangeNotifier {
   String? teamPosition;
   bool isGet = false;
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
@@ -23,7 +23,7 @@ class TaskDetailAnalyticsModel extends ChangeNotifier {
         .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
-      if(userSnapshot.get('position') == 'scout') {
+      if (userSnapshot.get('position') == 'scout') {
         team = userSnapshot.get('team');
         teamPosition = userSnapshot.get('teamPosition');
       }
@@ -40,8 +40,7 @@ class TaskDetailAnalyticsModel extends ChangeNotifier {
     });
   }
 
-  void getSnapshot(String uid) async {
-    print(uid);
+  Future<void> getSnapshot(String uid) async {
     final User user = FirebaseAuth.instance.currentUser!;
     currentUser = user;
     user.getIdTokenResult().then((IdTokenResult token) async {

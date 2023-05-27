@@ -9,7 +9,7 @@ class ListExaminationModel extends ChangeNotifier {
   String? group;
   Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getSnapshot() async {
+  Future<void> getSnapshot() async {
     final String? groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance
@@ -24,7 +24,7 @@ class ListExaminationModel extends ChangeNotifier {
     });
   }
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final User user = FirebaseAuth.instance.currentUser!;
     FirebaseFirestore.instance

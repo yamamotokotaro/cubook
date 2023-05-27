@@ -13,7 +13,7 @@ class ListAbsentModel extends ChangeNotifier {
   String? group_claim;
   Map<String, dynamic> claims = <String, dynamic>{};
 
-  void getGroup() async {
+  Future<void> getGroup() async {
     final String? groupBefore = group;
     final String? positionBefore = position;
     final User user = FirebaseAuth.instance.currentUser!;

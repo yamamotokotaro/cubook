@@ -11,7 +11,7 @@ class ListTaskWaitingModel extends ChangeNotifier {
   bool isGet = false;
   bool isLoaded = false;
 
-  void getSnapshot() async {
+  Future<void> getSnapshot() async {
     final String? groupBefore = group;
     final String? teamPositionBefore = teamPosition;
     final User user = FirebaseAuth.instance.currentUser!;
@@ -22,7 +22,7 @@ class ListTaskWaitingModel extends ChangeNotifier {
         .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
-      if(userSnapshot.get('position') == 'scout') {
+      if (userSnapshot.get('position') == 'scout') {
         team = userSnapshot.get('team');
         teamPosition = userSnapshot.get('teamPosition');
       }

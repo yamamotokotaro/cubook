@@ -7,13 +7,12 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListNotCititationed extends StatelessWidget {
-  TaskContents task = TaskContents();
-  ThemeInfo theme = ThemeInfo();
-  String? uid;
-
   ListNotCititationed(String _uid) {
     uid = _uid;
   }
+  TaskContents task = TaskContents();
+  ThemeInfo theme = ThemeInfo();
+  String? uid;
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +24,13 @@ class ListNotCititationed extends StatelessWidget {
             children: <Widget>[
               Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 10),
-                  child: Consumer<UserDetailModel>(
-                      builder: (BuildContext context, UserDetailModel model, Widget? child) {
+                  child: Consumer<UserDetailModel>(builder:
+                      (BuildContext context, UserDetailModel model,
+                          Widget? child) {
                     if (model.group == null) {
                       model.getGroup();
                     }
                     if (model.group != null) {
-                      print(uid);
                       final DateTime date = DateTime.now();
                       final DateTime newDate =
                           DateTime(date.year, date.month + 1, date.day);
@@ -50,7 +49,8 @@ class ListNotCititationed extends StatelessWidget {
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
                                 if (snapshot.data!.docs.isNotEmpty) {
-                                  final QuerySnapshot querySnapshot = snapshot.data!;
+                                  final QuerySnapshot querySnapshot =
+                                      snapshot.data!;
                                   return ListView.builder(
                                       physics:
                                           const NeverScrollableScrollPhysics(),
@@ -68,12 +68,14 @@ class ListNotCititationed extends StatelessWidget {
                                             child: Card(
                                               child: InkWell(
                                                 child: Padding(
-                                                  padding: const EdgeInsets.all(0),
+                                                  padding:
+                                                      const EdgeInsets.all(0),
                                                   child: Column(
                                                     children: <Widget>[
                                                       Padding(
                                                           padding:
-                                                              const EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                      .only(
                                                                   left: 10,
                                                                   top: 10),
                                                           child: Container(
@@ -97,7 +99,8 @@ class ListNotCititationed extends StatelessWidget {
                                                               ))),
                                                       Padding(
                                                           padding:
-                                                              const EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                      .only(
                                                                   left: 10,
                                                                   top: 6),
                                                           child: Container(
@@ -105,8 +108,9 @@ class ListNotCititationed extends StatelessWidget {
                                                                   .infinity,
                                                               child: Text(
                                                                 DateFormat('yyyy/MM/dd')
-                                                                        .format(
-                                                                            snapshot.get('end').toDate())
+                                                                        .format(snapshot
+                                                                            .get('end')
+                                                                            .toDate())
                                                                         .toString() +
                                                                     ' 完修',
                                                                 textAlign:
@@ -121,22 +125,21 @@ class ListNotCititationed extends StatelessWidget {
                                                               ))),
                                                       Padding(
                                                           padding:
-                                                              const EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                      .only(
                                                                   left: 10,
                                                                   top: 5),
                                                           child: Align(
                                                               alignment: Alignment
                                                                   .centerLeft,
-                                                              child: FlatButton(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(0),
+                                                              child: TextButton(
                                                                 onPressed: () {
                                                                   model.onTapCititation(
                                                                       snapshot
                                                                           .id);
                                                                 },
-                                                                child: const Text(
+                                                                child:
+                                                                    const Text(
                                                                   '表彰済みにする',
                                                                   style:
                                                                       TextStyle(
@@ -169,7 +172,8 @@ class ListNotCititationed extends StatelessWidget {
                                               Icon(
                                                 Icons.bubble_chart,
                                                 color: Theme.of(context)
-                                                    .colorScheme.secondary,
+                                                    .colorScheme
+                                                    .secondary,
                                                 size: 35,
                                               ),
                                               const Padding(
