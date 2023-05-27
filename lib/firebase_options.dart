@@ -25,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -67,6 +64,18 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyAK6uPDz6q2KbSdZUdmPkQ4mliWOXE3ea0',
+    appId: '1:753196410884:ios:33bea3fafc1800be4d2d51',
+    messagingSenderId: '753196410884',
+    projectId: 'cubook-3c960',
+    databaseURL: 'https://cubook-3c960.firebaseio.com',
+    storageBucket: 'cubook-3c960.appspot.com',
+    androidClientId: '753196410884-3sl2ttqinag71v41bg4d57nea0sfit9q.apps.googleusercontent.com',
+    iosClientId: '753196410884-jlmbkbv1enkm2vliuk300nq98p7rf6gv.apps.googleusercontent.com',
+    iosBundleId: 'app.kotakota.cubook',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAK6uPDz6q2KbSdZUdmPkQ4mliWOXE3ea0',
     appId: '1:753196410884:ios:33bea3fafc1800be4d2d51',
     messagingSenderId: '753196410884',
