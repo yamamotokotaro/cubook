@@ -65,7 +65,8 @@
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-9318890511624941~1239919817"
     },
     {
       "client_info": {
@@ -102,8 +103,7 @@
             }
           ]
         }
-      },
-      "admob_app_id": "ca-app-pub-9318890511624941~1239919817"
+      }
     }
   ],
   "configuration_version": "1"
