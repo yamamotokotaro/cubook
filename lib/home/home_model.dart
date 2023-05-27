@@ -2,11 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_view.dart';
 import 'package:cubook/home_scout/homeScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-<<<<<<< HEAD
-=======
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth_ui/firebase_auth_ui.dart' show FirebaseAuthUi;
->>>>>>> develop
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -126,7 +121,6 @@ class HomeModel extends ChangeNotifier {
               child: Text('エラーが発生しました'),
             );
           }
-<<<<<<< HEAD
           // 通知関係
           /*if (!isSended) {
             final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -134,14 +128,6 @@ class HomeModel extends ChangeNotifier {
               assert(tokenGet != null);
               token = tokenGet;
             });
-=======
-          if (!isSended) {
-            /*FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-            _firebaseMessaging.getToken().then((String token_get) {
-              assert(token_get != null);
-              token = token_get;
-            });*/
->>>>>>> develop
             isSended = true;
           }*/
           isLoaded = true;
@@ -235,7 +221,6 @@ class HomeModel extends ChangeNotifier {
                   child: Text('エラーが発生しました'),
                 );
               }
-<<<<<<< HEAD
               // 通知関係
               /*if (!isSended) {
                 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -243,14 +228,6 @@ class HomeModel extends ChangeNotifier {
                   assert(tokenGet != null);
                   token = tokenGet;
                 });
-=======
-              if (!isSended) {
-                /*FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-                _firebaseMessaging.getToken().then((String token_get) {
-                  assert(token_get != null);
-                  token = token_get;
-                });*/
->>>>>>> develop
                 isSended = true;
               }*/
               isLoaded = true;

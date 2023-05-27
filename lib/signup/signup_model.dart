@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +25,6 @@ class SignupModel with ChangeNotifier {
 
       final User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-<<<<<<< HEAD
         user.getIdTokenResult().then((IdTokenResult token) async {
           const String url =
               'https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup';
@@ -39,18 +37,6 @@ class SignupModel with ChangeNotifier {
           final http.Response resp =
               await http.post(Uri.parse(url), headers: headers, body: body);
           final Map<dynamic, dynamic>? tokenMap = token.claims;
-=======
-        user.getIdTokenResult().then((token) async {
-          String url =
-              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup";
-          Map<String, String> headers = {'content-type': 'application/json'};
-          String body =
-          json.encode({'idToken': token.token, 'joinCode': joinCode});
-
-          http.Response resp =
-          await http.post(Uri.parse(url), headers: headers, body: body);
-          Map<dynamic, dynamic> tokenMap = token.claims;
->>>>>>> develop
           isLoading_join = false;
           if (resp.body == 'success') {
             mes_join = '';
@@ -105,15 +91,8 @@ class SignupModel with ChangeNotifier {
             'grade': grade
           });
 
-<<<<<<< HEAD
           final http.Response resp =
               await http.post(Uri.parse(url), headers: headers, body: body);
-=======
-          http.Response resp =
-          await http.post(Uri.parse(url), headers: headers, body: body);
-          print(resp.body);
-          print(token.claims);
->>>>>>> develop
           isLoading_join = false;
           if (resp.body == 'success') {
             mes_join = '';

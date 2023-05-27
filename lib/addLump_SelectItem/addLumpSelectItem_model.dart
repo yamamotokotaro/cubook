@@ -3,21 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class AddLumpSelectItemModel extends ChangeNotifier {
-<<<<<<< HEAD
   List<DocumentSnapshot>? userSnapshot;
   User? currentUser;
   DocumentSnapshot? userData;
-=======
-  List<DocumentSnapshot> userSnapshot;
-  User currentUser;
-  DocumentSnapshot userData;
->>>>>>> develop
   bool isGet = false;
   Map<dynamic, dynamic> itemSelected = <dynamic, dynamic>{};
 
   void createList(String? type, int quant) {
-    itemSelected[type] =
-        List<dynamic>.generate(quant, (int index) => <bool>[]);
+    itemSelected[type] = List<dynamic>.generate(quant, (int index) => <bool>[]);
     notifyListeners();
   }
 

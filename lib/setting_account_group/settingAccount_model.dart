@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cubook/model/task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
   bool isGet = false;
   bool isFinish = false;
   bool isLoading = false;
-<<<<<<< HEAD
   bool? isTeamLeader;
   String? group;
   String? group_claim;
@@ -35,25 +33,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
     if (uidToShow != uid) {
       uid = uidToShow;
       final User user = FirebaseAuth.instance.currentUser!;
-=======
-  bool isTeamLeader;
-  String group;
-  String group_claim;
-  TextEditingController familyController;
-  TextEditingController firstController;
-  TextEditingController teamController;
-  String dropdown_text;
-  String age;
-  String call;
-  String uid;
-  Map<String, dynamic> claims = new Map<String, dynamic>();
-
-  void getSnapshot(String uid_toShow) async {
-    var task = new TaskContents();
-    if (uid_toShow != uid) {
-      uid = uid_toShow;
-      User user = await FirebaseAuth.instance.currentUser;
->>>>>>> develop
       currentUser = user;
       user.getIdTokenResult().then((IdTokenResult token) async {
         isAdmin = token.claims!['admin'];
@@ -64,14 +43,9 @@ class SettingAccountGroupModel extends ChangeNotifier {
             .snapshots()
             .listen((QuerySnapshot<Map<String, dynamic>> data) {
           userSnapshot = data.docs[0];
-<<<<<<< HEAD
           userData = userSnapshot!.data() as Map<String, dynamic>?;
           final String? family = userSnapshot!.get('family');
           group = userSnapshot!.get('group');
-=======
-          String family = userSnapshot.data()['family'];
-          group = userSnapshot.data()['group'];
->>>>>>> develop
           familyController =
               TextEditingController(text: userSnapshot!.get('family'));
           firstController =
@@ -175,21 +149,12 @@ class SettingAccountGroupModel extends ChangeNotifier {
     notifyListeners();
   }
 
-<<<<<<< HEAD
   Future<void> changeRequest(BuildContext context) async {
     String? age;
     String? position;
     String? teamPosition;
     int? ageTurn;
     String? grade;
-=======
-  void changeRequest(BuildContext context) async {
-    String age;
-    String position;
-    String teamPosition;
-    int age_turn;
-    String grade;
->>>>>>> develop
     switch (dropdown_text) {
       case 'りす':
         age = 'risu';
@@ -276,7 +241,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
       notifyListeners();
       final User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-<<<<<<< HEAD
         user.getIdTokenResult().then((IdTokenResult token) async {
           const String url =
               'https://asia-northeast1-cubook-3c960.cloudfunctions.net/changeUserInfo_group';
@@ -284,13 +248,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
             'content-type': 'application/json'
           };
           final String body = json.encode(<String, dynamic>{
-=======
-        user.getIdTokenResult().then((token) async {
-          String url =
-              "https://asia-northeast1-cubook-3c960.cloudfunctions.net/changeUserInfo_group";
-          Map<String, String> headers = {'content-type': 'application/json'};
-          String body = json.encode(<String, dynamic>{
->>>>>>> develop
             'idToken': token.token,
             'family': familyController!.text,
             'first': firstController!.text,
@@ -303,11 +260,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
             'grade': grade
           });
 
-<<<<<<< HEAD
           final http.Response resp =
-=======
-          http.Response resp =
->>>>>>> develop
               await http.post(Uri.parse(url), headers: headers, body: body);
           isLoading = false;
           if (resp.body == 'success') {
@@ -322,13 +275,8 @@ class SettingAccountGroupModel extends ChangeNotifier {
             ));
           } else {
             isLoading = false;
-<<<<<<< HEAD
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('エラーが発生しました' + resp.body),
-=======
-            Scaffold.of(context).showSnackBar(new SnackBar(
-              content: new Text('エラーが発生しました' + resp.body),
->>>>>>> develop
             ));
           }
           notifyListeners();
@@ -368,18 +316,13 @@ class SettingAccountGroupModel extends ChangeNotifier {
     }
   }
 
-<<<<<<< HEAD
   Future<void> showDeleteSheet(BuildContext context) async {
-=======
-  void showDeleteSheet(BuildContext context) async {
->>>>>>> develop
     isFinish = false;
     notifyListeners();
     await showModalBottomSheet<int>(
         context: context,
         builder: (BuildContext context) {
           return Consumer<SettingAccountGroupModel>(
-<<<<<<< HEAD
             builder: (BuildContext context, SettingAccountGroupModel model,
                 Widget? child) {
               return Padding(
@@ -460,87 +403,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
                                     padding: EdgeInsets.all(15),
                                     child: CircularProgressIndicator()),
                               )
-=======
-            builder: (context, model, child) {
-              return Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      model.isFinish
-                          ? Column(
-                              children: [
-                                Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 10, bottom: 10),
-                                    child: Text(
-                                      '👋',
-                                      style: TextStyle(
-                                        fontSize: 30,
-                                      ),
-                                    )),
-                                Text(
-                                  'アカウントを削除しました',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 10, bottom: 10),
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        model.backToList(context);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.blue[900], //ボタンの背景色
-                                      ),
-                                      child: Text(
-                                        "一覧に戻る",
-                                      ),
-                                    )),
-                              ],
-                            )
-                          : !model.isLoading
-                              ? Column(
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 5, left: 17, bottom: 17),
-                                        child: Container(
-                                            width: double.infinity,
-                                            child: Text(
-                                              '本当に削除しますか？',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 22,
-                                              ),
-                                              textAlign: TextAlign.left,
-                                            ))),
-                                    ListTile(
-                                      leading: Icon(Icons.delete),
-                                      title: Text('はい'),
-                                      onTap: () {
-                                        model.deleteAccount(context);
-                                      },
-                                    ),
-                                    ListTile(
-                                      leading: Icon(Icons.arrow_back),
-                                      title: Text('いいえ'),
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                    )
-                                  ],
-                                )
-                              : Center(
-                                  child: Padding(
-                                      padding: EdgeInsets.all(15),
-                                      child: CircularProgressIndicator()),
-                                )
->>>>>>> develop
                     ],
                   ));
             },
@@ -548,7 +410,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
         });
   }
 
-<<<<<<< HEAD
   Future<void> deleteAccount(BuildContext context) async {
     isLoading = true;
     notifyListeners();
@@ -561,34 +422,13 @@ class SettingAccountGroupModel extends ChangeNotifier {
           'content-type': 'application/json'
         };
         final String body = json.encode(<String, dynamic>{
-=======
-  void deleteAccount(BuildContext context) async {
-    print('start deleting...');
-    isLoading = true;
-    notifyListeners();
-    User user = await FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      user.getIdTokenResult().then((token) async {
-        String url =
-            "https://asia-northeast1-cubook-3c960.cloudfunctions.net/deleteGroupAccount_https";
-        Map<String, String> headers = {'content-type': 'application/json'};
-        String body = json.encode(<String, dynamic>{
->>>>>>> develop
           'idToken': token.token,
           'uid': uid,
         });
 
-<<<<<<< HEAD
         final http.Response resp =
             await http.post(Uri.parse(url), headers: headers, body: body);
         isLoading = false;
-=======
-        http.Response resp =
-            await http.post(Uri.parse(url), headers: headers, body: body);
-        isLoading = false;
-        print('end');
-        print(resp.body);
->>>>>>> develop
         if (resp.body == 'sucess') {
           isFinish = true;
         }
@@ -598,7 +438,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
     }
   }
 
-<<<<<<< HEAD
   Future<void> migrateAccount(BuildContext context) async {
     isLoading = true;
     notifyListeners();
@@ -631,8 +470,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
     }
   }
 
-=======
->>>>>>> develop
   void backToList(BuildContext context) {
     Navigator.pop(context);
     Navigator.pop(context);

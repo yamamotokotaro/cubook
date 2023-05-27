@@ -4,13 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DetailActivityModel extends ChangeNotifier {
-<<<<<<< HEAD
   QuerySnapshot? userSnapshot;
   User? currentUser;
-=======
-  QuerySnapshot userSnapshot;
-  User currentUser;
->>>>>>> develop
   bool isGet = false;
   String? group;
   String? position;
@@ -29,21 +24,12 @@ class DetailActivityModel extends ChangeNotifier {
         .collection('user')
         .where('uid', isEqualTo: user.uid)
         .get()
-<<<<<<< HEAD
         .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       final DocumentSnapshot documentSnapshot = snapshot.docs[0];
       group = documentSnapshot.get('group');
       position = documentSnapshot.get('position');
       age = documentSnapshot.get('age');
       if (group != groupBefore) {
-=======
-        .then((snapshot) {
-      DocumentSnapshot documentSnapshot = snapshot.docs[0];
-      group = documentSnapshot.data()['group'];
-      position = documentSnapshot.data()['position'];
-      age = documentSnapshot.data()['age'];
-      if (group != group_before) {
->>>>>>> develop
         notifyListeners();
       }
       /*user.getIdToken(refresh: true).then((value) {
@@ -71,9 +57,6 @@ class DetailActivityModel extends ChangeNotifier {
             .delete();
       }
     });
-    FirebaseFirestore.instance
-        .collection('activity')
-        .doc(documentID)
-        .delete();
+    FirebaseFirestore.instance.collection('activity').doc(documentID).delete();
   }
 }

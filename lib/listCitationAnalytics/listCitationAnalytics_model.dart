@@ -3,13 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ListCitationAnalyticsModel extends ChangeNotifier {
-<<<<<<< HEAD
   DocumentSnapshot? userSnapshot;
   User? currentUser;
-=======
-  DocumentSnapshot userSnapshot;
-  User currentUser;
->>>>>>> develop
   bool isGet = false;
   String? group;
   String group_before = '';

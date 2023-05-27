@@ -19,7 +19,8 @@ class CreateActivityView extends StatelessWidget {
     } else {
       colorRing = Colors.white;
     }
-    final bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final bool isDark =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
         appBar: AppBar(
           title: const Text('新規作成'),
@@ -342,13 +343,8 @@ class CreateActivityView extends StatelessWidget {
                                                             const Duration(
                                                                 seconds: 1),
                                                       );
-<<<<<<< HEAD
                                                       ScaffoldMessenger.of(
                                                               context)
-=======
-                                                      Scaffold.of(
-                                                              context_builder)
->>>>>>> develop
                                                           .showSnackBar(
                                                               snackBar);
                                                     },

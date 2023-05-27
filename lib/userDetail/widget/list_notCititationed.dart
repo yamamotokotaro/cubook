@@ -60,14 +60,8 @@ class ListNotCititationed extends StatelessWidget {
                                           (BuildContext context, int index) {
                                         final DocumentSnapshot snapshot =
                                             querySnapshot.docs[index];
-<<<<<<< HEAD
                                         final Map taskInfo = task.getPartMap(
                                             'challenge', snapshot.get('page'))!;
-=======
-                                        Map taskInfo = task.getPartMap(
-                                            'challenge',
-                                            snapshot.data()['page']);
->>>>>>> develop
                                         return Padding(
                                           padding: const EdgeInsets.all(5),
                                           child: Container(
@@ -115,11 +109,7 @@ class ListNotCititationed extends StatelessWidget {
                                                               child: Text(
                                                                 DateFormat('yyyy/MM/dd')
                                                                         .format(snapshot
-<<<<<<< HEAD
                                                                             .get('end')
-=======
-                                                                            .data()['end']
->>>>>>> develop
                                                                             .toDate())
                                                                         .toString() +
                                                                     ' 完修',
