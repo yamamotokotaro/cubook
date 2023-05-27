@@ -3,8 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class ListExaminationModel extends ChangeNotifier {
+<<<<<<< HEAD
   QuerySnapshot? userSnapshot;
   User? currentUser;
+=======
+  QuerySnapshot userSnapshot;
+  User currentUser;
+>>>>>>> develop
   bool isGet = false;
   String? group;
   Map<String, dynamic> claims = <String, dynamic>{};

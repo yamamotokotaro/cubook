@@ -9,7 +9,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+<<<<<<< HEAD
 import 'package:open_file_plus/open_file_plus.dart';
+=======
+// import 'package:open_file/open_file.dart';
+>>>>>>> develop
 import 'package:path_provider/path_provider.dart';
 // import 'dart:html' as http;
 
@@ -196,11 +200,16 @@ class AnalyticsModel extends ChangeNotifier {
     }
   }
 
+<<<<<<< HEAD
   Future<void> openFile() async {
     if (kIsWeb) {
     } else {
       await OpenFile.open(file_dir!);
     }
+=======
+  void openFile() async {
+    // await OpenFile.open(file_dir);
+>>>>>>> develop
   }
 
   void reExport() {

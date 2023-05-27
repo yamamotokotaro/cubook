@@ -151,6 +151,7 @@ class InviteView extends StatelessWidget {
                               },
                             ),
                           ),
+<<<<<<< HEAD
                           if (model.dropdown_text != 'リーダー')
                             Padding(
                               padding: const EdgeInsets.only(
@@ -189,13 +190,58 @@ class InviteView extends StatelessWidget {
                                 ))
                           else
                             Container(),
+=======
+                          model.dropdown_text != 'リーダー'
+                              ? Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 0, left: 10, right: 10),
+                                  child: TextField(
+                                    controller: model.teamController,
+                                    enabled: true,
+                                    // 入力数
+                                    maxLines: null,
+                                    maxLengthEnforced: false,
+                                    decoration: InputDecoration(
+                                        labelText: "組・班（オプション）"),
+                                    onChanged: (text) {},
+                                  ),
+                                )
+                              : Container(),
+                          model.dropdown_text != 'リーダー'
+                              ? Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 20, left: 10, right: 10, bottom: 10),
+                                  child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    hint: Text('呼称'),
+                                    value: model.dropdown_call,
+                                    items: <String>['くん', 'さん']
+                                        .map((String value) {
+                                      return new DropdownMenuItem<String>(
+                                        value: value,
+                                        child: new Text(value),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      model.onDropdownCallChanged(value);
+                                    },
+                                  ))
+                              : Container(),
+>>>>>>> develop
                           Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: model.isLoading_join
                                 ? const Padding(
                                     padding: EdgeInsets.all(10),
                                     child: CircularProgressIndicator())
+<<<<<<< HEAD
                                 : FilledButton(
+=======
+                                : ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.blue[900], //ボタンの背景色
+                                    ),
+>>>>>>> develop
                                     onPressed: () {
                                       model.inviteRequest(context);
                                     },

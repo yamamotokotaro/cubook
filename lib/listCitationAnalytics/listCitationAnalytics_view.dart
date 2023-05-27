@@ -20,7 +20,8 @@ class ListCitationAnalyticsView extends StatelessWidget {
         ),
         body: Builder(builder: (BuildContext contextBuilder) {
           return SafeArea(
-            child: SingleChildScrollView(
+            child: Scrollbar(
+                child: SingleChildScrollView(
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 600),
@@ -90,9 +91,16 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                   QuerySnapshot>
                                                               snapshot) {
                                                     if (snapshot.hasData) {
+<<<<<<< HEAD
                                                       if (snapshot.data!.docs
                                                           .isNotEmpty) {
                                                         final QuerySnapshot
+=======
+                                                      if (snapshot.data.docs
+                                                              .length !=
+                                                          0) {
+                                                        QuerySnapshot
+>>>>>>> develop
                                                             querySnapshot =
                                                             snapshot.data!;
                                                         return Column(
@@ -268,7 +276,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            )),
           );
         }));
   }

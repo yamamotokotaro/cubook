@@ -18,6 +18,7 @@ class AnalyticsView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('アナリティクス'),
       ),
+<<<<<<< HEAD
       body: SingleChildScrollView(
         child: Center(
           child: ConstrainedBox(
@@ -31,6 +32,124 @@ class AnalyticsView extends StatelessWidget {
                     if (model.teamPosition != null) {
                       if (model.teamPosition == 'teamLeader') {
                         return Container();
+=======
+      body: SafeArea(
+        child: Scrollbar(
+            child: SingleChildScrollView(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Column(
+                children: <Widget>[
+                  Consumer<AnalyticsModel>(builder: (context, model, child) {
+                    model.getGroup();
+                    if (model.group != null) {
+                      if (model.teamPosition != null) {
+                        if (model.teamPosition == 'teamLeader') {
+                          return Container();
+                        } else {
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 20, left: 10, right: 10, bottom: 0),
+                                child: Container(
+                                    child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: InkWell(
+                                    customBorder: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    onTap: () async {
+                                      // final Future<PermissionStatus> permissionStatus = NotificationPermissions.requestNotificationPermissions();
+                                      Navigator.of(context).pushNamed(
+                                          '/listCitationAnalyticsView');
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.menu,
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                              size: 35,
+                                            ),
+                                            Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 10),
+                                                child: Material(
+                                                  type:
+                                                      MaterialType.transparency,
+                                                  child: Text(
+                                                    '表彰待ちリスト',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 30),
+                                                  ),
+                                                )),
+                                          ]),
+                                    ),
+                                  ),
+                                )),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 20, left: 10, right: 10, bottom: 0),
+                                child: Container(
+                                    child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: InkWell(
+                                    customBorder: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    onTap: () async {
+                                      // final Future<PermissionStatus> permissionStatus = NotificationPermissions.requestNotificationPermissions();
+                                      Navigator.of(context).pushNamed(
+                                          '/listCitationAnalyticsView');
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Icon(
+                                              Icons.call_made,
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                              size: 35,
+                                            ),
+                                            Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 10),
+                                                child: Material(
+                                                  type:
+                                                      MaterialType.transparency,
+                                                  child: Text(
+                                                    'Excel出力',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontSize: 30),
+                                                  ),
+                                                )),
+                                          ]),
+                                    ),
+                                  ),
+                                )),
+                              ),
+                            ],
+                          );
+                        }
+>>>>>>> develop
                       } else {
                         return Column(
                           children: [
@@ -148,6 +267,7 @@ class AnalyticsView extends StatelessWidget {
                                 customBorder: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
+<<<<<<< HEAD
                                 onTap: () async {
                                   // final Future<PermissionStatus> permissionStatus = NotificationPermissions.requestNotificationPermissions();
                                   Navigator.of(context)
@@ -179,6 +299,59 @@ class AnalyticsView extends StatelessWidget {
                                               ),
                                             )),
                                       ]),
+=======
+                                elevation: 8,
+                                color: theme.getThemeColor(type[index]),
+                                child: InkWell(
+                                  customBorder: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  onTap: () {
+                                    if (task.getAllMap(type[index]).length !=
+                                        1) {
+                                      Navigator.push(context, MaterialPageRoute<
+                                              TaskListAnalyticsView>(
+                                          builder: (BuildContext context) {
+                                        return TaskListAnalyticsView(
+                                            type[index]);
+                                      }));
+                                    } else {
+                                      Navigator.of(context).pushNamed(
+                                          '/taskDetailAnalytics',
+                                          arguments: TaskDetail(
+                                              type: type[index], page: 0));
+                                    }
+                                  },
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Align(
+                                              alignment: Alignment.bottomLeft,
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 13),
+                                                child: Material(
+                                                    type: MaterialType
+                                                        .transparency,
+                                                    child: Text(
+                                                      theme.getTitle(
+                                                          type[index]),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontSize: 30,
+                                                          color: Colors.white),
+                                                    )),
+                                              )),
+                                          Padding(
+                                              padding: EdgeInsets.all(20),
+                                              child: Container()),
+                                        ]),
+                                  ),
+>>>>>>> develop
                                 ),
                               ),
                             )),
@@ -451,7 +624,7 @@ class AnalyticsView extends StatelessWidget {
               ],
             ),
           ),
-        ),
+        )),
       ),
     );
   }

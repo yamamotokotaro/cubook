@@ -100,6 +100,7 @@ class InviteModel with ChangeNotifier {
       notifyListeners();
       final User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
+<<<<<<< HEAD
         user.getIdToken().then((String token) async {
           const String url =
               'https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup';
@@ -121,10 +122,29 @@ class InviteModel with ChangeNotifier {
               await http.post(Uri.parse(url), headers: headers, body: body);
           isLoading_join = false;
           if (resp.body == 'success') {
+=======
+        user.getIdToken().then((token) async {
+          HttpsCallable callable = FirebaseFunctions.instanceFor(
+                  region: 'asia-northeast1')
+              .httpsCallable('inviteGroupCall',
+                  options: HttpsCallableOptions(timeout: Duration(seconds: 5)));
+
+          await callable(<String, String>{
+            'idToken': token,
+            'address': addressController.text,
+            'family': familyController.text,
+            'first': firstController.text,
+            'call': dropdown_call,
+            'age': age,
+            'position': position,
+            'team': team
+          }).then((v) {
+>>>>>>> develop
             mes_join = '';
             addressController.clear();
             familyController.clear();
             firstController.clear();
+<<<<<<< HEAD
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('送信リクエストが完了しました'),
             ));
@@ -136,6 +156,17 @@ class InviteModel with ChangeNotifier {
             isLoading_join = false;
             mes_join = 'エラーが発生しました';
           }
+=======
+            ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+              content: new Text('送信リクエストが完了しました'),
+            ));
+          }).catchError((dynamic e) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('ERROR: $e'),
+            ));
+          });
+          isLoading_join = false;
+>>>>>>> develop
           notifyListeners();
         });
       }

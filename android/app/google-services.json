@@ -39,6 +39,7 @@
           }
         },
         {
+<<<<<<< HEAD
           "client_id": "753196410884-d9d3s2re1lou8mpvc8vfa3dj5u9q40go.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -76,6 +77,8 @@
       },
       "oauth_client": [
         {
+=======
+>>>>>>> develop
           "client_id": "753196410884-d9d3s2re1lou8mpvc8vfa3dj5u9q40go.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -102,7 +105,8 @@
             }
           ]
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-9318890511624941~1239919817"
     }
   ],
   "configuration_version": "1"

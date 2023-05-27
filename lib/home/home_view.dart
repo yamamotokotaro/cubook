@@ -4,7 +4,11 @@ import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_view.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:package_info_plus/package_info_plus.dart';
+=======
+import 'package:package_info/package_info.dart';
+>>>>>>> develop
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -143,7 +147,11 @@ class HomeView extends StatelessWidget {
                                                     applicationName: 'cubook',
                                                     applicationVersion: 'web',
                                                     applicationLegalese:
+<<<<<<< HEAD
                                                         '©︎ 2020-2022 山本虎太郎',
+=======
+                                                        '©︎ 2020-2021 山本虎太郎',
+>>>>>>> develop
                                                   )
                                                 : showLicensePage(
                                                     context: context,
@@ -151,7 +159,11 @@ class HomeView extends StatelessWidget {
                                                     applicationVersion:
                                                         packageInfo.version,
                                                     applicationLegalese:
+<<<<<<< HEAD
                                                         '©︎ 2020-2022 山本虎太郎',
+=======
+                                                        '©︎ 2020-2021 山本虎太郎',
+>>>>>>> develop
                                                   ),
                                           ),
                                           ListTile(
@@ -188,8 +200,13 @@ class HomeView extends StatelessWidget {
                   Padding(
                 padding: const EdgeInsets.only(top: 12, right: 15),
                 child: Text(
+<<<<<<< HEAD
                   name!,
                   style: const TextStyle(
+=======
+                  name,
+                  style: TextStyle(
+>>>>>>> develop
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
                   ),
@@ -205,8 +222,13 @@ class HomeView extends StatelessWidget {
             padding:
                 const EdgeInsets.only(top: 30, bottom: 30, left: 30, right: 30),
             child: Text(
+<<<<<<< HEAD
               name! + '、' + greet,
               style: const TextStyle(
+=======
+              name + '、' + greet,
+              style: TextStyle(
+>>>>>>> develop
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
               ),

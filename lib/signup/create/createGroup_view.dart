@@ -25,6 +25,7 @@ class CreateGroupView extends StatelessWidget {
             ),
           ),
         ),
+<<<<<<< HEAD
         if (model.mes_join != '')
           Padding(
             padding: const EdgeInsets.only(top: 30),
@@ -36,6 +37,38 @@ class CreateGroupView extends StatelessWidget {
           )
         else
           Container(),
+=======
+        model.mes_join != ''
+            ? Padding(
+                padding: EdgeInsets.only(top: 30),
+                child: Text(
+                  model.mes_join,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red),
+                ),
+              )
+            : Container(),
+            Padding(
+                padding:
+                EdgeInsets.only(left: 10, right: 10),
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  value: model.dropdown_text,
+                  hint: Text('隊を選択'),
+                  items: <String>[/*'ビーバー隊', */'カブ隊', 'ボーイ隊', 'ベンチャー隊']
+                      .map((String value) {
+                    return new DropdownMenuItem<String>(
+                      value: value,
+                      child: new Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    model.onDropdownChanged(value);
+                  },
+                )),
+>>>>>>> develop
         Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: DropdownButton<String>(

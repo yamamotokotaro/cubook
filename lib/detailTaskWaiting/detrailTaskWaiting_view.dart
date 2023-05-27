@@ -39,7 +39,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                   onTap: () {
                     FocusScope.of(context).unfocus();
                   },
-                  child: SingleChildScrollView(
+                  child: Scrollbar(child:SingleChildScrollView(
                       child: Column(
                     children: <Widget>[
                       Hero(
@@ -653,7 +653,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                         }
                       })
                     ],
-                  )))),
+                  ))))),
         ));
   }
 }

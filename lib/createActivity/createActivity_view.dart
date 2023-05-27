@@ -47,8 +47,9 @@ class CreateActivityView extends StatelessWidget {
               onTap: () {
                 FocusScope.of(context).unfocus();
               },
-              child: SingleChildScrollView(
-                  child: Center(
+              child: Scrollbar(
+                  child: SingleChildScrollView(
+                      child: Center(
                 child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 800),
                     child: Consumer<CreateActivityModel>(builder:
@@ -341,8 +342,13 @@ class CreateActivityView extends StatelessWidget {
                                                             const Duration(
                                                                 seconds: 1),
                                                       );
+<<<<<<< HEAD
                                                       ScaffoldMessenger.of(
                                                               context)
+=======
+                                                      Scaffold.of(
+                                                              context_builder)
+>>>>>>> develop
                                                           .showSnackBar(
                                                               snackBar);
                                                     },
@@ -490,7 +496,7 @@ class CreateActivityView extends StatelessWidget {
                         ],
                       );
                     })),
-              )));
+              ))));
         }));
   }
 }

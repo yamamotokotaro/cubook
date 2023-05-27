@@ -43,7 +43,8 @@ class TaskListAnalyticsView extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Scrollbar(
+            child: SingleChildScrollView(
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 600),
@@ -61,13 +62,20 @@ class TaskListAnalyticsView extends StatelessWidget {
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (snapshot.hasData) {
                                 int userCount = 0;
+<<<<<<< HEAD
                                 final List<DocumentSnapshot> listSnapshot =
                                     snapshot.data!.docs;
                                 final List<String?> listUid = <String?>[];
+=======
+                                List<DocumentSnapshot> listSnapshot =
+                                    snapshot.data.docs;
+                                List<String> listUid = new List<String>();
+>>>>>>> develop
                                 if (type == 'challenge' ||
                                     type == 'gino' ||
                                     type == 'syorei') {
                                   userCount = listSnapshot.length;
+<<<<<<< HEAD
                                   for (DocumentSnapshot documentSnapshot
                                       in listSnapshot) {
                                     listUid.add(documentSnapshot.get('uid'));
@@ -78,14 +86,32 @@ class TaskListAnalyticsView extends StatelessWidget {
                                     if (documentSnapshot.get('age') == 'kuma') {
                                       userCount++;
                                       listUid.add(documentSnapshot.get('uid'));
+=======
+                                } else if (type == 'tukinowa') {
+                                  for (DocumentSnapshot documentSnapshot
+                                      in listSnapshot) {
+                                    if (documentSnapshot.data()['age'] ==
+                                        'kuma') {
+                                      userCount++;
+                                      listUid
+                                          .add(documentSnapshot.data()['uid']);
+>>>>>>> develop
                                     }
                                   }
                                 } else {
                                   for (DocumentSnapshot documentSnapshot
                                       in listSnapshot) {
+<<<<<<< HEAD
                                     if (documentSnapshot.get('age') == type) {
                                       userCount++;
                                       listUid.add(documentSnapshot.get('uid'));
+=======
+                                    if (documentSnapshot.data()['age'] ==
+                                        type) {
+                                      userCount++;
+                                      listUid
+                                          .add(documentSnapshot.data()['uid']);
+>>>>>>> develop
                                     }
                                   }
                                 }
@@ -227,7 +253,17 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                             .docs;
                                                                     for (DocumentSnapshot documentSnapshot
                                                                         in listSnapshot) {
+<<<<<<< HEAD
                                                                       if (listUid
+=======
+                                                                      if (type == 'challenge' ||
+                                                                          type ==
+                                                                              'gino' ||
+                                                                          type ==
+                                                                              'syorei') {
+                                                                        itemCount++;
+                                                                      } else if (listUid
+>>>>>>> develop
                                                                           .contains(
                                                                               documentSnapshot.get('uid'))) {
                                                                         itemCount++;
@@ -256,8 +292,12 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                         ));
                                                                   } else {
                                                                     return Padding(
+<<<<<<< HEAD
                                                                       padding: const EdgeInsets
                                                                               .only(
+=======
+                                                                      padding: EdgeInsets.only(
+>>>>>>> develop
                                                                           left:
                                                                               5,
                                                                           right:
@@ -269,7 +309,11 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                             backgroundColor: isDark
                                                                                 ? Colors.grey[700]
                                                                                 : Colors.grey[300],
+<<<<<<< HEAD
                                                                             valueColor: AlwaysStoppedAnimation<Color?>(isDark
+=======
+                                                                            valueColor: new AlwaysStoppedAnimation<Color>(isDark
+>>>>>>> develop
                                                                                 ? Colors.white
                                                                                 : theme.getThemeColor(type)),
                                                                           )),
@@ -296,7 +340,11 @@ class TaskListAnalyticsView extends StatelessWidget {
                                             ? Colors.grey[700]
                                             : Colors.grey[300],
                                         valueColor:
+<<<<<<< HEAD
                                             AlwaysStoppedAnimation<Color?>(
+=======
+                                            new AlwaysStoppedAnimation<Color>(
+>>>>>>> develop
                                                 isDark
                                                     ? Colors.white
                                                     : theme
@@ -315,7 +363,11 @@ class TaskListAnalyticsView extends StatelessWidget {
                                 backgroundColor: isDark
                                     ? Colors.grey[700]
                                     : Colors.grey[300],
+<<<<<<< HEAD
                                 valueColor: AlwaysStoppedAnimation<Color?>(
+=======
+                                valueColor: new AlwaysStoppedAnimation<Color>(
+>>>>>>> develop
                                     isDark
                                         ? Colors.white
                                         : theme.getThemeColor(type)),
@@ -326,7 +378,7 @@ class TaskListAnalyticsView extends StatelessWidget {
               ]),
             ),
           ),
-        ),
+        )),
       ),
     );
   }

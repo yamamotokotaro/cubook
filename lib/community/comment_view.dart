@@ -71,14 +71,24 @@ class CommentView extends StatelessWidget {
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
                                                 itemCount: querySnapshot
+<<<<<<< HEAD
                                                     .data!.docs.length,
+=======
+                                                    .data.docs.length,
+>>>>>>> develop
                                                 shrinkWrap: true,
                                                 itemBuilder:
                                                     (BuildContext context,
                                                         int index) {
+<<<<<<< HEAD
                                                   final DocumentSnapshot
                                                       snapshot = querySnapshot
                                                           .data!.docs[index];
+=======
+                                                  DocumentSnapshot snapshot =
+                                                      querySnapshot.data
+                                                          .docs[index];
+>>>>>>> develop
                                                   return Padding(
                                                     padding:
                                                         const EdgeInsets.all(5),

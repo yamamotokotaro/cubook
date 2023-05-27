@@ -44,6 +44,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
           style: const TextStyle(color: Colors.white),
         ),
       ),
+<<<<<<< HEAD
       body: SingleChildScrollView(
         child: Center(
           child: ConstrainedBox(
@@ -58,10 +59,28 @@ class TaskListScoutConfirmView extends StatelessWidget {
                       if (model.userSnapshot == null) {
                         model.getSnapshot(uid);
                       } else if (model.userSnapshot!.get('uid') != uid) {
+=======
+      body: SafeArea(
+          child: Scrollbar(
+              child: SingleChildScrollView(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 600),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                    padding: EdgeInsets.only(top: 20, bottom: 10),
+                    child: Consumer<TaskListScoutConfirmModel>(
+                        builder: (context, model, child) {
+                      if (model.userSnapshot == null) {
+                        model.getSnapshot(uid);
+                      } else if (model.userSnapshot.data()['uid'] != uid) {
+>>>>>>> develop
                         model.getSnapshot(uid);
                         model.userSnapshot = null;
                       }
                       if (model.userSnapshot != null) {
+<<<<<<< HEAD
                         final List<Map<String, dynamic>> mapTask =
                             task.getAllMap(type)!;
                         final List<bool> listIsCompleted =
@@ -82,10 +101,32 @@ class TaskListScoutConfirmView extends StatelessWidget {
                         for (int i = 0; i < listPercentage.length; i++) {
                           if (listPercentage[i] == 1.0) {
                             listIsCompleted[i] = true;
+=======
+                        var map_task = task.getAllMap(type);
+                        var list_isCompleted = new List.generate(
+                            map_task.length, (index) => false);
+                        var list_percentage =
+                            new List.generate(map_task.length, (index) => 0.0);
+                        if (model.userSnapshot.data()[type] != null) {
+                          final Map map = new Map<String, dynamic>.from(
+                              model.userSnapshot.data()[type]);
+                          for (int i = 0; i < map_task.length; i++) {
+                            if (map.containsKey(i.toString())) {
+                              list_percentage[i] = (model.userSnapshot
+                                      .data()[type][i.toString()] /
+                                  map_task[i]['hasItem'].toDouble());
+                            }
+                          }
+                        }
+                        for (int i = 0; i < list_percentage.length; i++) {
+                          if (list_percentage[i] == 1.0) {
+                            list_isCompleted[i] = true;
+>>>>>>> develop
                           }
                         }
                         return ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
+<<<<<<< HEAD
                             itemCount: mapTask.length,
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context, int index) {
@@ -94,6 +135,15 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                   child: Container(
                                     child: Card(
                                       color: scheme.surface,
+=======
+                            itemCount: map_task.length,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: Container(
+                                    child: Card(
+>>>>>>> develop
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -113,6 +163,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                           children: <Widget>[
                                             Container(
                                                 decoration: BoxDecoration(
+<<<<<<< HEAD
                                                     borderRadius:
                                                         const BorderRadius.only(
                                                             topLeft:
@@ -120,10 +171,20 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                                     10),
                                                             bottomLeft:
                                                                 Radius.circular(
+=======
+                                                    borderRadius: BorderRadius
+                                                        .only(
+                                                            topLeft: const Radius
+                                                                .circular(10),
+                                                            bottomLeft:
+                                                                const Radius
+                                                                        .circular(
+>>>>>>> develop
                                                                     10)),
                                                     color: themeColor),
                                                 height: 120,
                                                 child: ConstrainedBox(
+<<<<<<< HEAD
                                                   constraints:
                                                       const BoxConstraints(
                                                           minWidth: 76),
@@ -136,6 +197,18 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                         mapTask[index]
                                                             ['number'],
                                                         style: const TextStyle(
+=======
+                                                  constraints: BoxConstraints(
+                                                      minWidth: 76),
+                                                  child: Center(
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.all(20),
+                                                      child: Text(
+                                                        map_task[index]
+                                                            ['number'],
+                                                        style: TextStyle(
+>>>>>>> develop
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             fontSize: 30,
@@ -146,28 +219,45 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                   ),
                                                 )),
                                             Padding(
+<<<<<<< HEAD
                                                 padding: const EdgeInsets.only(
                                                     left: 10),
+=======
+                                                padding:
+                                                    EdgeInsets.only(left: 10),
+>>>>>>> develop
                                                 child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     Padding(
                                                         padding:
+<<<<<<< HEAD
                                                             const EdgeInsets
                                                                 .only(top: 10),
+=======
+                                                            EdgeInsets.only(
+                                                                top: 10),
+>>>>>>> develop
                                                         child: Align(
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
+<<<<<<< HEAD
                                                               mapTask[index]
                                                                   ['title'],
                                                               style: const TextStyle(
+=======
+                                                              map_task[index]
+                                                                  ['title'],
+                                                              style: TextStyle(
+>>>>>>> develop
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
                                                                   fontSize: 25),
                                                             ))),
+<<<<<<< HEAD
                                                     if (listIsCompleted[index])
                                                       const Padding(
                                                         padding:
@@ -225,6 +315,56 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                           ),
                                                         ),
                                                       )
+=======
+                                                    list_isCompleted[index]
+                                                        ? Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 20),
+                                                            child: Align(
+                                                                alignment: Alignment
+                                                                    .bottomLeft,
+                                                                child: Text(
+                                                                  '完修済み',
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontSize:
+                                                                          20),
+                                                                )),
+                                                          )
+                                                        : Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 10),
+                                                            child: Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Row(
+                                                                children: <
+                                                                    Widget>[
+                                                                  Text('達成度'),
+                                                                  Padding(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              10),
+                                                                      child:
+                                                                          CircularProgressIndicator(
+                                                                        backgroundColor: isDark
+                                                                            ? Colors.grey[700]
+                                                                            : Colors.grey[300],
+                                                                        valueColor: new AlwaysStoppedAnimation<Color>(isDark
+                                                                            ? Colors.white
+                                                                            : theme.getThemeColor(type)),
+                                                                        value: list_percentage[
+                                                                            index],
+                                                                      ))
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          )
+>>>>>>> develop
                                                   ],
                                                 )),
                                           ],
@@ -234,7 +374,11 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                   ));
                             });
                       } else {
+<<<<<<< HEAD
                         return const Center(
+=======
+                        return Center(
+>>>>>>> develop
                           child: CircularProgressIndicator(),
                         );
                       }
@@ -243,7 +387,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      ))),
     );
   }
 }

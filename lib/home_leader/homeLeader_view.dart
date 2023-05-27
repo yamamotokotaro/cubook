@@ -10,8 +10,52 @@ class HomeLeaderView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
+<<<<<<< HEAD
       Consumer<HomeLeaderModel>(builder:
           (BuildContext context, HomeLeaderModel model, Widget? child) {
+=======
+
+      Padding(
+        padding: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 0),
+        child: Container(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: InkWell(
+                customBorder: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                onTap: () {
+                  launchURL();
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.info_outline,
+                          color: Theme.of(context).accentColor,
+                          size: 30,
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Material(
+                              type: MaterialType.transparency,
+                              child: Text(
+                                ' 上進について',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal, fontSize: 25),
+                              ),
+                            )),
+                      ]),
+                ),
+              ),
+            )),
+      ),
+      Consumer<HomeLeaderModel>(builder: (context, model, child) {
+>>>>>>> develop
         model.getSnapshot(context);
         if (model.group != null) {
           return StreamBuilder<QuerySnapshot>(
@@ -225,9 +269,15 @@ class HomeLeaderView extends StatelessWidget {
     ]);
   }
 
+<<<<<<< HEAD
   Future<void> launchURL() async {
     const String url =
         'https://sites.google.com/view/cubookinfo/qa/%E9%87%8D%E8%A6%81%E3%82%A2%E3%83%83%E3%83%97%E3%83%87%E3%83%BC%E3%83%88%E3%81%AE%E3%81%8A%E9%A1%98%E3%81%84';
+=======
+  void launchURL() async {
+    const url =
+        'https://sites.google.com/view/cubookinfo/%E4%BD%BF%E3%81%84%E6%96%B9/%E4%B8%8A%E9%80%B2%E3%81%99%E3%82%8B%E3%81%A8%E3%81%8D%E3%81%AE%E6%93%8D%E4%BD%9C';
+>>>>>>> develop
     if (await canLaunch(url)) {
       await launch(url);
     } else {

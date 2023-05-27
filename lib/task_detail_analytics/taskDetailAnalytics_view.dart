@@ -33,6 +33,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
         ),
         backgroundColor: themeColor,
       ),
+<<<<<<< HEAD
       body: SingleChildScrollView(
         child: Center(
           child: ConstrainedBox(
@@ -72,6 +73,52 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                           userCount++;
                                           listUid
                                               .add(documentSnapshot.get('uid'));
+=======
+      body: SafeArea(
+        child: Scrollbar(
+        child:SingleChildScrollView(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.only(top: 20, bottom: 10),
+                      child: Consumer<TaskDetailAnalyticsModel>(
+                          builder: (context, model, child) {
+                        model.getGroup();
+                        if (model.group != null) {
+                          return Column(
+                            children: <Widget>[
+                              StreamBuilder<QuerySnapshot>(
+                                  stream: model.getUserSnapshot(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                                    if (snapshot.hasData) {
+                                      int userCount = 0;
+                                      List<DocumentSnapshot> listSnapshot =
+                                          snapshot.data.docs;
+                                      List<String> listUid = new List<String>();
+                                      if (type == 'challenge' ||
+                                          type == 'gino') {
+                                        userCount = listSnapshot.length;
+                                      } else if (type=='tukinowa') {
+                                        for (DocumentSnapshot documentSnapshot
+                                        in listSnapshot) {
+                                          if (documentSnapshot.data()['age'] == 'kuma') {
+                                            userCount++;
+                                            listUid.add(documentSnapshot.data()['uid']);
+                                          }
+                                        }
+                                      } else {
+                                        for (DocumentSnapshot documentSnapshot
+                                            in listSnapshot) {
+                                          if (documentSnapshot.data()['age'] == type) {
+                                            userCount++;
+                                            listUid
+                                                .add(documentSnapshot.data()['uid']);
+                                          }
+>>>>>>> develop
                                         }
                                       }
                                     } else {
@@ -457,7 +504,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
               ],
             ),
           ),
-        ),
+        )),
       ),
     );
   }
