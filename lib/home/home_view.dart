@@ -143,7 +143,7 @@ class HomeView extends StatelessWidget {
                                                     applicationName: 'cubook',
                                                     applicationVersion: 'web',
                                                     applicationLegalese:
-                                                        '©︎ 2020-2022 山本虎太郎',
+                                                        '©︎ 2020-2023 山本虎太郎',
                                                   )
                                                 : showLicensePage(
                                                     context: context,
@@ -151,7 +151,7 @@ class HomeView extends StatelessWidget {
                                                     applicationVersion:
                                                         packageInfo.version,
                                                     applicationLegalese:
-                                                        '©︎ 2020-2022 山本虎太郎',
+                                                        '©︎ 2020-2023 山本虎太郎',
                                                   ),
                                           ),
                                           ListTile(

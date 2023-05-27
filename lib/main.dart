@@ -173,69 +173,86 @@ class _MyAppState extends State<MyApp> {
         ],
         child: DynamicColorBuilder(
             builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-          return MaterialApp(
-            title: 'cubook',
-            home: HomeController(),
-            navigatorObservers: <NavigatorObserver>[observer],
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-                fontFamily: 'NotoSansJP',
-                colorSchemeSeed: Colors.blue,
-                useMaterial3: true),
-            darkTheme: ThemeData(
-                fontFamily: 'NotoSansJP',
-                brightness: Brightness.dark,
-                colorSchemeSeed: Colors.blue,
-                useMaterial3: true),
-            routes: <String, WidgetBuilder>{
-              '/listTaskWaiting': (BuildContext context) =>
-                  ListTaskWaitingView(),
-              '/listMember': (BuildContext context) => ListMemberView(),
-              '/addLumpSelectItem': (BuildContext context) =>
-                  AddLumpSelectItemView(),
-              '/changeName': (BuildContext context) => ChangeNameView(),
-              '/changeAge': (BuildContext context) => ChangeAgeView(),
-              '/invite': (BuildContext context) => InviteView(),
-              '/listActivity': (BuildContext context) => ListActivityView(),
-              '/createActivity': (BuildContext context) => CreateActivityView(),
-              '/detailActivity': (BuildContext context) => DetailActivityView(),
-              '/editActivity': (BuildContext context) => EditActivityView(),
-              '/listAbsentScout': (BuildContext context) =>
-                  ListAbsentScoutView(),
-              '/analytics': (BuildContext context) => AnalyticsView(),
-              '/taskDetailAnalytics': (BuildContext context) =>
-                  TaskDetailAnalyticsView(),
-              '/taskDetailAnalyticsMember': (BuildContext context) =>
-                  TaskDetailAnalyticsMemberView(),
-              '/listCitationAnalyticsView': (BuildContext context) =>
-                  ListCitationAnalyticsView(),
-              '/communityView': (BuildContext context) => CommunityView(),
-              '/commentView': (BuildContext context) => CommentView(),
-              '/settingView': (BuildContext context) => SettingAccountView(),
-              '/settingGroupView': (BuildContext context) => SettingGroupView(),
-              '/changeMailAddressView': (BuildContext context) =>
-                  ChangeMailAddressView(),
-              '/changePasswordView': (BuildContext context) =>
-                  ChangePasswordView(),
-              '/editProfile': (BuildContext context) => EditProfile(),
-              '/deleteGroupAccount': (BuildContext context) =>
-                  DeleteGroupAccount(),
-              '/accountMigration': (BuildContext context) =>
-                  AccountMigrationView(),
-              '/listMigrationWaiting': (BuildContext context) =>
-                  ListMigrationWaitingView(),
-            },
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              DefaultCupertinoLocalizations.delegate
-            ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('ja'),
-            ],
-          );
+          return DynamicColorBuilder(
+              builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+            return MaterialApp(
+              title: 'cubook',
+              home: HomeController(),
+              navigatorObservers: <NavigatorObserver>[observer],
+              debugShowCheckedModeBanner: false,
+              theme: lightDynamic == null
+                  ? ThemeData(
+                      fontFamily: 'NotoSansJP',
+                      colorSchemeSeed: Colors.blue,
+                      useMaterial3: true)
+                  : ThemeData(
+                      fontFamily: 'NotoSansJP',
+                      useMaterial3: true,
+                      colorScheme: lightDynamic),
+              darkTheme: darkDynamic == null
+                  ? ThemeData(
+                      fontFamily: 'NotoSansJP',
+                      brightness: Brightness.dark,
+                      colorSchemeSeed: Colors.blue,
+                      useMaterial3: true)
+                  : ThemeData(
+                      useMaterial3: true,
+                      fontFamily: 'NotoSansJP',
+                      brightness: Brightness.dark,
+                      colorScheme: darkDynamic),
+              routes: <String, WidgetBuilder>{
+                '/listTaskWaiting': (BuildContext context) =>
+                    ListTaskWaitingView(),
+                '/listMember': (BuildContext context) => ListMemberView(),
+                '/addLumpSelectItem': (BuildContext context) =>
+                    AddLumpSelectItemView(),
+                '/changeName': (BuildContext context) => ChangeNameView(),
+                '/changeAge': (BuildContext context) => ChangeAgeView(),
+                '/invite': (BuildContext context) => InviteView(),
+                '/listActivity': (BuildContext context) => ListActivityView(),
+                '/createActivity': (BuildContext context) =>
+                    CreateActivityView(),
+                '/detailActivity': (BuildContext context) =>
+                    DetailActivityView(),
+                '/editActivity': (BuildContext context) => EditActivityView(),
+                '/listAbsentScout': (BuildContext context) =>
+                    ListAbsentScoutView(),
+                '/analytics': (BuildContext context) => AnalyticsView(),
+                '/taskDetailAnalytics': (BuildContext context) =>
+                    TaskDetailAnalyticsView(),
+                '/taskDetailAnalyticsMember': (BuildContext context) =>
+                    TaskDetailAnalyticsMemberView(),
+                '/listCitationAnalyticsView': (BuildContext context) =>
+                    ListCitationAnalyticsView(),
+                '/communityView': (BuildContext context) => CommunityView(),
+                '/commentView': (BuildContext context) => CommentView(),
+                '/settingView': (BuildContext context) => SettingAccountView(),
+                '/settingGroupView': (BuildContext context) =>
+                    SettingGroupView(),
+                '/changeMailAddressView': (BuildContext context) =>
+                    ChangeMailAddressView(),
+                '/changePasswordView': (BuildContext context) =>
+                    ChangePasswordView(),
+                '/editProfile': (BuildContext context) => EditProfile(),
+                '/deleteGroupAccount': (BuildContext context) =>
+                    DeleteGroupAccount(),
+                '/accountMigration': (BuildContext context) =>
+                    AccountMigrationView(),
+                '/listMigrationWaiting': (BuildContext context) =>
+                    ListMigrationWaitingView(),
+              },
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                DefaultCupertinoLocalizations.delegate
+              ],
+              supportedLocales: const [
+                Locale('en'),
+                Locale('ja'),
+              ],
+            );
+          });
         }));
   }
 }
