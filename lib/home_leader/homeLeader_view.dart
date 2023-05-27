@@ -27,8 +27,8 @@ class HomeLeaderView extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        elevation: 8,
-                        color: Theme.of(context).colorScheme.primary,
+                        elevation: 4,
+                        color: Theme.of(context).colorScheme.primaryContainer,
                         child: InkWell(
                           customBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -43,8 +43,9 @@ class HomeLeaderView extends StatelessWidget {
                                 children: <Widget>[
                                   Icon(
                                     Icons.edit,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
                                     size: 35,
                                   ),
                                   Padding(
@@ -61,7 +62,7 @@ class HomeLeaderView extends StatelessWidget {
                                                 fontSize: 30,
                                                 color: Theme.of(context)
                                                     .colorScheme
-                                                    .onPrimary),
+                                                    .onPrimaryContainer),
                                           ))),
                                 ]),
                           ),
