@@ -3,7 +3,6 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'taskListScoutConfirm_model.dart';
@@ -36,7 +35,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
     } else {
       isDark = false;
     }
-    ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
+    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     return Scaffold(
       backgroundColor: scheme.background,
       appBar: AppBar(

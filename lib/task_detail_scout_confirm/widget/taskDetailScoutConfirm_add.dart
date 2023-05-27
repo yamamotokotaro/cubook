@@ -38,8 +38,8 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(0), topRight: Radius.circular(0)),
                 color: themeColor),
-            child: Column(
-              children: const <Widget>[
+            child: const Column(
+              children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 40, bottom: 20),
                   child: Center(

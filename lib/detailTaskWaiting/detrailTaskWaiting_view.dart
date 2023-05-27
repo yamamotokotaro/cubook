@@ -177,12 +177,12 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                 },
                                               );
                                             },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
+                                            child: const Padding(
+                                              padding: EdgeInsets.only(
                                                   top: 10, bottom: 10),
                                               child: Column(
                                                 // Replace with a Row for horizontal icon + text
-                                                children: const <Widget>[
+                                                children: <Widget>[
                                                   Icon(Icons.sort),
                                                   Text('細目',
                                                       style: TextStyle(
@@ -206,12 +206,12 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                           0),
                                                       dismissible: true));
                                             },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
+                                            child: const Padding(
+                                              padding: EdgeInsets.only(
                                                   top: 10, bottom: 10),
                                               child: Column(
                                                 // Replace with a Row for horizontal icon + text
-                                                children: const <Widget>[
+                                                children: <Widget>[
                                                   Icon(Icons.view_carousel),
                                                   Text('該当ページ',
                                                       style: TextStyle(
@@ -577,12 +577,12 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                 },
                                               );
                                             },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
+                                            child: const Padding(
+                                              padding: EdgeInsets.only(
                                                   top: 10, bottom: 10),
                                               child: Column(
                                                 // Replace with a Row for horizontal icon + text
-                                                children: const <Widget>[
+                                                children: <Widget>[
                                                   Icon(Icons.sort),
                                                   Text('細目',
                                                       style: TextStyle(
@@ -606,12 +606,12 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                                           0),
                                                       dismissible: true));
                                             },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
+                                            child: const Padding(
+                                              padding: EdgeInsets.only(
                                                   top: 10, bottom: 10),
                                               child: Column(
                                                 // Replace with a Row for horizontal icon + text
-                                                children: const <Widget>[
+                                                children: <Widget>[
                                                   Icon(Icons.view_carousel),
                                                   Text('該当ページ',
                                                       style: TextStyle(

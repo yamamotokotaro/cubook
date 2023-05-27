@@ -134,7 +134,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                           child: Text(
                                             task.getPartMap(
                                                 type, number)!['title'],
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white),
@@ -748,7 +748,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDark;
     final String numberShow = task.getNumber(type, page, index_page!)!;
-    ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
+    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {

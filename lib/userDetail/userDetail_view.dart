@@ -6,7 +6,6 @@ import 'package:cubook/setting_account_group/settingAccount_view.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/userDetail/widget/selectBook.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {

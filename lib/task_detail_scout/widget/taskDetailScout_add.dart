@@ -115,13 +115,13 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                   color: Colors.green,
                                   child: Column(
                                     children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
+                                      const Padding(
+                                        padding: EdgeInsets.only(
                                             top: 5, bottom: 5),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const <Widget>[
+                                          children: <Widget>[
                                             Icon(
                                               Icons.image,
                                               color: Colors.white,
@@ -242,13 +242,13 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                   color: Colors.blue,
                                   child: Column(
                                     children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
+                                      const Padding(
+                                        padding: EdgeInsets.only(
                                             top: 5, bottom: 5),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const <Widget>[
+                                          children: <Widget>[
                                             Icon(
                                               Icons.movie,
                                               color: Colors.white,
@@ -373,13 +373,13 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                     children: <Widget>[
                                       Container(
                                         color: Colors.orange,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
+                                        child: const Padding(
+                                          padding: EdgeInsets.only(
                                               top: 5, bottom: 5),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
-                                            children: const <Widget>[
+                                            children: <Widget>[
                                               Icon(
                                                 Icons.view_headline,
                                                 color: Colors.white,

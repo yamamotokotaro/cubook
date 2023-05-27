@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../settingAccount_model.dart';
@@ -114,11 +113,11 @@ class DeleteGroupAccount extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(5),
                                 child: Container(
-                                  child: Card(
+                                  child: const Card(
                                       child: Padding(
-                                    padding: const EdgeInsets.all(0),
+                                    padding: EdgeInsets.all(0),
                                     child: Column(
-                                      children: const <Widget>[
+                                      children: <Widget>[
                                         Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(
@@ -137,11 +136,11 @@ class DeleteGroupAccount extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(5),
                                 child: Container(
-                                  child: Card(
+                                  child: const Card(
                                       child: Padding(
-                                    padding: const EdgeInsets.all(0),
+                                    padding: EdgeInsets.all(0),
                                     child: Column(
-                                      children: const <Widget>[
+                                      children: <Widget>[
                                         Padding(
                                             padding: EdgeInsets.all(10),
                                             child: Text(

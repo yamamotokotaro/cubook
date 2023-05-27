@@ -5,7 +5,6 @@ import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -311,7 +310,7 @@ class DetailActivityView extends StatelessWidget {
                                                                             page: showTaskView(
                                                                                 page,
                                                                                 type,
-                                                                                number! + 1),
+                                                                                number+ 1),
                                                                             dismissible: true));
                                                                       } else {
                                                                         await showModalBottomSheet<

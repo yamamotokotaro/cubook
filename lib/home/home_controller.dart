@@ -5,7 +5,6 @@ import 'package:cubook/signup/join/joinGroup_view.dart';
 import 'package:cubook/signup/signup_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class HomeController extends StatelessWidget {

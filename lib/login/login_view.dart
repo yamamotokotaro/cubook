@@ -74,7 +74,7 @@ class LoginView extends StatelessWidget {
 
                               final bool result = await FlutterAuthUi.startUi(
                                 items: providers,
-                                tosAndPrivacyPolicy: TosAndPrivacyPolicy(
+                                tosAndPrivacyPolicy: const TosAndPrivacyPolicy(
                                   tosUrl:
                                       'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md',
                                   privacyPolicyUrl:
