@@ -37,7 +37,6 @@ import 'package:cubook/setting_account/settingAccount_model.dart';
 import 'package:cubook/setting_account/settingAccount_view.dart';
 import 'package:cubook/setting_account/widget/changeMailAddress.dart';
 import 'package:cubook/setting_account/widget/changePassword.dart';
-<<<<<<< HEAD
 import 'package:cubook/setting_account_group/settingAccount_model.dart';
 import 'package:cubook/setting_account_group/widget/accountMigration.dart';
 import 'package:cubook/setting_account_group/widget/changeAge.dart';
@@ -47,10 +46,6 @@ import 'package:cubook/setting_account_group/widget/editProfile.dart';
 import 'package:cubook/setting_group/settingGroup_model.dart';
 import 'package:cubook/setting_group/settingGroup_view.dart';
 import 'package:cubook/signup/signup_model.dart';
-=======
-import 'package:cubook/setting_account_group/widget/deleteGroupAccount.dart';
-import 'package:cubook/setting_account_group/widget/editProfile.dart';
->>>>>>> develop
 import 'package:cubook/task_detail_analytics/taskDetailAnalytics_model.dart';
 import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_model.dart';
 import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_view.dart';
@@ -61,21 +56,12 @@ import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-<<<<<<< HEAD
-
-=======
-// import 'package:firebase_analytics/observer.dart';
->>>>>>> develop
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-<<<<<<< HEAD
-=======
-// import 'package:firebase_analytics/firebase_analytics.dart';
->>>>>>> develop
 
 import 'community/comment_view.dart';
 import 'task_detail_analytics/taskDetailAnalytics_view.dart';
@@ -104,46 +90,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-<<<<<<< HEAD
   String title = 'Title';
   String helper = 'helper';
   final MaterialColor boyColor = Colors.orange;
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
-=======
-  String title = "Title";
-  String helper = "helper";
-  final boyColor = Colors.orange;
-  // FirebaseAnalytics analytics = FirebaseAnalytics();
-
-  // FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
->>>>>>> develop
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-<<<<<<< HEAD
-=======
-
-    /*_firebaseMessaging.configure(
-      onMessage: (message) async {
-        setState(() {
-          title = message["notification"]["title"];
-          helper = "You have recieved a new notification";
-          print(title);
-        });
-      },
-      onResume: (message) async {
-        setState(() {
-          title = message["data"]["title"];
-          helper = "You have open the application from notification";
-          print(message.toString());
-        });
-      },
-    );*/
->>>>>>> develop
   }
 
   @override
@@ -214,7 +171,6 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(
               create: (BuildContext context) => ListCitationAnalyticsModel()),
         ],
-<<<<<<< HEAD
         child: DynamicColorBuilder(
             builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
           return MaterialApp(
@@ -281,63 +237,5 @@ class _MyAppState extends State<MyApp> {
             ],
           );
         }));
-=======
-        child: MaterialApp(
-          title: "cubook",
-          home: HomeController(),
-          /*navigatorObservers: [
-            FirebaseAnalyticsObserver(analytics: analytics),
-          ],*/
-          debugShowCheckedModeBanner: false,
-          theme: new ThemeData(
-              fontFamily: 'NotoSansJP',
-              brightness: Brightness.light,
-              primaryColor: Colors.blue[900],
-              accentColor: Colors.blue[900]),
-          darkTheme: new ThemeData(
-            brightness: Brightness.dark,
-            primaryColor: Colors.blue[900],
-            accentColor: Colors.white,
-          ),
-          routes: <String, WidgetBuilder>{
-            '/listTaskWaiting': (BuildContext context) => ListTaskWaitingView(),
-            '/listMember': (BuildContext context) => ListMemberView(),
-            '/addLumpSelectItem': (BuildContext context) =>
-                AddLumpSelectItemView(),
-            '/changeName': (BuildContext context) => ChangeNameView(),
-            '/changeAge': (BuildContext context) => ChangeAgeView(),
-            '/invite': (BuildContext context) => InviteView(),
-            '/listActivity': (BuildContext context) => ListActivityView(),
-            '/createActivity': (BuildContext context) => CreateActivityView(),
-            '/detailActivity': (BuildContext context) => DetailActivityView(),
-            '/editActivity': (BuildContext context) => EditActivityView(),
-            '/listAbsentScout': (BuildContext context) => ListAbsentScoutView(),
-            '/analytics': (BuildContext context) => AnalyticsView(),
-            '/taskDetailAnalytics': (BuildContext context) =>
-                TaskDetailAnalyticsView(),
-            '/taskDetailAnalyticsMember': (BuildContext context) =>
-                TaskDetailAnalyticsMemberView(),
-            '/listCitationAnalyticsView': (BuildContext context) =>
-                ListCitationAnalyticsView(),
-            '/communityView': (BuildContext context) => CommunityView(),
-            '/commentView': (BuildContext context) => CommentView(),
-            '/settingView': (BuildContext context) => SettingAccountView(),
-            '/changeMailAddressView': (BuildContext context) => ChangeMailAddressView(),
-            '/changePasswordView': (BuildContext context) => ChangePasswordView(),
-            '/editProfile': (BuildContext context) => EditProfile(),
-            '/deleteGroupAccount': (BuildContext context) => DeleteGroupAccount()
-          },
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            DefaultCupertinoLocalizations.delegate
-          ],
-          supportedLocales: [
-            const Locale("en"),
-            const Locale("ja"),
-          ],
-        ));
->>>>>>> develop
   }
 }

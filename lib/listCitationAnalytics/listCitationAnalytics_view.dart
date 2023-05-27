@@ -13,7 +13,8 @@ class ListCitationAnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final bool isDark =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
         appBar: AppBar(
           title: const Text('表彰待ちリスト'),
@@ -91,16 +92,9 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                   QuerySnapshot>
                                                               snapshot) {
                                                     if (snapshot.hasData) {
-<<<<<<< HEAD
                                                       if (snapshot.data!.docs
                                                           .isNotEmpty) {
                                                         final QuerySnapshot
-=======
-                                                      if (snapshot.data.docs
-                                                              .length !=
-                                                          0) {
-                                                        QuerySnapshot
->>>>>>> develop
                                                             querySnapshot =
                                                             snapshot.data!;
                                                         return Column(

@@ -373,15 +373,9 @@ class TaskDetailScoutConfirmModel extends ChangeNotifier {
     } else {
       uploadTask = ref.putFile(File(file!.path));
     }
-<<<<<<< HEAD
     final dynamic snapshot = await Future.value(uploadTask);
     final String? path = await snapshot.ref.fullPath;
     final Map<String, dynamic> data = <String, dynamic>{};
-=======
-    dynamic snapshot = await Future.value(uploadTask);
-    String path = await snapshot.ref.fullPath;
-    Map<String, dynamic> data = Map<String, dynamic>();
->>>>>>> develop
     data.putIfAbsent('body', () => path);
     data.putIfAbsent('type', () => typeFile);
     final Map<String, dynamic> signed = stepSnapshot.get('signed');

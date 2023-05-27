@@ -23,7 +23,6 @@ class ListExaminationView extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Padding(
-<<<<<<< HEAD
                   padding: const EdgeInsets.only(top: 20, bottom: 10),
                   child: Consumer<ListAbsentModel>(builder:
                       (BuildContext context, ListAbsentModel model,
@@ -51,34 +50,6 @@ class ListExaminationView extends StatelessWidget {
                                       (BuildContext context, int index) {
                                     String absence;
                                     final DocumentSnapshot snapshot =
-=======
-                  padding: EdgeInsets.only(top: 20, bottom: 10),
-                  child: Consumer<ListAbsentModel>(
-                      builder: (context, model, child) {
-                        model.getGroup();
-                        print(uid);
-                        if(model.group != null) {
-                          return StreamBuilder<QuerySnapshot>(
-                            stream: FirebaseFirestore.instance
-                                .collection('activity_personal')
-                                .where('group', isEqualTo: model.group)
-                                .where('uid', isEqualTo: uid)
-                                .orderBy('date', descending: true)
-                                .snapshots(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
-                              if (snapshot.hasData) {
-                                if (snapshot.data.docs.length != 0) {
-                                  QuerySnapshot querySnapshot = snapshot.data;
-                                  return ListView.builder(
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      itemCount: querySnapshot.docs.length,
-                                      shrinkWrap: true,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        String absence;
-                                        DocumentSnapshot snapshot =
->>>>>>> develop
                                         querySnapshot.docs[index];
                                     if (snapshot.get('absent')) {
                                       absence = '出席';
