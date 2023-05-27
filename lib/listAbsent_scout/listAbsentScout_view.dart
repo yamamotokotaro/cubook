@@ -10,7 +10,7 @@ class ListAbsentScoutView extends StatelessWidget {
         appBar: AppBar(
           title: const Text('活動のきろく'),
         ),
-        body: SafeArea(child: Consumer<ListAbsentScoutModel>(builder:
+        body: Consumer<ListAbsentScoutModel>(builder:
             (BuildContext context, ListAbsentScoutModel model, Widget? child) {
           model.getUser();
           if (model.uid != null) {
@@ -22,6 +22,6 @@ class ListAbsentScoutView extends StatelessWidget {
                   child: CircularProgressIndicator()),
             );
           }
-        })));
+        }));
   }
 }
