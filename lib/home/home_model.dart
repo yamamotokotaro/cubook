@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/home_leader/homeLeader_view.dart';
 import 'package:cubook/home_scout/homeScout_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_auth_ui/flutter_auth_ui.dart';
 
 class HomeModel extends ChangeNotifier {
   DocumentSnapshot? userSnapshot;
@@ -55,7 +56,7 @@ class HomeModel extends ChangeNotifier {
           position = userSnapshot!.get('position');
           grade = userSnapshot!.get('grade');
           age = userSnapshot!.get('age');
-          if(position == 'scout') {
+          if (position == 'scout') {
             teamPosition = userData!['teamPosition'];
           }
           // if (userSnapshot.get('token_notification') != null) {
@@ -151,8 +152,7 @@ class HomeModel extends ChangeNotifier {
             if (data.docs.isNotEmpty) {
               userSnapshot = data.docs[0];
               userData = userSnapshot!.data() as Map<String, dynamic>?;
-              username =
-                  userSnapshot!.get('name') + userSnapshot!.get('call');
+              username = userSnapshot!.get('name') + userSnapshot!.get('call');
               usercall = userSnapshot!.get('call');
               groupName = userSnapshot!.get('groupName');
               teamPosition = userData!['teamPosition'];
@@ -251,11 +251,11 @@ class HomeModel extends ChangeNotifier {
     if (kIsWeb) {
       // await FlutterAuthUi.signOut();
       await FirebaseAuth.instance.signOut();
-      // await GoogleSignIn().signOut();
+      await GoogleSignIn().signOut();
     } else {
       // await FlutterAuthUi.signOut();
       await FirebaseAuth.instance.signOut();
-      // await GoogleSignIn().signOut();
+      await GoogleSignIn().signOut();
     }
     currentUser = null;
     notifyListeners();

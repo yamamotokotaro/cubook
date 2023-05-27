@@ -422,15 +422,11 @@ class DetailTaskWaitingView_old extends StatelessWidget {
                                           },
                                           icon: const Icon(
                                             Icons.edit,
-                                            size: 20,
-                                            color: Colors.white,
                                           ),
                                           label: const Text(
                                             'サインする',
                                             style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         )
                                       else

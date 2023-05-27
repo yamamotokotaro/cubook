@@ -68,7 +68,9 @@ class ListMemberView extends StatelessWidget {
                                                       BorderRadius.circular(10),
                                                 ),
                                                 elevation: 8,
-                                                color: Colors.blue[900],
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
                                                 child: InkWell(
                                                   customBorder:
                                                       RoundedRectangleBorder(
@@ -89,10 +91,13 @@ class ListMemberView extends StatelessWidget {
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: <Widget>[
-                                                          const Icon(
+                                                          Icon(
                                                             Icons
                                                                 .emoji_people_rounded,
-                                                            color: Colors.white,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .onPrimary,
                                                             size: 35,
                                                           ),
                                                           Padding(
@@ -111,14 +116,15 @@ class ListMemberView extends StatelessWidget {
                                                                             .length
                                                                             .toString() +
                                                                         '件',
-                                                                    style: const TextStyle(
+                                                                    style: TextStyle(
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .normal,
                                                                         fontSize:
                                                                             30,
-                                                                        color: Colors
-                                                                            .white),
+                                                                        color: Theme.of(context)
+                                                                            .colorScheme
+                                                                            .onPrimary),
                                                                   ))),
                                                         ]),
                                                   ),

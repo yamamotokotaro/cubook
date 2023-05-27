@@ -701,7 +701,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                     height: 70,
                     width: 70,
                     child: Card(
-                      color: scheme.secondaryContainer,
+                      color: scheme.surface,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(35.0)),
                       elevation: 7,
@@ -710,7 +710,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                           child: Icon(
                             Icons.collections_bookmark,
                             size: 40,
-                            color: scheme.onSecondaryContainer,
+                            color: scheme.primary,
                           )),
                     ),
                   ))
@@ -1423,7 +1423,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                   height: 70,
                   width: 70,
                   child: Card(
-                    color: scheme.secondaryContainer,
+                    color: scheme.surface,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(35.0)),
                     elevation: 7,
@@ -1433,7 +1433,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.bold,
-                            color: scheme.onSecondaryContainer),
+                            color: scheme.primary),
                       ),
                     ),
                   ),

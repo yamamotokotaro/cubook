@@ -66,6 +66,7 @@ class TaskScoutDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>>? contents =
         task.getContentList(type, number);
+    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     return Container(
         width: 280,
         child: GestureDetector(
@@ -76,6 +77,7 @@ class TaskScoutDetailView extends StatelessWidget {
               Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: Card(
+                    color: scheme.surface,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -525,6 +527,7 @@ class TaskScoutAddView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String numberShow = task.getNumber(type, page, index_page!)!;
+    ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -535,6 +538,7 @@ class TaskScoutAddView extends StatelessWidget {
               child: Container(
                   height: 1500,
                   child: Card(
+                    color: scheme.surface,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),

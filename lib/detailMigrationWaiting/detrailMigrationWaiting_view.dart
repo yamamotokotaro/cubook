@@ -227,7 +227,9 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                               child: Icon(
                                             Icons.account_circle_outlined,
                                             size: 45,
-                                            color: Colors.blue[900],
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
                                           ))),
                                       Padding(
                                           padding: const EdgeInsets.all(10),

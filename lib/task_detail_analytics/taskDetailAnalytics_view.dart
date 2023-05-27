@@ -21,6 +21,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
         task.getContentList(type, page);
     final Map<String, dynamic> mapTask = task.getPartMap(type, page)!;
     bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
@@ -141,6 +142,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                   padding:
                                                       const EdgeInsets.all(5),
                                                   child: Card(
+                                                    color: scheme.surface,
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
@@ -253,6 +255,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                             const EdgeInsets
                                                                 .all(5),
                                                         child: Card(
+                                                          color: scheme.surface,
                                                           shape:
                                                               RoundedRectangleBorder(
                                                             borderRadius:

@@ -263,18 +263,12 @@ class AnalyticsView extends StatelessWidget {
                                                         padding:
                                                             const EdgeInsets
                                                                 .only(top: 20),
-                                                        child: TextButton(
+                                                        child: FilledButton(
                                                             onPressed: () {
                                                               model.openFile();
                                                             },
                                                             child: Text(
                                                               'アプリで開く',
-                                                              style: TextStyle(
-                                                                  color: isDark
-                                                                      ? Colors
-                                                                          .black
-                                                                      : Colors
-                                                                          .white),
                                                             ))),
                                                     TextButton(
                                                         onPressed: () {

@@ -28,7 +28,9 @@ class TaskListScoutView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     return Scaffold(
+      backgroundColor: scheme.background,
       appBar: AppBar(
         backgroundColor: themeColor,
         elevation: 5,
@@ -85,6 +87,7 @@ class TaskListScoutView extends StatelessWidget {
                                     padding: const EdgeInsets.all(5),
                                     child: Container(
                                       child: Card(
+                                        color: scheme.surface,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10.0),

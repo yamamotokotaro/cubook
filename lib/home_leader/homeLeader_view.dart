@@ -15,15 +15,11 @@ class HomeLeaderView extends StatelessWidget {
         model.getSnapshot(context);
         if (model.group != null) {
           return StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('task')
-                  .where('group', isEqualTo: " j27DETWHGYEfpyp2Y292")
-                  .where('phase', isEqualTo: 'wait')
-                  .snapshots(),
+              stream: model.getTaskSnapshot(model.group),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
-                  if (!snapshot.data!.docs.isNotEmpty) {
+                  if (snapshot.data!.docs.isNotEmpty) {
                     return Padding(
                       padding: const EdgeInsets.all(10),
                       child: Container(
@@ -32,7 +28,7 @@ class HomeLeaderView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         elevation: 8,
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).colorScheme.primary,
                         child: InkWell(
                           customBorder: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -47,9 +43,8 @@ class HomeLeaderView extends StatelessWidget {
                                 children: <Widget>[
                                   Icon(
                                     Icons.edit,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer,
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
                                     size: 35,
                                   ),
                                   Padding(
@@ -66,7 +61,7 @@ class HomeLeaderView extends StatelessWidget {
                                                 fontSize: 30,
                                                 color: Theme.of(context)
                                                     .colorScheme
-                                                    .onPrimaryContainer),
+                                                    .onPrimary),
                                           ))),
                                 ]),
                           ),
