@@ -142,63 +142,72 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                           if (model.map_attach[index_page!]
                                                   [index] ==
                                               null)
-                                            Row(
-                                              children: <Widget>[
-                                                Expanded(
-                                                  child: SizedBox(
-                                                    height: 44,
-                                                    child: TextButton.icon(
-                                                      onPressed: () {
-                                                        model
-                                                            .onImagePressCamera(
-                                                                index_page!,
-                                                                index);
-                                                      },
-                                                      icon: const Icon(
-                                                        Icons.camera_alt,
-                                                        size: 20,
-                                                        color: Colors.white,
-                                                      ),
-                                                      label: const Text(
-                                                        'カメラ',
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ),
-                                                  ),
+                                            Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  10),
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  10)),
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .surface,
                                                 ),
-                                                Expanded(
-                                                    child: SizedBox(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: SizedBox(
                                                         height: 44,
                                                         child: TextButton.icon(
                                                           onPressed: () {
                                                             model
-                                                                .onImagePressPick(
+                                                                .onImagePressCamera(
                                                                     index_page!,
                                                                     index);
                                                           },
                                                           icon: const Icon(
-                                                            Icons.collections,
-                                                            size: 20,
-                                                            color: Colors.white,
+                                                            Icons.camera_alt,
                                                           ),
                                                           label: const Text(
-                                                            'ギャラリー',
+                                                            'カメラ',
                                                             style: TextStyle(
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .white),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
                                                           ),
-                                                        )))
-                                              ],
-                                            )
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                        child: SizedBox(
+                                                            height: 44,
+                                                            child:
+                                                                TextButton.icon(
+                                                              onPressed: () {
+                                                                model.onImagePressPick(
+                                                                    index_page!,
+                                                                    index);
+                                                              },
+                                                              icon: const Icon(
+                                                                Icons
+                                                                    .collections,
+                                                              ),
+                                                              label: const Text(
+                                                                'ギャラリー',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                            )))
+                                                  ],
+                                                ))
                                           else
                                             Container(
                                                 child: Column(
@@ -279,57 +288,71 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                       if (model.map_attach[index_page!]
                                               [index] ==
                                           null)
-                                        Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: SizedBox(
-                                                height: 44,
-                                                child: TextButton.icon(
-                                                  onPressed: () {
-                                                    model.onVideoPressCamera(
-                                                        index_page!, index);
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.camera_alt,
-                                                    size: 20,
-                                                    color: Colors.white,
-                                                  ),
-                                                  label: const Text(
-                                                    'カメラ',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                              ),
+                                        Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(10),
+                                                      bottomRight:
+                                                          Radius.circular(10)),
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surface,
                                             ),
-                                            Expanded(
-                                                child: SizedBox(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: SizedBox(
                                                     height: 44,
                                                     child: TextButton.icon(
                                                       onPressed: () {
-                                                        model.onVideoPressPick(
-                                                            index_page!, index);
+                                                        model
+                                                            .onVideoPressCamera(
+                                                                index_page!,
+                                                                index);
                                                       },
                                                       icon: const Icon(
-                                                        Icons.collections,
+                                                        Icons.camera_alt,
                                                         size: 20,
-                                                        color: Colors.white,
                                                       ),
                                                       label: const Text(
-                                                        'ギャラリー',
+                                                        'カメラ',
                                                         style: TextStyle(
-                                                            fontSize: 15,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.white),
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                       ),
-                                                    )))
-                                          ],
-                                        )
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                    child: SizedBox(
+                                                        height: 44,
+                                                        child: TextButton.icon(
+                                                          onPressed: () {
+                                                            model
+                                                                .onVideoPressPick(
+                                                                    index_page!,
+                                                                    index);
+                                                          },
+                                                          icon: const Icon(
+                                                            Icons.collections,
+                                                            size: 20,
+                                                          ),
+                                                          label: const Text(
+                                                            'ギャラリー',
+                                                            style: TextStyle(
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        )))
+                                              ],
+                                            ))
                                       else
                                         Container(
                                             child: Column(
@@ -529,10 +552,12 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         },
                         icon: const Icon(
                           Icons.edit,
+                          color: Colors.white,
                         ),
                         label: const Text(
                           'リーダーにサインをお願いする',
                           style: TextStyle(
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
