@@ -514,7 +514,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                         GestureDetector(
                             onTap: () =>
                                 model.onPressedCheckParent(!model.checkParent!),
-                            child: Text('保護者チェック'))
+                            child: const Text('保護者チェック'))
                       ],
                     ),
                   )

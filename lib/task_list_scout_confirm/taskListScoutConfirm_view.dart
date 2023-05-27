@@ -29,7 +29,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final ColorScheme scheme = ColorScheme.fromSeed(
         seedColor: themeColor!,
         brightness: MediaQuery.of(context).platformBrightness);

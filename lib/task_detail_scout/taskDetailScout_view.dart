@@ -527,7 +527,7 @@ class TaskScoutAddView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String numberShow = task.getNumber(type, page, index_page!)!;
-    ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
+    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();

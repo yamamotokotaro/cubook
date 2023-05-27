@@ -50,7 +50,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
     } else {
       tabs = ['サイン済み', '未サイン'];
     }
-    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -60,7 +60,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                   ' (' +
                   (number! + 1).toString() +
                   ')',
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: themeColor,

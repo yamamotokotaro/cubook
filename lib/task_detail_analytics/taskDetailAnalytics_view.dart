@@ -20,8 +20,8 @@ class TaskDetailAnalyticsView extends StatelessWidget {
     final List<Map<String, dynamic>>? contents =
         task.getContentList(type, page);
     final Map<String, dynamic> mapTask = task.getPartMap(type, page)!;
-    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
-    ColorScheme scheme = ColorScheme.fromSeed(
+    final bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final ColorScheme scheme = ColorScheme.fromSeed(
         seedColor: themeColor!,
         brightness: MediaQuery.of(context).platformBrightness);
     return Scaffold(

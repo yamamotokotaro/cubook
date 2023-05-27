@@ -30,7 +30,7 @@ class TaskListAnalyticsView extends StatelessWidget {
         seedColor: themeColor!,
         brightness: MediaQuery.of(context).platformBrightness);
     final List<Map<String, dynamic>>? mapTask = task.getAllMap(type);
-    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(

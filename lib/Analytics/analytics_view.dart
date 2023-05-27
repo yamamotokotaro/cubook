@@ -12,7 +12,7 @@ class AnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final List<String> type = theme.type;
     return Scaffold(
       appBar: AppBar(
@@ -260,7 +260,7 @@ class AnalyticsView extends StatelessWidget {
                                                           onPressed: () {
                                                             model.openFile();
                                                           },
-                                                          child: Text(
+                                                          child: const Text(
                                                             'アプリで開く',
                                                           ))),
                                                   TextButton(

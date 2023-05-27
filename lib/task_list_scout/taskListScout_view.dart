@@ -27,7 +27,7 @@ class TaskListScoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     return Scaffold(
       backgroundColor: scheme.background,

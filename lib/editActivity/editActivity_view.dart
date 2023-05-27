@@ -15,7 +15,7 @@ class EditActivityView extends StatelessWidget {
   Widget build(BuildContext context) {
     final String? documentID =
         ModalRoute.of(context)!.settings.arguments as String?;
-    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
 
     return Scaffold(
         appBar: AppBar(
