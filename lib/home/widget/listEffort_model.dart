@@ -26,7 +26,6 @@ class ListEffortModel extends ChangeNotifier {
         notifyListeners();
       }
       user.getIdTokenResult(true).then((IdTokenResult value) {
-        print(value.claims);
         final String? groupClaimBefore = group_claim;
         group_claim = value.claims!['group'];
         if (groupClaimBefore != group_claim) {

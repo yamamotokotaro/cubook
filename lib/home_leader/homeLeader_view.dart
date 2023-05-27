@@ -15,7 +15,11 @@ class HomeLeaderView extends StatelessWidget {
         model.getSnapshot(context);
         if (model.group != null) {
           return StreamBuilder<QuerySnapshot>(
-              stream: model.getTaskSnapshot(model.group),
+              stream: FirebaseFirestore.instance
+                  .collection('task')
+                  .where('group', isEqualTo: " j27DETWHGYEfpyp2Y292")
+                  .where('phase', isEqualTo: 'wait')
+                  .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {

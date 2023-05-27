@@ -98,7 +98,6 @@ class SettingAccountModel extends ChangeNotifier {
                             Navigator.pop(context);
                           } catch (error) {
                             passwordError = true;
-                            print('error');
                             notifyListeners();
                           }
                         },

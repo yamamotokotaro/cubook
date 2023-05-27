@@ -66,7 +66,6 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(themeColor);
     final List<Map<String, dynamic>>? contents =
         task.getContentList(type, number);
 

@@ -95,7 +95,6 @@ class LoginView extends StatelessWidget {
                                   androidMinimumVersion: '',
                                 ),
                               );
-                              print(result);
                               model.login();
                               /*FirebaseAuthUi.instance()
                                       .launchAuth(

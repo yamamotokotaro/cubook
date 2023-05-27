@@ -175,7 +175,6 @@ class ListCitationAnalyticsView extends StatelessWidget {
                                                                               InkWell(
                                                                             onTap:
                                                                                 () async {
-                                                                              print(snapshot.get('page'));
                                                                               Navigator.of(context).push<dynamic>(MyPageRoute(page: showTaskConfirmView(snapshot.get('page'), 'challenge', snapshot.get('uid'), 0), dismissible: true));
                                                                             },
                                                                             child:

@@ -158,7 +158,6 @@ class CommunityView extends StatelessWidget {
                                                                   'signed')[
                                                               indexNumber
                                                                   .toString()];
-                                                      print(numberSnapshot);
                                                       return Column(
                                                         children: <Widget>[
                                                           Padding(

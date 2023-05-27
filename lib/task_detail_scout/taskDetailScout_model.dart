@@ -200,7 +200,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
           map_attach[number!].length != 0) {
         isLoading[number] = true;
         notifyListeners();
-        print(map_attach);
         final Map<int, dynamic> MapDatas = map_attach[number];
         list_toSend[number] =
             List<dynamic>.generate(MapDatas.length, (int index) => null);

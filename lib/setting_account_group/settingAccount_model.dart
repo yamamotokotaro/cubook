@@ -382,7 +382,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
   }
 
   Future<void> deleteAccount(BuildContext context) async {
-    print('start deleting...');
     isLoading = true;
     notifyListeners();
     final User? user = FirebaseAuth.instance.currentUser;
@@ -401,8 +400,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
         final http.Response resp =
             await http.post(Uri.parse(url), headers: headers, body: body);
         isLoading = false;
-        print('end');
-        print(resp.body);
         if (resp.body == 'sucess') {
           isFinish = true;
         }
@@ -413,7 +410,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
   }
 
   Future<void> migrateAccount(BuildContext context) async {
-    print('start migrating...');
     isLoading = true;
     notifyListeners();
     final User? user = FirebaseAuth.instance.currentUser;

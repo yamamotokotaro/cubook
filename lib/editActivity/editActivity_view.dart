@@ -52,7 +52,6 @@ class EditActivityView extends StatelessWidget {
                     child: Consumer<EditActivityModel>(builder:
                         (BuildContext contextBuilder, EditActivityModel model,
                             Widget? child) {
-                      print('ページ更新');
                       model.getGroup();
                       if (model.group != null) {
                         return Padding(
@@ -257,7 +256,6 @@ class EditActivityView extends StatelessWidget {
                                                       } else {
                                                         teamCall = '班';
                                                       }
-                                                      print(model.uid_check);
                                                       return Column(
                                                           children: <Widget>[
                                                             if (isFirst &&

@@ -28,7 +28,9 @@ class SignupModel with ChangeNotifier {
         user.getIdTokenResult().then((IdTokenResult token) async {
           const String url =
               'https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup';
-          final Map<String, String> headers = {'content-type': 'application/json'};
+          final Map<String, String> headers = {
+            'content-type': 'application/json'
+          };
           final String body =
               json.encode({'idToken': token.token, 'joinCode': joinCode});
 
@@ -76,10 +78,11 @@ class SignupModel with ChangeNotifier {
       final User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         user.getIdTokenResult().then((IdTokenResult token) async {
-          print(token.claims);
           const String url =
               'https://asia-northeast1-cubook-3c960.cloudfunctions.net/createGroup';
-          final Map<String, String> headers = {'content-type': 'application/json'};
+          final Map<String, String> headers = {
+            'content-type': 'application/json'
+          };
           final String body = json.encode({
             'idToken': token.token,
             'groupName': groupController.text,
@@ -90,8 +93,6 @@ class SignupModel with ChangeNotifier {
 
           final http.Response resp =
               await http.post(Uri.parse(url), headers: headers, body: body);
-          print(resp.body);
-          print(token.claims);
           isLoading_join = false;
           if (resp.body == 'success') {
             mes_join = '';

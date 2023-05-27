@@ -93,8 +93,6 @@ class EditActivityModel extends ChangeNotifier {
       checkAbsents[documentID] = false;
     }
     notifyListeners();
-    print('notifyListners');
-    print(checkAbsents[documentID]);
   }
 
   Future<void> dismissUser(String id) async {

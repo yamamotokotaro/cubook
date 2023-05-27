@@ -44,7 +44,6 @@ class ListMemberView extends StatelessWidget {
                                 Widget? child) {
                           model.getGroup();
                           if (model.group != null) {
-                            print(model.team);
                             return Column(
                               children: <Widget>[
                                 if (model.position == 'leader')

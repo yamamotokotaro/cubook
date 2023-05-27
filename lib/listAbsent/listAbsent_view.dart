@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ListAbsentView extends StatelessWidget {
-
   ListAbsentView(String? _uid) {
     uid = _uid;
   }
@@ -25,10 +24,10 @@ class ListAbsentView extends StatelessWidget {
             children: <Widget>[
               Padding(
                   padding: const EdgeInsets.only(top: 20, bottom: 10),
-                  child: Consumer<ListAbsentModel>(
-                      builder: (BuildContext context, ListAbsentModel model, Widget? child) {
+                  child: Consumer<ListAbsentModel>(builder:
+                      (BuildContext context, ListAbsentModel model,
+                          Widget? child) {
                     model.getGroup();
-                    print(uid);
                     if (model.group != null) {
                       return StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
@@ -41,7 +40,8 @@ class ListAbsentView extends StatelessWidget {
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.hasData) {
                             if (snapshot.data!.docs.isNotEmpty) {
-                              final QuerySnapshot querySnapshot = snapshot.data!;
+                              final QuerySnapshot querySnapshot =
+                                  snapshot.data!;
                               return ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: querySnapshot.docs.length,
@@ -71,15 +71,16 @@ class ListAbsentView extends StatelessWidget {
                                                     BorderRadius.circular(10.0),
                                               ),
                                               onTap: () async {
-                                                final Map<String, dynamic> documentData =
+                                                final Map<String, dynamic>
+                                                    documentData =
                                                     snapshot.data()
                                                         as Map<String, dynamic>;
-                                                print(documentData['type']);
                                                 if (documentData['type'] ==
                                                     'migration') {
                                                   await showDialog<int>(
                                                       context: context,
-                                                      builder: (BuildContext context) {
+                                                      builder: (BuildContext
+                                                          context) {
                                                         return AlertDialog(
                                                           shape: const RoundedRectangleBorder(
                                                               borderRadius: BorderRadius
@@ -128,13 +129,15 @@ class ListAbsentView extends StatelessWidget {
                                                 children: <Widget>[
                                                   Container(
                                                       decoration: BoxDecoration(
-                                                          borderRadius: const BorderRadius.only(
-                                                              topLeft: Radius
-                                                                  .circular(10),
-                                                              bottomLeft:
-                                                                  Radius
-                                                                          .circular(
-                                                                      10)),
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                      .only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          10),
+                                                                  bottomLeft: Radius
+                                                                      .circular(
+                                                                          10)),
                                                           color:
                                                               Colors.blue[900]),
                                                       height: 100,
@@ -145,8 +148,8 @@ class ListAbsentView extends StatelessWidget {
                                                         child: Center(
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsets.all(
-                                                                    20),
+                                                                const EdgeInsets
+                                                                    .all(20),
                                                             child: Text(
                                                               absence,
                                                               style: const TextStyle(
@@ -163,17 +166,16 @@ class ListAbsentView extends StatelessWidget {
                                                   Expanded(
                                                       child: Padding(
                                                           padding:
-                                                              const EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                      .only(
                                                                   left: 0),
                                                           child: Column(
                                                             children: <Widget>[
                                                               Padding(
                                                                   padding: const EdgeInsets
-                                                                      .only(
-                                                                          left:
-                                                                              10,
-                                                                          top:
-                                                                              10),
+                                                                          .only(
+                                                                      left: 10,
+                                                                      top: 10),
                                                                   child: Container(
                                                                       width: double.infinity,
                                                                       child: Text(
@@ -188,13 +190,11 @@ class ListAbsentView extends StatelessWidget {
                                                                       ))),
                                                               Padding(
                                                                   padding: const EdgeInsets
-                                                                      .only(
-                                                                          left:
-                                                                              10,
-                                                                          top:
-                                                                              10,
-                                                                          bottom:
-                                                                              10),
+                                                                          .only(
+                                                                      left: 10,
+                                                                      top: 10,
+                                                                      bottom:
+                                                                          10),
                                                                   child: Container(
                                                                       width: double.infinity,
                                                                       child: Text(
@@ -231,8 +231,9 @@ class ListAbsentView extends StatelessWidget {
                                         children: <Widget>[
                                           Icon(
                                             Icons.bubble_chart,
-                                            color:
-                                                Theme.of(context).colorScheme.secondary,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
                                             size: 35,
                                           ),
                                           const Padding(

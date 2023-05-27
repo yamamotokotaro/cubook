@@ -291,7 +291,6 @@ class CreateActivityView extends StatelessWidget {
                                               } else {
                                                 teamCall = '班';
                                               }
-                                              print(model.uid_check);
                                               return Column(children: <Widget>[
                                                 if (isFirst && team != '')
                                                   Padding(

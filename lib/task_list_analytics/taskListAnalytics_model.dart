@@ -23,7 +23,7 @@ class TaskListAnalyticsModel extends ChangeNotifier {
         .then((QuerySnapshot<Map<String, dynamic>> snapshot) {
       final DocumentSnapshot userSnapshot = snapshot.docs[0];
       group = userSnapshot.get('group');
-      if(userSnapshot.get('position') == 'scout') {
+      if (userSnapshot.get('position') == 'scout') {
         team = userSnapshot.get('team');
         teamPosition = userSnapshot.get('teamPosition');
       }
@@ -41,7 +41,6 @@ class TaskListAnalyticsModel extends ChangeNotifier {
   }
 
   Future<void> getSnapshot(String uid) async {
-    print(uid);
     final User user = FirebaseAuth.instance.currentUser!;
     currentUser = user;
     user.getIdTokenResult().then((IdTokenResult token) async {

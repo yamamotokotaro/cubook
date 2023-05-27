@@ -841,9 +841,6 @@ class TaskScoutAddView extends StatelessWidget {
                                                             (BuildContext
                                                                     context,
                                                                 int index) {
-                                                          print(
-                                                              snapshot['data']);
-                                                          print(model.dataList);
                                                           final String? type =
                                                               snapshot['data']
                                                                       [index]

@@ -23,7 +23,6 @@ class NotificationModel extends ChangeNotifier {
           .update(
               <String, dynamic>{'time_notificationChecked': DateTime.now()});
     });
-    print(uid);
     if (uid != uid_before) {
       uid_before = uid;
       notifyListeners();

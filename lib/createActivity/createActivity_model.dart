@@ -28,10 +28,15 @@ class CreateActivityModel extends ChangeNotifier {
       list_selected = <Map<String, dynamic>>[];
     }
     list_selected = <Map<String, dynamic>>[];
-    final List<String> listCategory = ['usagi', 'sika', 'kuma', 'tukinowa', 'challenge'];
+    final List<String> listCategory = [
+      'usagi',
+      'sika',
+      'kuma',
+      'tukinowa',
+      'challenge'
+    ];
     for (int i = 0; i < listCategory.length; i++) {
       final List<dynamic> dataItem = <dynamic>[];
-      print(itemSelected);
       if (itemSelected[listCategory[i]] != null) {
         final List<dynamic> pageItem = itemSelected[listCategory[i]];
         for (int k = 0; k < pageItem.length; k++) {
@@ -57,7 +62,6 @@ class CreateActivityModel extends ChangeNotifier {
         }
       }
     }
-    print(list_selected);
     notifyListeners();
   }
 
@@ -204,12 +208,19 @@ class CreateActivityModel extends ChangeNotifier {
               data['type'] = 'activity';
               data['activityID'] = docID;
               data['uid_toAdd'] = listUid;
-              final List<String> listCategory = ['usagi', 'sika', 'kuma', 'tukinowa', 'challenge'];
+              final List<String> listCategory = [
+                'usagi',
+                'sika',
+                'kuma',
+                'tukinowa',
+                'challenge'
+              ];
               if (itemSelected != null) {
                 for (int i = 0; i < listCategory.length; i++) {
                   final List<dynamic> dataItem = <dynamic>[];
                   if (itemSelected[listCategory[i]] != null) {
-                    final List<dynamic> pageItem = itemSelected[listCategory[i]];
+                    final List<dynamic> pageItem =
+                        itemSelected[listCategory[i]];
                     for (int k = 0; k < pageItem.length; k++) {
                       final List<dynamic> numberItem = pageItem[k];
                       final Map<String, dynamic> toAdd = <String, dynamic>{};
@@ -243,7 +254,6 @@ class CreateActivityModel extends ChangeNotifier {
                 EmptyError = false;
                 isLoading = false;
               });
-              print(data);
             });
           });
         }

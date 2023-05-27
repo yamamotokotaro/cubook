@@ -31,7 +31,6 @@ class ListNotCititationed extends StatelessWidget {
                       model.getGroup();
                     }
                     if (model.group != null) {
-                      print(uid);
                       final DateTime date = DateTime.now();
                       final DateTime newDate =
                           DateTime(date.year, date.month + 1, date.day);
