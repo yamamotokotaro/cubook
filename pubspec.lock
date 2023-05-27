@@ -533,30 +533,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  notification_permissions:
+  open_file_plus:
     dependency: "direct main"
     description:
-      name: notification_permissions
-      sha256: e62e7fbd4b64941764778fc957224567aff10cdc8b0227046bd0a4b9db7b47a6
+      name: open_file_plus
+      sha256: f087e32722ffe4bac71925e7a1a9848a1008fd789e47c6628da3ed7845922227
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.1"
-  open_file:
+    version: "3.4.1"
+  package_info_plus:
     dependency: "direct main"
     description:
-      name: open_file
-      sha256: c85fbdc6ea2f44adcd999a74821a1436e620f9dfc167cda1ad0c9fb243616257
+      name: package_info_plus
+      sha256: "10259b111176fba5c505b102e3a5b022b51dd97e30522e906d6922c745584745"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.1"
-  package_info:
-    dependency: "direct main"
+    version: "3.1.2"
+  package_info_plus_platform_interface:
+    dependency: transitive
     description:
-      name: package_info
-      sha256: "6c07d9d82c69e16afeeeeb6866fe43985a20b3b50df243091bfc4a4ad2b03b75"
+      name: package_info_plus_platform_interface
+      sha256: "9bc8ba46813a4cc42c66ab781470711781940780fd8beddd0c3da62506d3a6c6"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.2"
+    version: "2.0.1"
   path:
     dependency: transitive
     description:

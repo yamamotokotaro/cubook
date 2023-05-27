@@ -9,10 +9,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
 // import 'dart:html' as http;
-
 
 class AnalyticsModel extends ChangeNotifier {
   late DocumentSnapshot userSnapshot;
@@ -45,7 +44,7 @@ class AnalyticsModel extends ChangeNotifier {
       position = userSnapshot.get('position');
       if (position == 'scout') {
         teamPosition = userSnapshot.get('teamPosition');
-        if(teamPosition == 'teamLeader'){
+        if (teamPosition == 'teamLeader') {
           position = teamPosition;
         }
       }
@@ -112,7 +111,8 @@ class AnalyticsModel extends ChangeNotifier {
                   textWrapping: TextWrapping.WrapText,
                   verticalAlign: VerticalAlign.Center,
                   horizontalAlign: HorizontalAlign.Center);
-              final List<Map<String, dynamic>> mapTask = task.getAllMap(type[i])!;
+              final List<Map<String, dynamic>> mapTask =
+                  task.getAllMap(type[i])!;
               if (countItem.length < type.length + 1) {
                 if (i == 0) {
                   countItem.add(0);
