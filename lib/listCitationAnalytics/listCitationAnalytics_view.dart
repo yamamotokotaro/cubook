@@ -13,12 +13,7 @@ class ListCitationAnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark;
-    if (Theme.of(context).colorScheme.secondary == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
+    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
         appBar: AppBar(
           title: const Text('表彰待ちリスト'),

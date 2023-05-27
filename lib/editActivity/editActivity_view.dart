@@ -15,12 +15,8 @@ class EditActivityView extends StatelessWidget {
   Widget build(BuildContext context) {
     final String? documentID =
         ModalRoute.of(context)!.settings.arguments as String?;
-    bool isDark;
-    if (Theme.of(context).colorScheme.secondary == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
+    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('記録を編集'),

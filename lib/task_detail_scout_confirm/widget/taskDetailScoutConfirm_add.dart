@@ -23,7 +23,9 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
+    final ColorScheme scheme = ColorScheme.fromSeed(
+        seedColor: themeColor!,
+        brightness: MediaQuery.of(context).platformBrightness);
     return Consumer<TaskDetailScoutConfirmModel>(
         builder: (BuildContext context, TaskDetailScoutConfirmModel model, _) {
       content = task.getContent(type, model.page, index_page);
@@ -135,17 +137,10 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                           onPressed: () {
                             model.onTapSend(index_page!);
                           },
-                          icon: const Icon(
-                            Icons.edit,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                          label: const Text(
+                          icon: Icon(Icons.edit, color: scheme.onPrimary),
+                          label: Text(
                             'サインする',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                            style: TextStyle(color: scheme.onPrimary),
                           ),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(

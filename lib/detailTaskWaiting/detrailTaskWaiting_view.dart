@@ -32,7 +32,7 @@ class DetailTaskWaitingView_old extends StatelessWidget {
         create: (BuildContext context) => DetailTaskWaitingModel(),
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('タスク詳細'),
+            title: const Text('取り組み詳細'),
           ),
           body: SafeArea(
               child: GestureDetector(

@@ -50,20 +50,19 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
     } else {
       tabs = ['サイン済み', '未サイン'];
     }
-    bool isDark;
-    if (Theme.of(context).colorScheme.secondary == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
+    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
-        title: Text(phase == 'end'
-            ? task.getPartMap(type, page)!['title']
-            : task.getPartMap(type, page)!['title'] +
-                ' (' +
-                (number! + 1).toString() +
-                ')'),
+        title: Text(
+          phase == 'end'
+              ? task.getPartMap(type, page)!['title']
+              : task.getPartMap(type, page)!['title'] +
+                  ' (' +
+                  (number! + 1).toString() +
+                  ')',
+          style: TextStyle(color: Colors.white),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: themeColor,
       ),
       body: SafeArea(

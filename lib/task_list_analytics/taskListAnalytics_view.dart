@@ -26,13 +26,12 @@ class TaskListAnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme scheme = ColorScheme.fromSeed(
+        seedColor: themeColor!,
+        brightness: MediaQuery.of(context).platformBrightness);
     final List<Map<String, dynamic>>? mapTask = task.getAllMap(type);
-    bool isDark;
-    if (Theme.of(context).colorScheme.secondary == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
+    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: themeColor,
@@ -101,6 +100,7 @@ class TaskListAnalyticsView extends StatelessWidget {
                                           padding: const EdgeInsets.all(5),
                                           child: Container(
                                             child: Card(
+                                              color: scheme.surface,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(10),

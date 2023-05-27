@@ -12,12 +12,7 @@ class AnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark;
-    if (Theme.of(context).colorScheme.secondary == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
+    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final List<String> type = theme.type;
     return Scaffold(
       appBar: AppBar(

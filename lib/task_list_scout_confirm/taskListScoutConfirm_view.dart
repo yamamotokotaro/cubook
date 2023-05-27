@@ -29,13 +29,10 @@ class TaskListScoutConfirmView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark;
-    if (Theme.of(context).colorScheme.secondary == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
-    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
+    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    final ColorScheme scheme = ColorScheme.fromSeed(
+        seedColor: themeColor!,
+        brightness: MediaQuery.of(context).platformBrightness);
     return Scaffold(
       backgroundColor: scheme.background,
       appBar: AppBar(
@@ -217,12 +214,17 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                                             10),
                                                                     child:
                                                                         CircularProgressIndicator(
-                                                                      backgroundColor: isDark
+                                                                      backgroundColor: MediaQuery.of(context).platformBrightness ==
+                                                                              Brightness
+                                                                                  .dark
                                                                           ? Colors.grey[
                                                                               700]
                                                                           : Colors
                                                                               .grey[300],
-                                                                      valueColor: AlwaysStoppedAnimation<Color?>(isDark
+                                                                      valueColor: AlwaysStoppedAnimation<
+                                                                          Color?>(MediaQuery.of(context).platformBrightness ==
+                                                                              Brightness
+                                                                                  .dark
                                                                           ? Colors
                                                                               .white
                                                                           : theme

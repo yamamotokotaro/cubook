@@ -228,17 +228,6 @@ class TaskScoutDetailView extends StatelessWidget {
                                                       int index) {
                                                 final String content =
                                                     contents[index]['body'];
-                                                Color? bordercolor;
-                                                if (Theme.of(context)
-                                                        .colorScheme
-                                                        .secondary ==
-                                                    Colors.white) {
-                                                  bordercolor =
-                                                      Colors.grey[700];
-                                                } else {
-                                                  bordercolor =
-                                                      Colors.grey[300];
-                                                }
                                                 return Padding(
                                                   padding:
                                                       const EdgeInsets.only(
@@ -251,7 +240,10 @@ class TaskScoutDetailView extends StatelessWidget {
                                                       shape:
                                                           RoundedRectangleBorder(
                                                         side: BorderSide(
-                                                          color: bordercolor!,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .outline,
                                                           width: 2.0,
                                                         ),
                                                         borderRadius:
@@ -681,12 +673,9 @@ class TaskScoutAddView extends StatelessWidget {
                                                                 child:
                                                                     Container(
                                                                   child: Card(
-                                                                    color: Colors
-                                                                        .green,
                                                                     child:
                                                                         Column(
-                                                                      children: <
-                                                                          Widget>[
+                                                                      children: <Widget>[
                                                                         Image.network(model.dataList[index_page!]
                                                                             [
                                                                             index])
@@ -706,8 +695,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                   child: Card(
                                                                     child:
                                                                         Column(
-                                                                      children: <
-                                                                          Widget>[
+                                                                      children: <Widget>[
                                                                         AspectRatio(
                                                                             aspectRatio:
                                                                                 model.dataList[index_page!][index].aspectRatio,
@@ -735,8 +723,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                             .all(0),
                                                                     child:
                                                                         Column(
-                                                                      children: <
-                                                                          Widget>[
+                                                                      children: <Widget>[
                                                                         Padding(
                                                                             padding:
                                                                                 const EdgeInsets.all(10),
@@ -760,8 +747,9 @@ class TaskScoutAddView extends StatelessWidget {
                                           ],
                                         )))
                                   ]);
-                                } else if (model.stepSnapshot.get('signed')[
-                                        index_page.toString()]['phaze'] ==
+                                } else if (model.stepSnapshot
+                                            .get('signed')[index_page.toString()]
+                                        ['phaze'] ==
                                     'wait') {
                                   final Map<String, dynamic> snapshot = model
                                       .stepSnapshot
@@ -870,8 +858,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                   color: Colors
                                                                       .green,
                                                                   child: Column(
-                                                                    children: <
-                                                                        Widget>[
+                                                                    children: <Widget>[
                                                                       Image.network(
                                                                           model.dataList[index_page!]
                                                                               [
@@ -890,8 +877,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                               child: Container(
                                                                 child: Card(
                                                                   child: Column(
-                                                                    children: <
-                                                                        Widget>[
+                                                                    children: <Widget>[
                                                                       AspectRatio(
                                                                           aspectRatio: model
                                                                               .dataList[index_page!][
@@ -921,8 +907,7 @@ class TaskScoutAddView extends StatelessWidget {
                                                                       const EdgeInsets
                                                                           .all(0),
                                                                   child: Column(
-                                                                    children: <
-                                                                        Widget>[
+                                                                    children: <Widget>[
                                                                       Padding(
                                                                           padding: const EdgeInsets.all(
                                                                               10),
@@ -947,8 +932,9 @@ class TaskScoutAddView extends StatelessWidget {
                                             Container(),
                                         ])))
                                   ]);
-                                } else if (model.stepSnapshot.get('signed')[
-                                        index_page.toString()]['phaze'] ==
+                                } else if (model.stepSnapshot
+                                            .get('signed')[index_page.toString()]
+                                        ['phaze'] ==
                                     'reject') {
                                   return Column(children: <Widget>[
                                     TaskDetailScoutAddView(
@@ -959,8 +945,9 @@ class TaskScoutAddView extends StatelessWidget {
                                                     index_page.toString()]
                                                 ['feedback'])
                                   ]);
-                                } else if (model.stepSnapshot.get('signed')[
-                                        index_page.toString()]['phaze'] ==
+                                } else if (model.stepSnapshot
+                                            .get('signed')[index_page.toString()]
+                                        ['phaze'] ==
                                     'withdraw') {
                                   return Column(children: <Widget>[
                                     TaskDetailScoutAddView(

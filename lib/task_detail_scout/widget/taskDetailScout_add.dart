@@ -109,77 +109,58 @@ class TaskDetailScoutAddView extends StatelessWidget {
                               model.list_attach[index_page!][index];
                           if (attach == 'image') {
                             return Padding(
-                              padding: const EdgeInsets.all(0),
-                              child: Container(
-                                child: Card(
-                                  color: Colors.green,
-                                  child: Column(
-                                    children: <Widget>[
-                                      const Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 5, bottom: 5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.image,
-                                              color: Colors.white,
-                                            ),
-                                            Text(
-                                              '画像を選ぶ',
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      if (model.map_attach[index_page!]
-                                              [index] ==
-                                          null)
-                                        Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: SizedBox(
-                                                height: 44,
-                                                child: TextButton.icon(
-                                                  onPressed: () {
-                                                    model.onImagePressCamera(
-                                                        index_page!, index);
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.camera_alt,
-                                                    size: 20,
-                                                    color: Colors.white,
-                                                  ),
-                                                  label: const Text(
-                                                    'カメラ',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white),
-                                                  ),
+                                padding: const EdgeInsets.all(0),
+                                child: Container(
+                                  child: InkWell(
+                                    onLongPress: () {},
+                                    child: Card(
+                                      color: Colors.green,
+                                      child: Column(
+                                        children: <Widget>[
+                                          const Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 5, bottom: 5),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.image,
+                                                  color: Colors.white,
                                                 ),
-                                              ),
+                                                Text(
+                                                  '写真をえらぶ',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
+                                              ],
                                             ),
-                                            Expanded(
-                                                child: SizedBox(
+                                          ),
+                                          if (model.map_attach[index_page!]
+                                                  [index] ==
+                                              null)
+                                            Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: SizedBox(
                                                     height: 44,
                                                     child: TextButton.icon(
                                                       onPressed: () {
-                                                        model.onImagePressPick(
-                                                            index_page!, index);
+                                                        model
+                                                            .onImagePressCamera(
+                                                                index_page!,
+                                                                index);
                                                       },
                                                       icon: const Icon(
-                                                        Icons.collections,
+                                                        Icons.camera_alt,
                                                         size: 20,
                                                         color: Colors.white,
                                                       ),
                                                       label: const Text(
-                                                        'ギャラリー',
+                                                        'カメラ',
                                                         style: TextStyle(
                                                             fontSize: 15,
                                                             fontWeight:
@@ -187,53 +168,85 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                             color:
                                                                 Colors.white),
                                                       ),
-                                                    )))
-                                          ],
-                                        )
-                                      else
-                                        Container(
-                                            child: Column(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.all(5),
-                                              child: Container(
-                                                child: Card(
-                                                  color: Colors.green,
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      if (model.map_attach[
-                                                              index_page!]
-                                                          [index] is XFile)
-                                                        Image.memory(model
-                                                                .map_show[
-                                                            index_page!][index])
-                                                      else
-                                                        Image.network(model
-                                                                .map_show[
-                                                            index_page!][index])
-                                                    ],
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ),
-                                            /*IconButton(
-                                                  padding: EdgeInsets.all(0),
-                                                  onPressed: () async {
-                                                    model.onPressDelete(index_page, index);
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.close,
-                                                    color: Colors.white,
-                                                    size: 21,
+                                                Expanded(
+                                                    child: SizedBox(
+                                                        height: 44,
+                                                        child: TextButton.icon(
+                                                          onPressed: () {
+                                                            model
+                                                                .onImagePressPick(
+                                                                    index_page!,
+                                                                    index);
+                                                          },
+                                                          icon: const Icon(
+                                                            Icons.collections,
+                                                            size: 20,
+                                                            color: Colors.white,
+                                                          ),
+                                                          label: const Text(
+                                                            'ギャラリー',
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        )))
+                                              ],
+                                            )
+                                          else
+                                            Container(
+                                                child: Column(
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(5),
+                                                  child: Container(
+                                                    child: Card(
+                                                      color: Colors.green,
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          if (model.map_attach[
+                                                                  index_page!]
+                                                              [index] is XFile)
+                                                            Image.memory(model
+                                                                        .map_show[
+                                                                    index_page!]
+                                                                [index])
+                                                          else
+                                                            Image.network(model
+                                                                        .map_show[
+                                                                    index_page!]
+                                                                [index])
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ),
-                                                )*/
-                                          ],
-                                        ))
-                                    ],
+                                                ),
+                                                // IconButton(
+                                                //   padding: EdgeInsets.all(0),
+                                                //   onPressed: () async {
+                                                //     model.onPressDelete(
+                                                //         index_page!, index);
+                                                //   },
+                                                //   icon: Icon(
+                                                //     Icons.close,
+                                                //     color: Colors.white,
+                                                //     size: 21,
+                                                //   ),
+                                                // )
+                                              ],
+                                            ))
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            );
+                                ));
                           } else if (attach == 'video') {
                             return Padding(
                               padding: const EdgeInsets.all(0),
@@ -243,8 +256,8 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                   child: Column(
                                     children: <Widget>[
                                       const Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 5, bottom: 5),
+                                        padding:
+                                            EdgeInsets.only(top: 5, bottom: 5),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -254,7 +267,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                               color: Colors.white,
                                             ),
                                             Text(
-                                              '動画を選ぶ',
+                                              '動画をえらぶ',
                                               style: TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
@@ -385,7 +398,7 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                                 color: Colors.white,
                                               ),
                                               Text(
-                                                '文章を入力',
+                                                '文章をかく',
                                                 style: TextStyle(
                                                     fontSize: 18,
                                                     fontWeight: FontWeight.bold,
@@ -406,17 +419,18 @@ class TaskDetailScoutAddView extends StatelessWidget {
                                         keyboardType: TextInputType.multiline,
                                         maxLines: null,
                                       ),
-                                      /*IconButton(
-                                                padding: EdgeInsets.all(0),
-                                                onPressed: () async {
-                                                  model.onPressDelete(index_page, index);
-                                                },
-                                                icon: Icon(
-                                                  Icons.close,
-                                                  color: Colors.white,
-                                                  size: 21,
-                                                ),
-                                              )*/
+                                      // IconButton(
+                                      //   padding: EdgeInsets.all(0),
+                                      //   onPressed: () async {
+                                      //     model.onPressDelete(
+                                      //         index_page!, index);
+                                      //   },
+                                      //   icon: Icon(
+                                      //     Icons.close,
+                                      //     color: Colors.white,
+                                      //     size: 21,
+                                      //   ),
+                                      // )
                                     ],
                                   ),
                                 )),
@@ -426,56 +440,60 @@ class TaskDetailScoutAddView extends StatelessWidget {
                             return Container();
                           }
                         })),
-                TextButton.icon(
+                FilledButton.icon(
                   onPressed: () {
                     model.onPressAdd_new(index_page!, 'text');
                   },
                   icon: const Icon(
                     Icons.view_headline,
-                    size: 20,
                     color: Colors.white,
                   ),
                   label: const Text(
-                    '文章を追加',
+                    '文章をいれる',
                     style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.orange)),
                 ),
-                TextButton.icon(
+                FilledButton.icon(
                   onPressed: () {
                     model.onPressAdd_new(index_page!, 'image');
                   },
                   icon: const Icon(
                     Icons.image,
-                    size: 20,
                     color: Colors.white,
                   ),
                   label: const Text(
-                    '画像を追加',
+                    '写真をいれる',
                     style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.green)),
                 ),
-                TextButton.icon(
+                FilledButton.icon(
                   onPressed: () {
                     model.onPressAdd_new(index_page!, 'video');
                   },
                   icon: const Icon(
                     Icons.movie,
-                    size: 20,
                     color: Colors.white,
                   ),
                   label: const Text(
-                    '動画を追加',
+                    '動画をいれる',
                     style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.blue)),
                 ),
                 if (type == 'risu' ||
                     type == 'usagi' ||
@@ -489,10 +507,14 @@ class TaskDetailScoutAddView extends StatelessWidget {
                       children: <Widget>[
                         Checkbox(
                           activeColor: themeColor,
+                          checkColor: Colors.white,
                           value: model.checkParent,
                           onChanged: model.onPressedCheckParent,
                         ),
-                        const Text('保護者チェック')
+                        GestureDetector(
+                            onTap: () =>
+                                model.onPressedCheckParent(!model.checkParent!),
+                            child: Text('保護者チェック'))
                       ],
                     ),
                   )
@@ -501,22 +523,22 @@ class TaskDetailScoutAddView extends StatelessWidget {
                 if (!model.isLoading[index_page!])
                   Padding(
                       padding: const EdgeInsets.only(top: 5),
-                      child: ElevatedButton.icon(
+                      child: FilledButton.icon(
                         onPressed: () {
                           model.onTapSend(index_page);
                         },
                         icon: const Icon(
                           Icons.edit,
-                          size: 20,
-                          color: Colors.white,
                         ),
                         label: const Text(
                           'リーダーにサインをお願いする',
                           style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(themeColor)),
                       ))
                 else
                   Container(

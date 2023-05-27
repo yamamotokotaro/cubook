@@ -201,7 +201,6 @@ class InviteView extends StatelessWidget {
                                     },
                                     child: const Text(
                                       '招待を送信',
-                                      style: TextStyle(color: Colors.white),
                                     )),
                           )
                         ],

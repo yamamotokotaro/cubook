@@ -20,15 +20,14 @@ class TaskDetailAnalyticsView extends StatelessWidget {
     final List<Map<String, dynamic>>? contents =
         task.getContentList(type, page);
     final Map<String, dynamic> mapTask = task.getPartMap(type, page)!;
-    bool isDark;
-    if (Theme.of(context).colorScheme.secondary == Colors.white) {
-      isDark = true;
-    } else {
-      isDark = false;
-    }
+    bool isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
-        title: Text(mapTask['title']),
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: Text(
+          mapTask['title'],
+          style: const TextStyle(color: Colors.white),
+        ),
         backgroundColor: themeColor,
       ),
       body: SafeArea(
@@ -387,15 +386,6 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                           (BuildContext context, int index) {
                                         final String content =
                                             contents[index]['body'];
-                                        Color? bordercolor;
-                                        if (Theme.of(context)
-                                                .colorScheme
-                                                .secondary ==
-                                            Colors.white) {
-                                          bordercolor = Colors.grey[700];
-                                        } else {
-                                          bordercolor = Colors.grey[300];
-                                        }
                                         return Padding(
                                             padding: const EdgeInsets.only(
                                                 bottom: 10, right: 5, left: 5),
@@ -403,7 +393,9 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                               color: const Color(0x00000000),
                                               shape: RoundedRectangleBorder(
                                                 side: BorderSide(
-                                                  color: bordercolor!,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .outline,
                                                   width: 2.0,
                                                 ),
                                                 borderRadius:

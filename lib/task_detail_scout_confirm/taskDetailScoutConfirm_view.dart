@@ -66,10 +66,13 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(themeColor);
     final List<Map<String, dynamic>>? contents =
         task.getContentList(type, number);
 
-    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
+    final ColorScheme scheme = ColorScheme.fromSeed(
+        seedColor: themeColor!,
+        brightness: MediaQuery.of(context).platformBrightness);
     return Container(
         width: 280,
         child: GestureDetector(
@@ -460,15 +463,6 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                 int index) {
                                               final String content =
                                                   contents[index]['body'];
-                                              Color? bordercolor;
-                                              if (Theme.of(context)
-                                                      .colorScheme
-                                                      .secondary ==
-                                                  Colors.white) {
-                                                bordercolor = Colors.grey[700];
-                                              } else {
-                                                bordercolor = Colors.grey[300];
-                                              }
                                               return Padding(
                                                 padding: const EdgeInsets.only(
                                                     bottom: 10,
@@ -480,7 +474,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       side: BorderSide(
-                                                        color: bordercolor!,
+                                                        color: scheme.outline,
                                                         width: 2.0,
                                                       ),
                                                       borderRadius:
@@ -559,138 +553,137 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                         return ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: Scaffold(
+                                backgroundColor: scheme.background,
                                 body: SingleChildScrollView(
                                     child: Column(children: <Widget>[
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20)),
-                                    color: themeColor),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 40, bottom: 20),
-                                  child: Center(
-                                    child: Text(
-                                      task.getPartMap(type, number)!['title'],
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20)),
+                                        color: themeColor),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 40, bottom: 20),
+                                      child: Center(
+                                        child: Text(
+                                          task.getPartMap(
+                                              type, number)!['title'],
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  '記録がありません',
-                                  style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none),
-                                ),
-                              ),
-                              if ((type != 'risu' &&
-                                      type != 'usagi' &&
-                                      type != 'sika' &&
-                                      type != 'kuma' &&
-                                      type != 'challenge' &&
-                                      type != 'tukinowa') ||
-                                  model.group == ' j27DETWHGYEfpyp2Y292' ||
-                                  model.group == ' z4pkBhhgr0fUMN4evr5z')
-                                Column(children: [
-                                  ListView.builder(
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: contents!.length,
-                                      shrinkWrap: true,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        final String content =
-                                            contents[index]['body'];
-                                        Color? bordercolor;
-                                        if (Theme.of(context)
-                                                .colorScheme
-                                                .secondary ==
-                                            Colors.white) {
-                                          bordercolor = Colors.grey[700];
-                                        } else {
-                                          bordercolor = Colors.grey[300];
-                                        }
-                                        return Padding(
+                                  const Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(
+                                      '記録がありません',
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold,
+                                          decoration: TextDecoration.none),
+                                    ),
+                                  ),
+                                  if ((type != 'risu' &&
+                                          type != 'usagi' &&
+                                          type != 'sika' &&
+                                          type != 'kuma' &&
+                                          type != 'challenge' &&
+                                          type != 'tukinowa') ||
+                                      model.group == ' j27DETWHGYEfpyp2Y292' ||
+                                      model.group == ' z4pkBhhgr0fUMN4evr5z')
+                                    Column(children: [
+                                      ListView.builder(
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: contents!.length,
+                                          shrinkWrap: true,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            final String content =
+                                                contents[index]['body'];
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 10,
+                                                  right: 10,
+                                                  left: 10),
+                                              child: Card(
+                                                  color:
+                                                      const Color(0x00000000),
+                                                  shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                      color: scheme.outline,
+                                                      width: 2.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  elevation: 0,
+                                                  child: InkWell(
+                                                    customBorder:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                    ),
+                                                    child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        child: Text(content)),
+                                                  )),
+                                            );
+                                          }),
+                                      Padding(
                                           padding: const EdgeInsets.only(
-                                              bottom: 10, right: 10, left: 10),
-                                          child: Card(
-                                              color: const Color(0x00000000),
-                                              shape: RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                  color: bordercolor!,
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
+                                              left: 15, bottom: 10, right: 15),
+                                          child: Container(
+                                            width: double.infinity,
+                                            child: const Text(
+                                              '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                              elevation: 0,
-                                              child: InkWell(
-                                                customBorder:
-                                                    RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    child: Text(content)),
-                                              )),
-                                        );
-                                      }),
-                                  Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15, bottom: 10, right: 15),
-                                      child: Container(
-                                        width: double.infinity,
-                                        child: const Text(
-                                          '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      )),
-                                ])
-                              else
-                                Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Center(
-                                        child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 5, top: 4),
-                                            child: Icon(
-                                              //ああああ
-                                              Icons.chrome_reader_mode,
-                                              color: themeColor,
-                                              size: 22,
+                                              textAlign: TextAlign.left,
                                             ),
-                                          ),
-                                          const Text(
-                                            '内容はカブブックで確認しよう',
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.normal,
-                                                decoration:
-                                                    TextDecoration.none),
-                                          ),
-                                        ]))),
-                            ]))));
+                                          )),
+                                    ])
+                                  else
+                                    Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: Center(
+                                            child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 5, top: 4),
+                                                child: Icon(
+                                                  //ああああ
+                                                  Icons.chrome_reader_mode,
+                                                  color: themeColor,
+                                                  size: 22,
+                                                ),
+                                              ),
+                                              const Text(
+                                                '内容はカブブックで確認しよう',
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ]))),
+                                ]))));
                       } else {
                         return Container(
                           child: Center(
@@ -709,7 +702,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                     height: 70,
                     width: 70,
                     child: Card(
-                      color: Colors.white,
+                      color: scheme.secondaryContainer,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(35.0)),
                       elevation: 7,
@@ -718,7 +711,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                           child: Icon(
                             Icons.collections_bookmark,
                             size: 40,
-                            color: themeColor,
+                            color: scheme.onSecondaryContainer,
                           )),
                     ),
                   ))
@@ -748,7 +741,9 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDark;
     final String numberShow = task.getNumber(type, page, index_page!)!;
-    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
+    final ColorScheme scheme = ColorScheme.fromSeed(
+        seedColor: themeColor!,
+        brightness: MediaQuery.of(context).platformBrightness);
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
@@ -901,20 +896,17 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                               index_page!,
                                                               context);
                                                         },
-                                                        icon: const Icon(
+                                                        icon: Icon(
                                                           Icons.save,
                                                           size: 20,
-                                                          color: Colors.white,
+                                                          color:
+                                                              scheme.onPrimary,
                                                         ),
-                                                        label: const Text(
+                                                        label: Text(
                                                           '変更を保存',
                                                           style: TextStyle(
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color:
-                                                                  Colors.white),
+                                                              color: scheme
+                                                                  .onPrimary),
                                                         ),
                                                         style: ButtonStyle(
                                                             backgroundColor:
@@ -1011,10 +1003,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                 left: 10,
                                                                 right: 10),
                                                         child: Divider(
-                                                          color: isDark
-                                                              ? Colors.grey[600]
-                                                              : Colors
-                                                                  .grey[400],
+                                                          color: scheme.outline,
                                                         )),
                                                     TextButton.icon(
                                                       onPressed: () async {
@@ -1435,7 +1424,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                   height: 70,
                   width: 70,
                   child: Card(
-                    color: Colors.white,
+                    color: scheme.secondaryContainer,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(35.0)),
                     elevation: 7,
@@ -1445,7 +1434,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.bold,
-                            color: themeColor),
+                            color: scheme.onSecondaryContainer),
                       ),
                     ),
                   ),
@@ -1454,7 +1443,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
             Align(
               alignment: Alignment.topCenter,
               child: Card(
-                color: Colors.white,
+                color: scheme.secondaryContainer,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(35.0)),
                 elevation: 7,
@@ -1470,7 +1459,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.bold,
-                            color: themeColor),
+                            color: scheme.onSecondaryContainer),
                       ),
                     )),
               ),
