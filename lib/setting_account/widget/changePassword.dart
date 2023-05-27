@@ -10,7 +10,6 @@ class ChangePasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).accentColor,
           title: const Text('パスワードを変更'),
         ),
         body: Builder(builder: (BuildContext context) {

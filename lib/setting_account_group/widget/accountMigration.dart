@@ -16,9 +16,7 @@ class AccountMigrationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).accentColor,
           title: const Text('アカウントを移行'),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: GestureDetector(
             onTap: () {

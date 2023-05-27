@@ -15,9 +15,7 @@ class ListMemberView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).accentColor,
         title: const Text('メンバーリスト'),
-        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       floatingActionButton: Selector<ListMemberModel, String?>(
           selector: (BuildContext context, ListMemberModel model) =>
@@ -260,8 +258,7 @@ class ListMemberView extends StatelessWidget {
                                                                 const EdgeInsets
                                                                     .all(10),
                                                             child: Row(
-                                                              children: <
-                                                                  Widget>[
+                                                              children: <Widget>[
                                                                 Container(
                                                                   width: 40,
                                                                   height: 40,
@@ -367,8 +364,7 @@ class ListMemberView extends StatelessWidget {
                                                                 const EdgeInsets
                                                                     .all(10),
                                                             child: Row(
-                                                              children: <
-                                                                  Widget>[
+                                                              children: <Widget>[
                                                                 Container(
                                                                   width: 40,
                                                                   height: 40,
@@ -568,8 +564,7 @@ class ListMemberView extends StatelessWidget {
                                                                   const EdgeInsets
                                                                       .all(10),
                                                               child: Row(
-                                                                children: <
-                                                                    Widget>[
+                                                                children: <Widget>[
                                                                   Container(
                                                                     width: 40,
                                                                     height: 40,

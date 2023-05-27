@@ -12,9 +12,7 @@ class SettingGroupView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).accentColor,
         title: const Text('グループ設定'),
-        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -49,7 +47,7 @@ class SettingGroupView extends StatelessWidget {
                               title: Text(model.groupID!),
                               onTap: () async {
                                 await Clipboard.setData(
-                                    ClipboardData(text: model.groupID));
+                                    ClipboardData(text: model.groupID!));
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
                                   content: Text('グループIDをクリップボードにコピーしました'),

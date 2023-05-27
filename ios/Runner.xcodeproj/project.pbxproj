@@ -18,6 +18,7 @@
 		9AB4EAFE24DBF42600D88ED8 /* ja-JP.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9AB4EAFC24DBF42600D88ED8 /* ja-JP.lproj */; };
 		9AB4EAFF24DBF42600D88ED8 /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9AB4EAFD24DBF42600D88ED8 /* Base.lproj */; };
 		A077F39EB87F7A86EA9A73F7 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18FBACCAE7106165F3708D5 /* Pods_Runner.framework */; };
+		D073D2B8174CDD0FBD5D6BB5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 322B606F789EC57574713D9B /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,7 @@
 		0221E50EC96182DCF0378105 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		322B606F789EC57574713D9B /* GoogleService-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Runner/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				97C146EF1CF9000F007C117D /* Products */,
 				B8FC52E82653A16B199C5D0D /* Pods */,
 				C93B42C0A953B8AD0994F1DA /* Frameworks */,
+				322B606F789EC57574713D9B /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -221,6 +224,7 @@
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				9AB4EAFE24DBF42600D88ED8 /* ja-JP.lproj in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+				D073D2B8174CDD0FBD5D6BB5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

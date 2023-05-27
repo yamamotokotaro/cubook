@@ -13,11 +13,13 @@ class TaskDetailAnalyticsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TaskDetail info = ModalRoute.of(context)!.settings.arguments as TaskDetail;
+    final TaskDetail info =
+        ModalRoute.of(context)!.settings.arguments as TaskDetail;
     final String? type = info.type;
     final int? page = info.page;
     final Color? themeColor = theme.getThemeColor(type);
-    final List<Map<String, dynamic>>? contents = task.getContentList(type, page);
+    final List<Map<String, dynamic>>? contents =
+        task.getContentList(type, page);
     final Map<String, dynamic> mapTask = task.getPartMap(type, page)!;
     bool isDark;
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
@@ -28,7 +30,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(mapTask['title']),
-        backgroundColor: themeColor, systemOverlayStyle: SystemUiOverlayStyle.light,
+        backgroundColor: themeColor,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -39,8 +41,9 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                       padding: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: Consumer<TaskDetailAnalyticsModel>(
-                          builder: (BuildContext context, TaskDetailAnalyticsModel model, Widget? child) {
+                      child: Consumer<TaskDetailAnalyticsModel>(builder:
+                          (BuildContext context, TaskDetailAnalyticsModel model,
+                              Widget? child) {
                         model.getGroup();
                         if (model.group != null) {
                           return Column(
@@ -112,7 +115,8 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                               if (listUid.contains(
                                                   documentSnapshot
                                                       .get('uid'))) {
-                                                if(documentData!['end'] != null){
+                                                if (documentData!['end'] !=
+                                                    null) {
                                                   countEnd++;
                                                 }
                                               }
@@ -127,9 +131,8 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                   if (signedPart['phaze'] ==
                                                           'signed' &&
                                                       listUid.contains(
-                                                              documentSnapshot
-                                                                  .get(
-                                                                      'uid'))) {
+                                                          documentSnapshot
+                                                              .get('uid'))) {
                                                     countItem[i]++;
                                                   }
                                                 }
@@ -137,7 +140,8 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                             }
                                             return Column(children: <Widget>[
                                               Padding(
-                                                  padding: const EdgeInsets.all(5),
+                                                  padding:
+                                                      const EdgeInsets.all(5),
                                                   child: Card(
                                                     shape:
                                                         RoundedRectangleBorder(
@@ -161,8 +165,9 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                         child: Row(
                                                           children: <Widget>[
                                                             Padding(
-                                                                padding: const EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
                                                                         top: 15,
                                                                         bottom:
                                                                             15,
@@ -189,16 +194,16 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                           userCount,
                                                                 )),
                                                             Padding(
-                                                                padding: const EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
                                                                         left:
                                                                             10),
                                                                 child: Column(
                                                                   crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .start,
-                                                                  children: <
-                                                                      Widget>[
+                                                                  children: <Widget>[
                                                                     Padding(
                                                                         padding: const EdgeInsets.only(
                                                                             top:
@@ -222,8 +227,9 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                     .toString())*/
                                                   )),
                                               Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 5, left: 17),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 5, left: 17),
                                                   child: Container(
                                                       width: double.infinity,
                                                       child: const Text(
@@ -246,7 +252,8 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                           int index) {
                                                     return Padding(
                                                         padding:
-                                                            const EdgeInsets.all(5),
+                                                            const EdgeInsets
+                                                                .all(5),
                                                         child: Card(
                                                           shape:
                                                               RoundedRectangleBorder(
@@ -270,8 +277,7 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                             index));
                                                               },
                                                               child: Row(
-                                                                children: <
-                                                                    Widget>[
+                                                                children: <Widget>[
                                                                   Container(
                                                                       decoration: BoxDecoration(
                                                                           borderRadius: const BorderRadius.only(
@@ -302,15 +308,15 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                                         ),
                                                                       )),
                                                                   Padding(
-                                                                      padding: const EdgeInsets.only(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
                                                                           left:
                                                                               10),
                                                                       child:
                                                                           Column(
                                                                         crossAxisAlignment:
                                                                             CrossAxisAlignment.start,
-                                                                        children: <
-                                                                            Widget>[
+                                                                        children: <Widget>[
                                                                           Padding(
                                                                               padding: const EdgeInsets.only(top: 10),
                                                                               child: Align(
@@ -359,7 +365,8 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                     }
                                   }),
                               Padding(
-                                  padding: const EdgeInsets.only(top: 5, left: 17),
+                                  padding:
+                                      const EdgeInsets.only(top: 5, left: 17),
                                   child: Container(
                                       width: double.infinity,
                                       child: const Text(
@@ -382,7 +389,9 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                         final String content =
                                             contents[index]['body'];
                                         Color? bordercolor;
-                                        if (Theme.of(context).colorScheme.secondary ==
+                                        if (Theme.of(context)
+                                                .colorScheme
+                                                .secondary ==
                                             Colors.white) {
                                           bordercolor = Colors.grey[700];
                                         } else {
@@ -410,7 +419,8 @@ class TaskDetailAnalyticsView extends StatelessWidget {
                                                             10.0),
                                                   ),
                                                   child: Padding(
-                                                    padding: const EdgeInsets.all(8),
+                                                    padding:
+                                                        const EdgeInsets.all(8),
                                                     child: Semantics(
                                                         label: 'さいもく' +
                                                             (index + 1)

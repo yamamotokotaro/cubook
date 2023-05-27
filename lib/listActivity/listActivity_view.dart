@@ -13,9 +13,7 @@ class ListActivityView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).accentColor,
         title: const Text('記録一覧'),
-        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {

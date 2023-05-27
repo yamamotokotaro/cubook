@@ -23,9 +23,7 @@ class EditActivityView extends StatelessWidget {
     }
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).accentColor,
           title: const Text('記録を編集'),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         floatingActionButton: Consumer<EditActivityModel>(builder:
             (BuildContext context, EditActivityModel model, Widget? child) {
@@ -490,8 +488,7 @@ class EditActivityView extends StatelessWidget {
                                                                       '班';
                                                                 }
                                                                 return Column(
-                                                                    children: <
-                                                                        Widget>[
+                                                                    children: <Widget>[
                                                                       if (isFirst &&
                                                                           team !=
                                                                               '')

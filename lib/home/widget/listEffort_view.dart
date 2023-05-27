@@ -249,8 +249,7 @@ class listEffort extends StatelessWidget {
                                                                           Column(
                                                                         mainAxisSize:
                                                                             MainAxisSize.min,
-                                                                        children: <
-                                                                            Widget>[
+                                                                        children: <Widget>[
                                                                           ListTile(
                                                                             leading:
                                                                                 const Icon(Icons.delete),

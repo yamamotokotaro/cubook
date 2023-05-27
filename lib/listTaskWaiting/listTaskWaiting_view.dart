@@ -15,9 +15,7 @@ class ListTaskWaitingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).accentColor,
           title: const Text('サイン待ちリスト'),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Align(
             alignment: Alignment.topCenter,

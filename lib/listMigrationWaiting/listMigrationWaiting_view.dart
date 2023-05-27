@@ -16,9 +16,7 @@ class ListMigrationWaitingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).accentColor,
           title: const Text('移行申請'),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Align(
             alignment: Alignment.topCenter,

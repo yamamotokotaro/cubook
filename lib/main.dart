@@ -12,6 +12,7 @@ import 'package:cubook/detailMigrationWaiting/detailMigrationWaiting_model.dart'
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/editActivity/editActivity_model.dart';
 import 'package:cubook/editActivity/editActivity_view.dart';
+import 'package:cubook/firebase_options.dart';
 import 'package:cubook/home/home_controller.dart';
 import 'package:cubook/home/home_model.dart';
 import 'package:cubook/home/widget/listEffort_model.dart';
@@ -78,7 +79,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GestureBinding.instance.resamplingEnabled = true;
   // Firebaseの各サービスを使う前に初期化を済ませておく必要がある
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
@@ -179,16 +180,14 @@ class _MyAppState extends State<MyApp> {
             navigatorObservers: <NavigatorObserver>[observer],
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              fontFamily: 'NotoSansJP',
-              primaryColor: Colors.blue[900],
-              accentColor: Colors.blue[900],
-            ),
+                fontFamily: 'NotoSansJP',
+                colorSchemeSeed: Colors.blue,
+                useMaterial3: true),
             darkTheme: ThemeData(
-              fontFamily: 'NotoSansJP',
-              brightness: Brightness.dark,
-              primaryColor: Colors.blue[900],
-              accentColor: Colors.white,
-            ),
+                fontFamily: 'NotoSansJP',
+                brightness: Brightness.dark,
+                colorSchemeSeed: Colors.blue,
+                useMaterial3: true),
             routes: <String, WidgetBuilder>{
               '/listTaskWaiting': (BuildContext context) =>
                   ListTaskWaitingView(),

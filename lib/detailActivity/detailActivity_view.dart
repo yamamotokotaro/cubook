@@ -19,7 +19,6 @@ class DetailActivityView extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as String?;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).accentColor,
         title: const Text('記録詳細'),
         actions: <Widget>[
           Selector<DetailActivityModel, String?>(
@@ -84,8 +83,7 @@ class DetailActivityView extends StatelessWidget {
                                                                   mainAxisSize:
                                                                       MainAxisSize
                                                                           .min,
-                                                                  children: <
-                                                                      Widget>[
+                                                                  children: <Widget>[
                                                                     Consumer<
                                                                         DetailActivityModel>(builder: (BuildContext
                                                                             context,
@@ -149,7 +147,6 @@ class DetailActivityView extends StatelessWidget {
                               ))
                           : Container())
         ],
-        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -503,8 +500,7 @@ class DetailActivityView extends StatelessWidget {
                                                                 const EdgeInsets
                                                                     .all(10),
                                                             child: Row(
-                                                              children: <
-                                                                  Widget>[
+                                                              children: <Widget>[
                                                                 Container(
                                                                   width: 40,
                                                                   height: 40,

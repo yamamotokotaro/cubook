@@ -47,7 +47,6 @@ class TaskListScoutConfirmView extends StatelessWidget {
           title!,
           style: const TextStyle(color: Colors.white),
         ),
-        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -210,8 +209,7 @@ class TaskListScoutConfirmView extends StatelessWidget {
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Row(
-                                                              children: <
-                                                                  Widget>[
+                                                              children: <Widget>[
                                                                 const Text(
                                                                     '達成度'),
                                                                 Padding(

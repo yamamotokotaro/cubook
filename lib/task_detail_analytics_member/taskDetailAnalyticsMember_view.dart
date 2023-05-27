@@ -38,7 +38,8 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TaskDetailMember info = ModalRoute.of(context)!.settings.arguments as TaskDetailMember;
+    final TaskDetailMember info =
+        ModalRoute.of(context)!.settings.arguments as TaskDetailMember;
     final String? type = info.type;
     final int? page = info.page;
     final String? phase = info.phase;
@@ -64,7 +65,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                 ' (' +
                 (number! + 1).toString() +
                 ')'),
-        backgroundColor: themeColor, systemOverlayStyle: SystemUiOverlayStyle.light,
+        backgroundColor: themeColor,
       ),
       body: SafeArea(
         child: /*SingleChildScrollView(
@@ -72,8 +73,9 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
             Center(
           child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 600),
-              child: Consumer<TaskDetailAnalyticsMemberModel>(
-                  builder: (BuildContext context, TaskDetailAnalyticsMemberModel model, Widget? child) {
+              child: Consumer<TaskDetailAnalyticsMemberModel>(builder:
+                  (BuildContext context, TaskDetailAnalyticsMemberModel model,
+                      Widget? child) {
                 model.getGroup();
                 if (model.group != null) {
                   return StreamBuilder<QuerySnapshot>(
@@ -115,27 +117,28 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshotTask) {
                               if (snapshotTask.hasData) {
-                                final List<DocumentSnapshot> listDocumentSnapshot =
+                                final List<DocumentSnapshot>
+                                    listDocumentSnapshot =
                                     snapshotTask.data!.docs;
                                 for (DocumentSnapshot documentSnapshot
                                     in listDocumentSnapshot) {
-                                  final Map<String, dynamic>? documentData = documentSnapshot.data() as Map<String, dynamic>?;
+                                  final Map<String, dynamic>? documentData =
+                                      documentSnapshot.data()
+                                          as Map<String, dynamic>?;
                                   if (phase == 'end') {
-                                    if (documentData!['end'] !=
-                                            null &&
-                                        (listUid.contains(documentSnapshot
-                                                .get('uid')) ||
+                                    if (documentData!['end'] != null &&
+                                        (listUid.contains(
+                                                documentSnapshot.get('uid')) ||
                                             type == 'challenge' ||
                                             type == 'gino' ||
                                             type == 'tukinowa')) {
                                       listUidToShow
                                           .add(documentSnapshot.get('uid'));
                                     } else if (type == 'tukinowa') {
-                                      if (documentData['age'] ==
-                                          'kuma') {
+                                      if (documentData['age'] == 'kuma') {
                                         userCount++;
-                                        listUidToShow.add(
-                                            documentSnapshot.get('uid'));
+                                        listUidToShow
+                                            .add(documentSnapshot.get('uid'));
                                       }
                                     }
                                   }
@@ -150,8 +153,8 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                   .get('uid')) ||
                                               type == 'challenge' ||
                                               type == 'gino')) {
-                                        listUidToShow.add(
-                                            documentSnapshot.get('uid'));
+                                        listUidToShow
+                                            .add(documentSnapshot.get('uid'));
                                       }
                                     }
                                   }
@@ -170,9 +173,11 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                               TabBar(
                                                 indicatorColor:
                                                     Theme.of(context)
-                                                        .colorScheme.secondary,
+                                                        .colorScheme
+                                                        .secondary,
                                                 labelColor: Theme.of(context)
-                                                    .colorScheme.secondary,
+                                                    .colorScheme
+                                                    .secondary,
                                                 isScrollable: false,
                                                 tabs: <Widget>[
                                                   Tab(text: tabs[0]),
@@ -203,8 +208,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                       .get('team')
                                                       .toString();
                                                 } else {
-                                                  team =
-                                                      snapshot.get('team');
+                                                  team = snapshot.get('team');
                                                 }
                                                 if (teamLast != team) {
                                                   isFirst = true;
@@ -222,34 +226,38 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                 }
                                                 return Column(
                                                     children: <Widget>[
-                                                      if (isFirst && team != '') Padding(
-                                                              padding: const EdgeInsets
-                                                                  .only(
-                                                                      top: 10,
-                                                                      bottom:
-                                                                          10,
-                                                                      left: 17),
-                                                              child: Container(
-                                                                  width: double
-                                                                      .infinity,
-                                                                  child: Text(
-                                                                    team! +
-                                                                        teamCall,
-                                                                    style:
-                                                                        const TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          23,
-                                                                    ),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .left,
-                                                                  ))) else Container(),
+                                                      if (isFirst && team != '')
+                                                        Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    top: 10,
+                                                                    bottom: 10,
+                                                                    left: 17),
+                                                            child: Container(
+                                                                width: double
+                                                                    .infinity,
+                                                                child: Text(
+                                                                  team! +
+                                                                      teamCall,
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        23,
+                                                                  ),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                )))
+                                                      else
+                                                        Container(),
                                                       Padding(
                                                           padding:
-                                                              const EdgeInsets.all(5),
+                                                              const EdgeInsets
+                                                                  .all(5),
                                                           child: Container(
                                                             child: Card(
                                                               shape:
@@ -285,11 +293,9 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets
-                                                                          .all(
-                                                                              10),
+                                                                          .all(10),
                                                                   child: Row(
-                                                                    children: <
-                                                                        Widget>[
+                                                                    children: <Widget>[
                                                                       Container(
                                                                         width:
                                                                             40,
@@ -348,8 +354,7 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                       .get('team')
                                                       .toString();
                                                 } else {
-                                                  team =
-                                                      snapshot.get('team');
+                                                  team = snapshot.get('team');
                                                 }
                                                 if (teamLast != team) {
                                                   isFirst = true;
@@ -367,34 +372,38 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                 }
                                                 return Column(
                                                     children: <Widget>[
-                                                      if (isFirst && team != '') Padding(
-                                                              padding: const EdgeInsets
-                                                                  .only(
-                                                                      top: 10,
-                                                                      bottom:
-                                                                          10,
-                                                                      left: 17),
-                                                              child: Container(
-                                                                  width: double
-                                                                      .infinity,
-                                                                  child: Text(
-                                                                    team! +
-                                                                        teamCall,
-                                                                    style:
-                                                                        const TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          23,
-                                                                    ),
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .left,
-                                                                  ))) else Container(),
+                                                      if (isFirst && team != '')
+                                                        Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    top: 10,
+                                                                    bottom: 10,
+                                                                    left: 17),
+                                                            child: Container(
+                                                                width: double
+                                                                    .infinity,
+                                                                child: Text(
+                                                                  team! +
+                                                                      teamCall,
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        23,
+                                                                  ),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                )))
+                                                      else
+                                                        Container(),
                                                       Padding(
                                                           padding:
-                                                              const EdgeInsets.all(5),
+                                                              const EdgeInsets
+                                                                  .all(5),
                                                           child: Container(
                                                             child: Card(
                                                               shape:
@@ -430,11 +439,9 @@ class TaskDetailAnalyticsMemberView extends StatelessWidget {
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets
-                                                                          .all(
-                                                                              10),
+                                                                          .all(10),
                                                                   child: Row(
-                                                                    children: <
-                                                                        Widget>[
+                                                                    children: <Widget>[
                                                                       Container(
                                                                         width:
                                                                             40,

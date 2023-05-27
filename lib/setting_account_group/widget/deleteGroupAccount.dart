@@ -15,9 +15,7 @@ class DeleteGroupAccount extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).accentColor,
           title: const Text('アカウント削除'),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: SafeArea(
             child: SingleChildScrollView(
@@ -161,18 +159,12 @@ class DeleteGroupAccount extends StatelessWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 10),
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Colors.blue[900], //ボタンの背景色
-                                    ),
+                                child: FilledButton(
                                     onPressed: () async {
-                                      //model.inviteRequest(context);
                                       model.showDeleteSheet(context);
                                     },
                                     child: const Text(
                                       '削除を実行',
-                                      style: TextStyle(color: Colors.white),
                                     )),
                               )
                             ],

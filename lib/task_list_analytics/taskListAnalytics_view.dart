@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class TaskListAnalyticsView extends StatelessWidget {
-
   TaskListAnalyticsView(String _type) {
     themeColor = theme.getThemeColor(_type);
     title = theme.getTitle(_type);
@@ -43,7 +42,7 @@ class TaskListAnalyticsView extends StatelessWidget {
         title: Text(
           title!,
           style: const TextStyle(color: Colors.white),
-        ), systemOverlayStyle: SystemUiOverlayStyle.light,
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -53,8 +52,9 @@ class TaskListAnalyticsView extends StatelessWidget {
               child: Column(children: <Widget>[
                 Padding(
                     padding: const EdgeInsets.only(top: 20, bottom: 10),
-                    child: Consumer<TaskListAnalyticsModel>(
-                        builder: (BuildContext context, TaskListAnalyticsModel model, Widget? child) {
+                    child: Consumer<TaskListAnalyticsModel>(builder:
+                        (BuildContext context, TaskListAnalyticsModel model,
+                            Widget? child) {
                       model.getGroup();
                       if (model.group != null) {
                         return StreamBuilder<QuerySnapshot>(
@@ -130,14 +130,13 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                   children: <Widget>[
                                                     Container(
                                                         decoration: BoxDecoration(
-                                                            borderRadius: const BorderRadius.only(
-                                                                topLeft:
-                                                                    Radius
-                                                                            .circular(
+                                                            borderRadius: const BorderRadius
+                                                                    .only(
+                                                                topLeft: Radius
+                                                                    .circular(
                                                                         10),
-                                                                bottomLeft:
-                                                                    Radius
-                                                                            .circular(
+                                                                bottomLeft: Radius
+                                                                    .circular(
                                                                         10)),
                                                             color: themeColor),
                                                         height: 120,
@@ -167,16 +166,17 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                         )),
                                                     Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
-                                                                left: 10),
+                                                            const EdgeInsets
+                                                                .only(left: 10),
                                                         child: Column(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: <Widget>[
                                                             Padding(
-                                                                padding: const EdgeInsets
-                                                                    .only(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
                                                                         top:
                                                                             10),
                                                                 child: Align(
@@ -257,7 +257,8 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                                         ));
                                                                   } else {
                                                                     return Padding(
-                                                                      padding: const EdgeInsets.only(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
                                                                           left:
                                                                               5,
                                                                           right:
@@ -286,7 +287,8 @@ class TaskListAnalyticsView extends StatelessWidget {
                                     });
                               } else {
                                 return Padding(
-                                  padding: const EdgeInsets.only(left: 5, right: 10),
+                                  padding:
+                                      const EdgeInsets.only(left: 5, right: 10),
                                   child: Container(
                                       height: 30,
                                       width: 30,

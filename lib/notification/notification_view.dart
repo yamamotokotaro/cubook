@@ -15,9 +15,7 @@ class NotificationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).accentColor,
         title: const Text('お知らせ'),
-        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

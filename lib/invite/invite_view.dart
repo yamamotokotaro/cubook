@@ -37,9 +37,7 @@ class InviteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).accentColor,
           title: const Text('メンバーを招待'),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Builder(builder: (BuildContext context) {
           return GestureDetector(
@@ -197,9 +195,7 @@ class InviteView extends StatelessWidget {
                                 ? const Padding(
                                     padding: EdgeInsets.all(10),
                                     child: CircularProgressIndicator())
-                                : ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.blue[900]),
+                                : FilledButton(
                                     onPressed: () {
                                       model.inviteRequest(context);
                                     },

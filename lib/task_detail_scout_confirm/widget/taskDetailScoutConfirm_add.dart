@@ -23,6 +23,7 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     return Consumer<TaskDetailScoutConfirmModel>(
         builder: (BuildContext context, TaskDetailScoutConfirmModel model, _) {
       content = task.getContent(type, model.page, index_page);
@@ -71,64 +72,6 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
             child: SingleChildScrollView(
                 child: Column(
               children: <Widget>[
-                /*Padding(
-                    padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-                    child: TextButton.icon(
-                      onPressed: () async {
-                        var result = await showModalBottomSheet<int>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Padding(
-                                padding: EdgeInsets.all(15),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Padding(
-                                        padding: EdgeInsets.all(0),
-                                        child: Container(
-                                          width: double.infinity,
-                                          child: Text(
-                                            task
-                                                .getContent(type, model.page,
-                                                    index_page)
-                                                .toString(),
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        )),
-                                    Padding(
-                                        padding: EdgeInsets.all(0),
-                                        child: Container(
-                                          width: double.infinity,
-                                          child: Text(
-                                            '\n公財ボーイスカウト日本連盟「令和2年版 諸規定」',
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        )),
-                                  ],
-                                ));
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.sort,
-                        size: 20,
-                      ),
-                      label: Text(
-                        '内容を見る',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )),*/
                 if ((type != 'risu' &&
                         type != 'usagi' &&
                         type != 'sika' &&
@@ -188,23 +131,25 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
                 if (!model.isLoading[index_page!])
                   Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          model.onTapSend(index_page!);
-                        },
-                        icon: const Icon(
-                          Icons.edit,
-                          size: 20,
-                          color: Colors.white,
-                        ),
-                        label: const Text(
-                          'サインする',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ))
+                      child: FilledButton.icon(
+                          onPressed: () {
+                            model.onTapSend(index_page!);
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                          label: const Text(
+                            'サインする',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  scheme.primary))))
                 else
                   Container(
                     child: Container(

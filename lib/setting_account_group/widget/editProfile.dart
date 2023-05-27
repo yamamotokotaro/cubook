@@ -14,9 +14,7 @@ class EditProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).accentColor,
           title: const Text('プロフィールの編集'),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: SafeArea(
             child: SingleChildScrollView(

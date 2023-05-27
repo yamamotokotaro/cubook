@@ -27,9 +27,7 @@ class CreateActivityView extends StatelessWidget {
     }
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).accentColor,
           title: const Text('新規作成'),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         floatingActionButton: Consumer<CreateActivityModel>(builder:
             (BuildContext context, CreateActivityModel model, Widget? child) {
@@ -385,8 +383,7 @@ class CreateActivityView extends StatelessWidget {
                                                                         left:
                                                                             10),
                                                                 child: Row(
-                                                                  children: <
-                                                                      Widget>[
+                                                                  children: <Widget>[
                                                                     /*IconButton(
                                                                   icon: Icon(Icons
                                                                       .clear),

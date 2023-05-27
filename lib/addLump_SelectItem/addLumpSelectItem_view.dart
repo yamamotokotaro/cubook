@@ -29,7 +29,6 @@ class AddLumpSelectItemView extends StatelessWidget {
         length: _tabs.length,
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Theme.of(context).accentColor,
             title: const Text('サインする項目を選択'),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(30.0),

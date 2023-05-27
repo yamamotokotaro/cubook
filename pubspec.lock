@@ -122,7 +122,7 @@ packages:
     source: hosted
     version: "0.17.3"
   cupertino_icons:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: cupertino_icons
       sha256: e35129dc44c9118cee2a5603506d823bab99c68393879edb440e0090d07586be
@@ -803,7 +803,7 @@ packages:
     source: hosted
     version: "2.1.4"
   video_player:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: video_player
       sha256: de95f0e9405f29b5582573d4166132e71f83b3158aac14e8ee5767a54f4f1fbd

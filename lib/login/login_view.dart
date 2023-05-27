@@ -46,12 +46,13 @@ class LoginView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 30),
                       child: Container(
-                        child: Consumer<HomeModel>(
-                            builder: (BuildContext context, HomeModel model, Widget? child) {
-                          return ElevatedButton(
+                        child: Consumer<HomeModel>(builder:
+                            (BuildContext context, HomeModel model,
+                                Widget? child) {
+                          return FilledButton(
                             onPressed: () async {
                               dynamic providers;
-                              if(!kIsWeb) {
+                              if (!kIsWeb) {
                                 if (Platform.isIOS) {
                                   providers = [
                                     AuthUiProvider.email,
@@ -119,8 +120,7 @@ class LoginView extends StatelessWidget {
                                 padding: EdgeInsets.all(5),
                                 child: Text(
                                   'ログインしてはじめる',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
+                                  style: TextStyle(fontSize: 20),
                                 )),
                           );
                         }),

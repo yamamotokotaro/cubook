@@ -48,9 +48,7 @@ class SelectBookView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
           title: const Text('メンバー詳細'),
-          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         body: Center(
             child: ConstrainedBox(

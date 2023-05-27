@@ -69,7 +69,7 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
     final List<Map<String, dynamic>>? contents =
         task.getContentList(type, number);
 
-    ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
+    final ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     return Container(
         width: 280,
         child: GestureDetector(
@@ -272,7 +272,8 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                                                           .get('end')
                                                           .toDate())
                                                       .toString(),
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
+                                                      color: scheme.onSurface,
                                                       fontSize: 20.0,
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -747,6 +748,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDark;
     final String numberShow = task.getNumber(type, page, index_page!)!;
+    ColorScheme scheme = ColorScheme.fromSeed(seedColor: themeColor!);
     if (Theme.of(context).colorScheme.secondary == Colors.white) {
       isDark = true;
     } else {
@@ -770,481 +772,430 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: Scaffold(
+                                backgroundColor: scheme.background,
                                 body: SingleChildScrollView(
                                     child: Column(
-                              children: <Widget>[
-                                Consumer<TaskDetailScoutConfirmModel>(builder:
-                                    (BuildContext context,
-                                        TaskDetailScoutConfirmModel model, _) {
-                                  if (!model.isGet) {
-                                    model.getSnapshot();
-                                  }
-                                  if (model.isLoaded) {
-                                    if (model.isExit) {
-                                      if (model.stepSnapshot.get('signed')[
-                                              index_page.toString()] ==
-                                          null) {
-                                        return Container(
-                                          child: TaskDetailScoutConfirmAddView(
-                                              index_page, type, ''),
-                                        );
-                                      } else if (model.stepSnapshot
-                                                  .get('signed')[
-                                              index_page.toString()]['phaze'] ==
-                                          'signed') {
-                                        final Map<String, dynamic> snapshot =
-                                            model.stepSnapshot.get('signed')[
-                                                index_page.toString()];
-                                        return Column(children: <Widget>[
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(0),
-                                                        topRight:
-                                                            Radius.circular(0)),
-                                                color: themeColor),
-                                            child: const Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 40, bottom: 20),
-                                              child: Center(
-                                                child: Text(
-                                                  'サイン済み',
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 5),
-                                            child: TextButton(
-                                              child: Text(
-                                                DateFormat('yyyy/MM/dd')
-                                                    .format(model.dateSelected[
-                                                        index_page!])
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
-                                              onPressed: () {
-                                                model.openTimePicker(
-                                                    model.stepSnapshot
+                                  children: <Widget>[
+                                    Consumer<TaskDetailScoutConfirmModel>(
+                                        builder: (BuildContext context,
+                                            TaskDetailScoutConfirmModel model,
+                                            _) {
+                                      if (!model.isGet) {
+                                        model.getSnapshot();
+                                      }
+                                      if (model.isLoaded) {
+                                        if (model.isExit) {
+                                          if (model.stepSnapshot.get('signed')[
+                                                  index_page.toString()] ==
+                                              null) {
+                                            return Container(
+                                              child:
+                                                  TaskDetailScoutConfirmAddView(
+                                                      index_page, type, ''),
+                                            );
+                                          } else if (model.stepSnapshot.get('signed')[index_page.toString()]
+                                                  ['phaze'] ==
+                                              'signed') {
+                                            final Map<String, dynamic>
+                                                snapshot = model.stepSnapshot
                                                         .get('signed')[
-                                                            index_page
-                                                                .toString()]
-                                                            ['time']
-                                                        .toDate(),
-                                                    context,
-                                                    index_page);
-                                              },
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, right: 10),
-                                            child: TextField(
-                                              controller:
-                                                  model.textField_signature[
-                                                      index_page!],
-                                              decoration: const InputDecoration(
-                                                  labelText: '署名'),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10,
-                                                left: 10,
-                                                right: 10,
-                                                bottom: 20),
-                                            child: TextField(
-                                              maxLines: null,
-                                              controller:
-                                                  model.textField_feedback[
-                                                      index_page!],
-                                              keyboardType:
-                                                  TextInputType.multiline,
-                                              decoration: const InputDecoration(
-                                                  labelText: 'フィードバック'),
-                                            ),
-                                          ),
-                                          if (!model.isLoading[index_page!])
-                                            Column(
-                                              children: <Widget>[
-                                                ElevatedButton.icon(
-                                                  onPressed: () {
-                                                    model.onTapSave(
-                                                        index_page!, context);
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.save,
-                                                    size: 20,
-                                                    color: Colors.white,
-                                                  ),
-                                                  label: const Text(
-                                                    '変更を保存',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                                TextButton.icon(
-                                                  onPressed: () async {
-                                                    await showModalBottomSheet<
-                                                        int>(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    top: 10,
-                                                                    bottom: 10),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: <
-                                                                  Widget>[
-                                                                Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        top: 5,
-                                                                        left:
-                                                                            17,
-                                                                        bottom:
-                                                                            17),
-                                                                    child: Container(
-                                                                        width: double.infinity,
-                                                                        child: const Text(
-                                                                          '本当に取り消しますか?',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontSize:
-                                                                                22,
-                                                                          ),
-                                                                          textAlign:
-                                                                              TextAlign.left,
-                                                                        ))),
-                                                                ListTile(
-                                                                  leading:
-                                                                      const Icon(
-                                                                          Icons
-                                                                              .delete),
-                                                                  title:
-                                                                      const Text(
-                                                                          'はい'),
-                                                                  onTap: () {
-                                                                    model.onTapCancel(
-                                                                        index_page!);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                ),
-                                                                ListTile(
-                                                                  leading:
-                                                                      const Icon(
-                                                                          Icons
-                                                                              .arrow_back),
-                                                                  title:
-                                                                      const Text(
-                                                                          'いいえ'),
-                                                                  onTap: () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                )
-                                                              ],
-                                                            ));
-                                                      },
-                                                    );
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.close,
-                                                    size: 20,
-                                                    color: Colors.red,
-                                                  ),
-                                                  label: const Text(
-                                                    'サイン取り消し',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.red),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10,
-                                                            right: 10),
-                                                    child: Divider(
-                                                      color: isDark
-                                                          ? Colors.grey[600]
-                                                          : Colors.grey[400],
-                                                    )),
-                                                TextButton.icon(
-                                                  onPressed: () async {
-                                                    final int? result =
-                                                        await showModalBottomSheet<
-                                                            int>(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    top: 10,
-                                                                    bottom: 10),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: <
-                                                                  Widget>[
-                                                                Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                            10),
-                                                                    child: Container(
-                                                                        width: double.infinity,
-                                                                        child: const Text(
-                                                                          '画像',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontSize:
-                                                                                20,
-                                                                          ),
-                                                                          textAlign:
-                                                                              TextAlign.left,
-                                                                        ))),
-                                                                ListTile(
-                                                                  leading:
-                                                                      const Icon(
-                                                                          Icons
-                                                                              .camera_alt),
-                                                                  title:
-                                                                      const Text(
-                                                                          'カメラ'),
-                                                                  onTap: () {
-                                                                    model.onImagePressCamera(
-                                                                        model
-                                                                            .page,
-                                                                        index_page);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                ),
-                                                                ListTile(
-                                                                  leading:
-                                                                      const Icon(
-                                                                    Icons
-                                                                        .collections,
-                                                                  ),
-                                                                  title: const Text(
-                                                                      'ギャラリー'),
-                                                                  onTap: () {
-                                                                    model.onImagePressPick(
-                                                                        model
-                                                                            .page,
-                                                                        index_page);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                ),
-                                                                Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                            10),
-                                                                    child: Container(
-                                                                        width: double.infinity,
-                                                                        child: const Text(
-                                                                          '動画',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontSize:
-                                                                                20,
-                                                                          ),
-                                                                          textAlign:
-                                                                              TextAlign.left,
-                                                                        ))),
-                                                                ListTile(
-                                                                  leading:
-                                                                      const Icon(
-                                                                          Icons
-                                                                              .camera_alt),
-                                                                  title:
-                                                                      const Text(
-                                                                          'カメラ'),
-                                                                  onTap: () {
-                                                                    model.onVideoPressCamera(
-                                                                        model
-                                                                            .page,
-                                                                        index_page);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                ),
-                                                                ListTile(
-                                                                  leading:
-                                                                      const Icon(
-                                                                    Icons
-                                                                        .collections,
-                                                                  ),
-                                                                  title: const Text(
-                                                                      'ギャラリー'),
-                                                                  onTap: () {
-                                                                    model.onVideoPressPick(
-                                                                        model
-                                                                            .page,
-                                                                        index_page);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            ));
-                                                      },
-                                                    );
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.add,
-                                                    size: 20,
-                                                  ),
-                                                  label: const Text(
-                                                    '画像・動画を追加',
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                    index_page.toString()];
+                                            return Column(children: <Widget>[
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    0),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    0)),
+                                                    color: themeColor),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 40, bottom: 20),
+                                                  child: Center(
+                                                    child: Text(
+                                                      'サイン済み',
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white),
                                                     ),
                                                   ),
-                                                )
-                                              ],
-                                            )
-                                          else
-                                            Container(
-                                              child: Container(
-                                                child: Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    valueColor:
-                                                        AlwaysStoppedAnimation<
-                                                            Color?>(themeColor),
-                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          if (snapshot['data'] != null)
-                                            Column(
-                                              children: <Widget>[
-                                                Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            10),
-                                                    child: ListView.builder(
-                                                        physics:
-                                                            const NeverScrollableScrollPhysics(),
-                                                        shrinkWrap: true,
-                                                        itemCount:
-                                                            snapshot['data']
-                                                                .length,
-                                                        itemBuilder:
-                                                            (BuildContext
-                                                                    context,
-                                                                int index) {
-                                                          final String? type =
-                                                              snapshot['data']
-                                                                      [index]
-                                                                  ['type'];
-                                                          if (type == 'image') {
-                                                            return Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(5),
-                                                              child: Material(
-                                                                  child:
-                                                                      InkWell(
-                                                                onLongPress:
-                                                                    () async {
-                                                                  final int?
-                                                                      result =
-                                                                      await showModalBottomSheet<
-                                                                          int>(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (BuildContext
-                                                                            context) {
-                                                                      return Padding(
-                                                                          padding: const EdgeInsets.only(
-                                                                              top:
-                                                                                  10,
-                                                                              bottom:
-                                                                                  10),
-                                                                          child:
-                                                                              Column(
-                                                                            mainAxisSize:
-                                                                                MainAxisSize.min,
-                                                                            children: <Widget>[
-                                                                              ListTile(
-                                                                                leading: const Icon(Icons.delete),
-                                                                                title: const Text('画像を削除する'),
-                                                                                onTap: () {
-                                                                                  //model.deleteEffort(id);
-                                                                                  model.deleteFile(index_page, index);
-                                                                                  Navigator.pop(context);
-                                                                                },
-                                                                              ),
-                                                                            ],
-                                                                          ));
-                                                                    },
-                                                                  );
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  child: Column(
-                                                                    children: <
-                                                                        Widget>[
-                                                                      Image.network(
-                                                                          model.dataList[index_page!]
-                                                                              [
-                                                                              index])
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              )),
-                                                            );
-                                                          } else if (type ==
-                                                              'video') {
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5),
+                                                child: TextButton(
+                                                  child: Text(
+                                                    DateFormat('yyyy/MM/dd')
+                                                        .format(
+                                                            model.dateSelected[
+                                                                index_page!])
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        color: scheme.onSurface,
+                                                        fontSize: 20.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .none),
+                                                  ),
+                                                  onPressed: () {
+                                                    model.openTimePicker(
+                                                        model.stepSnapshot
+                                                            .get('signed')[
+                                                                index_page
+                                                                    .toString()]
+                                                                ['time']
+                                                            .toDate(),
+                                                        context,
+                                                        index_page);
+                                                  },
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10, right: 10),
+                                                child: TextField(
+                                                  controller:
+                                                      model.textField_signature[
+                                                          index_page!],
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          labelText: '署名'),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10,
+                                                    left: 10,
+                                                    right: 10,
+                                                    bottom: 20),
+                                                child: TextField(
+                                                  maxLines: null,
+                                                  controller:
+                                                      model.textField_feedback[
+                                                          index_page!],
+                                                  keyboardType:
+                                                      TextInputType.multiline,
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          labelText: 'フィードバック'),
+                                                ),
+                                              ),
+                                              if (!model.isLoading[index_page!])
+                                                Column(
+                                                  children: <Widget>[
+                                                    FilledButton.icon(
+                                                        onPressed: () {
+                                                          model.onTapSave(
+                                                              index_page!,
+                                                              context);
+                                                        },
+                                                        icon: const Icon(
+                                                          Icons.save,
+                                                          size: 20,
+                                                          color: Colors.white,
+                                                        ),
+                                                        label: const Text(
+                                                          '変更を保存',
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                        style: ButtonStyle(
+                                                            backgroundColor:
+                                                                MaterialStateProperty
+                                                                    .all<Color>(
+                                                                        scheme
+                                                                            .primary))),
+                                                    TextButton.icon(
+                                                      onPressed: () async {
+                                                        await showModalBottomSheet<
+                                                            int>(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
                                                             return Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                        .all(5),
-                                                                child: Material(
+                                                                            .only(
+                                                                        top: 10,
+                                                                        bottom:
+                                                                            10),
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: <Widget>[
+                                                                    Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            top:
+                                                                                5,
+                                                                            left:
+                                                                                17,
+                                                                            bottom:
+                                                                                17),
+                                                                        child: Container(
+                                                                            width: double.infinity,
+                                                                            child: const Text(
+                                                                              '本当に取り消しますか?',
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 22,
+                                                                              ),
+                                                                              textAlign: TextAlign.left,
+                                                                            ))),
+                                                                    ListTile(
+                                                                      leading:
+                                                                          const Icon(
+                                                                              Icons.delete),
+                                                                      title: const Text(
+                                                                          'はい'),
+                                                                      onTap:
+                                                                          () {
+                                                                        model.onTapCancel(
+                                                                            index_page!);
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                    ),
+                                                                    ListTile(
+                                                                      leading:
+                                                                          const Icon(
+                                                                              Icons.arrow_back),
+                                                                      title: const Text(
+                                                                          'いいえ'),
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                    )
+                                                                  ],
+                                                                ));
+                                                          },
+                                                        );
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons.close,
+                                                        size: 20,
+                                                        color: Colors.red,
+                                                      ),
+                                                      label: const Text(
+                                                        'サイン取り消し',
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors.red),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 10,
+                                                                right: 10),
+                                                        child: Divider(
+                                                          color: isDark
+                                                              ? Colors.grey[600]
+                                                              : Colors
+                                                                  .grey[400],
+                                                        )),
+                                                    TextButton.icon(
+                                                      onPressed: () async {
+                                                        final int? result =
+                                                            await showModalBottomSheet<
+                                                                int>(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        top: 10,
+                                                                        bottom:
+                                                                            10),
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: <Widget>[
+                                                                    Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.all(10),
+                                                                        child: Container(
+                                                                            width: double.infinity,
+                                                                            child: const Text(
+                                                                              '画像',
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 20,
+                                                                              ),
+                                                                              textAlign: TextAlign.left,
+                                                                            ))),
+                                                                    ListTile(
+                                                                      leading:
+                                                                          const Icon(
+                                                                              Icons.camera_alt),
+                                                                      title: const Text(
+                                                                          'カメラ'),
+                                                                      onTap:
+                                                                          () {
+                                                                        model.onImagePressCamera(
+                                                                            model.page,
+                                                                            index_page);
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                    ),
+                                                                    ListTile(
+                                                                      leading:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .collections,
+                                                                      ),
+                                                                      title: const Text(
+                                                                          'ギャラリー'),
+                                                                      onTap:
+                                                                          () {
+                                                                        model.onImagePressPick(
+                                                                            model.page,
+                                                                            index_page);
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                    ),
+                                                                    Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.all(10),
+                                                                        child: Container(
+                                                                            width: double.infinity,
+                                                                            child: const Text(
+                                                                              '動画',
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 20,
+                                                                              ),
+                                                                              textAlign: TextAlign.left,
+                                                                            ))),
+                                                                    ListTile(
+                                                                      leading:
+                                                                          const Icon(
+                                                                              Icons.camera_alt),
+                                                                      title: const Text(
+                                                                          'カメラ'),
+                                                                      onTap:
+                                                                          () {
+                                                                        model.onVideoPressCamera(
+                                                                            model.page,
+                                                                            index_page);
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                    ),
+                                                                    ListTile(
+                                                                      leading:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .collections,
+                                                                      ),
+                                                                      title: const Text(
+                                                                          'ギャラリー'),
+                                                                      onTap:
+                                                                          () {
+                                                                        model.onVideoPressPick(
+                                                                            model.page,
+                                                                            index_page);
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                    ),
+                                                                  ],
+                                                                ));
+                                                          },
+                                                        );
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.add,
+                                                        size: 20,
+                                                        color: scheme.primary,
+                                                      ),
+                                                      label: Text(
+                                                        '画像・動画を追加',
+                                                        style: TextStyle(
+                                                          color: scheme.primary,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                )
+                                              else
+                                                Container(
+                                                  child: Container(
+                                                    child: Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        valueColor:
+                                                            AlwaysStoppedAnimation<
+                                                                    Color?>(
+                                                                themeColor),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              if (snapshot['data'] != null)
+                                                Column(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(10),
+                                                        child: ListView.builder(
+                                                            physics:
+                                                                const NeverScrollableScrollPhysics(),
+                                                            shrinkWrap: true,
+                                                            itemCount:
+                                                                snapshot['data']
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (BuildContext
+                                                                        context,
+                                                                    int index) {
+                                                              final String?
+                                                                  type =
+                                                                  snapshot['data']
+                                                                          [
+                                                                          index]
+                                                                      ['type'];
+                                                              if (type ==
+                                                                  'image') {
+                                                                return Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(5),
                                                                   child:
-                                                                      InkWell(
+                                                                      Material(
+                                                                          child:
+                                                                              InkWell(
                                                                     onLongPress:
                                                                         () async {
                                                                       final int?
@@ -1263,7 +1214,7 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                                 children: <Widget>[
                                                                                   ListTile(
                                                                                     leading: const Icon(Icons.delete),
-                                                                                    title: const Text('動画を削除する'),
+                                                                                    title: const Text('画像を削除する'),
                                                                                     onTap: () {
                                                                                       //model.deleteEffort(id);
                                                                                       model.deleteFile(index_page, index);
@@ -1279,148 +1230,201 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                                                         Container(
                                                                       child:
                                                                           Column(
-                                                                        children: <
-                                                                            Widget>[
-                                                                          AspectRatio(
-                                                                              aspectRatio: model.dataList[index_page!][index].aspectRatio,
-                                                                              child: Chewie(
-                                                                                controller: model.dataList[index_page!][index],
-                                                                              ))
+                                                                        children: <Widget>[
+                                                                          Image.network(model.dataList[index_page!]
+                                                                              [
+                                                                              index])
                                                                         ],
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                ));
-                                                          } else if (type ==
-                                                              'text') {
-                                                            return Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(5),
-                                                              child: Container(
-                                                                child: Card(
+                                                                  )),
+                                                                );
+                                                              } else if (type ==
+                                                                  'video') {
+                                                                return Padding(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            5),
                                                                     child:
-                                                                        Padding(
+                                                                        Material(
+                                                                      child:
+                                                                          InkWell(
+                                                                        onLongPress:
+                                                                            () async {
+                                                                          final int?
+                                                                              result =
+                                                                              await showModalBottomSheet<int>(
+                                                                            context:
+                                                                                context,
+                                                                            builder:
+                                                                                (BuildContext context) {
+                                                                              return Padding(
+                                                                                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                                                                  child: Column(
+                                                                                    mainAxisSize: MainAxisSize.min,
+                                                                                    children: <Widget>[
+                                                                                      ListTile(
+                                                                                        leading: const Icon(Icons.delete),
+                                                                                        title: const Text('動画を削除する'),
+                                                                                        onTap: () {
+                                                                                          //model.deleteEffort(id);
+                                                                                          model.deleteFile(index_page, index);
+                                                                                          Navigator.pop(context);
+                                                                                        },
+                                                                                      ),
+                                                                                    ],
+                                                                                  ));
+                                                                            },
+                                                                          );
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          child:
+                                                                              Column(
+                                                                            children: <Widget>[
+                                                                              AspectRatio(
+                                                                                  aspectRatio: model.dataList[index_page!][index].aspectRatio,
+                                                                                  child: Chewie(
+                                                                                    controller: model.dataList[index_page!][index],
+                                                                                  ))
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ));
+                                                              } else if (type ==
+                                                                  'text') {
+                                                                return Padding(
                                                                   padding:
                                                                       const EdgeInsets
-                                                                          .all(0),
-                                                                  child: Column(
-                                                                    children: <
-                                                                        Widget>[
-                                                                      Padding(
-                                                                          padding: const EdgeInsets.all(
-                                                                              10),
-                                                                          child:
-                                                                              Text(
-                                                                            model.dataList[index_page!][index],
-                                                                            style:
-                                                                                const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
-                                                                          ))
-                                                                    ],
+                                                                          .all(5),
+                                                                  child:
+                                                                      Container(
+                                                                    child: Card(
+                                                                        child:
+                                                                            Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              0),
+                                                                      child:
+                                                                          Column(
+                                                                        children: <Widget>[
+                                                                          Padding(
+                                                                              padding: const EdgeInsets.all(10),
+                                                                              child: Text(
+                                                                                model.dataList[index_page!][index],
+                                                                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                                                              ))
+                                                                        ],
+                                                                      ),
+                                                                    )),
                                                                   ),
-                                                                )),
-                                                              ),
-                                                            );
-                                                          } else {
-                                                            return Container();
-                                                          }
-                                                        }))
-                                              ],
-                                            )
-                                          else
-                                            Container(),
-                                        ]);
-                                      } else if (model.stepSnapshot
-                                                  .get('signed')[
-                                              index_page.toString()]['phaze'] ==
-                                          'wait') {
-                                        return Column(children: <Widget>[
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(0),
-                                                        topRight:
-                                                            Radius.circular(0)),
-                                                color: themeColor),
-                                            child: const Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 40, bottom: 20),
-                                              child: Center(
-                                                child: Text(
-                                                  'サイン待ち',
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white),
+                                                                );
+                                                              } else {
+                                                                return Container();
+                                                              }
+                                                            }))
+                                                  ],
+                                                )
+                                              else
+                                                Container(),
+                                            ]);
+                                          } else if (model.stepSnapshot
+                                                      .get('signed')[index_page.toString()]
+                                                  ['phaze'] ==
+                                              'wait') {
+                                            return Column(children: <Widget>[
+                                              Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    0),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    0)),
+                                                    color: themeColor),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 40, bottom: 20),
+                                                  child: Center(
+                                                    child: Text(
+                                                      'サイン待ち',
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                          const Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Text(
-                                              '最初の画面に戻ってサインしてください',
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                        ]);
-                                      } else if (model.stepSnapshot
-                                                  .get('signed')[
-                                              index_page.toString()]['phaze'] ==
-                                          'reject') {
-                                        return Column(children: <Widget>[
-                                          TaskDetailScoutConfirmAddView(
-                                              index_page,
-                                              type,
-                                              'やりなおし： ' +
-                                                  model.stepSnapshot
-                                                              .get('signed')[
-                                                          index_page.toString()]
-                                                      ['feedback'])
-                                        ]);
-                                      } else if (model.stepSnapshot
-                                                  .get('signed')[
-                                              index_page.toString()]['phaze'] ==
-                                          'withdraw') {
-                                        return Column(children: <Widget>[
-                                          TaskDetailScoutConfirmAddView(
-                                              index_page, type, '')
-                                        ]);
+                                              const Padding(
+                                                padding: EdgeInsets.all(10),
+                                                child: Text(
+                                                  '最初の画面に戻ってサインしてください',
+                                                  style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                              ),
+                                            ]);
+                                          } else if (model.stepSnapshot
+                                                      .get('signed')[index_page.toString()]
+                                                  ['phaze'] ==
+                                              'reject') {
+                                            return Column(children: <Widget>[
+                                              TaskDetailScoutConfirmAddView(
+                                                  index_page,
+                                                  type,
+                                                  'やりなおし： ' +
+                                                      model.stepSnapshot.get(
+                                                                  'signed')[
+                                                              index_page
+                                                                  .toString()]
+                                                          ['feedback'])
+                                            ]);
+                                          } else if (model.stepSnapshot
+                                                      .get('signed')[index_page.toString()]
+                                                  ['phaze'] ==
+                                              'withdraw') {
+                                            return Column(children: <Widget>[
+                                              TaskDetailScoutConfirmAddView(
+                                                  index_page, type, '')
+                                            ]);
+                                          } else {
+                                            return const Center(
+                                              child: Text('エラーが発生しました'),
+                                            );
+                                          }
+                                        } else {
+                                          return TaskDetailScoutConfirmAddView(
+                                              index_page, type, '');
+                                        }
                                       } else {
-                                        return const Center(
-                                          child: Text('エラーが発生しました'),
-                                        );
+                                        return Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 60, bottom: 10),
+                                            child: Container(
+                                              child: Center(
+                                                child: CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                                Color?>(
+                                                            themeColor)),
+                                              ),
+                                            ));
                                       }
-                                    } else {
-                                      return TaskDetailScoutConfirmAddView(
-                                          index_page, type, '');
-                                    }
-                                  } else {
-                                    return Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 60, bottom: 10),
-                                        child: Container(
-                                          child: Center(
-                                            child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color?>(themeColor)),
-                                          ),
-                                        ));
-                                  }
-                                })
-                              ],
-                            ))))
+                                    })
+                                  ],
+                                ))))
 //                      ),
                         ),
                   ))),
