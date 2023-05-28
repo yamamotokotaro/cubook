@@ -121,11 +121,6 @@ class TaskListAnalyticsView extends StatelessWidget {
                                                           arguments: TaskDetail(
                                                               type: type,
                                                               page: index));
-                                                  /*Navigator.of(context).push<dynamic>(
-                                                    MyPageRoute(
-                                                        page: showTaskConfirmView(index,
-                                                            type, uid),
-                                                        dismissible: true));*/
                                                 },
                                                 child: Row(
                                                   children: <Widget>[

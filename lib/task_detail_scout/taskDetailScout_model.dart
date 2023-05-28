@@ -25,7 +25,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
   late DocumentReference documentReference;
   QuerySnapshot? effortSnapshot;
   User? currentUser;
-  StreamSubscription<User>? _listener;
   bool isGet = false;
   int? page = 0;
   int? quant = 0;
@@ -132,7 +131,6 @@ class TaskDetailScoutModel extends ChangeNotifier {
                     doc['phaze'] == 'withdraw') {
                   dataMap = doc['data'];
                   if (dataMap != null) {
-                    final List<dynamic> body = <dynamic>[];
                     for (int j = 0; j < dataMap!.length; j++) {
                       list_attach[i].add(dataMap![j]['type']);
                       if (dataMap![j]['type'] == 'text') {
