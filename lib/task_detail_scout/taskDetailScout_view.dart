@@ -7,49 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class MyPageRoute extends TransitionRoute<dynamic> {
-  MyPageRoute({
-    required this.page,
-    required this.dismissible,
-  });
-
-  final Widget page;
-  final bool dismissible;
-
-  @override
-  Iterable<OverlayEntry> createOverlayEntries() {
-    return [
-      OverlayEntry(builder: _buildModalBarrier),
-      OverlayEntry(builder: (BuildContext context) => Center(child: page))
-    ];
-  }
-
-  @override
-  bool get opaque => false;
-
-  @override
-  Duration get transitionDuration => const Duration(milliseconds: 200);
-
-  Widget _buildModalBarrier(BuildContext context) {
-    return IgnorePointer(
-      ignoring: animation!.status ==
-              AnimationStatus
-                  .reverse || // changedInternalState is called when this updates
-          animation!.status == AnimationStatus.dismissed,
-      // dismissed is possible when doing a manual pop gesture
-      child: AnimatedModalBarrier(
-        color: animation!.drive(
-          ColorTween(
-            begin: Colors.transparent,
-            end: Colors.black.withAlpha(150),
-          ),
-        ),
-        dismissible: dismissible,
-      ),
-    );
-  }
-}
-
 class TaskScoutDetailView extends StatelessWidget {
   TaskScoutDetailView(String? _type, int? _number) {
     themeColor = theme.getThemeColor(_type);
@@ -548,10 +505,7 @@ class TaskScoutAddView extends StatelessWidget {
                     ),
                     elevation: 2,
                     child: InkWell(
-                      child:
-                          /*SingleChildScrollView(
-                        child: */
-                          Column(
+                      child: Column(
                         children: <Widget>[
                           Consumer<TaskDetailScoutModel>(builder:
                               (BuildContext context, TaskDetailScoutModel model,
@@ -982,7 +936,6 @@ class TaskScoutAddView extends StatelessWidget {
                           })
                         ],
                       ),
-//                      ),
                     ),
                   ))),
           if (numberShow.length == 1)
