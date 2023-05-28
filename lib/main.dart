@@ -1,9 +1,7 @@
-import 'package:cubook/Analytics/analytics_model.dart';
-import 'package:cubook/Analytics/analytics_view.dart';
-import 'package:cubook/addLump_SelectItem/addLumpSelectItem_model.dart';
-import 'package:cubook/addLump_SelectItem/addLumpSelectItem_view.dart';
-import 'package:cubook/community/community_model.dart';
-import 'package:cubook/community/community_view.dart';
+import 'package:cubook/createActivity/addLumpSelectItem/addLumpSelectItem_model.dart';
+import 'package:cubook/createActivity/addLumpSelectItem/addLumpSelectItem_view.dart';
+import 'package:cubook/analytics/analyticsModel.dart';
+import 'package:cubook/analytics/analyticsView.dart';
 import 'package:cubook/createActivity/createActivity_model.dart';
 import 'package:cubook/createActivity/createActivity_view.dart';
 import 'package:cubook/detailActivity/detailActivity_model.dart';
@@ -13,44 +11,44 @@ import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/editActivity/editActivity_model.dart';
 import 'package:cubook/editActivity/editActivity_view.dart';
 import 'package:cubook/firebase_options.dart';
-import 'package:cubook/home/home_controller.dart';
-import 'package:cubook/home/home_model.dart';
-import 'package:cubook/home/widget/listEffort_model.dart';
-import 'package:cubook/home_leader/homeLeader_model.dart';
+import 'package:cubook/home/homeController.dart';
+import 'package:cubook/home/homeLeader/leaderHomeModel.dart';
+import 'package:cubook/home/homeModel.dart';
+import 'package:cubook/home/listEffort/listEffortModel.dart';
 import 'package:cubook/invite/invite_model.dart';
 import 'package:cubook/invite/invite_view.dart';
 import 'package:cubook/listAbsent/listAbsent_model.dart';
-import 'package:cubook/listAbsent_scout/listAbsentScout_model.dart';
-import 'package:cubook/listAbsent_scout/listAbsentScout_view.dart';
-import 'package:cubook/listActivity/listActivity_model.dart';
-import 'package:cubook/listActivity/listActivity_view.dart';
+import 'package:cubook/listActivity/listActivityModel.dart';
+import 'package:cubook/listActivity/listActivityView.dart';
+import 'package:cubook/listActivityScout/listActivityScoutModel.dart';
+import 'package:cubook/listActivityScout/listActivityScoutView.dart';
 import 'package:cubook/listCitationAnalytics/listCitationAnalytics_model.dart';
 import 'package:cubook/listCitationAnalytics/listCitationAnalytics_view.dart';
+import 'package:cubook/listMember/listMember_model.dart';
+import 'package:cubook/listMember/listMember_view.dart';
 import 'package:cubook/listMigrationWaiting/listMigrationWaiting_model.dart';
 import 'package:cubook/listMigrationWaiting/listMigrationWaiting_view.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_model.dart';
 import 'package:cubook/listTaskWaiting/listTaskWaiting_view.dart';
-import 'package:cubook/list_member/listMember_model.dart';
-import 'package:cubook/list_member/listMember_view.dart';
 import 'package:cubook/notification/notification_model.dart';
-import 'package:cubook/setting_account/settingAccount_model.dart';
-import 'package:cubook/setting_account/settingAccount_view.dart';
-import 'package:cubook/setting_account/widget/changeMailAddress.dart';
-import 'package:cubook/setting_account/widget/changePassword.dart';
-import 'package:cubook/setting_account_group/settingAccount_model.dart';
-import 'package:cubook/setting_account_group/widget/accountMigration.dart';
-import 'package:cubook/setting_account_group/widget/changeAge.dart';
-import 'package:cubook/setting_account_group/widget/changeName.dart';
-import 'package:cubook/setting_account_group/widget/deleteGroupAccount.dart';
-import 'package:cubook/setting_account_group/widget/editProfile.dart';
-import 'package:cubook/setting_group/settingGroup_model.dart';
-import 'package:cubook/setting_group/settingGroup_view.dart';
+import 'package:cubook/settingAccount/settingAccount_model.dart';
+import 'package:cubook/settingAccount/settingAccount_view.dart';
+import 'package:cubook/settingAccount/widget/changeMailAddress.dart';
+import 'package:cubook/settingAccount/widget/changePassword.dart';
+import 'package:cubook/settingGroup/settingGroup_model.dart';
+import 'package:cubook/settingGroup/settingGroup_view.dart';
+import 'package:cubook/settingGroupAccount/settingAccount_model.dart';
+import 'package:cubook/settingGroupAccount/widget/accountMigration.dart';
+import 'package:cubook/settingGroupAccount/widget/changeAge.dart';
+import 'package:cubook/settingGroupAccount/widget/changeName.dart';
+import 'package:cubook/settingGroupAccount/widget/deleteGroupAccount.dart';
+import 'package:cubook/settingGroupAccount/widget/editProfile.dart';
 import 'package:cubook/signup/signup_model.dart';
-import 'package:cubook/task_detail_analytics/taskDetailAnalytics_model.dart';
-import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_model.dart';
-import 'package:cubook/task_detail_analytics_member/taskDetailAnalyticsMember_view.dart';
-import 'package:cubook/task_list_analytics/taskListAnalytics_model.dart';
-import 'package:cubook/task_list_scout/taskListScout_model.dart';
+import 'package:cubook/analyticsTaskDetail/taskDetailAnalytics_model.dart';
+import 'package:cubook/analyticsScoutCompletion/analyticsScoutCompletionModel.dart';
+import 'package:cubook/analyticsScoutCompletion/analyticsScoutCompletionView.dart';
+import 'package:cubook/analyticsTaskList/analyticsTaskListModel.dart';
+import 'package:cubook/scoutTaskList/scoutTaskListModel.dart';
 import 'package:cubook/task_list_scout_confirm/taskListScoutConfirm_model.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -63,8 +61,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'community/comment_view.dart';
-import 'task_detail_analytics/taskDetailAnalytics_view.dart';
+import 'analyticsTaskDetail/taskDetailAnalytics_view.dart';
 
 void main() async {
   // Set `enableInDevMode` to true to see reports while in debug mode
@@ -112,9 +109,9 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(
               create: (BuildContext context) => ListEffortModel()),
           ChangeNotifierProvider(
-              create: (BuildContext context) => HomeLeaderModel()),
+              create: (BuildContext context) => LeaderHomeModel()),
           ChangeNotifierProvider(
-              create: (BuildContext context) => TaskListScoutModel()),
+              create: (BuildContext context) => ScoutTaskModel()),
           ChangeNotifierProvider(
               create: (BuildContext context) => ListTaskWaitingModel()),
           ChangeNotifierProvider(
@@ -152,16 +149,14 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(
               create: (BuildContext context) => AnalyticsModel()),
           ChangeNotifierProvider(
-              create: (BuildContext context) => TaskListAnalyticsModel()),
+              create: (BuildContext context) => AnalyticsTaskListModel()),
           ChangeNotifierProvider(
               create: (BuildContext context) => SettingAccountModel()),
           ChangeNotifierProvider(
-              create: (BuildContext context) => TaskDetailAnalyticsModel()),
+              create: (BuildContext context) => AnalyticsTaskDetailModel()),
           ChangeNotifierProvider(
               create: (BuildContext context) =>
-                  TaskDetailAnalyticsMemberModel()),
-          ChangeNotifierProvider(
-              create: (BuildContext context) => CommunityModel()),
+                  AnalyticsScoutCompletionModel()),
           ChangeNotifierProvider(
               create: (BuildContext context) => SettingGroupModel()),
           ChangeNotifierProvider(
@@ -219,13 +214,11 @@ class _MyAppState extends State<MyApp> {
                     ListAbsentScoutView(),
                 '/analytics': (BuildContext context) => AnalyticsView(),
                 '/taskDetailAnalytics': (BuildContext context) =>
-                    TaskDetailAnalyticsView(),
+                    AnalyticsTaskDetailView(),
                 '/taskDetailAnalyticsMember': (BuildContext context) =>
-                    TaskDetailAnalyticsMemberView(),
+                    AnalyticsScoutCompletionView(),
                 '/listCitationAnalyticsView': (BuildContext context) =>
                     ListCitationAnalyticsView(),
-                '/communityView': (BuildContext context) => CommunityView(),
-                '/commentView': (BuildContext context) => CommentView(),
                 '/settingView': (BuildContext context) => SettingAccountView(),
                 '/settingGroupView': (BuildContext context) =>
                     SettingGroupView(),

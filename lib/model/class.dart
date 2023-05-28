@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:cubook/task_detail_scout/taskDetailScout_model.dart';
-import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
+import 'package:cubook/scoutTaskDetail/scoutTaskModel.dart';
+import 'package:cubook/scoutTaskDetail/scoutTaskOverview.dart';
+import 'package:cubook/scoutTaskDetail/scoutTaskRecord.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_model.dart';
 import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,10 +16,10 @@ class showTaskView extends StatelessWidget {
     type = _type;
     initialPage = _initialPage;
     pages.add(
-      TaskScoutDetailView(type, _number),
+      TaskScoutOverview(type, _number),
     );
     for (int i = 0; i < task.getPartMap(type, _number)!['hasItem']; i++) {
-      pages.add(TaskScoutAddView(type, _number, i));
+      pages.add(ScoutTaskRecord(type, _number, i));
     }
   }
   TaskContents task = TaskContents();
@@ -53,7 +54,7 @@ class showTaskView extends StatelessWidget {
         PageController(initialPage: initialPage, viewportFraction: setFraction);
 
     return ChangeNotifierProvider(
-        create: (BuildContext context) => TaskDetailScoutModel(numberPushed,
+        create: (BuildContext context) => ScoutTaskModel(numberPushed,
             task.getPartMap(type, numberPushed)!['hasItem'], type),
         child: Container(
             height: setHeight,

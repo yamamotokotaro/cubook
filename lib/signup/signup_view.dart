@@ -1,4 +1,4 @@
-import 'package:cubook/home/home_model.dart';
+import 'package:cubook/home/homeModel.dart';
 import 'package:cubook/signup/create/createGroup_view.dart';
 import 'package:cubook/signup/join/joinGroup_view.dart';
 import 'package:cubook/signup/signup_model.dart';
