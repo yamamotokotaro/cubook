@@ -4,8 +4,8 @@ import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/scoutTaskDetail/scoutTaskModel.dart';
 import 'package:cubook/scoutTaskDetail/scoutTaskOverview.dart';
 import 'package:cubook/scoutTaskDetail/scoutTaskRecord.dart';
-import 'package:cubook/checkScoutTaskDetail/taskDetailScoutConfirm_model.dart';
-import 'package:cubook/checkScoutTaskDetail/taskDetailScoutConfirm_view.dart';
+import 'package:cubook/checkScoutTaskDetail/checkScoutTaskDetailModel.dart';
+import 'package:cubook/checkScoutTaskDetail/checkScoutTaskDetailView.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -76,7 +76,7 @@ class showTaskConfirmView extends StatelessWidget {
     type = _type;
     uid = _uid;
     pages.add(
-      TaskScoutDetailConfirmView(type, page),
+      CheckScoutTaskDetailView(type, page),
     );
     for (int i = 0; i < task.getPartMap(type, page)!['hasItem']; i++) {
       pages.add(TaskScoutAddConfirmView(type, page, i));
@@ -115,7 +115,7 @@ class showTaskConfirmView extends StatelessWidget {
         PageController(initialPage: number, viewportFraction: setFraction);
 
     return ChangeNotifierProvider(
-        create: (BuildContext context) => TaskDetailScoutConfirmModel(page,
+        create: (BuildContext context) => CheckScoutTaskDetailModel(page,
             task.getPartMap(type, page)!['hasItem'], type, uid, controller),
         child: Container(
             height: setHeight,
@@ -233,8 +233,10 @@ Future<void> signItem(String? uid, String? type, int? page, int? number,
           .get()
           .then((QuerySnapshot<Map<String, dynamic>> data) {
         final DocumentSnapshot snapshot = data.docs[0];
+        final Map<String, dynamic> dataSnapshot =
+            snapshot.data()! as Map<String, dynamic>;
         Map<String, dynamic>? map = <String, int>{};
-        if (snapshot.get(type) != null) {
+        if (dataSnapshot[type] != null) {
           map = snapshot.get(type);
           map![page.toString()] = count;
         } else {
@@ -319,8 +321,10 @@ Future<void> cancelItem(
             .get()
             .then((QuerySnapshot<Map<String, dynamic>> data) {
           final DocumentSnapshot snapshot = data.docs[0];
+          final Map<String, dynamic> dataSnapshot =
+              snapshot.data()! as Map<String, dynamic>;
           Map<String, dynamic>? map = <String, int>{};
-          if (snapshot.get(type) != null) {
+          if (dataSnapshot[type] != null) {
             map = snapshot.get(type);
             map![page.toString()] = count;
           } else {

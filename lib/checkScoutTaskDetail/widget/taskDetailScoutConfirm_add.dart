@@ -1,6 +1,6 @@
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:cubook/checkScoutTaskDetail/taskDetailScoutConfirm_model.dart';
+import 'package:cubook/checkScoutTaskDetail/checkScoutTaskDetailModel.dart';
 import 'package:expand_widget/expand_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,8 +26,8 @@ class TaskDetailScoutConfirmAddView extends StatelessWidget {
     final ColorScheme scheme = ColorScheme.fromSeed(
         seedColor: themeColor!,
         brightness: MediaQuery.of(context).platformBrightness);
-    return Consumer<TaskDetailScoutConfirmModel>(
-        builder: (BuildContext context, TaskDetailScoutConfirmModel model, _) {
+    return Consumer<CheckScoutTaskDetailModel>(
+        builder: (BuildContext context, CheckScoutTaskDetailModel model, _) {
       content = task.getContent(type, model.page, index_page);
       if (content['common'] != null) {
         taskInfo = task.getPartMap(

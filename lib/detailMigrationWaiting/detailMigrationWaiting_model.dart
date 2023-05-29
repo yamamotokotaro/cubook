@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -29,65 +30,67 @@ class DetailMigrationWaitingModel extends ChangeNotifier {
 
   Future<void> migrateAccount(BuildContext context, String? documentID) async {
     isLoading = true;
-    notifyListeners();
-    final User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      user.getIdTokenResult().then((IdTokenResult token) async {
-        const String url =
-            'https://asia-northeast1-cubook-3c960.cloudfunctions.net/executeMigration';
-        final Map<String, String> headers = {
-          'content-type': 'application/json'
-        };
-        final String body = json.encode(<String, dynamic>{
-          'idToken': token.token,
-          'documentID': documentID
-        });
 
-        final http.Response resp =
-            await http.post(Uri.parse(url), headers: headers, body: body);
-        isLoading = false;
-        if (resp.body == 'sucess') {
-          isFinish = true;
-        } else if (resp.body == 'you are not admin') {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('アカウントの移行は管理者のみ操作可能です'),
-          ));
-        }
-        isLoading = false;
-        notifyListeners();
-      });
+    final HttpsCallable callable =
+        FirebaseFunctions.instanceFor(region: 'asia-northeast1').httpsCallable(
+      'executeMigrationCall',
+      options: HttpsCallableOptions(
+        timeout: const Duration(seconds: 5),
+      ),
+    );
+
+    try {
+      final HttpsCallableResult result = await callable
+          .call<String>(<String, String>{'documentID': documentID!});
+      if (result.data == 'success') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('申請の送信が完了しました'),
+        ));
+        isFinish = true;
+      } else if (result.data == 'you are not admin') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('アカウントの移行は管理者のみ操作可能です'),
+        ));
+      } else {
+        isFinish = true;
+      }
+    } catch (e) {
+      isFinish = true;
     }
+    isLoading = false;
+    notifyListeners();
   }
 
   Future<void> rejectMigrate(BuildContext context, String? documentID) async {
     isLoading = true;
-    notifyListeners();
-    final User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      user.getIdTokenResult().then((IdTokenResult token) async {
-        const String url =
-            'https://asia-northeast1-cubook-3c960.cloudfunctions.net/rejectMigration';
-        final Map<String, String> headers = {
-          'content-type': 'application/json'
-        };
-        final String body = json.encode(<String, dynamic>{
-          'idToken': token.token,
-          'documentID': documentID
-        });
 
-        final http.Response resp =
-            await http.post(Uri.parse(url), headers: headers, body: body);
-        isLoading = false;
-        if (resp.body == 'sucess') {
-          isFinish = true;
-        } else if (resp.body == 'you are not admin') {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('アカウントの移行は管理者のみ操作可能です'),
-          ));
-        }
-        isLoading = false;
-        notifyListeners();
-      });
+    final HttpsCallable callable =
+        FirebaseFunctions.instanceFor(region: 'asia-northeast1').httpsCallable(
+      'rejectMigrationCall',
+      options: HttpsCallableOptions(
+        timeout: const Duration(seconds: 5),
+      ),
+    );
+
+    try {
+      final HttpsCallableResult result = await callable
+          .call<String>(<String, String>{'documentID': documentID!});
+      if (result.data == 'success') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('申請の送信が完了しました'),
+        ));
+        isFinish = true;
+      } else if (result.data == 'you are not admin') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('アカウントの移行は管理者のみ操作可能です'),
+        ));
+      } else {
+        isFinish = true;
+      }
+    } catch (e) {
+      isFinish = true;
     }
+    isLoading = false;
+    notifyListeners();
   }
 }

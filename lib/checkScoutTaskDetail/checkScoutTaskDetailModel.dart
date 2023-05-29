@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
-class TaskDetailScoutConfirmModel extends ChangeNotifier {
-  TaskDetailScoutConfirmModel(int? number, int? quant, String? _type,
+class CheckScoutTaskDetailModel extends ChangeNotifier {
+  CheckScoutTaskDetailModel(int? number, int? quant, String? _type,
       String? _uid, PageController _controller) {
     page = number;
     this.quant = quant;

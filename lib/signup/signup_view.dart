@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class SignupView extends StatelessWidget {
   static final List<String> list_select = [
     '招待を受けている',
-    '隊として初めて利用する',
+    '隊全体の中で初めて登録する',
   ];
 
   @override
@@ -58,7 +58,9 @@ class SignupView extends StatelessWidget {
                                 Container(
                                   child: Card(
                                     color: model.isSelect_type[index]
-                                        ? Colors.blue[900]!.withAlpha(60)
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .secondaryContainer
                                         : Colors.grey.withAlpha(20),
                                     elevation: 0,
                                     child: InkWell(

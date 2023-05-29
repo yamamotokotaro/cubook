@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'taskDetailScoutConfirm_model.dart';
+import 'checkScoutTaskDetailModel.dart';
 
-class TaskScoutDetailConfirmView extends StatelessWidget {
-  TaskScoutDetailConfirmView(String? _type, int? _number) {
+class CheckScoutTaskDetailView extends StatelessWidget {
+  CheckScoutTaskDetailView(String? _type, int? _number) {
     themeColor = theme.getThemeColor(_type);
     type = _type;
     number = _number;
@@ -44,9 +44,9 @@ class TaskScoutDetailConfirmView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     elevation: 2,
-                    child: InkWell(child: Consumer<TaskDetailScoutConfirmModel>(
+                    child: InkWell(child: Consumer<CheckScoutTaskDetailModel>(
                         builder: (BuildContext context,
-                            TaskDetailScoutConfirmModel model, _) {
+                            CheckScoutTaskDetailModel model, _) {
                       if (model.isExit == true) {
                         String message = '';
                         final DocumentSnapshot snapshot = model.stepSnapshot;
@@ -727,9 +727,9 @@ class TaskScoutAddConfirmView extends StatelessWidget {
                                 body: SingleChildScrollView(
                                     child: Column(
                                   children: <Widget>[
-                                    Consumer<TaskDetailScoutConfirmModel>(
-                                        builder: (BuildContext context,
-                                            TaskDetailScoutConfirmModel model,
+                                    Consumer<CheckScoutTaskDetailModel>(builder:
+                                        (BuildContext context,
+                                            CheckScoutTaskDetailModel model,
                                             _) {
                                       if (!model.isGet) {
                                         model.getSnapshot();

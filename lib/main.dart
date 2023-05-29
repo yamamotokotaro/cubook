@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cubook/analytics/analyticsModel.dart';
 import 'package:cubook/analytics/analyticsView.dart';
 import 'package:cubook/analyticsScoutCompletion/analyticsScoutCompletionModel.dart';
@@ -53,7 +55,9 @@ import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +79,16 @@ void main() async {
   GestureBinding.instance.resamplingEnabled = true;
   // Firebaseの各サービスを使う前に初期化を済ませておく必要がある
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  const localhost = 'localhost';
+  FirebaseFunctions.instanceFor(region: 'asia-northeast1')
+      .useFunctionsEmulator(localhost, 5001);
+  FirebaseFirestore.instance.useFirestoreEmulator(localhost, 8080);
+  await Future.wait(
+    [
+      FirebaseAuth.instance.useAuthEmulator(localhost, 9099),
+      FirebaseStorage.instance.useStorageEmulator(localhost, 9199),
+    ],
+  );
   runApp(MyApp());
 }
 

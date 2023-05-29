@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:cubook/checkScoutTaskDetail/taskDetailScoutConfirm_view.dart';
+import 'package:cubook/checkScoutTaskDetail/checkScoutTaskDetailView.dart';
 import 'package:cubook/checkScoutTaskList/taskListScoutConfirm_view.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cubook/model/task.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -239,78 +240,52 @@ class SettingAccountGroupModel extends ChangeNotifier {
         call != null) {
       isLoading = true;
       notifyListeners();
-      final User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        user.getIdTokenResult().then((IdTokenResult token) async {
-          const String url =
-              'https://asia-northeast1-cubook-3c960.cloudfunctions.net/changeUserInfo_group';
-          final Map<String, String> headers = {
-            'content-type': 'application/json'
-          };
-          final String body = json.encode(<String, dynamic>{
-            'idToken': token.token,
-            'family': familyController!.text,
-            'first': firstController!.text,
-            'call': call,
-            'team': teamController!.text,
-            'teamPosition': teamPosition,
-            'age': age,
-            'age_turn': ageTurn,
-            'uid': uid,
-            'grade': grade
-          });
 
-          final http.Response resp =
-              await http.post(Uri.parse(url), headers: headers, body: body);
-          isLoading = false;
-          if (resp.body == 'success') {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('変更を保存しました'),
-            ));
-          } else if (resp.body == 'No such document!' ||
-              resp.body == 'not found') {
-            isLoading = false;
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('ユーザーが見つかりませんでした'),
-            ));
-          } else {
-            isLoading = false;
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('エラーが発生しました' + resp.body),
-            ));
-          }
-          notifyListeners();
+      final HttpsCallable callable =
+          FirebaseFunctions.instanceFor(region: 'asia-northeast1')
+              .httpsCallable(
+        'changeGroupUserInfo',
+        options: HttpsCallableOptions(
+          timeout: const Duration(seconds: 5),
+        ),
+      );
+
+      try {
+        final HttpsCallableResult result =
+            await callable.call<String>(<String, String>{
+          'family': familyController!.text,
+          'first': firstController!.text,
+          'call': call!,
+          'team': teamController!.text,
+          'teamPosition': teamPosition!,
+          'age': age!,
+          'age_turn': ageTurn!.toString(),
+          'uid': uid!,
+          'grade': grade!
         });
-        /*user.getIdTokenResult().then((token) async {
-          HttpsCallable callable = FirebaseFunctions.instanceFor(
-              region: 'asia-northeast1')
-              .httpsCallable('changeGroupUserInfo',
-              options: HttpsCallableOptions(timeout: Duration(seconds: 5)));
-
-          await callable(<String, dynamic>{
-            'idToken': token.token,
-            'family': familyController.text,
-            'first': firstController.text,
-            'call': call,
-            'team': teamController.text,
-            'teamPosition': teamPosition,
-            'age': age,
-            'age_turn': age_turn,
-            'uid': uid,
-            'grade': grade
-          }).then((v) {
-            ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-              content: new Text('変更を保存しました¥n' + v.toString()),
-            ));
-          }).catchError((dynamic e) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('ERROR: $e'),
-            ));
-          });
+        if (result.data == 'success') {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('変更を保存しました'),
+          ));
+        } else if (result.data == 'No such document!' ||
+            result.data == 'not found') {
           isLoading = false;
-          notifyListeners();
-        });*/
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('ユーザーが見つかりませんでした'),
+          ));
+        } else {
+          isLoading = false;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('エラーが発生しました' + result.data),
+          ));
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('エラーが発生しました' + e.toString()),
+        ));
       }
+      isLoading = false;
+      notifyListeners();
     } else {
       notifyListeners();
     }
@@ -354,7 +329,11 @@ class SettingAccountGroupModel extends ChangeNotifier {
                                     const EdgeInsets.only(top: 10, bottom: 10),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    model.backToList(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    isFinish = false;
+                                    notifyListeners();
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.blue[900], //ボタンの背景色
@@ -413,68 +392,56 @@ class SettingAccountGroupModel extends ChangeNotifier {
   Future<void> deleteAccount(BuildContext context) async {
     isLoading = true;
     notifyListeners();
-    final User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      user.getIdTokenResult().then((IdTokenResult token) async {
-        const String url =
-            'https://asia-northeast1-cubook-3c960.cloudfunctions.net/deleteGroupAccount_https';
-        final Map<String, String> headers = {
-          'content-type': 'application/json'
-        };
-        final String body = json.encode(<String, dynamic>{
-          'idToken': token.token,
-          'uid': uid,
-        });
 
-        final http.Response resp =
-            await http.post(Uri.parse(url), headers: headers, body: body);
-        isLoading = false;
-        if (resp.body == 'sucess') {
-          isFinish = true;
-        }
-        isLoading = false;
-        notifyListeners();
-      });
+    final HttpsCallable callable =
+        FirebaseFunctions.instanceFor(region: 'asia-northeast1').httpsCallable(
+      'deleteGroupAccount',
+      options: HttpsCallableOptions(
+        timeout: const Duration(seconds: 5),
+      ),
+    );
+
+    try {
+      final HttpsCallableResult result =
+          await callable.call<String>(<String, String>{'uid': uid!});
+      if (result.data == 'success') {
+        isFinish = true;
+      } else {
+        isFinish = true;
+      }
+    } catch (e) {
+      isFinish = true;
     }
+    isLoading = false;
+    notifyListeners();
   }
 
   Future<void> migrateAccount(BuildContext context) async {
     isLoading = true;
-    notifyListeners();
-    final User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      user.getIdTokenResult().then((IdTokenResult token) async {
-        const String url =
-            'https://asia-northeast1-cubook-3c960.cloudfunctions.net/sendMigration';
-        final Map<String, String> headers = {
-          'content-type': 'application/json'
-        };
-        final String body = json.encode(<String, dynamic>{
-          'idToken': token.token,
-          'uid': uid,
-          'groupID': groupIdController!.text
-        });
 
-        final http.Response resp =
-            await http.post(Uri.parse(url), headers: headers, body: body);
-        isLoading = false;
-        if (resp.body == 'success') {
-          isFinish = true;
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('申請の送信が完了しました'),
-          ));
-        }
-        isLoading = false;
-        notifyListeners();
-      });
+    final HttpsCallable callable =
+        FirebaseFunctions.instanceFor(region: 'asia-northeast1').httpsCallable(
+      'sendMigrationCall',
+      options: HttpsCallableOptions(
+        timeout: const Duration(seconds: 5),
+      ),
+    );
+
+    try {
+      final HttpsCallableResult result = await callable.call<String>(
+          <String, String>{'uid': uid!, 'groupID': groupIdController!.text});
+      if (result.data == 'success') {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('申請の送信が完了しました'),
+        ));
+        isFinish = true;
+      } else {
+        isFinish = true;
+      }
+    } catch (e) {
+      isFinish = true;
     }
-  }
-
-  void backToList(BuildContext context) {
-    Navigator.pop(context);
-    Navigator.pop(context);
-    Navigator.pop(context);
-    isFinish = false;
+    isLoading = false;
     notifyListeners();
   }
 }
