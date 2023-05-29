@@ -25,6 +25,9 @@ cubookでは以下のプラットフォームに対応しています
 - [iOS](https://apps.apple.com/jp/app/cubook/id1507520804?l=ja&ls=)
 - [Web](https://cubook.app/#/)
 
+## デザインガイドライン
+cubookでは、Googleのデザインガイドラインである[Material Design](https://m3.material.io/)を採用しています。
+
 
 ## 貢献の仕方
 
