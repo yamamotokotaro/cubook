@@ -187,7 +187,6 @@ class _MyAppState extends State<MyApp> {
               title: 'cubook',
               home: HomeController(),
               navigatorObservers: <NavigatorObserver>[observer],
-              debugShowCheckedModeBanner: false,
               theme: lightDynamic == null
                   ? ThemeData(
                       fontFamily: 'NotoSansJP',
