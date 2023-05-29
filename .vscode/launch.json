@@ -13,6 +13,15 @@
             ]
         },
         {
+            "name": "cubook (emulator mode)",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define=IS_EMULATOR=true",
+                "--dart-define-from-file=dart_defines/dev.json"
+            ]
+        },
+        {
             "name": "cubook (profile mode)",
             "request": "launch",
             "type": "dart",

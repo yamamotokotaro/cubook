@@ -55,8 +55,10 @@ import 'package:cubook/signup/signup_model.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -65,6 +67,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'analyticsTaskDetail/taskDetailAnalytics_view.dart';
+
+import 'package:cubook/gen/firebase_options_dev.dart' as dev;
+import 'package:cubook/gen/firebase_options_prod.dart' as prod;
+
+bool isDebug = false;
 
 void main() async {
   // Set `enableInDevMode` to true to see reports while in debug mode
@@ -77,18 +84,35 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   GestureBinding.instance.resamplingEnabled = true;
+
+  const isEmulator = bool.fromEnvironment('IS_EMULATOR');
+  assert(isDebug = true);
+
   // Firebaseの各サービスを使う前に初期化を済ませておく必要がある
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  const localhost = 'localhost';
-  FirebaseFunctions.instanceFor(region: 'asia-northeast1')
-      .useFunctionsEmulator(localhost, 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator(localhost, 8080);
-  await Future.wait(
-    [
-      FirebaseAuth.instance.useAuthEmulator(localhost, 9099),
-      FirebaseStorage.instance.useStorageEmulator(localhost, 9199),
-    ],
-  );
+  await Firebase.initializeApp(
+      name: "cubook", options: DefaultFirebaseOptions.currentPlatform);
+  if (isEmulator) {
+    const localhost = 'localhost';
+    FirebaseFunctions.instanceFor(region: 'asia-northeast1')
+        .useFunctionsEmulator(localhost, 5001);
+    FirebaseFirestore.instance.useFirestoreEmulator(localhost, 8080);
+    await Future.wait(
+      [
+        FirebaseAuth.instance.useAuthEmulator(localhost, 9099),
+        FirebaseStorage.instance.useStorageEmulator(localhost, 9199),
+      ],
+    );
+  } else {
+    await Firebase.initializeApp(
+        options: isDebug
+            ? dev.DefaultFirebaseOptions.currentPlatform
+            : prod.DefaultFirebaseOptions.currentPlatform);
+    if (!isDebug) {
+      FlutterError.onError =
+          FirebaseCrashlytics.instance.recordFlutterFatalError;
+      await FirebaseAppCheck.instance.activate();
+    }
+  }
   runApp(MyApp());
 }
 

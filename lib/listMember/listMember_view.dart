@@ -172,14 +172,15 @@ class ListMemberView extends StatelessWidget {
                                               int index) {
                                             final DocumentSnapshot snapshot =
                                                 querySnapshot.docs[index];
+                                            final Map<String, dynamic> data =
+                                                snapshot.data()
+                                                    as Map<String, dynamic>;
                                             bool isFirst;
                                             String? team;
-                                            if (snapshot.get('team') is int) {
-                                              team = snapshot
-                                                  .get('team')
-                                                  .toString();
+                                            if (data['team'] is int) {
+                                              team = data['team'].toString();
                                             } else {
-                                              team = snapshot.get('team');
+                                              team = data['team'];
                                             }
                                             if (teamLast != team) {
                                               isFirst = true;
@@ -187,8 +188,7 @@ class ListMemberView extends StatelessWidget {
                                             } else {
                                               isFirst = false;
                                             }
-                                            final String? grade =
-                                                snapshot.get('grade');
+                                            final String? grade = data['grade'];
                                             String teamCall;
                                             if (grade == 'cub') {
                                               teamCall = '組';
