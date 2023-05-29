@@ -1,5 +1,5 @@
 ---
-name: Bug report
+name: バグレポート
 about: アプリのエラーや問題について報告する
 title: ''
 labels: ''

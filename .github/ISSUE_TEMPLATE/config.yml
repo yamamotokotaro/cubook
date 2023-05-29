@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 新しい機能の提案
+    url: https://github.com/yamamotokotaro/cubook/discussions/new?category=%E3%82%A2%E3%82%A4%E3%83%87%E3%82%A2
+    about: アプリに対するリクエストや提案をする
+  - name: 質問
+    url: https://github.com/yamamotokotaro/cubook/discussions/new?category=q-a
+    about: アプリや開発に関する質問をする
