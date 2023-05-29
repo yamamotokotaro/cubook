@@ -17,8 +17,6 @@
 ## このリポジトリについて
 このリポジトリは、オンラインで日本のボーイスカウトの進歩記録を行えるアプリ [cubook](https://sites.google.com/view/cubookinfo/) で使われるフロントエンドを開発する場所です。フロントエンドを開発するリポジトリは [yamamotokotaro/cubook-backend](https://github.com/yamamotokotaro/cubook-backend) にあります。このソースコードは、[MIT license](https://github.com/yamamotokotaro/cubook/blob/main/LICENSE)に基づいて誰でも利用できます。
 
-![Screenshot](https://user-images.githubusercontent.com/25360586/80860683-3f22ec80-8ca4-11ea-87d9-b4cf2ccdc434.png)
-
 ## 対応するプラットフォーム
 
 cubookでは以下のプラットフォームに対応しています
