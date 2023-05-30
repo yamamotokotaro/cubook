@@ -111,17 +111,22 @@ void main() async {
       color: Colors.red,
       location: BannerLocation.bottomStart,
     );
-  } else {
-    if (!isDebug || flavor == 'dev') {
-      FlavorConfig(
-        name: "DEV",
-        color: Colors.red,
-        location: BannerLocation.bottomStart,
-      );
-      FlutterError.onError =
-          FirebaseCrashlytics.instance.recordFlutterFatalError;
-      await FirebaseAppCheck.instance.activate();
-    }
+  } else if (!isDebug || flavor == 'prod') {
+    FlutterError.onError = (errorDetails) async {
+      // If you wish to record a "non-fatal" exception, please use `FirebaseCrashlytics.instance.recordFlutterError` instead
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
+    await FirebaseAppCheck.instance.activate(
+      webRecaptchaSiteKey: "6Lenw08mAAAAAPixBhzLMYhf3i8raYR9UGcxuWBV",
+      androidProvider: AndroidProvider.playIntegrity,
+      appleProvider: AppleProvider.appAttest,
+    );
+  } else if (isDebug && flavor == 'dev') {
+    FlavorConfig(
+      name: "DEV",
+      color: Colors.red,
+      location: BannerLocation.bottomStart,
+    );
   }
   runApp(MyApp());
 }
