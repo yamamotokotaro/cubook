@@ -1,10 +1,9 @@
 import 'dart:io';
 
-import 'package:cubook/home/home_model.dart';
+import 'package:cubook/home/homeModel.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_ui/flutter_auth_ui.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {
@@ -72,7 +71,7 @@ class LoginView extends StatelessWidget {
                                 ];
                               }
 
-                              final bool result = await FlutterAuthUi.startUi(
+                              await FlutterAuthUi.startUi(
                                 items: providers,
                                 tosAndPrivacyPolicy: const TosAndPrivacyPolicy(
                                   tosUrl:
@@ -96,24 +95,6 @@ class LoginView extends StatelessWidget {
                                 ),
                               );
                               model.login();
-                              /*FirebaseAuthUi.instance()
-                                      .launchAuth(
-                                    [
-                                      AuthProvider.email(),
-                                      // Login/Sign up with Email and password
-                                      AuthProvider.google(),
-                                      // Login with Google
-                                    ],
-                                    tosUrl:
-                                    'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Terms_of_Service.md',
-                                    // Optional
-                                    privacyPolicyUrl:
-                                    'https://github.com/yamamotokotaro/cubook/blob/master/Terms/Privacy_Policy.md', // Optional,
-                                  )
-                                      .then((firebaseUser) =>
-                                      model.login())
-                                      .catchError((dynamic error) =>
-                                      print('Error $error'));*/
                             },
                             child: const Padding(
                                 padding: EdgeInsets.all(5),

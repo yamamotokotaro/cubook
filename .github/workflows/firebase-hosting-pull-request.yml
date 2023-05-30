@@ -12,6 +12,7 @@ jobs:
       actions: write
       checks: write
       pull-requests: write
+      id-token: write
     steps:
       - uses: actions/checkout@v3
       - uses: kuhnroyal/flutter-fvm-config-action@v1
@@ -21,9 +22,17 @@ jobs:
           channel: ${{ env.FLUTTER_CHANNEL }}
           cache: true
       - run: flutter pub get
-      - run: flutter build web
+      - run: flutter build web --dart-define-from-file=dart_defines/dev.json
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          workload_identity_provider: "projects/593398023204/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
+          service_account: "github-action-252476680@cubook-dev.iam.gserviceaccount.com"
+          create_credentials_file: true
+      - id: "cat_key"
+        run: "echo ::set-output name=key::$(cat $GOOGLE_APPLICATION_CREDENTIALS)"
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
-          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_CUBOOK_3C960 }}"
-          projectId: cubook-3c960
+          firebaseServiceAccount: ${{ steps.cat_key.outputs.key }}
+          projectId: cubook-dev
