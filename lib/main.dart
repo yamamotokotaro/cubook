@@ -112,7 +112,7 @@ void main() async {
       location: BannerLocation.bottomStart,
     );
   } else {
-    if (!isDebug && flavor == 'dev') {
+    if (!isDebug || flavor == 'dev') {
       FlavorConfig(
         name: "DEV",
         color: Colors.red,
