@@ -17,7 +17,6 @@ import 'package:cubook/detailMigrationWaiting/detailMigrationWaiting_model.dart'
 import 'package:cubook/detailTaskWaiting/detailTaskWaiting_model.dart';
 import 'package:cubook/editActivity/editActivity_model.dart';
 import 'package:cubook/editActivity/editActivity_view.dart';
-import 'package:cubook/firebase_options.dart';
 import 'package:cubook/home/homeController.dart';
 import 'package:cubook/home/homeLeader/leaderHomeModel.dart';
 import 'package:cubook/home/homeModel.dart';
@@ -63,6 +62,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flavor/flutter_flavor.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -86,11 +86,15 @@ void main() async {
   GestureBinding.instance.resamplingEnabled = true;
 
   const isEmulator = bool.fromEnvironment('IS_EMULATOR');
+  const flavor = String.fromEnvironment('FLAVOR');
   assert(isDebug = true);
 
   // Firebaseの各サービスを使う前に初期化を済ませておく必要がある
   await Firebase.initializeApp(
-      name: "cubook", options: DefaultFirebaseOptions.currentPlatform);
+      name: "cubook",
+      options: isDebug || flavor == 'dev'
+          ? dev.DefaultFirebaseOptions.currentPlatform
+          : prod.DefaultFirebaseOptions.currentPlatform);
   if (isEmulator) {
     const localhost = 'localhost';
     FirebaseFunctions.instanceFor(region: 'asia-northeast1')
@@ -102,12 +106,18 @@ void main() async {
         FirebaseStorage.instance.useStorageEmulator(localhost, 9199),
       ],
     );
+    FlavorConfig(
+      name: "EMULATOR",
+      color: Colors.red,
+      location: BannerLocation.bottomStart,
+    );
   } else {
-    await Firebase.initializeApp(
-        options: isDebug
-            ? dev.DefaultFirebaseOptions.currentPlatform
-            : prod.DefaultFirebaseOptions.currentPlatform);
-    if (!isDebug) {
+    if (!isDebug && flavor == 'dev') {
+      FlavorConfig(
+        name: "DEV",
+        color: Colors.red,
+        location: BannerLocation.bottomStart,
+      );
       FlutterError.onError =
           FirebaseCrashlytics.instance.recordFlutterFatalError;
       await FirebaseAppCheck.instance.activate();
@@ -140,8 +150,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Firebase.initializeApp();
-    return MultiProvider(
-        providers: [
+    return FlavorBanner(
+        child: MultiProvider(
+            providers: [
           ChangeNotifierProvider(create: (BuildContext context) => HomeModel()),
           ChangeNotifierProvider(
               create: (BuildContext context) => ListEffortModel()),
@@ -203,85 +214,88 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(
               create: (BuildContext context) => ListCitationAnalyticsModel()),
         ],
-        child: DynamicColorBuilder(
-            builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-          return DynamicColorBuilder(
-              builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-            return MaterialApp(
-              title: 'cubook',
-              home: HomeController(),
-              navigatorObservers: <NavigatorObserver>[observer],
-              theme: lightDynamic == null
-                  ? ThemeData(
-                      fontFamily: 'NotoSansJP',
-                      colorSchemeSeed: Colors.blue,
-                      useMaterial3: true)
-                  : ThemeData(
-                      fontFamily: 'NotoSansJP',
-                      useMaterial3: true,
-                      colorScheme: lightDynamic),
-              darkTheme: darkDynamic == null
-                  ? ThemeData(
-                      fontFamily: 'NotoSansJP',
-                      brightness: Brightness.dark,
-                      colorSchemeSeed: Colors.blue,
-                      useMaterial3: true)
-                  : ThemeData(
-                      useMaterial3: true,
-                      fontFamily: 'NotoSansJP',
-                      brightness: Brightness.dark,
-                      colorScheme: darkDynamic),
-              routes: <String, WidgetBuilder>{
-                '/listTaskWaiting': (BuildContext context) =>
-                    ListTaskWaitingView(),
-                '/listMember': (BuildContext context) => ListMemberView(),
-                '/addLumpSelectItem': (BuildContext context) =>
-                    AddLumpSelectItemView(),
-                '/changeName': (BuildContext context) => ChangeNameView(),
-                '/changeAge': (BuildContext context) => ChangeAgeView(),
-                '/invite': (BuildContext context) => InviteView(),
-                '/listActivity': (BuildContext context) => ListActivityView(),
-                '/createActivity': (BuildContext context) =>
-                    CreateActivityView(),
-                '/detailActivity': (BuildContext context) =>
-                    DetailActivityView(),
-                '/editActivity': (BuildContext context) => EditActivityView(),
-                '/listAbsentScout': (BuildContext context) =>
-                    ListAbsentScoutView(),
-                '/analytics': (BuildContext context) => AnalyticsView(),
-                '/taskDetailAnalytics': (BuildContext context) =>
-                    AnalyticsTaskDetailView(),
-                '/taskDetailAnalyticsMember': (BuildContext context) =>
-                    AnalyticsScoutCompletionView(),
-                '/listCitationAnalyticsView': (BuildContext context) =>
-                    ListCitationAnalyticsView(),
-                '/settingView': (BuildContext context) => SettingAccountView(),
-                '/settingGroupView': (BuildContext context) =>
-                    SettingGroupView(),
-                '/changeMailAddressView': (BuildContext context) =>
-                    ChangeMailAddressView(),
-                '/changePasswordView': (BuildContext context) =>
-                    ChangePasswordView(),
-                '/editProfile': (BuildContext context) => EditProfile(),
-                '/deleteGroupAccount': (BuildContext context) =>
-                    DeleteGroupAccount(),
-                '/accountMigration': (BuildContext context) =>
-                    AccountMigrationView(),
-                '/listMigrationWaiting': (BuildContext context) =>
-                    ListMigrationWaitingView(),
-              },
-              localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                DefaultCupertinoLocalizations.delegate
-              ],
-              supportedLocales: const [
-                Locale('en'),
-                Locale('ja'),
-              ],
-            );
-          });
-        }));
+            child: DynamicColorBuilder(
+                builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+              return DynamicColorBuilder(builder:
+                  (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+                return MaterialApp(
+                  title: 'cubook',
+                  home: HomeController(),
+                  navigatorObservers: <NavigatorObserver>[observer],
+                  theme: lightDynamic == null
+                      ? ThemeData(
+                          fontFamily: 'NotoSansJP',
+                          colorSchemeSeed: Colors.blue,
+                          useMaterial3: true)
+                      : ThemeData(
+                          fontFamily: 'NotoSansJP',
+                          useMaterial3: true,
+                          colorScheme: lightDynamic),
+                  darkTheme: darkDynamic == null
+                      ? ThemeData(
+                          fontFamily: 'NotoSansJP',
+                          brightness: Brightness.dark,
+                          colorSchemeSeed: Colors.blue,
+                          useMaterial3: true)
+                      : ThemeData(
+                          useMaterial3: true,
+                          fontFamily: 'NotoSansJP',
+                          brightness: Brightness.dark,
+                          colorScheme: darkDynamic),
+                  routes: <String, WidgetBuilder>{
+                    '/listTaskWaiting': (BuildContext context) =>
+                        ListTaskWaitingView(),
+                    '/listMember': (BuildContext context) => ListMemberView(),
+                    '/addLumpSelectItem': (BuildContext context) =>
+                        AddLumpSelectItemView(),
+                    '/changeName': (BuildContext context) => ChangeNameView(),
+                    '/changeAge': (BuildContext context) => ChangeAgeView(),
+                    '/invite': (BuildContext context) => InviteView(),
+                    '/listActivity': (BuildContext context) =>
+                        ListActivityView(),
+                    '/createActivity': (BuildContext context) =>
+                        CreateActivityView(),
+                    '/detailActivity': (BuildContext context) =>
+                        DetailActivityView(),
+                    '/editActivity': (BuildContext context) =>
+                        EditActivityView(),
+                    '/listAbsentScout': (BuildContext context) =>
+                        ListAbsentScoutView(),
+                    '/analytics': (BuildContext context) => AnalyticsView(),
+                    '/taskDetailAnalytics': (BuildContext context) =>
+                        AnalyticsTaskDetailView(),
+                    '/taskDetailAnalyticsMember': (BuildContext context) =>
+                        AnalyticsScoutCompletionView(),
+                    '/listCitationAnalyticsView': (BuildContext context) =>
+                        ListCitationAnalyticsView(),
+                    '/settingView': (BuildContext context) =>
+                        SettingAccountView(),
+                    '/settingGroupView': (BuildContext context) =>
+                        SettingGroupView(),
+                    '/changeMailAddressView': (BuildContext context) =>
+                        ChangeMailAddressView(),
+                    '/changePasswordView': (BuildContext context) =>
+                        ChangePasswordView(),
+                    '/editProfile': (BuildContext context) => EditProfile(),
+                    '/deleteGroupAccount': (BuildContext context) =>
+                        DeleteGroupAccount(),
+                    '/accountMigration': (BuildContext context) =>
+                        AccountMigrationView(),
+                    '/listMigrationWaiting': (BuildContext context) =>
+                        ListMigrationWaitingView(),
+                  },
+                  localizationsDelegates: const [
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                    DefaultCupertinoLocalizations.delegate
+                  ],
+                  supportedLocales: const [
+                    Locale('en'),
+                    Locale('ja'),
+                  ],
+                );
+              });
+            })));
   }
 }
