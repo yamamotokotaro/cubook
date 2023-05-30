@@ -262,7 +262,10 @@ class CreateActivityView extends StatelessWidget {
                                             String? uid;
                                             final DocumentSnapshot snapshot =
                                                 querySnapshot.docs[index];
-                                            uid = snapshot.get('uid');
+                                            final Map<String, dynamic>
+                                                dataSnapshot = snapshot.data()
+                                                    as Map<String, dynamic>;
+                                            uid = dataSnapshot['uid'];
                                             if (!model.list_notApplicable
                                                 .contains(uid)) {
                                               bool? isCheck = true;
@@ -271,12 +274,11 @@ class CreateActivityView extends StatelessWidget {
                                                 isCheck = model.uid_check[uid];
                                               }
                                               String? team;
-                                              if (snapshot.get('team') is int) {
-                                                team = snapshot
-                                                    .get('team')
+                                              if (dataSnapshot['team'] is int) {
+                                                team = dataSnapshot['team']
                                                     .toString();
                                               } else {
-                                                team = snapshot.get('team');
+                                                team = dataSnapshot['team'];
                                               }
                                               bool isFirst;
                                               if (teamLast != team) {
@@ -286,7 +288,7 @@ class CreateActivityView extends StatelessWidget {
                                                 isFirst = false;
                                               }
                                               final String? grade =
-                                                  snapshot.get('grade');
+                                                  dataSnapshot['grade'];
                                               String teamCall;
                                               if (grade == 'cub') {
                                                 teamCall = '組';
@@ -318,7 +320,7 @@ class CreateActivityView extends StatelessWidget {
                                                   Container(),
                                                 Dismissible(
                                                     key: Key(
-                                                        snapshot.get('name')),
+                                                        dataSnapshot['uid']),
                                                     onDismissed:
                                                         (DismissDirection
                                                             direction) {
@@ -390,8 +392,8 @@ class CreateActivityView extends StatelessWidget {
                                                                       height:
                                                                           40,
                                                                       decoration: BoxDecoration(
-                                                                          color: theme.getUserColor(snapshot.get(
-                                                                              'age')),
+                                                                          color: theme.getUserColor(dataSnapshot[
+                                                                              'age']),
                                                                           shape:
                                                                               BoxShape.circle),
                                                                       child:
