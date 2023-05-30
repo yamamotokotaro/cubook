@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "cubook-3c960"
+    "default": "cubook-dev",
+    "dev": "cubook-dev",
+    "prod": "cubook-3c960"
   }
 }
