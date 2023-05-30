@@ -32,7 +32,7 @@ jobs:
         run: "echo ::set-output name=key::$(cat $GOOGLE_APPLICATION_CREDENTIALS)"
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: ${{ steps.cat_key.outputs.key }}
-          firebaseServiceAccount: "github-action-252476680@cubook-3c960.iam.gserviceaccount.com"
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: ${{ steps.cat_key.outputs.key }}
           channelId: live
           projectId: cubook-3c960
