@@ -270,7 +270,7 @@ class DetailMigrationWaitingView extends StatelessWidget {
                                       Padding(
                                           padding: const EdgeInsets.all(10),
                                           child: Container(
-                                              child: ElevatedButton.icon(
+                                              child: FilledButton.icon(
                                             icon: const Icon(Icons.person),
                                             label: const Text('ユーザー詳細へ'),
                                             onPressed: () {

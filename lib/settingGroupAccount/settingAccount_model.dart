@@ -327,7 +327,7 @@ class SettingAccountGroupModel extends ChangeNotifier {
                             Padding(
                                 padding:
                                     const EdgeInsets.only(top: 10, bottom: 10),
-                                child: ElevatedButton(
+                                child: FilledButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                     Navigator.pop(context);
@@ -335,9 +335,6 @@ class SettingAccountGroupModel extends ChangeNotifier {
                                     isFinish = false;
                                     notifyListeners();
                                   },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blue[900], //ボタンの背景色
-                                  ),
                                   child: const Text(
                                     '一覧に戻る',
                                   ),
