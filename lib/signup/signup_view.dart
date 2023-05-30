@@ -1,4 +1,4 @@
-import 'package:cubook/home/homeModel.dart';
+import 'package:cubook/home/home_model.dart';
 import 'package:cubook/signup/create/createGroup_view.dart';
 import 'package:cubook/signup/join/joinGroup_view.dart';
 import 'package:cubook/signup/signup_model.dart';
@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class SignupView extends StatelessWidget {
   static final List<String> list_select = [
     '招待を受けている',
-    '隊全体の中で初めて登録する',
+    '隊として初めて利用する',
   ];
 
   @override
@@ -58,9 +58,7 @@ class SignupView extends StatelessWidget {
                                 Container(
                                   child: Card(
                                     color: model.isSelect_type[index]
-                                        ? Theme.of(context)
-                                            .colorScheme
-                                            .secondaryContainer
+                                        ? Colors.blue[900]!.withAlpha(60)
                                         : Colors.grey.withAlpha(20),
                                     elevation: 0,
                                     child: InkWell(

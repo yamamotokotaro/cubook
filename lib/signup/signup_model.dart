@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
-import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 class SignupModel with ChangeNotifier {
@@ -21,32 +23,35 @@ class SignupModel with ChangeNotifier {
       isLoading_join = true;
       notifyListeners();
 
-      final HttpsCallable callable =
-          FirebaseFunctions.instanceFor(region: 'asia-northeast1')
-              .httpsCallable(
-        'joinGroupCall',
-        options: HttpsCallableOptions(
-          timeout: const Duration(seconds: 5),
-        ),
-      );
+      final User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        user.getIdTokenResult().then((IdTokenResult token) async {
+          const String url =
+              'https://asia-northeast1-cubook-3c960.cloudfunctions.net/joinGroup';
+          final Map<String, String> headers = {
+            'content-type': 'application/json'
+          };
+          final String body =
+              json.encode({'idToken': token.token, 'joinCode': joinCode});
 
-      try {
-        final HttpsCallableResult result =
-            await callable.call<String>(<String, String>{'joinCode': joinCode});
-        if (result.data == 'success') {
-          mes_join = '';
-          Timer _timer;
-        } else if (result.data == 'No such document!' ||
-            result.data == 'not found') {
+          final http.Response resp =
+              await http.post(Uri.parse(url), headers: headers, body: body);
+          final Map<dynamic, dynamic>? tokenMap = token.claims;
           isLoading_join = false;
-          mes_join = 'コードが見つかりませんでした';
-        }
-      } catch (e) {
-        isLoading_join = false;
-        mes_join = 'エラーが発生しました';
+          if (resp.body == 'success') {
+            mes_join = '';
+            Timer _timer;
+          } else if (resp.body == 'No such document!' ||
+              resp.body == 'not found') {
+            isLoading_join = false;
+            mes_join = 'コードが見つかりませんでした';
+          } else {
+            isLoading_join = false;
+            mes_join = 'エラーが発生しました';
+          }
+          notifyListeners();
+        });
       }
-      isLoading_join = false;
-      notifyListeners();
     }
   }
 
@@ -70,37 +75,39 @@ class SignupModel with ChangeNotifier {
       isLoading_join = true;
       notifyListeners();
 
-      final HttpsCallable callable =
-          FirebaseFunctions.instanceFor(region: 'asia-northeast1')
-              .httpsCallable(
-        'createGroupCall',
-        options: HttpsCallableOptions(
-          timeout: const Duration(seconds: 5),
-        ),
-      );
+      final User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        user.getIdTokenResult().then((IdTokenResult token) async {
+          const String url =
+              'https://asia-northeast1-cubook-3c960.cloudfunctions.net/createGroup';
+          final Map<String, String> headers = {
+            'content-type': 'application/json'
+          };
+          final String body = json.encode({
+            'idToken': token.token,
+            'groupName': groupController.text,
+            'family': familyController.text,
+            'first': firstController.text,
+            'grade': grade
+          });
 
-      try {
-        final HttpsCallableResult result =
-            await callable.call<String>(<String, String>{
-          'groupName': groupController.text,
-          'family': familyController.text,
-          'first': firstController.text,
-          'grade': grade
-        });
-        if (result.data == 'success') {
-          mes_join = '';
-          Timer _timer;
-        } else if (result.data == 'No such document!' ||
-            result.data == 'not found') {
+          final http.Response resp =
+              await http.post(Uri.parse(url), headers: headers, body: body);
           isLoading_join = false;
-          mes_join = 'コードが見つかりませんでした';
-        }
-      } catch (e) {
-        isLoading_join = false;
-        mes_join = 'エラーが発生しました';
+          if (resp.body == 'success') {
+            mes_join = '';
+            Timer _timer;
+          } else if (resp.body == 'No such document!' ||
+              resp.body == 'not found') {
+            isLoading_join = false;
+            mes_join = 'コードが見つかりませんでした';
+          } else {
+            isLoading_join = false;
+            mes_join = 'エラーが発生しました';
+          }
+          notifyListeners();
+        });
       }
-      isLoading_join = false;
-      notifyListeners();
     }
   }
 

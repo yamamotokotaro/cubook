@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:cubook/scoutTaskDetail/scoutTaskModel.dart';
-import 'package:cubook/scoutTaskDetail/scoutTaskOverview.dart';
-import 'package:cubook/scoutTaskDetail/scoutTaskRecord.dart';
-import 'package:cubook/checkScoutTaskDetail/checkScoutTaskDetailModel.dart';
-import 'package:cubook/checkScoutTaskDetail/checkScoutTaskDetailView.dart';
+import 'package:cubook/task_detail_scout/taskDetailScout_model.dart';
+import 'package:cubook/task_detail_scout/taskDetailScout_view.dart';
+import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_model.dart';
+import 'package:cubook/task_detail_scout_confirm/taskDetailScoutConfirm_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class showTaskView extends StatelessWidget {
+
   showTaskView(int? _number, String? _type, int _initialPage) {
     numberPushed = _number;
     type = _type;
     initialPage = _initialPage;
     pages.add(
-      TaskScoutOverview(type, _number),
+      TaskScoutDetailView(type, _number),
     );
     for (int i = 0; i < task.getPartMap(type, _number)!['hasItem']; i++) {
-      pages.add(ScoutTaskRecord(type, _number, i));
+      pages.add(TaskScoutAddView(type, _number, i));
     }
   }
   TaskContents task = TaskContents();
@@ -54,8 +54,8 @@ class showTaskView extends StatelessWidget {
         PageController(initialPage: initialPage, viewportFraction: setFraction);
 
     return ChangeNotifierProvider(
-        create: (BuildContext context) => ScoutTaskModel(numberPushed,
-            task.getPartMap(type, numberPushed)!['hasItem'], type),
+        create: (BuildContext context) => TaskDetailScoutModel(
+            numberPushed, task.getPartMap(type, numberPushed)!['hasItem'], type),
         child: Container(
             height: setHeight,
             child: PageView(
@@ -70,13 +70,14 @@ class showTaskView extends StatelessWidget {
 }
 
 class showTaskConfirmView extends StatelessWidget {
+
   showTaskConfirmView(int? page, String? _type, String? _uid, int number) {
     this.page = page;
     this.number = number;
     type = _type;
     uid = _uid;
     pages.add(
-      CheckScoutTaskDetailView(type, page),
+      TaskScoutDetailConfirmView(type, page),
     );
     for (int i = 0; i < task.getPartMap(type, page)!['hasItem']; i++) {
       pages.add(TaskScoutAddConfirmView(type, page, i));
@@ -115,7 +116,7 @@ class showTaskConfirmView extends StatelessWidget {
         PageController(initialPage: number, viewportFraction: setFraction);
 
     return ChangeNotifierProvider(
-        create: (BuildContext context) => CheckScoutTaskDetailModel(page,
+        create: (BuildContext context) => TaskDetailScoutConfirmModel(page,
             task.getPartMap(type, page)!['hasItem'], type, uid, controller),
         child: Container(
             height: setHeight,
@@ -233,10 +234,8 @@ Future<void> signItem(String? uid, String? type, int? page, int? number,
           .get()
           .then((QuerySnapshot<Map<String, dynamic>> data) {
         final DocumentSnapshot snapshot = data.docs[0];
-        final Map<String, dynamic> dataSnapshot =
-            snapshot.data()! as Map<String, dynamic>;
         Map<String, dynamic>? map = <String, int>{};
-        if (dataSnapshot[type] != null) {
+        if (snapshot.get(type) != null) {
           map = snapshot.get(type);
           map![page.toString()] = count;
         } else {
@@ -321,10 +320,8 @@ Future<void> cancelItem(
             .get()
             .then((QuerySnapshot<Map<String, dynamic>> data) {
           final DocumentSnapshot snapshot = data.docs[0];
-          final Map<String, dynamic> dataSnapshot =
-              snapshot.data()! as Map<String, dynamic>;
           Map<String, dynamic>? map = <String, int>{};
-          if (dataSnapshot[type] != null) {
+          if (snapshot.get(type) != null) {
             map = snapshot.get(type);
             map![page.toString()] = count;
           } else {
@@ -437,48 +434,5 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(_StickyTabBarDelegate oldDelegate) {
     return tabBar != oldDelegate.tabBar;
-  }
-}
-
-class MyPageRoute extends TransitionRoute<dynamic> {
-  MyPageRoute({
-    required this.page,
-    required this.dismissible,
-  });
-
-  final Widget page;
-  final bool dismissible;
-
-  @override
-  Iterable<OverlayEntry> createOverlayEntries() {
-    return [
-      OverlayEntry(builder: _buildModalBarrier),
-      OverlayEntry(builder: (BuildContext context) => Center(child: page))
-    ];
-  }
-
-  @override
-  bool get opaque => false;
-
-  @override
-  Duration get transitionDuration => const Duration(milliseconds: 200);
-
-  Widget _buildModalBarrier(BuildContext context) {
-    return IgnorePointer(
-      ignoring: animation!.status ==
-              AnimationStatus
-                  .reverse || // changedInternalState is called when this updates
-          animation!.status == AnimationStatus.dismissed,
-      // dismissed is possible when doing a manual pop gesture
-      child: AnimatedModalBarrier(
-        color: animation!.drive(
-          ColorTween(
-            begin: Colors.transparent,
-            end: Colors.black.withAlpha(150),
-          ),
-        ),
-        dismissible: dismissible,
-      ),
-    );
   }
 }

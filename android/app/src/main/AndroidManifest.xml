@@ -18,7 +18,7 @@
     <application
         android:name="${applicationName}"
         android:requestLegacyExternalStorage="true"
-        android:label="@string/app_name"
+        android:label="cubook"
         android:usesCleartextTraffic="true"
         android:icon="@drawable/icon">
         <activity

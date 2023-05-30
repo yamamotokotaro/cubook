@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cubook/listAbsent/listAbsent_view.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:cubook/settingGroupAccount/settingAccount_view.dart';
+import 'package:cubook/setting_account_group/settingAccount_view.dart';
 import 'package:cubook/userDetail/userDetail_model.dart';
 import 'package:cubook/userDetail/widget/selectBook.dart';
 import 'package:flutter/material.dart';

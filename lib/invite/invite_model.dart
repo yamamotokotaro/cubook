@@ -1,7 +1,8 @@
-import 'dart:async';
+import 'dart:convert';
 
-import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class InviteModel with ChangeNotifier {
   List<bool> isSelect_type = List.generate(2, (int index) => false);
@@ -97,45 +98,48 @@ class InviteModel with ChangeNotifier {
         dropdown_call != null) {
       isLoading_join = true;
       notifyListeners();
+      final User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        user.getIdToken().then((String token) async {
+          const String url =
+              'https://asia-northeast1-cubook-3c960.cloudfunctions.net/inviteGroup';
+          final Map<String, String> headers = {
+            'content-type': 'application/json'
+          };
+          final String body = json.encode(<String, dynamic>{
+            'idToken': token,
+            'address': addressController.text,
+            'family': familyController.text,
+            'first': firstController.text,
+            'call': dropdown_call,
+            'age': age,
+            'position': position,
+            'team': team
+          });
 
-      final HttpsCallable callable =
-          FirebaseFunctions.instanceFor(region: 'asia-northeast1')
-              .httpsCallable(
-        'inviteGroupCall',
-        options: HttpsCallableOptions(
-          timeout: const Duration(seconds: 5),
-        ),
-      );
-
-      try {
-        final HttpsCallableResult result =
-            await callable.call<String>(<String, String>{
-          'address': addressController.text,
-          'family': familyController.text,
-          'first': firstController.text,
-          'call': dropdown_call!,
-          'age': age!,
-          'position': position!,
-          'team': team!
-        });
-        if (result.data == 'success') {
-          mes_join = '';
-          addressController.clear();
-          familyController.clear();
-          firstController.clear();
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('送信リクエストが完了しました'),
-          ));
-        } else if (result.data == 'No such document!' ||
-            result.data == 'not found') {
+          final http.Response resp =
+              await http.post(Uri.parse(url), headers: headers, body: body);
           isLoading_join = false;
-          mes_join = 'コードが見つかりませんでした';
-        }
-      } catch (e) {
-        isLoading_join = false;
-        mes_join = 'エラーが発生しました';
+          if (resp.body == 'success') {
+            mes_join = '';
+            addressController.clear();
+            familyController.clear();
+            firstController.clear();
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('送信リクエストが完了しました'),
+            ));
+          } else if (resp.body == 'No such document!' ||
+              resp.body == 'not found') {
+            isLoading_join = false;
+            mes_join = 'コードが見つかりませんでした';
+          } else {
+            isLoading_join = false;
+            mes_join = 'エラーが発生しました';
+          }
+          notifyListeners();
+        });
       }
-      isLoading_join = false;
+    } else {
       notifyListeners();
     }
   }

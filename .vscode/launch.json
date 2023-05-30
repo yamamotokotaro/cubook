@@ -7,37 +7,19 @@
         {
             "name": "cubook",
             "request": "launch",
-            "type": "dart",
-            "args": [
-                "--dart-define-from-file=dart_defines/dev.json",
-            ]
-        },
-        {
-            "name": "cubook (emulator mode)",
-            "request": "launch",
-            "type": "dart",
-            "args": [
-                "--dart-define=IS_EMULATOR=true",
-                "--dart-define-from-file=dart_defines/dev.json"
-            ]
+            "type": "dart"
         },
         {
             "name": "cubook (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile",
-            "args": [
-                "--dart-define-from-file=dart_defines/prod.json"
-            ]
+            "flutterMode": "profile"
         },
         {
             "name": "cubook (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release",
-            "args": [
-                "--dart-define-from-file=dart_defines/prod.json"
-            ]
+            "flutterMode": "release"
         }
     ]
-}
+} 
