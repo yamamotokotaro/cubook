@@ -83,7 +83,6 @@ void main() async {
   // Pass all uncaught errors from the framework to Crashlytics.
 
   WidgetsFlutterBinding.ensureInitialized();
-  GestureBinding.instance.resamplingEnabled = true;
 
   const isEmulator = bool.fromEnvironment('IS_EMULATOR');
   const flavor = String.fromEnvironment('FLAVOR');
@@ -91,7 +90,6 @@ void main() async {
 
   // Firebaseの各サービスを使う前に初期化を済ませておく必要がある
   await Firebase.initializeApp(
-      name: "cubook",
       options: isDebug || flavor == 'dev'
           ? dev.DefaultFirebaseOptions.currentPlatform
           : prod.DefaultFirebaseOptions.currentPlatform);

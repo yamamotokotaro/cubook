@@ -59,7 +59,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBGSD9SDkTRvts_tjBhT1mn6FVGVk3qW4M',
-    appId: '1:593398023204:android:16e93807f6ca37a48b04b1',
+    appId: '1:593398023204:android:4ce645d12832b9038b04b1',
     messagingSenderId: '593398023204',
     projectId: 'cubook-dev',
     databaseURL: 'https://cubook-dev.firebaseio.com',
@@ -73,6 +73,7 @@ class DefaultFirebaseOptions {
     projectId: 'cubook-dev',
     databaseURL: 'https://cubook-dev.firebaseio.com',
     storageBucket: 'cubook-dev.appspot.com',
+    androidClientId: '593398023204-p5p9qgnhuetducg6eoj2o7r9q7r55pgr.apps.googleusercontent.com',
     iosClientId: '593398023204-nppp5euqn97a66ieb1941799ctv9j2fd.apps.googleusercontent.com',
     iosBundleId: 'app.kotakota.cubook.dev',
   );
