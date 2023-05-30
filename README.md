@@ -1,6 +1,6 @@
 <br>
 <p align="center">
-<img src="https://storage.googleapis.com/cubook-content-delivery/cubook_github_readme_icon.png" alt="cubook" height="200" width="200"/>
+<img src="https://i.imgur.com/n3Wo4Cr.png" alt="cubook" height="200" width="200"/>
 </p>
 <h2 align="center">
   cubook - 進歩記録アプリ
