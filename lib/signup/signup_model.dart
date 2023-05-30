@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 class SignupModel with ChangeNotifier {

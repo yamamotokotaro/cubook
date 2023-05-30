@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class InviteModel with ChangeNotifier {
   List<bool> isSelect_type = List.generate(2, (int index) => false);

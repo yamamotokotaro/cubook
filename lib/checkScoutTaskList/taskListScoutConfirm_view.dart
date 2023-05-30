@@ -1,7 +1,6 @@
 import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
-import 'package:cubook/checkScoutTaskDetail/checkScoutTaskDetailView.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

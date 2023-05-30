@@ -5,7 +5,6 @@ import 'package:cubook/model/class.dart';
 import 'package:cubook/model/task.dart';
 import 'package:cubook/model/themeInfo.dart';
 import 'package:cubook/notification/notification_view.dart';
-import 'package:cubook/scoutTaskDetail/scoutTaskOverview.dart';
 import 'package:cubook/scoutTaskList/scoutTaskListView.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
