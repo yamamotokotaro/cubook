@@ -139,12 +139,13 @@ class CreateGroupView extends StatelessWidget {
               ? const Padding(
                   padding: EdgeInsets.all(10),
                   child: CircularProgressIndicator())
-              : FilledButton(
+              : ElevatedButton(
                   onPressed: () {
                     model.createRequest();
                   },
                   child: const Text(
                     '登録',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                   )),
         )
       ]));

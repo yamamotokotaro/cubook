@@ -2,7 +2,7 @@
     "name": "cubook",
     "short_name": "cubook",
     "start_url": ".",
-    "display": "standalone",
+    "display": "minimal-ui",
     "background_color": "#0C47A1",
     "theme_color": "#0C47A1",
     "description": "カブブックサインアプリ",

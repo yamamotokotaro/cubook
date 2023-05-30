@@ -85,12 +85,13 @@ class JoinGroup extends StatelessWidget {
               ? const Padding(
                   padding: EdgeInsets.all(10),
                   child: CircularProgressIndicator())
-              : FilledButton(
+              : ElevatedButton(
                   onPressed: () {
                     model.joinRequest();
                   },
                   child: const Text(
                     '登録',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                   )),
         )
       ]));
