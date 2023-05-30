@@ -9,8 +9,8 @@
 <a href="https://codemagic.io/apps/5ec49c4343c930081bdd10a9/5ec49c4343c930081bdd10a8/latest_build">
     <img alt="codemagic" src="https://api.codemagic.io/apps/5ec49c4343c930081bdd10a9/5ec49c4343c930081bdd10a8/status_badge.svg">
   </a>
-<a href="https://github.com/yamamotokotaro/cubook/actions/workflows/firebase-hosting-merge.yml">
-    <img alt="GitHub Actions" src="https://github.com/yamamotokotaro/cubook/actions/workflows/firebase-hosting-merge.yml/badge.svg">
+<a href="https://github.com/yamamotokotaro/cubook/actions/workflows/firebase-hosting-merge-prod.yml">
+    <img alt="GitHub Actions" src="https://github.com/yamamotokotaro/cubook/actions/workflows/firebase-hosting-merge-prod.yml/badge.svg">
   </a>
 </div>
 
