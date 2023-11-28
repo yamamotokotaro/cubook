@@ -8,6 +8,15 @@
     "description": "カブブックサインアプリ",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
+    "categories": ["education"],
+    "display_override": ["window-controls-overlay"],
+    "edge_side_panel": {
+        "preferred_width": 400
+    },
+    "launch_handler": {
+        "client_mode": "auto"
+    },
+    "id": "cubook",
     "icons": [
         {
             "src": "icons/Icon-192.png",
@@ -19,5 +28,32 @@
             "sizes": "512x512",
             "type": "image/png"
         }
-    ]
+    ],
+    "screenshots" : [
+        {
+          "src": "Android_1.webp",
+          "sizes": "1000x2000",
+          "type": "image/webp"
+        },
+        {
+          "src": "Android_2.webp",
+          "sizes": "1000x2000",
+          "type": "image/webp"
+        },
+        {
+          "src": "Android_3.webp",
+          "sizes": "1000x2000",
+          "type": "image/webp"
+        },
+        {
+          "src": "Android_4.webp",
+          "sizes": "1000x2000",
+          "type": "image/webp"
+        },
+        {
+          "src": "Android_5.webp",
+          "sizes": "1000x2000",
+          "type": "image/webp"
+        }
+      ]
 }
